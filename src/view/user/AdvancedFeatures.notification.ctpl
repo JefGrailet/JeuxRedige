@@ -1,0 +1,12 @@
+L'administrateur {$admin} a modifié vos privilèges. 
+{switch:messageType||
+hasNowAccess & Vous avez à présent accès aux fonctionnalités avancées (upload, création de sujets, 
+etc.).|
+noMoreAccess & Vous n'avez plus accès aux fonctionnalités avancées (upload, création de sujets, 
+etc.) jusqu'à nouvel ordre.} 
+</p>
+<div class="quotation">
+<p>
+{$justification}
+</p>
+</div>

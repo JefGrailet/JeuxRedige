@@ -1,0 +1,21 @@
+<h1 class="centeredTitle">Emoticônes</h1>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="emoticonsPool">
+   <div id="poolContent">
+      {$thumbnails}
+   </div>
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+   {switch:myEmoticons||
+link & <a href="./MyEmoticons.php" class="prettyLink">Mes émoticônes</a>&nbsp; |
+viewed & <span class="prettyText" id="selectedLibrary" data-library="user">Mes émoticônes</span>&nbsp; }
+   {switch:emoticonsLibrary||
+link & <a href="./MyEmoticons.php?filter=global" class="prettyLink">Librairie d'émoticônes</a>&nbsp; |
+viewed & <span class="prettyText" id="selectedLibrary" data-library="global">Librairie d'émoticônes</span>&nbsp; }
+   {switch:newEmoticonDialog||
+yes & <a href="#" class="prettyLink" id="newEmoticonDialog">Nouvelle émoticône</a>&nbsp; }
+</div>

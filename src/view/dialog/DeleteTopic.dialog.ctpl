@@ -1,0 +1,14 @@
+<div id="delete" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Supprimer le sujet</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <form method="post" action="./DeleteTopic.php?id_topic={$topicID}">
+      <p style="margin-top:0px;">Êtes-vous sûr de vouloir supprimer ce sujet et tout son contenu ?<br/>
+      <br/>
+      <input type="submit" value="Supprimer"/><br/>
+      </p>
+      </form>
+   </div>
+</div>

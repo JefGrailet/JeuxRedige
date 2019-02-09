@@ -1,0 +1,16 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+login & La création de nouveaux sujets est exclusivement réservée aux utilisateurs inscrits. 
+Veuillez vous inscrire et vous connecter afin de pouvoir créer un nouveau sujet.|
+permission & Vous n'avez actuellement pas le droit de créer un nouveau sujet. Ce droit peut 
+toutefois vous être octroyé sur votre demande si vous avez déjà participé au forum pendant une 
+courte durée. Si vous possédiez autrefois ce droit mais qu'il vous a été retiré, veuillez vous 
+adresser à un modérateur ou un administrateur.|
+missingCommentable & Le contenu pour lequel vous souhaitez créer un sujet de réactions n'existe 
+pas ou a été supprimé.|
+corruptedCommentable & Le contenu pour lequel vous souhaitez créer un sujet de réactions est 
+corrompu.|
+dbErrorCommentable & Le contenu pour lequel vous souhaitez créer un sujet de réactions n'a pu 
+être trouvé.|
+missingID & L'ID pour retrouver le contenu pour lequel vous souhaitez créer un sujet de réactions 
+n'a pu être récupéré.}</p>

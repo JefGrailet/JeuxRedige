@@ -1,0 +1,24 @@
+<div id="addReference" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter une référence vers un autre message</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="index_post">Index :</label></td>
+            <td class="integrateColumn5"><input type="text" name="index_post"/></td>
+            <td class="integrateColumn6">Le nombre à côté du # en début de message.</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="reference_author">Auteur :</label></td>
+            <td class="integrateColumn5"><input type="text" name="reference_author"/></td>
+            <td class="integrateColumn6">L'auteur du message (facultatif).</td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>

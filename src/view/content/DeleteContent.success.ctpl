@@ -1,0 +1,5 @@
+<h1>Votre contenu été supprimé avec succès</h1>
+<p>Vous allez être redirigé vers une page adéquate sous peu. Si la redirection n'a pas lieu 
+automatiquement, cliquez plus bas.<br/>
+<br/>
+<a href="{$target}">Cliquez ici si la redirection ne se fait pas automatiquement</a></p>

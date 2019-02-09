@@ -1,0 +1,6 @@
+{$header}
+<div class="plainBlock">
+{$replyForm}
+</div>
+<div id="preview" data-author="{$previewPseudo}" data-rank="{$previewRank}"></div>
+{$uploadMenu}

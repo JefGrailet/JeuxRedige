@@ -1,0 +1,7 @@
+<h1>{switch:type||
+logged & Déconnexion|
+notLogged & Erreur}</h1>
+<p>{switch:type||
+logged & Vous allez être redirigé d'ici quelques secondes.|
+notLogged & Vous étiez déjà déconnecté et allez être redirigé d'ici quelques secondes.} 
+Si la redirection ne se fait pas automatiquement, <a href="{$redirection}">cliquez ici</a>.</p>

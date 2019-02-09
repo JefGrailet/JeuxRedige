@@ -1,0 +1,21 @@
+{switch:tropes||
+yes & <h1 class="centeredTitle">Codes vidéoludiques associés</h1>
+<div id="tropesPool">
+[0]
+<div class="clear"></div>
+</div>}
+<h1 class="centeredTitle" id="reviews">Evaluations</h1>
+<div id="tropesContainer">
+   {$fullTropes}
+</div>
+<div id="reviewsContainer">
+   {$reviews}
+   <br/>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p><span class="backBlack">Pages :</span> |</p><br/><br/>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nbsp;...&nbsp;}
+   {switch:allReviews||yes & <a href="[0]" class="prettyLink">Voir toutes les évaluations ([1])</a>&nbsp; }
+   {switch:myReview||
+none & <a href="./NewReview.php?game=[0]" class="prettyLink">Nouvelle évaluation</a>|
+editMine & <a href="./EditReview.php?id_review=[0]" class="prettyLink">Editer mon évaluation</a>}
+</div>

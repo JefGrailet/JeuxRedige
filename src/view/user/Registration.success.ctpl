@@ -1,0 +1,8 @@
+<h1>Votre compte est réservé</h1>
+<p>Votre compte a bien été créé. 
+{switch:mail||
+mailFail & Cependant, une erreur est survenue lors de l'envoi de l'e-mail de confirmation. Veuillez
+ contacter un administrateur ou demander un renvoi de l'e-mail dans les heures qui viennent.|
+mailSuccess & Afin de vérifier votre adresse e-mail, un e-mail de confirmation vient de vous être 
+envoyé. Cliquez sur le lien fourni dans celui-ci pour pouvoir utiliser votre compte.} 
+Le compte réservé sera supprimé aprés 24h si celui-ci n'est pas confirmé.</p>

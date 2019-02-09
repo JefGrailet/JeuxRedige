@@ -1,0 +1,55 @@
+<div id="postInteractions" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Interactions des utilisateurs avec le message #<span class="interactionsPostID"></span></strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <div id="interactionsContainer"></div>
+   </div>
+</div>
+<div id="sendAnAlert" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Emettre une alerte pour le message #<span class="alertPostID"></span></strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr class="preloadedMotivations" style="display: none">
+            <td class="integrateColumn1"><label for="existing_motiv">Motif :</label></td>
+            <td class="integrateColumn2" colspan="2">
+               <select name="existing_motiv" class="motivationsList" style="width: 100%">
+                  <option value="New" selected>Nouveau motif</option>
+               </select>
+            </td>
+         </tr>
+         <tr class="newMotivation">
+            <td class="integrateColumn1"><label for="new_motiv" class="newMotivLabel">Motif :</label></td>
+            <td class="integrateColumn3"><input type="text" name="new_motiv" maxlength="100"/></td>
+            <td class="integrateColumn4">Max. 100 caractères</td>
+         </tr>
+      </table>
+      <p>
+         <button>Envoyer</button>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="pinPost" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter le message #<span class="pinPostID"></span> à mes favoris</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="comment">Commentaire :</label></td>
+            <td class="integrateColumn3"><input type="text" name="comment" maxlength="100"/></td>
+            <td class="integrateColumn4">Max. 100 caractères</td>
+         </tr>
+      </table>
+      <p>
+         <button>Ajouter aux favoris</button>
+         <br/>
+      </p>
+   </div>
+</div>

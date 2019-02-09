@@ -1,0 +1,9 @@
+<div class="centeredContent">
+   {switch:error||
+noList & <p>Aucune liste n'a été trouvée.<br/><br/><br/></p>|
+dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p>Une erreur est survenue lors de la génération des vignettes. Réessayez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>}
+   <a href="./NewList.php" class="prettyLink">Nouvelle liste</a>
+</div>

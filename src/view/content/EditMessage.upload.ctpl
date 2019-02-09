@@ -1,0 +1,24 @@
+{switch:previousUploads||yes & <div class="plainBlock" id="previousUploads" style="padding-bottom: 6px;">
+<h1>Précédents uploads</h1>
+<p style="text-align: left;">
+<span style="color: grey;"><strong>Remarque:</strong> si vous uploadez de nouveaux fichiers, seuls 
+les premiers (par ordre lexicographique) seront conservés si le total excède [0] uploads.</span>
+</p>
+<div class="previousUploadsView">
+[1]
+</div>
+<div style="clear: both;"></div>
+</div>}
+<div class="plainBlock" id="uploadMenu" style="padding-bottom: 6px;">
+<h1>Uploader de nouveaux fichiers</h1>
+<p style="text-align: left;">
+{switch:uploadMessage||
+newUpload & <a href="#uploadMenu">Ajouter un nouveau fichier</a>|
+uploadDeactivated & <span style="font-color: grey;">Les uploads ont été désactivés pour ce sujet.</span>|
+uploadRefused & <span style="font-color: grey;">Vous n'êtes pas autorisés à uploader des fichiers.</span>}
+</p>
+<div class="uploadsView">
+{$uploadsView}
+</div>
+<div style="clear: both;"></div>
+</div>

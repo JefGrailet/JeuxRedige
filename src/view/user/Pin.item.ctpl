@@ -1,0 +1,16 @@
+<div class="pinBlock" data-id-pin="{$ID}">
+   <div class="pinBlockLeft">
+      <div class="pinBlockAvatar" style="background: url({$avatar}) no-repeat top center;"></div>
+      <p>
+      <a href="{$postURL}" target="blank">Message #{$ID}</a> par {$author} 
+      <img src="./res_icons/pin_delete.png" alt="Supprimer" title="Supprimer ce favori" class="pinDelete"/> 
+      <img src="./res_icons/pin_date.png" alt="Date" title="Ajouté à vos favoris le {$datePin}" class="pinInfo"/> 
+      <img src="./res_icons/pin_post_date.png" alt="Date du message" title="Message posté le {$date}" class="pinInfo"/>
+      </p>
+   </div>
+   <div class="pinBlockRight">
+      <p>
+         <span class="comment">{$comment}</span> 
+      </p>
+   </div>
+</div>

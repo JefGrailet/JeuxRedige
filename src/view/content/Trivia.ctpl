@@ -1,0 +1,34 @@
+<div class="triviaBlock" id="{$ID}">
+   {$gameThumbnail}
+   <div class="triviaContent">
+      <div class="triviaTop">
+         <p class="triviaTitle">{$title}</p>
+         <p class="triviaRatings"><span class="commentableRatings">{$ratings}</span></p>
+         <div class="clear"></div>
+      </div>
+      <div class="fullContent"{switch:contentDisplay||hidden &  style="display:none;"}>
+         {$content}
+         <div class="contentBottom">
+            <div class="contentAuthor">
+               <div class="contentAuthorAvatar"><img src="{$authorAvatar}" alt="Avatar"/></div>
+               <div class="contentAuthorPseudo">{$authorPseudo}</div>
+               <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+         </div>
+      </div>
+   </div>
+   <div class="clear"></div>
+   <div {switch:ratingsDisplay||hidden & style="display:none;" }class="ratings" data-voting-allowed="{$voteActivation}">
+      <div class="relevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">C'est pertinent !</p></div>
+         <div class="ratingsRight">{$relevant}</div>
+         <div class="clear"></div>
+      </div>
+      <div class="irrelevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">Bof...</p></div>
+         <div class="ratingsRight">{$irrelevant}</div>
+         <div class="clear"></div>
+      </div>
+   </div>
+</div>

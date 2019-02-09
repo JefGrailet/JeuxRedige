@@ -1,0 +1,6 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+missingID & L'évaluation à afficher n'est pas précisée.|
+missingContent & L'évaluation recherchée n'existe pas ou plus.|
+wrongTemplating & Une erreur de formatage s'est produite lors de la lecture du contenu.|
+dbError & Une erreur inconnue est survenue lors de la lecture du contenu dans la base de données.}</p>

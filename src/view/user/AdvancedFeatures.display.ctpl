@@ -1,0 +1,12 @@
+<h1>Accès aux fonctionnalités avancées</h1>
+<p><strong>Rappel:</strong> les fonctionnalités avancées sont: la création de sujets, l'édition 
+de ses propres sujets, l'intégration de n'importe quel média au sein des messages et l'accès aux 
+fonctionnalités d'upload. Ces fonctionnalités ne sont pas disponibles dès l'inscription (sauf 
+parrainage) afin d'empêcher flood et affichage de contenu inapproprié par des individus 
+malveillants. Vous pouvez toutefois demander accès à ces fonctionnalités à l'administration après 
+avoir été actif durant un certain temps (les décisions se font au cas par cas).<br/>
+<br/>
+{switch:display||
+hasAccess & <strong>Vous avez accès aux fonctionnalités avancées.</strong><br/>|
+noAccess & <strong>Vous n'avez pas accès aux fonctionnalités avancées.</strong><br/>}
+</p>

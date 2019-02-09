@@ -1,0 +1,14 @@
+<h1>{$pseudo} n'est pas encore confirmé</h1>
+<p>Les fonctions de modération seront disponibles dès sa confirmation. Cependant, s'il ne confirme 
+pas son compte, celui-ci sera automatiquement supprimé après 24h.<br/>
+<br/>
+{switch:registration||sponsor & Notez que cet utilisateur a créé son compte sur invitation de 
+<a href="[0]" target="blank">[0]</a>.|
+presentation & Notez que cet utilisateur s'est inscrit spontanément, et s'est présenté comme 
+suit:<br/>
+<br/>
+<textarea rows="10" readonly>[0]</textarea>|
+nothing & Notez que cet utilisateur s'est inscrit spontanément sans fournir de présentation.|
+dbError & Suite à une erreur lors du dialogue avec la base de données, les détails de la création 
+du compte ne sont pas disponibles.}
+</p>

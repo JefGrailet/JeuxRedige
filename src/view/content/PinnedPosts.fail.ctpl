@@ -1,0 +1,8 @@
+{$header}
+<div style="padding-top: 20px; text-align:center;">
+   <p style="font-size: 14px; font-family: 'Arial', 'Calibri', 'Serif';">
+      {switch:error||noPins & Vous n'avez aucun message favori dans ce sujet.|
+dbError & Une erreur est survenue lors de la récupération des messages.|
+notLoggedIn & Vous devez être connecté pour voir vos messages favoris dans ce sujet.}
+   </p>
+</div>

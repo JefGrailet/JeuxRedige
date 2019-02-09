@@ -1,0 +1,11 @@
+<div class="articleHighlight" id="{$ID}" style="background: url('{$highlight}') no-repeat top center;">
+   <div class="articleTitles">
+      <div class="articleTitle">
+         <p><a href="{$link}"{$additionnalInfo}>{$title}</a></p>
+      </div>
+      <div class="articleSubtitle">
+         <p><a href="{$link}"{$additionnalInfo}>{$subtitle}</a></p>
+      </div>
+   </div>
+   <a href="{$link}" class="thumbnailClick"><span></span></a>
+</div>

@@ -1,0 +1,4 @@
+<h1>Discussion fermée</h1>
+<p>Vous ne pouvez plus répondre à {$otherParty}.{switch:showLink||yes & <br/>
+<br/>
+<a href="[0]">Retour à la discussion</a>}</p>

@@ -1,0 +1,25 @@
+<div id="postsContainer">
+   <h1 class="centeredTitle">Historique des messages de {$user}</h1>
+   <div class="messagesNav">
+      {navigation:pagesConfig} 
+      {optional:editUserLink||<p class="topicMenu"><a href="[]">Modérer cet utilisateur</a></p>}
+   </div>
+   <div id="postsWrapper">
+      <div class="page">
+      {$posts}
+      </div>
+   </div>
+   <div class="messagesNav">
+      {optional:editUserLink||<p class="topicMenu"><a href="[]">Modérer cet utilisateur</a></p>}
+      {navigation:pagesConfig} 
+   </div>
+</div>
+<div id="bottomWrapper">
+   <div id="navMenu">
+      <p>
+      <img class="navMode" data-mode="1" style="opacity: 1.0;" src="./res_icons/nav_pages_static.png" alt="Pages statiques" title="Pagination statique" /> 
+      <img class="navMode" data-mode="2" style="opacity: 0.5;" src="./res_icons/nav_pages_dynamic.png" alt="Pages statiques" title="Pagination dynamique" /> 
+      <img class="navMode" data-mode="3" style="opacity: 0.5;" src="./res_icons/nav_flow.png" alt="Flot de messages" title="Flot de messages" /> 
+      </p>
+   </div>
+</div>

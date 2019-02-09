@@ -1,0 +1,205 @@
+/* Container of a topic header. */
+
+#topicHeader
+{
+   position: fixed;
+   width: 100%;
+   z-index: 20;
+}
+
+#placeholderTopicHeader
+{
+   width: 100%;
+   height: 50px;
+   background: none;
+}
+
+#innerHeader
+{
+   width: 600px;
+   margin: auto;
+   background-color: #808080;
+   color: white;
+   border-radius: 0px 0px 10px 10px;
+}
+
+/* Topic thumbnail style. */
+
+.topicThumbnail
+{
+   border-radius: 5px;
+   width: 260px;
+   height: 162px;
+   position: fixed;
+   display: none;
+}
+
+/*
+* Container for the title.
+*/
+
+#topicHeader h1
+{
+   float: left;
+   width: 390px;
+   display: inline-block;
+   text-align: center;
+   font-family: "arial", "calibri", "serif";
+   font-size: 14px;
+   padding: 10px;
+   margin: 0px;
+   text-align: center;
+}
+
+#topicHeader h1 a
+{
+   color: white;
+   text-decoration: none;
+}
+
+#topicHeader h1 a:hover
+{
+   color: #00AAFF;
+}
+
+#topicHeader h1 img
+{
+   margin-left: 7px;
+   margin-right: 0px;
+   vertical-align: -15%;
+}
+
+/*
+* Containers for left and right (respectively) of the title, which can contain icons.
+*/
+
+#innerHeaderLeft
+{
+   float: left;
+   width: 85px;
+   text-align: left;
+   padding: 8px 0px 8px 10px;
+}
+
+#innerHeaderRight
+{
+   float: right;
+   width: 85px;
+   text-align: right;
+   padding: 8px 10px 8px 0px;
+}
+
+#innerHeaderClear
+{
+   clear: both;
+   overflow: hidden;
+}
+
+/* Drop-down topic menu */
+
+#innerHeaderLeft ul
+{
+   display: inline-block;
+   padding: 0px;
+   margin: 0px;
+   text-align: center;
+}
+
+#innerHeaderLeft li
+{
+   list-style-type: none;
+   display: inline;
+   margin: 0px;
+   padding: 0px;
+}
+
+#innerHeaderLeft ul li img
+{
+   cursor: pointer;
+}
+
+#innerHeaderLeft ul li ul
+{
+   min-width: 50px;
+   position: absolute;
+   display: none;
+   border: none;
+   margin-top: 0px;
+   padding: 5px;
+   background-color: #808080;
+   border-radius: 0px 0px 5px 5px;
+}
+
+#innerHeaderLeft ul li ul li
+{
+   display: block;
+   background: none;
+   padding: 5px;
+   font-size: 15px;
+   text-align: left;
+}
+
+#innerHeaderLeft ul li ul li img
+{
+   margin-left: 0px;
+   margin-right: 7px;
+   vertical-align: -15%;
+}
+
+#innerHeaderLeft ul li ul li a
+{
+   font-family: "Arial", "Calibri", "Serif";
+   font-size: 15px;
+   text-decoration: none;
+   color: white;
+}
+
+#innerHeaderLeft ul li ul li a:hover
+{
+   color: rgb(180,180,190);
+}
+
+/* Specific p for keywords. */
+
+.topicKeywords
+{
+   text-align: center;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   background: none;
+   margin: 0px;
+   line-height: 170%;
+   color: black;
+   padding: 10px;
+}
+
+.topicKeywords a
+{
+   display: inline-block;
+   text-decoration: none;
+   color: white;
+   background-color: #646464; /* Default */
+   border-radius: 12px;
+   padding: 2px 12px;
+   margin-right: 3px;
+   margin-bottom: 5px;
+}
+
+.topicKeywords a:hover
+{
+   background-color: #969696; /* Default */
+}
+
+/* CSS for icons in the title of a topic. */
+
+#topicHeader .topicIcon
+{
+   margin: 0px;
+   padding: 0px;
+   vertical-align: -5%;
+}
+
+#topicHeader #buttonFavourite, #topicHeader #buttonDelete, #topicHeader #buttonLock
+{
+   cursor: pointer;
+}

@@ -1,0 +1,30 @@
+<h1>Connexion</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs.|
+nonexistentAccount & ce compte n'existe pas.|
+dbError & une erreur inconnue s'est produite lors de la recherche de vos données. Réessayez plus tard.|
+notConfirmed & ce compte n'a pas encore été confirmé. Confirmez-le à l'aide du lien qui vous a été envoyé par e-mail.|
+wrongPwd & le mot de passe est erroné.}
+{switch:banished||
+yes & <p><span style="color:blue;">Ce compte a été banni jusqu'au [0]. La/les sanctions active(s) sont 
+listées ci-contre.</span><br/>
+<br/>
+[1]</p>}
+<form action="./LogIn.php" method="post">
+<table class="userFields" width="450">
+   <tr>
+      <td class="userFieldsText" width="100"><label for="pseudo">Pseudo:</label></td>
+      <td class="userFieldsInput" width="200"><input type="text" name="pseudo" value="{$pseudo}" size="30"/></td>
+      <td class="userFieldsText" width="150"></td>
+   </tr>
+   <tr>
+      <td class="userFieldsText"><label for="pwd">Mot de passe:</label></td>
+      <td class="userFieldsInput"><input type="password" name="pwd" size="30"/></td>
+      <td class="userFieldsText"> <a href="./PasswordReset.php">Mot de passe perdu ?</a></td>
+   </tr>
+</table>
+<p><input type="hidden" name="redirection" value="{$redirection}"/>
+<input type="checkbox" name="rememberMe"/> <label for="rememberMe">Se souvenir de moi</label><br/>
+<br/>
+<input type="submit" name="sent" value="Connexion" /></p>
+</form>

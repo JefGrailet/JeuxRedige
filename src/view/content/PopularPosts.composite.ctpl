@@ -1,0 +1,20 @@
+{$header}
+<div class="messagesNav">
+   {navigation:pagesConfig} 
+</div>
+<div id="postsWrapper">
+   <div class="page">
+   {$posts}
+   </div>
+</div>
+<div class="messagesNav">
+   {navigation:pagesConfig} 
+</div>
+<div id="bottomWrapper">
+   <div id="navMenu">
+      <p>
+      <img class="navMode" data-mode="1" style="opacity: 1.0;" src="./res_icons/nav_pages_static.png" alt="Pages statiques" title="Pagination statique" /> 
+<img class="navMode" data-mode="2" style="opacity: 0.5;" src="./res_icons/nav_pages_dynamic.png" alt="Pages statiques" title="Pagination dynamique" /> 
+<img class="navMode" data-mode="3" style="opacity: 0.5;" src="./res_icons/nav_flow.png" alt="Flot de messages" title="Flot de messages" />
+      </p>
+   </div>

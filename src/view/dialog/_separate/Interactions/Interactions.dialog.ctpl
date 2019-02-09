@@ -1,0 +1,9 @@
+<div id="postInteractions" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Interactions des utilisateurs avec le message #<span class="interactionsPostID"></span></strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <div id="interactionsContainer"></div>
+   </div>
+</div>

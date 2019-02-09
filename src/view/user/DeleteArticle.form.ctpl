@@ -1,0 +1,19 @@
+<div class="articleEditBlock">
+<h1>Supprimer un article</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+dbError & un problème avec la base de données est survenu lors de la suppression. Réessayez plus tard.}
+<form id="deleteForm" action="./DeleteArticle.php?id_article={$articleID}" method="post">
+<p>
+<strong>Article:</strong> <a href="./EditArticle.php?id_article={$articleID}">{$fullArticleTitle}</a><br/>
+<br/>
+{switch:warning||
+published & Êtes-vous certain de vouloir supprimer cet article ? L'intégralité de son contenu sera 
+supprimé (texte et uploads) et irrécupérable ensuite. Notez cependant que le sujet contenant les 
+réactions et commentaires ne sera pas supprimé conjointement.|
+nonpublished & Êtes-vous certain de vouloir supprimer cet article ? Tout le contenu existant 
+(texte et uploads) sera irrécupérable une fois supprimé.}<br/>
+<br/>
+<input type="submit" name="delete" class="articleDelete" value="Je supprime définitivement cet article"/>
+</p>
+</form>
+</div>

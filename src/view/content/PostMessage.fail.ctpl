@@ -1,0 +1,11 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+missingID & Le sujet auquel vous souhaitez répondre est manquant. Cliquez sur un lien valable.|
+missingTopic & Le sujet auquel vous souhaitez répondre n'existe pas ou plus.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez 
+réessayer plus tard et/ou prévenez l'administrateur.|
+anonForbidden & Le sujet auquel vous souhaitez répondre n'est pas ouvert aux utilisateurs
+anonymes. Pour poster sur ce sujet, créez un compte et connectez-vous.|
+lockedTopic & Le sujet auquel vous souhaitez répondre est verrouillé. Vous ne pouvez plus y 
+poster.|
+privateTopic & Ce sujet est privé et ne vous concerne pas. Vous ne pouvez y poster.}

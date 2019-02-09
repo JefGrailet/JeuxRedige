@@ -1,0 +1,7 @@
+<h1>{switch:type||
+newAccount & Bienvenue sur Project AG !|
+newEmail & Nouvelle adresse e-mail confirmée}</h1>
+<p>{switch:type||
+newAccount & Votre compte est désormais utilisable.|
+newEmail & Votre compte est désormais lié à votre nouvelle adresse et est de nouveau utilisable.}
+<a href="./LogIn.php">Cliquez ici</a> pour vous connecter.</p>

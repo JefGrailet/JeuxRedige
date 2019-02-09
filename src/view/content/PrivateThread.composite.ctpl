@@ -1,0 +1,5 @@
+<div id="threadTop" data-thread-id="{$threadID}">
+<h1>{$title}</h1>
+</div>
+{$messages}
+{$replyForm}

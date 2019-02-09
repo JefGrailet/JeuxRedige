@@ -1,0 +1,9 @@
+<h1 class="centeredTitle">Alertes des utilisateurs</h1>
+<div id="lineItemsPool">
+   {switch:error||
+noAlert & <p class="poolError">Il n'y a actuellement aucune alerte.<br/><br/><br/></p>|
+dbError & <p class="poolError">Nous rencontrons actuellement des difficultés avec la base de 
+données. Revenez plus tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p class="poolError">Une erreur est survenue lors de la génération des 
+alertes. Réessayez plus tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>

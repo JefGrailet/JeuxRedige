@@ -1,0 +1,12 @@
+<h1 class="centeredTitle">Mes articles</h1>
+<div id="articlesPool">
+   {switch:error||
+noArticle & <p class="poolError">Vous n'avez actuellement aucun article.<br/><br/><br/></p>|
+dbError & <p class="poolError">Nous rencontrons actuellement des difficultés avec la base de 
+données. Revenez plus tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p class="poolError">Une erreur est survenue lors de la génération des 
+vignettes. Réessayez plus tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>
+<div class="centeredContent">
+   <p><a href="./NewArticle.php" class="prettyLink">Nouvel article</a></p>
+</div>

@@ -1,0 +1,13 @@
+<div class="uploadDisplay" data-file="{$fullSize}" 
+{switch:dimensions||
+yes & data-width="[0]" data-height="[1]"} 
+data-uploader="{$uploader}" data-upload-date="{$uploadDate}" 
+{switch:slideshowPrevious||yes & data-slideshow-previous="[0]" }{switch:slideshowNext||yes & data-slideshow-next="[0]" }id="gallery_{$postID}_{$itemID}">
+   <div class="uploadDisplayAlign">
+      {switch:content||
+picture &       <img src="[0]" alt="Miniature"/>|
+video &       <video width="250" min-height="10">
+         <source src="[0]" type="video/[1]">
+      </video>}
+   </div>
+</div> 

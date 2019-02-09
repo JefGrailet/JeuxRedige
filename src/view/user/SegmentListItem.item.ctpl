@@ -1,0 +1,15 @@
+<tr data-pos="{$position}">
+   <td width="20">
+      <strong class="position">{$position}</strong>
+   </td>
+   <td>
+      {switch:title||
+head &       <a href="./EditSegment.php?id_segment=[0]" style="cursor: info;" title="Cliquez pour éditer"><strong>Sommaire</strong></a>|
+other &       <a href="./EditSegment.php?id_segment=[0]" style="cursor: info;" title="Cliquez pour éditer">[1]</a>}
+   </td>
+   <td width="100">
+      {optional:moveUp||<img class="moveUp" data-segment-id="[]" src="./res_icons/segment_move_up.png" alt="Move up" title="Remonter"/> }
+      {optional:moveDown||<img class="moveDown" data-segment-id="[]" src="./res_icons/segment_move_down.png" alt="Move down" title="Descendre"/> }
+      {optional:delete||<img class="deleteSegment" data-segment-id="[]" src="./res_icons/segment_delete.png" alt="Delete" title="Supprimer" />}
+   </td>
+</tr>

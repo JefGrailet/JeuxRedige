@@ -1,0 +1,3 @@
+<h1>Le segment "{$title}" a été créé avec succès</h1>
+<p><a href="{$target}">Revenir à l'édition de l'article "{$articleTitle}"</a><br/>
+<a href="./MyArticles.php">Liste de mes articles</a></p>

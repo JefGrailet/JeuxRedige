@@ -1,0 +1,50 @@
+<div id="integrateImg" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Intégrer une image ou un clip</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="url_img">URL :</label></td>
+            <td class="integrateColumn2" colspan="2"><input type="text" name="url_img"/></td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="format_img">Format :</label></td>
+            <td class="integrateColumn3">
+               <select name="format_img">
+                  <option value="mini">Miniature</option>
+                  <option value="1.0">Dimensions originales</option>
+                  <option value="0.5">Dimensions x0.5 (images seulement)</option>
+                  <option value="1.5">Dimensions x1.5 (images seulement)</option>
+                  <option value="2.0">Dimensions x2 (images seulement)</option>
+                  <option value="3.0">Dimensions x3 (images seulement)</option>
+                  <option value="5.0">Dimensions x5 (images seulement)</option>
+               </select>
+            </td>
+            <td class="integrateColumn4">Uploads uniquement</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="floating_img">Flottement :</label></td>
+            <td class="integrateColumn3">
+               <select name="floating_img">
+                  <option value="normal">Aucun</option>
+                  <option value="left">A gauche</option>
+                  <option value="right">A droite</option>
+               </select>
+            </td>
+            <td class="integrateColumn4">Uploads uniquement</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="comment_img">Note :</label></td>
+            <td class="integrateColumn2" colspan="2">
+               <input type="text" name="comment_img" maxlength="250" placeholder="Max. 250 caractères, miniatures uniquement"/>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>

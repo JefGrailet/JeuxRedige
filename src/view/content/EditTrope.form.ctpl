@@ -1,0 +1,49 @@
+<div class="plainBlock">
+<h1>Editer un code vidéoludique</h1>
+<p><a href="./Tropes.php">Retour à la liste des codes</a></p>
+{switch:success||
+yes & <p style="color: green;">Les modifications ont été enregistrées avec succès.</p>}
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs obligatoires.|
+tooLongData & les données que vous avez proposées sont trop longues.|
+dbError & un problème avec la base de données est survenu lors de l'édition du code. 
+Réessayez plus tard ou contactez l'administrateur.|
+invalidIcon & vous devez créer une icône personalisée.|
+invalidColor & la couleur choisie n'est pas valide ou n'est pas disponible.}
+<form action="./EditTrope.php?trope={$target}" method="post">
+<p>
+<label for="tag">Titre du code:</label> <strong>{$tag}</strong><br/>
+<br/>
+<img src="{$icon}" alt="Icône du code" style="cursor:pointer;" id="previewIcon" 
+onClick="javascript:DefaultLib.openDialog('#customIcon')" title="Cliquez pour charger une icône"/><br/>
+<br/>
+<textarea name="description" rows="3" placeholder="Entrez une description (max. 250 carac.)">{$description}</textarea><br/>
+<br/>
+<input type="text" name="nb_characters" value="0" size="2" readonly/> / 250<br/>
+</p>
+<div class="tropeColorLine">
+   <p><strong>Couleur associée:</strong></p>
+   <div class="colorShow" data-color-comp="mix" style="background-color: rgb(255,255,255);"></div>
+   <div style="clear: both;"></div>
+</div>
+<div class="tropeColorLine">
+   <p><input type="range" name="red_comp" min="0" max="255" value="255" title="Ajuster la composante rouge"/></p>
+   <div class="colorShow" data-color-comp="red" style="background-color: rgb(255,0,0);"></div>
+   <div style="clear: both;"></div>
+</div>
+<div class="tropeColorLine">
+   <p><input type="range" name="green_comp" min="0" max="255" value="255" title="Ajuster la composante verte"/></p>
+   <div class="colorShow" data-color-comp="green" style="background-color: rgb(0,255,0);"></div>
+   <div style="clear: both;"></div>
+</div>
+<div class="tropeColorLine">
+   <p><input type="range" name="blue_comp" min="0" max="255" value="255" title="Ajuster la composante bleue"/></p>
+   <div class="colorShow" data-color-comp="blue" style="background-color: rgb(0,0,255);"></div>
+   <div style="clear: both;"></div>
+</div>
+<p>
+<input type="hidden" name="color" value="{$color}"/>
+<input type="hidden" name="icon" value="{$icon}"/>
+<input type="submit" name="sent" value="Editer ce code" /></p>
+</form>
+</div>

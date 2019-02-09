@@ -1,0 +1,23 @@
+<div id="segmentHeader" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Générer l'en-tête à partir d'une image</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="uploadColumn1">
+               <input type="file" name="image" id="uploadHeader"/>
+            </td>
+            <td class="uploadColumn2">Maximum 5 Mo, format JP(E)G</td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;">L'image fournie doit aussi être supérieure ou égale à 1920 
+         pixels de large, avec une hauteur d'au moins 30% la largeur.</span><br/>
+         <br/>
+         <span class="triggerDialog">Générer l'en-tête</span>
+         <br/>
+      </p>
+   </div>
+</div>

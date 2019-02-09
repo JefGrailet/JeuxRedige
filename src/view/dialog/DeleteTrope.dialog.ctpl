@@ -1,0 +1,13 @@
+<div id="deleteTrope" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Supprimer le code</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <p style="margin-top:0px;">
+         Êtes-vous certain de vouloir supprimer ce code ?<br/>
+         <br/>
+         <span class="triggerDialog">Supprimer</span><br/>
+      </p>
+   </div>
+</div>

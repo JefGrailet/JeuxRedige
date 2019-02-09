@@ -1,0 +1,27 @@
+<h1>Modifier une liste</h1>
+<p>
+<a href="{$URL}">Revenir à la liste</a><br/>
+</p>
+{switch:success||
+yes & <p style="color: green;">Les modifications ont été enregistrées avec succès.</p>}
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez donner un titre et une description à votre liste.|
+dataTooLong & les données que vous avez soumises sont trop longues.|
+badOrdering & la politique d'affichage choisie n'existe pas.|
+dbError & un problème avec la base de données est survenu lors de l'édition de la liste. 
+Réessayez plus tard ou contactez l'administrateur.}
+<form action="./EditList.php?id_list={$listID}" method="post">
+<p>
+<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre"/><br/>
+<br/>
+<img src="{$thumbnailPath}" alt="Vignette de la liste" title="Cliquez pour éditer" id="previewThumbnail" /><br/>
+<br/>
+<textarea name="description" rows="6" placeholder="Entrez une description (max. 1000 carac.)">{$description}</textarea><br/>
+<br/>
+<input type="text" name="nb_characters" value="0" size="2" readonly/> / 1000<br/>
+<br/>
+Affichage de l'ordre: {select:ordering}<br/>
+<br/>
+<input type="hidden" name="thumbnail" value="{$thumbnail}"/> 
+<input type="submit" name="sent" value="Modifier la liste" /></p>
+</form>

@@ -1,0 +1,3 @@
+<h1>Sujet {switch:opType||lock & verrouillé|unlock & déverrouillé|delete & supprimé} avec succès</h1>
+<p>Vous allez être redirigé d'ici quelques secondes. Si la redirection échoue, 
+<a href="{$target}">cliquez ici</a>.</p>

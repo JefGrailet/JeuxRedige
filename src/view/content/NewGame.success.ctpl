@@ -1,0 +1,3 @@
+<h1>{$title} ajouté dans la base de données</h1>
+<p><a href="{$target}">Page de {$title}</a><br/>
+<a href="./Games.php">Liste des jeux</a></p>

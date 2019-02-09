@@ -1,0 +1,12 @@
+<div class="articleSegment" data-segment-id="{$ID}" data-segment-pos="{$position}" style="display: {$displayState};">
+   <div {$headerStyle}>
+      <div class="segmentHeaderBottom">
+         <h1>{$title}</h1>
+         {switch:mainSubtitle||yes & <h2>[0]</h2>}
+      </div>
+   </div>
+   <div class="segmentBody">
+      {$content}
+   </div>
+   <div style="clear:both;"></div>
+</div>

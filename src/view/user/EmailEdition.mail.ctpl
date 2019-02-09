@@ -1,0 +1,21 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+      <title>Modification de votre compte (Project AG)</title>
+   </head>
+   <body>
+   <p style="font-family: 'arial', 'serif'; font-size: 15px; text-align: justify;">
+   Cher/Chère {$pseudo},<br/>
+   <br/>
+   Pour terminer la modification de l'adresse e-mail associée à votre compte sur Project AG, vous 
+   devez re-confirmer votre compte avec le lien ci-contre. Vous pouvez cliquer dessus, ou bien le 
+   copier et le coller dans la barre d'adresse de votre navigateur.<br/>
+   <br/>
+   <a href="{$confirmLink}">{$confirmLink}</a><br/>
+   <br/>
+   A très bientôt,<br/>
+   <br/>
+   Le webmaster<br/>
+   admin@projectag.org</p>
+   </body>
+</html>

@@ -1,0 +1,9 @@
+<h1 class="centeredTitle">Mes messages favoris</h1>
+<div id="lineItemsPool">
+   {switch:error||
+noPin & <p class="poolError">Vous n'avez actuellement aucun message favori.<br/><br/><br/></p>|
+dbError & <p class="poolError">Nous rencontrons actuellement des difficultés avec la base de 
+données. Revenez plus tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p class="poolError">Une erreur est survenue lors de la génération des 
+favoris. Réessayez plus tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>

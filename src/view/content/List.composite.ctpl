@@ -1,0 +1,38 @@
+<h1 id="listTitle" data-list-id="{$listID}">{$title}</h1>
+<div id="listThumbnail" style="background: url('{$thumbnail}') no-repeat top center;"></div>
+<div id="listDescription">
+   <p>
+      <em>Liste créée le {$creationDate}{$modificationDate} par {$user}</em><br/>
+      <br/>
+      {$description}
+      <br/>
+   </p>
+</div>
+<div id="listContent">
+   {$items}
+</div>
+<div id="listButtons">
+   {switch:listEdition||
+yes & <a href="./NewListItem.php?id_list=[0]" class="prettyLink">Ajouter un élément</a> &nbsp;
+<a href="./EditList.php?id_list=[0]" class="prettyLink">Modifier la liste</a> &nbsp;
+<a href="./DeleteContent.php?id_content=[0]" class="prettyLink">Supprimer la liste</a> &nbsp;}
+   {switch:interaction||
+createTopic & <a href="./NewComments.php?id_content=[0]" class="prettyLink">Commenter cette liste</a>|
+seeTopic & <a href="[0]" class="prettyLink">Commentaires ([1])</a>}
+</div>
+<div class="listRatings" id="{$listID}">
+   <p><span class="commentableRatings">{$ratings}</span><br/>
+   </p>
+   <div {switch:ratingsDisplay||hidden & style="display:none;" }class="ratings" data-voting-allowed="{$voteActivation}">
+      <div class="relevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">C'est pertinent !</p></div>
+         <div class="ratingsRight">{$relevant}</div>
+         <div class="clear"></div>
+      </div>
+      <div class="irrelevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">Bof...</p></div>
+         <div class="ratingsRight">{$irrelevant}</div>
+         <div class="clear"></div>
+      </div>
+   </div>
+</div>

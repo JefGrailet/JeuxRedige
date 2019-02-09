@@ -1,0 +1,302 @@
+/**
+* This style sheet defines the style for a container displaying some media (games, for now) along
+* the style for all the elements it can contain. It is a separate sheet because it is not as widely
+* used as regular thumbnails (those which represents a topic).
+*/
+
+.mediaThumbnail
+{
+   display: block;
+   position: relative; /* Helps placing .bottomLine at bottom of the container */
+   width: 260px;
+   height: 162px;
+   float: left;
+   border-radius: 5px;
+}
+
+/* Ensures the background is a bit greyed, so the text put on it afterwards is readable. */
+
+.mediaThumbnail .smokeScreen
+{
+   width: 100%;
+   height: 100%;
+   border-radius: 5px;
+   background-color: rgba(230,230,230,0.35);
+}
+
+/*
+* Game title and style used for lines (a line = a field and a value, displayed respectively at 
+* left and at right side of the container).
+*/
+
+.mediaThumbnail h1
+{
+   width: 250px;
+   margin-left: 0px;
+   margin-right: 0px;
+   margin-top: 0px;
+   margin-bottom: 5px;
+   padding: 5px;
+   border-radius: 5px 5px 0px 0px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "serif";
+   font-weight: 200;
+   font-size: 13px;
+   text-align: center;
+}
+
+.mediaThumbnail h1 a
+{
+   color: white;
+   text-decoration: none;
+}
+
+.mediaThumbnail h1 a:hover
+{
+   color: rgb(100,150,255);
+}
+
+/* 
+* Optional title to show additional details in such a thumbnail (e.g., for a list, pseudonym of 
+* the author of the list).
+*/
+
+.mediaThumbnail h2
+{
+   display: inline-block;
+   top: 0;
+   left: 0;
+   margin: 0px;
+   padding: 7px;
+   border-radius: 5px 0px 5px 0px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "serif";
+   font-weight: 200;
+   font-size: 13px;
+   opacity: 0.8;
+}
+
+.mediaThumbnail h2 a
+{
+   color: white;
+   text-decoration: none;
+}
+
+.mediaThumbnail h2 a:hover
+{
+   color: rgb(100,150,255);
+}
+
+/* Style for game details */
+
+.mediaThumbnail .line
+{
+   width: 248px;
+   margin: 2px 5px;
+   padding: 0px;
+   border: none;
+}
+
+.mediaThumbnail .line .left
+{
+   float: left;
+   margin: 0px;
+   padding: 2px 5px;
+   border-radius: 2px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "serif";
+   font-size: 11px;
+}
+
+.mediaThumbnail .line .right
+{
+   float: right;
+   margin: 0px;
+   padding: 2px 5px;
+   border-radius: 2px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "serif";
+   font-size: 11px;
+}
+
+.mediaThumbnail .line .supports
+{
+   float: left;
+   margin: 0px;
+   padding: 0px;
+}
+
+/* Style for covered supports. */
+
+.mediaThumbnail .hw_PC { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,230,230); color: black; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_X360 { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: green; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_XONE { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_PS3 { padding: 2px 4px; border-radius: 2px; background-color: rgb(10,10,10); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_PSV { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,200); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_PS4 { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,100); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_Wii { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: grey; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_WiiU { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,230); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_Switch { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,0,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_3DS { padding: 2px 4px; border-radius: 2px; background-color: rgb(150,0,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
+
+.mediaThumbnail .line .left:hover, .mediaThumbnail .line .right:hover
+{
+   background-color: rgba(56,58,63,1.0);
+}
+
+/* Style for light game thumbnails (i.e., thumbnails only with image and title popping on hover) */
+
+.mediaThumbnail .bottomTitle
+{
+   width: 250px;
+   position: absolute;
+   bottom: 0;
+   padding: 5px;
+   margin-bottom: 0px;
+   border-radius: 0px 0px 5px 5px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   opacity: 0.7;
+   font-family: "arial", "serif";
+   font-weight: 200;
+   font-size: 13px;
+   text-align: center;
+}
+
+.mediaThumbnail:hover *
+{
+   opacity: 1.0;
+}
+
+.mediaThumbnail .clickable
+{
+   position: absolute;
+   z-index: 5;
+   width: 100%;
+   height: 100%;
+}
+
+/* Style for trope descriptions */
+
+.mediaThumbnail .description p
+{
+   color: white;
+   font-family: "calibri", "arial", "serif";
+   font-size: 13px;
+   text-align: justify;
+   padding: 0px 10px;
+}
+
+.mediaThumbnail .description img
+{
+   margin: 0px 10px 6px 5px;
+   padding: 0px;
+}
+
+.mediaThumbnail .description h1 img
+{
+   margin: 0px 0px -3px 3px;
+   padding: 0px;
+}
+
+.mediaThumbnail .buttonDelete
+{
+   cursor: pointer;
+}
+
+/*
+* Style for the bottom "line" of the container, with static style to display next/previous buttons 
+* (to show different games when there is more than one discussed game) and a center title for that
+* line.
+*/
+
+.mediaThumbnail .bottomLine
+{
+   width: 260px;
+   position: absolute;
+   bottom: 0;
+}
+
+.mediaThumbnail .bottomLine img
+{
+   margin: 0px;
+   padding: 0px;
+}
+
+.mediaThumbnail .bottomLine .previous, .mediaThumbnail .bottomLine .next
+{
+   display: block;
+   width: 75px;
+   min-height: 10px; /* Makes sure that the alignment stays, even with no content in the div */
+   float: left;
+}
+
+.mediaThumbnail .bottomLine .previous p
+{
+   float: left;
+   width: 13px;
+   margin: 0px;
+   padding-left: 5px;
+   padding-right: 5px;
+   padding-bottom: 1px;
+   padding-top: 0px;
+   border-radius: 0px 5px 0px 5px;
+   border: none;
+   background-color: #383A49;
+   cursor: pointer;
+}
+
+.mediaThumbnail .bottomLine .next p
+{
+   float: right;
+   width: 13px;
+   margin: 0px;
+   padding-left: 8px;
+   padding-right: 2px;
+   padding-bottom: 1px;
+   padding-top: 0px;
+   border-radius: 5px 0px 5px 0px;
+   border: none;
+   background-color: #383A49;
+   cursor: pointer;
+}
+
+.mediaThumbnail .bottomLine .bottomLineCenter
+{
+   display: block;
+   width: 110px;
+   float: left;
+}
+
+.mediaThumbnail .bottomLine .bottomLineCenter p
+{
+   margin: 0px;
+   padding: 2px;
+   border-radius: 5px 5px 0px 0px;
+   border: none;
+   background-color: #383A49;
+   color: white;
+   font-family: "calibri", "arial", "serif";
+   font-size: 13px;
+   text-align: center;
+}
+
+.mediaThumbnail .bottomLine .bottomLineCenter a
+{
+   color: white;
+   text-decoration: none;
+}
+
+.mediaThumbnail .bottomLine .bottomLineCenter a:hover
+{
+   color: rgb(100,150,255);
+}

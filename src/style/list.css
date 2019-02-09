@@ -1,0 +1,349 @@
+/* Title of the list */
+
+#listTitle
+{
+   margin: auto;
+   width: 350px;
+   padding: 10px;
+   background-color: #383A49;
+   color: white;
+   border-radius: 5px;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-align: center;
+   margin-bottom: 30px;
+   margin-top: 20px;
+}
+
+/* Thumbnail of the list; hidden but should appear on title hover */
+
+#listThumbnail
+{
+   position: fixed;
+   display: none;
+   width: 260px;
+   height: 162px;
+   background: none;
+   border-radius: 5px;
+}
+
+/* Description of the list */
+
+#listDescription
+{
+   width: 70%;
+   min-width: 800px;
+   margin: auto;
+}
+
+#listDescription p
+{
+   color: black;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: center;
+}
+
+#listDescription a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+#listDescription a:hover
+{
+   color: blue;
+}
+
+/* Content of the list (i.e., items) */
+
+#listContent
+{
+   width: 70%;
+   min-width: 800px;
+   margin: auto;
+   margin-top: 30px;
+}
+
+#listContent p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+}
+
+.itemBlock
+{
+   display: block;
+   width: 100%;
+   min-width: 760px;
+   margin-left: 20px;
+   margin-right: 20px;
+   margin-top: 20px;
+}
+
+.itemTop
+{
+   display: block;
+   background-color: #f0f0f0;
+   color: #6e6e6e;
+   border-radius: 5px 5px 0px 0px;
+   padding: 0px;
+}
+
+.itemTitle
+{
+   float: left;
+   width: 80%;
+   text-align: left;
+}
+
+.itemInteractivity
+{
+   float: left;
+   width: 20%;
+}
+
+.itemContent .itemTop .itemInteractivity p
+{
+   text-align: right;
+}
+
+.itemIcon
+{
+   margin: 0px;
+   padding: 0px;
+   vertical-align: -25%;
+}
+
+.itemContent
+{
+   display: block;
+   overflow: hidden;
+   background-color: white;
+   color: black;
+   border-radius: 5px;
+   min-height: 162px;
+}
+
+.itemContent p, .triviaHeader p, .triviaContent p
+{
+   margin: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   padding: 10px;
+   text-align: justify;
+}
+
+/* Game thumbnail */
+
+.listedGame
+{
+   position: relative;
+   display: block;
+   float: left;
+   width: 260px;
+   height: 162px;
+   border-radius: 5px;
+   margin-right: 10px;
+   padding: 0px;
+}
+
+.listedGame h1
+{
+   position: relative;
+   left: 0;
+   top: 0;
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   text-align: center;
+   margin-top: 0px;
+   padding: 5px;
+   background-color: #383A49;
+   color: white;
+   border-radius: 5px 5px 0px 0px;
+}
+
+.listedGame h2
+{
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   font-family: "Arial", "Serif";
+   font-size: 20px;
+   font-weight: bold;
+   margin: 0px;
+   padding: 5px 20px;
+   background-color: #383A49;
+   color: white;
+   border-radius: 0px 5px 0px 5px;
+}
+
+.listedGame a
+{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+}
+
+.listedGame a:hover
+{
+   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Style for the formatting elements in the comment */
+
+.itemComment img, .itemComment video
+{
+   max-width: 98%;
+}
+
+.itemComment h2
+{
+   margin: 0px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.itemComment ul
+{
+   margin-top: 10px;
+   margin-bottom: 10px;
+   padding-left: 25px;
+}
+
+.itemComment li
+{
+   font-family: "arial", "calibri", "serif";
+   font-size: 13px;
+   text-align: justify;
+   margin-top: 10px;
+}
+
+.itemComment a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.itemComment a:hover
+{
+   color: blue;
+}
+
+.itemComment .quotation, .reviewContent .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.itemComment .spoiler a
+{
+   cursor: pointer;
+}
+
+.itemComment .userMiniAvatar
+{
+   padding: 0px;
+   margin-right: 5px;
+   border-radius: 50%;
+   vertical-align: -40%;
+}
+
+.itemComment .userMiniPseudo
+{
+   font-size: 16px;
+   font-weight: bold;
+}
+
+.itemComment .hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+.itemComment .hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+/* Part dedicated to buttons below the list for edition, deletion, etc. */
+
+#listButtons
+{
+   width: 70%;
+   min-width: 800px;
+   margin: auto;
+   margin-top: 40px;
+   text-align: center;
+}
+
+#listButtons p
+{
+   margin: 0px;
+   color: black;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+}
+
+#listButtons a
+{
+   text-decoration: none;
+   background-color: #383A49;
+   color: white;
+   padding: 10px 20px;
+   border-radius: 4px;
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   border: none;
+}
+
+#listButtons a:hover
+{
+   background-color: #557083;
+   color: white;
+   cursor: pointer;
+}
+
+#listButtons a:active
+{
+   background-color: grey;
+}
+
+/* Part dedicated to ratings */
+
+.listRatings
+{
+   width: 50%;
+   min-width: 800px;
+   margin: auto;
+   margin-top: 40px;
+}
+
+.listRatings p
+{
+   font-family: "Arial", "serif";
+   font-size: 14px;
+   text-align: center;
+}
+
+/* Miscellaneous */
+
+.clear
+{
+   width: 100%;
+   clear: both;
+}

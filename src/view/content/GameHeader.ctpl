@@ -1,0 +1,18 @@
+<div id="mediaContainer">
+<div class="mediaHeaderThumbnail" style="background: url('{$thumbnail}') no-repeat top center;">
+   <a href="{$link}"></a>
+</div>
+<div class="mediaHeaderContent">
+   <h1>
+      <a href="{$link}">{$title}</a>
+      {$editionIcons}
+   </h1>
+   <p>
+      Jeu de genre <strong>{$genre}</strong>, développé par <strong>{$developer}</strong>.<br/>
+      Publié par <strong>{$publisher}</strong> le <strong>{$publicationDate}</strong>.<br/>
+      {$hardware}
+      {$aliases}
+   </p>
+</div>
+<div style="clear: both;"></div>
+</div>

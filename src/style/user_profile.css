@@ -1,0 +1,55 @@
+/* CSS for user profile */
+
+#userDetailsContainer
+{
+   margin: auto;
+   text-align: center;
+}
+
+#userDetailsContainer p
+{
+   font-size: 14px;
+   font-family: "Arial", "Serif";
+}
+
+#articlesContainer
+{
+   margin-top: 30px;
+   margin-bottom: 30px;
+   display: block;
+}
+
+#postsContainer
+{
+   display: block;
+}
+
+#articlesPool
+{
+   display: block;
+   margin: auto;
+}
+
+@media screen and (max-width: 1199px)
+{
+   #articlesPool
+   {
+      width: 800px;
+   }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1599px)
+{
+   #articlesPool
+   {
+      width: 1200px;
+   }
+}
+
+@media screen and (min-width: 1600px)
+{
+   #articlesPool
+   {
+      width: 1600px;
+   }
+}

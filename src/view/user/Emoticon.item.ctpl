@@ -1,0 +1,16 @@
+<div class="emoticonBlock" data-id-emoticon="{$ID}">
+   <h1><span class="emoticonName">{$name}</span><div style="float: right;">{$interaction}</div></h1>
+   <div class="emoticonDisplay">
+      {$img}
+   </div>
+   <div class="emoticonDetails">
+      <p>
+         <strong>Code (suggéré):</strong> <span class="suggestedShortcut">{$shortcut}</span><br/>
+         {switch:userShortcut||
+yes & <strong>Code (utilisé):</strong> <span class="usedShortcut">[0]</span><br/>}
+         {switch:uploader||
+yes & Proposé par <a href="./Posts.php?author=[0]">[0]</a><br/>}
+         Uploadé le {$date}
+      </p>
+   </div>
+</div>

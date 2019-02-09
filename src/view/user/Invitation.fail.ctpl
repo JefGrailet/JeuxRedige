@@ -1,0 +1,8 @@
+<h1>Erreur lors de l'inscription sur invitation</h1>
+<p>
+{switch:error||
+missingKey & La clé d'invitation est manquante. Veuillez utiliser un lien valide.|
+noInvitation & Cette invitation n'existe pas.|
+alreadyRegistered & Il y a déjà un compte pour l'adresse e-mail associée à cette invitation.|
+dbError & Impossible de récupérer les détails de cette invitation. Réessayez plus tard.}
+</p>

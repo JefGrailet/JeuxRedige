@@ -1,0 +1,36 @@
+<div class="reviewBlock" id="{$ID}">
+   {$gameThumbnail}
+   <div class="reviewContent">
+      <div class="reviewTop">
+         <p class="reviewRating" style="{$ratingStyle}">{$ratingStr}</p>
+         <p class="reviewTitle">{$title}</p>
+         <p class="reviewRatings"><span class="commentableRatings">{$ratings}</span></p>
+         <div class="clear"></div>
+      </div>
+      <div class="fullContent">
+         {$comment}
+         <div class="contentBottom">
+            <div class="miniTropes">{$miniTropes}</div>
+            <div class="contentAuthor">
+               <div class="contentAuthorAvatar"><img src="{$authorAvatar}" alt="Avatar"/></div>
+               <div class="contentAuthorPseudo">{$authorPseudo}</div>
+               <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+         </div>
+      </div>
+   </div>
+   <div class="clear"></div>
+   <div {switch:ratingsDisplay||hidden & style="display:none;" }class="ratings" data-voting-allowed="{$voteActivation}">
+      <div class="relevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">C'est pertinent !</p></div>
+         <div class="ratingsRight">{$relevant}</div>
+         <div class="clear"></div>
+      </div>
+      <div class="irrelevantRatings">
+         <div class="ratingsLeft"><p class="{$voteButtonStyle}">Bof...</p></div>
+         <div class="ratingsRight">{$irrelevant}</div>
+         <div class="clear"></div>
+      </div>
+   </div>
+</div>

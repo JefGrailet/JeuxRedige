@@ -1,0 +1,20 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+      <title>Inscription sur Project AG</title>
+   </head>
+   <body>
+   <p style="font-family: 'arial', 'serif'; font-size: 15px; text-align: justify;">
+   Cher/Chère {$pseudo},<br/>
+   <br/>
+   Merci d'avoir fait une demande de compte sur Project AG. Afin de pouvoir vous connecter avec
+   votre nouveau compte, vous devez toutefois confirmer celui-ci à l'aide du lien ci-contre.<br/>
+   <br/>
+   <a href="{$confirmLink}">{$confirmLink}</a><br/>
+   <br/>
+   A très bientôt,<br/>
+   <br/>
+   Le webmaster<br/>
+   admin@projectag.org</p>
+   </body>
+</html>

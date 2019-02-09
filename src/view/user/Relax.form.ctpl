@@ -1,0 +1,20 @@
+<h1>Relaxer</h1>
+<p>En cas de sanction abusive ou toute autre circonstance exceptionnelle, vous pouvez utiliser le 
+formulaire ci-contre pour "relaxer" l'utilisateur de ses sanctions, c.-à-d. les lever pour qu'il 
+puisse de nouveau se connecter. Une trace des sanctions courantes sera néanmoins gardée, bien 
+qu'elles seront signalées comme "relaxées".
+<br/>
+{switch:display||
+dbError & <br/><span style="color:red;">Une erreur inconnue est survenue lors de l'opération.</span><br/>|
+missingMotif & <br/><span style="color:red;">Veuillez indiquer un motif.</span><br/>}
+</p>
+<form action="./EditUser.php?user={$pseudo}" method="post">
+<p>
+<input type="hidden" name="dataToEdit" value="relax"/>
+<label for="motif">Motif (visible par l'utilisateur):</label><br/>
+<br/>
+<textarea name="motif" rows="10" placeholder="Entrez un motif."></textarea><br/>
+<br/>
+<input type="submit" name="sent" value="Relaxer" />
+</p>
+</form>

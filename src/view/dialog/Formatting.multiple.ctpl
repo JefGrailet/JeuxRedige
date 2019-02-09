@@ -1,0 +1,148 @@
+<div id="addHyperlink" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter un hyperlien</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="hyperlink">URL :</label></td>
+            <td class="integrateColumn2" colspan="2"><input type="text" name="hyperlink"/></td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="hyperlink_title">Titre :</label></td>
+            <td class="integrateColumn3"><input type="text" name="hyperlink_title"/></td>
+            <td class="integrateColumn4">Le titre est facultatif.</td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="addReference" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter une référence vers un autre message</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn5"><label for="index_post">Index :</label></td>
+            <td class="integrateColumn6"><input type="text" name="index_post"/></td>
+            <td class="integrateColumn7">Le nombre à côté du # en début de message.</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn5"><label for="reference_author">Auteur :</label></td>
+            <td class="integrateColumn6"><input type="text" name="reference_author"/></td>
+            <td class="integrateColumn7">L'auteur du message (facultatif).</td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="integrateImg" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Intégrer une image ou un clip</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="url_img">URL :</label></td>
+            <td class="integrateColumn2" colspan="2"><input type="text" name="url_img"/></td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="format_img">Format :</label></td>
+            <td class="integrateColumn3">
+               <select name="format_img">
+                  <option value="mini">Miniature</option>
+                  <option value="1.0">Dimensions originales</option>
+                  <option value="0.5">Dimensions x0.5 (images seulement)</option>
+                  <option value="1.5">Dimensions x1.5 (images seulement)</option>
+                  <option value="2.0">Dimensions x2 (images seulement)</option>
+                  <option value="3.0">Dimensions x3 (images seulement)</option>
+                  <option value="5.0">Dimensions x5 (images seulement)</option>
+               </select>
+            </td>
+            <td class="integrateColumn4">Uploads uniquement</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="floating_img">Flottement :</label></td>
+            <td class="integrateColumn3">
+               <select name="floating_img">
+                  <option value="normal">Aucun</option>
+                  <option value="left">A gauche</option>
+                  <option value="right">A droite</option>
+               </select>
+            </td>
+            <td class="integrateColumn4">Uploads uniquement</td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="comment_img">Note :</label></td>
+            <td class="integrateColumn2" colspan="2">
+               <input type="text" name="comment_img" maxlength="250" placeholder="Max. 250 caractères, miniatures uniquement"/>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="integrateVideo" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Intégrer une video</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="url_video">URL :</label></td>
+            <td class="integrateColumn2"><input type="text" name="url_video"/></td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="pickColor" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Changer la couleur du texte</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="colorPickColumn1"><label for="red_comp">Rouge :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="red_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="red" style="background-color: rgb(255,0,0);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn1"><label for="green_comp">Vert :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="green_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="green" style="background-color: rgb(0,255,0);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn1"><label for="blue_comp">Bleu :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="blue_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="blue" style="background-color: rgb(0,0,255);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn4" colspan="2">Résultat</td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="mix" style="background-color: rgb(255,255,255);"></div></td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Utiliser cette couleur</span>
+         <br/>
+      </p>
+   </div>
+</div>

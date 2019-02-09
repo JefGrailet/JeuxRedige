@@ -1,0 +1,9 @@
+<div id="articlesContainer">
+   <h1 class="centeredTitle">Les articles publiés par {$user}</h1>
+   <div id="articlesPool">
+      <div id="poolContent">
+      {$articles}
+      </div>
+   </div>
+   <div style="clear: both;"></div>
+</div>

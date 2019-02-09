@@ -1,0 +1,8 @@
+<h1>Cette opération n'est plus nécessaire</h1>
+<p>Vous êtes connecté avec le pseudonyme {$pseudo}. 
+{switch:operation||
+registration & Aucune autre inscription n'est requise.|
+logIn & Aucune opération supplémentaire pour rester connecté n'est requise.|
+confirmation & Aucune autre confirmation de votre compte n'est requise.|
+passwordReset & Si toutefois vous aviez oublié votre mot de passe actuel, vous pouvez 
+simplement vous déconnecter et suivre la procédure pour réinitialiser celui-ci.}</p>

@@ -1,0 +1,10 @@
+<h1 class="centeredTitle" id="topics">Sujets associés</h1>
+<div id="thumbnailsPool">
+   {$thumbnails}
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p><span class="backBlack">Pages :</span> |</p><br/><br/>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nbsp;...&nbsp;}
+   {switch:allTopics||yes & <a href="[0]" class="prettyLink">Voir tous les sujets ([1])</a>}
+   <a target="blank" href="./NewTopic.php?tags={$gameTitle}" class="prettyLink">Nouveau sujet</a>
+</div>

@@ -1,0 +1,47 @@
+<div class="plainBlock">
+<h1>Ajouter un jeu dans la base de données</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs obligatoires.|
+tooLongData & les données que vous avez proposées sont trop longues.|
+dbError & un problème avec la base de données est survenu lors de la création du jeu. 
+Réessayez plus tard ou contactez l'administrateur.|
+invalidTitle & ce titre de jeu n'est pas disponible.|
+invalidThumbnail & vous devez créer une vignette personalisée.|
+invalidGenre & ce genre de jeu n'est pas disponible dans la base de données.|
+invalidHardware & ce(s) support(s) ne sont pas disponibles dans la base de données.|
+invalidDate & la date de sortie du jeu est mal formatée.}
+<form action="./NewGame.php" method="post">
+<p>
+<input type="text" name="tag" value="{$tag}" size="60" maxlength="100" placeholder="Entrez le titre du jeu"/><br/>
+<br/>
+<img src="{$thumbnail}" alt="Vignette du sujet" style="cursor:pointer;" id="previewThumbnail" 
+onClick="javascript:DefaultLib.openDialog('#customThumbnail')" title="Cliquez pour éditer"/><br/>
+<br/>
+<label for="genre">Genre:</label> {select:genre}<br/>
+<br/>
+<label for="publisher">Editeur:</label> 
+<input type="text" name="publisher" value="{$publisher}" size="59" maxlength="50"/><br/>
+<br/>
+<label for="developer">Studio:</label> 
+<input type="text" name="developer" value="{$developer}" size="60" maxlength="50"/><br/>
+<br/>
+<label for="publication_day">Date (jour/mois/année)*:</label> 
+{select:publication_day} 
+{select:publication_month} 
+{select:publication_year}<br/>
+<br/>
+<label for="hardware[]">Supports:</label> 
+{multiselect:hardware}<br/>
+<br/>
+<input type="text" id="alias" name="alias" size="50" maxlength="50" placeholder="Entrez un alias (max. 10)" autocomplete="off"/> 
+<span id="aliasTest">
+</span>
+<br/><br/>
+<span class="aliasesList">
+{$aliasesList}
+</span>
+<input type="hidden" name="aliases" value="{$aliases}"/>
+<input type="hidden" name="thumbnail" value="{$thumbnail}"/>
+<input type="submit" name="sent" value="Ajouter ce jeu" /></p>
+</form>
+</div>

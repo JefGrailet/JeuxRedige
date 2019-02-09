@@ -1,0 +1,4 @@
+<h1>Opération non autorisée</h1>
+<p>{switch:reason||
+notPermitted & Vous n'avez pas les droits requis pour inviter de nouveaux utilisateurs.|
+notConnected & Vous devez être connecté pour effectuer cette opération.}</p>

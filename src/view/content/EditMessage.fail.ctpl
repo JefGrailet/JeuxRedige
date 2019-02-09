@@ -1,0 +1,14 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer un message.|
+missingPost & Le message que vous souhaitez éditer est manquant.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez réessayer
+plus tard ou prévenir l'administrateur.|
+nonexistingPost & Le message que vous souhaitez éditer n'existe pas ou plus.|
+missingTopic & Le sujet auquel ce message est rattaché n'existe pas ou plus.|
+lockedTopic & Le sujet auquel ce message est rattaché est verrouillé. L'édition de message est 
+donc, par conséquent, bloquée.|
+privateTopic & Le sujet auquel ce message est rattaché est privé, et vous ne faites pas partie des
+utilisateurs autorisés à lire ce sujet.|
+forbiddenEdition & Vous n'êtes pas autorisé à modifier ce message.|
+automaticMessage & Vous ne pouvez pas modifier un message automatique.}</p>

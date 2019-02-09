@@ -1,0 +1,12 @@
+{switch:articles||
+yes & <div id="articlesPoolIndex">
+   <div id="poolContent">
+      [0]
+   </div>
+   <div class="clear"></div>
+</div>}
+{switch:thumbnails||
+yes & <div id="thumbnailsPoolIndex">
+   [0]
+   <div class="clear"></div>
+</div>}

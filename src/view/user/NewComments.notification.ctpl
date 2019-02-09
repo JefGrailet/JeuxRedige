@@ -1,0 +1,4 @@
+{$user} a commenté votre {$title}. Le sujet associé créé pour l'occasion a été paramétré 
+automatiquement, mais vous pouvez le <a href="{$editLink}">modifier</a> si vous le souhaitez.<br/>
+<br/>
+<a href="{$topicLink}">Cliquez ici</a> pour lire le commentaire de {$user}.

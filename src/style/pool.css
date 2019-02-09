@@ -1,0 +1,484 @@
+/* Thumbnail container; the size depends on the browser window width in pixels. */
+
+#thumbnailsPool, #thumbnailsPoolIndex, #tropesPool
+{
+   display: block;
+   margin: auto;
+}
+
+#thumbnailsPoolIndex
+{
+   margin-top: 20px;
+}
+
+@media screen and (max-width: 1079px)
+{
+   #thumbnailsPool, #thumbnailsPoolIndex, #tropesPool
+   {
+      width: 800px;
+   }
+}
+
+@media screen and (min-width: 1080px) and (max-width: 1349px)
+{
+   #thumbnailsPool, #tropesPool
+   {
+      width: 1080px;
+   }
+}
+
+@media screen and (min-width: 1080px)
+{
+   #thumbnailsPoolIndex
+   {
+      width: 1080px;
+   }
+}
+
+@media screen and (min-width: 1350px) and (max-width: 1619px)
+{
+   #thumbnailsPool, #tropesPool
+   {
+      width: 1350px;
+   }
+}
+
+@media screen and (min-width: 1620px)
+{
+   #thumbnailsPool, #tropesPool
+   {
+      width: 1620px;
+   }
+}
+
+/* Emoticons have their own dedicated container. */
+
+#emoticonsPool, #lineItemsPool, #tropesPool
+{
+   display: block;
+   margin: auto;
+}
+
+#lineItemsPool
+{
+   width: 800px;
+}
+
+@media screen and (max-width: 1199px)
+{
+   #emoticonsPool
+   {
+      width: 800px;
+   }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1599px)
+{
+   #emoticonsPool
+   {
+      width: 1200px;
+   }
+}
+
+@media screen and (min-width: 1600px)
+{
+   #emoticonsPool
+   {
+      width: 1600px;
+   }
+}
+
+#articlesPool, #articlesPoolIndex
+{
+   display: block;
+   margin: auto;
+}
+
+#articlesPoolIndex
+{
+   margin-top: 20px;
+}
+
+@media screen and (max-width: 1199px)
+{
+   #articlesPool, #articlesPoolIndex
+   {
+      width: 800px;
+   }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1599px)
+{
+   #articlesPool
+   {
+      width: 1200px;
+   }
+}
+
+@media screen and (min-width: 1200px)
+{
+   #articlesPoolIndex
+   {
+      width: 1200px;
+   }
+}
+
+@media screen and (min-width: 1600px)
+{
+   #articlesPool
+   {
+      width: 1600px;
+   }
+}
+
+#emoticonsPool .poolError, #lineItemsPool .poolError, #articlesPool .poolError
+{
+   width: 100%;
+   margin: 0px;
+   color: black;
+   font-family: "calibri", "arial", "serif";
+   font-size: 15px;
+   text-align: center;
+}
+
+/* .clear such that any thumbnail pool "closes" correctly. */
+
+.clear
+{
+   clear: both;
+   width: 100%;
+}
+
+/* Elements to centered elements such as page lists or specific buttons. */
+
+.centeredContent
+{
+   width: 100%;
+   min-width: 800px;
+   margin: 20px 0px;
+   text-align: center;
+}
+
+.centeredContent p
+{
+   margin: 0px;
+   color: black;
+   font-family: "calibri", "arial", "serif";
+   font-size: 15px;
+}
+
+.centeredContent a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.centeredContent a:hover
+{
+   color: blue;
+}
+
+/* Gives the links the aspect of a button in order to enhance visual aspect */
+
+.centeredContent .prettyLink
+{
+   text-decoration: none;
+   background-color: #383A49;
+   color: white;
+   padding: 10px 20px;
+   border-radius: 4px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 12px;
+   border: none;
+}
+
+.centeredContent .prettyLink:hover
+{
+   background-color: #557083;
+   color: white;
+   cursor: pointer;
+}
+
+.centeredContent .prettyLink:active
+{
+   background-color: grey;
+}
+
+/* Similar CSS but for text only (pages being viewed) */
+
+.prettyText
+{
+   background-color: rgb(100,100,100);
+   color: white;
+   font-weight: bold;
+   padding: 10px 20px;
+   border-radius: 4px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 12px;
+   border: none;
+}
+
+/*
+* Style for user blocks, since they will only occur in "pools" (therefore, a separate stylesheet 
+* would be unnecessary). 
+*/
+
+.userBlock
+{
+   float: left;
+   margin: 0px 10px 10px 0px;
+}
+
+.userBlockAvatar
+{
+   width: 125px;
+   height: 125px;
+   border-radius: 5px;
+}
+
+.userBlockAvatar a
+{
+   display: block;
+   height: 100%;
+   width: 100%;
+   text-decoration: none;
+}
+
+.userBlock h1
+{
+   width: 115px;
+   margin: 10px 0px 0px;
+   border-radius: 5px;
+   background-color: #383A49;
+   color: white;
+   font-size: 11px;
+   padding: 5px;
+   text-align: center;
+   border: none;
+}
+
+.userBlock h1 a
+{
+   text-decoration: none;
+   font-family: "arial", "calibri", "serif";
+   font-size: 11px;
+   color: white;
+   padding: 0px;
+   margin: 0px;
+}
+
+.userBlock a:hover
+{
+   color: #5599ff;
+}
+
+/*
+* Similarly, style for emoticon blocks. 
+*/
+
+.emoticonBlock
+{
+   position: relative;
+   float: left;
+   width: 390px;
+   height: 122px;
+   margin: 0px 5px 5px 0px;
+   background-color: white;
+   border-radius: 5px;
+   padding: 0px;
+}
+
+.emoticonBlock h1
+{
+   font-family: "Calibri", "Arial", "Serif";
+   font-size: 16px;
+   text-align: justify;
+   color: white;
+   background-color: #383A49;
+   border-radius: 5px 5px 0px 0px;
+   padding: 5px 10px 5px 10px;
+   margin-top: 0px;
+   margin-bottom: 0px;
+}
+
+.emoticonBlock .buttonMap, .emoticonBlock .buttonUnmap, .emoticonBlock .buttonEdit, 
+.emoticonBlock .buttonEditShortcut, .emoticonBlock .buttonDelete
+{
+   vertical-align: -20%;
+   padding: 0px;
+   margin: 0px;
+   cursor: pointer;
+}
+
+.emoticonDisplay
+{
+   float: left;
+   width: 120px;
+   height: 90px;
+   margin-left: 5px;
+   margin-bottom: 5px;
+   padding: 0px;
+   text-align: center;
+   position: relative;
+}
+
+/* From: http://stackoverflow.com/questions/7273338/how-to-vertically-align-an-image-inside-div */
+
+.emoticonDisplay img
+{
+   max-height: 100%;  
+   max-width: 100%; 
+   width: auto;
+   height: auto;
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   margin: auto;
+}
+
+.emoticonDetails
+{
+   float: right;
+   width: 260px;
+   height: 90px;
+   margin-bottom: 5px;
+   margin-right: 5px;
+}
+
+.emoticonDetails p
+{
+   font-family: "Calibri", "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   padding: 3px;
+   margin: 5px 5px;
+}
+
+.emoticonDetails a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.emoticonDetails a:hover
+{
+   color: blue;
+}
+
+/* Style for pins and alerts */
+
+.pinBlock, .alertBlock
+{
+   margin: auto;
+   width: 800px;
+   height: 30px;
+   margin: 0px 5px 5px 0px;
+   background-color: white;
+   border-radius: 5px;
+   padding: 0px;
+}
+
+.pinBlock p, .alertBlock p
+{
+   font-family: "Calibri", "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   padding: 3px;
+   margin: 3px 3px;
+}
+
+.pinBlockLeft, .alertBlockLeft
+{
+   height: 30px;
+   float: left;
+   background-color: #383A49;
+   color: white;
+   border-radius: 5px 0px 0px 5px;
+}
+
+.pinBlockLeft
+{
+   width: 325px;
+}
+
+.alertBlockLeft
+{
+   width: 600px;
+}
+
+.pinBlockAvatar, .alertBlockAvatar
+{
+   height: 30px;
+   width: 30px;
+   float: left;
+   border-radius: 5px 0px 0px 5px;
+   margin-right: 10px;
+}
+
+.pinBlockRight, .alertBlockRight
+{
+   height: 30px;
+   float: right;
+   text-align: justify;
+}
+
+.pinBlockRight
+{
+   width: 475px;
+}
+
+.alertBlockRight
+{
+   width: 200px;
+}
+
+.pinBlock img, .alertBlock img
+{
+   float: right;
+   vertical-align: -35%;
+   padding: 0px;
+   margin: 0px 5px 0px 0px;
+}
+
+.pinInfo, .alertInfo
+{
+   cursor: help;
+}
+
+.pinDelete
+{
+   cursor: pointer;
+}
+
+.pinBlockLeft a, .alertBlockLeft a
+{
+   text-decoration: none;
+   color: #8cb5f3;
+}
+
+.pinBlockLeft a:hover, .alertBlockLeft a:hover
+{
+   color: white;
+}
+
+.pinBlockRight .comment
+{
+   cursor: pointer;
+}
+
+.pinBlockRight input[type=text]
+{
+   font-size: 12px;
+   margin: 0px;
+   padding: 1px;
+   width: 350px;
+}
+
+.pinBlockRight button
+{
+   font-size: 12px;
+   vertical-align: 10%;
+   padding: 2px 5px;
+}

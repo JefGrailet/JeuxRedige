@@ -1,0 +1,12 @@
+<h1 class="centeredTitle">Liste des codes vidéoludiques</h1>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="tropesPool">
+   {$thumbnails}
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+   <a href="./NewTrope.php" class="prettyLink">Nouveau code</a>
+</div>

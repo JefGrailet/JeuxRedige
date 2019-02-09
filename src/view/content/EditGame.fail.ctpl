@@ -1,0 +1,8 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer des jeux.|
+forbiddenAccess & Vous devez avoir accès aux fonctions avancées pour pouvoir éditer des jeux.|
+missingGame & Le titre du jeu à éditer est manquant.|
+nonexistingGame & Le jeu que vous souhaitez éditer n'existe pas.|
+dbError & Une erreur est survenue lors de la lecture de données liées aux jeux. Réessayez plus 
+tard ou contactez l'administrateur.}</p>

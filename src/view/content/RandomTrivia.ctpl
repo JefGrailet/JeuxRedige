@@ -1,0 +1,8 @@
+<h1 class="centeredTitle">Le saviez-vous ?</h1>
+<div id="triviaContainer">
+   {$pieces}
+   <br/>
+</div>
+<div class="centeredContent">
+   <a href="./RandomTrivia.php" class="prettyLink">Plus d'anecdotes !</a>
+</div>

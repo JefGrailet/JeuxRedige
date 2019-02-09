@@ -1,0 +1,20 @@
+<h1 class="centeredTitle">Emoticônes</h1>
+<div id="emoticonsPool">
+   {switch:error||
+noEmoticon1 & <p class="poolError">Vous n'avez actuellement aucune émoticône.<br/><br/><br/></p>|
+noEmoticon2 & <p class="poolError">Il n'y a actuellement aucune émoticône dans la librairie.<br/><br/><br/></p>|
+dbError & <p class="poolError">Nous rencontrons actuellement des difficultés avec la base de 
+données. Revenez plus tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p class="poolError">Une erreur est survenue lors de la génération des 
+vignettes. Réessayez plus tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>
+<div class="centeredContent">
+   {switch:myEmoticons||
+link & <a href="./MyEmoticons.php" class="prettyLink">Mes émoticônes</a>&nbsp; |
+viewed & <span class="prettyText" id="selectedLibrary" data-library="user">Mes émoticônes</span>&nbsp; }
+   {switch:emoticonsLibrary||
+link & <a href="./MyEmoticons.php?filter=global" class="prettyLink">Librairie d'émoticônes</a>&nbsp; |
+viewed & <span class="prettyText" id="selectedLibrary" data-library="global">Librairie d'émoticônes</span>&nbsp; }
+   {switch:newEmoticonDialog||
+yes & <a href="#" class="prettyLink" id="newEmoticonDialog">Nouvelle émoticône</a>&nbsp; }
+</div>

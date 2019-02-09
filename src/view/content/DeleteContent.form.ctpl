@@ -1,0 +1,17 @@
+<h1>Supprimer un contenu</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+dbError & un problème avec la base de données est survenu lors de la suppression. Réessayez plus tard.}
+<form id="deleteForm" action="./DeleteContent.php?id_content={$contentID}" method="post">
+<p>
+<strong>Contenu à supprimer:</strong> <a href="{$contentURL}">{$contentTitle}</a><br/>
+<br/>
+{switch:related_content||
+topic & Cette page supprimera uniquement ce contenu. Le sujet de commentaires sera toujours en 
+ligne après suppression.<br/><br/>|
+article & Cette page supprimera uniquement ce contenu. L'article qui y est attaché sera toujours en 
+ligne après suppression.<br/><br/>|
+both & Cette page supprimera uniquement ce contenu. Le sujet de commentaires ainsi que l'article 
+qui y est attaché sera toujours en ligne après suppression.<br/><br/>}
+<input type="submit" name="delete" value="Je supprime définitivement"/>
+</p>
+</form>

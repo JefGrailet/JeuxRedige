@@ -1,0 +1,4 @@
+<div data-game="{$title}" class="mediaThumbnail" {$styleAndData}>
+   <h1 class="bottomTitle">{$title}</h1>
+   <a href="{$URL}"><div class="clickable"></div></a>
+</div>

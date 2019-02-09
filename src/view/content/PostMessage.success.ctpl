@@ -1,0 +1,5 @@
+<h1>Message envoyé avec succès</h1>
+<p>Vous allez être redirigé dans quelques secondes.<br/>
+<br/>
+<a href="{$target}">Cliquez ici</a> si le sujet et le nouveau message ne se chargent pas 
+automatiquement.</p>

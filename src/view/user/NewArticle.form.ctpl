@@ -1,0 +1,33 @@
+<div class="articleEditBlock">
+<h1>Créer un article</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs.|
+noKeywords & vous devez préciser au moins un mot-clef.|
+tooLongData & les titres que vous avez proposés sont trop longs.|
+dbError & un problème avec la base de données est survenu lors de la création de l'article. 
+Réessayez plus tard ou contactez l'administrateur.|
+invalidThumbnail & la nouvelle vignette est introuvable; créez-en une nouvelle.|
+invalidType & le type d'article précisé est invalide. Choisissez un des types proposés.}
+<form action="./NewArticle.php" method="post">
+<p>
+<input type="text" name="title" value="{$title}" size="60" maxlength="100" placeholder="Entrez un titre"/><br/>
+<br/>
+<input type="text" name="subtitle" value="{$subtitle}" size="60" maxlength="100" placeholder="Entrez un sous-titre"/><br/>
+<br/>
+<img src="{$thumbnailPath}" alt="Vignette du sujet" style="cursor:pointer;" id="previewThumbnail" 
+onClick="javascript:DefaultLib.openDialog('#customThumbnail')" title="Cliquez pour éditer"/><br/>
+<br/>
+<label for="type">Type d'article:</label> {select:type}<br/>
+<br/>
+<input type="text" id="keyword" name="keyword" data-creation="yes" size="60" maxlength="100" placeholder="Entrez un mot-clef (max. 10)" autocomplete="off"/>
+<span class="suggestions" id="keywordsSuggestions">
+</span>
+<br/><br/>
+<span class="keywordsList">
+{$keywordsList}
+</span>
+<input type="hidden" name="keywords" value="{$keywords}"/>
+<input type="hidden" name="thumbnail" value="{$thumbnail}"/>
+<input type="submit" name="sent" value="Créer l'article" /></p>
+</form>
+</div>

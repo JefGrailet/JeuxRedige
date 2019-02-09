@@ -1,0 +1,23 @@
+<div id="addHyperlink" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter un hyperlien</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="hyperlink">URL :</label></td>
+            <td class="integrateColumn2" colspan="2"><input type="text" name="hyperlink"/></td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="hyperlink_title">Titre :</label></td>
+            <td class="integrateColumn3"><input type="text" name="hyperlink_title"/></td>
+            <td class="integrateColumn4">Le titre est facultatif.</td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>

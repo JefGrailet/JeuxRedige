@@ -1,0 +1,8 @@
+<h1>Erreur lors de la lecture du sujet</h1>
+<p>{switch:error||
+wrongURL & L'adresse que vous employez est incomplète et ne permets pas de retrouver un sujet 
+et ses messages.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez 
+réessayer plus tard.|
+missingTopic & Le sujet que vous voulez consulter n'a pas été trouvé dans la base de données 
+ou n'existe plus.}</p>

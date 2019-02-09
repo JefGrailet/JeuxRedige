@@ -1,0 +1,23 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+      <title>{switch:type||
+newAccount & Confirmation de votre compte sur Project AG|
+newEmail & Confirmation de votre nouvelle adresse (Project AG)}</title>
+   </head>
+   <body>
+   <p style="font-family: 'arial', 'serif'; font-size: 15px; text-align: justify;">
+   Cher/Chère {$pseudo},<br/>
+   <br/>
+   {switch:type||
+newAccount & Votre compte a été confirmé avec succès. Vous pouvez dès à présent vous connecter en
+ cliquant sur "Se connecter" en haut de page sur Project AG.|
+newEmail & Votre nouvelle adresse a été confirmée avec succès. Vous pouvez de nouveau utiliser
+ votre compte sur Project AG.}<br/>
+   <br/>
+   A très bientôt,<br/>
+   <br/>
+   Le webmaster<br/>
+   admin@projectag.org</p>
+   </body>
+</html>

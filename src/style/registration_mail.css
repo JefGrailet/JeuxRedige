@@ -1,0 +1,22 @@
+/* Style CSS pour les e-mails d'inscription. */
+
+p
+{
+   font-family: "calibri", "arial", "serif";
+   font-size: 13px;
+   text-align: justify;
+}
+
+a
+{
+   font-family: "calibri", "arial", "serif";
+   font-size: 13px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+a:hover
+{
+   color: black;
+}

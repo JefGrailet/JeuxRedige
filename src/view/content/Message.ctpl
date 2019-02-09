@@ -1,0 +1,18 @@
+<div class="postBlock" id="{$index}">
+<div class="postBlockLeftColumn">
+<div class="postBlockAvatar" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+<h1>{$authorPseudo}</h1>
+</div>
+<div class="postBlockText">
+<div class="postBlockTextTop">
+   <div class="postBlockTextTopLeftSide">
+      <p>{$topLeftPart} - {$date}</p>
+   </div>
+   <div class="clear"></div>
+</div>
+<div id="wrapper{$ID}">
+{$content}
+</div>
+</div>
+<div class="clear"></div>
+</div>

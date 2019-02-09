@@ -1,0 +1,22 @@
+<div class="articleEditBlock">
+<h1>Publier un article</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+tooManyTopics & vous avez créé un nouveau sujet il y a moins d'une demi-heure, or la publication de 
+l'article implique la création d'un nouveau sujet. Veuillez réessayer un peu plus tard.|
+dbError & un problème avec la base de données est survenu lors de la publication. Réessayez plus tard.}
+<form id="publishForm" action="./PublishArticle.php?id_article={$articleID}" method="post">
+<p>
+<strong>Article:</strong> <a href="./EditArticle.php?id_article={$articleID}">{$fullArticleTitle}</a><br/>
+<br/>
+Êtes-vous certain de vouloir publier cet article ? Sa structure ne pourra plus être modifiée. Un 
+sujet de réactions sera créé dans le même temps.<br/>
+<br/>
+<input type="checkbox" name="anon_posting"{switch:anonChecked||checked &  checked="checked"}> 
+<label for="anon_posting">Autoriser les anonymes à participer au sujet de réactions</label><br/>
+<input type="checkbox" name="enable_uploads"{switch:uploadsChecked||checked &  checked="checked"}> 
+<label for="enable_uploads">Autoriser les uploads sur le sujet de réactions</label><br/>
+<br/>
+<input type="submit" name="publish" class="articlePublish" value="Je publie définitivement cet article"/>
+</p>
+</form>
+</div>

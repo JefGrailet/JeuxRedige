@@ -1,0 +1,63 @@
+<div class="plainBlock">
+<h1>Rédiger une évaluation</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez au moins fournir un jeu valide, un titre et un commentaire.|
+titleTooLong & les données que vous avez proposées sont trop longues.|
+dbError & un problème avec la base de données est survenu lors de l'enregistrement. 
+Réessayez plus tard ou contactez l'administrateur.|
+invalidGame & ce jeu n'est pas répertorié dans la base de données.|
+duplicateReview & vous avez déjà évalué ce jeu.|
+invalidRating & cette évaluation n'est pas valide. Choisissez une des options proposées.|
+invalidID & l'article à relier à cette évaluation n'existe pas ou n'est pas publié.|
+invalidURL & l'URL du lien externe proposé n'est pas valide.|
+missingURLTitle & si vous suggérez un lien externe, veuillez donner un titre à celui-ci.}
+<form action="./NewReview.php" method="post">
+<p>
+{switch:displayedGame||
+chosen & <span id="gameSelected"><strong>Jeu sélectionné:</strong> <a href="[1]">[0]</a></span>|
+pick & <span id="gameToSelect">
+<input type="text" name="selectGame" size="60" maxlength="100" placeholder="Entrez un jeu (répertorié dans la base de données)" autocomplete="off"/>
+<span class="suggestions" id="gamesSuggestions">
+</span>
+</span>}<br/>
+<br/>
+<label for="rating">Evaluation:</label> {select:rating}<br/>
+<br/>
+<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre pour votre évaluation"/><br/>
+<br/>
+<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>
+<div id="textareaWrapper">
+<p id="editableWrapper"><textarea name="message" placeholder="Entrez un commentaire">{$comment}</textarea></p>
+</div>
+<p>
+<input type="text" id="trope" name="trope" size="60" maxlength="50" placeholder="Entrez un code vidéoludique pertinent (max. 10)" autocomplete="off"/>
+<span class="suggestions" id="tropesSuggestions">
+</span>
+<br/><br/>
+<span class="tropesList">
+{$tropesList}
+</span>
+{$related}
+<input type="hidden" name="game" value="{$game}"/>
+<input type="hidden" name="tropes" value="{$tropes}"/>
+<button type="button" id="autoPreview">Aperçu automatique</button> 
+<input type="submit" name="sent" value="Publier" /></p>
+</form>
+</div>

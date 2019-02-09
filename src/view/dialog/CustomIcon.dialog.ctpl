@@ -1,0 +1,20 @@
+<div id="customIcon" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Générer l'icône à partir d'une image</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="uploadColumn1">
+               <input type="file" name="image" id="uploadIcon"/>
+            </td>
+            <td class="uploadColumn2">Maximum 1 Mo, au format PNG</td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Générer l'icône</span>
+         <br/>
+      </p>
+   </div>
+</div>

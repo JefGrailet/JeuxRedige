@@ -1,0 +1,8 @@
+Titre du sujet: <strong>{$title}</strong><br/>
+<br/>
+<img src="{$thumbnailPath}" alt="Vignette du sujet" title="Cette vignette est automatique. Seul l'auteur pourra la modifier."/><br/>
+<br/>
+{switch:anonChecked||checked & Les anonymes sont autorisés à participer au sujet.<br/>}
+{switch:uploadsChecked||checked & Les uploads sont autorisés.<br/>}
+<br/>
+{$keywordsList}

@@ -1,0 +1,9 @@
+<h1>Détails de l'inscription</h1>
+<p>
+{switch:registration||sponsor & Cet utilisateur s'est inscrit sur invitation de <a href="[0]" 
+target="blank">[0]</a>.|
+presentation & Cet utilisateur s'est inscrit spontanément, et s'est présenté comme suit:<br/>
+<br/>
+<textarea rows="10" readonly>[0]</textarea>|
+nothing & Cet utilisateur s'est inscrit spontanément sans fournir de présentation.}
+</p>

@@ -1,0 +1,8 @@
+<h1>Erreur lors de la lecture du jeu</h1>
+<p>{switch:error||
+wrongURL & L'adresse que vous employez est incomplète et ne permets pas de retrouver un jeu et 
+ses contenus liés.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez 
+réessayer plus tard.|
+missingGame & Le jeu que vous voulez consulter n'a pas été trouvé dans la base de données 
+ou n'existe plus.}</p>

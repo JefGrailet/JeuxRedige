@@ -1,0 +1,2 @@
+<h1>L'article "{$title}" a été supprimé avec succès</h1>
+<p><a href="./MyArticles.php">Liste de mes articles</a></p>

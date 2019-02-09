@@ -1,0 +1,10 @@
+<h1 class="centeredTitle">Sujets associés</h1>
+<div class="centeredContent">
+   {switch:error||
+noTopic & <p>Il n'y a actuellement aucun sujet.<br/><br/><br/></p>|
+dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>|
+badTemplating & <p>Une erreur est survenue lors de la génération des vignettes. Réessayez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>}
+   <a target="blank" href="./NewTopic.php?tags={$gameTitle}" class="prettyLink">Nouveau sujet</a>
+</div>

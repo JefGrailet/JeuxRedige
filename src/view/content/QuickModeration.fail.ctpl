@@ -1,0 +1,8 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+missingID & Aucun sujet n'est renseigné. <a href="./index.php">Cliquez ici</a> pour revenir à l'accueil.|
+missingTopic & Le sujet demandé n'existe pas. <a href="./index.php">Cliquez ici</a> pour revenir à l'accueil.|
+dbError & Une erreur inconnue est survenue lors de la récupération du sujet. Réessayez plus tard et/ou
+prévenez l'administrateur.|
+notConnected & Vous devez être connecté pour réaliser cette opération.|
+opForbidden & Vous n'avez pas les droits pour réaliser cette opération.}</p>

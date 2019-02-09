@@ -1,0 +1,12 @@
+<div class="plainBlock">
+   <h1>Nouvelle réponse</h1>
+   {list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyField & vous devez écrire un message.|
+dbError & un problème avec la base de données est survenu lors de l'envoi du message. Réessayez plus tard.}
+   <form action="./PrivateThread.php?id_thread={$threadID}&base={$base}#{$nextID}" method="post">
+   <p>
+   <textarea rows="10" name="message" placeholder="Ecrivez votre réponse ici"></textarea><br/>
+   <br/>
+   <input type="submit" name="sent" value="Envoyer" /></p>
+   </form>
+</div>

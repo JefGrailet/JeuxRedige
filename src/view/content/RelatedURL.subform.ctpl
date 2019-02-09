@@ -1,0 +1,10 @@
+<strong>Contenu lié</strong><br/>
+<span style="color: grey;">Les évaluations sont pensées pour être courtes. Vous pouvez toutefois 
+les lier à des liens externes pour compléter votre commentaire.</span><br/>
+<br/>
+<input type="text" name="related_url" value="{$related_url}" size="60" maxlength="50" placeholder="URL d'un contenu externe lié (laisser vide si aucun)"/><br/>
+<br/>
+<input type="text" name="related_title" value="{$related_title}" size="60" maxlength="100" placeholder="Titre pour l'URL (laisser vide si aucun lien)"/><br/>
+<br/>
+<input type="hidden" name="related_pick" value="external"/>
+<input type="hidden" name="related_id" value="0"/>

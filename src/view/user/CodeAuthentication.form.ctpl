@@ -1,0 +1,31 @@
+<h1>Réinitialiser mon mot de passe (étape 1)</h1>
+<p>Si vous avez perdu votre mot de passe, vous avez la possibilité d'en créer un nouveau pour
+réutiliser votre compte. Pour ce faire, un e-mail contenant un code de vérification doit vous être
+envoyé sur l'adresse e-mail liée à votre compte pour vérifier que vous êtes bien son titulaire. 
+Indiquez votre pseudonyme.
+{switch:error||
+emptyField & <br/><br/>
+<span style="color: red;">Erreur : vous devez indiquer un pseudonyme.</span>|
+nonexistentAccount & <br/><br/>
+<span style="color: red;">Erreur : ce compte n'existe pas.</span>|
+dbError & <br/><br/>
+<span style="color: red;">Erreur : une erreur inconnue s'est produite lors de la recherche du 
+compte. Réessayez plus tard.</span>|
+notConfirmed & <br/><br/>
+<span style="color: red;">Erreur : ce compte n'est pas confirmé.</span>|
+tooManyAttempts & <br/><br/>
+<span style="color: red;">Erreur : il y a eu trop de tentatives de réinitialisation de mot de 
+passe pour ce compte. De nouvelles tentatives ne seront possibles que 24 heures après la dernière 
+tentative.</span>|
+emailFail & <br/><br/>
+<span style="color: red;">Erreur : un problème est survenu lors de l'envoi de l'e-mail contenant 
+le code de vérification. Réessayez plus tard ou contactez l'administrateur.</span>}
+<br/>
+</p>
+<form action="./PasswordReset.php" method="post">
+<p>
+<label for="pseudo">Pseudonyme :</label> &nbsp;&nbsp;<input type="text" name="pseudo" value="{$pseudo}" size="30"/><br/>
+<br/>
+<input type="submit" name="sent" value="Envoyer le code de vérification" />
+</p>
+</form>

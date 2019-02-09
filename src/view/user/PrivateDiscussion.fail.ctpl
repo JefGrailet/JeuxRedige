@@ -1,0 +1,8 @@
+<h1>Erreur lors de l'accès à la discussion</h1>
+<p>{switch:error||
+wrongURL & L'adresse que vous employez est incomplète et ne permet pas de retrouver une 
+discussion et ses messages.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez 
+réessayer plus tard.|
+missingPing & La discussion que vous voulez consulter n'a pas été trouvée dans la base de données 
+ou n'existe plus.}</p>

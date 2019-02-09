@@ -1,0 +1,14 @@
+<div class="comment" id="{$ID}">
+   <div class="commentLeftColumn">
+      <div class="commentAvatar" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+   </div>
+   <div class="commentText">
+      <div class="commentTextTop">
+         <p class="commentAuthor" {$authorStyle}>{$authorPseudo}</p><p class="commentDate">{$date}</p>
+      </div>
+      <div id="wrapper{$ID}">
+         {$content}
+      </div>
+   </div>
+   <div class="clear"></div>
+</div>

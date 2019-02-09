@@ -1,0 +1,14 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & L'édition de sujets est réservée aux utilisateurs inscrits et autorisés.|
+notAllowed & Vous n'avez actuellement pas le droit de créer/éditer un sujet. Ce droit peut 
+toutefois vous être octroyé sur votre demande si vous avez déjà participé au forum pendant une
+courte durée. Si vous possédiez autrefois ce droit mais qu'il vous a été retiré, veuillez vous 
+adresser à un modérateur ou un administrateur.|
+missingTopic & Le sujet que vous souhaitez éditer est manquant.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données. Veuillez 
+réessayer plus tard ou prévenir l'administrateur.|
+nonexistingTopic & Le sujet que vous souhaitez éditer n'existe pas ou plus.|
+lockedTopic & Le sujet que vous souhaitez éditer est verrouillé. Par conséquent, son édition ainsi
+que l'édition de ses messages est bloquée.|
+forbiddenEdition & Vous n'êtes pas autorisé à éditer ce sujet.}</p>

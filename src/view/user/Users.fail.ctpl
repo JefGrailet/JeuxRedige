@@ -1,0 +1,9 @@
+<h1 class="centeredTitle">Liste des utilisateurs</h1>
+<div class="centeredContent">
+   {switch:error||
+noGame & <p>Aucun utilisateur n'a été trouvé.<br/><br/><br/></p>|
+dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p>Une erreur est survenue lors de la génération de la liste. Réessayez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>

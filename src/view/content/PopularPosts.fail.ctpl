@@ -1,0 +1,11 @@
+{$header}
+<div style="padding-top: 20px; text-align:center;">
+   <p style="font-size: 14px; font-family: 'Arial', 'Calibri', 'Serif';">
+      {switch:error||nothing & Ce sujet ne comporte aucun message avec un score positif ou négatif.|
+noPositive & Ce sujet ne comporte aucun message avec un score positif.|
+noNegative & Ce sujet ne comporte aucun message avec un score négatif.|
+noPins & Vous n'avez aucun message favori dans ce sujet.|
+notLoggedIn & Vous devez être connecté pour voir vos messages favoris dans ce sujet.|
+dbError & Une erreur est survenue lors de la récupération des messages.}
+   </p>
+</div>

@@ -1,0 +1,9 @@
+<h1 class="centeredTitle" id="topics">Listes mentionnant ce jeu</h1>
+<div id="thumbnailsPool">
+   {$thumbnails}
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p><span class="backBlack">Pages :</span> |</p><br/><br/>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nbsp;...&nbsp;}
+   {switch:allLists||yes & <a href="[0]" class="prettyLink">Voir toutes les listes ([1])</a>}
+</div>

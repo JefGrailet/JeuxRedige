@@ -1,0 +1,11 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer un contenu.|
+forbiddenAccess & Vous devez avoir accès aux fonctions avancées pour pouvoir créer du nouveau contenu.|
+oncePerGame & Vous ne pouvez écrire ce type de contenu plusieurs fois pour le même jeu. 
+<a href="[0]">Cliquez ici</a> pour accéder à ce que vous avez déjà écrit.|
+missingID & L'ID du contenu à éditer n'est pas précisé.|
+missingContent & Le contenu recherché n'existe pas ou plus.|
+notYours & Vous essayez d'éditer un contenu qui n'est pas le vôtre.|
+dbError & Une erreur est survenue lors de l'interaction avec la base de données. Réessayez plus 
+tard ou contactez l'administrateur.}</p>

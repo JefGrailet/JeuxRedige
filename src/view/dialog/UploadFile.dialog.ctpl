@@ -1,0 +1,21 @@
+<div id="fileUpload" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Uploader un fichier</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="uploadColumn1">
+               <input type="file" name="newFile" id="uploadFile" multiple/>
+            </td>
+            <td class="uploadColumn2">Maximum 5 Mo</td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;"><strong>Format pris en charge:</strong> JP(E)G, GIF, PNG, MP4, WebM.</span> 
+         <span class="triggerDialog">Uploader</span>
+         <br/>
+      </p>
+   </div>
+</div>

@@ -1,0 +1,33 @@
+<div id="pickColor" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Changer la couleur du texte</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="colorPickColumn1"><label for="red_comp">Rouge :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="red_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="red" style="background-color: rgb(255,0,0);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn1"><label for="green_comp">Vert :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="green_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="green" style="background-color: rgb(0,255,0);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn1"><label for="blue_comp">Bleu :</label></td>
+            <td class="colorPickColumn2"><input type="range" name="blue_comp" min="0" max="255" value="255"/></td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="blue" style="background-color: rgb(0,0,255);"></div></td>
+         </tr>
+         <tr>
+            <td class="colorPickColumn4" colspan="2">Résultat</td>
+            <td class="colorPickColumn3"><div class="colorShow" data-color-comp="mix" style="background-color: rgb(255,255,255);"></div></td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Utiliser cette couleur</span>
+         <br/>
+      </p>
+   </div>
+</div>

@@ -1,0 +1,28 @@
+<h1>Ré-envoi de l'e-mail de confirmation</h1>
+<p>Si vous n'avez pas reçu votre e-mail de confirmation après une heure, qu'il s'agisse d'un
+nouveau compte ou d'un changement d'adresse e-mail, vous pouvez entrez votre pseudonyme ci-contre
+afin de ré-envoyer cet e-mail. Si le problème persiste, n'hésitez pas à contacter l'administrateur.
+<br/><br/>
+<strong>Remarque :</strong> avant de poursuivre, vérifiez que l'e-mail n'ait pas été bloqué par
+votre filtre antispam. Attendez également quelques minutes après l'envoi de l'e-mail original.<br/>
+{switch:error||
+emptyField & <br/>
+<span style="color: red;">Erreur : vous devez indiquer un pseudonyme.</span><br/>|
+nonexistentAccount & <br/>
+<span style="color: red;">Erreur : ce compte n'existe pas.</span><br/>|
+dbError & <br/>
+<span style="color: red;">Erreur : une erreur inconnue s'est produite lors de la recherche du 
+compte. Réessayez plus tard.</span><br/>|
+alreadyConfirmed & <br/>
+<span style="color: red;">Erreur : ce compte est déjà confirmé.</span><br/>|
+emailFail & <br/>
+<span style="color: red;">Erreur : un problème est survenu lors du ré-envoi. Réessayez plus tard 
+ou contactez l'administrateur.</span><br/>}
+</p>
+<form action="ConfirmationMail.php" method="post">
+<p>
+<label for="pseudo">Pseudonyme :</label> &nbsp;&nbsp;<input type="text" name="pseudo" value="{$pseudo}" size="30"/><br/>
+<br/>
+<input type="submit" name="sent" value="Ré-envoyer l'e-mail" />
+</p>
+</form>

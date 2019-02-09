@@ -1,0 +1,4 @@
+<div id="postsContainer">
+   <h1 class="centeredTitle">Message #{$idMsg}</h1>
+   {$msg}
+</div>

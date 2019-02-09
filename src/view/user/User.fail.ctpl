@@ -1,0 +1,6 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+missingUser & Le pseudonyme de l'utilisateur est manquant.|
+nonexistingUser & L'utilisateur dont vous souhaitez voir le profil n'existe pas.|
+dbError & Une erreur est survenue lors de la lecture des données de l'utilisateur. Réessayez 
+plus tard ou contactez l'administrateur.}</p>

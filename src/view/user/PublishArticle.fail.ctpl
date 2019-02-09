@@ -1,0 +1,10 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer des articles.|
+missingID & L'ID de l'article à publier n'est pas précisé.|
+nonexistingArticle & L'article recherché n'existe pas ou plus.|
+alreadyPublished & cet article est déjà publié.|
+notYours & L'ID ne correspond pas à un de vos articles.|
+noSegment & Vous ne pouvez pas publier un article dépourvu de segment.|
+dbError & Une erreur est survenue lors de la consultation de la base de données. Réessayez plus 
+tard ou contactez l'administrateur.}</p>

@@ -1,0 +1,18 @@
+<h1 class="centeredTitle">Liste des utilisateurs</h1>
+<div id="userInputForm">
+   <p>
+   <input type="text" id="userInput" name="userInput" size="50" maxlength="50" placeholder="Entrez un nom d'utilisateur" autocomplete="off"/> 
+   <span class="suggestions" id="usersSuggestions">
+   </span>
+   </p>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="thumbnailsPool">
+   {$avatars}
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+</div>

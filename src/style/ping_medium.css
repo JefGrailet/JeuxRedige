@@ -1,0 +1,896 @@
+/**
+* This style sheet defines the style used to render pings. This sheet is also responsive to the 
+* resolution of a browser.
+*/
+
+/* This block will contain everything related to a ping: header, posts or reply form. */
+
+#pingsContent
+{
+   margin: auto;
+   width: 70%;
+   min-width: 800px;
+}
+
+#pingsContent .centeredText
+{
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   color: black;
+   text-align: center;
+}
+
+#pingsContent .prettyLink
+{
+   text-decoration: none;
+   background-color: #383A49;
+   color: white;
+   padding: 6px 15px;
+   border-radius: 4px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 14px;
+   border: none;
+}
+
+#pingsContent .prettyLink:hover
+{
+   background-color: #557083;
+   color: white;
+   cursor: pointer;
+}
+
+#pingsContent .prettyLink:active
+{
+   background-color: grey;
+}
+
+/* Elements to display the list of pages in a pretty way. */
+
+.messagesNav
+{
+   display: block;
+   width: auto;
+   min-width: 760px;
+   margin-top: 20px;
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+.messagesNav p
+{
+   margin-top: 10px;
+   color: black;
+   font-family: "calibri", "arial", "serif";
+   font-size: 16px;
+   text-align: center;
+}
+
+.messagesNav a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.messagesNav a:hover
+{
+   color: blue;
+}
+
+.pagesNav
+{
+   margin-bottom: 15px;
+   padding: 5px;
+   color: black;
+   font-family: "arial", "serif";
+   font-size: 14px;
+   text-align: center;
+}
+
+.pagesNav a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.pagesNav a:hover
+{
+   color: blue;
+}
+
+.hiddenPages
+{
+   display: none;
+}
+
+.unhidePages
+{
+   color: black;
+   cursor: pointer;
+   background-color : white;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.unhidePages:hover
+{
+   color: grey;
+}
+
+/* Classes to enhance the visuals of the pages list. */
+
+.backBlack
+{
+   color: white;
+   background-color: #383A49;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.backBlack:hover
+{
+   background-color: #557083;
+}
+
+.backBlack a
+{
+   color: white;
+}
+
+.backBlack a:hover
+{
+   color: white;
+}
+
+.backWhite
+{
+   color: black;
+   background-color : white;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.pageLink
+{
+   color: #155dc8;
+   background-color: white;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.pageLink:hover, .pageLink a:hover
+{
+   color: black;
+   cursor: pointer;
+}
+
+.backGrey, .pageLinkSelected
+{
+   color: black;
+   background-color : rgb(180, 180, 180);
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+/* Container for a duo post/avatar. */
+
+.pingBlock
+{
+   display: block;
+   width: auto;
+   min-width: 760px;
+   margin-left: 20px;
+   margin-right: 20px;
+   margin-top: 20px;
+}
+
+/* Left column of a post (avatar + emitter's pseudo). */
+
+.pingBlockLeftColumn
+{
+   float: left;
+   display: block;
+   width: 100px;
+   margin-right: 10px;
+}
+
+.pingBlockAvatar
+{
+   width: 100px;
+   height: 100px;
+   border-radius: 5px;
+}
+
+.pingBlockLeftColumn h1
+{
+   width: 90px;
+   margin: 10px 0px 0px;
+   border-radius: 5px;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 11px;
+   padding: 5px;
+   text-align: center;
+}
+
+/* Link on author's pseudo (link to history of posts) */
+
+.pingBlockLeftColumn h1 a
+{
+   text-decoration: none;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 11px;
+}
+
+.pingBlockLeftColumn h1 a:hover
+{
+   color: #00ffff;
+}
+
+/* Text part of a ping */
+
+.pingBlockText
+{
+   display: block;
+   overflow: hidden;
+   width: auto;
+   min-width: 650px;
+   min-height: 134px;
+   margin: 0px 0px 0px 10px;
+   border-radius: 5px;
+   background-color: white;
+}
+
+.pingBlockText img, .pingBlockText video
+{
+   max-width: 100%;
+}
+
+.pingBlockText  .miniature
+{
+   border: none;
+   cursor: pointer;
+}
+
+.pingBlockText h1
+{
+   width: auto;
+   min-width: 605px;
+   background-color: #383A49;
+   margin: 0px;
+   border-radius: 5px 5px 0px 0px;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 16px;
+   padding: 10px;
+}
+
+.pingBlockText p
+{
+   margin: 0px;
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.pingBlockText h2
+{
+   margin: 0px;
+   font-family: "calibri", "arial", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.pingBlockText ul 
+{
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+
+.pingBlockText li
+{
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   text-align: justify;
+}
+
+.pingBlockText a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.pingBlockText a:hover
+{
+   color: blue;
+}
+
+/* Quotation */
+
+.pingBlockText .quotation, .postBlockText .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.pingBlockText .spoiler a
+{
+   cursor: pointer;
+}
+
+/* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
+
+.pingBlockTextTop
+{
+   display: block;
+   width: auto;
+   border-radius: 5px 5px 0px 0px;
+   background-color: #6e6e6e; /* Default (normally a unique color depending on the ping type) */
+}
+
+.pingBlockTextTop p
+{
+   color: white;
+}
+
+.pingBlockTextTopLeft
+{
+   float: left;
+   width: 70%;
+}
+
+.pingBlockTextTopRight
+{
+   float: right;
+   width: 30%;
+   text-align: right;
+}
+
+/* Button to delete some ping */
+
+.delete, .check
+{
+   margin-right: 15px;
+   padding: 0px;
+   vertical-align: -50%;
+   cursor: pointer;
+}
+
+/* Helps to make some underlying divs take the whole space */
+
+.clear
+{
+   clear: both;
+   width: 100%;
+}
+
+/*
+* Wrapper for elements at the bottom of the screen (navMenu and slidingBlock).
+*/
+
+#bottomWrapper
+{
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+}
+
+/*
+* Plains blocks are blocks which should contain everything else than a topic header/post, mainly 
+* reply forms (advanced mode) and errors. A sliding block, on the other hand, is used only once 
+* (hence why it's not a class) and contains fast reply forms.
+*/
+
+.plainBlock
+{
+   width: auto;
+   min-width: 760px;
+   border-radius: 5px;
+   background-color: white;
+   margin-top: 20px;
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+#slidingBlock
+{
+   display: none;
+   width: 100%;
+   background-color: white;
+}
+
+.plainBlock p, #slidingBlock p
+{
+   margin : 0px;
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   padding: 10px 10px 15px 10px;
+   text-align: justify;
+}
+
+.plainBlock a, #slidingBlock a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.plainBlock a:hover, #slidingBlock a:hover
+{
+   color: blue;
+}
+
+.plainBlock h1
+{
+   font-family: "arial", "calibri", "serif";
+   font-size: 16px;
+   text-align: justify;
+   color: white;
+   background-color: #383A49;
+   padding: 7px;
+   border-radius: 4px 4px 0px 0px;
+}
+
+#slidingBlock h1
+{
+   font-family: "arial", "calibri", "serif";
+   font-size: 16px;
+   text-align: justify;
+   color: white;
+   background-color: #383A49;
+   padding: 7px;
+   margin-top: 0px;
+}
+
+.plainBlock .formatButton, #slidingBlock .formatButton
+{
+   padding: 4px;
+   background-color: #383A49;
+   border-radius: 3px;
+   cursor: pointer;
+}
+
+.plainBlock .formatButton:hover, #slidingBlock .formatButton:hover
+{
+   background-color: #557083;
+}
+
+.plainBlock #emoticonsDisplay, #slidingBlock #emoticonsDisplay
+{
+   display: none;
+   height: 100px;
+   margin-left: 10px;
+   margin-right: 10px;
+   margin-bottom: 5px;
+   overflow-y: scroll;
+   border: 1px solid grey;
+   font-size: 0;
+}
+
+.plainBlock #emoticonsDisplay .emoticon, #slidingBlock #emoticonsDisplay .emoticon
+{
+   display: inline-block;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   margin-left: 5px;
+   cursor: pointer;
+}
+
+/*
+* Quick preview style.
+*/
+
+#textareaWrapper p
+{
+   width: 98.5%;
+   display: inline-block;
+   padding: 0px 0px 0px 10px;
+}
+
+#textareaWrapper textarea
+{
+   height: 160px;
+   margin: 0px;
+   border: 1px solid #DDDDDD;
+}
+
+#slidingBlock #previewZone, .plainBlock #previewZone
+{
+   display: inline-block;
+   margin-right: 5px;
+   width: 49%;
+   height: 158px;
+   border: 1px solid #DDDDDD;
+   background: none;
+   overflow-y: auto;
+   resize: vertical;
+   margin-bottom: -4px;
+}
+
+@media screen and (max-width: 799px)
+{
+   #slidingBlock #previewZone, .plainBlock #previewZone
+   {
+      width: 45%;
+   }
+}
+
+@media screen and (min-width: 800px) and (max-width: 999px)
+{
+   #slidingBlock #previewZone, .plainBlock #previewZone
+   {
+      width: 47%;
+   }
+}
+
+#previewZone p
+{
+   padding: 3px;
+   margin: 0px;
+}
+
+#previewZone .quotation, #previewZone .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 5px;
+   margin-bottom: 5px;
+   margin-right: 0px;
+   padding: 5px;
+}
+
+#previewZone .spoiler a
+{
+   cursor: pointer;
+}
+
+/*
+* "Nav" menu, which is always visible at the bottom of the screen. Should always be above the 
+* fast reply form when shown.
+*/
+
+#navMenu
+{
+   display: inline-block;
+   background-color: rgba(56, 58, 73, 0.5);
+   color: white;
+   margin-left: 20px;
+   margin-bottom: 20px;
+   border-radius: 10px;
+}
+
+#navMenu:hover
+{
+   background-color: rgba(56, 58, 73, 1.0);
+}
+
+#navMenu p
+{
+   background: none;
+   font-family: "arial", "calibri", "serif";
+   font-size: 12px;
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
+#navMenu select
+{
+   border: none;
+   background-color: white;
+   color: black;
+   font-family: "arial", "calibri", "serif";
+   font-size: 12px;
+   margin-right: 6px;
+   padding: 4px;
+}
+
+#navMenu .quickForm
+{
+   color: white;
+}
+
+#navMenu .quickForm:hover
+{
+   color: grey;
+   cursor: pointer;
+}
+
+#navMenu .navMode, #navMenu .navRefresh
+{
+   vertical-align: -25%;
+   margin: 0px 3px;
+   cursor: pointer;
+}
+
+/*
+* Following code is a copy/paste from topic.css, as the content of a private discussion re-uses 
+* HTML/CSS involved in topics.
+*/
+
+/* Container for a duo post/avatar. */
+
+.postBlock
+{
+   display: block;
+   width: auto;
+   min-width: 760px;
+   margin-left: 20px;
+   margin-right: 20px;
+   margin-top: 20px;
+}
+
+/* Left column of a post (avatar + author's pseudo). */
+
+.postBlockLeftColumn
+{
+   float: left;
+   display: block;
+   width: 100px;
+   margin-right: 10px;
+}
+
+.postBlockAvatar
+{
+   width: 100px;
+   height: 100px;
+   border-radius: 5px;
+}
+
+.postBlockLeftColumn h1
+{
+   width: 90px;
+   margin: 10px 0px 0px;
+   border-radius: 5px;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 11px;
+   padding: 5px;
+   text-align: center;
+}
+
+/* Link on author's pseudo (link to history of posts) */
+
+.postBlockLeftColumn h1 a
+{
+   text-decoration: none;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 11px;
+}
+
+.postBlockLeftColumn h1 a:hover
+{
+   color: #00ffff;
+}
+
+/* Text part of a post */
+
+.postBlockText
+{
+   display: block;
+   overflow: hidden;
+   width: auto;
+   min-width: 650px;
+   min-height: 100px;
+   margin: 0px 0px 0px 10px;
+   border-radius: 5px;
+   background-color: white;
+}
+
+.postBlockText img, .postBlockText video
+{
+   max-width: 100%;
+}
+
+.postBlockText  .miniature
+{
+   border: none;
+   cursor: pointer;
+}
+
+.postBlockText h1
+{
+   width: auto;
+   min-width: 630px;
+   background-color: #383A49;
+   margin: 0px;
+   border-radius: 5px 5px 0px 0px;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 16px;
+   padding: 10px;
+}
+
+.postBlockText p
+{
+   margin: 0px;
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.postBlockText h2
+{
+   margin: 0px;
+   font-family: "calibri", "arial", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.postBlockText ul 
+{
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+
+.postBlockText li
+{
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   text-align: justify;
+}
+
+.postBlockText a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.postBlockText a:hover
+{
+   color: blue;
+}
+
+/* Quotation */
+
+.postBlockText .quotation, .postBlockText .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.postBlockText .spoiler a
+{
+   cursor: pointer;
+}
+
+/* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
+
+.postBlockTextTop
+{
+   display: block;
+   width: auto;
+   border-radius: 5px 5px 0px 0px;
+   background-color: #f0f0f0;
+}
+
+.postBlockTextTop p
+{
+   color: #6e6e6e;
+}
+
+.postBlockTextTopLeftSide
+{
+   float: left;
+   width: 70%;
+}
+
+.postBlockTextTopRightCorner
+{
+   float: right;
+   width: 30%;
+}
+
+.postBlockTextTopLeftSide .postAuthor
+{
+   float: left;
+   border-radius: 5px 0px 0px 0px;
+   background-color: #383A49;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   margin: 0px;
+   padding: 11px 20px;
+   margin-right: 10px;
+   font-size: 13px;
+}
+
+/* Link on author's pseudo (link to history of posts) */
+
+.postBlockTextTopLeftSide .postAuthor a
+{
+   text-decoration: none;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+}
+
+.postBlockTextTopLeftSide .postAuthor a:hover
+{
+   color: #00ffff;
+}
+
+/* Helps to make some underlying divs take the whole space */
+
+.clear
+{
+   clear: both;
+   width: 100%;
+}
+
+/*
+* Placeholders for pages in "flow" navigation mode.
+*/
+
+.pagePlaceholder
+{
+   display: block;
+   width: auto;
+   min-width: 760px;
+   margin-left: 20px;
+   margin-right: 20px;
+   margin-top: 20px;
+   border-radius: 5px;
+   background-color: #6699ff;
+   color: white;
+}
+
+.pagePlaceholder p
+{
+   margin: 0px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 13px;
+   padding: 10px;
+   text-align: center;
+}
+
+.singleMissingPage
+{
+   color: white;
+}
+
+.singleMissingPage:hover
+{
+   color: black;
+   cursor: pointer;
+}
+
+.missingPage, .missingPages
+{
+   background-color: white;
+   color: black;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.missingPage:hover, .missingPages:hover
+{
+   background-color: #383A49;
+   color: white;
+   cursor: pointer;
+}

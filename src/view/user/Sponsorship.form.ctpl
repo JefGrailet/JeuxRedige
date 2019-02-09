@@ -1,0 +1,26 @@
+<h1>Inviter un ami</h1>
+<p>Vous pouvez inviter un ami à rejoindre la communauté en indiquant simplement son adresse e-mail 
+dans le formulaire ci-contre, après quoi il recevra un e-mail d'invitation. Grâce à votre 
+invitation, votre ami pourra bénéficier dès son enregistrement de toutes les fonctionnalités du 
+site.<br/>
+</p>
+{switch:success||
+newInvitation & <p style="color:green;">Un e-mail d'invitation vient d'être envoyé à [0]. En cas 
+de non-réception de cet e-mail, vous pouvez ré-utiliser ce formulaire pour re-expédier l'e-mail 
+d'invitation (minimum une heure après cette tentative).<br/></p>|
+mailFail & <p style="color:blue;">L'envoi de l'e-mail à [0] a échoué. Ré-utilisez ce formulaire 
+d'ici quelques instants pour re-tenter l'envoi, ou contactez l'administrateur.<br/></p>|
+newEmail & <p style="color:green;">Un nouvel e-mail d'invitation a été envoyé à [0].<br/></p>}
+{switch:error||
+emptyField & <p style="color: red;">Erreur: vous devez fournir une adresse e-mail.<br/></p>|
+tooLong & <p style="color: red;">Erreur: l'adresse fournie est trop longue.<br/></p>|
+alreadyUsed & <p style="color: red;">Erreur: cette adresse e-mail est déjà utilisée pour un compte confirmé.<br/></p>|
+alreadyInvited & <p style="color: red;">Erreur: cette adresse e-mail a déjà été invitée par un autre utilisateur.<br/></p>|
+recentAttempt & <p style="color: red;">Erreur: vous avez déjà envoyé une invitation cette adresse il y a moins d'une heure.<br/></p>|
+dbError & <p style="color: red;">Erreur: une erreur inconnue est survenue. Contactez l'administrateur ou réessayez plus tard.<br/></p>}
+<form action="./Sponsorship.php" method="post">
+<p><label for="email">Adresse e-mail:</label></td>
+<input type="text" name="email" value="{$email}" size="30"/><br/>
+<br/>
+<input type="submit" name="sent" value="Inviter"/></p>
+</form>

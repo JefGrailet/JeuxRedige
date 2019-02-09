@@ -1,0 +1,11 @@
+<h1>Erreur lors de la confirmation</h1>
+<p>
+{switch:error||
+missingPseudo & Le pseudonyme du compte à confirmer est manquant. Veuillez utiliser un lien valide.|
+nonexistentAccount & Ce compte n'existe pas.|
+alreadyConfirmed & Ce compte est déjà confirmé.|
+dbError1 & Impossible de récupérer les détails de ce compte. Réessayez plus tard.|
+missingKey & La clé de confirmation est manquante. Veuillez utiliser le lien qui vous a été envoyé par e-mail pour confirmer votre compte.|
+wrongKey & La clé de confirmation est erronée. Veuillez utiliser le lien qui vous a été envoyé par e-mail pour confirmer votre compte.|
+dbError2 & Une erreur a eu lieu lors de la confirmation du compte. Veuillez réessayer plus tard.}
+</p>

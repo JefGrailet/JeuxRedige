@@ -1,0 +1,28 @@
+<div class="postBlock" id="{$index}">
+<div class="postBlockLeftColumn">
+<div class="postBlockAvatar" data-author-type="{$authorType}" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+</div>
+<div class="postBlockText">
+<div class="postBlockTextTop">
+   <div class="postBlockTextTopLeftSide">
+      <p class="postAuthor" {$authorStyle}>{$authorPseudo}</p>
+      <p>{$topLeftPart} - {$date}{$permalink}{$editionLink}{$quoteLink}{$pinButton}</p>
+   </div>
+   <div class="postBlockTextTopRightCorner">
+      <p style="text-align: right;">{$score}{$report}</p>
+   </div>
+   <div class="clear"></div>
+</div>
+<div id="wrapper{$ID}">
+{$content}
+</div>
+</div>
+<div class="clear"></div>
+</div>
+{switch:showAttachment||
+yes & <div class="postAttachment" id="Attachment[0]">
+   <div class="postAttachmentAlign">
+      [1]
+      <div style="clear: both;"></div>
+   </div>
+</div>}

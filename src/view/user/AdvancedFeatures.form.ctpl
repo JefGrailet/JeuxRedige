@@ -1,0 +1,28 @@
+<h1>Changer l'accès aux fonctionnalités avancées</h1>
+<p><strong>Rappel:</strong> les fonctionnalités avancées sont: la création de sujets, l'édition 
+de ses propres sujets, l'intégration de n'importe quel média au sein des messages et l'accès aux 
+fonctionnalités d'upload. Ces fonctionnalités ne sont pas disponibles dès l'inscription (sauf 
+parrainage) afin d'empêcher flood et affichage de contenu inapproprié par des individus 
+malveillants. Elles peuvent être activées/désactivées en fonction du comportement de 
+l'utilisateur.<br/>
+<br/>
+{switch:display||
+hasAccess & <strong>Cet utilisateur a accès aux fonctionnalités avancées.</strong><br/>|
+noAccess & <strong>Cet utilisateur n'a pas accès aux fonctionnalités avancées.</strong><br/>|
+hasNowAccess & <span style="color: green;">Les fonctionnalités avancées ont été activées pour cet 
+utilisateur.</span><br/>|
+noMoreAccess & <span style="color: green;">Les fonctionnalités avancées ont été désactivées pour 
+cet utilisateur.</span><br/>|
+missingMotif & <br/><span style="color:red;">Veuillez indiquer un motif.</span><br/>|
+dbError & <span style="color: red;">Une erreur inconnue s'est produite lors de la mise à jour.}
+</p>
+<form action="./EditUser.php?user={$pseudo}" method="post">
+<p>
+<input type="hidden" name="dataToEdit" value="advancedFeatures"/>
+<label for="motif">Motif (visible par l'utilisateur):</label><br/>
+<br/>
+<textarea name="motif" rows="10" placeholder="Entrez un motif."></textarea><br/>
+<br/>
+<input type="submit" name="sent" value="Changer l'accès" />
+</p>
+</form>

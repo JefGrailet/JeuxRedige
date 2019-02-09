@@ -1,0 +1,6 @@
+<div id="postsContainer" style="margin-top: 30px;">
+   <h1 class="centeredTitle">Les 5 derniers messages de {$user}</h1>
+   {$posts}
+   <br/>
+   <a href="./Posts.php?author={$user}" class="prettyLink">Voir tous les messages de {$user}</a>
+</div>

@@ -1,0 +1,6 @@
+{$header}
+<div class="plainBlock">
+{$editionForm}
+</div>
+<div id="preview" style="display: block; opacity: 1.0;" data-author="{$previewPseudo}" data-rank="{$previewRank}">{$originalMessage}</div>
+{$uploadMenu}

@@ -1,0 +1,32 @@
+<div id="visibleWrapper">
+   <h1 class="centeredTitle">{$title}</h1>
+   <div class="messagesNav">
+      {navigation:pagesConfig} 
+   </div>
+   <div id="postsWrapper">
+      <div class="page">
+      {$pongs}
+      </div>
+   </div>
+   <div class="messagesNav">
+      {navigation:pagesConfig} 
+      <p>
+      <a class="prettyLink" href="{$advancedPongForm}">Répondre (avancé)</a>
+      </p>
+   </div>
+</div>
+<div id="bottomWrapper">
+   <div id="navMenu">
+      <p>
+      <span class="quickForm" title="Raccourci: Ctrl + Espace">Réponse rapide</span> &nbsp;
+      <strong>|</strong> &nbsp;
+      <img class="navMode" data-mode="1" style="opacity: 1.0;" src="./res_icons/nav_pages_static.png" alt="Pages statiques" title="Pagination statique" /> 
+      <img class="navMode" data-mode="2" style="opacity: 0.5;" src="./res_icons/nav_pages_dynamic.png" alt="Pages statiques" title="Pagination dynamique" /> 
+      <img class="navMode" data-mode="3" style="opacity: 0.5;" src="./res_icons/nav_flow.png" alt="Flot de messages" title="Flot de messages" /> 
+      <img class="navRefresh" style="opacity: 0.5;" src="./res_icons/nav_auto_refresh.png" alt="Rafraîchissement automatique" title="Rafraîchissement automatique" />
+      </p>
+   </div>
+   <div id="slidingBlock">
+   {$newPongForm}
+   </div>
+</div>

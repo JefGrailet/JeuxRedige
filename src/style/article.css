@@ -1,0 +1,817 @@
+/* Style for articles */
+
+#articleWrapper
+{
+   margin: auto;
+   width: 90%;
+   min-width: 800px;
+   max-width: 1920px;
+   padding-top: 20px;
+}
+
+.articleSegment
+{
+   background-color: white;
+   border-radius: 15px;
+   margin: 20px;
+   padding-bottom: 5px;
+}
+
+.segmentHeader
+{
+   position: relative;
+   min-height: 100px;
+   border-radius: 15px 15px 0px 0px;
+   background-color: #383A49;
+}
+
+.segmentHeaderPlain
+{
+   border-radius: 15px 15px 0px 0px;
+   background-color: white;
+   padding-top: 20px;
+   padding-bottom: 5px;
+}
+
+.segmentHeader .segmentHeaderBottom
+{
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   padding-top: 10px;
+   background-color: rgba(56, 58, 73, 0.8);
+   border-radius: 0px 15px 0px 0px;
+}
+
+.segmentHeader .segmentHeaderBottom:hover
+{
+   background-color: rgba(56, 58, 73, 1.0);
+}
+
+.segmentHeader h1, .segmentHeaderPlain h1
+{
+   font-family: "Arial", "Serif";
+   font-size: 26px;
+   font-weight: 200;
+   text-align: justify;
+   background: none;
+   padding: 0px;
+}
+
+.segmentHeader h2, .segmentHeaderPlain h2
+{
+   font-family: "Arial", "Serif";
+   font-size: 20px;
+   font-weight: 200;
+   text-align: justify;
+   background: none;
+   padding: 0px;
+}
+
+.segmentHeader h1
+{
+   margin: 0px 20px 10px 20px;
+}
+
+.segmentHeader h2
+{
+   margin: -5px 20px 10px 20px;
+}
+
+.segmentHeader h1, .segmentHeader h2
+{
+   color: white;
+}
+
+.segmentHeaderPlain h1, .segmentHeaderPlain h2
+{
+   color: black;
+}
+
+.segmentHeaderPlain h1
+{
+   margin: 0px 20px 0px 20px;
+}
+
+.segmentHeaderPlain h2
+{
+   margin: 0px 20px 0px 20px;
+}
+
+.segmentBody p
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   text-align: justify;
+   padding:  7px;
+   margin: 5px 10px 5px 10px;
+}
+
+.segmentBody p a
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.segmentBody p a:hover
+{
+   color: black;
+}
+
+.segmentBody h2
+{
+   margin: 4px 7px 4px 7px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+   color: rgb(56, 58, 73);
+}
+
+.segmentBody .quotation, .segmentBody .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.segmentBody .miniature, .segmentBody .spoiler a
+{
+   cursor: pointer;
+}
+
+.segmentBody .hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+.segmentBody .hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+.segmentBody img, .segmentBody video
+{
+   max-width: 100%;
+}
+
+.segmentBody ul
+{
+   margin-top: 0px;
+   margin-bottom: 10px;
+   margin-left: 20px;
+   padding-left: 20px;
+}
+
+.segmentBody li
+{
+   font-size: 15px;
+   font-family: "Arial", "Serif";
+   list-style-type: square;
+   padding-bottom: 5px;
+   padding-right: 10px;
+}
+
+/* Emphasis (quote) style */
+
+.emphasis
+{
+   margin-top: 20px;
+   clear: both;
+}
+
+.emphasis .emphasisWithin
+{
+   background-color: rgba(56, 58, 73, 0.4);
+   color: white;
+}
+
+.emphasis .emphasisWithin p
+{
+   padding: 50px;
+   display: block;
+   text-align: center;
+   font-family: "Times New Roman", "Arial", "Serif";
+   font-size: 30px;
+   font-weight: bold;
+}
+
+/* Emphasis (block) style */
+
+.emphasisText
+{
+   margin: 15px;
+   clear: both;
+   background-color: #383A49;
+   color: white;
+   border-radius: 10px;
+   padding-bottom: 5px;
+}
+
+.emphasisText h3
+{
+   background: none;
+   font-family: "Arial", "Serif";
+   font-size: 20px;
+   font-weight: bold;
+   margin: 0px;
+   padding-left: 17px;
+   padding-right: 17px;
+   padding-top: 10px;
+}
+
+/* Summary style */
+
+.summary
+{
+   clear: both;
+}
+
+.summaryGood
+{
+   width: 50%;
+   float: left;
+}
+
+.summaryBad
+{
+   width: 50%;
+   float: right;
+}
+
+.summaryGood h3, .summaryBad h3
+{
+   display: inline-block;
+   margin-top: 0px;
+   margin-left: 15px;
+   margin-right: 15px;
+   padding: 10px 100px 10px 10px;
+   border-radius: 10px;
+   background-color: #383A49;
+   color: white;
+   font-size: 16px;
+   font-family: "Arial", "Serif";
+}
+
+.summaryGood ul, .summaryBad ul
+{
+   margin-top: 0px;
+   margin-bottom: 10px;
+   margin-left: 20px;
+   padding-left: 20px;
+}
+
+.summaryGood li, .summaryBad li
+{
+   font-size: 15px;
+   font-family: "Arial", "Serif";
+   list-style-type: square;
+   padding-bottom: 5px;
+}
+
+/* Style for bottom of segment (previous and next section) */
+
+.segmentBottomLeft
+{
+   float: left;
+   width: 50%;
+}
+
+.segmentBottomRight
+{
+   float:right;
+   width: 50%;
+}
+
+/* Container for keywords. */
+
+#articleKeywords
+{
+   position: relative;
+   text-align: center;
+   font-family: "arial", "serif";
+   font-size: 15px;
+   background: none;
+   margin-top: 20px;
+   margin-bottom: 0px;
+   margin-right: 10px;
+   margin-left: 10px;
+   line-height: 170%;
+   color: black;
+   padding: 5px;
+}
+
+#articleKeywords a
+{
+   display: inline-block;
+   text-decoration: none;
+   color: white;
+   background-color: #646464; /* Default */
+   border-radius: 12px;
+   padding: 2px 12px;
+   margin-right: 3px;
+   margin-bottom: 5px;
+}
+
+#articleKeywords a:hover
+{
+   background-color: #969696; /* Default */
+}
+
+/* Article footer. */
+
+#articleFooter
+{
+   background: none;
+   margin: 20px;
+   padding-bottom: 5px;
+}
+
+#articleFooterRight
+{
+   min-width: 300px;
+   min-height: 110px;
+   float: right;
+   background-color: white;
+   border-radius: 60px 10px 10px 60px;
+   color: black;
+}
+
+#footerDetails
+{
+   display: block;
+   float: left;
+}
+
+#footerAuthor
+{
+   display: block;
+   float: left;
+   width: 100px;
+   height: 100px;
+   border-radius: 50px;
+   margin: 5px;
+}
+
+#footerDetails p
+{
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   text-align: justify;
+   padding: 0px;
+   margin: 10px;
+   line-height: 150%;
+}
+
+#footerDetails p a, #footerDetails p .editSegment
+{
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+#footerDetails p a:hover, #footerDetails p .editSegment:hover
+{
+   color: black;
+}
+
+#footerDetails p .editSegment:hover
+{
+   cursor: pointer;
+}
+
+/* Style for the top-left bubble, meant for comments advertising */
+
+#articleComments
+{
+   position: fixed;
+   right: 0;
+   top: 0;
+   margin-top: 50px;
+}
+
+#articleComments p
+{
+   margin-right: 10px;
+   margin-top: 5px;
+   padding: 5px;
+   background-color: rgba(56, 58, 73, 0.5);
+   color: white;
+   border-radius: 5px;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+}
+
+#articleComments p:hover
+{
+   background-color: rgba(56, 58, 73, 1.0);
+}
+
+#articleComments p a
+{
+   text-decoration: none;
+   color: white;
+}
+
+#articleComments p a:hover
+{
+   color: grey;
+}
+
+#articleComments p #showComments
+{
+   text-decoration: none;
+   color: white;
+}
+
+#articleComments p #showComments:hover
+{
+   cursor: pointer;
+}
+
+/* Style for the cover screen just under the comments slider (clickable to close the slider) */
+
+#coverScreen
+{
+   display: none;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 19;
+   background: none;
+}
+
+/* Style for comment slider */
+
+#commentsSlider
+{
+   display: none;
+   position: fixed;
+   right: 0;
+   top: 0;
+   width: 30%;
+   height: 100%;
+   background-color: white;
+   border-left: 3px solid rgba(0,0,0,0.2);
+   background-clip: padding-box;
+   z-index: 20;
+   overflow-y: scroll;
+}
+
+#commentsSlider #commentsHeader h1
+{
+   margin: 55px 15px 0px 15px;
+   padding: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 24px;
+   color: #383A49;
+}
+
+#commentsSlider #commentsHeader p
+{
+   margin: 15px;
+   padding: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   color: black;
+}
+
+#commentsSlider #commentsHeader p a
+{
+   text-decoration: none;
+   color: #0900B8;
+}
+
+#commentsSlider #commentsHeader p a:hover
+{
+   color: grey;
+}
+
+#commentsSlider #commentsHeader #closeSlider
+{
+   position: fixed;
+   right: 0;
+   top: 0;
+}
+
+#commentsSlider #commentsHeader #closeSlider p
+{
+   margin: 55px 25px 0px 0px;
+   padding: 0px;
+   font-size: 18px;
+   background-color: white;
+   border-radius: 3px;
+}
+
+#commentsSlider #commentsHeader #closeSlider p img
+{
+   vertical-align: -25%;
+}
+
+#commentsSlider #commentsHeader #closeSlider p #closeClickable
+{
+   color: #383A49;
+}
+
+#commentsSlider #commentsHeader #closeSlider p #closeClickable:hover
+{
+   opacity: 0.5;
+   cursor: pointer;
+}
+
+/* Style for comments */
+
+.comment
+{
+   display: block;
+   margin: 15px;
+   background: none;
+   border: none;
+   padding: 0px;
+}
+
+.commentLeftColumn
+{
+   display: block;
+   float: left;
+   width: 30px;
+   margin-right: 10px;
+}
+
+.commentAvatar
+{
+   width: 30px;
+   height: 30px;
+   border-radius: 5px;
+}
+
+.commentText
+{
+   display: block;
+   overflow: hidden;
+   width: auto;
+   margin: 0px 0px 0px 10px;
+   border: none;
+   background: none;
+}
+
+.commentText h1
+{
+   color: #383A49;
+   margin: 5px 0px;
+   padding: 0px;
+   color: white;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+}
+
+.commentText p
+{
+   margin: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   padding: 10px 6px;
+   text-align: justify;
+}
+
+.commentText .commentTextTop .commentAuthor
+{
+   display: inline-block;
+   border-radius: 5px 0px 0px 5px;
+   background-color: #383A49;
+   color: white;
+   font-family: "Arial", "Serif";
+   margin: 0px;
+   padding: 5px 10px;
+}
+
+.commentText .commentTextTop .commentAuthor a
+{
+   text-decoration: none;
+   color: white;
+   font-family: "Arial", "Serif";
+}
+
+.commentText .commentTextTop .commentAuthor a:hover
+{
+   color: #00ffff;
+}
+
+.commentText .commentTextTop .commentDate
+{
+   display: inline-block;
+   margin: 0px;
+   padding: 5px 10px;
+   background-color: rgb(200,200,200);
+   border-radius: 0px 5px 5px 0px;
+}
+
+.commentText img, .commentText video
+{
+   max-width: 100%;
+}
+
+.commentText h2
+{
+   color: #383A49;
+   margin: 5px 0px;
+   padding: 0px;
+   color: white;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+}
+
+.commentText ul 
+{
+   margin-top: 10px;
+   margin-bottom: 10px;
+   padding-left: 25px;
+}
+
+.commentText li
+{
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   text-align: justify;
+   margin-top: 10px;
+}
+
+.commentText a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.commentText a:hover
+{
+   color: blue;
+}
+
+.commentText  .miniature
+{
+   border: none;
+   cursor: pointer;
+}
+
+.commentText .quotation, .commentText .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.commentText .spoiler a
+{
+   cursor: pointer;
+}
+
+/* Pretty display of some user's pseudo */
+
+.commentText .userMiniAvatar
+{
+   padding: 0px;
+   margin-right: 5px;
+   border-radius: 50%;
+   vertical-align: -40%;
+}
+
+.commentText .userMiniPseudo
+{
+   font-size: 16px;
+   font-weight: bold;
+}
+
+/* Hidden text */
+
+.commentText .hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+.commentText .hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+/* Style for bottom wrapper, which contains navigation elements. */
+
+#bottomWrapper
+{
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   z-index: 10;
+   min-width: 800px;
+}
+
+#previousSegment, #segmentList, #nextSegment
+{
+   display: block;
+}
+
+#previousSegment
+{
+   float: left;
+   min-width: 100px;
+   min-height: 20px;
+   width: 20%;
+}
+
+#segmentList
+{
+   float: left;
+   width: 60%;
+   text-align: center;
+}
+
+#nextSegment
+{
+   float: right;
+   min-width: 100px;
+   min-height: 20px;
+   width: 20%;
+   text-align: right;
+}
+
+#previousSegment p, #segmentList p, #nextSegment p
+{
+   display: inline-block;
+   background-color: rgba(56, 58, 73, 0.5);
+   color: white;
+   border-radius: 10px;
+   font-family: "arial", "serif";
+   font-size: 14px;
+   margin-left: 15px;
+   margin-right: 15px;
+   margin-bottom: 15px;
+}
+
+#previousSegment p:hover, #segmentList p:hover, #nextSegment p:hover
+{
+   background-color: rgba(56, 58, 73, 1.0);
+}
+
+#previousSegment p, #nextSegment p
+{
+   padding: 10px;
+}
+
+#segmentList p
+{
+   padding: 14px;
+}
+
+#previousSegment p a, #nextSegment p a
+{
+   text-decoration: none;
+   color: white;
+}
+
+#previousSegment p a:hover, #nextSegment p a:hover
+{
+   color: grey;
+}
+
+#previousSegment p img, #nextSegment p img
+{
+   cursor: pointer;
+}
+
+#segmentList select
+{
+   font-size: 14px;
+   color: white;
+   background-color: rgba(56, 58, 73, 0.5);
+   border: none;
+}
+
+#footer
+{
+   margin-bottom: 75px;
+}

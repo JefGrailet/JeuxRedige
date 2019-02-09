@@ -1,0 +1,429 @@
+/* Style for article edition pages, consisting of several blocks (.articleEditBlock) */
+
+#blockSequence 
+{
+   margin: auto;
+   width: 70%;
+   min-width: 800px;
+   padding-top: 20px;
+}
+
+#fullWidthSequence
+{
+   width: 100%;
+   min-width: 800px;
+   padding: 0px;
+   margin: 0px;
+}
+
+.articleEditBlock
+{
+   background-color: white;
+   border-radius: 15px;
+   margin: 20px;
+   padding-bottom: 5px;
+}
+
+.articleEditBlock p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   padding:  7px;
+   margin: 5px 10px 5px 10px;
+}
+
+.articleEditBlock h1
+{
+   font-family: "Arial", "Serif";
+   font-size: 18px;
+   font-weight: 200;
+   text-align: justify;
+   color: white;
+   background-color: #383A49;
+   border-radius: 15px 15px 0px 0px;
+   padding: 5px 15px 5px 15px;
+}
+
+.articleEditBlock p a
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.articleEditBlock p a:hover
+{
+   color: black;
+}
+
+.articleEditBlock .moveUp, .articleEditBlock .moveDown, .articleEditBlock .editSegment, .articleEditBlock .deleteSegment
+{
+   cursor: pointer;
+   vertical-align: -15%;
+}
+
+/* Table style (for segments list) */
+
+.articleEditBlock table
+{
+   min-width: 700px;
+   width: 100%;
+   margin-top: 0px;
+   margin-bottom: 10px;
+   background: none;
+   border: none;
+   border-collapse: collapse;
+   border-spacing: 10px;
+   margin: 5px 10px 15px 10px;
+}
+
+.articleEditBlock td
+{
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-align: justify;
+   padding: 7px;
+}
+
+.articleEditBlock td a
+{
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.articleEditBlock td a:hover
+{
+   color: black;
+}
+
+.articleEditBlock .formatButton
+{
+   padding: 4px;
+   background-color: #383A49;
+   border-radius: 3px;
+   cursor: pointer;
+}
+
+.articleEditBlock .formatButton:hover
+{
+   background-color: #557083;
+}
+
+.articleEditBlock .extendedFormatButton
+{
+   padding: 4px;
+   background-color: #00B53C;
+   border-radius: 3px;
+   cursor: pointer;
+}
+
+.articleEditBlock .extendedFormatButton:hover
+{
+   background-color: #557083;
+}
+
+.articleEditBlock .articlePublish
+{
+   background-color: #59A859;
+}
+
+.articleEditBlock .articleDelete
+{
+   background-color: #B53A3E;
+}
+
+.articleEditBlock .articlePublish:hover, .articleEditBlock .articleDelete:hover
+{
+   background-color: #557083;
+   cursor: pointer;
+}
+
+/*
+* Quick preview style.
+*/
+
+#textareaWrapper #editableWrapper
+{
+   width: 98.5%;
+   margin: 0px;
+   padding: 0px 0px 0px 15px;
+   display: inline-block;
+}
+
+#textareaWrapper textarea
+{
+   border: 1px solid #DDDDDD;
+   height: 295px;
+}
+
+#previewZone
+{
+   display: inline-block;
+   margin: 0px;
+   width: 49%;
+   height: 293px;
+   border: 1px solid #DDDDDD;
+   background: none;
+   overflow-y: auto;
+   resize: vertical;
+   margin-bottom: -3px;
+}
+
+@media screen and (max-width: 799px)
+{
+   #previewZone
+   {
+      width: 45%;
+   }
+}
+
+@media screen and (min-width: 800px) and (max-width: 999px)
+{
+   #previewZone
+   {
+      width: 47%;
+   }
+}
+
+#previewZone p
+{
+   padding: 3px;
+   margin: 0px;
+}
+
+#previewZone h2
+{
+   margin: 4px 7px 4px 7px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+   color: rgb(56, 58, 73);
+}
+
+#previewZone .quotation, #previewZone .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 5px;
+   margin-bottom: 5px;
+   margin-right: 0px;
+   padding: 5px;
+}
+
+#previewZone .spoiler a
+{
+   cursor: pointer;
+}
+
+#previewZone .miniature
+{
+   cursor: pointer;
+}
+
+#previewZone .hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+#previewZone .hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+/* Emphasis style */
+
+#previewZone .emphasis
+{
+   margin-top: 10px;
+   clear: both;
+}
+
+#previewZone .emphasis .emphasisWithin
+{
+   background-color: rgba(56, 58, 73, 0.4);
+   color: white;
+}
+
+#previewZone .emphasis .emphasisWithin p /* To override #previewZone p padding and margin */
+{
+   margin: 0px;
+   padding: 20px;
+   text-align: center;
+   font-family: "Times New Roman", "Arial", "Serif";
+   font-size: 25px;
+   font-weight: bold;
+}
+
+/* Emphasis (block) style */
+
+#previewZone .emphasisText
+{
+   margin: 5px;
+   clear: both;
+   background-color: #383A49;
+   color: white;
+   border-radius: 10px;
+   padding-bottom: 10px;
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
+#previewZone .emphasisText h3
+{
+   background: none;
+   font-family: "Arial", "Serif";
+   font-size: 20px;
+   font-weight: bold;
+   margin: 0px;
+   padding-left: 3px;
+   padding-right: 3px;
+   padding-top: 10px;
+}
+
+/* Summary style */
+
+.summary
+{
+   clear: both;
+}
+
+.summaryGood
+{
+   width: 50%;
+   float: left;
+}
+
+.summaryBad
+{
+   width: 50%;
+   float: right;
+}
+
+.summaryGood h3, .summaryBad h3
+{
+   display: inline-block;
+   margin-top: 0px;
+   margin-left: 5px;
+   margin-right: 5px;
+   padding: 10px 100px 10px 10px;
+   border-radius: 10px;
+   background-color: #383A49;
+   color: white;
+   font-size: 16px;
+   font-family: "Arial", "Serif";
+}
+
+.summaryGood ul, .summaryBad ul
+{
+   margin-top: 0px;
+   margin-bottom: 10px;
+   padding-left: 20px;
+}
+
+.summaryGood li, .summaryBad li
+{
+   font-size: 14px;
+   font-family: "Arial", "Serif";
+   list-style-type: square;
+   padding-bottom: 5px;
+}
+
+/*
+* Style for header preview.
+*/
+
+#previewHeader
+{
+   cursor: pointer;
+}
+
+/*
+* Style for uploads menu.
+*/
+
+.uploadsView, .previousUploadsView
+{
+   padding: 3px 10px;
+}
+
+.uploadView
+{
+   position: relative;
+   float: left;
+   margin: 0px 0px 6px 6px;
+   background: none;
+   border: 1px solid rgb(220, 220, 220);
+   border-radius: 0px;
+}
+
+.uploadView a
+{
+   display: block;
+   height: 100%;
+   width: 100%;
+   text-decoration: none;
+}
+
+.uploadView video, .uploadView img
+{
+   display: block;
+   padding: 0px;
+   margin: 0px;
+}
+
+/* Top part of a thumbnail */
+
+.uploadViewTop
+{
+   position: absolute;
+   z-index: 2;
+}
+
+.uploadViewTop img
+{
+   display: inline;
+   margin: 0px;
+   padding: 0px 2px;
+   vertical-align: -10%;
+}
+
+.uploadViewTop a
+{
+   text-decoration: none;
+   display: inline;
+}
+
+.uploadViewIcons
+{
+   float: right;
+   margin: 0px;
+   padding: 3px;
+   border-radius: 0px 0px 5px 0px;
+   background-color: #383A49;
+   opacity: 0.8;
+   display: inline-block;
+}
+
+.uploadViewIcons:hover
+{
+   opacity: 1.0;
+}
+
+.uploadViewIcons img:hover
+{
+   cursor: pointer;
+}

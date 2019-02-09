@@ -1,0 +1,5 @@
+<div data-list-id="{$listID}" class="mediaThumbnail" {$styleAndData}>
+   {switch:author||show & <h2>[0]</h2>}
+   <h1 class="bottomTitle">{$title}</h1>
+   <a href="{$URL}"><div class="clickable"></div></a>
+</div>

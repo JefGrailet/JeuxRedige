@@ -1,0 +1,10 @@
+<h1 class="centeredTitle">Le saviez-vous ?</h1>
+<div class="centeredContent">
+   {switch:error||
+noPiece & <p>Il n'y a actuellement aucune anecdote enregistrée pour ce jeu.<br/><br/><br/></p>|
+dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>|
+badTemplating & <p>Une erreur est survenue lors de l'affichage des anecdotes. Réessayez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>}
+   <a href="./NewTrivia.php?game={$gameTitle}" class="prettyLink">Nouvelle anecdote</a><br/><br/>
+</div>

@@ -1,0 +1,58 @@
+<div id="articleWrapper">
+   {$segments}
+   <p id="articleKeywords">
+      {$keywords}
+   </p>
+   {$games}
+   <div id="articleFooter">
+      <div id="articleFooterRight">
+         <div id="footerAuthor" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+         <div id="footerDetails">
+            <p>{$authorDetails}</p>
+         </div>
+      </div>
+      <div style="clear: both;"></div>
+   </div>
+</div>
+{switch:comments||
+many & <div id="articleComments">
+   <p>
+      <a href="[0]" target="_blank" id="showComments">[1]</a>
+   </p>
+</div>
+<div id="coverScreen"></div>
+<div id="commentsSlider" data-id-topic="[3]">
+   <div id="commentsHeader">
+      <div id="closeSlider">
+         <p>
+            <span id="closeClickable">Fermer <img src="./res_icons/close_slider.png" alt="Fermer"/></span>
+         </p>
+      </div>
+      <h1>[1]</h1>
+      <p>
+         <a href="[0]" target="_blank">Voir l'entièreté du sujet</a> - 
+         <a href="[2]" target="_blank">Rédiger un commentaire</a>
+      </p>
+   </div>
+   <div id="commentsListed">
+   </div>
+</div>|
+beFirst & <div id="articleComments">
+   <p>
+      <a href="[0]" target="_blank">Commenter</a>
+   </p>
+</div>}
+<div id="bottomWrapper">
+   <div id="previousSegment">
+      {switch:previousSegment||
+yes &       <p><a href="[0]"><img src="./res_icons/article_previous.png" alt="Précédent" title="Section précédente"/></a></p>}
+   </div>
+   <div id="segmentList">
+      {switch:segmentsList||
+yes &       <p><select name="sections">[0]</select></p>}
+   </div>
+   <div id="nextSegment">
+      {switch:nextSegment||
+yes &       <p><a href="[0]"><img src="./res_icons/article_next.png" alt="Suivant" title="Section suivante"/></a></p>}
+   </div>
+</div>

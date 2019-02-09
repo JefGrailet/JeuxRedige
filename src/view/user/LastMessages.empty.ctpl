@@ -1,0 +1,4 @@
+<div id="postsContainer" style="margin-top: 30px;">
+   <h1 class="centeredTitle">Les 5 derniers messages de {$user}</h1>
+   <p class="centeredText">Cet utilisateur n'a aucun message à son actif.</p>
+</div>

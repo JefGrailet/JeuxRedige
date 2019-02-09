@@ -1,0 +1,3 @@
+<h1>Vous êtes maintenant connecté</h1>
+<p>Vous allez être redirigé dans quelques secondes. Si la redirection ne se fait pas 
+automatiquement, <a href="{$redirection}">cliquez ici</a>.</p>

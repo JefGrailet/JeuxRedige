@@ -1,0 +1,4 @@
+<div id="postsContainer">
+   <h1 class="centeredTitle">Historique des messages de {$user}</h1>
+   <p class="centeredText">Cet utilisateur n'a aucun message à son actif.</p>
+</div>

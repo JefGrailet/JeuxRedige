@@ -1,0 +1,10 @@
+<h1>Erreur lors de la lecture de la discussion</h1>
+<p>{switch:error||
+wrongURL & L'adresse que vous employez est incomplète et ne permets pas de retrouver une 
+discussion privée et ses messages.|
+dbError & Nous rencontrons actuellement des difficultés avec la base de données et n'avons pu 
+retrouver la discussion. Veuillez réessayer plus tard.|
+dbError & Une erreur inconnue est survenue lors de la récupération des messages. Veuillez 
+réessayer plus tard.|
+missingThread & La discussion à laquelle vous tentez d'accéder n'existe pas, ou vous 
+n'en faites pas partie.}</p>

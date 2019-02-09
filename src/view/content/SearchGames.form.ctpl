@@ -1,0 +1,39 @@
+<div id="gameSearchForm" style="width: 550px;">
+<form action="./SearchGames.php" method="post">
+<p>
+<input type="radio" name="form_type" value="by_trope" checked> Recherche par code
+<input type="radio" name="form_type" value="by_similar_game"> Recherche par jeu similaire<br/>
+<br/>
+</p>
+<div id="by_trope">
+   <p>
+   <input type="text" id="trope" name="trope" maxlength="100" placeholder="Entrez un code vidéoludique" autocomplete="off"/> 
+   <span class="suggestions" id="tropesSuggestions"></span>
+   </p>
+</div>
+<div id="by_similar_game" style="display: none;">
+   <p>
+   <input type="text" id="selectGame" name="selectGame" maxlength="100" placeholder="Entrez le titre d'un jeu" autocomplete="off"/> 
+   <span class="suggestions" id="gamesSuggestions"></span>
+   </p>
+</div>
+<p><br/>
+{select:mode}
+<input type="submit" name="sent" value="Go" />
+<input type="hidden" name="tropes" value="{$tropes}"/> 
+</p>
+</form>
+</div>
+<div id="filterFormInputs">
+<p><br/>
+<span class="tropesList">
+{$tropesList}
+</span>
+{$permanentLink}
+</p>
+{switch:specialMessage||
+emptyField & <p style="color: red;">Erreur: vous devez entrer un ou plusieurs codes.</p>|
+noResult & <p style="color: blue;">Votre recherche n'a généré aucun résultat.</p>|
+dbError & <p style="color: red;">Erreur: un problème avec la base de données est survenu lors de 
+la recherche. Réessayez plus tard ou contactez l'administrateur.</p>}
+</div>

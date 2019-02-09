@@ -1,0 +1,48 @@
+<h1>Mes préférences</h1>
+{switch:outcome||
+OK & <p><span style="color: green;">Vos nouvelles préférences ont été enregistrées avec 
+succès.</span><br/></p>|
+incorrectInput & <p><span style="color: red;">Les valeurs entrées ne sont pas valides. Veuillez 
+les modifier conformément à ce que le formulaire stipule.</span><br/></p>|
+dbError & <p><span style="color: red;">Une erreur inconnue est survenue lors de la mise à jour. 
+Contactez l'administrateur ou réessayez plus tard.</span><br/></p>}
+<form action="./MyAccount.php" method="post">
+<p>
+<input type="hidden" name="dataToEdit" value="preferences"/>
+Activer les préférences personnelles ? {select:using_preferences}<br/>
+<span style="color: grey; font-size: 11px;">Laissez sur "Non" si vous souhaitez garder les 
+paramètres par défaut. Si vous choisissez "Oui", vous utilisez les paramètres ci-après.</span><br/>
+<br/>
+Taille des messages: {select:message_size}<br/>
+<span style="color: grey; font-size: 11px;">Choisir la taille "medium" réduit la taille des 
+avatars et icônes pour laisser plus de place aux messages.</span><br/>
+<br/>
+Nombre de messages par page d'un sujet: {select:posts_per_page}<br/>
+<span style="color: grey; font-size: 11px;">Vous pouvez afficher entre 5 et 100 messages par page 
+d'un sujet.</span><br/>
+<br/>
+Affichage des vidéos: {select:video_default_display}<br/>
+<span style="color: grey; font-size: 11px;">Vous pouvez faire directement afficher les vidéos ou 
+bien les remplacer par une vignette cliquable pour éviter de charger trop de vidéos à la fois.
+</span><br/>
+<br/>
+Affichage des vignettes (vidéo): {select:video_thumbnail_style}<br/>
+<span style="color: grey; font-size: 11px;">Si vous remplacez temporairement les vidéos par des 
+vignettes, vous pouvez choisir entre des vignettes de grande taille (480x360 pixels) ou de petite 
+taille (120x90 pixels).</span><br/>
+<br/>
+Navigation par défaut: {select:default_nav_mode}<br/>
+<span style="color: grey; font-size: 11px;">Le mode choisi s'active au chargement d'un sujet ou 
+d'une discussion privée. Vous pouvez le changer en cours de navigation.</span><br/>
+<br/>
+Aperçu automatique/rapide: {select:auto_preview}<br/>
+<span style="color: grey; font-size: 11px;">Vous pouvez (dés)activer cette fonctionnalité en cours 
+de navigation.</span><br/>
+<br/>
+Rafraîchissement automatique: {select:auto_refresh}<br/>
+<span style="color: grey; font-size: 11px;">Vous pouvez (dés)activer cette fonctionnalité en cours 
+de navigation.</span><br/>
+<br/>
+<input type="submit" name="sent" value="Modifier" />
+</p>
+</form>

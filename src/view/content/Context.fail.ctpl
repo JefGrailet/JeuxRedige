@@ -1,0 +1,6 @@
+<h1>Redirection impossible</h1>
+<p>{switch:error||
+missingPost & Le message n'est pas précisé.|
+nonexistingPost & Le message recherché n'existe pas ou plus.|
+missingTopic & Le sujet qui contenait ce message n'existe pas ou plus.|
+dbError & Une erreur inconnue est survenue lors de la lecture du message et/ou de son sujet.}</p>

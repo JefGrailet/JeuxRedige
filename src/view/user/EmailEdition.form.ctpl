@@ -1,0 +1,33 @@
+<h1>Modifier mon adresse e-mail</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs.|
+wrongCurrentPwd & le mot de passe que vous avez entré est incorrect.|
+emailTooLong & la nouvelle adresse est anormalement longue (maximum 60 caractères).|
+alreadyUsed & vous utilisez déjà l'adresse que vous venez d'entrer.|
+usedBySomeoneElse & cette nouvelle adresse est déjà utilisée pour un autre compte.|
+dbError & une erreur inconnue est survenue lors de la vérification our l'enregistrement de la 
+nouvelle adresse. Réessayez plus tard ou prévenez un administrateur.}
+<form action="./MyAccount.php" method="post">
+<input type="hidden" name="dataToEdit" value="email"/>
+<table class="userFields" width="780">
+<tr>
+   <td class="userFieldsText" width="150"><label for="pwd">Mot de passe:</label></td>
+   <td class="userFieldsInput" width="210"><input type="password" name="pwd" value="{$pwd}" size="30"/></td>
+   <td class="userFieldsText"><input type="checkbox" name="pwd_show"/><label for="pwd_show">Afficher le mot de passe</label></td>
+</tr>
+<tr>
+   <td class="userFieldsText"><label for="newEmail">Nouvelle addresse:</label></td>
+   <td class="userFieldsInput"><input type="text" name="newEmail" value="{$newEmail}" size="30"/></td>
+   <td class="userFieldsText"><span style="color: grey;">Adresse actuelle: {$oldEmail}</span></td>
+</tr>
+</table>
+<p><span style="color: grey; font-size:11px;">Remarques :<br/>
+-Si vous changez votre adresse, un e-mail de confirmation sera envoyé sur votre nouvelle adresse
+pour vérifier sa validité.<br/>
+-Vous serez également automatiquement déconnecté et votre compte temporairement désactivé jusqu'à 
+ce que la procédure soit complétée.<br/>
+-Le changement sera annulé si vous n'utilisez pas le lien de confirmation dans les 24 heures
+qui suivent.</span><br/>
+<br/>
+<input type="submit" name="sent" value="Modifier" /></p>
+</form>

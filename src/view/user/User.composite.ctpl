@@ -1,0 +1,13 @@
+<div id="userDetailsContainer">
+   <h1 class="centeredTitle">A propos de {$pseudo}</h1>
+   <p><img src="{$avatar}" alt="{$pseudo}" style="border-radius: 5px;"/><br/>
+   <br/>
+   Inscrit le {$registrationDate}<br/>
+   Dernier passage le {$lastConnection}<br/>
+   {switch:advFeatures||yes & A accès aux fonctions avancées<br/>}
+   {switch:banned||yes & <strong>Actuellement banni</strong><br/>}
+   {$sentences}
+   </p>
+</div>
+{$articles}
+{$userLastMessages}

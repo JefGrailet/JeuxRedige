@@ -1,0 +1,7 @@
+<div id="postsContainer">
+   <h1 class="centeredTitle">Version courante du message #{$idMsg}</h1>
+   {$currentMsg}<br/>
+   <br/>
+   <h1 class="centeredTitle">Versions antérieures</h1>
+   {$previousVersions}
+</div>

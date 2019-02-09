@@ -1,0 +1,13 @@
+<h1 class="centeredTitle">Mes messages favoris</h1>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="lineItemsPool">
+   <div id="poolContent">
+      {$pins}
+   </div>
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>

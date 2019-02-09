@@ -1,0 +1,14 @@
+<h1 class="centeredTitle">Mes articles</h1>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="articlesPool">
+   <div id="poolContent">
+      {$thumbnails}
+   </div>
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+   <p><a href="./NewArticle.php" class="prettyLink">Nouvel article</a></p>
+</div>

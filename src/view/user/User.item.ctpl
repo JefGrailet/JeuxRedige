@@ -1,0 +1,6 @@
+<div class="userBlock">
+   <div class="userBlockAvatar" style="background: url({$avatar}) no-repeat top center;">
+      <a href="./EditUser.php?user={$formattedPseudo}"></a>
+   </div>
+   <h1><a href="./EditUser.php?user={$formattedPseudo}">{$pseudo}</a></h1>
+</div>

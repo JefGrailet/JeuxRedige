@@ -1,0 +1,9 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer des articles.|
+forbiddenAccess & Vous devez avoir accès aux fonctions avancées pour pouvoir créer un article.|
+missingID & L'ID de l'article à éditer n'est pas précisé.|
+nonexistingArticle & L'article recherché n'existe pas ou plus.|
+notYours & L'ID ne correspond pas à un de vos articles.|
+dbError & Une erreur est survenue lors de la consultation de la base de données. Réessayez plus 
+tard ou contactez l'administrateur.}</p>

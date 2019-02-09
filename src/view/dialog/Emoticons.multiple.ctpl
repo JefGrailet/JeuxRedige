@@ -1,0 +1,92 @@
+<div id="newEmoticon" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Créer une nouvelle émoticône</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="uploadColumn1">
+               <input type="file" name="new_emoticon_file" id="uploadEmoticon"/>
+            </td>
+            <td class="uploadColumn2">Max. 500 Ko, JP(E)G, GIF ou PNG</td>
+         </tr>
+      </table>
+      <table class="windowFields" style="margin-top: 5px;">
+         <tr>
+            <td class="emoticonDialColumn1"><label for="new_emoticon_name">Nom:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="new_emoticon_name"/></td>
+         </tr>
+         <tr>
+            <td class="emoticonDialColumn1"><label for="new_emoticon_shortcut">Code*:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="new_emoticon_shortcut"/></td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;">*Doit <strong>commencer par le caractère : ou ;</strong> (min. 2 caractères).</span> 
+         <span class="triggerDialog">Charger</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="mapEmoticon" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Ajouter une émoticône à ma librairie</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="emoticonDialColumn1"><label for="map_emoticon_shortcut">Code*:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="map_emoticon_shortcut"/></td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;">*Doit <strong>commencer par le caractère : ou ;</strong> (min. 2 caractères).</span> 
+         <span class="triggerDialog">Ajouter</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="editEmoticon" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Modifier une émoticône</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields" style="margin-top: 5px;">
+         <tr>
+            <td class="emoticonDialColumn1"><label for="edit_emoticon_name">Nom:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="edit_emoticon_name"/></td>
+         </tr>
+         <tr>
+            <td class="emoticonDialColumn1"><label for="edit_emoticon_shortcut">Code*:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="edit_emoticon_shortcut"/></td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;">*Doit <strong>commencer par le caractère : ou ;</strong> (min. 2 caractères).</span> 
+         <span class="triggerDialog">Modifier</span>
+         <br/>
+      </p>
+   </div>
+</div>
+<div id="editEmoticonShortcut" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Modifier mon code pour une émoticône</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields" style="margin-top: 5px;">
+         <tr>
+            <td class="emoticonDialColumn1"><label for="edit_emoticon_shortcut2">Code*:</label></td>
+            <td class="emoticonDialColumn2"><input type="text" name="edit_emoticon_shortcut2"/></td>
+         </tr>
+      </table>
+      <p>
+         <span style="color: grey;">*Doit <strong>commencer par le caractère : ou ;</strong> (min. 2 caractères).</span> 
+         <span class="triggerDialog">Modifier</span>
+         <br/>
+      </p>
+   </div>
+</div>

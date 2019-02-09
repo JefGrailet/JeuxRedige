@@ -1,0 +1,20 @@
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+</div>
+<div id="thumbnailsPool">
+   {$thumbnails}
+   <div class="clear"></div>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+   {switch:wholeList||
+link & <a href="./Forum.php" class="prettyLink">Tous les sujets</a>&nbsp; |
+viewed & <span class="prettyText">Tous les sujets</span>&nbsp; }
+   {switch:favorites||
+link & <a href="./Forum.php?filter=favorites" class="prettyLink">Mes favoris</a>&nbsp; |
+viewed & <span class="prettyText">Mes favoris</span>&nbsp; }
+   {switch:research||
+link & <a href="./Search.php" class="prettyLink">Filtrer</a>&nbsp; |
+viewed & <span class="prettyText">Filtrer</span>&nbsp; }
+   <a href="./NewTopic.php" class="prettyLink">Nouveau sujet</a>&nbsp; 
+</div>

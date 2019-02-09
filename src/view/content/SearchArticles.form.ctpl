@@ -1,0 +1,31 @@
+<div id="filterForm">
+<form action="./SearchArticles.php" method="post">
+<p>
+<input type="text" id="keyword" name="keyword" maxlength="100" placeholder="Entrez un mot-clef" autocomplete="off"/> 
+<input type="checkbox" name="strict"{switch:strict||ok &  checked="checked"}> 
+<label for="strict" title="Cochez pour que les résultats contiennent tous les mots-clefs">Strict</label> &nbsp;
+<input type="submit" name="sent" value="Go" />
+<input type="hidden" name="keywords" value="{$keywords}"/> 
+<span class="suggestions" id="keywordsSuggestions">
+</span>
+</p>
+</form>
+</div>
+<div id="filterFormInputs">
+<p>
+<span class="keywordsList">
+{$keywordsList}
+</span>
+{$permanentLink}
+</p>
+{switch:specialMessage||
+emptyField & <p style="color: red;">Erreur: vous devez entrer un ou plusieurs mots-clefs.</p>|
+noResult & <p style="color: blue;">Votre recherche n'a généré aucun résultat.</p>|
+dbError & <p style="color: red;">Erreur: un problème avec la base de données est survenu lors de 
+la recherche. Réessayez plus tard ou contactez l'administrateur.</p>}
+</div>
+{switch:showButtons||
+ok & <div class="centeredContent">
+<a href="./Articles.php" class="prettyLink">Tous les articles</a>&nbsp; 
+<span class="prettyText">Filtrer</span>
+</div>}

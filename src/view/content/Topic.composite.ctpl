@@ -1,0 +1,41 @@
+{$header}
+<div id="visibleWrapper">
+   <div class="messagesNav">
+      {navigation:pagesConfig} 
+      {switch:replyLink||yes & <p class="topicMenu"><a href="[0]">Poster une réponse (avancé)</a></p>}
+   </div>
+   <div id="postsWrapper">
+      <div class="page">
+      {$posts}
+      </div>
+   </div>
+   <div class="messagesNav">
+      {switch:replyLink||yes & <p class="topicMenu"><a href="[0]">Poster une réponse (avancé)</a></p>}
+      {navigation:pagesConfig} 
+   </div>
+</div>
+<div id="bottomWrapper">
+   <div id="navMenu">
+      <p>
+      <select id="highlightPosts">
+         <option value="20">Score &#8805; 20</option>
+         <option value="10">Score &#8805; 10</option>
+         <option value="1">Score &#8805; 0</option>
+         <option value="0" selected="selected">Pas de filtre</option>
+         <option value="-1">Score &#8804; 0</option>
+         <option value="-10">Score &#8804; -10</option>
+         <option value="-20">Score &#8804; -20</option>
+      </select> 
+      <strong>|</strong> &nbsp;
+      <span class="quickForm" title="Raccourci: Ctrl + Espace">Réponse rapide</span> &nbsp;
+      <strong>|</strong> &nbsp;
+      <img class="navMode" data-mode="1" style="opacity: 1.0;" src="./res_icons/nav_pages_static.png" alt="Pages statiques" title="Pagination statique" /> 
+      <img class="navMode" data-mode="2" style="opacity: 0.5;" src="./res_icons/nav_pages_dynamic.png" alt="Pages statiques" title="Pagination dynamique" /> 
+      <img class="navMode" data-mode="3" style="opacity: 0.5;" src="./res_icons/nav_flow.png" alt="Flot de messages" title="Flot de messages" /> 
+      <img class="navRefresh" style="opacity: 0.5;" src="./res_icons/nav_auto_refresh.png" alt="Rafraîchissement automatique" title="Rafraîchissement automatique" />
+      </p>
+   </div>
+   <div id="slidingBlock">
+   {$replyForm}
+   </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="articleEditBlock" id="highlighting">
+<h1>Mise en évidence de l'article</h1>
+{switch:success||
+yes & <p style="color: green;">Les modifications ont été enregistrées avec succès.</p>}
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+dbError & un problème avec la base de données est survenu lors de la mise à jour. 
+Réessayez plus tard ou contactez l'administrateur.|
+invalidHighlight & la nouvelle bannière est introuvable; créez-en une nouvelle.}
+<form action="./EditArticle.php?id_article={$ID}#highlighting" method="post">
+<p>
+<img src="{$highlight}" style="width: 40%; cursor:pointer;" alt="Bannière de l'article" 
+id="previewHighlight" onClick="javascript:DefaultLib.openDialog('#customHighlight')" title="Cliquez pour éditer"/><br/>
+<br/>
+<input type="checkbox" name="featured"{switch:featured||checked &  checked="checked"}> 
+<label for="featured">Mettre en évidence</label><br/>
+<br/>
+<input type="hidden" name="highlight" value="{$highlight}"/>
+<input type="submit" name="highlightThis" value="Mettre à jour" /></p>
+</form>
+</div>

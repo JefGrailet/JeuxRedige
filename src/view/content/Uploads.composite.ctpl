@@ -1,0 +1,10 @@
+{$header}
+{switch:content||error & <div style="padding-top: 20px; text-align:center;">
+   <p style="font-size: 14px; font-family: 'Arial', 'Calibri', 'Serif';">
+      Ce sujet ne comporte aucun upload.
+   </p>
+</div>|
+listUploads & <div class="uploadsPool">
+   [0]
+   <div style="clear: both;"></div>
+</div>}

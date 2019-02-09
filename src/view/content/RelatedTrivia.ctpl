@@ -1,0 +1,12 @@
+<h1 class="centeredTitle" id="trivia">Le saviez-vous ?</h1>
+<div id="triviaContainer">
+   {$pieces}
+   <br/>
+</div>
+<div class="centeredContent">
+   {pages:pageConfig||<p><span class="backBlack">Pages :</span> |</p><br/><br/>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nbsp;...&nbsp;}
+   {switch:allTrivia||yes & <a href="[0]" class="prettyLink">Voir toutes les anecdotes ([1])</a>&nbsp; }
+   {switch:newPiece||
+yes & <a href="./NewTrivia.php?game=[0]" class="prettyLink">Nouvelle anecdote</a>}
+<br/><br/>
+</div>

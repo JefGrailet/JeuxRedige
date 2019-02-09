@@ -1,0 +1,55 @@
+<h1>Lancer une nouvelle discussion</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyRecipient & vous devez préciser un destinataire.|
+emptyMessage & vous devez écrire un message et préciser un sujet.|
+missingRecipient & le destinataire proposé n'existe pas.|
+titleTooLong & le sujet proposé est trop long.|
+tooManyPings & vous avez déjà lancé une autre discussion il y a moins de 3 minutes.|
+talkingToOneself & vous ne pouvez pas lancer une discussion avec vous-même. Veuillez contacter un médecin pour de plus amples informations.|
+dbError & un problème avec la base de données est survenu lors de l'envoi du message. Réessayez plus tard.}
+
+<form action="./NewDiscussion.php" method="post">
+<p>
+<span class="recipientSelection">
+{switch:recipientSelection||
+selected & <strong>Destinataire:</strong> [0]|
+missing & <input type="text" id="userInput" name="userInput" size="50" maxlength="50" placeholder="Entrez un destinataire" autocomplete="off"/> 
+<span class="suggestions" id="usersSuggestions">
+</span>}
+</span><br/>
+<br/>
+<input type="text" name="title" value="{$title}" size="50" maxlength="50" placeholder="Entrez un sujet de discussion"/><br/>
+<br/>
+<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>
+<div id="textareaWrapper">
+<p><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+</div>
+<p>
+{switch:formEnd||
+askAdvancedMode & <input type="hidden" name="origin" value="quickForm" /> 
+<input type="submit" name="sent" value="Mode avancé" /> 
+<button type="button" id="quickPreview">Aperçu rapide</button> |
+askPreview & <input type="hidden" name="origin" value="fullForm" /> 
+<button type="button" id="manualPreview">Aperçu</button> 
+<button type="button" id="autoPreview">Aperçu auto</button> }
+<input type="hidden" name="recipient" value="{$recipient}"/>
+<input type="submit" name="sent" value="Envoyer" />
+</p>
+</form>

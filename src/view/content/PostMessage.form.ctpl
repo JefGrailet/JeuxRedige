@@ -1,0 +1,69 @@
+<h1>Poster une réponse</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyField & vous devez écrire un message.|
+anonPseudoTooLong & ce pseudonyme est trop long.|
+anonPseudoUnavailable & ce pseudonyme a déjà été utilisé ces dernières 12 heures.|
+wrongCaptcha & le résultat du calcul est incorrect.|
+tooManyPostsAnon & en tant que visiteur anonyme, vous ne pouvez poster deux messages en moins de 2 minutes.|
+tooManyPostsUser & en tant qu'utilisateur, vous ne pouvez deux messages en moins de 15 secondes.|
+dbError & un problème avec la base de données est survenu lors de l'envoi du message. Réessayez plus tard.}
+<form id="replyForm" action="./PostMessage.php?id_topic={$topicID}" method="post" data-ajax="FastPost.php?id_topic={$topicID}">
+<p>
+{switch:anonPseudoStatus||
+existing & Pseudonyme (visiteur anonyme) : <strong>[0]</strong><br/>
+<br/>
+<input type="hidden" name="pseudo" value="[0]"/>
+<span style="color: grey;">Vous pourrez utiliser ce pseudonyme jusqu'à 12 heures après votre 
+dernier message.</span><br/>|
+new & <input type="text" name="pseudo" maxlength="20" size="30" title="Vous pourrez utiliser ce pseudonyme jusqu'à 12 heures après votre dernier message." placeholder="Entrez un pseudonyme"/><br/>}
+{switch:showFormattingUI||
+yes & <img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>|
+no & </p>}
+<div id="textareaWrapper">
+<p><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+</div>
+<p>
+<span class="uploadOptions">
+{switch:uploadOptions||yes & 
+<label for="upload_display_policy">Affichage des uploads:</label> 
+<select name="upload_display_policy">
+<option value="default">En dessous de mon message</option>
+<option value="spoiler"[0]>En dessous de mon message, masqué (spoilers)</option>
+<option value="nsfw"[1]>En dessous de mon message, masqué (contenu mature)</option>
+<option value="noshow"[2]>J'intègrerai mes uploads dans mon message</option>
+<option value="noshownsfw"[3]>J'intègrerai mes uploads dans mon message (NSFW dans la galerie)</option>
+<option value="noshowspoiler"[4]>J'intègrerai mes uploads dans mon message (spoiler dans la galerie)</option>
+</select><br/>
+<br/>}
+</span>
+{switch:formEnd||
+anon & <img src="./Captcha.php" id="Captcha" alt="Donnez le résultat du calcul" style="border: 1px solid black"/> = 
+<input type="text" name="captcha" size="20" maxlength="10" placeholder="Résultat du calcul"/><br/>
+<br/>
+<input type="hidden" name="origin" value="anonForm" />|
+askAdvancedMode & <input type="hidden" name="origin" value="quickForm" /> 
+<input type="submit" name="sent" value="Mode avancé" /> 
+<button type="button" id="quickPreview">Aperçu rapide</button> |
+askPreview & <input type="hidden" name="origin" value="fullForm" /> 
+<button type="button" id="manualPreview">Aperçu</button> 
+<button type="button" id="autoPreview">Aperçu auto</button> }
+<input type="submit" name="sent" value="Poster" />
+</p>
+</form>

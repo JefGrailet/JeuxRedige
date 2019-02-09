@@ -1,0 +1,10 @@
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+</Files>
+
+<Files *.ctpl>
+    Order Deny,Allow
+    Deny from all
+</Files>

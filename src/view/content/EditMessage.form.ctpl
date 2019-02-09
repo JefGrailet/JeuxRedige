@@ -1,0 +1,51 @@
+<h1>Editer un message</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyField & vous devez écrire un message.|
+dbError & un problème avec la base de données est survenu lors de l'édition du message. 
+Réessayez plus tard.|
+concurrentEdit & une édition du message est survenue entre l'écriture de votre nouvelle version et 
+l'envoi de celle-ci. Veuillez vérifier le message avant de soumettre à nouveau.}
+<p>
+<a href="{$msgLink}">Revenir au message</a>
+</p>
+<form action="./EditMessage.php?id_post={$messageID}" method="post">
+<p><img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>
+<p>
+<textarea rows="10" name="message" placeholder="Entrez un message">{$content}</textarea><br/>
+<br/>
+<span class="uploadOptions">
+{switch:uploadOptions||yes & 
+<label for="upload_display_policy">Affichage des uploads:</label> 
+<select name="upload_display_policy">
+<option value="default">En dessous de mon message</option>
+<option value="spoiler"[0]>En dessous de mon message, masqué (spoilers)</option>
+<option value="nsfw"[1]>En dessous de mon message, masqué (contenu mature)</option>
+<option value="noshow"[2]>J'intègrerai mes uploads dans mon message</option>
+<option value="noshownsfw"[3]>J'intègrerai mes uploads dans mon message (NSFW dans la galerie)</option>
+<option value="noshowspoiler"[4]>J'intègrerai mes uploads dans mon message (spoiler dans la galerie)</option>
+</select><br/>
+<br/>}
+</span>
+{$reportPart}
+<input type="hidden" name="nbEdits" value="{$nbEdits}"/>
+<button type="button" id="manualPreview">Aperçu</button> 
+<button type="button" id="autoPreview">Aperçu auto</button> 
+<input type="submit" name="sent" value="Editer" /></p>
+</form>

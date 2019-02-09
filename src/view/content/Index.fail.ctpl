@@ -1,0 +1,8 @@
+<div class="centeredContent">
+   {switch:error||
+noContent & <p>Il n'y a actuellement aucun contenu.</p>|
+dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>|
+wrongTemplating & <p>Une erreur est survenue lors de la génération des vignettes. Réessayez plus 
+tard ou contactez l'administrateur.<br/><br/><br/></p>}
+</div>

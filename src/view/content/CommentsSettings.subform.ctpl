@@ -1,0 +1,18 @@
+<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre"/><br/>
+<br/>
+<img src="{$thumbnailPath}" alt="Vignette du sujet" title="Cliquez pour éditer" id="previewThumbnail" /><br/>
+<br/>
+<input type="checkbox" name="anon_posting"{switch:anonChecked||checked &  checked="checked"}> 
+<label for="anon_posting">Autoriser les anonymes à participer au sujet</label><br/>
+<input type="checkbox" name="enable_uploads"{switch:uploadsChecked||checked &  checked="checked"}> 
+<label for="enable_uploads">Autoriser les uploads (si non, les uploads du premier message seront ignorés)</label><br/>
+<br/>
+<input type="text" id="keyword" name="keyword" data-creation="yes" size="60" maxlength="100" placeholder="Entrez un mot-clef (max. 10)" autocomplete="off"/>
+<span class="suggestions" id="keywordsSuggestions">
+</span>
+<br/><br/>
+<span class="keywordsList">
+{$keywordsList}
+</span>
+<input type="hidden" name="keywords" value="{$keywords}"/>
+<input type="hidden" name="thumbnail" value="{$thumbnail}"/> 

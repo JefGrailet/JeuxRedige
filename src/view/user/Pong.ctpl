@@ -1,0 +1,18 @@
+<div class="postBlock" id="{$pongID}">
+<div class="postBlockLeftColumn">
+<div class="postBlockAvatar" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+</div>
+<div class="postBlockText">
+<div class="postBlockTextTop">
+   <div class="postBlockTextTopLeftSide">
+      <p class="postAuthor" {$authorStyle}>{$authorPseudo}</p>
+      <p>{$date}</p>
+   </div>
+   <div class="postBlockTextTopRightCorner">
+   </div>
+   <div class="clear"></div>
+</div>
+{$content}
+</div>
+<div class="clear"></div>
+</div>

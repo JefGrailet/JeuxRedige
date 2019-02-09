@@ -1,0 +1,32 @@
+<h1>Bannir</h1>
+<p><strong>Rappels:</strong><br/>
+-une fois banni, un utilisateur ne peut plus se connecter du tout jusqu'à expiration. Si la 
+sanction vous semble trop dure, n'oubliez pas que vous pouvez aussi priver cet utilisateur de son 
+accès aux fonctions avancées temporairement.<br/>
+-si nécessaire, vous pouvez prolonger la durée du bannissement. La durée indiquée s'additionnera 
+à la durée courante. Un autre enregistrement sera ajouté à la liste des sentences.<br/>
+<br/>
+{$sentences}
+{switch:display||
+extended & <span style="color: green;">Le bannissement de cet utilisateur a été prolongé de [0] jours.</span><br/><br/>|
+banned & <span style="color: green;">Cet utilisateur a été banni pour une durée de [0] jours.</span><br/><br/>|
+dbError & <span style="color: red;">Une erreur inconnue s'est produite.</span><br/><br/>|
+missingMotif & <span style="color:red;">Vous devez préciser un motif.</span><br/><br/>}
+<strong>Infliger une nouvelle sanction à cet utilisateur</strong>
+<br/></p>
+<form action="./EditUser.php?user={$pseudo}" method="post">
+<p>
+<input type="hidden" name="dataToEdit" value="banishment"/>
+<label for="duration">Durée:</label> <select name="duration">
+<option value="3">3 jours</option>
+<option value="21">3 semaines</option>
+<option value="90">3 mois</option>
+<option value="365">Un an</option></select><br/>
+<br/>
+<label for="motif">Motif (visible par l'utilisateur):</label><br/>
+<br/>
+<textarea name="motif" rows="10" placeholder="Entrez un motif."></textarea><br/>
+<br/>
+<input type="submit" name="sent" value="{switch:buttonName||ban & Bannir|extend & Prolonger le bannissement}" />
+</p>
+</form>

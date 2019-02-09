@@ -1,0 +1,4 @@
+<div id="contentMultiple">
+   {$editionBlocks}
+</div>
+{$userLastMessages}

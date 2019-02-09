@@ -1,0 +1,28 @@
+<div class="postBlock" id="{$versionNumber}">
+<div class="postBlockLeftColumn">
+<div class="postBlockAvatar" style="background: url({$authorAvatar}) no-repeat top center;"></div>
+</div>
+<div class="postBlockText">
+<div class="postBlockTextTop">
+   <div class="postBlockTextTopLeftSide">
+      <p class="postAuthor" {$authorStyle}>{$authorPseudo}</p>
+      <p class="realigned"><strong>Version {$versionNumber}</strong> par <strong>{$editor}</strong> - {$date}</p>
+   </div>
+   <div class="postBlockTextTopRightCorner">
+      <p style="text-align: right;">{$censorship}</p>
+   </div>
+   <div class="clear"></div>
+</div>
+<div id="wrapper{$versionNumber}">
+{$content}
+</div>
+</div>
+<div class="clear"></div>
+</div>
+{switch:showAttachment||
+yes & <div class="postAttachment" id="Attachment[0]">
+   <div class="postAttachmentAlign">
+      [1]
+      <div style="clear: both;"></div>
+   </div>
+</div>}

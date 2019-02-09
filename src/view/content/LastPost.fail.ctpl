@@ -1,0 +1,5 @@
+<h1>Redirection impossible</h1>
+<p>{switch:error||
+missingTopic & Le sujet n'est pas précisé.|
+nonexistingTopic & Le sujet recherché n'existe pas ou plus.|
+dbError & Une erreur inconnue est survenue lors de la lecture du sujet.}</p>

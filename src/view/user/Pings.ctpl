@@ -1,0 +1,21 @@
+<h1 class="centeredTitle">Mes pings</h1>
+<div class="messagesNav">
+   <p>
+   <span class="pages">
+   {pages:pageConfig||<span class="backBlack">Pages :</span> |none|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nsbp;...&nbsp; }
+   </span>
+   </p>
+</div>
+<div id="listPings">
+{$pings}
+</div>
+<div class="messagesNav">
+   <p>
+   <span class="pages">
+   {pages:pageConfig||<span class="backBlack">Pages :</span> |none|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nsbp;...&nbsp; }
+   </span>
+   </p>
+</div>
+<div class="plainBlock">
+{$newPingForm}
+</div>

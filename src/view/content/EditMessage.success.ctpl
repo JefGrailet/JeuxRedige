@@ -1,0 +1,5 @@
+<h1>Message édité avec succès</h1>
+<p>Vous allez être redirigé dans quelques secondes.<br/>
+<br/>
+<a href="{$target}">Cliquez ici</a> si le sujet et le message édité ne se chargent pas 
+automatiquement.</p>

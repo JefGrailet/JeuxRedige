@@ -1,0 +1,22 @@
+<div id="putEmphasis" class="window" style="display:none;"> 
+   <div class="windowTop">
+      <span class="windowTitle"><strong>Mettre une citation en emphase</strong></span> 
+      <span class="closeDialog">Fermer</span>
+   </div>
+   <div class="windowContent">
+      <table class="windowFields">
+         <tr>
+            <td class="integrateColumn1"><label for="emphasis_background">Arrière-plan :</label></td>
+            <td class="integrateColumn2"><input type="text" name="emphasis_background"/></td>
+         </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="emphasis_quote">Citation :</label></td>
+            <td class="integrateColumn2"><input type="text" name="emphasis_quote"/></td>
+         </tr>
+      </table>
+      <p>
+         <span class="triggerDialog">Insérer</span>
+         <br/>
+      </p>
+   </div>
+</div>

@@ -1,0 +1,10 @@
+<h1>Votre nouvelle adresse e-mail a été enregistrée</h1>
+<p>Pour terminer votre changement d'adresse, vous devez prouver la validité de votre nouvelle 
+adresse via un e-mail de confirmation avant de pouvoir vous reconnecter. 
+{switch:email||
+emailFail & Cependant, un problème a eu lieu lors de l'envoi de cet e-mail. Veuillez contacter un 
+administrateur ou demander un renvoi de l'e-mail (voir <a href="ConfirmationMail.php">ici</a>) 
+dans les heures qui viennent.|
+emailSuccess & Cliquez sur le lien de confirmation qui vient de vous être envoyé sur votre nouvelle
+adresse e-mail pour confirmer le changement.} 
+Le changement est annulé si la confirmation n'est pas achevée dans les 24 prochaines heures.</p>

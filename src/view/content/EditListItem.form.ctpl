@@ -1,0 +1,44 @@
+<div class="plainBlock">
+<h1>Modifier un élément de liste</h1>
+<p>
+<a href="{$listURL}">Revenir à la liste ({$listTitle})</a><br/>
+<br/>
+<strong>Jeu listé:</strong> <a href="{$gameURL}" target="_blank">{$game}</a><br/>
+</p>
+{switch:success||
+yes & <p style="color: green;">Les modifications ont été enregistrées avec succès.</p>}
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez au moins fournir un commentaire.|
+titleTooLong & le titre que vous avez proposé est trop long.|
+dbError & un problème avec la base de données est survenu lors de l'édition. 
+Réessayez plus tard ou contactez l'administrateur.}
+<form action="./EditListItem.php?id_item={$itemID}" method="post">
+<p>
+<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre pour cet item (optionnel)"/><br/>
+<br/>
+<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>
+<div id="textareaWrapper">
+<p id="editableWrapper"><textarea name="message" placeholder="Entrez ici votre commentaire">{$comment}</textarea></p>
+</div>
+<p>
+<button type="button" id="autoPreview">Aperçu automatique</button> 
+<input type="submit" name="sent" value="Modifier" /></p>
+</form>
+</div>

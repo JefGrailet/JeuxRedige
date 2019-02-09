@@ -1,0 +1,24 @@
+<div data-game="{$title}" class="mediaThumbnail" {$styleAndData}>
+   <div class="smokeScreen">
+      <h1><a href="{$URL}">{$fullTitle}</a></h1>
+      <div class="line"><p class="left">Genre</p> <p class="right">{$genre}</p><div style="clear: both;"></div></div>
+      <div class="line"><p class="left">Editeur</p> <p class="right">{$publisher}</p><div style="clear: both;"></div></div>
+      <div class="line"><p class="left">Développeur</p> <p class="right">{$developer}</p><div style="clear: both;"></div></div>
+      <div class="line"><p class="left">Date de sortie</p> <p class="right">{$publicationDate}</p><div style="clear: both;"></div></div>
+      <div class="line">
+         <p class="supports">{$hardware}</p>
+         <div style="clear: both;"></div>
+      </div>
+      
+      {switch:bottomLine||yes & <div class="bottomLine">
+         <div class="previous">
+         </div>
+         <div class="bottomLineCenter">
+            [0]
+         </div>
+         <div class="next">
+         </div>
+         <div style="clear: both;"></div>
+      </div>}
+   </div>
+</div>

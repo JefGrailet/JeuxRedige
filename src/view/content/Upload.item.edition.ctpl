@@ -1,0 +1,25 @@
+<div class="uploadView" data-file="{$fullSize}" 
+{switch:dimensions||
+yes & data-width="[0]" data-height="[1]"} 
+data-uploader="{$uploader}" data-upload-date="{$uploadDate}">
+   <div class="uploadViewTop">
+      <div class="uploadViewIcons">
+         <a href="#uploadIcon" class="buttonIntegrateUpload" data-relative-path="{$fullSizeRelative}">
+            <img src="./res_icons/thumbnail_add.png" alt="Ajouter au message" title="Ajouter au message"/>
+         </a>
+         {switch:delete||
+yes & <a href="#uploadIcon" class="buttonDeleteUpload">
+            <img src="./res_icons/thumbnail_delete.png" alt="Supprimer" title="Supprimer"/>
+         </a>}
+      </div>
+   </div>
+   {switch:content||
+picture & <a href="#uploadIcon" class="buttonShowUpload">
+      <img src="[0]" width="[1]" height="[2]" />
+   </a>|
+video & <a href="#uploadIcon" class="buttonShowUpload">
+      <video width="250" min-height="10">
+         <source src="[0]" type="video/[1]">
+      </video>
+   </a>}
+</div> 

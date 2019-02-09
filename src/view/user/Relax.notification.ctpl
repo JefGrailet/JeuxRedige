@@ -1,0 +1,8 @@
+L'administrateur {$admin} a levé toutes vos sanctions.<br/>
+</p>
+<div class="quotation">
+<p>
+{$justification}
+</p>
+</div>
+<p>

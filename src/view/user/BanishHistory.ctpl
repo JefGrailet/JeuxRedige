@@ -1,0 +1,2 @@
+<h1>Historique des sanctions</h1>
+<p>{$sentences}</p>

@@ -1,0 +1,365 @@
+/* Style for game content, such as reviews, trivia, etc. */
+
+#reviewsContainer, #triviaContainer
+{
+   margin: auto;
+   width: 80%;
+   min-width: 800px;
+}
+
+/* General style for blocks and content */
+
+.reviewBlock, .triviaBlock
+{
+   display: block;
+   min-width: 760px;
+   margin-left: 20px;
+   margin-right: 20px;
+   margin-top: 20px;
+}
+
+.reviewContent, .triviaContent
+{
+   display: block;
+   overflow: hidden;
+}
+
+.reviewContent
+{
+   background-color: white;
+   color: black;
+   border-radius: 5px;
+}
+
+.reviewContent p, .triviaHeader p, .triviaContent p
+{
+   margin: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   padding: 10px;
+   text-align: justify;
+}
+
+/* Game thumbnail (optional) */
+
+.relatedGame
+{
+   position: relative;
+   display: block;
+   float: left;
+   width: 260px;
+   height: 162px;
+   border-radius: 5px;
+   margin-right: 10px;
+   padding: 0px;
+}
+
+.relatedGame h1
+{
+   position: relative;
+   left: 0;
+   top: 0;
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   text-align: center;
+   margin-top: 0px;
+   padding: 5px;
+   background-color: #383A49;
+   color: white;
+   border-radius: 5px 5px 0px 0px;
+}
+
+.relatedGame a
+{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+}
+
+.relatedGame a:hover
+{
+   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Top of the review (game thumbnail aside) */
+
+.reviewTop
+{
+   display: block;
+   background-color: #f0f0f0;
+   color: #6e6e6e;
+   border-radius: 5px 5px 0px 0px;
+   padding: 0px;
+}
+
+.reviewRating
+{
+   display: inline-block;
+   border-radius: 5px 0px 0px 0px;
+   float: left;
+}
+
+.reviewContent .reviewRating
+{
+   padding: 11px;
+}
+
+.reviewTitle
+{
+   display: inline-block;
+   font-weight: bold;
+   float: left;
+}
+
+.reviewRatings
+{
+   display: inline-block;
+   float: right;
+}
+
+.reviewTitle img
+{
+   margin: 0px;
+   padding: 0px;
+   vertical-align: -25%;
+}
+
+/* Top of a piece of trivia */
+
+.triviaTop
+{
+   display: block;
+   background-color: #f0f0f0;
+   color: #6e6e6e;
+   border-radius: 5px;
+   padding: 0px;
+   margin-bottom: 15px;
+}
+
+.triviaTitle
+{
+   display: inline-block;
+   font-weight: bold;
+   float: left;
+}
+
+.triviaRatings
+{
+   display: inline-block;
+   float: right;
+}
+
+.triviaTitle img
+{
+   margin: 0px;
+   padding: 0px;
+   vertical-align: -25%;
+}
+
+/* Misc., used for both */
+
+.reviewRatings a, .triviaTop a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.reviewRatings a:hover, .triviaTop a:hover
+{
+   color: blue;
+}
+
+.clear
+{
+   clear: both;
+}
+
+/* Bottom of a review/piece of trivia */
+
+.contentBottom
+{
+   display: block;
+   border-radius: 0px 0px 5px 5px;
+}
+
+.miniTropes
+{
+   display: inline-block;
+   float: left;
+   padding: 10px;
+}
+
+.miniTrope
+{
+   padding: 7.5px;
+   border-radius: 5px;
+}
+
+.showReviewDetails
+{
+   padding: 7.5px 4px;
+   border-radius: 5px;
+   background-color: #557083;
+}
+
+.showReviewDetails:hover
+{
+   background-color: grey;
+   cursor: pointer;
+}
+
+.contentAuthor
+{
+   display: inline-block;
+   float: right;
+   border-radius: 25px 0px 0px 25px;
+   background-color: #f0f0f0;
+   border: 5px solid #f0f0f0;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 15px;
+   padding: 0px;
+   margin: 10px 0px 10px 0px;
+}
+
+.contentAuthorAvatar
+{
+   display: inline-block;
+   float: left;
+   width: 50px;
+   height: 50px;
+   padding: 0px;
+   margin: 0px;
+   border-radius: 25px;
+}
+
+.contentAuthorAvatar img
+{
+   width: 100%;
+   height: 100%;
+   border-radius: 25px;
+}
+
+.contentAuthorPseudo
+{
+   display: inline-block;
+   float: left;
+   padding: 15px 5px 15px 10px;
+}
+
+.reviewContent .contentAuthorPseudo a, .triviaText .contentAuthorPseudo a
+{
+   text-decoration: none;
+   color: #6e6e6e;
+   font-weight: bold;
+}
+
+/* Format of the content of the comment (similar to what is in topic.css) */
+
+.contentDates p
+{
+   color: grey;
+   padding-bottom: 0px;
+}
+
+.triviaContent .fullContent
+{
+   background-color: white;
+   color: black;
+   border-radius: 5px;
+}
+
+.fullContent img, .fullContent video
+{
+   max-width: 98%;
+}
+
+.fullContent h2
+{
+   margin: 0px;
+   font-family: "arial", "calibri", "serif";
+   font-size: 20px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.fullContent ul
+{
+   margin-top: 10px;
+   margin-bottom: 10px;
+   padding-left: 25px;
+}
+
+.fullContent li
+{
+   font-family: "arial", "calibri", "serif";
+   font-size: 13px;
+   text-align: justify;
+   margin-top: 10px;
+}
+
+.fullContent a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.fullContent a:hover
+{
+   color: blue;
+}
+
+.fullContent .quotation, .reviewContent .spoiler
+{
+   width: 96%;
+   margin-left: 2%;
+   border-top: 1px solid rgb(220, 220, 220);
+   border-bottom: 1px solid rgb(220, 220, 220);
+   border-left: 2px solid #155dc8;
+   border-right: 1px solid rgb(220, 220, 220);
+   background-color: rgb(250,250,250);
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-right: 0px;
+}
+
+.fullContent .spoiler a
+{
+   cursor: pointer;
+}
+
+.fullContent .userMiniAvatar
+{
+   padding: 0px;
+   margin-right: 5px;
+   border-radius: 50%;
+   vertical-align: -40%;
+}
+
+.fullContent .userMiniPseudo
+{
+   font-size: 16px;
+   font-weight: bold;
+}
+
+.fullContent .hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+.fullContent .hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+/* Re-aligns external link icon with the text */
+
+.externalLink
+{
+   vertical-align: -10%;
+   margin-left: 3px;
+}

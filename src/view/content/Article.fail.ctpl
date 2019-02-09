@@ -1,0 +1,8 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+restrictedAccess & Cet article n'a pas encore été publié et n'est visible que par son auteur.|
+missingID & L'ID de l'article n'est pas précisé.|
+nonexistingArticle & L'article recherché n'existe pas ou plus.|
+noSegment & Cet article est vide; il ne comporte aucun segment.|
+dbError & Une erreur est survenue lors de la consultation de la base de données. Réessayez plus 
+tard ou contactez l'administrateur.}</p>

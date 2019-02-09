@@ -1,0 +1,1659 @@
+/* Style de la balise body, pour appliquer un fond gris. */
+
+body
+{
+   background-color: rgb(220,220,230);
+   color: black;
+   margin: 0px 0px 0px 0px;
+}
+
+/* Upper menu (black band at the top of the page). */
+
+#topMenu
+{
+   min-width: 800px;
+   width: 100%;
+   margin-top: 0px;
+   height: 46px;
+   background-color: #383A49;
+   text-align: center; /* To center ul */
+   position: fixed;
+   z-index: 60;
+}
+
+#main
+{
+   max-width: 1920px;
+   width: 100%;
+   padding-top: 46px;
+}
+
+/* Left part of the top menu showing the title of the website. */
+
+#topMenu .websiteMainMenu
+{
+   display: inline-block;
+   float: left;
+   margin-top: 7px;
+   margin-left: 10px;
+   width: 260px;
+   text-align: left;
+}
+
+.websiteMainMenu p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   color: white;
+   margin: 0px;
+}
+
+.websiteMainMenu a
+{
+   text-decoration: none;
+   color: #CCCCCC;
+}
+
+.websiteMainMenu a:hover
+{
+   color: #36DDFF;
+}
+
+#topMenu .websiteMainMenu .websiteTitle
+{
+   font-family: "Arial", "Serif";
+   font-size: 23px;
+   color: white;
+   text-decoration: none;
+}
+
+#topMenu .websiteMainMenu .websiteTitle:hover
+{
+   color: rgb(220,220,230);
+}
+
+.websiteMainMenu sup
+{
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   padding-left: 5px;
+   color: #36DDFF;
+}
+
+/* "Mirrored title", i.e., empty block put at the right to center user menu. */
+
+#topMenu .mirroredTitle
+{
+   display: inline-block;
+   float: right;
+   margin-top: 7px;
+   margin-right: 10px;
+   width: 260px;
+}
+
+/* List (ul) for the upper menu. */
+
+#topMenu ul
+{
+   display: inline-block;
+   padding-top: 8px;
+   padding-bottom: 5px;
+   padding-left: 0px;
+   padding-right: 0px;
+   margin: 0 auto;
+   text-align: center;
+   z-index: 2;
+}
+
+#topMenu li
+{
+   list-style-type: none;
+   display: inline;
+   margin-left: 5px;
+   margin-right: 5px;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   padding: 0px 0px;
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   color: white;
+   text-align: center; /* To center drop-down menu */
+}
+
+#topMenu li .avatarMini /* Avatar */
+{
+   padding: 0px;
+   margin-right: 10px;
+   border-radius: 50%;
+   vertical-align: -40%; /* To align with text (pseudonym) */
+}
+
+#topMenu li img /* Other icons */
+{
+   padding: 0px;
+   vertical-align: -15%;
+}
+
+#topMenu .separator
+{
+   font-size: 18px;
+   color: rgb(175,175,175);
+}
+
+/* Upper menu links */
+
+#topMenu li a
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   text-decoration: none;
+   color: white;
+}
+
+#topMenu li a:hover
+{
+   color: rgb(180,180,190);
+}
+
+#topMenu .connectionLink:hover
+{
+   cursor: pointer;
+   color: #00ffff;
+}
+
+/* Drop-down menu */
+
+#topMenu ul li ul
+{
+   margin-top: 5px;
+   min-width: 150px;
+   position: absolute;
+   display: none;
+   border: none;
+   margin-top: 0px;
+   padding: 10px 10px 5px 5px;
+   background-color: #383A49;
+   border-radius: 0px 0px 10px 10px;
+}
+
+#topMenu ul li ul li
+{
+   display: block;
+   background: none;
+   padding: 0px 0px 5px 0px;
+   font-size: 15px;
+   text-align: left;
+}
+
+#topMenu ul li ul li img
+{
+   margin-left: 0px;
+   margin-right: 8px;
+}
+
+#topMenu ul li ul li sup
+{
+   font-family: "Arial", "Serif";
+   font-size: 11px;
+   padding-left: 5px;
+   color: #36DDFF;
+}
+
+/* Border for all input text fields */
+
+.plainBlock input[type=text], .plainBlock select
+{
+   border: 1px solid #DDDDDD;
+}
+
+/* Buttons at the end of forms. */
+
+input[type=submit], button, .customButton
+{
+   background-color: #383A49;
+   color: white;
+   padding: 5px 15px;
+   border-radius: 4px;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   border: none;
+}
+
+input[type=submit]:hover, button:hover, .customButton:hover
+{
+   background-color: #557083;
+   cursor: pointer;
+}
+
+input[type=submit]:active, button:active, .customButton:active
+{
+   background-color: grey;
+}
+
+/* Style for the dialog windows which can appear through the use of JavaScript (jQuery). */
+
+/* Black transparent screen below the dialog. */
+
+#blackScreen
+{
+   display: none;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   z-index: 50;
+   background: rgba(0,0,0,0.4);
+}
+
+/*
+Small bubble located at a fixed position on the bottom left; it is notably used for loading times 
+with slow AJAX requests and is "on top" of anything when displayed.
+*/
+
+#bubble
+{
+   display: none;
+   min-width: 30px;
+   min-height: 20px;
+   position: fixed;
+   bottom: 0;
+   right: 0;
+   margin-right: 20px;
+   margin-bottom: 20px;
+   padding: 10px;
+   z-index: 150;
+   background: rgba(255,255,255,0.5);
+   border-radius: 5px;
+}
+
+#bubble:hover
+{
+   background: #FFFFFF;
+}
+
+/* Dialog window itself. */
+
+.window
+{
+   position: fixed;
+   width: 450px; /* Can be edited by the calling code if needed. */
+   top: 50%;
+   left: 50%;
+   margin-left: -225px;
+   margin-top: -75px;
+   background: white;
+   border-radius: 4px;
+   z-index: 100;
+}
+
+/* Upper part of the dialog window. */
+
+.windowTop
+{
+   width: 100%;
+   height: 30px;
+   background: #383A49;
+   border-radius: 4px 4px 0 0;
+}
+
+/* Title of the dialog window. */
+
+.windowTitle
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   float: left;
+   color: white;
+   margin-top: 5px;
+   margin-left: 10px;
+}
+
+/* "Close" link. */
+
+.closeDialog
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   float: right;
+   color: grey;
+   margin-top: 5px;
+   margin-right: 10px;
+   cursor: pointer;
+}
+
+.closeDialog:hover
+{
+   color: white;
+}
+
+/* Content of the window. */
+
+.windowContent
+{
+   padding: 10px 5px 5px 10px;
+   margin: 0px;
+   color: black;
+}
+
+.windowContent p
+{
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+/* Slight edition of submit to better fit the window. Otherwise, style is inherited from above. */
+
+.windowContent input[type="submit"], .windowContent button
+{
+   font-size: 11px;
+   float: right;
+   margin-right: 5px;
+}
+
+/*
+* Added in July 2017 to replace button in dialogs. Indeed, with a HTML5 button, there is a risk 
+* with the Enter key press that some hidden button is "clicked" (e.g., I press enter to submit a 
+* keyword, this also triggers the button in the (hidden) dialog window).
+*/
+
+.windowContent .triggerDialog
+{
+   background-color: #383A49;
+   color: white;
+   padding: 5px 15px;
+   border-radius: 4px;
+   font-family: "Arial", "Serif";
+   font-size: 11px;
+   border: none;
+   float: right;
+   margin-right: 5px;
+}
+
+.windowContent .triggerDialog:hover
+{
+   background-color: #557083;
+   cursor: pointer;
+}
+
+.windowContent .triggerDialog:active
+{
+   background-color: grey;
+}
+
+.windowContent a
+{
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.windowContent a:hover
+{
+   color: black;
+}
+
+/* Home-made progress bar, exclusively using CSS. */
+
+.windowContent .progressBar
+{
+   display: block;
+   margin: 0px;
+   width: 422px;
+   height: 20px;
+   border-radius: 5px;
+   background-color: grey;
+   padding: 4px;
+}
+
+.windowContent .progressBar > span
+{
+   margin: 0px;
+   padding: 0px;
+   display: block;
+   height: 100%;
+   border-radius: 5px;
+   background-color: #31F54B;
+   box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.4);
+}
+
+/* Table style to align the different input fields within a dialog. */
+
+.windowFields
+{
+   background: none;
+   border: none;
+   border-collapse: collapse;
+   width: 433px;
+}
+
+/* Log in (connection) form. */
+
+.connectionColumn1
+{
+   width: 90px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+.connectionColumn2
+{
+   width: 193px;
+   background: none;
+   border: none;
+}
+
+.connectionColumn3
+{
+   width: 150px;
+   background: none;
+   border: none;
+   padding-left: 5px;
+}
+
+/* Integrate form. */
+
+.integrateColumn1
+{
+   width: 80px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+.integrateColumn2
+{
+   width: 353px;
+   background: none;
+   border: none;
+}
+
+.integrateColumn3
+{
+   width: 223px;
+   background: none;
+   border: none;
+}
+
+.integrateColumn4
+{
+   width: 130px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: grey;
+   padding-left: 5px;
+}
+
+.integrateColumn5
+{
+   width: 50px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+.integrateColumn6
+{
+   width: 135px;
+   background: none;
+   border: none;
+}
+
+.integrateColumn7
+{
+   width: 248px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: grey;
+   padding-left: 5px;
+}
+
+.emoticonDialColumn1
+{
+   width: 35px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+.emoticonDialColumn2
+{
+   width: 268px;
+   background: none;
+   border: none;
+}
+
+.connectionColumn2 input[type=text], .connectionColumn2 input[type=password], .integrateColumn2 input[type=text], .integrateColumn3 input[type=text], .integrateColumn6 input[type=text], .emoticonDialColumn2 input[type=text]
+{
+   width: 96%;
+}
+
+.integrateColumn3 select
+{
+   width: 96%;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+}
+
+/* Color picking form. */
+
+.colorPickColumn1
+{
+   width: 50px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+}
+
+.colorPickColumn2
+{
+   width: 353px;
+   background: none;
+   border: none;
+}
+
+.colorPickColumn3
+{
+   width: 40px;
+   background: none;
+   padding: 4px;
+}
+
+.colorPickColumn4
+{
+   width: 403px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+   text-align: right;
+   padding-right: 10px;
+}
+
+.colorPickColumn2 input[type=range], .colorPickColumn2 input[type=range]
+{
+   width: 96%;
+}
+
+.colorPickColumn3 .colorShow
+{
+   width: 30px;
+   height: 13px;
+   border: 1px solid grey;
+}
+
+/* Upload form. */
+
+.uploadColumn1
+{
+   width: 200px;
+   background: none;
+   border: none;
+}
+
+.uploadColumn2
+{
+   width: 233px;
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   color: grey;
+}
+
+/* Lightbox to show pictures. */
+
+#lightbox
+{
+   position: fixed;
+   min-width: 500px;
+   text-align: center;
+   top: 50%;
+   left: 50%;
+   margin-left: -250px;
+   margin-top: -75px;
+   background: white;
+   border-radius: 2px;
+   z-index: 100;
+}
+
+/* Content part of the lightbox. */
+
+.lightboxContent
+{
+   padding: 5px;
+   background: none;
+}
+
+/* Content of the window. */
+
+.lightboxBottom
+{
+   background: none;
+   color: black;
+}
+
+.LBLeft
+{
+   display: block;
+   float: left;
+   width: 15%;
+   min-height: 10px; /* Avoids a display bug when the box is empty. */
+}
+
+.LBCenter
+{
+   display: block;
+   float: left;
+   width: 70%;
+}
+
+.LBRight
+{
+   display: block;
+   float: right;
+   width: 15%;
+}
+
+.LBCenter input[type=text]
+{
+   font-family: "Arial", "Serif";
+   font-size: 12px;
+   color: black;
+   margin-right: 5px;
+}
+
+.lightboxBottom p
+{
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   color: black;
+   margin: 0px;
+   padding: 5px 0px 10px 0px;
+}
+
+.LBLeft p
+{
+   text-align: left;
+   padding-left: 10px;
+}
+
+.LBCenter p
+{
+   text-align: center;
+}
+.LBRight p
+{
+   text-align: right;
+   padding-right: 10px;
+}
+
+.lightboxBottom a
+{
+   font-family: "Arial", "Serif";
+   font-size: 13px;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.lightboxBottom a:hover
+{
+   color: black;
+}
+
+/* Banner. */
+
+#banner
+{
+   min-width: 802px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+
+#banner h1
+{
+   color: black;
+   text-align: center;
+   font-family:  "Gothic", "Serif";
+   font-size: 50px;
+}
+
+#banner h1 a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+#banner h1 a:hover
+{
+   color: black;
+}
+
+/* Style for titles inside the body outside any container */
+
+.centeredTitle
+{
+   margin: auto;
+   width: 350px;
+   padding: 10px;
+   background-color: #383A49;
+   color: white;
+   border-radius: 5px;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-align: center;
+   margin-bottom: 30px;
+   margin-top: 20px;
+}
+
+/* Body container for simple pages and topics */
+
+#content
+{
+   margin: auto;
+   min-width: 800px;
+   max-width: 1200px;
+}
+
+/* Single block to wrap forms, simple pages, etc. */
+
+.wallOfText
+{
+   background-color: white;
+   border-radius: 4px;
+   padding-bottom: 5px;
+}
+
+/* Variants (both container and wrapper block) for account edition only. */
+
+#contentMultiple
+{
+   margin: auto;
+   width: 800px;
+   padding-top: 20px;
+}
+
+@media screen and (min-width: 1616px)
+{
+   #contentMultiple
+   {
+      margin: auto;
+      width: 1616px;
+      padding-top: 20px;
+      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+      -moz-column-count: 2; /* Firefox */
+      column-count: 2;
+      -webkit-column-gap: 15px; /* Chrome, Safari, Opera */
+      -moz-column-gap: 15px; /* Firefox */
+      column-gap: 15px;
+   }
+}
+
+.singleBlock
+{
+   display: inline-block;
+   width: 800px;
+   background-color: white;
+   border-radius: 15px;
+   margin-bottom: 15px;
+}
+
+/* Footer. */
+
+#footer
+{
+   margin: auto;
+   width: 800px;
+   margin-top: 50px;
+   margin-bottom: 50px;
+   background: none;
+   color: black;
+}
+
+#footer p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: center;
+}
+
+#footer p .iconLink
+{
+   display: inline-block;
+   text-decoration: none;
+   color: white;
+   background-color: #383A49; /* Default */
+   border-radius: 15px;
+   padding: 7px 9px;
+   margin-right: 3px;
+   margin-bottom: 5px;
+}
+
+#footer p .iconLink:hover
+{
+   background-color: #969696;
+}
+
+#footer p a
+{
+   text-decoration: none;
+   color: #155dc8;
+   font-size: 14px;
+}
+
+#footer p a:hover
+{
+   color: black;
+}
+
+/* Footer is enlarged if possible TODO extensible */
+
+@media screen and (min-width: 1200px)
+{
+   #footer { width: 1200px; }
+}
+
+/* Text style */
+
+#content p, #contentMultiple p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   padding: 7px;
+   margin: 5px 10px 5px 10px; /* To not stick to the border of "wallOfText" */
+}
+
+/* 
+ * N.B.: there is no margin in h1 because h1 is supposed to stick to the top of a "wallOfText" 
+ * block. Moreover, there should be only one h1 per such a block and only at the beginning.
+ */
+
+#content h1, #contentMultiple h1
+{
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-align: justify;
+   color: white;
+   background-color: #383A49;
+   border-radius: 4px 4px 0px 0px;
+   padding: 7px;
+}
+
+#contentMultiple .singleBlock h1
+{
+   margin-top: 0px;
+}
+
+/* Style of links inside the content div */
+
+#content a, #contentMultiple a
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+#content a:hover, #contentMultiple a:hover
+{
+   color: black;
+}
+
+/* Style for a previewThumbnail container */
+
+#content #previewThumbnail
+{
+   cursor: pointer;
+}
+
+/* Arrays for aligning input fields on some forms, such as connection or registration forms */
+
+/* Dimensions are written in the HTML code */
+
+.userFields
+{
+   background: none;
+   border: none;
+   border-collapse: collapse;
+   margin-left: 17px; /* 7px (padding from p) + 10px (margin from p), see #content p */
+}
+
+.userFieldsText
+{
+   background: none;
+   border: none;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   color: black;
+}
+
+.userFieldsInput
+{
+   background: none;
+   border: none;
+}
+
+/* Textarea occupies as much space as possible; font is also customized */
+
+textarea
+{
+   width: 99.5%;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   resize: vertical;
+   box-sizing: border-box;
+   margin: 0px;
+}
+
+/* Formatting topic thumbnails */
+
+.thumbnail
+{
+   position: relative;
+   float: left;
+   width: 260px;
+   height: 162px;
+   margin: 0px 0px 6px 6px;
+   background: none;
+   border-radius: 5px;
+}
+
+/* Icons in top left corner of the thumbnail */
+
+.thumbnailIcons
+{
+   position: absolute;
+   top: 0;
+   left: 0;
+   margin: 0px;
+   padding: 3px;
+   border-radius: 5px 0px 5px 0px;
+   background-color: rgba(56, 58, 73, 0.8);
+   opacity: 0.8;
+   color: white;
+   display: inline-block;
+   z-index: 1;
+}
+
+.thumbnailIcons:hover
+{
+   background-color: rgba(56, 58, 73, 1);
+}
+
+.thumbnailIcons img
+{
+   margin: 0px;
+   padding: 0px 2px;
+   vertical-align: -10%;
+}
+
+.thumbnailIcons a
+{
+   text-decoration: none;
+}
+
+.thumbnailIcons img, .thumbnailTime img
+{
+   margin: 0px;
+   padding: 0px 2px;
+   vertical-align: -10%;
+}
+
+/* Date of the last message in top right corner */
+
+.thumbnailTime
+{
+   position: absolute;
+   top: 0;
+   right: 0;
+   margin: 0px;
+   padding: 3px;
+   border-radius: 0px 5px 0px 5px;
+   background-color: rgba(56, 58, 73, 0.8);
+   opacity: 0.8;
+   display: inline-block;
+   z-index: 1;
+}
+
+.thumbnailTime:hover
+{
+   background-color: rgba(56, 58, 73, 1);
+}
+
+.thumbnailTime h6
+{
+   display: inline;
+   font-family: arial, serif;
+   font-size: 10px;
+   font-weight: 400;
+   color: white;
+   margin: 0px;
+   padding: 0px 4px;
+   vertical-align: 10%;
+}
+
+/* Text under a thumbnail */
+
+.captionThumbnail
+{
+   position: absolute;
+   bottom: 0;
+   width: 260px;
+   min-height: 30px;
+   border-radius: 0px 0px 5px 5px;
+   background-color: rgba(56, 58, 73, 0.8);
+   color: white;
+   opacity: 0.8;
+   z-index: 1;
+}
+
+.captionThumbnail:hover
+{
+   background-color: rgba(56, 58, 73, 1);
+}
+
+/* Cursor stuff and main link (such that a click in the middle of the thumbnail leads to the topic). */
+
+.thumbnail .thumbnailIcons img, .thumbnail .thumbnailTime img, .thumbnail .thumbnailTime h6
+{
+   cursor: help;
+}
+
+.thumbnailClick /* Also re-usable for article thumbnails */
+{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   z-index: 0;
+}
+
+.thumbnail .thumbnailClick:hover
+{
+   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Text under a thumbnail when the topic is marked */
+
+.captionThumbnailMarked
+{
+   position: absolute;
+   top: 0;
+   margin-top: 132px;
+   width: 260px;
+   height: 30px;
+   border-radius: 0px 0px 5px 5px;
+   background-color: #640909;
+   color: white;
+   opacity: 0.8;
+}
+
+.captionThumbnailMarked:hover
+{
+   opacity: 1.0;
+}
+
+/* Style of the links and text in a thumbnail */
+
+.captionThumbnail p, .captionThumbnailMarked p
+{
+   margin: 0px;
+   padding: 7px;
+   text-align: center;
+   font-family: arial, serif;
+   font-size: 11px;
+   font-weight: 400;
+   line-height: 130%;
+   color: white;
+}
+
+.captionThumbnail a, .captionThumbnailMarked a
+{
+   color: white;
+   text-decoration: none;
+}
+
+.captionThumbnail a:hover, .captionThumbnailMarked a:hover
+{
+   color: #5599ff;
+}
+
+/* Style for the links to the last page in a thumbnail */
+
+.captionThumbnail .lastPage, .captionThumbnailMarked .lastPage
+{
+   color: #5599ff;
+   text-decoration: none;
+}
+
+.captionThumbnail .lastPage:hover, .captionThumbnailMarked .lastPage:hover
+{
+   color: #ff9955;
+}
+
+/* Style for article thumbnails and highlights */
+
+.articleThumbnail
+{
+   position: relative;
+   float: left;
+   width: 370px;
+   height: 208px;
+   margin: 12px;
+   background: none;
+   border: 3px solid #cccccc;
+}
+
+.articleThumbnail:hover
+{
+   border: 3px solid #f2f2f2;
+}
+
+.articleHighlight
+{
+   position: relative;
+   float: left;
+   width: 1170px;
+   height: 400px;
+   margin: 12px;
+   background: none;
+   border: 3px solid #cccccc;
+}
+
+.articleHighlight:hover
+{
+   border: 3px solid #f2f2f2;
+}
+
+@media screen and (max-width: 1079px)
+{
+   .articleHighlight
+   {
+      width: 770px;
+   }
+}
+
+.articleThumbnailTop
+{
+   position: absolute;
+   top: 0;
+   left: 0;
+   margin: 0px;
+   border-radius: 0px 0px 5px 0px;
+   background-color: rgba(56, 58, 73, 0.7);
+   color: white;
+   display: inline-block;
+   z-index: 1;
+}
+
+.articleThumbnailTop:hover
+{
+   background-color: rgba(56, 58, 73, 0.9);
+}
+
+.articleThumbnailTop p
+{
+   margin: 0px;
+   padding: 8px;
+   font-size: 14px;
+   font-family: arial, serif;
+}
+
+/* Titles in thumbnail */
+
+.articleThumbnail .articleTitles
+{
+   position: absolute;
+   bottom: 0;
+   width: 370px;
+   height: 55px;
+   background-color: rgba(56, 58, 73, 0.7);
+   color: white;
+   z-index: 1;
+}
+
+.articleThumbnail .articleTitles:hover
+{
+   background-color: rgba(56, 58, 73, 0.9);
+}
+
+.articleThumbnail .articleTitle p
+{
+   margin: 0px 5px;
+   padding: 5px;
+   font-size: 17px;
+   font-weight: bold;
+   font-family: arial, serif;
+}
+
+.articleThumbnail .articleSubtitle p
+{
+   margin: 0px 5px;
+   padding: 0px 5px 5px 5px;
+   font-size: 14px;
+   font-family: arial, serif;
+}
+
+.articleThumbnail .articleTitles a
+{
+   text-decoration: none;
+   color: white;
+}
+
+.articleThumbnail .articleTitles a:hover
+{
+   color: #66ffff;
+}
+
+/* Titles in highlight */
+
+.articleHighlight .articleTitles
+{
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 80px;
+   background-color: rgba(56, 58, 73, 0.7);
+   color: white;
+   z-index: 1;
+}
+
+.articleHighlight .articleTitles:hover
+{
+   background-color: rgba(56, 58, 73, 0.9);
+}
+
+.articleHighlight .articleTitle p
+{
+   margin: 0px 5px;
+   padding: 5px;
+   font-size: 26px;
+   font-weight: bold;
+   font-family: arial, serif;
+}
+
+.articleHighlight .articleSubtitle p
+{
+   margin: 0px 5px;
+   padding: 0px 5px 5px 5px;
+   font-size: 22px;
+   font-family: arial, serif;
+}
+
+.articleHighlight .articleTitles a
+{
+   text-decoration: none;
+   color: white;
+}
+
+.articleHighlight .articleTitles a:hover
+{
+   color: #66ffff;
+}
+
+/* Style for ratings section of commentable content */
+
+.ratings
+{
+   margin-top: 10px;
+}
+
+.relevantRatings, .irrelevantRatings
+{
+   display: block;
+   width: 100%;
+}
+
+.ratingsLeft
+{
+   float: left;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+.ratingsRight
+{
+   float: left;
+   margin-left: 10px;
+   margin-right: 10px;
+   margin-top: 10px;
+}
+
+.ratingsLeft p
+{
+   min-width: 150px;
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   text-align: center;
+   padding: 16px;
+   margin: 0px;
+   background-color: grey; /* Just in case */
+   color: white;
+   border-radius: 10px;
+}
+
+.ratingsRight p
+{
+   font-family: "Arial", "Serif";
+   font-size: 15px;
+   text-align: center;
+   padding: 16px 5px;
+   margin: 0px;
+   background: none;
+   color: black;
+   border-radius: 10px;
+}
+
+.raterAvatar
+{
+   float: left;
+   width: 50px;
+   height: 50px;
+   margin-right: 10px;
+}
+
+.raterAvatar img
+{
+   width: 100%;
+   height: 100%;
+   border-radius: 5px;
+}
+
+.relevantRatings .ratingsLeft .ratedRelevant
+{
+   background-color: #00cc00;
+}
+
+.relevantRatings .ratingsLeft .ratedRelevant:hover
+{
+   background-color: #00e600;
+}
+
+.relevantRatings .ratingsLeft .noRating
+{
+   background-color: #009900;
+}
+
+.relevantRatings .ratingsLeft .noRating:hover
+{
+   background-color: #00cc00;
+}
+
+.relevantRatings .ratingsLeft .ratedIrrelevant
+{
+   background-color: #008000;
+}
+
+.relevantRatings .ratingsLeft .ratedIrrelevant:hover
+{
+   background-color: #009900;
+}
+
+.irrelevantRatings .ratingsLeft .ratedRelevant
+{
+   background-color: #b30000;
+}
+
+.irrelevantRatings .ratingsLeft .ratedRelevant:hover
+{
+   background-color: #cc0000;
+}
+
+.irrelevantRatings .ratingsLeft .noRating
+{
+   background-color: #cc0000;
+}
+
+.irrelevantRatings .ratingsLeft .noRating:hover
+{
+   background-color: #ff3333;
+}
+
+.irrelevantRatings .ratingsLeft .ratedIrrelevant
+{
+   background-color: #ff3333;
+}
+
+.irrelevantRatings .ratingsLeft .ratedIrrelevant:hover
+{
+   background-color: #ff6666;
+}
+
+/* Style for filter, game search and user input forms */
+
+#filterForm, #gameSearchForm
+{
+   margin-top: 30px;
+   margin-left: auto;
+   margin-right: auto;
+   width: 500px;
+   border: none;
+}
+
+#userInputForm
+{
+   margin: auto;
+   min-width: 320px;
+   border: none;
+}
+
+#filterForm input[type=text]
+{
+   width: 320px;
+}
+
+#gameSearchForm input[type=text]
+{
+   width: 450px;
+}
+
+/* N.B.: filterFormInputs is also used within a #gameSearchForm */
+
+#filterFormInputs
+{
+   width: 100%;
+   border: none;
+   margin-top: 10px;
+}
+
+#filterForm p, #gameSearchForm p, #userInputForm p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: center;
+   padding: 2px 7px;
+   margin: 0px;
+}
+
+#filterFormInputs p
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: center;
+   padding: 2px 7px;
+   margin: 0px;
+}
+
+#filterFormInputs a
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   text-align: justify;
+   text-decoration: none;
+   color: #155dc8;
+}
+
+#filterFormInputs a:hover
+{
+   color: black;
+}
+
+/* Style for autocomplete suggestions */
+
+.suggestions ul
+{
+   z-index: 25;
+   width: 450px;
+   position: absolute;
+   margin: 0px;
+   padding: 0px;
+   background-color: white;
+   color: black;
+   border: 1px solid rgb(200,200,200);
+   list-style:none;
+}
+
+#filterForm .suggestions ul
+{
+   margin-left: 20px;
+}
+
+#gameSearchForm .suggestions ul
+{
+   margin-left: 42px;
+   width: 450px;
+}
+
+.suggestions li
+{
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   padding: 4px;
+}
+
+.suggestions li:hover
+{
+   background-color: rgb(230,230,230);
+}
+
+#content .suggestions a, #contentMultiple .suggestions, #topicContent .suggestions a
+{
+   text-decoration: none;
+   color: black;
+}
+
+#filterForm .suggestions a, #gameSearchForm .suggestions a, #userInputForm .suggestions a
+{
+   text-decoration: none;
+   color: black;
+}
+
+/* Style for keyword/alias deletion button */
+
+.deleteKeyword, .deleteAlias
+{
+   display: inline-block;
+   text-decoration: none;
+   color: white;
+   background-color: #383A49;
+   border-radius: 3px;
+   padding: 2px;
+   margin-right: 3px;
+   margin-left: 3px;
+   cursor: pointer;
+}
+
+.deleteKeyword img, .deleteAlias img
+{
+   vertical-align: -15%;
+}
+
+/* Style for icon background in trope forms */
+
+#previewIcon
+{
+   background-color: #E0E0E0;
+   padding: 10px;
+   border-radius: 5px;
+}
+
+/* Style for color pick in trope forms */
+
+.tropeColorLine
+{
+   width: 100%;
+}
+
+.tropeColorLine p
+{
+   width: 40%;
+   float: left;
+   padding: 0px;
+   margin: 0px;
+}
+
+.tropeColorLine input[type=range]
+{
+   width: 100%;
+}
+
+.tropeColorLine .colorShow
+{
+   float: left;
+   margin: 10px;
+   display: inline-block;
+   width: 50px;
+   height: 21px;
+   border: 1px solid grey;
+}
+
+/* Classes to enhance the visuals of the lists of pages (in centeredContent blocks). */
+
+.backBlack
+{
+   color: white;
+   background-color: #383A49;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.backBlack:hover
+{
+   background-color: #557083;
+}
+
+.backBlack a
+{
+   color: white;
+}
+
+.backBlack a:hover
+{
+   color: white;
+}
+
+.backWhite
+{
+   color: black;
+   background-color : white;
+   padding: 4px 7px;
+   border-radius: 3px;
+}
+
+.backGrey
+{
+   color: black;
+   background-color : rgb(180, 180, 180);
+   padding: 4px 7px;
+   border-radius: 3px;
+}

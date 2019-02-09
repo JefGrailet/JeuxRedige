@@ -1,0 +1,30 @@
+<h1>Modifier l'avatar</h1>
+<p><img src="{$avatar}" alt="{$pseudo}"/><br/>
+{switch:success||
+OK & <br/><span style="color: green;">L'avatar a été édité avec succès. Si le changement n'est
+pas visible instantanément, appuyez sur F5 pour mettre à jour l'image.</span><br/>}
+{switch:error||
+uploadError & <br/><span style="color: red;">Erreur: le téléchargement de l'image a échoué. 
+Réessayez plus tard ou contactez l'administrateur.</span><br/>|
+tooBig & <br/><span style="color: red;">Erreur: la taille de l'image téléchargée ne peut excéder 
+un mégaoctet. Veuillez réduire l'image ou utiliser une autre.</span><br/>|
+notEnoughSpace & <br/><span style="color: red;">Erreur: nous sommes dans l'incapacité de 
+télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez 
+l'administrateur.</span><br/>|
+notJPEG & <br/><span style="color: red;">Erreur: pour générer un avatar, vous devez utiliser
+une image au format JPEG/JPG.</span><br/>|
+resizeError & <br/><span style="color: red;">Erreur: une erreur est survenue lors de la génération
+de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur.</span><br/>}
+</p>
+<form action="{$form}" method="post" enctype="multipart/form-data">
+<p>
+<input type="hidden" name="dataToEdit" value="avatar"/>
+<label for="image">Uploadez une image pour générer l'avatar:</label><br/>
+<br/>
+<input type="hidden" name="MAX_FILE_SIZE" value="1048576"/>
+<input type="file" name="image"/><br/>
+<br/>
+<span style="color: grey; font-size:11px;">Maximum 1 Mo, au format JP(E)G.</span><br/>
+<br/>
+<input type="submit" name="sent" value="Modifier" /></p>
+</form>

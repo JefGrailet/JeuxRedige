@@ -1,0 +1,81 @@
+<div class="plainBlock">
+<h1>Créer un nouveau sujet</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez donner un titre à votre sujet et écrire un message.|
+noKeywords & vous devez préciser au moins un mot-clef.|
+titleTooLong & le titre que vous avez proposé est trop long.|
+tooManyTopics & vous ne pouvez pas créer deux nouveaux sujets en moins de 30 minutes.|
+dbError & un problème avec la base de données est survenu lors de la création du sujet. 
+Réessayez plus tard ou contactez l'administrateur.}
+<form action="./NewTopic.php" method="post">
+<p>
+<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre"/><br/>
+<br/>
+<img src="{$thumbnailPath}" alt="Vignette du sujet" title="Cliquez pour éditer" id="previewThumbnail" /><br/>
+<br/>
+<input type="checkbox" name="anon_posting"{switch:anonChecked||checked &  checked="checked"}> 
+<label for="anon_posting">Autoriser les anonymes à participer au sujet</label><br/>
+<input type="checkbox" name="enable_uploads"{switch:uploadsChecked||checked &  checked="checked"}> 
+<label for="enable_uploads">Autoriser les uploads (si non, les uploads du premier message seront ignorés)</label><br/>
+<br/>
+<input type="text" id="keyword" name="keyword" data-creation="yes" size="60" maxlength="100" placeholder="Entrez un mot-clef (max. 10)" autocomplete="off"/>
+<span class="suggestions" id="keywordsSuggestions">
+</span>
+<br/><br/>
+<span class="keywordsList">
+{$keywordsList}
+</span>
+<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+</p>
+<div id="emoticonsDisplay"></div>
+<p>
+<textarea rows="10" name="message" placeholder="Entrez un message">{$content}</textarea><br/>
+<br/>
+<span class="uploadOptions">
+{switch:uploadOptions||yes & 
+<label for="upload_display_policy">Affichage des uploads:</label> 
+<select name="upload_display_policy">
+<option value="default">En dessous de mon message</option>
+<option value="spoiler"[0]>En dessous de mon message, masqué (spoilers)</option>
+<option value="nsfw"[1]>En dessous de mon message, masqué (contenu mature)</option>
+<option value="noshow"[2]>J'intègrerai mes uploads dans mon message moi-même</option>
+</select><br/>
+<br/>}
+</span>
+<input type="hidden" name="keywords" value="{$keywords}"/>
+<input type="hidden" name="thumbnail" value="{$thumbnail}"/> 
+<button type="button" id="manualPreview">Aperçu du message</button> 
+<button type="button" id="autoPreview">Aperçu auto</button> 
+<input type="submit" name="sent" value="Créer le sujet" /></p>
+</form>
+</div>
+
+<div id="preview" data-author="{$previewPseudo}" data-rank="{$previewRank}"></div>
+
+<div class="plainBlock" id="uploadMenu" style="padding-bottom: 6px;">
+<h1>Uploader des fichiers</h1>
+<p style="text-align: left;">
+{switch:uploadMessage||
+newUpload & <a href="#uploadMenu">Ajouter un nouveau fichier</a>|
+uploadRefused & <span style="font-color: grey;">Vous n'êtes pas autorisés à uploader des fichiers.</span>}
+</p>
+<div class="uploadsView">
+{$uploadsView}
+</div>
+<div style="clear: both;"></div>
+</div>

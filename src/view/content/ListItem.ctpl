@@ -1,0 +1,16 @@
+<div class="itemContainer" data-item-id="{$itemID}" data-item-rank="{$rank}">
+   <div class="itemBlock">
+      {$gameThumbnail}
+      <div class="itemContent">
+         <div class="itemTop">
+            <div class="itemTitle"><p><strong>{$title}</strong>{$icons}</p></div>
+            <div class="itemInteractivity"><p>{$interactivity}</p></div>
+            <div class="clear"></div>
+         </div>
+         <div class="itemComment">
+            {$comment}
+         </div>
+      </div>
+      <div class="clear"></div>
+   </div>
+</div>

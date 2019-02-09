@@ -1,0 +1,49 @@
+<div class="articleEditBlock">
+<h1>Créer un nouveau segment d'article</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyField & vous devez écrire un texte.|
+titleNeeded & un titre est requis si ce segment n'est pas le premier de l'article.|
+titleTooLong & le titre proposé est trop long.|
+dbError & un problème avec la base de données est survenu lors de l'enregistrement. Réessayez plus tard.}
+<form id="newSegmentForm" action="./NewSegment.php?id_article={$articleID}" method="post">
+<p>
+<strong>Article:</strong> <a href="./EditArticle.php?id_article={$articleID}">{$fullArticleTitle}</a><br/>
+<br/>
+<img src="{$headerPath}" style="width: 25%;" alt="En-tête du segment" title="Cliquez pour éditer" id="previewHeader" /><br/>
+<br/>
+<input type="text" name="title" value="{$title}" size="60" maxlength="100" placeholder="Entrez un titre"/><br/>
+<br/>
+{switch:noteFirstSegment||yes & <span style="color: grey;">Vous pouvez laisser ce champ vide pour 
+le premier segment. Les titre et sous-titre de l'article seront repris à la place.</span><br/>
+<br/>}
+<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
+<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
+<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
+<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
+<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
+<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
+<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
+<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
+<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
+<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
+<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
+<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
+<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
+<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
+<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
+<img class="extendedFormatButton" id="buttonEmphasis" src="./res_icons/emphasis.png" alt="Emphase (citation)" title="Insérer une emphase (citation)"/> 
+<img class="extendedFormatButton" id="buttonEmphasisBis" src="./res_icons/emphasis2.png" alt="Emphase (bloc)" title="Insérer une emphase (bloc)"/> 
+<img class="extendedFormatButton" id="buttonSummary" src="./res_icons/summary.png" alt="Résumé" title="Intégrer un résumé (points forts/faibles)"/> 
+</p>
+<div id="textareaWrapper">
+<p id="editableWrapper"><textarea name="message" placeholder="Ecrivez votre texte ici">{$content}</textarea></p>
+</div>
+<p>
+<input type="hidden" name="header" value="{$header}"/>
+<button type="button" id="autoPreview">Aperçu automatique</button> 
+<input type="submit" name="sent" value="Enregistrer" /> 
+<input type="submit" name="sentBis" value="Enregistrer et voir" />
+</p>
+</form>
+</div>
+{$mediaMenu}

@@ -1,0 +1,8 @@
+<h1>Erreur</h1>
+<p>{switch:error||
+notConnected & Vous devez être connecté pour pouvoir éditer des codes vidéoludiques.|
+forbiddenAccess & Vous devez avoir accès aux fonctions avancées pour pouvoir éditer des codes vidéoludiques.|
+missingTrope & Le titre du code à éditer est manquant.|
+nonexistingTrope & Le jeu code vous souhaitez éditer n'existe pas.|
+dbError & Une erreur est survenue lors de la lecture de données liées aux codes vidéoludiques. 
+Réessayez plus tard ou contactez l'administrateur.}</p>

@@ -1,0 +1,41 @@
+<h1>Inscription</h1>
+{list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
+emptyFields & vous devez remplir tous les champs.|
+dataTooBig & les données soumises sont trop longues.|
+badPseudo & le pseudonyme doit faire au moins 3 caractères de long et ne peut contenir des caractères autres que des chiffres, des lettres et les caractères - et _.|
+pseudoAlreadyUsed & ce pseudonyme est déjà utilisé par un autre internaute inscrit.|
+emailAlreadyUsed & cette adresse e-mail est déjà utilisée par un autre internaute inscrit.|
+dbError & une erreur inconnue est survenue lors de l'inscription. Contactez l'administrateur ou réessayez plus tard.}
+<form action="./Registration.php" method="post">
+<table class="userFields" width="660">
+<tr>
+   <td class="userFieldsText" width="200"><label for="pseudo">Pseudonyme :</label></td>
+   <td class="userFieldsInput" width="210"><input type="text" name="pseudo" value="{$pseudo}" size="30"/></td>
+   <td class="userFieldsText" width="250"><span style="color: grey;">3 à 20 chiffres/lettres, ainsi que - et _.</span></td>
+</tr>
+<tr>
+   <td class="userFieldsText"><label for="email">Adresse e-mail :</label></td>
+   <td class="userFieldsInput"><input type="text" name="email" value="{$email}" size="30"/></td>
+   <td class="userFieldsText"><span style="color: grey;">Obligatoire pour confirmer le compte.</span></td>
+</tr>
+<tr>
+   <td class="userFieldsText"><label for="newPwd">Mot de passe :</label></td>
+   <td class="userFieldsInput"><input type="password" name="newPwd" size="30"/></td>
+   <td class="userFieldsText"><input type="checkbox" name="newPwd_show"/><label for="newPwd_show">Afficher le mot de passe</label></td>
+</tr>
+</table>
+<p>
+<strong>Présentation (optionnel)</strong><br/>
+L'inscription sans invitation vous permet d'accéder au forum, mais ne vous donne pas accès aux 
+fonctionnalités avancées du site comme l'upload de fichiers ou la création d'articles. Cet accès 
+n'est normalement donné par un administrateur qu'après un certain temps de présence. Vous pouvez 
+toutefois laisser un mot ci-contre pour expliquer comment vous avez découvert ce site et ce qui 
+vous motive à vous inscrire, ou encore mettre des liens vers des réalisations précédentes qui 
+justifient un accès rapide à tous les outils de création de contenu.<br/>
+<br/>
+<textarea name="presentation" rows="10" placeholder="Entrez une courte présentation (optionnel)">{$presentation}</textarea><br/>
+<br/>
+<input type="submit" name="sent" value="Je m'inscris"/></p>
+</form>
+<p><strong>Remarque :</strong> si vous avez déjà enregistré un pseudo mais que vous n'avez pas reçu
+l'e-mail de confirmation, visitez <a href="ConfirmationMail.php">cette page</a>.</p>

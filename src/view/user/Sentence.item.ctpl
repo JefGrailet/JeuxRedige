@@ -1,0 +1,11 @@
+{switch:special||
+active & <span style="color:blue;">En cours</span> - |
+relaxed & <span style="color:green;">Relaxé</span> -}
+Banni pour {$nbDays} jours le {$date} par {$banisher} 
+(<a href="javascript:void(0)" onClick="javascript:$('#ban{$timestamp}').toggle(300)">Afficher/masquer la raison</a>)</p>
+<div id="ban{$timestamp}" style="display: none;">
+<p style="font-family: courier, sans serif, arial;">
+{$motif}
+</p>
+</div>
+<p>

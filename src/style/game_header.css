@@ -1,0 +1,127 @@
+/**
+* This file defines style for a game homepage.
+*/
+
+/* Container for the game header (centers it). */
+
+#mediaContainer
+{
+   margin: auto;
+   width: 800px;
+   display: block;
+   margin-bottom: 30px;
+   margin-top: 30px;
+}
+
+/* Game header itself. */
+
+.mediaHeader
+{
+   margin-top: 0px;
+   width: 800px;
+   height: 162px;
+   background: none;
+   border-radius: 5px;
+}
+
+/* Game thumbnail style. */
+
+.mediaHeaderThumbnail
+{
+   border-radius: 5px 0px 0px 5px;
+   width: 260px;
+   height: 162px;
+   float: left;
+}
+
+.mediaHeaderThumbnail a
+{
+   display: block;
+   height: 100%;
+   width: 100%;
+   text-decoration: none;
+}
+
+/*
+* Container for the title and paragraph displaying genre, developer, etc. The style of the textual
+* elements being used inside is also defined as well.
+*/
+
+.mediaHeaderContent
+{
+   display: block;
+   width: 540px;
+   height: 162px;
+   float: left;
+   border-radius: 0px 5px 5px 0px;
+   background-color: #7d7d7d;
+}
+
+.mediaHeaderContent h1
+{
+   width: 520px;
+   background-color: #383a49;
+   margin: 0px;
+   border-radius: 0px 5px 0px 0px;
+   float: left;
+   color: white;
+   font-family: "arial", "calibri", "serif";
+   font-size: 15px;
+   padding: 10px;
+}
+
+.mediaHeaderContent h1 a
+{
+   color: white;
+   text-decoration: none;
+}
+
+.mediaHeaderContent h1 a:hover
+{
+   color: #155dc8;
+}
+
+.mediaHeaderContent p
+{
+   width: 520px;
+   background: none;
+   margin: 0px;
+   line-height: 170%;
+   float: left;
+   color: white;
+   font-family: "calibri", "arial", "serif";
+   font-size: 14px;
+   padding: 10px;
+   text-align: justify;
+}
+
+.mediaHeaderContent a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.mediaHeaderContent a:hover
+{
+   color: blue;
+}
+
+.mediaHeaderContent .hw_PC { padding: 2px 4px; border-radius: 4px; background-color: rgb(230,230,230); border: 1px solid white; color: black; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_X360 { padding: 2px 4px; border-radius: 4px; background-color: rgb(255,255,255); border: 1px solid white; color: green; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_XONE { padding: 2px 4px; border-radius: 4px; background-color: rgb(0,100,0); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_PS3 { padding: 2px 4px; border-radius: 4px; background-color: rgb(10,10,10); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_PSV { padding: 2px 4px; border-radius: 4px; background-color: rgb(0,0,200); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_PS4 { padding: 2px 4px; border-radius: 4px; background-color: rgb(0,0,100); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_Wii { padding: 2px 4px; border-radius: 4px; background-color: rgb(255,255,255); border: 1px solid white; color: grey; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_WiiU { padding: 2px 4px; border-radius: 4px; background-color: rgb(0,100,230); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_Switch { padding: 2px 4px; border-radius: 4px; background-color: rgb(230,0,0); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+.mediaHeaderContent .hw_3DS { padding: 2px 4px; border-radius: 4px; background-color: rgb(150,0,0); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
+
+/* Icons in the title of a game. */
+
+.gameIcon
+{
+   margin: 0px;
+   padding: 0px;
+   vertical-align: -15%;
+}

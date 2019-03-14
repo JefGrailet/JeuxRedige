@@ -23,7 +23,7 @@ sa machine hôte et la racine de toutes vos URLs.
 Dans `default.js`, éditez la variable `.httpPath` dans `DefaultLib` pour y placer à nouveau la 
 racine de toutes vos URLs.
 
-## Etape 3: copie du dossier src
+## Etape 3: copie des fichiers sources
 Copiez l'intégralité du contenu du dossier `src` (après les modifications de l'étape 2) dans votre 
 dossier `www` (ou équivalent). Le contenu copié reprend également les sous-dossiers d'upload et les 
 images qui correspondent au contenu fourni par défaut.
@@ -58,7 +58,7 @@ of your `www` folder (or equivalent) on its host machine and the root of all you
 In the latter, edit the `.httpPath` variable in `DefaultLib` to write once again the root of all 
 your URLs.
 
-## Step 3: copy of the src folder
+## Step 3: copy of the source files
 Copy the entirety of the `src` folder (after the modifications of step 2) in your `www` folder (or 
 equivalent). The copied content also include the upload subfolders and the pictures that are part 
 of the default content.

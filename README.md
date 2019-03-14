@@ -10,8 +10,8 @@ quelques contenus de base, comme une première liste de jeux et un premier compt
 
 ## Etape 2: paramétrage du site
 Vous devez à présent modifier sensiblement deux fichiers:
-*`Header.lib.php` dans `src/libraries`, 
-*`default.js` dans `src/javascript`.
+* `Header.lib.php` dans `src/libraries`, 
+* `default.js` dans `src/javascript`.
 
 Dans le premier, modifiez la ligne du code de la méthode `init()` de la classe statique `Database` 
 afin d'y placer les informations de connexion à la base de données propres à votre serveur (N.B.: 
@@ -46,8 +46,8 @@ games and a first user account.
 
 ## Step 2: configuration of the website
 You now have to slightly edit two files:
-*`Header.lib.php` in `src/libraries`, 
-*`default.js` in `src/javascript`.
+* `Header.lib.php` in `src/libraries`, 
+* `default.js` in `src/javascript`.
 
 In the former, edit the line of code in the `init()` method of static class `Database` to provide 
 the database connection details of your own server (by default, the provided code is configured 

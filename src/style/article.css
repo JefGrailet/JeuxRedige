@@ -131,6 +131,17 @@
    color: rgb(56, 58, 73);
 }
 
+.segmentBody h2 a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.segmentBody h2 a:hover
+{
+   color: black;
+}
+
 .segmentBody .quotation, .segmentBody .spoiler
 {
    width: 96%;

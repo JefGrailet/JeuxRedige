@@ -207,6 +207,11 @@
    color: rgb(56, 58, 73);
 }
 
+#previewZone h2 a
+{
+   font-size: 20px;
+}
+
 #previewZone .quotation, #previewZone .spoiler
 {
    width: 96%;
@@ -292,6 +297,16 @@
    padding-left: 3px;
    padding-right: 3px;
    padding-top: 10px;
+}
+
+#previewZone .emphasisText a
+{
+   color: #00E6FF;
+}
+
+#previewZone .emphasisText a:hover
+{
+   color: #BBEDF7;
 }
 
 /* Summary style */

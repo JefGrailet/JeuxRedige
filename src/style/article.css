@@ -243,6 +243,16 @@
    padding-top: 10px;
 }
 
+.segmentBody .emphasisText p a
+{
+   color: #00E6FF;
+}
+
+.segmentBody .emphasisText p a:hover
+{
+   color: #BBEDF7;
+}
+
 /* Summary style */
 
 .summary

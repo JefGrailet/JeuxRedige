@@ -77,7 +77,7 @@ if(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password')
       $errors .= 'emptyFields|';
    if($user->get('password') !== $recomputedHash)
       $errors .= 'wrongCurrentPwd|';
-   if(strlen($data['newPwd']) > 20)
+   if(strlen($data['newPwd']) > 200)
       $errors .= 'pwdTooLong|';
    
    if($errors !== '')

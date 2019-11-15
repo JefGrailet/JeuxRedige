@@ -43,7 +43,7 @@ if(!empty($_POST['sent']))
    $errors = '';
    if(!$cond)
       $errors .= 'emptyFields|';
-   if(strlen($data['pseudo']) > 20 || strlen($data['email']) > 60 || strlen($data['pwd']) > 20)
+   if(strlen($data['pseudo']) > 20 || strlen($data['email']) > 60 || strlen($data['pwd']) > 200)
       $errors .= 'dataTooBig|';
    if(!preg_match('!^[a-zA-Z0-9_-]{3,20}$!', $data['pseudo']))
       $errors .= 'badPseudo|';

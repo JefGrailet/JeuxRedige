@@ -386,7 +386,7 @@ class FormParsing
       $parsed = self::replaceTags($parsed, array('[url=placeholder]', '[/url]', '<a href="$1" target="blank">', '</a>'), $regexURL);
       $parsed = self::replaceTags($parsed, array('[rgb=placeholder]', '[/rgb]', '<span style="color: rgb($1,$2,$3);">', '</span>'), $regexRGB);
       $parsed = self::replaceTags($parsed, array('[hexa=placeholder]', '[/hexa]', '<font color="#$1">', '</font>'), $regexHexa);
-      $parsed = self::replaceTags($parsed, array('!emoticon[', ']', '<img class="emoticon" alt="Emoticon" src="./upload/emoticons/', '"/>'), $regexEmoticon);
+      $parsed = self::replaceTags($parsed, array('!emoticon[', ']', '<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH.'upload/emoticons/', '"/>'), $regexEmoticon);
       $parsed = self::replaceTags($parsed, array('[centre]', '[/centre]', "\n</p>\n<p style=\"text-align: center;\">\n", "\n</p>\n<p>"));
       $parsed = self::replaceTags($parsed, array('[droite]', '[/droite]', "\n</p>\n<p style=\"text-align: right;\">\n", "\n</p> \n<p>"));
       
@@ -456,7 +456,7 @@ class FormParsing
       $unparsed = str_replace("\n</p>\n<p>", '[/centre]', $unparsed);
       $unparsed = str_replace("\n</p>\n<p style=\"text-align: right;\">\n", '[droite]', $unparsed);
       $unparsed = str_replace("\n</p> \n<p>", '[/droite]', $unparsed);
-      $unparsed = str_replace('<img class="emoticon" alt="Emoticon" src="./upload/emoticons/', '!emoticon[', $unparsed);
+      $unparsed = str_replace('<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH.'upload/emoticons/', '!emoticon[', $unparsed);
       $unparsed = str_replace('"/>', ']', $unparsed);
       
       // Maybe for later ?

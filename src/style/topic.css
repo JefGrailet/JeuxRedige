@@ -207,7 +207,12 @@
    max-width: 100%;
 }
 
-.postBlockText  .miniature
+.postBlockText .emoticon
+{
+   vertical-align: middle;
+}
+
+.postBlockText .miniature
 {
    border: none;
    cursor: pointer;

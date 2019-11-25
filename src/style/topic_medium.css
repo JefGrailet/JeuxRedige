@@ -207,6 +207,11 @@
    max-width: 100%;
 }
 
+.postBlockText .emoticon
+{
+   vertical-align: middle;
+}
+
 .postBlockText  .miniature
 {
    border: none;

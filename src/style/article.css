@@ -648,6 +648,11 @@
    max-width: 100%;
 }
 
+.commentText .emoticon
+{
+   vertical-align: middle;
+}
+
 .commentText h2
 {
    color: #383A49;

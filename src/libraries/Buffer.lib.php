@@ -167,11 +167,11 @@ class Buffer
          for($i = 0; $i < count($uploadsList[0]); $i++)
          {
             /*
-             * Depending on whether uploads are in user's buffer or not, one has to be careful 
-             * with the "uploader" part of the naming convention for publicly available uploads.
+             * One has to be careful with the "uploader" part of the naming convention for 
+             * publicly available uploads.
              */
             
-            $uploader = LoggedUser::$data['used_pseudo'];
+            $uploader = '';
             $upload = $uploadsList[0][$i];
             
             if($uploaderName)
@@ -210,7 +210,7 @@ class Buffer
                      
                      $tplInput = array('fullSize' => $httpPathPrefix.$uploadsList[0][$i], 
                      'dimensions' => 'yes||'.$dimFull[0].'|'.$dimFull[1], 
-                     'uploader' => $uploader, 
+                     'uploader' => strlen($uploader) > 0 ? 'yes||'.$uploader : '', 
                      'uploadDate' => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix.$uploadsList[0][$i])), 
                      'fullSizeRelative' => $relativePrefix.$uploadsList[0][$i],
                      'delete' => $deleteButton, 
@@ -235,7 +235,7 @@ class Buffer
                      
                $tplInput = array('fullSize' => $httpPathPrefix.$uploadsList[0][$i], 
                'dimensions' => '', 
-               'uploader' => $uploader, 
+               'uploader' => strlen($uploader) > 0 ? 'yes||'.$uploader : '', 
                'uploadDate' => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix.$uploadsList[0][$i])), 
                'fullSizeRelative' => $relativePrefix.$uploadsList[0][$i],
                'delete' => $deleteButton, 

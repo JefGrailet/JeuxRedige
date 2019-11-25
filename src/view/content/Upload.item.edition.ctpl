@@ -1,7 +1,9 @@
 <div class="uploadView" data-file="{$fullSize}" 
 {switch:dimensions||
 yes & data-width="[0]" data-height="[1]"} 
-data-uploader="{$uploader}" data-upload-date="{$uploadDate}">
+{switch:uploader||
+yes & data-uploader="[0]"} 
+data-upload-date="{$uploadDate}">
    <div class="uploadViewTop">
       <div class="uploadViewIcons">
          <a href="#uploadIcon" class="buttonIntegrateUpload" data-relative-path="{$fullSizeRelative}">

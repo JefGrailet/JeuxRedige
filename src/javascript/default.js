@@ -168,7 +168,7 @@ DefaultLib.updateLightboxSimple = function(ext, file, width, height, comment)
  * @param string file        The path to the uploaded file being displayed (picture or video)
  * @param int    width       The full width (in pixels) of the item being displayed
  * @param int    height      The full height (in pixels) of the item being displayed
- * @param string uploader    The uploader's pseudonym
+ * @param string uploader    The uploader's pseudonym (can be empty)
  * @param string uploadDate  The date at which the file was uploaded
  */
 
@@ -260,7 +260,10 @@ DefaultLib.updateLightboxDetailed = function(ext, file, width, height, uploader,
    $('#lightbox').attr('data-cur-file', file);
    
    // "Legend" of the picture (author + link to full size if needed)
-   var legend = 'Uploadé par ' + uploader + ' le ' + uploadDate;
+   var legend = 'Uploadé ';
+   if(uploader.length > 0)
+      legend += 'par ' + uploader + ' ';
+   legend += 'le ' + uploadDate;
    if(resized)
    {
       if(isVideo)
@@ -358,6 +361,8 @@ DefaultLib.showUpload = function(uploadBlock)
          {
             var uploader = uploadBlock.attr('data-uploader');
             var uploadDate = uploadBlock.attr('data-upload-date');
+            if(typeof uploader === typeof undefined || uploader === false)
+                uploader = "";
             
             DefaultLib.updateLightboxDetailed(ext, filePath, width, height, uploader, uploadDate);
          }
@@ -385,6 +390,8 @@ DefaultLib.showUpload = function(uploadBlock)
       {
          var uploader = uploadBlock.attr('data-uploader');
          var uploadDate = uploadBlock.attr('data-upload-date');
+         if(typeof uploader === typeof undefined || uploader === false)
+            uploader = "";
          
          DefaultLib.updateLightboxDetailed(ext, filePath, width, height, uploader, uploadDate);
       }
@@ -601,7 +608,7 @@ DefaultLib.isHandlingAJAX = function()
    DefaultLib.usingAJAX = true;
    
    clearTimeout($.data(this, 'timerAJAX'));
-   var bubbleFadeIn = setTimeout(function()
+   setTimeout(function()
    {
       if(!DefaultLib.usingAJAX)
          return;

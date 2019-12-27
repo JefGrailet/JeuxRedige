@@ -71,11 +71,20 @@ if(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password')
                  'newPwd' => Utils::secure($_POST['newPwd']));
    $recomputedHash = sha1($user->get('pseudo') . $user->get('secret') . $data['oldPwd']);
    
+   /*
+    * Remark: the "recomputedHash" isn't the hash actually (currently) stored in the DB. It's an 
+    * intermediate hash that used to be stored in the DB and which is further hashed with bcrypt 
+    * in order to ensure old hashes could be still used without asking users to give again their 
+    * passwords upon bringing the bcrypt solution. This solution has also a nice twist: as sha1() 
+    * always returns 40 characters long hashes and bcrypt truncates 60+ characters passwords, this 
+    * allows users to potentially use any length of password.
+    */
+   
    // Deals with errors (empty fields, new password too long, etc.)
    $errors = '';
    if(strlen($data['oldPwd']) == 0 || strlen($data['newPwd']) == 0)
       $errors .= 'emptyFields|';
-   if($user->get('password') !== $recomputedHash)
+   if(!password_verify($recomputedHash, $user->get('password'))) // bcrypt verification
       $errors .= 'wrongCurrentPwd|';
    if(strlen($data['newPwd']) > 200)
       $errors .= 'pwdTooLong|';
@@ -160,6 +169,10 @@ elseif(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'email')
                  'newEmail' => Utils::secure($_POST['newEmail']));
    $recomputedHash = sha1($user->get('pseudo') . $user->get('secret') . $data['pwd']);
    
+   /*
+    * Regarding "recomputedHash": see comment about the same topic in password edition form.
+    */
+   
    // Copy of input data in the input data for the e-mail edition form template
    $emailTplInput['pwd'] = $data['pwd'];
    $emailTplInput['newEmail'] = $data['newEmail'];
@@ -168,7 +181,7 @@ elseif(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'email')
    $errors = '';
    if(strlen($data['pwd']) == 0 || strlen($data['newEmail']) == 0)
       $errors .= 'emptyFields|';
-   if($user->get('password') !== $recomputedHash)
+   if(!password_verify($recomputedHash, $user->get('password'))) // bcrypt verification
       $errors .= 'wrongCurrentPwd|';
    if(strlen($data['newEmail']) > 60)
       $errors .= 'emailTooLong|';

@@ -407,7 +407,7 @@ class FormParsing
                            "\n</p>\n</div>\n</div>\n<p>");
       $parsed = self::replaceTagsNested($parsed, $spoilerTags);
       
-      // Some post-processing to finish spoiler tags
+      // Some post-processing to finish spoiler tags (sha1() is used to uniquely identify spoilers)
       $nbToReplace = substr_count($parsed, 'id="placeholderSpoiler"');
       $toHash = LoggedUser::$data['pseudo'].Utils::SQLServerTime().'-';
       for($i = 1; $i <= $nbToReplace; $i++)

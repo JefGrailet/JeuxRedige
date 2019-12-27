@@ -20,6 +20,12 @@ if(LoggedUser::isLoggedIn() && strlen(LoggedUser::$data['function_name']) > 0 &&
    else
    {
       $_SESSION['function_pseudo'] = sha1(LoggedUser::$data['function_pseudo']);
+      
+      /*
+       * N.B.: sha1() is normally a weak hashing method, but here the bcrypt-hashed password of 
+       * the user is already being used to check at each page (s)he's indeed correctly logged in. 
+       * Further hashing the function pseudo would only slow the use of SwitchAccount.php.
+       */
    }
 
    // Redirection to index or to a URL contained in a $_GET variable

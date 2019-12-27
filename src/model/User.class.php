@@ -56,12 +56,12 @@ class User
    public static function insert($pseudo, $email, $password)
    {
       $currentDate = Utils::toDatetime(Utils::SQLServerTime());
-      $secret = substr(md5(uniqid(rand(), true)), 0, 15);
+      $salt = substr(md5(uniqid(rand(), true)), 0, 15);
       $confirmationKey = substr(md5(uniqid(rand(), true)), 15, 15);
       $newLine = array('pseudo' => $pseudo,
       'email' => $email,
-      'secret' => $secret,
-      'password' => sha1($pseudo.$secret.$password),
+      'secret' => $salt,
+      'password' => password_hash(sha1($pseudo.$salt.$password), PASSWORD_DEFAULT, ['cost' => 12]),
       'confirmation' => $confirmationKey,
       'registration_date' => $currentDate,
       'last_connection' => $currentDate,
@@ -180,7 +180,10 @@ class User
    
    public function setPassword($password)
    {
-      $newPassword = sha1($this->_data['pseudo'].$this->_data['secret'].$password);
+      $newPassword = password_hash(sha1($this->_data['pseudo'].$this->_data['secret'].$password), 
+                                   PASSWORD_DEFAULT, 
+                                   ['cost' => 12]);
+      
       $res = Database::secureWrite("UPDATE users SET password=? WHERE pseudo=?",
                          array($newPassword, $this->_data['pseudo']));
       

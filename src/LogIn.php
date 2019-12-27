@@ -46,12 +46,21 @@ if(!empty($_POST['sent']))
          $hashPwd = sha1($user->get('pseudo').$user->get('secret').$data['pwd']);
          $banExpiration = Utils::toTimestamp($user->get('last_ban_expiration'));
          
+         /*
+          * Remark: the "hashPwd" isn't the hash actually (currently) stored in the DB. It's an 
+          * intermediate hash that used to be stored in the DB and which is further hashed with 
+          * bcrypt in order to ensure old hashes could be still used without asking users to give 
+          * again their passwords upon bringing the bcrypt solution. This solution has also a nice 
+          * twist: as sha1() always returns 40 characters long hashes and bcrypt truncates 60+ 
+          * characters passwords, this allows users to potentially use any length of password.
+          */
+         
          if($user->get('confirmation') !== 'DONE')
          {
             $data['errors'] = 'notConfirmed';
             $display = TemplateEngine::parse('view/user/LogIn.form.ctpl', $data);
          }
-         else if($user->get('password') !== $hashPwd)
+         else if(!password_verify($hashPwd, $user->get('password'))) // bcrypt verification
          {
             $data['errors'] = 'wrongPwd';
             $display = TemplateEngine::parse('view/user/LogIn.form.ctpl', $data);
@@ -91,6 +100,16 @@ if(!empty($_POST['sent']))
             // Log in is successful; creates $_SESSION and $_COOKIES variables
             $_SESSION['pseudonym'] = $user->get('pseudo');
             $_SESSION['password'] = $user->get('password');
+            
+            /*
+             * On the $_SESSION and $_COOKIE containing the passwords: the stored password is 
+             * given, because the result of bcrypt is random (salt is randomized) and re-creating 
+             * a bcrypt hash takes time on top of that. Using the stored bcrypt hash allows to:
+             * -verify the user's logged with a string comparison (rather than password_verify()), 
+             * -avoid storing the weaker hash (sha1() hash) in the cookies of the user to use 
+             *  password_verify(), because if this hash is stolen, user's password could still be 
+             *  cracked and we want to avoid this.
+             */
             
             if($_POST['rememberMe'] == 'on')
             {

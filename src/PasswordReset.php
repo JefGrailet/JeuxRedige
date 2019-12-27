@@ -57,11 +57,16 @@ if(!empty($_SESSION['check1']) && !empty($_SESSION['check2']))
                     'newPwd' => Utils::secure($_POST['newPwd']));
       $recomputedHash = sha1($pseudo . $user->get('secret') . $data['code']);
       
+      /*
+       * Remark: the "recomputedHash" isn't the actual final hash. It's only an intermediate step 
+       * before verifying the hash with password_verify().
+       */
+      
       // Deals with errors (empty fields, mismatching passwords, wrong code)
       $errors = '';
       if(strlen($data['code']) == 0 || strlen($data['newPwd']) == 0)
          $errors .= 'emptyFields|';
-      if($recomputedHash !== $_SESSION['check1'])
+      if(!password_verify($recomputedHash, $_SESSION['check1'])) // bcrypt verification
          $errors .= 'wrongCode|';
          
       if(strlen($errors) > 0)
@@ -135,7 +140,9 @@ else
                    * same manner as passwords and is stored in a $_SESSION. 
                    */
                   
-                  $_SESSION['check1'] = sha1($pseudo . $user->get('secret') . $checkCode);
+                  $_SESSION['check1'] = password_hash(sha1($pseudo . $user->get('secret') . $checkCode), 
+                                                      PASSWORD_DEFAULT, 
+                                                      ['cost' => 12]);
                   $_SESSION['check2'] = $pseudo;
                   $display = TemplateEngine::parse('view/user/PasswordReset.form.ctpl');
                }

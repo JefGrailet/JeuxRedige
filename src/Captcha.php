@@ -48,7 +48,7 @@ else
    }
 }
 
-// Hashes the result ands puts it in a $_SESSION
+// Hashes the result ands puts it in a $_SESSION. No bcrypt is used here for now (takes time).
 $_SESSION['captcha'] = sha1($result);
 
 // Signals that the content is an image

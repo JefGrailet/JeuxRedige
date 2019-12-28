@@ -303,7 +303,7 @@ RefreshLib.getNewMessages = function(offset, callback)
    },
    error: function(xmlhttprequest, textstatus, message)
    {
-      DefaultLib.diagnose(textstatus, message);
+      // DefaultLib.diagnose(textstatus, message);
       RefreshLib.lock = false;
    }
    });

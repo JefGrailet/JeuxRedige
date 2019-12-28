@@ -951,7 +951,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
   `email` varchar(125) COLLATE utf8_unicode_520_ci NOT NULL,
   `secret` varchar(15) COLLATE utf8_unicode_520_ci NOT NULL,
-  `password` varchar(40) COLLATE utf8_unicode_520_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Normally 60 characters.',
   `confirmation` varchar(15) COLLATE utf8_unicode_520_ci NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_connection` datetime NOT NULL,
@@ -977,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`pseudo`, `email`, `secret`, `password`, `confirmation`, `registration_date`, `last_connection`, `advanced_features`, `function_pseudo`, `pwd_reset_attempts`, `pwd_reset_last_attempt`, `last_ban_expiration`, `using_preferences`, `pref_message_size`, `pref_posts_per_page`, `pref_video_default_display`, `pref_video_thumbnail_style`, `pref_default_nav_mode`, `pref_auto_preview`, `pref_auto_refresh`) VALUES
-('AlainTouring', 'admin@projectag.org', '0123456789abcde', '6d590304bc225fdade8d0e65b7f9e18b796ef739', 'DONE', '2019-02-01 12:00:00', '2019-02-01 12:05:30', 'yes', 'Admin', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', 'no', 'default', 20, 'thumbnail', 'hq', 'classic', 'no', 'no');
+('AlainTouring', 'admin@projectag.org', '0123456789abcde', '$2y$12$NSdC6oHXeHvPi1ZztEi7HOLUreZ6P2.TRfkXdduy6wD1999OCtPcm', 'DONE', '2019-02-01 12:00:00', '2019-02-01 12:05:30', 'yes', 'Admin', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', 'no', 'default', 20, 'thumbnail', 'hq', 'classic', 'no', 'no');
 
 -- --------------------------------------------------------
 

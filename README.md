@@ -24,6 +24,11 @@ Notez la présence de deux paramètres supplémentaires à considérer si néces
   comptez utiliser un autre protocole et ce afin de correctement préfixer les URLs absolues vers 
   les images/clips vidéo stockés sur le site ou vers les articles.
 
+**Remarque importante:** le fichier `src/libraries/Header.lib.php` se sert de 
+`$_SERVER['DOCUMENT_ROOT']` et `$_SERVER['SERVER_NAME']` pour déterminer automatiquement le chemin 
+absolu vers les fichiers du site et l'URL de base. Si votre serveur ne fournit pas de valeurs 
+correctes pour ces variables, pensez à éditer les premières lignes de ce fichier.
+
 ## Etape 3: copie des fichiers sources
 Copiez l'intégralité du contenu du dossier `src` (après les modifications de l'étape 2) dans votre 
 dossier `www` (ou équivalent). Le contenu copié reprend également les sous-dossiers d'upload et les 
@@ -60,6 +65,11 @@ Note that there are two additional parameters you might want to edit too in some
   parameter must be updated (e.g., "_https_" instead of "_http_") if you intend to use another 
   protocol. This is necessary in order to correctly prefix all absolute URLs towards pictures or 
   video clips stored on the website or towards articles.
+
+**Important remark:** the file `src/libraries/Header.lib.php` relies on 
+`$_SERVER['DOCUMENT_ROOT']` and `$_SERVER['SERVER_NAME']` to find automatically the absolute path 
+towards the files of the site as well as the base URL. If your server doesn't provide correct 
+values for these variables, you might want to edit the first lines of this file.
 
 ## Step 3: copy of the source files
 Copy the entirety of the `src` folder (after the modifications of step 2) in your `www` folder (or 

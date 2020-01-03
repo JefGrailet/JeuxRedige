@@ -2,34 +2,57 @@
 
 /**************************************************************************************************
 *
-* "Header" file included at the start of each controller file. The goal is to provide common
-* singleton classes for basic operations (e.g. read/write in the database) that are used in most 
-* scripts.
+* "Header" file included at the start of each controller file. The goal is to provide common 
+* static classes for basic operations (e.g. read/write in the DB) that are used in most scripts.
 *
 * This file also deals with a user's connection to the website. It will init several parameters 
-* (as static variables of some classes) which will be used by other parts of the code to detect 
-* the membership of the user, his or her permissions, and react accordingly (e.g. forbid the 
-* edition of another user's post).
+* (as static or const variables of some classes) which will be used by other parts of the code to 
+* detect the membership of the user, his or her permissions, and react accordingly (e.g. forbid 
+* the edition of another user's post).
 *
 **************************************************************************************************/
 
 /*
-* Global variable used to measure the time taken to execute a full script and render a page. It 
-* exceptionally remains a global because it is only handled in this file (see wrap()) and in the 
-* Footer.inc.php file.
+* Global variable used to measure the time taken to execute a full script and render a page. It's 
+* only handled in practice in this file (see wrap()) and in the Footer.inc.php file.
 */
 
 $overallStart = microtime(true);
+
+/*
+* Determines automatically the absolute path to the base folder of the website (i.e., equivalent 
+* to the www/ or httpdocs/ folder).
+*/
+
+$autoWWW = realpath($_SERVER['DOCUMENT_ROOT']).'/';
+
+/*
+* Next global fetches some configuration values used to log to the DB. It's technically a global 
+* but only this file uses it in practice.
+*/
+
+$configValues = include($autoWWW.'config/Config.inc.php');
+
+/*
+* Determines as well as the base URL. Base URL is forced to be prefixed with "www." to avoid 
+* logging in issues (e.g. if user first connects to the website with "projectag.org"). Note how 
+* the protocol (i.e., HTTP or HTTPS) is part of the configuration values.
+*/
+
+$autoHTTP = $_SERVER['SERVER_NAME']; // Some insight: https://stackoverflow.com/questions/2297403/what-is-the-difference-between-http-host-and-server-name-in-php
+if(substr($autoHTTP, 0, 4) !== 'www.')
+   $autoHTTP = 'www.'.$autoHTTP;
+$autoHTTP = $configValues['protocol'].'://'.$autoHTTP.'/';
 
 /*
 * ========
 * Database
 * ========
 *
-* This static class acts as a singleton to dialog with the database. Not only it helps to tell in 
-* the code when the Database is accessed (thanks to Database:: prefix), but it also acts as a 
-* security bottleneck; i.e., if there's something wrong with the way SQL queries are parsed and 
-* executed, one should normally only edit this particular class and nothing else.
+* This static class is used to dialog with the database. Not only it helps to tell in the code 
+* when the Database is accessed (thanks to Database:: prefix), but it also acts as a security 
+* bottleneck; i.e., if there's something wrong with the way SQL queries are parsed and executed, 
+* one should normally only edit this particular class and nothing else.
 *
 * Note that the "read" and "write" methods are in name only. Their body can virtually execute 
 * anything. However, the Database interface is designed to provide the right results (depending on 
@@ -48,10 +71,18 @@ class Database
    
    public static function init()
    {
+      global $configValues;
+      
       try
       {
          $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-         self::$pdo = new PDO('mysql:host=127.0.0.1;dbname=pag_db', 'root', '');
+         
+         $DSN = 'mysql:host='.$configValues['mysql_host'].';';
+         if($configValues['mysql_port'] != -1)
+            $DSN .= 'port='.strval($configValues['mysql_port']).';';
+         $DSN .= 'dbname='.$configValues['mysql_db_name'];
+         
+         self::$pdo = new PDO($DSN, $configValues['mysql_login'], $configValues['mysql_pwd']);
          self::$pdo->exec("SET CHARACTER SET utf8");
       }
       catch(Exception $e)
@@ -197,7 +228,7 @@ class Database
    /*
    * beginTransaction(), commit() and rollback() are just aliases for the PDO methods of the same 
    * name. The purpose is to avoid using "global $pdo;" in functions/methods involving 
-   * transactions and to explicitely reference this singleton class (for the sake of clarity).
+   * transactions and to explicitely reference this static class (for the sake of clarity).
    */
    
    public static function beginTransaction() { self::$pdo->beginTransaction(); }
@@ -430,18 +461,296 @@ class LoggedUser
 LoggedUser::init();
 
 /*
+* ===========
+* PathHandler
+* ===========
+*
+* The purpose of this static class is to gather everything needed to properly handle paths on the 
+* website. In particular, it provides WWW_PATH, used to reach files on the server via absolute 
+* paths, and HTTP_PATH, the client side equivalent (i.e., to get full URLs). JS_EXTENSION also 
+* provides the typical extensions of JS files (usually .js or .min.js), which is given by the main 
+* configuration file of the website. All three of them are private static elements but can be 
+* accessed with public methods with the same names (as a way to compensate for the impossibility 
+* to use constants in this context). PathHandler also provides a few utilities as well as methods 
+* that should be used to rewrite URLs (e.g., instead of - only - using Article.php?id_article=1, 
+* one can use the URL /articles/1/My-article-title-and-subtitle which is better for referencing).
+*/
+
+/*
+   const WWW_PATH = '/data/sites/web/projectagorg/www/';
+   const HTTP_PATH = 'https://www.projectag.org/';
+   */
+   
+
+class PathHandler
+{
+   private static $WWW_PATH;
+   private static $HTTP_PATH;
+   private static $JS_EXTENSION;
+   
+   /*
+   * Inits the public static variables of the class. Such variables used to be constants; in order 
+   * to ease configuration of the website, they were turned into private static elements to allow 
+   * setting them through the code while preventing their edition from outside. They are then 
+   * accessed via (public) static methods. Indeed, it's forbidden by the language to set constants 
+   * via variables (details here: https://www.php.net/manual/en/language.oop5.static.php ). This 
+   * means that in practice, PathHandler "constants" are used as if they were, but with additional 
+   * parentheses.
+   */
+   
+   public static function init()
+   {
+      global $autoWWW;
+      global $autoHTTP;
+      global $configValues;
+      
+      self::$WWW_PATH = $autoWWW;
+      self::$HTTP_PATH = $autoHTTP;
+      self::$JS_EXTENSION = $configValues['paths_js_extension'];
+   }
+   
+   public static function WWW_PATH() { return self::$WWW_PATH; }
+   public static function HTTP_PATH() { return self::$HTTP_PATH; }
+   public static function JS_EXTENSION() { return self::$JS_EXTENSION; }
+   
+   /*
+   * getAvatar() gets the absolute path to one user's avatar on the basis of its pseudonym.
+   *
+   * @param string $pseudo  The user's pseudonym
+   * @return string         The absolute path to that user's avatar, or to a default one
+   */
+
+   public static function getAvatar($pseudo)
+   {
+      if(WebpageHandler::$miscParams['message_size'] === 'medium')
+      {
+         $avatarPath = self::$WWW_PATH.'avatars/'.$pseudo.'-medium.jpg';
+         if(file_exists($avatarPath) == true)
+            return self::$HTTP_PATH.'avatars/'.$pseudo.'-medium.jpg';
+         return self::$HTTP_PATH.'defaultavatar-medium.jpg';
+      }
+      
+      $avatarPath = self::$WWW_PATH.'avatars/'.$pseudo.'.jpg';
+      if(file_exists($avatarPath) == true)
+         return self::$HTTP_PATH.'avatars/'.$pseudo.'.jpg';
+      return self::$HTTP_PATH.'defaultavatar.jpg';
+   }
+   
+   /*
+   * getAvatarSmall() gets the absolute path to the smallest version of one user's avatar.
+   *
+   * @param string $pseudo  The user's pseudonym
+   * @return string         The absolute path to that user's avatar, or to a default one
+   */
+   
+   public static function getAvatarSmall($pseudo)
+   {
+      $avatarPath = self::$WWW_PATH.'avatars/'.$pseudo.'-small.jpg';
+      if(file_exists($avatarPath) == true)
+         return self::$HTTP_PATH.'avatars/'.$pseudo.'-small.jpg';
+      return self::$HTTP_PATH.'defaultavatar-small.jpg';
+   }
+   
+   /*
+   * getThumbnail() returns the absolute path of the thumbnail of a topic on the basis of its ID
+   * or name (because a topic could use a thumbnail from a default library, found with a precise 
+   * name). A default thumbnail is returned if no file could be found at the path.
+   *
+   * @param string $name     The name of the thumbnail
+   * @param string $idTopic  The ID of the topic (helps to find the custom thumbnail if $name is
+   *                         equal to CUSTOM)
+   * @return string          The absolute path to a thumbnail for that topic
+   */
+   
+   public static function getTopicThumbnail($name, $idTopic)
+   {
+      if($name === 'CUSTOM')
+         $suffix = 'upload/topics/'.$idTopic.'/thumbnail.jpg';
+      else
+         $suffix = $name;
+      
+      $thumbnailPath = self::$WWW_PATH.$suffix;
+      if(file_exists($thumbnailPath) == true)
+         return self::$HTTP_PATH.$suffix;
+      return self::$HTTP_PATH.'defaultthumbnail.jpg';
+   }
+   
+   /*
+   * General method to format a string to fit in a URL, i.e. the formatted string will only 
+   * contain characters in class a-zA-Z0-9 and -.
+   *
+   * @param string $input  The string to format
+   * @return string        The formatted string
+   */
+   
+   public static function formatForURL($input)
+   {
+      // Replace accents
+      $accents = array('Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 
+      'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 
+      'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 
+      'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 
+      'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 
+      'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 
+      'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 
+      'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
+      $output = strtr($input, $accents);
+      
+      // Replace spaces and special characters
+      $output = str_replace(" ", "-", $output);
+      $output = preg_replace("([^a-zA-Z0-9-])", "", $output);
+      
+      // If it ends with -, removes them
+      while(substr($output, -1) == '-')
+         $output = substr($output, 0, strlen($output) - 1);
+      
+      return $output;
+   }
+   
+   /*
+   * General method to format a string to fit as a filename, i.e. the formatted string will only 
+   * contain characters in class a-zA-Z0-9, _ and -.
+   *
+   * @param string $input  The string to format
+   * @return string        The formatted string
+   */
+   
+   public static function formatForFilesystem($input)
+   {
+      // Replace accents
+      $accents = array('Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 
+      'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 
+      'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 
+      'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 
+      'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 
+      'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 
+      'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 
+      'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
+      $output = strtr($input, $accents);
+      
+      // Replace spaces and special characters
+      $output = str_replace(" ", "-", $output);
+      $output = preg_replace("([^a-zA-Z0-9-])", "", $output);
+      
+      // If it ends with -, removes them
+      while(substr($output, -1) == '-')
+         $output = substr($output, 0, strlen($output) - 1);
+      
+      return $output;
+   }
+   
+   /*
+   * The rest of the classes consists of a "[something]URL()" static methods. The principle is 
+   * always the same: the method takes the array which matches the content for which the URL must 
+   * be generated, possibly with additional variables to denote a specific section or page. The 
+   * output is always a string (the URL). Having such methods is a way to have a "choke point" to 
+   * handle URLs for content, e.g. if the URL has to be updated because of a new URL rewriting 
+   * policy.
+   */
+   
+   // URLs related to topics (and related sections)
+   
+   public static function topicURL($topic, $page = '')
+   {
+      $URL = './Topic.php?id_topic='.$topic['id_topic'];
+      if($page !== '' && intval($page) != 1)
+         $URL .= '&page='.$page;
+      return $URL;
+   }
+   
+   public static function uploadsURL($topic, $page = '')
+   {
+      $URL = './Uploads.php?id_topic='.$topic['id_topic'];
+      if($page !== '' && intval($page) != 1)
+         $URL .= '&page='.$page;
+      return $URL;
+   }
+   
+   public static function popularPostsURL($topic, $page = '')
+   {
+      $URL = './PopularPosts.php?id_topic='.$topic['id_topic'];
+      if($page !== '' && intval($page) != 1)
+         $URL .= '&page='.$page;
+      return $URL;
+   }
+
+   public static function unpopularPostsURL($topic, $page = '')
+   {
+      $URL = './PopularPosts.php?section=unpopular&id_topic='.$topic['id_topic'];
+      if($page !== '' && intval($page) != 1)
+         $URL .= '&page='.$page;
+      return $URL;
+   }
+   
+   // URLs for content
+   
+   public static function gameURL($game, $section = '', $page = '')
+   {
+      $URL = './Game.php?game='.urlencode($game['tag']);
+      if(in_array($section, array('reviews', 'articles', 'trivia', 'lists', 'topics')))
+      {
+         $URL .= '&section='.$section;
+         if($page !== '' && intval($page) != 1)
+            $URL .= '&page='.$page;
+      }
+      return $URL;
+   }
+   
+   public static function articleURL($article, $segment = '')
+   {
+      $titleFormatted = self::formatForURL($article['title'].' '.$article['subtitle']);
+      $URL = 'articles/'.$article['id_article'].'/'.$titleFormatted.'/';
+      if($segment !== '' && intval($segment) != 1)
+         $URL .= $segment.'/';
+      
+      return self::$HTTP_PATH.$URL;
+   }
+   
+   public static function reviewURL($review)
+   {
+      $URL = 'reviews/'.$review['id_commentable'].'/'.self::formatForURL($review['game']).'/';
+      $URL .= PathHandler::formatForURL($review['title']).'/';
+      
+      return self::$HTTP_PATH.$URL;
+   }
+   
+   public static function triviaURL($trivia)
+   {
+      $URL = 'trivia/'.$trivia['id_commentable'].'/'.self::formatForURL($trivia['game']).'/';
+      $URL .= PathHandler::formatForURL($trivia['title']).'/';
+      
+      return self::$HTTP_PATH.$URL;
+   }
+   
+   public static function listURL($list)
+   {
+      $URL = 'lists/'.$list['id_commentable'].'/'.self::formatForURL($list['title']).'/';
+      
+      return self::$HTTP_PATH.$URL;
+   }
+   
+   // Miscellaneous
+   
+   public static function userURL($pseudo)
+   {
+      return './User.php?user='.urlencode($pseudo);
+   }
+}
+
+PathHandler::init();
+
+/*
 * ==============
 * WebpageHandler
 * ==============
 *
-* This static class acts as a singleton to handle a variety of variables which are tied to the 
-* display (HTML- and CSS-wise) or functionality of the website (w.r.t. JavaScript). Most notably, 
-* it gathers two arrays which lists the CSS and JS files that should be used when outputting the 
-* final page (which are put to use in Header.inc.php, notably), as well as miscellaneous variables 
-* to handle some URLs and containing div's. Finally, it also maintains a large array nicknamed 
-* "miscParams" that gathers a variety of parameters which influence both the display (e.g., amount 
-* of messages displayed per page) and the QOL (e.g., activation of auto-preview automically, if 
-* user decided to use this feature).
+* This static class handles a variety of variables tied to the display (HTML- and CSS-wise) or 
+* functionality of the website (w.r.t. JavaScript). Most notably, it gathers two arrays which 
+* lists the CSS and JS files that should be used when outputting the final page (which are put to 
+* use in Header.inc.php, notably), as well as miscellaneous variables to handle some URLs and 
+* containing div's. Finally, it also maintains a large array nicknamed "miscParams" that gathers a 
+* variety of parameters which influence both the display (e.g., amount of messages displayed per 
+* page) and the QOL (e.g., activation of auto-preview automically).
 */
 
 class WebpageHandler
@@ -574,7 +883,7 @@ class WebpageHandler
       $overallEnd = microtime(true);
       $finalHTML = $html;
       if(WebpageHandler::$URLRewriting)
-         $finalHTML = str_replace('="./', '="'.PathHandler::HTTP_PATH, $finalHTML);
+         $finalHTML = str_replace('="./', '="'.PathHandler::HTTP_PATH(), $finalHTML);
       
       require './view/Header.inc.php';
       echo $finalHTML;
@@ -804,257 +1113,15 @@ class Utils
 }
 
 /*
-* ===========
-* PathHandler
-* ===========
-*
-* The purpose of this static class is to gather everything needed to properly handle paths on the 
-* website. In particular, it provides two constant strings: WWW_PATH, which is used to reach files 
-* on the server side via absolute paths, and HTTP_PATH, which is the client side equivalent (i.e., 
-* to get full URLs). It also provides a few utilities as well as methods that should be used to 
-* rewrite URLs (e.g., instead of - only - using Article.php?id_article=1, one can use the URL 
-* /articles/1/My-article-title-and-subtitle which is much better for referencing).
-*/
-
-class PathHandler
-{
-   const WWW_PATH = 'C:/wamp64/www/pag/'; // For instance (if you use WampServer under Windows)
-   const HTTP_PATH = 'http://localhost/pag/'; // For instance (if you use WampServer under Windows)
-   
-   /*
-   * getAvatar() gets the absolute path to one user's avatar on the basis of its pseudonym.
-   *
-   * @param string $pseudo  The user's pseudonym
-   * @return string         The absolute path to that user's avatar, or to a default one
-   */
-
-   public static function getAvatar($pseudo)
-   {
-      if(WebpageHandler::$miscParams['message_size'] === 'medium')
-      {
-         $avatarPath = self::WWW_PATH.'avatars/'.$pseudo.'-medium.jpg';
-         if(file_exists($avatarPath) == true)
-            return self::HTTP_PATH.'avatars/'.$pseudo.'-medium.jpg';
-         return self::HTTP_PATH.'defaultavatar-medium.jpg';
-      }
-      
-      $avatarPath = self::WWW_PATH.'avatars/'.$pseudo.'.jpg';
-      if(file_exists($avatarPath) == true)
-         return self::HTTP_PATH.'avatars/'.$pseudo.'.jpg';
-      return self::HTTP_PATH.'defaultavatar.jpg';
-   }
-   
-   /*
-   * getAvatarSmall() gets the absolute path to the smallest version of one user's avatar.
-   *
-   * @param string $pseudo  The user's pseudonym
-   * @return string         The absolute path to that user's avatar, or to a default one
-   */
-   
-   public static function getAvatarSmall($pseudo)
-   {
-      $avatarPath = self::WWW_PATH.'avatars/'.$pseudo.'-small.jpg';
-      if(file_exists($avatarPath) == true)
-         return self::HTTP_PATH.'avatars/'.$pseudo.'-small.jpg';
-      return self::HTTP_PATH.'defaultavatar-small.jpg';
-   }
-   
-   /*
-   * getThumbnail() returns the absolute path of the thumbnail of a topic on the basis of its ID
-   * or name (because a topic could use a thumbnail from a default library, found with a precise 
-   * name). A default thumbnail is returned if no file could be found at the path.
-   *
-   * @param string $name     The name of the thumbnail
-   * @param string $idTopic  The ID of the topic (helps to find the custom thumbnail if $name is
-   *                         equal to CUSTOM)
-   * @return string          The absolute path to a thumbnail for that topic
-   */
-   
-   public static function getTopicThumbnail($name, $idTopic)
-   {
-      if($name === 'CUSTOM')
-         $suffix = 'upload/topics/'.$idTopic.'/thumbnail.jpg';
-      else
-         $suffix = $name;
-      
-      $thumbnailPath = self::WWW_PATH.$suffix;
-      if(file_exists($thumbnailPath) == true)
-         return self::HTTP_PATH.$suffix;
-      return self::HTTP_PATH.'defaultthumbnail.jpg';
-   }
-   
-   /*
-   * General method to format a string to fit in a URL, i.e. the formatted string will only 
-   * contain characters in class a-zA-Z0-9 and -.
-   *
-   * @param string $input  The string to format
-   * @return string        The formatted string
-   */
-   
-   public static function formatForURL($input)
-   {
-      // Replace accents
-      $accents = array('Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 
-      'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 
-      'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 
-      'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 
-      'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 
-      'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 
-      'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 
-      'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
-      $output = strtr($input, $accents);
-      
-      // Replace spaces and special characters
-      $output = str_replace(" ", "-", $output);
-      $output = preg_replace("([^a-zA-Z0-9-])", "", $output);
-      
-      // If it ends with -, removes them
-      while(substr($output, -1) == '-')
-         $output = substr($output, 0, strlen($output) - 1);
-      
-      return $output;
-   }
-   
-   /*
-   * General method to format a string to fit as a filename, i.e. the formatted string will only 
-   * contain characters in class a-zA-Z0-9, _ and -.
-   *
-   * @param string $input  The string to format
-   * @return string        The formatted string
-   */
-   
-   public static function formatForFilesystem($input)
-   {
-      // Replace accents
-      $accents = array('Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 
-      'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 
-      'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 
-      'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 
-      'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 
-      'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 
-      'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 
-      'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
-      $output = strtr($input, $accents);
-      
-      // Replace spaces and special characters
-      $output = str_replace(" ", "-", $output);
-      $output = preg_replace("([^a-zA-Z0-9-])", "", $output);
-      
-      // If it ends with -, removes them
-      while(substr($output, -1) == '-')
-         $output = substr($output, 0, strlen($output) - 1);
-      
-      return $output;
-   }
-   
-   /*
-   * The rest of the classes consists of a "[something]URL()" static methods. The principle is 
-   * always the same: the method takes the array which matches the content for which the URL must 
-   * be generated, possibly with additional variables to denote a specific section or page. The 
-   * output is always a string (the URL). Having such methods is a way to have a "choke point" to 
-   * handle URLs for content, e.g. if the URL has to be updated because of a new URL rewriting 
-   * policy.
-   */
-   
-   // URLs related to topics (and related sections)
-   
-   public static function topicURL($topic, $page = '')
-   {
-      $URL = './Topic.php?id_topic='.$topic['id_topic'];
-      if($page !== '' && intval($page) != 1)
-         $URL .= '&page='.$page;
-      return $URL;
-   }
-   
-   public static function uploadsURL($topic, $page = '')
-   {
-      $URL = './Uploads.php?id_topic='.$topic['id_topic'];
-      if($page !== '' && intval($page) != 1)
-         $URL .= '&page='.$page;
-      return $URL;
-   }
-   
-   public static function popularPostsURL($topic, $page = '')
-   {
-      $URL = './PopularPosts.php?id_topic='.$topic['id_topic'];
-      if($page !== '' && intval($page) != 1)
-         $URL .= '&page='.$page;
-      return $URL;
-   }
-
-   public static function unpopularPostsURL($topic, $page = '')
-   {
-      $URL = './PopularPosts.php?section=unpopular&id_topic='.$topic['id_topic'];
-      if($page !== '' && intval($page) != 1)
-         $URL .= '&page='.$page;
-      return $URL;
-   }
-   
-   // URLs for content
-   
-   public static function gameURL($game, $section = '', $page = '')
-   {
-      $URL = './Game.php?game='.urlencode($game['tag']);
-      if(in_array($section, array('reviews', 'articles', 'trivia', 'lists', 'topics')))
-      {
-         $URL .= '&section='.$section;
-         if($page !== '' && intval($page) != 1)
-            $URL .= '&page='.$page;
-      }
-      return $URL;
-   }
-   
-   public static function articleURL($article, $segment = '')
-   {
-      $titleFormatted = self::formatForURL($article['title'].' '.$article['subtitle']);
-      $URL = 'articles/'.$article['id_article'].'/'.$titleFormatted.'/';
-      if($segment !== '' && intval($segment) != 1)
-         $URL .= $segment.'/';
-      
-      return self::HTTP_PATH.$URL;
-   }
-   
-   public static function reviewURL($review)
-   {
-      $URL = 'reviews/'.$review['id_commentable'].'/'.self::formatForURL($review['game']).'/';
-      $URL .= PathHandler::formatForURL($review['title']).'/';
-      
-      return self::HTTP_PATH.$URL;
-   }
-   
-   public static function triviaURL($trivia)
-   {
-      $URL = 'trivia/'.$trivia['id_commentable'].'/'.self::formatForURL($trivia['game']).'/';
-      $URL .= PathHandler::formatForURL($trivia['title']).'/';
-      
-      return self::HTTP_PATH.$URL;
-   }
-   
-   public static function listURL($list)
-   {
-      $URL = 'lists/'.$list['id_commentable'].'/'.self::formatForURL($list['title']).'/';
-      
-      return self::HTTP_PATH.$URL;
-   }
-   
-   // Miscellaneous
-   
-   public static function userURL($pseudo)
-   {
-      return './User.php?user='.urlencode($pseudo);
-   }
-}
-
-/*
 * ==============
 * TemplateEngine
 * ==============
 *
-* This final singleton implements a custom template engine (templates tailored for it end in 
+* This final class implements a custom template engine (templates tailored for it end in 
 * .ctpl, for Custom TemPLate) used to handle the various components of the website in a generic 
 * fashion, using blocks (starting and ending with curly braces) to signal the parts that should 
-* slightly change from one execution to another. To see what kinds of blocks are available, you 
-* can either check the documentation or go through the code of the private process() method.
+* slightly changed from one execution to another. To see what kinds of blocks are available, you 
+* can either check the documentation (if available) or go through the private process() method.
 */
 
 class TemplateEngine
@@ -1068,7 +1135,7 @@ class TemplateEngine
    
    private static function get($path)
    {
-      $finalPath = PathHandler::WWW_PATH.$path;
+      $finalPath = PathHandler::WWW_PATH().$path;
       
       if(strtolower(substr($finalPath, -5)) !== '.ctpl' || !file_exists($finalPath))
          return '';
@@ -1152,7 +1219,7 @@ class TemplateEngine
             continue;
          }
          
-         // End of a block : parses it
+         // End of a block: parses it
          if(substr($curBlock, 0, 1) == '$')
          {
             $label = substr($curBlock, 1);
@@ -1247,7 +1314,7 @@ class TemplateEngine
                }
             }
          }
-         // Switch block : similar to list, but at most one item at a time
+         // Switch block: similar to list, but at most one item at a time
          else if(substr($curBlock, 0, 7) === 'switch:')
          {
             $delimiter = strpos($curBlock, '||');
@@ -1279,7 +1346,7 @@ class TemplateEngine
             }
             
             /*
-            * Parses the input data for that block if it is not a NULL string. The format is : 
+            * Parses the input data for that block if it is not a NULL string. The format is: 
             * label or label||value0|value1|...; in the second cases, substrings [0], [1]... 
             * will be replaced by value0, value1... respectively).
             */
@@ -1368,7 +1435,7 @@ class TemplateEngine
                $parsed[$i] .= "</select>\n";
             }
          }
-         // Pages block : generates list of pages; strict format
+         // Pages block: generates list of pages; strict format
          else if(substr($curBlock, 0, 6) === 'pages:')
          {
             $delimiter = strpos($curBlock, '||');
@@ -1414,7 +1481,7 @@ class TemplateEngine
                   continue;
                }
                
-               // Checks arguments (strict format : perPage|nbItems|curPage|linkTemplate) and parses them
+               // Checks arguments (strict format: perPage|nbItems|curPage|linkTemplate) and parses them
                if(!in_array($label, $labels))
                {
                   $eMsg = 'No data is provided for pages block '.$label;
@@ -1469,7 +1536,7 @@ class TemplateEngine
                      }
                      $hasSkipped = false;
                   }
-                  // "..." (in "Pages : 1 2 3 4 5 ... 14 15 16 17 18")
+                  // "..." (in "Pages: 1 2 3 4 5 ... 14 15 16 17 18")
                   else if(!$hasSkipped)
                   {
                      $parsed[$i] .= $pagesElements[5].' ';
@@ -1486,7 +1553,7 @@ class TemplateEngine
             $label = substr($curBlock, 11);
             for($i = 0; $i < $nbOutputs; $i++)
             {
-               // Checks arguments (strict format : perPage|nbItems|curPage|linkTemplate) and parses them
+               // Checks arguments (strict format: perPage|nbItems|curPage|linkTemplate) and parses them
                if(!in_array($label, $labels))
                {
                   $eMsg = 'No data is provided for navigation block '.$label;
@@ -1635,7 +1702,7 @@ class TemplateEngine
          $message = '<p><strong>Unexpected error :</strong> misused template. Reports the 
          following error to the webmaster as soon as possible :<br/>
          <br/>
-         Line '.$arg[0][0].' : '.$arg[0][1].'</p>'."\n";
+         Line '.$arg[0][0].': '.$arg[0][1].'</p>'."\n";
          return $message;
       }
       return $arg;

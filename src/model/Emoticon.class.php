@@ -249,7 +249,7 @@ class Emoticon
             throw new Exception('Emoticon could not be deleted: '.$resEmoticon[2]);
          
          // Deletion of the associated file
-         $pathToUnlink = PathHandler::WWW_PATH.'upload/emoticons/'.$this->_data['file'];
+         $pathToUnlink = PathHandler::WWW_PATH().'upload/emoticons/'.$this->_data['file'];
          $success = unlink($pathToUnlink);
          if(!$success)
             throw new Exception('File associated to the emoticon could not be deleted.');

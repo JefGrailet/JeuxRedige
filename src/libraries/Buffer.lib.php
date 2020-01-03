@@ -22,7 +22,7 @@ class Buffer
 
    public static function create()
    {
-      $tmpDir = PathHandler::WWW_PATH.'upload/tmp/';
+      $tmpDir = PathHandler::WWW_PATH().'upload/tmp/';
       if(!is_dir($tmpDir))
          return;
       
@@ -42,7 +42,7 @@ class Buffer
 
    public static function listContent()
    {
-      $tmpDir = PathHandler::WWW_PATH.'upload/tmp/';
+      $tmpDir = PathHandler::WWW_PATH().'upload/tmp/';
       if(!is_dir($tmpDir))
          return array(array(), array());
       
@@ -196,8 +196,8 @@ class Buffer
                   
                   if(in_array($miniature, $uploadsList[1]))
                   {
-                     $httpPathPrefix = PathHandler::HTTP_PATH.'upload/'.$path;
-                     $wwwPathPrefix = PathHandler::WWW_PATH.'upload/'.$path;
+                     $httpPathPrefix = PathHandler::HTTP_PATH().'upload/'.$path;
+                     $wwwPathPrefix = PathHandler::WWW_PATH().'upload/'.$path;
                      $relativePrefix = 'upload/'.$path;
                      
                      // Security (avoids disgracious errors)
@@ -223,8 +223,8 @@ class Buffer
             // For other formats (video), there is neither a miniature, neither a prefix to consider
             else
             {
-               $httpPathPrefix = PathHandler::HTTP_PATH.'upload/'.$path;
-               $wwwPathPrefix = PathHandler::WWW_PATH.'upload/'.$path;
+               $httpPathPrefix = PathHandler::HTTP_PATH().'upload/'.$path;
+               $wwwPathPrefix = PathHandler::WWW_PATH().'upload/'.$path;
                $relativePrefix = 'upload/'.$path;
                
                // Security (avoids disgracious errors)
@@ -322,7 +322,7 @@ class Buffer
 
    public static function save($dir, $file, $name = "")
    {
-      $filePath = PathHandler::WWW_PATH.'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$file;
+      $filePath = PathHandler::WWW_PATH().'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$file;
       if(!file_exists($filePath))
          return FALSE;
       
@@ -330,10 +330,10 @@ class Buffer
       if($name !== "")
       {
          $extension = strrchr($file, '.');
-         $newFilePath = PathHandler::WWW_PATH.$dir.'/'.$name.$extension;
+         $newFilePath = PathHandler::WWW_PATH().$dir.'/'.$name.$extension;
       }
       else
-         $newFilePath = PathHandler::WWW_PATH.$dir.$file;
+         $newFilePath = PathHandler::WWW_PATH().$dir.$file;
          
       return rename($filePath, $newFilePath);
    }
@@ -445,7 +445,7 @@ class Buffer
 
    private static function getByPrefix($prefix)
    {
-      $tmpDir = PathHandler::WWW_PATH.'upload/tmp/';
+      $tmpDir = PathHandler::WWW_PATH().'upload/tmp/';
       if(!is_dir($tmpDir))
          return;
       
@@ -455,7 +455,7 @@ class Buffer
       
       foreach(glob($dirPath."/".$prefix."*.{*}", GLOB_BRACE) as $filePath)
       {
-         $withHttpPath = PathHandler::HTTP_PATH.substr($filePath, strlen(PathHandler::WWW_PATH));
+         $withHttpPath = PathHandler::HTTP_PATH().substr($filePath, strlen(PathHandler::WWW_PATH()));
          return $withHttpPath;
       }
       
@@ -481,7 +481,7 @@ class Buffer
 
    private static function cleanByPrefix($prefix)
    {
-      $tmpDir = PathHandler::WWW_PATH.'upload/tmp/';
+      $tmpDir = PathHandler::WWW_PATH().'upload/tmp/';
       if(!is_dir($tmpDir))
          return;
       

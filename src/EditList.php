@@ -62,7 +62,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
    'errors' => '', 
    'listID' => $listID, 
    'title' => $list->get('title'), 
-   'thumbnailPath' => PathHandler::HTTP_PATH.'upload/commentables/'.$listID.'.jpg', 
+   'thumbnailPath' => PathHandler::HTTP_PATH().'upload/commentables/'.$listID.'.jpg', 
    'description' => $list->get('description'), 
    'ordering' => $list->get('ordering').'||'.$formPolicies, 
    'thumbnail' => 'none');
@@ -76,7 +76,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
       $formData['ordering'] = $pickedOrdering.'||'.$formPolicies;
       
       $formData['thumbnail'] = Utils::secure($_POST['thumbnail']);
-      if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH.substr($formData['thumbnail'], 2)))
+      if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH().substr($formData['thumbnail'], 2)))
          $formData['thumbnailPath'] = $formData['thumbnail'];
       
       // Errors (missing title, title too long or bad policy)
@@ -101,7 +101,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
          }
          
          // Saves the new thumbnail (if thumbnail changed)
-         if($formData['thumbnail'] !== 'none' && $formData['thumbnail'] !== 'CUSTOM' && file_exists(PathHandler::WWW_PATH.substr($formData['thumbnail'], 2)))
+         if($formData['thumbnail'] !== 'none' && $formData['thumbnail'] !== 'CUSTOM' && file_exists(PathHandler::WWW_PATH().substr($formData['thumbnail'], 2)))
          {
             require './libraries/Buffer.lib.php';
             
@@ -109,7 +109,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
             Buffer::save('upload/commentables', $fileName, strval($list->get('id_commentable')));
             
             // Resets the parts of the form used for thumbnail edition
-            $formData['thumbnailPath'] = PathHandler::HTTP_PATH.'upload/commentables/'.$listID.'.jpg';
+            $formData['thumbnailPath'] = PathHandler::HTTP_PATH().'upload/commentables/'.$listID.'.jpg';
             $formData['thumbnail'] = 'none';
          }
          

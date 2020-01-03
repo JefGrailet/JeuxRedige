@@ -176,7 +176,7 @@ if(!empty($_POST['sent']))
       $formComp['errors'] .= 'emptyFields|';
    if(strlen($formInput['tag']) > 100 || strlen($formInput['publisher']) > 50 || strlen($formInput['developer']) > 50)
       $formComp['errors'] .= 'tooLongData|';
-   if($formInput['thumbnail'] === './defaultthumbnail.jpg' || !file_exists(PathHandler::WWW_PATH.substr($formInput['thumbnail'], 2)))
+   if($formInput['thumbnail'] === './defaultthumbnail.jpg' || !file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
       $formComp['errors'] .= 'invalidThumbnail|';
    if(!$titleOK)
       $formComp['errors'] .= 'invalidTitle|';

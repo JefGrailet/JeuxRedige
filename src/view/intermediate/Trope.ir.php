@@ -13,6 +13,8 @@ class TropeIR
 
    public static function process($trope, $editable = false, $asHover = true)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $output = array('title' => $trope['tag'], 
       'styleAndData' => '', 
       'styleBis' => '', 
@@ -47,16 +49,16 @@ class TropeIR
       $output['styleBis'] = 'style="background-color: rgb('.$newR.','.$newG.','.$newB.'); color: '.$textColor.';"';
       
       // Description (icon + text)
-      $icon = PathHandler::HTTP_PATH.'upload/tropes/'.PathHandler::formatForURL($trope['tag']).'.png';
+      $icon = $webRootPath.'upload/tropes/'.PathHandler::formatForURL($trope['tag']).'.png';
       $output['description'] = '<img src="'.$icon.'" alt="'.$trope['tag'].'" style="float: left;"/> ';
       $output['description'] .= $trope['description'];
       
       // Edit button (+ if one user can edit games, (s)he can also edit tropes)
       if(LoggedUser::isLoggedIn() /* && Utils::check(LoggedUser::$data['can_edit_games']) */ && !$asHover && $editable)
       {
-         $editionURL = PathHandler::HTTP_PATH.'EditTrope.php?trope='.urlencode($trope['tag']);
-         $output['editButton'] = 'yes|| <a href="'.$editionURL.'"><img src="'.PathHandler::HTTP_PATH.'res_icons/trope_edit.png" title="Editer" alt="Editer" /></a>';
-         $output['editButton'] .= ' <img class="buttonDelete" src="'.PathHandler::HTTP_PATH.'res_icons/trope_delete.png" alt="Supprimer" ';
+         $editionURL = $webRootPath.'EditTrope.php?trope='.urlencode($trope['tag']);
+         $output['editButton'] = 'yes|| <a href="'.$editionURL.'"><img src="'.$webRootPath.'res_icons/trope_edit.png" title="Editer" alt="Editer" /></a>';
+         $output['editButton'] .= ' <img class="buttonDelete" src="'.$webRootPath.'res_icons/trope_delete.png" alt="Supprimer" ';
          $output['editButton'] .= 'data-trope="'.$trope['tag'].'" title="Supprimer ce code"/>';
       }
       

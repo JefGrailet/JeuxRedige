@@ -487,20 +487,20 @@ class GameCommentable extends Commentable
    
    public function getThumbnail($local = false)
    {
-      $thumbnailFile = PathHandler::WWW_PATH.'upload/games/'.PathHandler::formatForURL($this->_data['game']).'/thumbnail1.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/games/'.PathHandler::formatForURL($this->_data['game']).'/thumbnail1.jpg';
       if(file_exists($thumbnailFile))
       {
          if(!$local)
          {
-            $URL = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($this->_data['game']).'/thumbnail1.jpg';
+            $URL = PathHandler::HTTP_PATH().'upload/games/'.PathHandler::formatForURL($this->_data['game']).'/thumbnail1.jpg';
             return $URL;
          }
          return $thumbnailFile;
       }
       
       if(!$local)
-         return PathHandler::HTTP_PATH.'/defaultthumbnail.jpg';
-      return PathHandler::WWW_PATH.'/defaultthumbnail.jpg';
+         return PathHandler::HTTP_PATH().'/defaultthumbnail.jpg';
+      return PathHandler::WWW_PATH().'/defaultthumbnail.jpg';
    }
    
    /*

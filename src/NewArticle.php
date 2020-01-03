@@ -48,7 +48,7 @@ $currentThumbnailValue = '';
 if(strlen($currentThumbnail) == 0)
    $currentThumbnail = './default_article_thumbnail.jpg';
 else
-   $currentThumbnailValue = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH));
+   $currentThumbnailValue = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
 
 // Form components
 $formComp = array('errors' => '',
@@ -82,8 +82,8 @@ if(!empty($_POST['sent']))
    // Keywords
    $keywordsArr = explode('|', $formInput['keywords']);
    
-   if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH)) === PathHandler::HTTP_PATH)
-      $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH));
+   if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
+      $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
    else if(substr($formInput['thumbnail'], 0, 2) === './')
       $formInput['thumbnail'] = substr($formInput['thumbnail'], 2);
    
@@ -94,7 +94,7 @@ if(!empty($_POST['sent']))
       $formComp['errors'] .= 'invalidType|';
    if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
       $formComp['errors'] .= 'tooLongData|';
-   if($formInput['thumbnail'] === './default_article_thumbnail.jpg' || !file_exists(PathHandler::WWW_PATH.$formInput['thumbnail']))
+   if($formInput['thumbnail'] === './default_article_thumbnail.jpg' || !file_exists(PathHandler::WWW_PATH().$formInput['thumbnail']))
       $formComp['errors'] .= 'invalidThumbnail|';
    if(count($keywordsArr) == 1 && strlen($keywordsArr[0]) == 0)
       $formComp['errors'] .= 'noKeywords|';
@@ -112,7 +112,7 @@ if(!empty($_POST['sent']))
       catch(Exception $e)
       {
          $formComp['errors'] = 'dbError';
-         $formComp['thumbnailPath'] = PathHandler::HTTP_PATH.$formInput['thumbnail'];
+         $formComp['thumbnailPath'] = PathHandler::HTTP_PATH().$formInput['thumbnail'];
          $formComp['thumbnail'] = $formInput['thumbnail'];
          $formComp['title'] = $formInput['title'];
          $formComp['subtitle'] = $formInput['subtitle'];

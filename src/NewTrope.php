@@ -51,7 +51,7 @@ $currentIconValue = '';
 if(strlen($currentTropeIcon) == 0)
    $currentTropeIcon = './default_trope_icon.png';
 else
-   $currentIconValue = './'.substr($currentTropeIcon, strlen(PathHandler::HTTP_PATH));
+   $currentIconValue = './'.substr($currentTropeIcon, strlen(PathHandler::HTTP_PATH()));
 
 // Form input
 $formData = array('errors' => '',
@@ -92,7 +92,7 @@ if(!empty($_POST['sent']))
       $formData['errors'] .= 'dataTooLong|';
    if(!$titleOK && strlen($formData['tag']) > 0)
       $formData['errors'] .= 'invalidTitle|';
-   if($formData['icon'] === './default_trope_icon.png' || !file_exists(PathHandler::WWW_PATH.substr($formData['icon'], 2)))
+   if($formData['icon'] === './default_trope_icon.png' || !file_exists(PathHandler::WWW_PATH().substr($formData['icon'], 2)))
       $formData['errors'] .= 'invalidIcon|';
    if(!preg_match('!^#([a-fA-F0-9]{6})$!', $formData['color']))
       $formData['errors'] .= 'invalidColor|';
@@ -116,7 +116,7 @@ if(!empty($_POST['sent']))
       Buffer::save('upload/tropes', $fileName, PathHandler::formatForURL($formData['tag']));
       
       // Success page
-      header('Location:'.PathHandler::HTTP_PATH.'Tropes.php');
+      header('Location:'.PathHandler::HTTP_PATH().'Tropes.php');
       $tplInput = array('title' => $newTrope->get('tag'));
       $successPage = TemplateEngine::parse('view/content/NewTrope.success.ctpl', $tplInput);
       WebpageHandler::resetDisplay();

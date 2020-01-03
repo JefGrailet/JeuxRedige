@@ -185,7 +185,7 @@ if(!empty($_GET['game']))
          $formComp['errors'] .= 'emptyFields|';
       if(strlen($formInput['publisher']) > 50 || strlen($formInput['developer']) > 50)
          $formComp['errors'] .= 'tooLongData|';
-      if(!file_exists(PathHandler::WWW_PATH.substr($formInput['thumbnail'], 2)))
+      if(!file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
          $formComp['errors'] .= 'invalidThumbnail|';
       if(!in_array($formInput['genre'], $genres))
          $formComp['errors'] .= 'invalidGenre|';

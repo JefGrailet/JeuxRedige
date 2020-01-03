@@ -79,7 +79,7 @@ class Article
          
       $newArticleID = Database::newId();
        
-      $articleDir = PathHandler::WWW_PATH.'upload/articles/'.$newArticleID;
+      $articleDir = PathHandler::WWW_PATH().'upload/articles/'.$newArticleID;
       mkdir($articleDir, 0711);
       
       return new Article($newArticleID);
@@ -124,12 +124,12 @@ class Article
    
    public function getThumbnail($local = false)
    {
-      $thumbnailFile = PathHandler::WWW_PATH.'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
       if(file_exists($thumbnailFile))
       {
          if(!$local)
          {
-            $URL = PathHandler::HTTP_PATH.'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
+            $URL = PathHandler::HTTP_PATH().'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
             return $URL;
          }
          return $thumbnailFile;
@@ -146,10 +146,10 @@ class Article
    
    public function getHighlight()
    {
-      $thumbnailFile = PathHandler::WWW_PATH.'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
       if(file_exists($thumbnailFile))
       {
-         $URL = PathHandler::HTTP_PATH.'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
+         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
          return $URL;
       }
       return "";
@@ -165,10 +165,10 @@ class Article
    
    public static function getHighlightStatic($ID)
    {
-      $thumbnailFile = PathHandler::WWW_PATH.'upload/articles/'.$ID.'/highlight.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$ID.'/highlight.jpg';
       if(file_exists($thumbnailFile))
       {
-         $URL = PathHandler::HTTP_PATH.'upload/articles/'.$ID.'/highlight.jpg';
+         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$ID.'/highlight.jpg';
          return $URL;
       }
       return "";
@@ -451,7 +451,7 @@ class Article
          throw new Exception('Unable to delete article '.$this->_data['id_article'].' : '. $res[2]);
       
       // Deletion of all uploads
-      $articleDirPath = PathHandler::WWW_PATH.'upload/articles/'.$this->_data['id_article'];
+      $articleDirPath = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'];
       if(file_exists($articleDirPath))
       {
          $dirContent = scandir($articleDirPath.'/');

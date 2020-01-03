@@ -28,7 +28,7 @@ class ListThumbnailIR
       if($showAuthor)
          $output['author'] = 'show||'.$list['pseudo'];
       
-      $thumbnail = PathHandler::HTTP_PATH.'upload/commentables/'.$list['id_commentable'].'.jpg';
+      $thumbnail = PathHandler::HTTP_PATH().'upload/commentables/'.$list['id_commentable'].'.jpg';
       $style = 'style="background: url(\''.$thumbnail.'\') no-repeat top center; margin: 0px 0px 6px 6px;"';
       $output['styleAndData'] = $style; // N.B.: could be made richer in the future, hence the IR
       

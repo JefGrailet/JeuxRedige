@@ -80,7 +80,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    if(strlen($currentSegmentHeader) == 0)
       $currentSegmentHeader = './default_article_header.jpg';
    else
-      $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH));
+      $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));
    
    $formData = array('errors' => '', 
    'articleID' => $article->get('id_article'), 
@@ -167,7 +167,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          }
          
          // Saves new header
-         if($formData['header'] !== '' && file_exists(PathHandler::WWW_PATH.substr($formData['header'], 2)))
+         if($formData['header'] !== '' && file_exists(PathHandler::WWW_PATH().substr($formData['header'], 2)))
          {
             $fileName = substr(strrchr($formData['header'], '/'), 1);
             Buffer::save('upload/articles/'.$article->get('id_article').'/'.$newSeg->get('id_segment'), $fileName, 'header');

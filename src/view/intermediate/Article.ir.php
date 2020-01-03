@@ -84,13 +84,13 @@ class ArticleIR
                $output['comments'] .= 'Commentaires ('.($topic['nb'] - 1).')|';
             else
                $output['comments'] .= 'Commentaire|';
-            $output['comments'] .= PathHandler::HTTP_PATH.'PostMessage.php?id_topic='.$topic['id_topic'].'|';
+            $output['comments'] .= PathHandler::HTTP_PATH().'PostMessage.php?id_topic='.$topic['id_topic'].'|';
             $output['comments'] .= $topic['id_topic'];
          }
          else
          {
             $output['comments'] = 'beFirst||';
-            $output['comments'] .= PathHandler::HTTP_PATH.'PostMessage.php?id_topic='.$topic['id_topic'];
+            $output['comments'] .= PathHandler::HTTP_PATH().'PostMessage.php?id_topic='.$topic['id_topic'];
          }
       }
       
@@ -103,7 +103,7 @@ class ArticleIR
          {
             if($i > 0)
                $listKeywords .= ' ';
-            $link = PathHandler::HTTP_PATH.'SearchArticles.php?keywords='.urlencode($keywords[$i]['tag']);
+            $link = PathHandler::HTTP_PATH().'SearchArticles.php?keywords='.urlencode($keywords[$i]['tag']);
             $ownColor = self::stringToColour($keywords[$i]['tag']);
             $style = 'style="background-color: rgb('.$ownColor.');" data-rgb="'.$ownColor.'"';
             $listKeywords .= '<a href="'.$link.'" target="blank" '.$style.'>'.$keywords[$i]['tag'].'</a>';
@@ -137,7 +137,7 @@ class ArticleIR
       {
          if(LoggedUser::$data['pseudo'] === $article->get('pseudo') || Utils::check(LoggedUser::$data['can_edit_all_posts']))
          {
-            $details .= '<a href="'.PathHandler::HTTP_PATH.'EditArticle.php?id_article='.$article->get('id_article').'">Editer cet article</a>'."<br/>\n";
+            $details .= '<a href="'.PathHandler::HTTP_PATH().'EditArticle.php?id_article='.$article->get('id_article').'">Editer cet article</a>'."<br/>\n";
             $details .= '<span class="editSegment">Editer ce segment</span>'."<br/>\n";
          }
       }

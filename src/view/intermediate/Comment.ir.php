@@ -28,7 +28,7 @@ class CommentIR
       
       $output = array('ID' => $post['id_post'], 
       'authorPseudo' => $post['author'], 
-      'authorAvatar' => PathHandler::HTTP_PATH.'defaultavatar-small.jpg', 
+      'authorAvatar' => PathHandler::HTTP_PATH().'defaultavatar-small.jpg', 
       'authorStyle' => '',
       'date' => Utils::printDate($post['date']), 
       'content' => '');
@@ -84,7 +84,7 @@ class CommentIR
       {
          $aboutAttachment = '<p style="color: grey;">Ce message possède des pièces jointes. Vous 
          pouvez les voir soit en consultant le sujet entier, soit en cliquant 
-         <a href="'.PathHandler::HTTP_PATH.'Permalink.php?id_post='.$post['id_post'].'" target="_blank">ici</a>.</p>';
+         <a href="'.PathHandler::HTTP_PATH().'Permalink.php?id_post='.$post['id_post'].'" target="_blank">ici</a>.</p>';
       }
       
       // Message is masked if reported too many times or reported by an admin

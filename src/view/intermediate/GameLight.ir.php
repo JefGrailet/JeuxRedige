@@ -22,7 +22,7 @@ class GameLightIR
       'URL' => PathHandler::gameURL($game));
       
       $style = '';
-      $thumbnail = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg';
+      $thumbnail = PathHandler::HTTP_PATH().'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg';
       $output['styleAndData'] = 'style="background: url(\''.$thumbnail.'\') no-repeat top center; margin: 0px 0px 6px 6px;"';
       
       return $output;

@@ -85,10 +85,10 @@ if(!empty($_FILES['newFile']))
                else
                {
                   $fullRelative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$finalFullName;
-                  $full = PathHandler::HTTP_PATH.$fullRelative;
-                  $fullOnDisk = PathHandler::WWW_PATH.$fullRelative;
-                  $mini = PathHandler::HTTP_PATH.'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$finalMiniName;
-                  $miniOnDisk = PathHandler::WWW_PATH.'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$finalMiniName;
+                  $full = PathHandler::HTTP_PATH().$fullRelative;
+                  $fullOnDisk = PathHandler::WWW_PATH().$fullRelative;
+                  $mini = PathHandler::HTTP_PATH().'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$finalMiniName;
+                  $miniOnDisk = PathHandler::WWW_PATH().'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$finalMiniName;
                
                   // In case of success: paths to both images are given and separated with a comma
                   $res = $mini.','.$full;
@@ -101,7 +101,7 @@ if(!empty($_FILES['newFile']))
                   $tplInput = array('fullSize' => $full,
                   'dimensions' => 'yes||'.$dimFull[0].'|'.$dimFull[1], 
                   'uploader' => LoggedUser::$data['used_pseudo'],
-                  'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH.$fullRelative)),
+                  'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
                   'fullSizeRelative' => $full,
                   'delete' => $deleteButton,
                   'content' => 'picture||'.$mini.'|'.$dimMini[0].'|'.$dimMini[1]);
@@ -133,14 +133,14 @@ if(!empty($_FILES['newFile']))
             {
                // In case of success: path to the video is given
                $relative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.substr(strrchr($res2, '/'), 1);
-               $full = PathHandler::HTTP_PATH.$relative;
+               $full = PathHandler::HTTP_PATH().$relative;
                $res = 'video,'.$full;
                
                $deleteButton = Utils::check(LoggedUser::$data['can_upload']) ? 'yes' : '';
                $tplInput = array('fullSize' => $full, 
                'dimensions' => '', 
                'uploader' => LoggedUser::$data['used_pseudo'], 
-               'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH.$relative)), 
+               'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$relative)), 
                'fullSizeRelative' => $full,
                'delete' => $deleteButton, 
                'content' => 'video||'.$full.'|'.$ext);

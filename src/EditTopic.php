@@ -104,11 +104,11 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
    
    // Thumbnail (relative path)
    if($formData['thumbnail'] === 'none')
-      $formData['thumbnailPath'] = PathHandler::HTTP_PATH.'defaultthumbnail.jpg';
+      $formData['thumbnailPath'] = PathHandler::HTTP_PATH().'defaultthumbnail.jpg';
    else if($formData['thumbnail'] === 'CUSTOM')
-      $formData['thumbnailPath'] = PathHandler::HTTP_PATH.'upload/topics/'.$getID.'/thumbnail.jpg';
+      $formData['thumbnailPath'] = PathHandler::HTTP_PATH().'upload/topics/'.$getID.'/thumbnail.jpg';
    else
-      $formData['thumbnailPath'] = PathHandler::HTTP_PATH.'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$formData['thumbnail'];
+      $formData['thumbnailPath'] = PathHandler::HTTP_PATH().'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.$formData['thumbnail'];
    
    // Checkbox(es)
    if(Utils::check($topic->get('is_anon_posting_enabled')))
@@ -195,7 +195,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
          {
             // Thumbnail edition (permanently saves the picture if new)
             $thumbnail = $topic->get('thumbnail');
-            if($formData['thumbnail'] !== 'none' && $formData['thumbnail'] !== 'CUSTOM' && file_exists(PathHandler::WWW_PATH.substr($formData['thumbnail'], 2)))
+            if($formData['thumbnail'] !== 'none' && $formData['thumbnail'] !== 'CUSTOM' && file_exists(PathHandler::WWW_PATH().substr($formData['thumbnail'], 2)))
             {
                $thumbnail = 'CUSTOM';
                $fileName = substr(strrchr($formData['thumbnail'], '/'), 1);

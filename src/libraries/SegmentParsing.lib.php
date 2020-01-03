@@ -33,10 +33,10 @@ class SegmentParsing
 
    private static function relativize($URL)
    {
-      $pos = strpos($URL, PathHandler::HTTP_PATH);
+      $pos = strpos($URL, PathHandler::HTTP_PATH());
       if($pos !== FALSE && $pos == 0)
       {
-         return substr($URL, strlen(PathHandler::HTTP_PATH));
+         return substr($URL, strlen(PathHandler::HTTP_PATH()));
       }
       
       return '';
@@ -144,8 +144,8 @@ class SegmentParsing
             if($isAnURL && strlen($relativeLink) > 0)
                $link = $relativeLink;
          
-            $filePath = PathHandler::WWW_PATH.$link;
-            $displayPath = PathHandler::HTTP_PATH.$link;
+            $filePath = PathHandler::WWW_PATH().$link;
+            $displayPath = PathHandler::HTTP_PATH().$link;
             $extension = strtolower(substr(strrchr($filePath, '.'), 1));
             
             if(in_array($extension, Utils::UPLOAD_OPTIONS['miniExtensions']) && file_exists($filePath))
@@ -201,8 +201,8 @@ class SegmentParsing
          if(self::isURL($link))
             $link = self::relativize($link);
       
-         $filePath = PathHandler::WWW_PATH.$link;
-         $displayPath = PathHandler::HTTP_PATH.$link;
+         $filePath = PathHandler::WWW_PATH().$link;
+         $displayPath = PathHandler::HTTP_PATH().$link;
          $extension = strtolower(substr(strrchr($filePath, '.'), 1));
          
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
@@ -261,8 +261,8 @@ class SegmentParsing
                continue;
          }
          
-         $filePath = PathHandler::WWW_PATH.$link;
-         $displayPath = PathHandler::HTTP_PATH.$link;
+         $filePath = PathHandler::WWW_PATH().$link;
+         $displayPath = PathHandler::HTTP_PATH().$link;
          if(file_exists($filePath))
          {
             /*
@@ -342,8 +342,8 @@ class SegmentParsing
                continue;
          }
          
-         $filePath = PathHandler::WWW_PATH.$background;
-         $displayPath = PathHandler::HTTP_PATH.$background;
+         $filePath = PathHandler::WWW_PATH().$background;
+         $displayPath = PathHandler::HTTP_PATH().$background;
          if(file_exists($filePath))
          {
             $backgroundStyle = 'background: url(\''.$displayPath.'\') no-repeat center; background-size: 100%';

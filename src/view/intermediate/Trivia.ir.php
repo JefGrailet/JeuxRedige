@@ -1,6 +1,6 @@
 <?php
 
-require_once PathHandler::WWW_PATH.'view/intermediate/Commentable.ir.php';
+require_once PathHandler::WWW_PATH().'view/intermediate/Commentable.ir.php';
 
 class TriviaIR
 {
@@ -58,6 +58,8 @@ class TriviaIR
 
    public static function process($trivia, $fullDetails = false)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $ratingInt = intval($trivia->get('rating'));
       $output = array('ID' => $trivia->get('id_commentable'), 
       'gameThumbnail' => '', 
@@ -71,7 +73,7 @@ class TriviaIR
       // Game thumbnail, if relevant
       if($fullDetails)
       {
-         $thumbnailPath = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($trivia->get('game')).'/thumbnail1.jpg';
+         $thumbnailPath = $webRootPath.'upload/games/'.PathHandler::formatForURL($trivia->get('game')).'/thumbnail1.jpg';
          $gameArr = array('tag' => $trivia->get('game')); // To "cheat" the PathHandler::gameURL() function
          
          $output['gameThumbnail'] = '<div class="relatedGame" style="background: url(\''.$thumbnailPath.'\') ';
@@ -89,9 +91,9 @@ class TriviaIR
       }
       
       // Icons
-      $icons = array('permalink' => PathHandler::HTTP_PATH.'res_icons/post_permalink_med.png', 
-      'edit' => PathHandler::HTTP_PATH.'res_icons/post_edit_med.png', 
-      'delete' => PathHandler::HTTP_PATH.'res_icons/segment_delete.png');
+      $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
+      'edit' => $webRootPath.'res_icons/post_edit_med.png', 
+      'delete' => $webRootPath.'res_icons/segment_delete.png');
       
       // Permanent link (or permalink)
       $output['title'] .= ' &nbsp;<a href="'.PathHandler::triviaURL($trivia->getAll()).'"><img ';
@@ -173,7 +175,7 @@ class TriviaIR
       $pos = strpos($input['title'], '</a>');
       $input['title'] = substr($input['title'], 0, $pos).substr($input['title'], $pos + 4);
       
-      $thumbnailPath = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($trivia->get('game')).'/thumbnail1.jpg';
+      $thumbnailPath = PathHandler::HTTP_PATH().'upload/games/'.PathHandler::formatForURL($trivia->get('game')).'/thumbnail1.jpg';
       $gameArr = array('tag' => $trivia->get('game')); // To "cheat" the PathHandler::gameURL() function
       
       $input['gameThumbnail'] = '<div class="relatedGame" style="background: url(\''.$thumbnailPath.'\') ';

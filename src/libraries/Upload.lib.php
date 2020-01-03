@@ -21,7 +21,7 @@ class Upload
 
    public static function directorySize($dir)
    {
-      $dirPath = PathHandler::WWW_PATH.$dir;
+      $dirPath = PathHandler::WWW_PATH().$dir;
 
       $size = -1;
       if(is_dir($dirPath))
@@ -50,7 +50,7 @@ class Upload
 
    public static function storeFile($arr, $dir, $name = "")
    {
-      $dirPath = PathHandler::WWW_PATH.$dir;
+      $dirPath = PathHandler::WWW_PATH().$dir;
       
       $chains = explode(".", $arr['name']);
       $fileName = $chains[0];
@@ -101,7 +101,7 @@ class Upload
 
    public static function storeResizedPicture($arr, $dir, $w, $h, $name = "")
    {
-      $dirPath = PathHandler::WWW_PATH.$dir;
+      $dirPath = PathHandler::WWW_PATH().$dir;
 
       if($w < 0 || $h < 0)
          return "";

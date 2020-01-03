@@ -22,10 +22,12 @@ class EmoticonThumbnailIR
 
    public static function process($data)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $output = array('ID' => $data['id_emoticon'], 
       'name' => $data['name'],
       'interaction' => '',
-      'img' => '<img src="'.PathHandler::HTTP_PATH.'upload/emoticons/'.$data['file'].'" alt="'.$data['name'].'"/>',
+      'img' => '<img src="'.$webRootPath.'upload/emoticons/'.$data['file'].'" alt="'.$data['name'].'"/>',
       'shortcut' => $data['suggested_shortcut'],
       'userShortcut' => '',
       'uploader' => '', 
@@ -39,30 +41,30 @@ class EmoticonThumbnailIR
       {
          if($data['shortcut'] !== NULL)
          {
-            $mapButton .= ' &nbsp;<img class="buttonUnmap" src="'.PathHandler::HTTP_PATH.'res_icons/title_unmap.png" alt="Retirer" ';
+            $mapButton .= ' &nbsp;<img class="buttonUnmap" src="'.$webRootPath.'res_icons/title_unmap.png" alt="Retirer" ';
             $mapButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Retirer de ma librairie"/>'."\n";
          }
          else
          {
-            $mapButton .= ' &nbsp;<img class="buttonMap" src="'.PathHandler::HTTP_PATH.'res_icons/title_map.png" alt="Ajouter" ';
+            $mapButton .= ' &nbsp;<img class="buttonMap" src="'.$webRootPath.'res_icons/title_map.png" alt="Ajouter" ';
             $mapButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" data-suggestion="'.$data['suggested_shortcut'].'" ';
             $mapButton .= 'title="Ajouter à ma librairie"/>'."\n";
          }
          
          if(Utils::check(LoggedUser::$data['can_edit_all_posts']) || LoggedUser::$data['pseudo'] === $data['uploader'])
          {
-            $editButton .= ' &nbsp;<img class="buttonEdit" src="'.PathHandler::HTTP_PATH.'res_icons/title_edit.png" alt="Modifier" ';
+            $editButton .= ' &nbsp;<img class="buttonEdit" src="'.$webRootPath.'res_icons/title_edit.png" alt="Modifier" ';
             $editButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le nom/code"/>'."\n";
          }
          else if($data['shortcut'] !== NULL)
          {
-            $editButton .= ' &nbsp;<img class="buttonEditShortcut" src="'.PathHandler::HTTP_PATH.'res_icons/title_edit.png" alt="Modifier" ';
+            $editButton .= ' &nbsp;<img class="buttonEditShortcut" src="'.$webRootPath.'res_icons/title_edit.png" alt="Modifier" ';
             $editButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le code"/>'."\n";
          }
       
          if(Utils::check(LoggedUser::$data['can_delete']))
          {
-            $deleteButton .= ' &nbsp;<img class="buttonDelete" src="'.PathHandler::HTTP_PATH.'res_icons/title_delete.png" alt="Supprimer" ';
+            $deleteButton .= ' &nbsp;<img class="buttonDelete" src="'.$webRootPath.'res_icons/title_delete.png" alt="Supprimer" ';
             $deleteButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Supprimer cette émoticône"/>'."\n";
          }
       }

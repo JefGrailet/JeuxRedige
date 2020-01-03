@@ -24,7 +24,7 @@ class GameHeaderIR
 
    public static function process($game, $aliases)
    {
-      $output = array('thumbnail' => PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg',
+      $output = array('thumbnail' => PathHandler::HTTP_PATH().'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg',
       'link' => PathHandler::gameURL($game),
       'title' => $game['tag'],
       'editionIcons' => '',
@@ -44,7 +44,7 @@ class GameHeaderIR
          }
          */
          $editionLink .= ' &nbsp;<a href="EditGame.php?game='.urlencode($game['tag']).'"><img class="gameIcon" ';
-         $editionLink .= 'src="'.PathHandler::HTTP_PATH.'res_icons/title_edit.png" alt="Editer" title="Editer ce jeu"/></a>';
+         $editionLink .= 'src="'.PathHandler::HTTP_PATH().'res_icons/title_edit.png" alt="Editer" title="Editer ce jeu"/></a>';
       }
       
       $output['editionIcons'] = $editionLink;

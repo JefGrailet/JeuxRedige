@@ -21,7 +21,7 @@ class PostHistoryIR
    {
       $output = array('versionNumber' => $post['version'],
       'authorPseudo' => $post['author'],
-      'authorAvatar' => PathHandler::HTTP_PATH.'defaultavatar.jpg',
+      'authorAvatar' => PathHandler::HTTP_PATH().'defaultavatar.jpg',
       'authorStyle' => '',
       'editor' => $post['editor'], 
       'date' => 'Le '.date('d/m/Y à H:i:s', Utils::toTimestamp($post['date'])),
@@ -31,9 +31,9 @@ class PostHistoryIR
       
       $alertIcon = '';
       if(WebpageHandler::$miscParams['message_size'] === 'medium')
-         $alertIcon = PathHandler::HTTP_PATH.'res_icons/post_alert_med.png';
+         $alertIcon = PathHandler::HTTP_PATH().'res_icons/post_alert_med.png';
       else
-         $alertIcon = PathHandler::HTTP_PATH.'res_icons/post_alert.png';
+         $alertIcon = PathHandler::HTTP_PATH().'res_icons/post_alert.png';
       
       // Avatar, style of the <h1> displaying the author's pseudonym
       if($post['posted_as'] !== 'anonymous')
@@ -131,8 +131,8 @@ class PostHistoryIR
             if($attachPrefix === 'uploads' && $displayPolicy !== 'noshow')
             {
                $uploadsArr = explode(',', $attachContent);
-               $httpPathPrefix = PathHandler::HTTP_PATH.'upload/topics/'.$post['id_topic'].'/';
-               $filePathPrefix = PathHandler::WWW_PATH.'upload/topics/'.$post['id_topic'].'/';
+               $httpPathPrefix = PathHandler::HTTP_PATH().'upload/topics/'.$post['id_topic'].'/';
+               $filePathPrefix = PathHandler::WWW_PATH().'upload/topics/'.$post['id_topic'].'/';
                $httpPathPrefix .= $post['id_post'].'_';
                $filePathPrefix .= $post['id_post'].'_';
                

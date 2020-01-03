@@ -41,7 +41,7 @@ class GameIR
       }
       
       $style = '';
-      $thumbnail = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg';
+      $thumbnail = PathHandler::HTTP_PATH().'upload/games/'.PathHandler::formatForURL($game['tag']).'/thumbnail1.jpg';
       if($asHover)
          $style = 'style="background: url(\''.$thumbnail.'\') no-repeat top center; display:none;"';
       else
@@ -62,7 +62,7 @@ class GameIR
       // Bottom line
       if(LoggedUser::isLoggedIn() && /* Utils::check(LoggedUser::$data['can_edit_games']) && */ !$asHover)
       {
-         $editionURL = PathHandler::HTTP_PATH.'EditGame.php?game='.urlencode($game['tag']);
+         $editionURL = PathHandler::HTTP_PATH().'EditGame.php?game='.urlencode($game['tag']);
          $output['bottomLine'] = 'yes||<p><a href="'.$editionURL.'">Editer</a></p>';
       }
       

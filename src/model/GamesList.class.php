@@ -7,7 +7,7 @@
 * games that are tied to the list (among others).
 */
 
-require_once PathHandler::WWW_PATH.'model/Commentable.class.php';
+require_once PathHandler::WWW_PATH().'model/Commentable.class.php';
 
 class GamesList extends Commentable
 {
@@ -213,20 +213,20 @@ class GamesList extends Commentable
    
    public function getThumbnail($local = false)
    {
-      $thumbnailFile = PathHandler::WWW_PATH.'upload/commentables/'.$this->_data['id_commentable'].'.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/commentables/'.$this->_data['id_commentable'].'.jpg';
       if(file_exists($thumbnailFile))
       {
          if(!$local)
          {
-            $URL = PathHandler::HTTP_PATH.'upload/commentables/'.$this->_data['id_commentable'].'.jpg';
+            $URL = PathHandler::HTTP_PATH().'upload/commentables/'.$this->_data['id_commentable'].'.jpg';
             return $URL;
          }
          return $thumbnailFile;
       }
       
       if(!$local)
-         return PathHandler::HTTP_PATH.'/defaultthumbnail.jpg';
-      return PathHandler::WWW_PATH.'/defaultthumbnail.jpg';
+         return PathHandler::HTTP_PATH().'/defaultthumbnail.jpg';
+      return PathHandler::WWW_PATH().'/defaultthumbnail.jpg';
    }
    
    /*

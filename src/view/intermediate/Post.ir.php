@@ -27,6 +27,8 @@ class PostIR
 
    public static function process($post, $index, $interactive = true)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       // Special case: if the post is automatic, $interactive is reset to false
       if($post['posted_as'] === 'author')
          $interactive = false;
@@ -35,7 +37,7 @@ class PostIR
       'index' => '', 
       'topLeftPart' => '', 
       'authorPseudo' => $post['author'], 
-      'authorAvatar' => PathHandler::HTTP_PATH.'defaultavatar.jpg', 
+      'authorAvatar' => $webRootPath.'defaultavatar.jpg', 
       'authorStyle' => '',
       'authorType' => '',
       'date' => Utils::printDate($post['date']), 
@@ -51,34 +53,34 @@ class PostIR
       $icons = NULL;
       if(WebpageHandler::$miscParams['message_size'] === 'medium')
       {
-         $icons = array('permalink' => PathHandler::HTTP_PATH.'res_icons/post_permalink_med.png', 
-         'edit' => PathHandler::HTTP_PATH.'res_icons/post_edit_med.png', 
-         'quote' => PathHandler::HTTP_PATH.'res_icons/post_quote_med.png', 
-         'info' => PathHandler::HTTP_PATH.'res_icons/post_info_med.png', 
-         'alert' => PathHandler::HTTP_PATH.'res_icons/post_alert_med.png', 
-         'thumb_up' => PathHandler::HTTP_PATH.'res_icons/post_thumb_up_med.png', 
-         'thumb_down' => PathHandler::HTTP_PATH.'res_icons/post_thumb_down_med.png', 
-         'pin' => PathHandler::HTTP_PATH.'res_icons/post_pin_med.png', 
-         'unpin' => PathHandler::HTTP_PATH.'res_icons/post_unpin_med.png');
+         $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
+         'edit' => $webRootPath.'res_icons/post_edit_med.png', 
+         'quote' => $webRootPath.'res_icons/post_quote_med.png', 
+         'info' => $webRootPath.'res_icons/post_info_med.png', 
+         'alert' => $webRootPath.'res_icons/post_alert_med.png', 
+         'thumb_up' => $webRootPath.'res_icons/post_thumb_up_med.png', 
+         'thumb_down' => $webRootPath.'res_icons/post_thumb_down_med.png', 
+         'pin' => $webRootPath.'res_icons/post_pin_med.png', 
+         'unpin' => $webRootPath.'res_icons/post_unpin_med.png');
       }
       else
       {
-         $icons = array('permalink' => PathHandler::HTTP_PATH.'res_icons/post_permalink.png', 
-         'edit' => PathHandler::HTTP_PATH.'res_icons/post_edit.png', 
-         'quote' => PathHandler::HTTP_PATH.'res_icons/post_quote.png', 
-         'info' => PathHandler::HTTP_PATH.'res_icons/post_info.png', 
-         'alert' => PathHandler::HTTP_PATH.'res_icons/post_alert.png', 
-         'thumb_up' => PathHandler::HTTP_PATH.'res_icons/post_thumb_up.png', 
-         'thumb_down' => PathHandler::HTTP_PATH.'res_icons/post_thumb_down.png', 
-         'pin' => PathHandler::HTTP_PATH.'res_icons/post_pin.png', 
-         'unpin' => PathHandler::HTTP_PATH.'res_icons/post_unpin.png');
+         $icons = array('permalink' => $webRootPath.'res_icons/post_permalink.png', 
+         'edit' => $webRootPath.'res_icons/post_edit.png', 
+         'quote' => $webRootPath.'res_icons/post_quote.png', 
+         'info' => $webRootPath.'res_icons/post_info.png', 
+         'alert' => $webRootPath.'res_icons/post_alert.png', 
+         'thumb_up' => $webRootPath.'res_icons/post_thumb_up.png', 
+         'thumb_down' => $webRootPath.'res_icons/post_thumb_down.png', 
+         'pin' => $webRootPath.'res_icons/post_pin.png', 
+         'unpin' => $webRootPath.'res_icons/post_unpin.png');
       }
       
       // Top left part: index of the post in the parent topic or link to replace in context
       if($index <= 0)
       {
          $output['index'] = $post['id_post'];
-         $output['topLeftPart'] = '<a href="'.PathHandler::HTTP_PATH.'Context.php?id_post='.$post['id_post'].'" target="_blank">Contexte</a>';
+         $output['topLeftPart'] = '<a href="'.$webRootPath.'Context.php?id_post='.$post['id_post'].'" target="_blank">Contexte</a>';
       }
       else
       {
@@ -117,7 +119,7 @@ class PostIR
       }
       
       // Permanent link (or permalink)
-      $output['permalink'] = ' &nbsp;<a href="'.PathHandler::HTTP_PATH.'Permalink.php?id_post='.$post['id_post'].'" target="_blank"><img class="postIcon"';
+      $output['permalink'] = ' &nbsp;<a href="'.$webRootPath.'Permalink.php?id_post='.$post['id_post'].'" target="_blank"><img class="postIcon"';
       $output['permalink'] .= ' src="'.$icons['permalink'].'" alt="Lien permanent" title="Lien permanent"/></a>';
       
       // Edition link
@@ -126,7 +128,7 @@ class PostIR
       if($interactive && LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) OR (($post['author'] === LoggedUser::$data['pseudo']
          || $post['author'] === LoggedUser::$data['used_pseudo']) && $post['posted_as'] !== 'anonymous')))
       {
-         $output['editionLink'] .= ' &nbsp;<a href="'.PathHandler::HTTP_PATH.'EditMessage.php?id_post='.$post['id_post'].'"><img class="postIcon"';
+         $output['editionLink'] .= ' &nbsp;<a href="'.$webRootPath.'EditMessage.php?id_post='.$post['id_post'].'"><img class="postIcon"';
          $output['editionLink'] .= ' src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
       }
       
@@ -227,7 +229,7 @@ class PostIR
             $displayModifications .= '<strong>'.$post['last_editor'].'</strong>';
          else
             $displayModifications .= $post['last_editor'];
-         $displayModifications .= ' (<a href="'.PathHandler::HTTP_PATH.'PostHistory.php?id_post='.$post['id_post'];
+         $displayModifications .= ' (<a href="'.$webRootPath.'PostHistory.php?id_post='.$post['id_post'];
          $displayModifications .= '" target="_blank">historique complète</a>).</p>';
       }
       
@@ -284,8 +286,8 @@ class PostIR
             if($attachPrefix === 'uploads' && !in_array($displayPolicy, $hiddenPolicies))
             {
                $uploadsArr = explode(',', $attachContent);
-               $httpPathPrefix = PathHandler::HTTP_PATH.'upload/topics/'.$post['id_topic'].'/';
-               $filePathPrefix = PathHandler::WWW_PATH.'upload/topics/'.$post['id_topic'].'/';
+               $httpPathPrefix = $webRootPath.'upload/topics/'.$post['id_topic'].'/';
+               $filePathPrefix = PathHandler::WWW_PATH().'upload/topics/'.$post['id_topic'].'/';
                $httpPathPrefix .= $post['id_post'].'_';
                $filePathPrefix .= $post['id_post'].'_';
                

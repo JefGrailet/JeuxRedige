@@ -70,7 +70,7 @@ class Segment
       $newSegmentID = Database::newId();
       
       // Segments have their own folders too
-      $segmentDir = PathHandler::WWW_PATH.'upload/articles/'.$articleID.'/'.$newSegmentID;
+      $segmentDir = PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/'.$newSegmentID;
       mkdir($segmentDir, 0711);
       
       return new Segment($newSegmentID);
@@ -101,10 +101,10 @@ class Segment
    
    public function getHeader()
    {
-      $headerFile = PathHandler::WWW_PATH.'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'].'/header.jpg';
+      $headerFile = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'].'/header.jpg';
       if(file_exists($headerFile))
       {
-         $URL = PathHandler::HTTP_PATH.'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'].'/header.jpg';
+         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'].'/header.jpg';
          return $URL;
       }
       return "";
@@ -245,7 +245,7 @@ class Segment
       Database::commit();
       
       // Deletion of uploads
-      $topicDirPath = PathHandler::WWW_PATH.'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'];
+      $topicDirPath = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/'.$this->_data['id_segment'];
       if(file_exists($topicDirPath))
       {
          $dirContent = scandir($topicDirPath.'/');

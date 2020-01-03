@@ -10,7 +10,7 @@
 * to an existing article.
 */
 
-require_once PathHandler::WWW_PATH.'model/Commentable.class.php';
+require_once PathHandler::WWW_PATH().'model/Commentable.class.php';
 
 class Review extends GameCommentable
 {

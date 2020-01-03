@@ -155,7 +155,7 @@ class Trope
       }
       
       // Deletion of the icon
-      $tropeIconPath = PathHandler::WWW_PATH.'upload/tropes/'.PathHandler::formatForURL($this->_data['tag']).'.png';
+      $tropeIconPath = PathHandler::WWW_PATH().'upload/tropes/'.PathHandler::formatForURL($this->_data['tag']).'.png';
       if(file_exists($topicDirPath))
          unlink($tropeIconPath);
    }

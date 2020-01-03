@@ -183,7 +183,7 @@ class FormParsing
 
    public static function parse($content)
    {
-      $httpPathBis = str_replace('http://', '', PathHandler::HTTP_PATH);
+      $httpPathBis = str_replace('http://', '', PathHandler::HTTP_PATH());
       $httpPathBis = str_replace('.', '\.', $httpPathBis);
       $httpPathBis = str_replace('/', '\/', $httpPathBis);
       
@@ -386,7 +386,7 @@ class FormParsing
       $parsed = self::replaceTags($parsed, array('[url=placeholder]', '[/url]', '<a href="$1" target="blank">', '</a>'), $regexURL);
       $parsed = self::replaceTags($parsed, array('[rgb=placeholder]', '[/rgb]', '<span style="color: rgb($1,$2,$3);">', '</span>'), $regexRGB);
       $parsed = self::replaceTags($parsed, array('[hexa=placeholder]', '[/hexa]', '<font color="#$1">', '</font>'), $regexHexa);
-      $parsed = self::replaceTags($parsed, array('!emoticon[', ']', '<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH.'upload/emoticons/', '"/>'), $regexEmoticon);
+      $parsed = self::replaceTags($parsed, array('!emoticon[', ']', '<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH().'upload/emoticons/', '"/>'), $regexEmoticon);
       $parsed = self::replaceTags($parsed, array('[centre]', '[/centre]', "\n</p>\n<p style=\"text-align: center;\">\n", "\n</p>\n<p>"));
       $parsed = self::replaceTags($parsed, array('[droite]', '[/droite]', "\n</p>\n<p style=\"text-align: right;\">\n", "\n</p> \n<p>"));
       
@@ -456,7 +456,7 @@ class FormParsing
       $unparsed = str_replace("\n</p>\n<p>", '[/centre]', $unparsed);
       $unparsed = str_replace("\n</p>\n<p style=\"text-align: right;\">\n", '[droite]', $unparsed);
       $unparsed = str_replace("\n</p> \n<p>", '[/droite]', $unparsed);
-      $unparsed = str_replace('<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH.'upload/emoticons/', '!emoticon[', $unparsed);
+      $unparsed = str_replace('<img class="emoticon" alt="Emoticon" src="'.PathHandler::HTTP_PATH().'upload/emoticons/', '!emoticon[', $unparsed);
       $unparsed = str_replace('"/>', ']', $unparsed);
       
       // Maybe for later ?
@@ -569,10 +569,10 @@ class FormParsing
       $modified = $content;
       
       $expectedPrefixRelative = 'upload/topics/'.$topicID.'/'.$postID.'_'.LoggedUser::$data['used_pseudo'].'_';
-      $expectedPrefixAbsolute = PathHandler::HTTP_PATH.$expectedPrefixRelative;
+      $expectedPrefixAbsolute = PathHandler::HTTP_PATH().$expectedPrefixRelative;
       
       $prefixToReplaceRelative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/';
-      $prefixToReplaceAbsolute = PathHandler::HTTP_PATH.$prefixToReplaceRelative;
+      $prefixToReplaceAbsolute = PathHandler::HTTP_PATH().$prefixToReplaceRelative;
 
       $modified = str_replace($prefixToReplaceRelative, $expectedPrefixRelative, $modified);
       $modified = str_replace($prefixToReplaceAbsolute, $expectedPrefixAbsolute, $modified);
@@ -594,10 +594,10 @@ class FormParsing
       $modified = $content;
       
       $expectedPrefixRelative = 'upload/articles/'.$articleID.'/'.$segmentID.'/';
-      $expectedPrefixAbsolute = PathHandler::HTTP_PATH.$expectedPrefixRelative;
+      $expectedPrefixAbsolute = PathHandler::HTTP_PATH().$expectedPrefixRelative;
       
       $prefixToReplaceRelative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/';
-      $prefixToReplaceAbsolute = PathHandler::HTTP_PATH.$prefixToReplaceRelative;
+      $prefixToReplaceAbsolute = PathHandler::HTTP_PATH().$prefixToReplaceRelative;
 
       $modified = str_replace($prefixToReplaceRelative, $expectedPrefixRelative, $modified);
       $modified = str_replace($prefixToReplaceAbsolute, $expectedPrefixAbsolute, $modified);

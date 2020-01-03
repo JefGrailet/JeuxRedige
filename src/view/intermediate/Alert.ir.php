@@ -22,10 +22,10 @@ class AlertIR
    {
       $output = array('ID' => $data['id_interaction'], 
       'avatar' => PathHandler::getAvatarSmall($data['author']), 
-      'postURL' => PathHandler::HTTP_PATH.'Context.php?id_post='.$data['id_post'], 
+      'postURL' => PathHandler::HTTP_PATH().'Context.php?id_post='.$data['id_post'], 
       'author' => $data['author'], 
       'topicTitle' => $data['title'], 
-      'topicURL' => PathHandler::HTTP_PATH.'/Topic.php?id_topic='.$data['id_topic'], 
+      'topicURL' => PathHandler::HTTP_PATH().'/Topic.php?id_topic='.$data['id_topic'], 
       'date' => date('d/m/Y \à H\hi', Utils::toTimestamp($data['date_post'])), 
       'dateAlert' => date('d/m/Y \à H\hi', Utils::toTimestamp($data['date'])), 
       'motivation' => $data['motivation']);

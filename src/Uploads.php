@@ -124,8 +124,8 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
             
             // Now, a bit of parsing.
             $uploadsArr = explode(',', $attachContent);
-            $httpPathPrefix = PathHandler::HTTP_PATH.'upload/topics/'.$topic->get('id_topic').'/';
-            $filePathPrefix = PathHandler::WWW_PATH.'upload/topics/'.$topic->get('id_topic').'/';
+            $httpPathPrefix = PathHandler::HTTP_PATH().'upload/topics/'.$topic->get('id_topic').'/';
+            $filePathPrefix = PathHandler::WWW_PATH().'upload/topics/'.$topic->get('id_topic').'/';
             $httpPathPrefix .= $attachments[$i]['id_post'].'_';
             $filePathPrefix .= $attachments[$i]['id_post'].'_';
             
@@ -191,9 +191,9 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
                      if(strlen($showPolicy) > 0)
                      {
                         if($showPolicy === 'nsfw' || $showPolicy === 'noshownsfw')
-                           $miniature = PathHandler::HTTP_PATH.'res_icons/image_nsfw.png';
+                           $miniature = PathHandler::HTTP_PATH().'res_icons/image_nsfw.png';
                         else if($showPolicy === 'spoiler' || $showPolicy === 'noshowspoiler')
-                           $miniature = PathHandler::HTTP_PATH.'res_icons/image_spoiler.png';
+                           $miniature = PathHandler::HTTP_PATH().'res_icons/image_spoiler.png';
                         else
                            $miniature = $httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
                      }
@@ -222,9 +222,9 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
                      if(strlen($showPolicy) > 0)
                      {
                         if($showPolicy === 'nsfw' || $showPolicy === 'noshownsfw')
-                           $previewContent = 'picture||'.PathHandler::HTTP_PATH.'res_icons/image_nsfw.png';
+                           $previewContent = 'picture||'.PathHandler::HTTP_PATH().'res_icons/image_nsfw.png';
                         else if($showPolicy === 'spoiler' || $showPolicy === 'noshowspoiler')
-                           $previewContent = 'picture||'.PathHandler::HTTP_PATH.'res_icons/image_spoiler.png';
+                           $previewContent = 'picture||'.PathHandler::HTTP_PATH().'res_icons/image_spoiler.png';
                         else
                            $previewContent = 'video||'.$httpPathPrefix.$uploadsArr[$k].'|'.$extension;
                      }

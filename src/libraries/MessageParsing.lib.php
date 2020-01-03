@@ -32,10 +32,10 @@ class MessageParsing
 
    private static function relativize($URL)
    {
-      $pos = strpos($URL, PathHandler::HTTP_PATH);
+      $pos = strpos($URL, PathHandler::HTTP_PATH());
       if($pos !== FALSE && $pos == 0)
       {
-         return substr($URL, strlen(PathHandler::HTTP_PATH));
+         return substr($URL, strlen(PathHandler::HTTP_PATH()));
       }
       
       return '';
@@ -80,7 +80,7 @@ class MessageParsing
                   }
                   else
                   {
-                     $iconLink = PathHandler::HTTP_PATH.'/res_icons/';
+                     $iconLink = PathHandler::HTTP_PATH().'/res_icons/';
                      $thumbnailLink = 'http://img.youtube.com/vi/'.$IDStr.'/';
                      
                      if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
@@ -170,8 +170,8 @@ class MessageParsing
             if($isAnURL && strlen($relativeLink) > 0)
                $link = $relativeLink;
          
-            $filePath = PathHandler::WWW_PATH.$link;
-            $displayPath = PathHandler::HTTP_PATH.$link;
+            $filePath = PathHandler::WWW_PATH().$link;
+            $displayPath = PathHandler::HTTP_PATH().$link;
             $extension = strtolower(substr(strrchr($filePath, '.'), 1));
             
             if(in_array($extension, Utils::UPLOAD_OPTIONS['miniExtensions']) && file_exists($filePath))
@@ -227,8 +227,8 @@ class MessageParsing
          if(self::isURL($link))
             $link = self::relativize($link);
       
-         $filePath = PathHandler::WWW_PATH.$link;
-         $displayPath = PathHandler::HTTP_PATH.$link;
+         $filePath = PathHandler::WWW_PATH().$link;
+         $displayPath = PathHandler::HTTP_PATH().$link;
          $extension = strtolower(substr(strrchr($filePath, '.'), 1));
          
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
@@ -287,8 +287,8 @@ class MessageParsing
                continue;
          }
          
-         $filePath = PathHandler::WWW_PATH.$link;
-         $displayPath = PathHandler::HTTP_PATH.$link;
+         $filePath = PathHandler::WWW_PATH().$link;
+         $displayPath = PathHandler::HTTP_PATH().$link;
          if(file_exists($filePath))
          {
             /*

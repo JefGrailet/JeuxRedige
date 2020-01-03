@@ -46,7 +46,7 @@ if(!empty($_POST['sent']))
          {
             // E-mail generation
             $confirmKey = $user->get('confirmation');
-            $confirmLink = PathHandler::HTTP_PATH.'Confirmation.php?pseudo='.$pseudo.'&key='.$confirmKey;
+            $confirmLink = PathHandler::HTTP_PATH().'Confirmation.php?pseudo='.$pseudo.'&key='.$confirmKey;
             $emailInput = array('pseudo' => $pseudo, 'confirmLink' => $confirmLink);
             $emailContent = '';
             $emailTitle = '';

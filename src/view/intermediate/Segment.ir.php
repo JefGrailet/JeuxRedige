@@ -30,10 +30,10 @@ class SegmentIR
       'content' => '');
       
       // Header style
-      $headerFile = PathHandler::WWW_PATH.'upload/articles/'.$data['id_article'].'/'.$data['id_segment'].'/header.jpg';
+      $headerFile = PathHandler::WWW_PATH().'upload/articles/'.$data['id_article'].'/'.$data['id_segment'].'/header.jpg';
       if(file_exists($headerFile))
       {
-         $URL = PathHandler::HTTP_PATH.'upload/articles/'.$data['id_article'].'/'.$data['id_segment'].'/header.jpg';
+         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$data['id_article'].'/'.$data['id_segment'].'/header.jpg';
          $output['headerStyle'] = 'class="segmentHeader"';
          $output['headerStyle'] .= ' style="background: url(\''.$URL.'\') no-repeat center;';
          $output['headerStyle'] .= ' padding-top: 16%;';

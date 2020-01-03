@@ -1,7 +1,7 @@
 <?php
 
-require_once PathHandler::WWW_PATH.'view/intermediate/Commentable.ir.php';
-require_once PathHandler::WWW_PATH.'view/intermediate/Trope.ir.php';
+require_once PathHandler::WWW_PATH().'view/intermediate/Commentable.ir.php';
+require_once PathHandler::WWW_PATH().'view/intermediate/Trope.ir.php';
 
 class ReviewIR
 {
@@ -45,7 +45,7 @@ class ReviewIR
       {
          $split = explode('|', $review->get('external_link'));
          $output .= '-Contenu externe: <a href="'.$split[0].'" target="_blank">';
-         $output .= $split[1].'<img src="'.PathHandler::HTTP_PATH.'res_icons/external_link.png" ';
+         $output .= $split[1].'<img src="'.PathHandler::HTTP_PATH().'res_icons/external_link.png" ';
          $output .= 'class="externalLink" alt="Lien externe"></a><br/>'."\n";
       }
       
@@ -95,6 +95,7 @@ class ReviewIR
 
    public static function process($review, $fullDetails = false)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
       $hasLinks = ($review->get('id_article') != NULL || $review->get('external_link') != NULL || $review->get('id_topic') != NULL);
       
       $ratingsColors = array('background-color: rgb(235, 28, 36); color: white;', 
@@ -134,7 +135,7 @@ class ReviewIR
       // Game thumbnail, if relevant
       if($fullDetails)
       {
-         $thumbnailPath = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($review->get('game')).'/thumbnail1.jpg';
+         $thumbnailPath = $webRootPath.'upload/games/'.PathHandler::formatForURL($review->get('game')).'/thumbnail1.jpg';
          $gameArr = array('tag' => $review->get('game')); // To "cheat" the PathHandler::gameURL() function
          
          $output['gameThumbnail'] = '<div class="relatedGame" style="background: url(\''.$thumbnailPath.'\') ';
@@ -145,9 +146,9 @@ class ReviewIR
       }
       
       // Icons
-      $icons = array('permalink' => PathHandler::HTTP_PATH.'res_icons/post_permalink_med.png', 
-      'edit' => PathHandler::HTTP_PATH.'res_icons/post_edit_med.png', 
-      'delete' => PathHandler::HTTP_PATH.'res_icons/segment_delete.png');
+      $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
+      'edit' => $webRootPath.'res_icons/post_edit_med.png', 
+      'delete' => $webRootPath.'res_icons/segment_delete.png');
       
       // Permanent link (or permalink)
       $output['title'] .= ' &nbsp;<a href="'.PathHandler::reviewURL($review->getAll()).'"><img ';
@@ -202,7 +203,7 @@ class ReviewIR
             
             if($i > 0)
                $output['miniTropes'] .= ' ';
-            $icon = PathHandler::HTTP_PATH.'upload/tropes/'.PathHandler::formatForURL($tropeName).'.png';
+            $icon = $webRootPath.'upload/tropes/'.PathHandler::formatForURL($tropeName).'.png';
             list($r, $g, $b) = sscanf($tropeColor, "#%02x%02x%02x");
             $output['miniTropes'] .= '<img src="'.$icon.'" class="miniTrope" data-rgb="'.$r.','.$g.','.$b.'" ';
             $output['miniTropes'] .= 'style="background-color: '.$tropeColor.';" ';
@@ -222,7 +223,7 @@ class ReviewIR
                $buttonTitle = 'Cliquez pour les liens associés et les détails';
             }
             
-            $output['miniTropes'] .= ' <img src="'.PathHandler::HTTP_PATH.'res_icons/'.$buttonIcon.'" ';
+            $output['miniTropes'] .= ' <img src="'.$webRootPath.'res_icons/'.$buttonIcon.'" ';
             $output['miniTropes'] .= 'class="showReviewDetails" title="'.$buttonTitle.'"/>';
          }
       }

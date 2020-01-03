@@ -19,7 +19,7 @@ class PongIR
    public static function process($pong, $ID)
    {
       $output = array('pongID' => $ID, 
-      'authorPseudo' => '<a href="'.PathHandler::HTTP_PATH.'Posts.php?author='.$pong['author'].'" target="blank">'.$pong['author'].'</a>', 
+      'authorPseudo' => '<a href="'.PathHandler::HTTP_PATH().'Posts.php?author='.$pong['author'].'" target="blank">'.$pong['author'].'</a>', 
       'authorAvatar' => PathHandler::getAvatar($pong['author']), 
       'authorStyle' => '',
       'date' => 'Le '.date('d/m/Y à H:i:s', Utils::toTimestamp($pong['date'])), 

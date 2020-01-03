@@ -40,7 +40,7 @@ $currentThumbnail = 'none';
 if(strlen($currentThumbnailPath) == 0)
    $currentThumbnailPath = './defaultthumbnail.jpg';
 else
-   $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH));
+   $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH()));
 
 // Ordering policies
 $orderingPolicies = array('default', 'top');
@@ -62,7 +62,7 @@ if(!empty($_POST['sent']))
    $pickedOrdering = Utils::secure($_POST['ordering']);
    $formData['ordering'] = $pickedOrdering.'||'.$formPolicies;
    
-   if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH.substr($formData['thumbnail'], 2)))
+   if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH().substr($formData['thumbnail'], 2)))
       $formData['thumbnailPath'] = $formData['thumbnail'];
    
    // Errors (missing title, title too long, missing thumbnail or bad policy)

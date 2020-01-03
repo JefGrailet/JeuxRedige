@@ -80,10 +80,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
-   if(file_exists(PathHandler::WWW_PATH.'upload/articles/'.$articleID.'/thumbnail.jpg'))
+   if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
       $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
    else if(strlen($currentThumbnail) > 0)
-      $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH));
+      $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
    else
       $formComp['thumbnail'] = './default_article_thumbnail.jpg';
    
@@ -120,7 +120,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          if(strlen($highlightImg) > 0)
             $highlightFormInput['highlight'] = $highlightImg;
          else if(strlen($bufferedHighlight) > 0)
-            $highlightFormInput['highlight'] = './'.substr($bufferedHighlight, strlen(PathHandler::HTTP_PATH));
+            $highlightFormInput['highlight'] = './'.substr($bufferedHighlight, strlen(PathHandler::HTTP_PATH()));
          else
             $highlightFormInput['highlight'] = './default_article_highlight.jpg';
          
@@ -195,7 +195,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $formComp['errors'] .= 'invalidType|';
       if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
          $formComp['errors'] .= 'tooLongData|';
-      if($formInput['thumbnail'] !== './default_article_thumbnail.jpg' && !file_exists(PathHandler::WWW_PATH.substr($formInput['thumbnail'], 2)))
+      if($formInput['thumbnail'] !== './default_article_thumbnail.jpg' && !file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
          $formComp['errors'] .= 'invalidThumbnail|';
       if(count($newKeywords) == 1 && strlen($newKeywords[0]) == 0)
          $formComp['errors'] .= 'noKeywords|';
@@ -293,7 +293,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    {
       $picture = Utils::secure($_POST['highlight']);
       
-      if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH.substr($picture, 2)))
+      if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH().substr($picture, 2)))
          $highlightFormInput['errors'] = 'invalidHighlight';
       
       if(strlen($highlightFormInput['errors']) == 0)

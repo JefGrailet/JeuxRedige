@@ -23,11 +23,11 @@ class ArticleThumbnailIR
    {
       $artThumbnail = '';
       $relativePath = 'upload/articles/'.$data['id_article'].'/thumbnail.jpg';
-      $thumbnailPath = PathHandler::WWW_PATH.$relativePath;
+      $thumbnailPath = PathHandler::WWW_PATH().$relativePath;
       if(file_exists($thumbnailPath) == true)
-         $artThumbnail = PathHandler::HTTP_PATH.$relativePath;
+         $artThumbnail = PathHandler::HTTP_PATH().$relativePath;
       else
-         $artThumbnail = PathHandler::HTTP_PATH.'default_article_thumbnail.jpg';
+         $artThumbnail = PathHandler::HTTP_PATH().'default_article_thumbnail.jpg';
       
       $output = array('ID' => $data['id_article'], 
       'thumbnail' => $artThumbnail, 
@@ -50,7 +50,7 @@ class ArticleThumbnailIR
       
       if($edition)
       {
-         $output['link'] = PathHandler::HTTP_PATH.'EditArticle.php?id_article='.$data['id_article'];
+         $output['link'] = PathHandler::HTTP_PATH().'EditArticle.php?id_article='.$data['id_article'];
       }
       else
       {

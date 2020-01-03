@@ -80,7 +80,7 @@ if(!empty($_POST['sent']))
       {
          $user = User::insert($data['pseudo'], $data['email'], $data['pwd']);
          $confirmKey = $user->get('confirmation');
-         $confirmLink = PathHandler::HTTP_PATH.'Confirmation.php?pseudo='.$data['pseudo'].'&key='.$confirmKey;
+         $confirmLink = PathHandler::HTTP_PATH().'Confirmation.php?pseudo='.$data['pseudo'].'&key='.$confirmKey;
          $emailInput = array('pseudo' => $data['pseudo'], 'confirmLink' => $confirmLink);
          $emailContent = TemplateEngine::parse('view/user/Registration.mail.ctpl', $emailInput);
          $tplInput = array('mail' => 'mailFail');

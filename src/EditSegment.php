@@ -105,7 +105,7 @@ if(!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment']
    else if($bufferedHeader !== "")
    {
       $formData['headerPath'] = $bufferedHeader;
-      $formData['header'] = './'.substr($bufferedHeader, strlen(PathHandler::HTTP_PATH));
+      $formData['header'] = './'.substr($bufferedHeader, strlen(PathHandler::HTTP_PATH()));
    }
    else
       $formData['headerPath'] = './default_article_header.jpg';
@@ -267,7 +267,7 @@ if(!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment']
          }
          
          // Saves new header
-         if($formData['header'] !== '' && file_exists(PathHandler::WWW_PATH.substr($formData['header'], 2)))
+         if($formData['header'] !== '' && file_exists(PathHandler::WWW_PATH().substr($formData['header'], 2)))
          {
             $fileName = substr(strrchr($formData['header'], '/'), 1);
             Buffer::save('upload/articles/'.$article->get('id_article').'/'.$segment->get('id_segment'), $fileName, 'header');

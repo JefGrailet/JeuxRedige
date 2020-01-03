@@ -744,6 +744,11 @@
    color: black;
 }
 
+#previewZone p .emoticon
+{
+   vertical-align: middle;
+}
+
 /*
 * "Nav" menu, which is always visible at the bottom of the screen. Should always be above the 
 * fast reply form when shown.

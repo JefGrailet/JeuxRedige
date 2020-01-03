@@ -64,7 +64,7 @@ $currentThumbnail = 'none';
 if(strlen($currentThumbnailPath) == 0)
    $currentThumbnailPath = './defaultthumbnail.jpg';
 else
-   $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH));
+   $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH()));
 
 // Array which serves both for template input and collecting $_POST values
 $formData = array('previewPseudo' => LoggedUser::$data['used_pseudo'],
@@ -156,7 +156,7 @@ if(!empty($_POST['sent']))
       $formData['uploadsChecked'] = '';
    
    $thumbnail = 'none'; // Value that will be input in Topic::insert()
-   if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH.substr($formData['thumbnail'], 2)))
+   if($formData['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH().substr($formData['thumbnail'], 2)))
    {
       $formData['thumbnailPath'] = $formData['thumbnail'];
       $thumbnail = 'CUSTOM';

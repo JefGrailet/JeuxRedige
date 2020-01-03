@@ -95,7 +95,7 @@ class Topic
          
       $newTopicID = Database::newId();
        
-      $topicDir = PathHandler::WWW_PATH.'upload/topics/'.$newTopicID;
+      $topicDir = PathHandler::WWW_PATH().'upload/topics/'.$newTopicID;
       mkdir($topicDir, 0711);
       
       return new Topic($newTopicID);
@@ -149,7 +149,7 @@ class Topic
          
       $newTopicID = Database::newId();
        
-      $topicDir = PathHandler::WWW_PATH.'upload/topics/'.$newTopicID;
+      $topicDir = PathHandler::WWW_PATH().'upload/topics/'.$newTopicID;
       mkdir($topicDir, 0711);
       
       return new Topic($newTopicID);
@@ -619,7 +619,7 @@ class Topic
       }
       
       // Deletion of uploads
-      $topicDirPath = PathHandler::WWW_PATH.'upload/topics/'.$this->_data['id_topic'];
+      $topicDirPath = PathHandler::WWW_PATH().'upload/topics/'.$this->_data['id_topic'];
       if(file_exists($topicDirPath))
       {
          $dirContent = scandir($topicDirPath.'/');

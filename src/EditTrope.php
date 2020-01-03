@@ -76,13 +76,13 @@ if(!empty($_GET['trope']))
    $currentIcon = Buffer::getTropeIcon();
    $iconExists = false;
    $tropeIconName = PathHandler::formatForURL($trope->get('tag')).'.png';
-   if(file_exists(PathHandler::WWW_PATH.'upload/tropes/'.$tropeIconName))
+   if(file_exists(PathHandler::WWW_PATH().'upload/tropes/'.$tropeIconName))
    {
       $iconExists = true;
       $formData['icon'] = './upload/tropes/'.$tropeIconName;
    }
    else if(strlen($currentIcon) > 0)
-      $formData['icon'] = './'.substr($currentIcon, strlen(PathHandler::HTTP_PATH));
+      $formData['icon'] = './'.substr($currentIcon, strlen(PathHandler::HTTP_PATH()));
    else
       $formData['icon'] = './default_trope_icon.png';
    
@@ -98,7 +98,7 @@ if(!empty($_GET['trope']))
          $formData['errors'] .= 'emptyFields|';
       if(strlen($formData['description']) > 250)
          $formData['errors'] .= 'dataTooLong|';
-      if($formData['icon'] === './default_trope_icon.png' || !file_exists(PathHandler::WWW_PATH.substr($formData['icon'], 2)))
+      if($formData['icon'] === './default_trope_icon.png' || !file_exists(PathHandler::WWW_PATH().substr($formData['icon'], 2)))
          $formData['errors'] .= 'invalidIcon|';
       if(!preg_match('!^#([a-fA-F0-9]{6})$!', $formData['color']))
          $formData['errors'] .= 'invalidColor|';

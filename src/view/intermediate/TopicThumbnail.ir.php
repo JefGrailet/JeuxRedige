@@ -20,6 +20,8 @@ class TopicThumbnailIR
 
    public static function process($topic)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $output = array('thumbnail' => PathHandler::getTopicThumbnail($topic['thumbnail'], $topic['id_topic']),
       'icons' => '',
       'lastAuthor' => $topic['last_author'],
@@ -37,13 +39,13 @@ class TopicThumbnailIR
 
       // Deals with icons
       if($topic['created_as'] === 'author')
-         $output['icons'] .= '<img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_content.png" alt="Réactions à un article" title="Réactions à un article"/> ';
+         $output['icons'] .= '<img src="'.$webRootPath.'res_icons/thumbnail_content.png" alt="Réactions à un article" title="Réactions à un article"/> ';
       if(Utils::check($topic['is_anon_posting_enabled']))
-         $output['icons'] .= '<img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_anon_posting.png" alt="Posts anonymes autorisés" title="Posts anonymes autorisés"/> ';
+         $output['icons'] .= '<img src="'.$webRootPath.'res_icons/thumbnail_anon_posting.png" alt="Posts anonymes autorisés" title="Posts anonymes autorisés"/> ';
       if(Utils::check($topic['is_locked']))
-         $output['icons'] .= '<img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_locked.png" alt="Sujet verrouillé" title="Sujet verrouillé"/> ';
+         $output['icons'] .= '<img src="'.$webRootPath.'res_icons/thumbnail_locked.png" alt="Sujet verrouillé" title="Sujet verrouillé"/> ';
       if($favorited)
-         $output['icons'] .= '<img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_favourite.png" alt="Sujet favori" title="Sujet favori"/> ';
+         $output['icons'] .= '<img src="'.$webRootPath.'res_icons/thumbnail_favourite.png" alt="Sujet favori" title="Sujet favori"/> ';
 
       /*
       To be used later ?
@@ -51,9 +53,9 @@ class TopicThumbnailIR
       {
          if(yes(LoggedUser::$data['can_edit_others']) OR LoggedUser::$data['pseudo'] === $topic['author'] OR LoggedUser::$data['used_pseudo'] === $topic['author'])
          {
-            $icons .= '<a href="editer_sujet.php?id_topic='.$topic['id_topic'].'"><img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_title_edit.png" alt="Edition du sujet" title="Editer ce sujet"/></a> ';
+            $icons .= '<a href="editer_sujet.php?id_topic='.$topic['id_topic'].'"><img src="'.$webRootPath.'res_icons/thumbnail_title_edit.png" alt="Edition du sujet" title="Editer ce sujet"/></a> ';
             
-            // $icons .= '<a href="supprimer_sujet.php?id_topic='.$topic['id_topic'].'"><img src="'.PathHandler::HTTP_PATH.'res_icons/thumbnail_delete.png" alt="Supprimer ce sujet" title="Supprimer ce sujet"/></a> ';
+            // $icons .= '<a href="supprimer_sujet.php?id_topic='.$topic['id_topic'].'"><img src="'.$webRootPath.'res_icons/thumbnail_delete.png" alt="Supprimer ce sujet" title="Supprimer ce sujet"/></a> ';
          }
       }
       */

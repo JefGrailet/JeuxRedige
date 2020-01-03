@@ -5,7 +5,7 @@
 
 // Defines the namespace of this script and its "globals"
 var DefaultLib = {};
-DefaultLib.httpPath = "http://localhost/pag/";
+DefaultLib.httpPath = ConfigurationValues.HTTP_PATH; // See Header.inc.php
 DefaultLib.blockKeypresses = false; // Prevents issues with the lightbox by pressing keys multiple times
 DefaultLib.usingAJAX = false; // Used to prevent multiple AJAX requests in some cases (e.g. upvote)
 

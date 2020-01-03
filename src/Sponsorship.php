@@ -75,7 +75,7 @@ if(!empty($_POST['sent']))
             {
                $invitation = Invitation::insert($inputEmail);
                $invitationKey = $invitation->get('invitation_key');
-               $invitationLink = PathHandler::HTTP_PATH.'Invitation.php?key='.$invitationKey;
+               $invitationLink = PathHandler::HTTP_PATH().'Invitation.php?key='.$invitationKey;
                $mailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'invitationLink' => $invitationLink);
                $mailContent = TemplateEngine::parse('view/user/Sponsorship.mail.ctpl', $mailInput);
                
@@ -108,7 +108,7 @@ if(!empty($_POST['sent']))
                else
                {
                   $invitationKey = $invitation->get('invitation_key');
-                  $invitationLink = PathHandler::HTTP_PATH.'Invitation.php?key='.$invitationKey;
+                  $invitationLink = PathHandler::HTTP_PATH().'Invitation.php?key='.$invitationKey;
                   $mailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'invitationLink' => $invitationLink);
                   $mailContent = TemplateEngine::parse('view/user/Sponsorship.mail.ctpl', $mailInput);
                   

@@ -14,24 +14,31 @@ else
 {
    $pageTitle .= ' - Project AG';
 }
+
+$webRootPath = PathHandler::HTTP_PATH();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
    <head>
       <meta charset="UTF-8" />
-      <link rel="stylesheet" href="<?php echo PathHandler::HTTP_PATH; ?>style/default.css" />
+      <link rel="stylesheet" href="<?php echo $webRootPath; ?>style/default.css" />
+      <script text="text/javascript">
+      var ConfigurationValues = {};
+      ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
+      </script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<? echo PathHandler::JS_EXTENSION(); ?>"></script>
 <?php
+
+// After main CSS/JS files, the particular ones
 for($i = 0; $i < count(WebpageHandler::$CSSFiles); $i++)
 {
-   echo '      <link rel="stylesheet" href="'.PathHandler::HTTP_PATH.'style/'.WebpageHandler::$CSSFiles[$i].'.css" />'."\n";
+   echo '      <link rel="stylesheet" href="'.$webRootPath.'style/'.WebpageHandler::$CSSFiles[$i].'.css" />'."\n";
 }
-?>
-      <script type="text/javascript" src="<?php echo PathHandler::HTTP_PATH; ?>javascript/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="<?php echo PathHandler::HTTP_PATH; ?>javascript/default.js"></script>
-<?php
 for($i = 0; $i < count(WebpageHandler::$JSFiles); $i++)
 {
-   echo '      <script type="text/javascript" src="'.PathHandler::HTTP_PATH.'javascript/'.WebpageHandler::$JSFiles[$i].'.js"></script>'."\n";
+   echo '      <script type="text/javascript" src="'.$webRootPath.'javascript/'.WebpageHandler::$JSFiles[$i].PathHandler::JS_EXTENSION().'"></script>'."\n";
 }
 
 // Auto-activated JS features (navigation mode, auto preview and auto refresh)
@@ -117,32 +124,28 @@ if(!LoggedUser::isLoggedIn())
             <span class="closeDialog">Fermer</span>
          </div>
          <div class="windowContent">
-            <form method="post" action="<?php echo PathHandler::HTTP_PATH; ?>LogIn.php">
+            <form method="post" action="<?php echo $webRootPath; ?>LogIn.php">
             <table class="windowFields">
                <tr>
                   <td class="connectionColumn1">Pseudo:</td>
                   <td class="connectionColumn2"><input type="text" name="pseudo"/></td>
-                  <td class="connectionColumn3"><a href="<?php echo PathHandler::HTTP_PATH; ?>Registration.php">M'inscrire</a></td>
+                  <td class="connectionColumn3"><a href="<?php echo $webRootPath; ?>Registration.php">M'inscrire</a></td>
                </tr>
                <tr>
                   <td class="connectionColumn1">Mot de passe:</td>
                   <td class="connectionColumn2"><input type="password" name="pwd"/></td>
-                  <td class="connectionColumn3"><a href="<?php echo PathHandler::HTTP_PATH; ?>PasswordReset.php">Mot de passe perdu ?</a></td>
+                  <td class="connectionColumn3"><a href="<?php echo $webRootPath; ?>PasswordReset.php">Mot de passe perdu ?</a></td>
                </tr>
             </table>
             <p>
 <?php
    if(WebpageHandler::$redirections['log_in'])
    {
-?>
-               <input type="hidden" name="redirection" value="<?php echo "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>"/>
-<?php
+      echo '               <input type="hidden" name="redirection" value="'.$webRootPath.$_SERVER['REQUEST_URI'].'"/>';
    }
    else
    {
-?>
-               <input type="hidden" name="redirection" value=""/>
-<?php
+       echo '               <input type="hidden" name="redirection" value=""/>';
    }
 ?>
                <input type="checkbox" name="rememberMe"/> Se souvenir de moi 
@@ -173,9 +176,9 @@ if(isset($dialogs) && !empty($dialogs))
       <div id="topMenu">
          <div class="websiteMainMenu">
             <p>
-               <a class="websiteTitle" href="<?php echo PathHandler::HTTP_PATH; ?>">Project AG</a><sup>Beta</sup> &nbsp;
-               <a href="<?php echo PathHandler::HTTP_PATH; ?>Articles.php">Articles</a> | 
-               <a href="<?php echo PathHandler::HTTP_PATH; ?>Forum.php">Forum</a>
+               <a class="websiteTitle" href="<?php echo $webRootPath; ?>">Project AG</a><sup>Beta</sup> &nbsp;
+               <a href="<?php echo $webRootPath; ?>Articles.php">Articles</a> | 
+               <a href="<?php echo $webRootPath; ?>Forum.php">Forum</a>
             </p>
          </div>
          <?php
@@ -206,7 +209,7 @@ if(LoggedUser::isLoggedIn())
             $pseudoPart .= LoggedUser::$data['pseudo'];
          }
          $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-         $alternateAccount = '<a href="'.PathHandler::HTTP_PATH.'SwitchAccount.php?pos='.$r.'">Changer pour '.LoggedUser::$data['pseudo'].'</a>';
+         $alternateAccount = '<a href="'.$webRootPath.'SwitchAccount.php?pos='.$r.'">Changer pour '.LoggedUser::$data['pseudo'].'</a>';
          $adminTools = true; // Always, for now
       }
       else
@@ -215,7 +218,7 @@ if(LoggedUser::isLoggedIn())
          if(LoggedUser::$data['function_name'] === 'administrator')
          {
             $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-            $alternateAccount = '<a href="'.PathHandler::HTTP_PATH.'SwitchAccount.php?pos='.$r.'">Changer pour <span style="color: rgb(255,63,63);">'.LoggedUser::$data['function_pseudo'].'</span></a>';
+            $alternateAccount = '<a href="'.$webRootPath.'SwitchAccount.php?pos='.$r.'">Changer pour <span style="color: rgb(255,63,63);">'.LoggedUser::$data['function_pseudo'].'</span></a>';
          }
       }
    }
@@ -229,31 +232,31 @@ if(LoggedUser::isLoggedIn())
    echo $padding.'<ul id="userMenu">'."\n";
    if(strlen($alternateAccount) > 0)
    {
-      echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/switch.png" alt="Changer de compte"/> '.$alternateAccount.'</li>'."\n";
+      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/switch.png" alt="Changer de compte"/> '.$alternateAccount.'</li>'."\n";
    }
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/my_account.png" alt="Mon compte"/> <a href="'.PathHandler::HTTP_PATH.'MyAccount.php">Mon compte</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/emoticons.png" alt="Mes émoticônes"/> <a href="'.PathHandler::HTTP_PATH.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/pins.png" alt="Mes messages favoris"/> <a href="'.PathHandler::HTTP_PATH.'MyPins.php">Mes messages favoris</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/articles.png" alt="Mes articles"/> <a href="'.PathHandler::HTTP_PATH.'MyArticles.php">Mes articles</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/my_lists.png" alt="Mes listess"/> <a href="'.PathHandler::HTTP_PATH.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/games.png" alt="Jeux"/> <a href="'.PathHandler::HTTP_PATH.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/tropes.png" alt="Codes ludiques"/> <a href="'.PathHandler::HTTP_PATH.'Tropes.php">Codes ludiques</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/didyouknow.png" alt="Le saviez-vous ?"/> <a href="'.PathHandler::HTTP_PATH.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/invite.png" alt="Inviter un ami"/> <a href="'.PathHandler::HTTP_PATH.'Sponsorship.php">Inviter un ami</a></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/my_account.png" alt="Mon compte"/> <a href="'.$webRootPath.'MyAccount.php">Mon compte</a></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/emoticons.png" alt="Mes émoticônes"/> <a href="'.$webRootPath.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/pins.png" alt="Mes messages favoris"/> <a href="'.$webRootPath.'MyPins.php">Mes messages favoris</a></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/articles.png" alt="Mes articles"/> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/my_lists.png" alt="Mes listess"/> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/games.png" alt="Jeux"/> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/tropes.png" alt="Codes ludiques"/> <a href="'.$webRootPath.'Tropes.php">Codes ludiques</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/didyouknow.png" alt="Le saviez-vous ?"/> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/invite.png" alt="Inviter un ami"/> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
    if($adminTools)
    {
-      echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/users.png" alt="Utilisateurs"/> <a href="'.PathHandler::HTTP_PATH.'Users.php">Utilisateurs</a></li>'."\n";
-      echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/alerts.png" alt="Alertes"/> <a href="'.PathHandler::HTTP_PATH.'Alerts.php">Alertes</a></li>'."\n";
+      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/users.png" alt="Utilisateurs"/> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
+      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/alerts.png" alt="Alertes"/> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
    }
    // Log out link
    if(WebpageHandler::$redirections['log_out'])
    {
       $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-      echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.PathHandler::HTTP_PATH.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
+      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
    }
    else
    {
-      echo $padding.'   '.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.PathHandler::HTTP_PATH.'LogOut.php">Déconnexion</a></li>'."\n";
+      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.$webRootPath.'LogOut.php">Déconnexion</a></li>'."\n";
    }
    echo $padding.'</ul></li>'."\n";
    echo '         </ul>'."\n";
@@ -262,7 +265,7 @@ if(LoggedUser::isLoggedIn())
    echo '         <ul id="showPings">'."\n";
    if(LoggedUser::$data['new_pings'] > 0)
    {
-      echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/messages_new.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages_new.png" alt="Messages"/>'."\n";
       echo $padding.'<ul id="pings">'."\n";
       for($i = 0; $i < LoggedUser::$data['new_pings'] && $i < 5; $i++)
       {
@@ -270,7 +273,7 @@ if(LoggedUser::isLoggedIn())
          switch(LoggedUser::$messages[$i]['ping_type'])
          {
             case 'notification':
-               echo '<img src="'.PathHandler::HTTP_PATH.'res_icons/ping_alert.png" alt="Notification"/> ';
+               echo '<img src="'.$webRootPath.'res_icons/ping_alert.png" alt="Notification"/> ';
                echo LoggedUser::$messages[$i]['title'];
                break;
             
@@ -278,36 +281,36 @@ if(LoggedUser::isLoggedIn())
                $otherParty = LoggedUser::$messages[$i]['emitter'];
                if($otherParty === LoggedUser::$data['pseudo'])
                   $otherParty = LoggedUser::$messages[$i]['receiver'];
-               echo '<img src="'.PathHandler::HTTP_PATH.'res_icons/ping_discussion.png" alt="Discussion privée"/> ';
-               echo '<a href="'.PathHandler::HTTP_PATH.'PrivateDiscussion.php?id_ping='.LoggedUser::$messages[$i]['id_ping'].'"><strong>'.$otherParty.' -</strong> '.LoggedUser::$messages[$i]['title'].'</a>';
+               echo '<img src="'.$webRootPath.'res_icons/ping_discussion.png" alt="Discussion privée"/> ';
+               echo '<a href="'.$webRootPath.'PrivateDiscussion.php?id_ping='.LoggedUser::$messages[$i]['id_ping'].'"><strong>'.$otherParty.' -</strong> '.LoggedUser::$messages[$i]['title'].'</a>';
                break;
             
             default:
-               echo '<img src="'.PathHandler::HTTP_PATH.'res_icons/ping_alert.png" alt="Inconnu"/> ';
+               echo '<img src="'.$webRootPath.'res_icons/ping_alert.png" alt="Inconnu"/> ';
                echo LoggedUser::$messages[$i]['title'];
                break;
          }
          echo '</li>'."\n";
       }
       if(LoggedUser::$data['new_pings'] > 5)
-         echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.PathHandler::HTTP_PATH.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
+         echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
       else
-         echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.PathHandler::HTTP_PATH.'Pings.php">Liste de mes pings</a></li>'."\n";
+         echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    else if(LoggedUser::$data['new_pings'] == 0)
    {
-      echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/messages.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages.png" alt="Messages"/>'."\n";
       echo $padding.'<ul id="pings">'."\n";
-      echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.PathHandler::HTTP_PATH.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    else
    {
-      echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/messages_buggy.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages_buggy.png" alt="Messages"/>'."\n";
       echo $padding.'<ul id="pings">'."\n";
       echo $padding.'<li>Une erreur est survenue...</li>'."\n";
-      echo $padding.'<li><img src="'.PathHandler::HTTP_PATH.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.PathHandler::HTTP_PATH.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    echo '         </ul>'."\n";
@@ -316,7 +319,7 @@ else
 {
 ?>
          <ul>
-            <li><img src="<?php echo PathHandler::HTTP_PATH; ?>defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> <a class="connectionLink">Se connecter</a></li>
+            <li><img src="<?php echo $webRootPath; ?>defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> <a class="connectionLink">Se connecter</a></li>
          </ul>
 <?php
 }

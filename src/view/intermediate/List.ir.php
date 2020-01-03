@@ -1,6 +1,6 @@
 <?php
 
-require_once PathHandler::WWW_PATH.'view/intermediate/Commentable.ir.php';
+require_once PathHandler::WWW_PATH().'view/intermediate/Commentable.ir.php';
 
 class ListIR
 {
@@ -10,6 +10,8 @@ class ListIR
 
    private static function processItem($item, $parentList)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $output = array('itemID' => $item['id_item'], 
       'rank' => $item['rank'], 
       'gameThumbnail' => '', 
@@ -19,7 +21,7 @@ class ListIR
       'comment' => '');
       
       // Game thumbnail
-      $thumbnailPath = PathHandler::HTTP_PATH.'upload/games/'.PathHandler::formatForURL($item['game']).'/thumbnail1.jpg';
+      $thumbnailPath = $webRootPath.'upload/games/'.PathHandler::formatForURL($item['game']).'/thumbnail1.jpg';
       $gameArr = array('tag' => $item['game']); // To "cheat" the PathHandler::gameURL() function
       $output['gameThumbnail'] = '<div class="listedGame" style="background: url(\''.$thumbnailPath.'\') ';
       $output['gameThumbnail'] .= 'no-repeat top center;">'."\n";
@@ -37,15 +39,15 @@ class ListIR
          $output['title'] = $item['game'];
       
       // Icons to use
-      $icons = array('edit' => PathHandler::HTTP_PATH.'res_icons/post_edit_med.png', 
-      'delete' => PathHandler::HTTP_PATH.'res_icons/segment_delete.png', 
-      'moveUp' => PathHandler::HTTP_PATH.'res_icons/segment_move_up.png', 
-      'moveDown' => PathHandler::HTTP_PATH.'res_icons/segment_move_down.png');
+      $icons = array('edit' => $webRootPath.'res_icons/post_edit_med.png', 
+      'delete' => $webRootPath.'res_icons/segment_delete.png', 
+      'moveUp' => $webRootPath.'res_icons/segment_move_up.png', 
+      'moveDown' => $webRootPath.'res_icons/segment_move_down.png');
       
       // Icons for edition
       if($parentList->isMine())
       {
-         $output['icons'] = ' &nbsp;<a href="'.PathHandler::HTTP_PATH.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
+         $output['icons'] = ' &nbsp;<a href="'.$webRootPath.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
          $output['icons'] .= '<img class="itemIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
          
          if($item['rank'] > 1)
@@ -65,7 +67,7 @@ class ListIR
       }
       else if(LoggedUser::isLoggedIn() && Utils::check(LoggedUser::$data['can_edit_all_posts']))
       {
-         $output['icons'] = ' &nbsp;<a href="'.PathHandler::HTTP_PATH.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
+         $output['icons'] = ' &nbsp;<a href="'.$webRootPath.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
          $output['icons'] .= '<img class="itemIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
       }
       

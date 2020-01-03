@@ -22,7 +22,7 @@ class PinIR
    {
       $output = array('ID' => $data['id_post'], 
       'avatar' => PathHandler::getAvatarSmall($data['author']), 
-      'postURL' => PathHandler::HTTP_PATH.'Context.php?id_post='.$data['id_post'], 
+      'postURL' => PathHandler::HTTP_PATH().'Context.php?id_post='.$data['id_post'], 
       'author' => $data['author'],
       'date' => date('d/m/Y \à H\hi', Utils::toTimestamp($data['date_post'])), 
       'datePin' => date('d/m/Y \à H\hi', Utils::toTimestamp($data['date'])), 

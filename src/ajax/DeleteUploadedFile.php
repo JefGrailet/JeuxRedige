@@ -155,7 +155,7 @@ if(!empty($_POST['fileToDelete']))
       exit();
    }
    
-   $wwwFilePath = PathHandler::WWW_PATH.$filePath;
+   $wwwFilePath = PathHandler::WWW_PATH().$filePath;
    if(!file_exists($wwwFilePath))
    {
       header('Content-Type: text/html; charset=UTF-8');
@@ -211,9 +211,9 @@ if(!empty($_POST['fileToDelete']))
       $miniatureName = 'mini_'.substr($toMiniatureFileName, 5);
       $wwwMiniaturePath = "";
       if($post != NULL) // Only for topic uploads
-         $wwwMiniaturePath = PathHandler::WWW_PATH.$fileDir.$postID.'_'.$uploader.'_'.$miniatureName;
+         $wwwMiniaturePath = PathHandler::WWW_PATH().$fileDir.$postID.'_'.$uploader.'_'.$miniatureName;
       else
-         $wwwMiniaturePath = PathHandler::WWW_PATH.$fileDir.$miniatureName;
+         $wwwMiniaturePath = PathHandler::WWW_PATH().$fileDir.$miniatureName;
       
       if(file_exists($wwwMiniaturePath))
       {

@@ -23,7 +23,7 @@ try
    for($i = 0; $i < count($emoticons); $i++)
    {
       $emoticon = $emoticons[$i];
-      $resStr .= '<img class="emoticon" src="'.PathHandler::HTTP_PATH.'upload/emoticons/'.$emoticon['file'].'" alt="'.$emoticon['name'].'" ';
+      $resStr .= '<img class="emoticon" src="'.PathHandler::HTTP_PATH().'upload/emoticons/'.$emoticon['file'].'" alt="'.$emoticon['name'].'" ';
       $resStr .= 'title="'.$emoticon['name'].'" data-shortcut="'.$emoticon['shortcut'].'"/>'."\n";
    }
 }

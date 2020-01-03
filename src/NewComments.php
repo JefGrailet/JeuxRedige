@@ -133,14 +133,14 @@ if($isUserAuthor)
    $customThumbnail = true;
    $currentThumbnailPath = Buffer::getThumbnail();
    if(strlen($currentThumbnailPath) == 0)
-      $currentThumbnailPath = './'.substr($commentable->getThumbnail(), strlen(PathHandler::HTTP_PATH));
+      $currentThumbnailPath = './'.substr($commentable->getThumbnail(), strlen(PathHandler::HTTP_PATH()));
    else
-      $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH));
+      $currentThumbnail = './'.substr($currentThumbnailPath, strlen(PathHandler::HTTP_PATH()));
 }
 // Just for display with CommentsSettings.ctpl
 else
 {
-   $currentThumbnailPath = './'.substr($commentable->getThumbnail(), strlen(PathHandler::HTTP_PATH));
+   $currentThumbnailPath = './'.substr($commentable->getThumbnail(), strlen(PathHandler::HTTP_PATH()));
 }
 
 // Default title for the topic
@@ -248,7 +248,7 @@ if(!empty($_POST['sent']))
    $thumbnail = '';
    if($customThumbnail)
    {
-      if($topicSettings['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH.substr($topicSettings['thumbnail'], 2)))
+      if($topicSettings['thumbnail'] !== 'none' && file_exists(PathHandler::WWW_PATH().substr($topicSettings['thumbnail'], 2)))
       {
          $topicSettings['thumbnailPath'] = $topicSettings['thumbnail'];
          $thumbnail = 'CUSTOM';

@@ -72,7 +72,7 @@ class Game
       if($res != NULL)
          throw new Exception('Could not insert new game: '. $res[2]);
       
-      $gameDir = PathHandler::WWW_PATH.'upload/games/'.PathHandler::formatForURL($arr['tag']);
+      $gameDir = PathHandler::WWW_PATH().'upload/games/'.PathHandler::formatForURL($arr['tag']);
       mkdir($gameDir, 0711);
       
       return new Game($arr['tag']);

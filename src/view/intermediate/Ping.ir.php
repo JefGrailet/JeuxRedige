@@ -19,13 +19,15 @@ class PingIR
 
    public static function process($ping)
    {
+      $webRootPath = PathHandler::HTTP_PATH();
+      
       $otherParty = $ping['emitter'];
       if($otherParty === LoggedUser::$data['pseudo'])
          $otherParty = $ping['receiver'];
       
       $otherPartyWithURL = $otherParty;
       if($ping['ping_type'] === 'ping pong')
-         $otherPartyWithURL = '<a href="'.PathHandler::HTTP_PATH.'Posts.php?author='.$otherParty.'">'.$otherParty.'</a>';
+         $otherPartyWithURL = '<a href="'.$webRootPath.'Posts.php?author='.$otherParty.'">'.$otherParty.'</a>';
 
       $output = array('pingID' => $ping['id_ping'], 
       'otherPartyAvatar' => PathHandler::getAvatar($otherParty), 
@@ -39,13 +41,13 @@ class PingIR
       $icons = NULL;
       if(WebpageHandler::$miscParams['message_size'] === 'medium')
       {
-         $icons = array('delete' => PathHandler::HTTP_PATH.'res_icons/delete.png',
-         'check' => PathHandler::HTTP_PATH.'res_icons/checked.png');
+         $icons = array('delete' => $webRootPath.'res_icons/delete.png',
+         'check' => $webRootPath.'res_icons/checked.png');
       }
       else
       {
-         $icons = array('delete' => PathHandler::HTTP_PATH.'res_icons/delete_20px.png',
-         'check' => PathHandler::HTTP_PATH.'res_icons/checked_20px.png');
+         $icons = array('delete' => $webRootPath.'res_icons/delete_20px.png',
+         'check' => $webRootPath.'res_icons/checked_20px.png');
       }
       
       // Color of the top part and title
@@ -135,12 +137,12 @@ class PingIR
          if(substr($messageToDisplay, -8) !== "</div>\r\n")
          {
             $output['message'] .= "<br/>\n<br/>\n";
-            $output['message'] .= '<a href="'.PathHandler::HTTP_PATH.'PrivateDiscussion.php?id_ping='.$ping['id_ping'].'">Cliquez ici pour ';
+            $output['message'] .= '<a href="'.$webRootPath.'PrivateDiscussion.php?id_ping='.$ping['id_ping'].'">Cliquez ici pour ';
             $output['message'] .= 'développer la discussion</a></p>';
          }
          else
          {
-            $output['message'] .= '<p><a href="'.PathHandler::HTTP_PATH.'PrivateDiscussion.php?id_ping='.$ping['id_ping'].'">Cliquez ici pour ';
+            $output['message'] .= '<p><a href="'.$webRootPath.'PrivateDiscussion.php?id_ping='.$ping['id_ping'].'">Cliquez ici pour ';
             $output['message'] .= 'développer la discussion</a></p>';
          }
          $output['message'] .= "\n";

@@ -100,7 +100,7 @@ if(!empty($_FILES['newFile']))
                   
                   $tplInput = array('fullSize' => $full,
                   'dimensions' => 'yes||'.$dimFull[0].'|'.$dimFull[1], 
-                  'uploader' => LoggedUser::$data['used_pseudo'],
+                  'uploader' => 'yes||'.LoggedUser::$data['used_pseudo'],
                   'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
                   'fullSizeRelative' => $full,
                   'delete' => $deleteButton,
@@ -139,7 +139,7 @@ if(!empty($_FILES['newFile']))
                $deleteButton = Utils::check(LoggedUser::$data['can_upload']) ? 'yes' : '';
                $tplInput = array('fullSize' => $full, 
                'dimensions' => '', 
-               'uploader' => LoggedUser::$data['used_pseudo'], 
+               'uploader' => 'yes||'.LoggedUser::$data['used_pseudo'], 
                'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$relative)), 
                'fullSizeRelative' => $full,
                'delete' => $deleteButton, 

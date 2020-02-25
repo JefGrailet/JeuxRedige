@@ -1,0 +1,27 @@
+\chapter*{Avant-propos}
+\setcounter{chapter}{0}
+\addcontentsline{toc}{chapter}{Avant-propos}
+
+Project AG est un site web qui a été conçu et créé par pur loisir. Bien qu'il soit actuellement 
+axé sur les jeux vidéo, PAG (pour abréger) s'est construit à la base autour d'un forum et de 
+l'espace membre qui s'y rattache. En ce sens, son code n'est pas forcément spécifique aux sites 
+traitant des jeux vidéo (et autres) et peut être ré-utilisé à d'autres fins.
+
+Comme le code ne contenait rien d'exotique et que le site n'a pas pour vocation de devenir une 
+source de revenus, j'ai décidé de le rendre \textit{open source} afin qu'il puisse aussi bien 
+servir à d'autres développeurs qu'être amélioré et étendu au fil du temps par des contributeurs 
+externes. Ce choix est d'autant plus justifié que le base de données associée au site ne stocke 
+et ne traite aucune donnée sensible (à moins de considérer les adresses e-mail comme des données 
+sensibles), les mots de passe étant \textit{hachés}\footnote{Cf. 
+\url{https://fr.wikipedia.org/wiki/Fonction_de_hachage}}).
+
+Comme PAG a été conçu sur plusieurs années par à-coups, son code est commenté en long et en large 
+afin de toujours garder une trace de l'intérêt de chaque composant ainsi que de la manière de 
+les utiliser. La lecture du code devrait donc être relativement aisée pour un oeil extérieur, mais 
+les commentaires existants ne seront pas forcément suffisants pour comprendre spontanément 
+l'architecture du site et le pourquoi du comment de certains choix de conception.
+
+C'est précisément pour donner un aperçu d'ensemble du code que ce document a été créé. Les pages 
+qui suivent décrivent donc l'architecture globale du site, en allant du plus général (langages 
+utilisés, arborescence des dossiers, etc.) vers le plus particulier (composition typique d'un 
+script principal, gestion de l'affichage).

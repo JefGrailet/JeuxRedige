@@ -1,0 +1,91 @@
+\documentclass[a4paper,titlepage,11pt]{report}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\usepackage{graphicx}
+\usepackage{caption}
+%\usepackage{moreverb}
+%\usepackage{pbox}
+
+\usepackage{titlesec} 
+\titleformat{\chapter}[hang]{\bf\huge}{\thechapter}{2pc}{}
+\setlength{\parskip}{2ex plus .4ex minus .4ex}
+
+\usepackage{vmargin}
+\setpapersize{A4}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\usepackage{footnote} % savenotes
+
+\usepackage{multirow} % For some tables
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+\newcommand{\jquery}{\textit{jQuery}\xspace}
+
+\begin{document}
+
+\begin{titlepage}
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Description du code source\\
+de Project AG
+}\\[0.4cm]
+\HRule \\[5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Auteur:}
+Jean-François \textsc{Grailet}
+\end{flushleft}
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+\textsc{\large Octobre 2019}\\[0.5cm]
+
+% {\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+\newpage
+\setcounter{page}{1}
+\pagenumbering{roman}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\input{./parts/avantpropos.tex}
+\input{./parts/introduction.tex}
+\input{./parts/headerlib.tex}
+\input{./parts/model.tex}
+\input{./parts/view.tex}
+\input{./parts/control.tex}
+\input{./parts/annexes.tex}
+
+\end{document}
+

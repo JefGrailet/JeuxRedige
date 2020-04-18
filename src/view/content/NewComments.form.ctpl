@@ -10,22 +10,22 @@ Réessayez plus tard ou contactez l'administrateur.}
 <form action="./NewComments.php?id_content={$commentableID}" method="post">
 <p>
 {$settings}
-<img class="formatButton" id="buttonBold" src="./res_icons/bold.png" alt="Gras" title="Mettre en gras"/> 
-<img class="formatButton" id="buttonItalic" src="./res_icons/italic.png" alt="Italique" title="Mettre en italique"/> 
-<img class="formatButton" id="buttonUnderlined" src="./res_icons/underlined.png" alt="Souligné" title="Souligner"/> 
-<img class="formatButton" id="buttonStrikethrough" src="./res_icons/strikethrough.png" alt="Barré" title="Barrer"/> 
-<img class="formatButton" id="buttonTitle" src="./res_icons/title.png" alt="Titre" title="Insérer un titre"/> 
-<img class="formatButton" id="buttonList" src="./res_icons/bullet_list.png" alt="Liste" title="Insérer une liste à puces"/> 
-<img class="formatButton" id="buttonHyperlink" src="./res_icons/hyperlink.png" alt="Lien" title="Insérer un lien"/> 
-<img class="formatButton" id="buttonColors" src="./res_icons/colors.png" alt="Couleurs" title="Changer la couleur du texte"/> 
-<img class="formatButton" id="buttonTextCenter" src="./res_icons/text_center.png" alt="Centré" title="Centrer"/> 
-<img class="formatButton" id="buttonTextRight" src="./res_icons/text_right.png" alt="Texte à droite" title="Aligner à droite"/> 
-<img class="formatButton" id="buttonQuote" src="./res_icons/quote_white.png" alt="Citation" title="Citer"/> 
-<img class="formatButton" id="buttonHiddenText" src="./res_icons/hidden_text.png" alt="Texte caché" title="Cacher du texte"/> 
-<img class="formatButton" id="buttonSpoiler" src="./res_icons/spoiler.png" alt="Spoiler" title="Ajouter un spoiler"/> 
-<img class="formatButton" id="buttonImage" src="./res_icons/picture.png" alt="Image" title="Intégrer une image ou un clip"/> 
-<img class="formatButton" id="buttonVideo" src="./res_icons/video.png" alt="Video" title="Intégrer une video"/> 
-<img class="formatButton" id="buttonEmoticons" src="./res_icons/text_emoticons.png" alt="Emoticons" title="Afficher/cacher mes émoticônes"/>
+<span class="formatButton" id="buttonBold" title="Mettre en gras"><i class="icon-formatting_bold"></i></span>
+<span class="formatButton" id="buttonItalic" title="Mettre en italique"><i class="icon-formatting_italic"></i></span>
+<span class="formatButton" id="buttonUnderlined" title="Souligner"><i class="icon-formatting_underlined"></i></span>
+<span class="formatButton" id="buttonStrikethrough" title="Barrer"><i class="icon-formatting_strikethrough"></i></span>
+<span class="formatButton" id="buttonTitle" title="Insérer un titre"><i class="icon-formatting_title"></i></span>
+<span class="formatButton" id="buttonList" title="Insérer une liste à puces"><i class="icon-formatting_list"></i></span>
+<span class="formatButton" id="buttonHyperlink" title="Insérer un lien"><i class="icon-formatting_link"></i></span>
+<span class="formatButton" id="buttonColors" title="Changer la couleur du texte"><i class="icon-formatting_colorpick"></i></span>
+<span class="formatButton" id="buttonTextCenter" title="Centrer"><i class="icon-formatting_center-aligned"></i></span>
+<span class="formatButton" id="buttonTextRight" title="Aligner à droite"><i class="icon-formatting_right-aligned"></i></span>
+<span class="formatButton" id="buttonQuote" title="Citer"><i class="icon-formatting_quote"></i></span>
+<span class="formatButton" id="buttonHiddenText" title="Cacher du texte"><i class="icon-formatting_spoiler"></i></span>
+<span class="formatButton" id="buttonSpoiler" title="Ajouter un spoiler"><i class="icon-formatting_spoiler_bis"></i></span>
+<span class="formatButton" id="buttonImage" title="Intégrer une image ou un clip"><i class="icon-formatting_picture"></i></span>
+<span class="formatButton" id="buttonVideo" title="Intégrer une video"><i class="icon-formatting_video"></i></span>
+<span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
 <p>

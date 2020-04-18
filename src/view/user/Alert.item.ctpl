@@ -3,7 +3,7 @@
       <div class="alertBlockAvatar" style="background: url({$avatar}) no-repeat top center;"></div>
       <p>
       <a href="{$postURL}" target="blank">Message #{$ID}</a> de {$author} dans <a href="{$topicURL}" target="blank">{$topicTitle}</a> 
-      <img src="./res_icons/alert_date.png" alt="Dates" title="Message du {$date}, signalé le {$dateAlert}" class="alertInfo"/> 
+      <i title="Message du {$date}, signalé le {$dateAlert}" class="alertInfo icon-general_time"></i>
       </p>
    </div>
    <div class="alertBlockRight">

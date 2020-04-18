@@ -37,19 +37,6 @@ class PingIR
       'interactions' => '',
       'message' => '');
       
-      // Icons
-      $icons = NULL;
-      if(WebpageHandler::$miscParams['message_size'] === 'medium')
-      {
-         $icons = array('delete' => $webRootPath.'res_icons/delete.png',
-         'check' => $webRootPath.'res_icons/checked.png');
-      }
-      else
-      {
-         $icons = array('delete' => $webRootPath.'res_icons/delete_20px.png',
-         'check' => $webRootPath.'res_icons/checked_20px.png');
-      }
-      
       // Color of the top part and title
       switch($ping['ping_type'])
       {
@@ -97,10 +84,10 @@ class PingIR
 
       // Interactive icons
       if(!Utils::check($ping['viewed']) && $ping['ping_type'] === 'ping pong')
-         $output['interactions'] .= '<img class="check" data-ping="'.$ping['id_ping'].'" src="'.$icons['check'].'" alt="Marquer comme lu" title="Marquer comme lu"/>';
+         $output['interactions'] .= '<i class="check icon-general_checked" data-ping="'.$ping['id_ping'].'" title="Marquer comme lu"></i>';
       
       if($ping['state'] == 'archived')
-         $output['interactions'] .= '<img class="delete" data-ping="'.$ping['id_ping'].'" src="'.$icons['delete'].'" alt="Supprimer" title="Supprimer"/>';
+         $output['interactions'] .= '<i class="delete icon-general_trash" data-ping="'.$ping['id_ping'].'" title="Supprimer"></i>';
       
       // Case of discussion: displays the last message of the opposite party.
       if($ping['ping_type'] === 'ping pong')

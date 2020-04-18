@@ -215,8 +215,7 @@ RefreshLib.getNewMessages = function(offset, callback)
             if($('.postBlock[id=' + postID + '] .postInteractions').length)
             {
                $('.postBlock[id=' + postID + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-post')); });
-               $('.postAttachment[id=Attachment' + postID + '] .uploadDisplay .uploadDisplayAlign img').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
-               $('.postAttachment[id=Attachment' + postID + '] .uploadDisplay .uploadDisplayAlign video').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
+               $('.postAttachment[id=Attachment' + postID + '] .uploadDisplay .uploadDisplayAlign').on('click', function() { DefaultLib.showUpload($(this).parent()); });
                $('.postAttachment[id=Attachment' + postID + '] .link_masked_attachment').on('click', function() { $('#maskedAttachment' + $(this).attr('data-id-post')).toggle(300); });
                $('.postBlock[id=' + postID + '] .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
                $('.postBlock[id=' + postID + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-post")); });

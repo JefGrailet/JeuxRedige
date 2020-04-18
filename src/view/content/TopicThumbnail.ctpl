@@ -1,8 +1,10 @@
 <div class="thumbnail" style="background: url('{$thumbnail}') no-repeat top center;">
    {$icons}
    <div class="thumbnailTime">
-      <img src="./res_icons/thumbnail_clock.png" alt="Date du dernier message" title="Date du dernier message"/>
-      <h6 title="Dernier message posté par {$lastAuthor}">{$lastPostDate}</h6>
+      <p>
+         <i class="icon-general_time" alt="Date du dernier message"/></i>
+         <span title="Dernier message posté par {$lastAuthor}">{$lastPostDate}</span>
+      </p>
    </div>
    <div class="captionThumbnail{$marked}">
       <p><a href="{$linkTopic}" title="Sujet créé par {$author}">{$title}</a> 

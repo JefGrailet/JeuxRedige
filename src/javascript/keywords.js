@@ -114,8 +114,7 @@ KeywordsLib.addKeyword = function(keyword)
    {
       var deleteButton = ' <a onclick="javascript:KeywordsLib.removeKeyword(\'';
       deleteButton += DefaultLib.addslashes(keyword) + '\')" class="deleteKeyword">';
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer ce mot-clef"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer ce mot-clef"></i></a>';
       if(keywords.length === 0)
       {
          $('input[type=hidden][name="keywords"]').val(keyword);
@@ -176,8 +175,7 @@ KeywordsLib.removeKeyword = function(keyword)
    
       var deleteButton = ' <a onclick="javascript:KeywordsLib.removeKeyword(\'';
       deleteButton += keywordsArr[i] + '\')" class="deleteKeyword">';
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer ce mot-clef"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer ce mot-clef"></i></a>';
       
       newKeywords += keywordsArr[i];
       newKeywordsList += keywordsArr[i] + deleteButton;

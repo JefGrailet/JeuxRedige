@@ -3,9 +3,9 @@
       <div class="pinBlockAvatar" style="background: url({$avatar}) no-repeat top center;"></div>
       <p>
       <a href="{$postURL}" target="blank">Message #{$ID}</a> par {$author} 
-      <img src="./res_icons/pin_delete.png" alt="Supprimer" title="Supprimer ce favori" class="pinDelete"/> 
-      <img src="./res_icons/pin_date.png" alt="Date" title="Ajouté à vos favoris le {$datePin}" class="pinInfo"/> 
-      <img src="./res_icons/pin_post_date.png" alt="Date du message" title="Message posté le {$date}" class="pinInfo"/>
+      <i title="Supprimer ce favori" class="pinDelete icon-general_trash"></i> 
+      <i title="Ajouté à vos favoris le {$datePin}" class="pinInfo icon-general_info"></i> 
+      <i title="Message posté le {$date}" class="pinInfo icon-general_time"></i>
       </p>
    </div>
    <div class="pinBlockRight">

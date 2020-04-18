@@ -301,12 +301,9 @@
    margin-bottom: 0px;
 }
 
-.emoticonBlock .buttonMap, .emoticonBlock .buttonUnmap, .emoticonBlock .buttonEdit, 
-.emoticonBlock .buttonEditShortcut, .emoticonBlock .buttonDelete
+.emoticonBlock i
 {
-   vertical-align: -20%;
-   padding: 0px;
-   margin: 0px;
+   margin-left: 3px;
    cursor: pointer;
 }
 
@@ -387,6 +384,13 @@
    text-align: justify;
    padding: 3px;
    margin: 3px 3px;
+}
+
+.pinBlock i, .alertBlock i
+{
+   font-size: 16px;
+   vertical-align: -1px;
+   padding: 6px 3px;
 }
 
 .pinBlockLeft, .alertBlockLeft

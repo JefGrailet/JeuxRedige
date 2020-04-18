@@ -244,8 +244,7 @@ GameEditorLib.addAlias = function()
    {
       var deleteButton = ' <a onclick="javascript:GameEditorLib.removeAlias(\'';
       deleteButton += alias + '\')" class="deleteAlias">';
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer cet alias"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer cet alias"></i></a>';
       if(aliases.length === 0)
       {
          $('input[type=hidden][name="aliases"]').val(alias);
@@ -306,8 +305,7 @@ GameEditorLib.removeAlias = function(alias)
    
       var deleteButton = ' <a onclick="javascript:GameEditorLib.removeAlias(\'';
       deleteButton += aliasesArr[i] + '\')" class="deleteAlias">';
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer cet alias"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer cet alias"></i></a>';
       
       newAliases += aliasesArr[i];
       newAliasesList += aliasesArr[i] + deleteButton;

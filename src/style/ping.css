@@ -329,6 +329,50 @@
    cursor: pointer;
 }
 
+/* Hidden text */
+
+.hiddenText
+{
+   background-color: black;
+   color: black;
+}
+
+.hiddenText:hover
+{
+   background-color: white;
+   color: black;
+}
+
+/* Video thumbnail stuff */
+
+.videoThumbnail
+{
+   display: inline-block;
+   cursor: pointer;
+}
+
+.videoThumbnailOverlay
+{
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.videoThumbnailOverlay i
+{
+   opacity: 0.7;
+   background-color: white;
+   border-radius: 80px;
+}
+
+.videoThumbnailOverlay i:hover
+{
+   opacity: 1.0;
+   background-color: white;
+   border-radius: 80px;
+}
+
 /* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
 
 .pingBlockTextTop
@@ -354,7 +398,13 @@
 {
    float: right;
    width: 30%;
+}
+
+.pingBlockTextTopRight p
+{
    text-align: right;
+   font-size: 18px;
+   vertical-align: -2px;
 }
 
 /* Button to delete some ping */
@@ -363,8 +413,8 @@
 {
    margin-right: 15px;
    padding: 0px;
-   vertical-align: -60%;
    cursor: pointer;
+   color: white;
 }
 
 /* Helps to make some underlying divs take the whole space */
@@ -455,8 +505,10 @@
 
 .plainBlock .formatButton, #slidingBlock .formatButton
 {
-   padding: 4px;
+   padding: 6px 6px 4px 6px;
    background-color: #383A49;
+   color: white;
+   font-size: 18px;
    border-radius: 3px;
    cursor: pointer;
 }
@@ -560,6 +612,11 @@
    cursor: pointer;
 }
 
+#previewZone p .emoticon
+{
+   vertical-align: middle;
+}
+
 /*
 * "Nav" menu, which is always visible at the bottom of the screen. Should always be above the 
 * fast reply form when shown.
@@ -587,6 +644,12 @@
    font-size: 12px;
    padding-left: 10px;
    padding-right: 10px;
+}
+
+#navMenu .navMode, #navMenu .navRefresh
+{
+   font-size: 18px;
+   vertical-align: -3px;
 }
 
 #navMenu select
@@ -697,6 +760,11 @@
 .postBlockText img, .postBlockText video
 {
    max-width: 100%;
+}
+
+.postBlockText .emoticon
+{
+   vertical-align: middle;
 }
 
 .postBlockText  .miniature

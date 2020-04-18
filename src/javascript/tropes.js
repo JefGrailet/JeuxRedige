@@ -92,8 +92,7 @@ TropesLib.addTrope = function(keyword)
    {
       var deleteButton = ' <a onclick="javascript:TropesLib.removeTrope(\'';
       deleteButton += keyword + '\')" class="deleteKeyword">'; // Same CSS class as for keywords
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer ce code"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer ce code"></i></a>';
       if(tropes.length === 0)
       {
          $('input[type=hidden][name="tropes"]').val(keyword);
@@ -151,8 +150,7 @@ TropesLib.removeTrope = function(keyword)
    
       var deleteButton = ' <a onclick="javascript:TropesLib.removeTrope(\'';
       deleteButton += tropesArr[i] + '\')" class="deleteKeyword">';
-      deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-      deleteButton += 'title="Supprimer ce code"/></a>';
+      deleteButton += '<i class="icon-general_trash" title="Supprimer ce code"></i></a>';
       
       newTropes += tropesArr[i];
       newTropesList += tropesArr[i] + deleteButton;
@@ -281,8 +279,7 @@ TropesLib.addGameTropes = function(game)
          {
             var deleteButton = ' <a onclick="javascript:TropesLib.removeTrope(\'';
             deleteButton += newTropes[i] + '\')" class="deleteKeyword">'; // Same CSS class as for keywords
-            deleteButton += '<img src="' + DefaultLib.httpPath + 'res_icons/delete.png" alt="Delete" ';
-            deleteButton += 'title="Supprimer ce code"/></a>';
+            deleteButton += '<i class="icon-general_trash" title="Supprimer ce code"></i></a>';
             
             nbTropes++;
             if(finalListRender.length > 0)

@@ -23,6 +23,7 @@ $webRootPath = PathHandler::HTTP_PATH();
    <head>
       <meta charset="UTF-8" />
       <link rel="stylesheet" href="<?php echo $webRootPath; ?>style/default.css" />
+      <link rel="stylesheet" href="<?php echo $webRootPath; ?>style/icons.css" />
       <script text="text/javascript">
       var ConfigurationValues = {};
       ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
@@ -232,31 +233,31 @@ if(LoggedUser::isLoggedIn())
    echo $padding.'<ul id="userMenu">'."\n";
    if(strlen($alternateAccount) > 0)
    {
-      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/switch.png" alt="Changer de compte"/> '.$alternateAccount.'</li>'."\n";
+      echo $padding.'   '.'<li><i class="icon-menu_switch"></i> '.$alternateAccount.'</li>'."\n";
    }
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/my_account.png" alt="Mon compte"/> <a href="'.$webRootPath.'MyAccount.php">Mon compte</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/emoticons.png" alt="Mes émoticônes"/> <a href="'.$webRootPath.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/pins.png" alt="Mes messages favoris"/> <a href="'.$webRootPath.'MyPins.php">Mes messages favoris</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/articles.png" alt="Mes articles"/> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/my_lists.png" alt="Mes listess"/> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/games.png" alt="Jeux"/> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/tropes.png" alt="Codes ludiques"/> <a href="'.$webRootPath.'Tropes.php">Codes ludiques</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/didyouknow.png" alt="Le saviez-vous ?"/> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/invite.png" alt="Inviter un ami"/> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-general_edit"></i> <a href="'.$webRootPath.'MyAccount.php">Mon compte</a></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_smilies"></i> <a href="'.$webRootPath.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-general_pin"></i> <a href="'.$webRootPath.'MyPins.php">Mes messages favoris</a></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_articles"></i> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_lists"></i> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_games"></i> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_tropes"></i> <a href="'.$webRootPath.'Tropes.php">Codes ludiques</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_didyouknow"></i> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
+   echo $padding.'   '.'<li><i class="icon-menu_invite"></i> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
    if($adminTools)
    {
-      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/users.png" alt="Utilisateurs"/> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
-      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/alerts.png" alt="Alertes"/> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
+      echo $padding.'   '.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
+      echo $padding.'   '.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
    }
    // Log out link
    if(WebpageHandler::$redirections['log_out'])
    {
       $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
+      echo $padding.'   '.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
    }
    else
    {
-      echo $padding.'   '.'<li><img src="'.$webRootPath.'res_icons/logout.png" alt="Déconnexion"/> <a href="'.$webRootPath.'LogOut.php">Déconnexion</a></li>'."\n";
+      echo $padding.'   '.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php">Déconnexion</a></li>'."\n";
    }
    echo $padding.'</ul></li>'."\n";
    echo '         </ul>'."\n";
@@ -265,7 +266,7 @@ if(LoggedUser::isLoggedIn())
    echo '         <ul id="showPings">'."\n";
    if(LoggedUser::$data['new_pings'] > 0)
    {
-      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages_new.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><i class="icon-general_messages" style="color: #4bd568;" ></i>'."\n";
       echo $padding.'<ul id="pings">'."\n";
       for($i = 0; $i < LoggedUser::$data['new_pings'] && $i < 5; $i++)
       {
@@ -273,7 +274,7 @@ if(LoggedUser::isLoggedIn())
          switch(LoggedUser::$messages[$i]['ping_type'])
          {
             case 'notification':
-               echo '<img src="'.$webRootPath.'res_icons/ping_alert.png" alt="Notification"/> ';
+               echo '<i class="icon-general_alert" style="color: #e04f5f;"></i> ';
                echo LoggedUser::$messages[$i]['title'];
                break;
             
@@ -281,36 +282,37 @@ if(LoggedUser::isLoggedIn())
                $otherParty = LoggedUser::$messages[$i]['emitter'];
                if($otherParty === LoggedUser::$data['pseudo'])
                   $otherParty = LoggedUser::$messages[$i]['receiver'];
-               echo '<img src="'.$webRootPath.'res_icons/ping_discussion.png" alt="Discussion privée"/> ';
+               echo '<i class="icon-general_messages" style="color: #25b6d2;"></i> ';
                echo '<a href="'.$webRootPath.'PrivateDiscussion.php?id_ping='.LoggedUser::$messages[$i]['id_ping'].'"><strong>'.$otherParty.' -</strong> '.LoggedUser::$messages[$i]['title'].'</a>';
                break;
             
+            // Unknown
             default:
-               echo '<img src="'.$webRootPath.'res_icons/ping_alert.png" alt="Inconnu"/> ';
+               echo '<i class="icon-general_alert" style="color: #f2b851;"></i> ';
                echo LoggedUser::$messages[$i]['title'];
                break;
          }
          echo '</li>'."\n";
       }
       if(LoggedUser::$data['new_pings'] > 5)
-         echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
+         echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
       else
-         echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+         echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    else if(LoggedUser::$data['new_pings'] == 0)
    {
-      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><i class="icon-general_messages" style="color: #25b6d2;"></i>'."\n";
       echo $padding.'<ul id="pings">'."\n";
-      echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    else
    {
-      echo $padding.'<li><img src="'.$webRootPath.'res_icons/messages_buggy.png" alt="Messages"/>'."\n";
+      echo $padding.'<li><i class="icon-general_messages" style="color: #f2b851;"></i>'."\n";
       echo $padding.'<ul id="pings">'."\n";
       echo $padding.'<li>Une erreur est survenue...</li>'."\n";
-      echo $padding.'<li><img src="'.$webRootPath.'res_icons/ping_list.png" alt="Mes pings"/> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
       echo $padding.'</ul></li>'."\n";
    }
    echo '         </ul>'."\n";

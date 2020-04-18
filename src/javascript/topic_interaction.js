@@ -27,12 +27,12 @@ TopicInteractionLib.favouriteTopic = function(topic)
    success: function(data)
    {
       DefaultLib.doneWithAJAX();
-      if(data.localeCompare($('#buttonFavourite').attr('src')) !== 0)
+      if(data.localeCompare($('#buttonFavourite').attr('class')) !== 0)
       {
          $('#buttonFavourite').hide(300, function()
          {
-            $('#buttonFavourite').attr('src', data);
-            if(data.localeCompare(DefaultLib.httpPath + 'res_icons/title_unfavourite.png') === 0)
+            $('#buttonFavourite').attr('class', data);
+            if(data.localeCompare('icon-general_star') === 0)
                $('#buttonFavourite').attr('title', 'Enlever des favoris');
             else
                $('#buttonFavourite').attr('title', 'Ajouter aux favoris');
@@ -290,8 +290,7 @@ $(document).ready(function()
    });
    
    // Uploads below posts or in Uploads.php
-   $('.uploadDisplay .uploadDisplayAlign img').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
-   $('.uploadDisplay .uploadDisplayAlign video').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
+   $('.uploadDisplay .uploadDisplayAlign').on('click', function() { DefaultLib.showUpload($(this).parent()); });
    
    // Hidden messages and attachments
    $('.link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });

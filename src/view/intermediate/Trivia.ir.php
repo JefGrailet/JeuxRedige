@@ -90,23 +90,18 @@ class TriviaIR
          $output['title'] = '<a href="javascript:void(0)" class="hideShowTrivia" title="Cliquez pour afficher/cacher">'.$output['title'].'</a>';
       }
       
-      // Icons
-      $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
-      'edit' => $webRootPath.'res_icons/post_edit_med.png', 
-      'delete' => $webRootPath.'res_icons/segment_delete.png');
-      
       // Permanent link (or permalink)
-      $output['title'] .= ' &nbsp;<a href="'.PathHandler::triviaURL($trivia->getAll()).'"><img ';
-      $output['title'] .= ' src="'.$icons['permalink'].'" alt="Lien permanent" title="Lien permanent"/></a>';
+      $output['title'] .= ' &nbsp;<a href="'.PathHandler::triviaURL($trivia->getAll()).'">';
+      $output['title'] .= '<i class="icon-general_hyperlink" title="Lien permanent"></i></a>';
       
       // Edition links
       if(LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) || $trivia->get('pseudo') === LoggedUser::$data['pseudo']))
       {
          $output['title'] .= ' <a href="./EditTrivia.php?id_trivia='.$trivia->get('id_commentable').'" target="_blank">';
-         $output['title'] .= '<img class="reviewIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
+         $output['title'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
          
          $output['title'] .= ' <a href="./DeleteContent.php?id_content='.$trivia->get('id_commentable').'" target="_blank">';
-         $output['title'] .= '<img class="reviewIcon" src="'.$icons['delete'].'" alt="Supprimer" title="Supprimer"/></a>';
+         $output['title'] .= '<i class="icon-general_trash" title="Supprimer"></i></a>';
       }
       
       // Ratings

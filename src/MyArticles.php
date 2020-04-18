@@ -64,7 +64,7 @@ $thumbnails = '';
 $fullInput = array();
 for($i = 0; $i < count($articles); $i++)
 {
-   $intermediate = ArticleThumbnailIR::process($articles[$i], true);
+   $intermediate = ArticleThumbnailIR::process($articles[$i], true, false);
    array_push($fullInput, $intermediate);
 }
 

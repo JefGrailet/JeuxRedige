@@ -115,7 +115,7 @@ try
       $fullInput = array();
       for($i = 0; $i < count($articles); $i++)
       {
-         $intermediate = ArticleThumbnailIR::process($articles[$i]);
+         $intermediate = ArticleThumbnailIR::process($articles[$i], false, false);
          array_push($fullInput, $intermediate);
       }
       

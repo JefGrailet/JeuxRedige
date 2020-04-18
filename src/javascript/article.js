@@ -134,38 +134,38 @@ ArticleLib.switchSegment = function(index)
    var lastSegment = parseInt($('.articleSegment:last').attr('data-segment-pos'));
    if(index == 1)
    {
-      $('#previousSegment p img').unbind();
+      $('#previousSegment p i').unbind();
       $('#previousSegment p').remove();
       
       if(!($('#nextSegment p').length))
       {
-         $('#nextSegment').html('<p><img src="' + DefaultLib.httpPath + 'res_icons/article_next.png" alt="Suivant" title="Section suivante"/></p>');
-         $('#nextSegment p img').on('click', function() { ArticleLib.nextSegment(); });
+         $('#nextSegment').html('<p><i class="icon-general_next" title="Section suivante"/></p>');
+         $('#nextSegment p i').on('click', function() { ArticleLib.nextSegment(); });
       }
    }
    else if(index == lastSegment)
    {
-      $('#nextSegment p img').unbind();
+      $('#nextSegment p i').unbind();
       $('#nextSegment p').remove();
       
       if(!($('#previousSegment p').length))
       {
-         $('#previousSegment').html('<p><img src="' + DefaultLib.httpPath + 'res_icons/article_previous.png" alt="Précédent" title="Section précédente"/></p>');
-         $('#previousSegment p img').on('click', function() { ArticleLib.previousSegment(); });
+         $('#previousSegment').html('<p><i class="icon-general_previous" title="Section précédente"></i></p>');
+         $('#previousSegment p i').on('click', function() { ArticleLib.previousSegment(); });
       }
    }
    else
    {
       if(!($('#nextSegment p').length))
       {
-         $('#nextSegment').html('<p><img src="' + DefaultLib.httpPath + 'res_icons/article_next.png" alt="Suivant" title="Section suivante"/></p>');
-         $('#nextSegment p img').on('click', function() { ArticleLib.nextSegment(); });
+         $('#nextSegment').html('<p><i class="icon-general_next" title="Section suivante"></i></p>');
+         $('#nextSegment p i').on('click', function() { ArticleLib.nextSegment(); });
       }
       
       if(!($('#previousSegment p').length))
       {
-         $('#previousSegment').html('<p><img src="' + DefaultLib.httpPath + 'res_icons/article_previous.png" alt="Précédent" title="Section précédente"/></p>');
-         $('#previousSegment p img').on('click', function() { ArticleLib.previousSegment(); });
+         $('#previousSegment').html('<p><i class="icon-general_previous" title="Section précédente"></i></p>');
+         $('#previousSegment p i').on('click', function() { ArticleLib.previousSegment(); });
       }
    }
 }
@@ -257,16 +257,16 @@ $(document).ready(function()
    
    if($('#previousSegment p').length)
    {
-      var img = $('#previousSegment p img').parent().html();
-      $('#previousSegment p').html(img);
-      $('#previousSegment p img').on('click', function() { ArticleLib.previousSegment(); });
+      var icon = $('#previousSegment p i').parent().html();
+      $('#previousSegment p').html(icon);
+      $('#previousSegment p i').on('click', function() { ArticleLib.previousSegment(); });
    }
    
    if($('#nextSegment p').length)
    {
-      var img = $('#nextSegment p img').parent().html();
-      $('#nextSegment p').html(img);
-      $('#nextSegment p img').on('click', function() { ArticleLib.nextSegment(); });
+      var icon = $('#nextSegment p i').parent().html();
+      $('#nextSegment p').html(icon);
+      $('#nextSegment p i').on('click', function() { ArticleLib.nextSegment(); });
    }
    
    if($('.editSegment').length)

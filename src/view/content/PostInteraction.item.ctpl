@@ -4,10 +4,10 @@
       <p>
          {$voter} &nbsp;&nbsp;
          {switch:vote||
-upvote & <img class="iconInteraction" src="./res_icons/post_thumb_up_med.png" alt="J'aime"/>|
-downvote & <img class="iconInteraction" src="./res_icons/post_thumb_down_med.png" alt="Je n'aime pas"/>}
+upvote & <i class="iconInteraction icon-general_thumb_up" style="color: #38883f;"></i>|
+downvote & <i class="iconInteraction icon-general_thumb_down" style="color: #b5000f;"></i>}
          {switch:report||
-yes & <img class="iconInteraction" src="./res_icons/post_alert_med.png" alt="Signalé" style="cursor: help;" title="[0]"/>}
+yes & <i class="iconInteraction icon-general_alert" style="cursor: help;" title="[0]"></i>}
       </p>
    </div>
 </div>

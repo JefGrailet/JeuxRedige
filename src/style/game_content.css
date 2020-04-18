@@ -151,11 +151,21 @@
    float: right;
 }
 
-.triviaTitle img
+.triviaTop a, .reviewTop a
 {
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -25%;
+   text-decoration: none;
+}
+
+.triviaTop i, .reviewTop i
+{
+   color: #6e6e6e;
+   font-size: 18px;
+   vertical-align: -2px;
+}
+
+.triviaTop i:hover, .reviewTop i:hover
+{
+   color: white;
 }
 
 /* Misc., used for both */
@@ -199,9 +209,12 @@
 
 .showReviewDetails
 {
-   padding: 7.5px 4px;
+   display: inline-block;
+   vertical-align: 24px;
+   padding: 20.5px 5px;
    border-radius: 5px;
    background-color: #557083;
+   color: white;
 }
 
 .showReviewDetails:hover
@@ -344,16 +357,48 @@
    font-weight: bold;
 }
 
-.fullContent .hiddenText
+/* Hidden text */
+
+.hiddenText
 {
    background-color: black;
    color: black;
 }
 
-.fullContent .hiddenText:hover
+.hiddenText:hover
 {
    background-color: white;
    color: black;
+}
+
+/* Video thumbnail stuff */
+
+.videoThumbnail
+{
+   display: inline-block;
+   cursor: pointer;
+}
+
+.videoThumbnailOverlay
+{
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.videoThumbnailOverlay i
+{
+   opacity: 0.7;
+   background-color: white;
+   border-radius: 80px;
+}
+
+.videoThumbnailOverlay i:hover
+{
+   opacity: 1.0;
+   background-color: white;
+   border-radius: 80px;
 }
 
 /* Re-aligns external link icon with the text */

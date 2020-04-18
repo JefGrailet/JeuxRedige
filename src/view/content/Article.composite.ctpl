@@ -25,7 +25,7 @@ many & <div id="articleComments">
    <div id="commentsHeader">
       <div id="closeSlider">
          <p>
-            <span id="closeClickable">Fermer <img src="./res_icons/close_slider.png" alt="Fermer"/></span>
+            <span id="closeClickable">Fermer <i class="icon-general_close"></i></span>
          </p>
       </div>
       <h1>[1]</h1>
@@ -45,7 +45,7 @@ beFirst & <div id="articleComments">
 <div id="bottomWrapper">
    <div id="previousSegment">
       {switch:previousSegment||
-yes &       <p><a href="[0]"><img src="./res_icons/article_previous.png" alt="Précédent" title="Section précédente"/></a></p>}
+yes &       <p><a href="[0]"><i class="icon-general_previous" title="Section précédente"></i></a></p>}
    </div>
    <div id="segmentList">
       {switch:segmentsList||
@@ -53,6 +53,6 @@ yes &       <p><select name="sections">[0]</select></p>}
    </div>
    <div id="nextSegment">
       {switch:nextSegment||
-yes &       <p><a href="[0]"><img src="./res_icons/article_next.png" alt="Suivant" title="Section suivante"/></a></p>}
+yes &       <p><a href="[0]"><i class="icon-general_next" title="Section suivante"></i></a></p>}
    </div>
 </div>

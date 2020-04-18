@@ -80,26 +80,41 @@ class MessageParsing
                   }
                   else
                   {
-                     $iconLink = PathHandler::HTTP_PATH().'/res_icons/';
                      $thumbnailLink = 'http://img.youtube.com/vi/'.$IDStr.'/';
                      
                      if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
-                     {
-                        $iconLink .= 'youtube.png';
                         $thumbnailLink .= 'hqdefault.jpg';
-                     }
                      else
-                     {
-                        $iconLink .= 'youtube-small.png';
                         $thumbnailLink .= 'default.jpg';
-                     }
                      
+                     // HTML/CSS shenanigans to create a clickable thumbnail with a SVG icon centered within.
                      $videoHTML = "<span class=\"videoWrapper".$index."-".($i + 1)."\">\n";
-                     $videoHTML .= "<img class=\"videoThumbnail\" src=\"".$iconLink."\" ";
-                     $videoHTML .= "style=\"cursor:pointer; background-image: ";
-                     $videoHTML .= "url('".$thumbnailLink."');\"\n";
+                     
+                     // Video thumbnail (with the data the JS part needs to load the embedded video)
+                     $videoHTML .= "<span class=\"videoThumbnail\" style=\"";
+                     if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
+                        $videoHTML .= "width: 480px; height: 360px;";
+                     else
+                        $videoHTML .= "width: 120px; height: 90px;";
+                     $videoHTML .= "background-image: url('".$thumbnailLink."');\"\n";
                      $videoHTML .= "data-video-id=\"".($i + 1)."\" data-post-id=\"".$index."\" ";
-                     $videoHTML .= "data-video-true-id=\"".$IDStr."\" data-video-type=\"youtube\" />";
+                     $videoHTML .= "data-video-true-id=\"".$IDStr."\" data-video-type=\"youtube\">\n";
+                     
+                     /*
+                      * Inner span with inner <i> containing the video icon; meant to center the icon within 
+                      * videoThumbnail while providing a white background for the icon (border-radius is 
+                      * used to "cheat" with the background-color and ensure it stays behind the icon).
+                      */
+                     
+                     $videoHTML .= "<span class=\"videoThumbnailOverlay\" style=\"";
+                     if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
+                        $videoHTML .= "font-size: 80px; height: 360px;";
+                     else
+                        $videoHTML .= "font-size: 40px; height: 90px;";
+                     $videoHTML .= "\"><i class=\"icon-general_video\"></i></span>\n";
+                     
+                     // Closing tags
+                     $videoHTML .= "</span>\n";
                      $videoHTML .= "</span>\n";
                      
                      $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);

@@ -247,6 +247,16 @@
    font-size: 14px;
    padding: 10px;
    text-align: justify;
+   color: #6e6e6e;
+}
+
+.postBlockTextTop i
+{
+   color: #383A49;
+   font-size: 20px;
+   vertical-align: -3px;
+   margin: 0px 2px;
+   cursor: pointer;
 }
 
 .postBlockTextTop .realigned
@@ -330,16 +340,46 @@
 
 /* Hidden text */
 
-.postBlockText .hiddenText
+.hiddenText
 {
    background-color: black;
    color: black;
 }
 
-.postBlockText .hiddenText:hover
+.hiddenText:hover
 {
    background-color: white;
    color: black;
+}
+
+/* Video thumbnail stuff */
+
+.videoThumbnail
+{
+   display: inline-block;
+   cursor: pointer;
+}
+
+.videoThumbnailOverlay
+{
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.videoThumbnailOverlay i
+{
+   opacity: 0.7;
+   background-color: white;
+   border-radius: 80px;
+}
+
+.videoThumbnailOverlay i:hover
+{
+   opacity: 1.0;
+   background-color: white;
+   border-radius: 80px;
 }
 
 /* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
@@ -350,11 +390,6 @@
    width: auto;
    border-radius: 5px 5px 0px 0px;
    background-color: #f0f0f0;
-}
-
-.postBlockTextTop p
-{
-   color: #6e6e6e;
 }
 
 .postBlockTextTopLeftSide
@@ -453,7 +488,7 @@
    text-align: center;
 }
 
-/* Container for uploads in attachment. */
+/* Container for uploads in attachment to forum posts. */
 
 .uploadDisplay
 {
@@ -477,6 +512,20 @@
 
 .uploadDisplayAlign video:hover
 {
+   cursor: pointer;
+}
+
+.uploadDisplayAlign .hiddenMedia
+{
+   display: table-cell;
+   margin: 0px;
+   width: 225px;
+   height: 143px;
+   text-align: center;
+   vertical-align: middle;
+   font-size: 80px;
+   color: white;
+   background-color: grey;
    cursor: pointer;
 }
 
@@ -613,8 +662,10 @@
 
 .plainBlock .formatButton, #slidingBlock .formatButton
 {
-   padding: 4px;
+   padding: 6px 6px 4px 6px;
    background-color: #383A49;
+   color: white;
+   font-size: 18px;
    border-radius: 3px;
    cursor: pointer;
 }
@@ -778,6 +829,12 @@
    padding-right: 10px;
 }
 
+#navMenu .navMode, #navMenu .navRefresh
+{
+   font-size: 18px;
+   vertical-align: -3px;
+}
+
 #navMenu select
 {
    border: none;
@@ -805,32 +862,6 @@
    vertical-align: -25%;
    margin: 0px 3px;
    cursor: pointer;
-}
-
-/* Buttons to vote for/against a post or report it */
-
-.vote, .report, .postInteractions, .pin, .quote
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -20%;
-   cursor: pointer;
-}
-
-.reported, .censorship
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -20%;
-}
-
-/* Style of icons being used used for the interactive buttons (like/dislike/report) */
-
-.postIcon
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -25%;
 }
 
 /* Container and style for interactions. */
@@ -881,9 +912,10 @@
    padding: 0px;
 }
 
-.voterDetails .iconInteraction
+.voterDetails i
 {
-   vertical-align: -25%;
+   font-size: 18px;
+   vertical-align: -2px;
 }
 
 /* Preview container (BEFORE showing any preview; style is modified afterwards) */
@@ -968,6 +1000,13 @@
    background-color: #383A49;
    opacity: 0.8;
    display: inline-block;
+}
+
+.uploadViewIcons i
+{
+   color: white;
+   padding: 6px 3px;
+   font-size: 14px;
 }
 
 .uploadViewIcons:hover

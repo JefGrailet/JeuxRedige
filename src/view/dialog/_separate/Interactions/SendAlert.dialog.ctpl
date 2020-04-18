@@ -14,7 +14,7 @@
             </td>
          </tr>
          <tr class="newMotivation">
-            <td class="integrateColumn1"><label for="new_motiv" class="newMotivLabel">Motif :</label></td>
+            <td class="integrateColumn1"><label for="new_motiv" class="newMotivLabel">Motif:</label></td>
             <td class="integrateColumn3"><input type="text" name="new_motiv" maxlength="100"/></td>
             <td class="integrateColumn4">Max. 100 caractères</td>
          </tr>

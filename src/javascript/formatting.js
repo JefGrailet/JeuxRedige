@@ -339,10 +339,10 @@ FormattingLib.loadShortcuts = function()
 $(document).ready(function()
 {
    // Main events (visible buttons)
-   $("#buttonBold").on('click', function () { FormattingLib.insertTags('[g]', '[/g]'); });
+   $("#buttonBold").on('click', function () { FormattingLib.insertTags('[b]', '[/b]'); });
    $("#buttonItalic").on('click', function () { FormattingLib.insertTags('[i]', '[/i]'); });
-   $("#buttonUnderlined").on('click', function () { FormattingLib.insertTags('[s]', '[/s]'); });
-   $("#buttonStrikethrough").on('click', function () { FormattingLib.insertTags('[b]', '[/b]'); });
+   $("#buttonUnderlined").on('click', function () { FormattingLib.insertTags('[u]', '[/u]'); });
+   $("#buttonStrikethrough").on('click', function () { FormattingLib.insertTags('[s]', '[/s]'); });
    $("#buttonTitle").on('click', function () { FormattingLib.insertTags('[t]', '[/t]'); });
    $("#buttonList").on('click', function () { FormattingLib.insertTags('* ', ''); });
    $("#buttonHyperlink").on('click', function () { DefaultLib.openDialog('#addHyperlink'); });
@@ -350,7 +350,7 @@ $(document).ready(function()
    $("#buttonTextCenter").on('click', function () { FormattingLib.insertTags('[centre]', '[/centre]'); });
    $("#buttonTextRight").on('click', function () { FormattingLib.insertTags('[droite]', '[/droite]'); });
    $("#buttonQuote").on('click', function () { FormattingLib.insertTags('[cite]', '[/cite]'); });
-   $("#buttonHiddenText").on('click', function () { FormattingLib.insertTags('[c]', '[/c]'); });
+   $("#buttonHiddenText").on('click', function () { FormattingLib.insertTags('[cacher]', '[/cacher]'); });
    $("#buttonSpoiler").on('click', function () { FormattingLib.insertTags('[spoiler]', '[/spoiler]'); });
    $("#buttonImage").on('click', function () { DefaultLib.openDialog('#integrateImg'); });
    $("#buttonVideo").on('click', function () { DefaultLib.openDialog('#integrateVideo'); });

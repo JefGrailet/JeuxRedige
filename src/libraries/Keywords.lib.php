@@ -57,7 +57,7 @@ class Keywords
          if($i > 0)
             $output .= ' ';
          $output .= $arr[$i].' <a onclick="javascript:'.$jsFunction.'(\''.addslashes($arr[$i]).'\')" ';
-         $output .= 'class="deleteKeyword"><img src="./res_icons/delete.png" alt="Delete" title="Supprimer"/></a>';
+         $output .= 'class="deleteKeyword"><i class="icon-general_trash" title="Supprimer"></i></a>';
       }
       $output .= " <br/>\n<br/>\n";
       

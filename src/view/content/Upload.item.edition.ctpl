@@ -7,11 +7,11 @@ data-upload-date="{$uploadDate}">
    <div class="uploadViewTop">
       <div class="uploadViewIcons">
          <a href="#uploadIcon" class="buttonIntegrateUpload" data-relative-path="{$fullSizeRelative}">
-            <img src="./res_icons/thumbnail_add.png" alt="Ajouter au message" title="Ajouter au message"/>
+            <i class="icon-general_plus" title="Ajouter au message"></i>
          </a>
          {switch:delete||
 yes & <a href="#uploadIcon" class="buttonDeleteUpload">
-            <img src="./res_icons/thumbnail_delete.png" alt="Supprimer" title="Supprimer"/>
+            <i class="icon-general_minus" title="Supprimer"></i>
          </a>}
       </div>
    </div>

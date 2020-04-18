@@ -9,8 +9,8 @@ echo WebpageHandler::$container['end'];
 ?>
          <div id="footer">
          <p>
-            <a href="#main" class="iconLink"><img src="<?php echo $webRootPath; ?>res_icons/back_to_top.png" alt="Back to top" title="Revenir en haut de page"/></a> 
-            <a href="<?php echo $webRootPath; ?>" class="iconLink"><img src="<?php echo $webRootPath; ?>res_icons/index.png" alt="Index" title="Revenir à l'accueil"/></a>
+            <a href="#main" class="iconLink"><i class="icon-general_up" style="font-size: 24px;" title="Revenir en haut de page"></i></a> 
+            <a href="<?php echo $webRootPath; ?>" class="iconLink"><i class="icon-general_home" style="font-size: 24px;"  title="Revenir à l'accueil"></i></a>
          </p>
          <p>v0.9 - Généré en <?php echo round(($overallEnd - $overallStart),5); ?> seconde</p>
          </div>

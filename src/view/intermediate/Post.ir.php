@@ -49,33 +49,6 @@ class PostIR
       'content' => '', 
       'showAttachment' => '');
       
-      // Icons
-      $icons = NULL;
-      if(WebpageHandler::$miscParams['message_size'] === 'medium')
-      {
-         $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
-         'edit' => $webRootPath.'res_icons/post_edit_med.png', 
-         'quote' => $webRootPath.'res_icons/post_quote_med.png', 
-         'info' => $webRootPath.'res_icons/post_info_med.png', 
-         'alert' => $webRootPath.'res_icons/post_alert_med.png', 
-         'thumb_up' => $webRootPath.'res_icons/post_thumb_up_med.png', 
-         'thumb_down' => $webRootPath.'res_icons/post_thumb_down_med.png', 
-         'pin' => $webRootPath.'res_icons/post_pin_med.png', 
-         'unpin' => $webRootPath.'res_icons/post_unpin_med.png');
-      }
-      else
-      {
-         $icons = array('permalink' => $webRootPath.'res_icons/post_permalink.png', 
-         'edit' => $webRootPath.'res_icons/post_edit.png', 
-         'quote' => $webRootPath.'res_icons/post_quote.png', 
-         'info' => $webRootPath.'res_icons/post_info.png', 
-         'alert' => $webRootPath.'res_icons/post_alert.png', 
-         'thumb_up' => $webRootPath.'res_icons/post_thumb_up.png', 
-         'thumb_down' => $webRootPath.'res_icons/post_thumb_down.png', 
-         'pin' => $webRootPath.'res_icons/post_pin.png', 
-         'unpin' => $webRootPath.'res_icons/post_unpin.png');
-      }
-      
       // Top left part: index of the post in the parent topic or link to replace in context
       if($index <= 0)
       {
@@ -119,8 +92,8 @@ class PostIR
       }
       
       // Permanent link (or permalink)
-      $output['permalink'] = ' &nbsp;<a href="'.$webRootPath.'Permalink.php?id_post='.$post['id_post'].'" target="_blank"><img class="postIcon"';
-      $output['permalink'] .= ' src="'.$icons['permalink'].'" alt="Lien permanent" title="Lien permanent"/></a>';
+      $output['permalink'] = ' &nbsp;<a href="'.$webRootPath.'Permalink.php?id_post='.$post['id_post'].'" target="_blank">';
+      $output['permalink'] .= '<i class="icon-general_hyperlink" title="Lien permanent"></i></a>';
       
       // Edition link
       $output['editionLink'] = '';
@@ -128,26 +101,23 @@ class PostIR
       if($interactive && LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) OR (($post['author'] === LoggedUser::$data['pseudo']
          || $post['author'] === LoggedUser::$data['used_pseudo']) && $post['posted_as'] !== 'anonymous')))
       {
-         $output['editionLink'] .= ' &nbsp;<a href="'.$webRootPath.'EditMessage.php?id_post='.$post['id_post'].'"><img class="postIcon"';
-         $output['editionLink'] .= ' src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
+         $output['editionLink'] .= ' &nbsp;<a href="'.$webRootPath.'EditMessage.php?id_post='.$post['id_post'].'">';
+         $output['editionLink'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
       }
       
       // Quote link and pin/unpin buttons
       if($interactive && LoggedUser::isLoggedIn() && $post['author'] !== LoggedUser::$data['pseudo'] && 
          $post['author'] !== LoggedUser::$data['used_pseudo'])
       {
-         $output['editionLink'] .= ' &nbsp;<img class="quote" data-post="'.$post['id_post'].'" ';
-         $output['editionLink'] .= 'src="'.$icons['quote'].'" alt="Citer" title="Citer"/>';
+         $output['editionLink'] .= ' &nbsp;<i class="quote icon-general_quote" data-post="'.$post['id_post'].'" title="Citer"></i>';
          
          if(strlen($post['user_pin']) > 0)
          {
-            $output['pinButton'] .= ' &nbsp;<img class="pin" data-post="'.$post['id_post'].'" src="'.$icons['unpin'].'" ';
-            $output['pinButton'] .= 'alt="Retirer de mes favoris" title="'.$post['user_pin'].'"/></a>';
+            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_unpin" data-post="'.$post['id_post'].'" title="'.$post['user_pin'].'"></i></a>';
          }
          else
          {
-            $output['pinButton'] .= ' &nbsp;<img class="pin" data-post="'.$post['id_post'].'" src="'.$icons['pin'].'" ';
-            $output['pinButton'] .= 'alt="Ajouter ce message à mes favoris" title="Ajouter ce message à mes favoris"/></a>';
+            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_pin" data-post="'.$post['id_post'].'" title="Ajouter ce message à mes favoris"></i></a>';
          }
       }
       
@@ -156,8 +126,7 @@ class PostIR
       $finalScore = $post['nb_likes'] - $post['nb_dislikes'];
       
       $whoLikes = ''.$post['nb_likes'].' J\'aime, '.$post['nb_dislikes'].' Je n\'aime pas';
-      $whoLikes = ' <img class="postInteractions" data-post="'.$post['id_post'].'" data-likes="'.$post['nb_likes'].'" 
-                   data-dislikes="'.$post['nb_dislikes'].'" src="'.$icons['info'].'" alt="'.$whoLikes.'" title="'.$whoLikes.'">';
+      $whoLikes = ' <i class="postInteractions icon-general_info" data-post="'.$post['id_post'].'" data-likes="'.$post['nb_likes'].'" data-dislikes="'.$post['nb_dislikes'].'" title="'.$whoLikes.'"></i>';
       
       // The way like/dislike buttons are displayed depends on whether the user is logged and/or voted
       if($interactive && LoggedUser::isLoggedIn() && (($post['author'] !== LoggedUser::$data['pseudo'] && $post['author'] !== LoggedUser::$data['used_pseudo']
@@ -167,9 +136,9 @@ class PostIR
          $opacityDislike = '';
          $vote = $post['user_vote'];
          if($vote < 0)
-            $opacityLike = ' style="opacity: 0.2;"';
+            $opacityLike = ' opacity: 0.2;';
          else if($vote > 0)
-            $opacityDislike = ' style="opacity: 0.2;"';
+            $opacityDislike = ' opacity: 0.2;';
          
          // Useful note: user_vote does not have to exist in the array if $interactive is set to false.
          
@@ -182,8 +151,8 @@ class PostIR
          $scorePart .= $whoLikes.'&nbsp;';
          
          $scorePart .= ' 
-         <img class="vote" data-post="'.$post['id_post'].'"'.$opacityLike.' data-vote="1" src="'.$icons['thumb_up'].'" alt="J\'aime" title="J\'aime"/> 
-         <img class="vote" data-post="'.$post['id_post'].'"'.$opacityDislike.' data-vote="-1" src="'.$icons['thumb_down'].'" alt="Je n\'aime pas" title="Je n\'aime pas"/>
+         <i class="vote icon-general_thumb_up" style="color: #6ea838;'.$opacityLike.'" data-post="'.$post['id_post'].'" data-vote="1" title="J\'aime"></i> 
+         <i class="vote icon-general_thumb_down" style="color: #b5000f;'.$opacityDislike.'" data-post="'.$post['id_post'].'" data-vote="-1" title="Je n\'aime pas"></i>
          ';
       }
       // If the user is not logged or is the author of this post, we just display the score.
@@ -206,15 +175,13 @@ class PostIR
          // Not reported yet
          if($post['user_alert'] === 'no')
          {
-            $output['report'] = ' <img class="report" style="opacity: 0.5;" data-post="'.$post['id_post'].'"
-            src="'.$icons['alert'].'" alt="Emettre une alerte" title="Emettre une alerte"/> ';
+            $output['report'] = ' <i class="report icon-general_alert" style="opacity: 0.5;" data-post="'.$post['id_post'].'" title="Emettre une alerte"></i> ';
          }
          // Already reported
          else
          {
             $alertDetails = 'Vous avez émis une alerte ('.$post['user_alert'].')';
-            $output['report'] = '<img class="reported" src="'.$icons['alert'].'"
-            style="opacity: 1.0; cursor: default;" alt="'.$alertDetails.'" title="'.$alertDetails.'">';
+            $output['report'] = '<i class="reported icon-general_alert" style="opacity: 1.0; cursor: default;" title="'.$alertDetails.'"></i>';
          }
       }
       

@@ -2,7 +2,7 @@
 
 /**
 * This library handles the parsing of an input text from a user in order to obtain the 
-* corresponding HTML equivalent of some format code (e.g. [g]this[/g] will become 
+* corresponding HTML equivalent of some format code (e.g. [b]this[/b] will become 
 * <strong>this</strong>). The reverse operation is available as well.
 */
 
@@ -377,12 +377,12 @@ class FormParsing
       $parsed = preg_replace('(\[url\]'.$regexURL.'\[/url\])iUs', '<a href="$1" target="blank">$1</a>', $parsed);
       
       // Parsing with replaceTags() (for tags which can encompass other, distinct tags)
-      $parsed = self::replaceTags($parsed, array('[g]', '[/g]', '<strong>', '</strong>'));
+      $parsed = self::replaceTags($parsed, array('[b]', '[/b]', '<strong>', '</strong>'));
       $parsed = self::replaceTags($parsed, array('[i]', '[/i]', '<em>', '</em>'));
-      $parsed = self::replaceTags($parsed, array('[s]', '[/s]', '<u>', '</u>'));
-      $parsed = self::replaceTags($parsed, array('[b]', '[/b]', '<s>', '</s>'));
+      $parsed = self::replaceTags($parsed, array('[u]', '[/u]', '<u>', '</u>'));
+      $parsed = self::replaceTags($parsed, array('[s]', '[/s]', '<s>', '</s>'));
       $parsed = self::replaceTags($parsed, array('[t]', '[/t]', "\n</p>\n<h2>", "</h2>\n<p>"));
-      $parsed = self::replaceTags($parsed, array('[c]', '[/c]', '<span class="hiddenText">', '</span>'));
+      $parsed = self::replaceTags($parsed, array('[cacher]', '[/cacher]', '<span class="hiddenText">', '</span>'));
       $parsed = self::replaceTags($parsed, array('[url=placeholder]', '[/url]', '<a href="$1" target="blank">', '</a>'), $regexURL);
       $parsed = self::replaceTags($parsed, array('[rgb=placeholder]', '[/rgb]', '<span style="color: rgb($1,$2,$3);">', '</span>'), $regexRGB);
       $parsed = self::replaceTags($parsed, array('[hexa=placeholder]', '[/hexa]', '<font color="#$1">', '</font>'), $regexHexa);
@@ -440,18 +440,18 @@ class FormParsing
       $unparsed = str_replace('\r', '', $unparsed);
       
       // Unparsing of tags
-      $unparsed = str_replace('<strong>', '[g]', $unparsed);
-      $unparsed = str_replace('</strong>', '[/g]', $unparsed);
+      $unparsed = str_replace('<strong>', '[b]', $unparsed);
+      $unparsed = str_replace('</strong>', '[/b]', $unparsed);
       $unparsed = str_replace('<em>', '[i]', $unparsed);
       $unparsed = str_replace('</em>', '[/i]', $unparsed);
-      $unparsed = str_replace('<u>', '[s]', $unparsed);
-      $unparsed = str_replace('</u>', '[/s]', $unparsed);
-      $unparsed = str_replace('<s>', '[b]', $unparsed);
-      $unparsed = str_replace('</s>', '[/b]', $unparsed);
+      $unparsed = str_replace('<u>', '[u]', $unparsed);
+      $unparsed = str_replace('</u>', '[/u]', $unparsed);
+      $unparsed = str_replace('<s>', '[s]', $unparsed);
+      $unparsed = str_replace('</s>', '[/s]', $unparsed);
       $unparsed = str_replace("\n</p>\n<h2>", '[t]', $unparsed);
       $unparsed = str_replace("</h2>\n<p>", '[/t]', $unparsed);
-      $unparsed = str_replace('<span class="hiddenText">', '[c]', $unparsed);
-      $unparsed = str_replace('</ span>', '[/c]', $unparsed);
+      $unparsed = str_replace('<span class="hiddenText">', '[cacher]', $unparsed);
+      $unparsed = str_replace('</ span>', '[/cacher]', $unparsed);
       $unparsed = str_replace("\n</p>\n<p style=\"text-align: center;\">\n", '[centre]', $unparsed);
       $unparsed = str_replace("\n</p>\n<p>", '[/centre]', $unparsed);
       $unparsed = str_replace("\n</p>\n<p style=\"text-align: right;\">\n", '[droite]', $unparsed);

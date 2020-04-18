@@ -792,10 +792,14 @@
    color: white;
    border-radius: 10px;
    font-family: "arial", "serif";
-   font-size: 14px;
    margin-left: 15px;
    margin-right: 15px;
    margin-bottom: 15px;
+}
+
+#previousSegment p, #nextSegment p
+{
+   font-size: 24px;
 }
 
 #previousSegment p:hover, #segmentList p:hover, #nextSegment p:hover
@@ -824,7 +828,7 @@
    color: grey;
 }
 
-#previousSegment p img, #nextSegment p img
+#previousSegment p i, #nextSegment p i
 {
    cursor: pointer;
 }

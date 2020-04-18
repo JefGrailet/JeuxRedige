@@ -188,17 +188,18 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
                   
                      $explodedUpload = explode('_', $uploadsArr[$k], 2);
                      $uploader = $explodedUpload[0];
+                     $previewContent = '';
                      if(strlen($showPolicy) > 0)
                      {
                         if($showPolicy === 'nsfw' || $showPolicy === 'noshownsfw')
-                           $miniature = PathHandler::HTTP_PATH().'res_icons/image_nsfw.png';
+                           $previewContent = 'nsfw';
                         else if($showPolicy === 'spoiler' || $showPolicy === 'noshowspoiler')
-                           $miniature = PathHandler::HTTP_PATH().'res_icons/image_spoiler.png';
+                           $previewContent = 'spoiler';
                         else
-                           $miniature = $httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
+                           $previewContent = 'picture||'.$httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
                      }
                      else
-                        $miniature = $httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
+                        $previewContent = 'picture||'.$httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
                      $dimensions = getimagesize($filePath);
                      
                      $tplInput = array('fullSize' => $httpPathPrefix.$uploadsArr[$k],
@@ -209,7 +210,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
                      'itemID' => $IDInGallery,
                      'slideshowPrevious' => $slideshowPreviousPost,
                      'slideshowNext' => $slideshowNextPost,
-                     'content' => 'picture||'.$miniature);
+                     'content' => $previewContent);
                      
                      array_push($fullInput, $tplInput);
                   }
@@ -219,12 +220,13 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
                      
                      $explodedUpload = explode('_', $uploadsArr[$k], 2);
                      $uploader = $explodedUpload[0];
+                     $previewContent = '';
                      if(strlen($showPolicy) > 0)
                      {
                         if($showPolicy === 'nsfw' || $showPolicy === 'noshownsfw')
-                           $previewContent = 'picture||'.PathHandler::HTTP_PATH().'res_icons/image_nsfw.png';
+                           $previewContent = 'nsfw';
                         else if($showPolicy === 'spoiler' || $showPolicy === 'noshowspoiler')
-                           $previewContent = 'picture||'.PathHandler::HTTP_PATH().'res_icons/image_spoiler.png';
+                           $previewContent = 'spoiler';
                         else
                            $previewContent = 'video||'.$httpPathPrefix.$uploadsArr[$k].'|'.$extension;
                      }

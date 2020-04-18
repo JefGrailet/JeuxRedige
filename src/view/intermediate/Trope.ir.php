@@ -57,9 +57,8 @@ class TropeIR
       if(LoggedUser::isLoggedIn() /* && Utils::check(LoggedUser::$data['can_edit_games']) */ && !$asHover && $editable)
       {
          $editionURL = $webRootPath.'EditTrope.php?trope='.urlencode($trope['tag']);
-         $output['editButton'] = 'yes|| <a href="'.$editionURL.'"><img src="'.$webRootPath.'res_icons/trope_edit.png" title="Editer" alt="Editer" /></a>';
-         $output['editButton'] .= ' <img class="buttonDelete" src="'.$webRootPath.'res_icons/trope_delete.png" alt="Supprimer" ';
-         $output['editButton'] .= 'data-trope="'.$trope['tag'].'" title="Supprimer ce code"/>';
+         $output['editButton'] = 'yes|| <a href="'.$editionURL.'"><i class="icon-general_edit" alt="Editer"></i></a>';
+         $output['editButton'] .= ' <i class="buttonDelete icon-general_trash" data-trope="'.$trope['tag'].'" title="Supprimer ce code"></i>';
       }
       
       return $output;

@@ -45,9 +45,7 @@ if(!empty($_POST['id_emoticon']) && preg_match('#^([0-9]+)$#', $_POST['id_emotic
              * simplicity.
              */
             
-            $resStr .= '<img class="buttonUnmap" src="'.PathHandler::HTTP_PATH().'res_icons/title_unmap.png" alt="Retirer" ';
-            $resStr .= 'data-id-emoticon="'.$emoticonID.'" ';
-            $resStr .= 'title="Retirer de ma librairie"/>'; 
+            $resStr .= '<i class="buttonUnmap icon-general_minus" data-id-emoticon="'.$emoticonID.'" title="Retirer de ma librairie"></i>'; 
             
             /*
              * We also add a new edit button. Depending on whether the user created the emoticon 
@@ -55,22 +53,13 @@ if(!empty($_POST['id_emoticon']) && preg_match('#^([0-9]+)$#', $_POST['id_emotic
              */
             
             if($emoticon->get('uploader') === LoggedUser::$data['pseudo'] || Utils::check(LoggedUser::$data['can_edit_all_posts']))
-            {
-               $resStr .= ' &nbsp;<img class="buttonEdit" src="'.PathHandler::HTTP_PATH().'res_icons/title_edit.png" alt="Modifier" ';
-               $resStr .= 'data-id-emoticon="'.$emoticonID.'" title="Modifier le nom/code"/>';
-            }
+               $resStr .= ' &nbsp;<i class="buttonEdit icon-general_plus" data-id-emoticon="'.$emoticonID.'" title="Modifier le nom/code"></i>';
             else
-            {
-               $resStr .= ' &nbsp;<img class="buttonEditShortcut" src="'.PathHandler::HTTP_PATH().'res_icons/title_edit.png" alt="Modifier" ';
-               $resStr .= 'data-id-emoticon="'.$emoticonID.'" title="Modifier le code"/>';
-            }
+               $resStr .= ' &nbsp;<i class="buttonEditShortcut icon-general_edit" data-id-emoticon="'.$emoticonID.'" title="Modifier le code"></i>';
             
             // Same goes for delete button (only for some users)
             if(Utils::check(LoggedUser::$data['can_edit_all_posts']))
-            {
-               $resStr .= ' &nbsp;<img class="buttonDelete" src="'.PathHandler::HTTP_PATH().'res_icons/title_delete.png" alt="Supprimer" ';
-               $resStr .= 'data-id-emoticon="'.$emoticonID.'" title="Supprimer cette émoticône"/>';
-            }
+               $resStr .= ' &nbsp;<i class="buttonDelete icon-general_trash" data-id-emoticon="'.$emoticonID.'" title="Supprimer cette émoticône"></i>';
             
             $resStr .= "\n";
          }

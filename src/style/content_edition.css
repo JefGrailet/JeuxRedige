@@ -98,12 +98,44 @@
    color: black;
 }
 
+/* Video thumbnail stuff */
+
+.videoThumbnail
+{
+   display: inline-block;
+   cursor: pointer;
+}
+
+.videoThumbnailOverlay
+{
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.videoThumbnailOverlay i
+{
+   opacity: 0.7;
+   background-color: white;
+   border-radius: 80px;
+}
+
+.videoThumbnailOverlay i:hover
+{
+   opacity: 1.0;
+   background-color: white;
+   border-radius: 80px;
+}
+
 /* Form elements */
 
 .plainBlock .formatButton
 {
-   padding: 4px;
+   padding: 6px 6px 4px 6px;
    background-color: #383A49;
+   color: white;
+   font-size: 18px;
    border-radius: 3px;
    cursor: pointer;
 }

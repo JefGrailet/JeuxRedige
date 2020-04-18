@@ -202,10 +202,17 @@
    padding: 0px;
 }
 
-.mediaThumbnail .description h1 img
+.mediaThumbnail .description h1 i
 {
-   margin: 0px 0px -3px 3px;
-   padding: 0px;
+   color: white;
+   padding: 2px;
+   font-size: 15px;
+   vertical-align: -1px;
+}
+
+.mediaThumbnail .description h1 i:hover
+{
+   color: #36DDFF;
 }
 
 .mediaThumbnail .buttonDelete

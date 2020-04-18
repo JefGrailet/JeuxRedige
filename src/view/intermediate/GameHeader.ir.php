@@ -43,8 +43,7 @@ class GameHeaderIR
          {
          }
          */
-         $editionLink .= ' &nbsp;<a href="EditGame.php?game='.urlencode($game['tag']).'"><img class="gameIcon" ';
-         $editionLink .= 'src="'.PathHandler::HTTP_PATH().'res_icons/title_edit.png" alt="Editer" title="Editer ce jeu"/></a>';
+         $editionLink .= ' &nbsp;<a href="EditGame.php?game='.urlencode($game['tag']).'"><i class="icon-general_edit" title="Editer ce jeu"></i></a>';
       }
       
       $output['editionIcons'] = $editionLink;

@@ -45,7 +45,8 @@
    display: inline-block;
    text-align: center;
    font-family: "arial", "calibri", "serif";
-   font-size: 14px;
+   font-size: 16px;
+   font-weight: 200;
    padding: 10px;
    margin: 0px;
    text-align: center;
@@ -113,11 +114,6 @@
    padding: 0px;
 }
 
-#innerHeaderLeft ul li img
-{
-   cursor: pointer;
-}
-
 #innerHeaderLeft ul li ul
 {
    min-width: 50px;
@@ -135,21 +131,18 @@
    display: block;
    background: none;
    padding: 5px;
-   font-size: 15px;
+   font-size: 16px;
    text-align: left;
 }
 
-#innerHeaderLeft ul li ul li img
+#innerHeaderLeft ul li ul li i
 {
-   margin-left: 0px;
-   margin-right: 7px;
-   vertical-align: -15%;
+   margin-right: 6px;
 }
 
 #innerHeaderLeft ul li ul li a
 {
    font-family: "Arial", "Calibri", "Serif";
-   font-size: 15px;
    text-decoration: none;
    color: white;
 }
@@ -190,16 +183,10 @@
    background-color: #969696; /* Default */
 }
 
-/* CSS for icons in the title of a topic. */
-
-#topicHeader .topicIcon
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -5%;
-}
+/* CSS for clickable icons in the title of a topic */
 
 #topicHeader #buttonFavourite, #topicHeader #buttonDelete, #topicHeader #buttonLock
 {
    cursor: pointer;
+   font-size: 18px;
 }

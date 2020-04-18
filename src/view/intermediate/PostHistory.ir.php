@@ -29,12 +29,6 @@ class PostHistoryIR
       'content' => '',
       'showAttachment' => '');
       
-      $alertIcon = '';
-      if(WebpageHandler::$miscParams['message_size'] === 'medium')
-         $alertIcon = PathHandler::HTTP_PATH().'res_icons/post_alert_med.png';
-      else
-         $alertIcon = PathHandler::HTTP_PATH().'res_icons/post_alert.png';
-      
       // Avatar, style of the <h1> displaying the author's pseudonym
       if($post['posted_as'] !== 'anonymous')
          $output['authorAvatar'] = PathHandler::getAvatar($post['author']);
@@ -53,36 +47,20 @@ class PostHistoryIR
       if($interactive)
       {
          if($post['editor'] === LoggedUser::$data['pseudo'] || $post['editor'] === LoggedUser::$data['used_pseudo'])
-         {
-            $censorshipPart = '<img class="censorship" src="'.$alertIcon.'" 
-            style="opacity: 0.2; cursor: default;" alt="Censure" title="Non censuré">';
-         }
+            $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 0.2; cursor: default;" title="Non censuré"></i>';
          // Not censored yet
          else if(!Utils::check($post['censorship']))
-         {
-            $censorshipPart = ' <img class="censorship" style="opacity: 0.5; cursor: pointer;" 
-            data-post="'.$post['id_post'].'" data-version="'.$post['version'].'" 
-            src="'.$alertIcon.'" alt="Censure" title="Censurer"/> ';
-         }
+            $censorshipPart = ' <i class="censorship icon-general_alert" style="opacity: 0.5; cursor: pointer;" data-post="'.$post['id_post'].'" data-version="'.$post['version'].'" title="Censurer"/></i>';
          // Already censored
          else
-         {
-            $censorshipPart = '<img class="censorship" src="'.$alertIcon.'"
-            style="opacity: 1.0; cursor: default;" alt="Censure" title="Censuré">';
-         }
+            $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 1.0; cursor: default;" title="Censuré"></i>';
       }
       else
       {
          if(Utils::check($post['censorship']))
-         {
-            $censorshipPart = '<img class="censorship" src="'.$alertIcon.'" 
-            style="opacity: 1.0; cursor: default;" alt="Censure" title="Censuré">';
-         }
+            $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 1.0; cursor: default;" title="Censuré"></i>';
          else
-         {
-            $censorshipPart = '<img class="censorship" src="'.$alertIcon.'" 
-            style="opacity: 0.2; cursor: default;" alt="Censure" title="Non censuré">';
-         }
+            $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 0.2; cursor: default;" title="Non censuré"></i>';
       }
       
       $output['censorship'] = $censorshipPart;

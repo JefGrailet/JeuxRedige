@@ -29,10 +29,10 @@
       <strong>|</strong> &nbsp;
       <span class="quickForm" title="Raccourci: Ctrl + Espace">Réponse rapide</span> &nbsp;
       <strong>|</strong> &nbsp;
-      <img class="navMode" data-mode="1" style="opacity: 1.0;" src="./res_icons/nav_pages_static.png" alt="Pages statiques" title="Pagination statique" /> 
-      <img class="navMode" data-mode="2" style="opacity: 0.5;" src="./res_icons/nav_pages_dynamic.png" alt="Pages statiques" title="Pagination dynamique" /> 
-      <img class="navMode" data-mode="3" style="opacity: 0.5;" src="./res_icons/nav_flow.png" alt="Flot de messages" title="Flot de messages" /> 
-      <img class="navRefresh" style="opacity: 0.5;" src="./res_icons/nav_auto_refresh.png" alt="Rafraîchissement automatique" title="Rafraîchissement automatique" />
+      <i class="navMode icon-nav_static" data-mode="1" style="opacity: 1.0;" title="Pagination statique"></i> 
+      <i class="navMode icon-nav_dynamic" data-mode="2" style="opacity: 0.5;" title="Pagination dynamique"></i> 
+      <i class="navMode icon-nav_flow" data-mode="3" style="opacity: 0.5;" title="Flot de messages"></i> 
+      <i class="navRefresh icon-nav_refresh" style="opacity: 0.5;" title="Rafraîchissement automatique"></i>
       </p>
    </div>
    <div id="slidingBlock">

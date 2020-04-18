@@ -563,8 +563,7 @@ PagesLib.getMessages = function(offset, callback)
             if($('.page[data-page=' + pageNumber + '] .postInteractions').length)
             {
                $('.page[data-page=' + pageNumber + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-post')); });
-               $('.page[data-page=' + pageNumber + '] .uploadDisplay .uploadDisplayAlign img').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
-               $('.page[data-page=' + pageNumber + '] .uploadDisplay .uploadDisplayAlign video').on('click', function() { DefaultLib.showUpload($(this).parent().parent()); });
+               $('.page[data-page=' + pageNumber + '] .uploadDisplay .uploadDisplayAlign').on('click', function() { DefaultLib.showUpload($(this).parent()); });
                $('.page[data-page=' + pageNumber + '] .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
                $('.page[data-page=' + pageNumber + '] .link_masked_attachment').on('click', function() { $('#maskedAttachment' + $(this).attr('data-id-post')).toggle(300); });
                $('.page[data-page=' + pageNumber + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-post")); });

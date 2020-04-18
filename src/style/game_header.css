@@ -116,12 +116,3 @@
 .mediaHeaderContent .hw_WiiU { padding: 2px 4px; border-radius: 4px; background-color: rgb(0,100,230); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
 .mediaHeaderContent .hw_Switch { padding: 2px 4px; border-radius: 4px; background-color: rgb(230,0,0); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
 .mediaHeaderContent .hw_3DS { padding: 2px 4px; border-radius: 4px; background-color: rgb(150,0,0); border: 1px solid white; color: white; font-family: "arial", "serif"; font-size: 13px; }
-
-/* Icons in the title of a game. */
-
-.gameIcon
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -15%;
-}

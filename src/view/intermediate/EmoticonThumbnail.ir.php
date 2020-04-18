@@ -41,32 +41,21 @@ class EmoticonThumbnailIR
       {
          if($data['shortcut'] !== NULL)
          {
-            $mapButton .= ' &nbsp;<img class="buttonUnmap" src="'.$webRootPath.'res_icons/title_unmap.png" alt="Retirer" ';
-            $mapButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Retirer de ma librairie"/>'."\n";
+            $mapButton .= ' &nbsp;<i class="buttonUnmap icon-general_minus" data-id-emoticon="'.$data['id_emoticon'].'" title="Retirer de ma librairie"></i>'."\n";
          }
          else
          {
-            $mapButton .= ' &nbsp;<img class="buttonMap" src="'.$webRootPath.'res_icons/title_map.png" alt="Ajouter" ';
-            $mapButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" data-suggestion="'.$data['suggested_shortcut'].'" ';
-            $mapButton .= 'title="Ajouter à ma librairie"/>'."\n";
+            $mapButton .= ' &nbsp;<i class="buttonMap icon-general_plus" data-id-emoticon="'.$data['id_emoticon'].'" ';
+            $mapButton .= 'data-suggestion="'.$data['suggested_shortcut'].'" title="Ajouter à ma librairie"></i>'."\n";
          }
          
          if(Utils::check(LoggedUser::$data['can_edit_all_posts']) || LoggedUser::$data['pseudo'] === $data['uploader'])
-         {
-            $editButton .= ' &nbsp;<img class="buttonEdit" src="'.$webRootPath.'res_icons/title_edit.png" alt="Modifier" ';
-            $editButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le nom/code"/>'."\n";
-         }
+            $editButton .= ' &nbsp;<i class="buttonEdit icon-general_edit" data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le nom/code"></i>'."\n";
          else if($data['shortcut'] !== NULL)
-         {
-            $editButton .= ' &nbsp;<img class="buttonEditShortcut" src="'.$webRootPath.'res_icons/title_edit.png" alt="Modifier" ';
-            $editButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le code"/>'."\n";
-         }
+            $editButton .= ' &nbsp;<i class="buttonEditShortcut icon-general_edit" data-id-emoticon="'.$data['id_emoticon'].'" title="Modifier le code"></i>'."\n";
       
          if(Utils::check(LoggedUser::$data['can_delete']))
-         {
-            $deleteButton .= ' &nbsp;<img class="buttonDelete" src="'.$webRootPath.'res_icons/title_delete.png" alt="Supprimer" ';
-            $deleteButton .= 'data-id-emoticon="'.$data['id_emoticon'].'" title="Supprimer cette émoticône"/>'."\n";
-         }
+            $deleteButton .= ' &nbsp;<i class="buttonDelete icon-general_trash" data-id-emoticon="'.$data['id_emoticon'].'" title="Supprimer cette émoticône"></i>'."\n";
       }
       $output['interaction'] = $mapButton.$editButton.$deleteButton;
       

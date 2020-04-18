@@ -9,6 +9,7 @@ class ArticleThumbnailIR
    * -ID of the article
    * -Thumbnail of the article
    * -Type of the article (as a string)
+   * -Author of the article
    * -Link to the article (either published, either edition page; URL)
    * -Additionnal info to be displayed on link hover (HTML)
    * -Main title of the article (as a string)
@@ -19,7 +20,7 @@ class ArticleThumbnailIR
    * @param mixed[]        The intermediate representation
    */
 
-   public static function process($data, $edition = false)
+   public static function process($data, $edition = false, $showAuthor = true)
    {
       $artThumbnail = '';
       $relativePath = 'upload/articles/'.$data['id_article'].'/thumbnail.jpg';
@@ -32,6 +33,7 @@ class ArticleThumbnailIR
       $output = array('ID' => $data['id_article'], 
       'thumbnail' => $artThumbnail, 
       'type' => '', 
+      'author' => '', 
       'link' => '', 
       'additionnalInfo' => '', 
       'title' => $data['title'], 
@@ -41,12 +43,16 @@ class ArticleThumbnailIR
       if($edition)
       {
          if($data['date_publication'] !== '1970-01-01 00:00:00')
-            $output['type'] = '<p>'.$typeTranslation[$data['type']].' <span style="color: #40ff00;">[Publié]</span></p>';
+            $output['type'] = $typeTranslation[$data['type']].' <span style="color: #40ff00;">[Publié]</span>';
          else
-            $output['type'] = '<p>'.$typeTranslation[$data['type']].' <span style="color: #36DDFF;">[En cours]</span></p>';
+            $output['type'] = $typeTranslation[$data['type']].' <span style="color: #36DDFF;">[En cours]</span>';
       }
       else
-         $output['type'] = '<p>'.$typeTranslation[$data['type']].'</p>';
+      {
+         if($showAuthor)
+            $output['author'] = 'show||'.$data['pseudo'];
+         $output['type'] = $typeTranslation[$data['type']];
+      }
       
       if($edition)
       {
@@ -55,7 +61,7 @@ class ArticleThumbnailIR
       else
       {
          $output['link'] = PathHandler::articleURL($data);
-         $output['additionnalInfo'] = ' title="Ecrit par '.$data['pseudo'].' et publié le ';
+         $output['additionnalInfo'] = ' title="Publié le ';
          $output['additionnalInfo'] .= date('d/m/Y \à H\hi', Utils::toTimestamp($data['date_publication']));
          $output['additionnalInfo'] .= '"';
       }

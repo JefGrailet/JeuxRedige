@@ -9,7 +9,7 @@
       <p>{$pingTitle}</p>
    </div>
    <div class="pingBlockTextTopRight">
-      {$interactions}
+      <p>{$interactions}</p>
    </div>
    <div class="clear"></div>
 </div>

@@ -87,8 +87,8 @@ PostInteractionLib.updateScore = function(post, vote)
 
 PostInteractionLib.updateTooltip = function(post, vote, undoneVoteOrNewVote)
 {
-   var currentLikes = parseInt($('.postIcon[data-post='+post+']').attr('data-likes'));
-   var currentDislikes = parseInt($('.postIcon[data-post='+post+']').attr('data-dislikes'));
+   var currentLikes = parseInt($('.postInteractions[data-post='+post+']').attr('data-likes'));
+   var currentDislikes = parseInt($('.postInteractions[data-post='+post+']').attr('data-dislikes'));
    
    if(vote == 1)
    {
@@ -105,11 +105,11 @@ PostInteractionLib.updateTooltip = function(post, vote, undoneVoteOrNewVote)
          currentDislikes += 1;
    }
    
-   $('.postIcon[data-post='+post+']').attr('data-likes', currentLikes);
-   $('.postIcon[data-post='+post+']').attr('data-dislikes', currentDislikes);
+   $('.postInteractions[data-post='+post+']').attr('data-likes', currentLikes);
+   $('.postInteractions[data-post='+post+']').attr('data-dislikes', currentDislikes);
    
    var newTitle = currentLikes + " J'aime, " + currentDislikes + " Je n'aime pas";
-   $('.postIcon[data-post='+post+']').attr('title', newTitle);
+   $('.postInteractions[data-post='+post+']').attr('title', newTitle);
 }
 
 /*
@@ -279,7 +279,7 @@ PostInteractionLib.sendAlert = function(post, motiv)
       $('.report[data-post='+post+']').unbind();
       $('.report[data-post='+post+']').attr('title', newTooltip);
       $('.report[data-post='+post+']').attr('alt', newTooltip);
-      $('.report[data-post='+post+']').animate({opacity: 1.0}, 300, function() { $('.report[data-post='+post+']').attr('class', 'reported'); });
+      $('.report[data-post='+post+']').animate({opacity: 1.0}, 300, function() { $('.report[data-post='+post+']').attr('class', 'reported icon-general_alert'); });
       
       // Changes the display if the code says so
       if(dataInt == 1)
@@ -371,8 +371,8 @@ PostInteractionLib.pinPost = function(post, comment)
       var pinObject = '.pin[data-post=' + post + ']';
       if(data === 'Pinned')
       {
-         var curIcon = $(pinObject).attr('src');
-         $(pinObject).attr('src', curIcon.replace('post_pin', 'post_unpin'));
+         $(pinObject).removeClass('icon-general_pin');
+         $(pinObject).addClass('icon-general_unpin');
          $(pinObject).attr('title', comment);
          $(pinObject).attr('alt', 'Enlever ce message de mes favoris');
          
@@ -454,8 +454,8 @@ PostInteractionLib.unpinPost = function(post)
          }
          else
          {
-            var curIcon = $(pinObject).attr('src');
-            $(pinObject).attr('src', curIcon.replace('post_unpin', 'post_pin'));
+            $(pinObject).removeClass('icon-general_unpin');
+            $(pinObject).addClass('icon-general_pin');
             $(pinObject).attr('title', 'Ajouter ce message à mes favoris');
             $(pinObject).attr('alt', 'Ajouter ce message à mes favoris');
          }
@@ -464,8 +464,8 @@ PostInteractionLib.unpinPost = function(post)
       {
          alert('Ce message n\'était pas dans vos favoris.');
       
-         var curIcon = $(pinObject).attr('src');
-         $(pinObject).attr('src', curIcon.replace('post_unpin', 'post_pin'));
+         $(pinObject).removeClass('icon-general_unpin');
+         $(pinObject).addClass('icon-general_pin');
          $(pinObject).attr('title', 'Ajouter ce message à mes favoris');
          $(pinObject).attr('alt', 'Ajouter ce message à mes favoris');
       }
@@ -513,8 +513,7 @@ $(document).ready(function()
    $('.pin').on('click', function()
    {
       postID = parseInt($(this).attr("data-post"));
-      var curIcon = $(this).attr('src');
-      if(curIcon.indexOf("post_pin") !== -1)
+      if($(this).hasClass("icon-general_pin"))
       {
          $('#pinPost .pinPostID').text(postID);
          DefaultLib.openDialog('#pinPost');

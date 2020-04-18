@@ -38,37 +38,31 @@ class ListIR
       else
          $output['title'] = $item['game'];
       
-      // Icons to use
-      $icons = array('edit' => $webRootPath.'res_icons/post_edit_med.png', 
-      'delete' => $webRootPath.'res_icons/segment_delete.png', 
-      'moveUp' => $webRootPath.'res_icons/segment_move_up.png', 
-      'moveDown' => $webRootPath.'res_icons/segment_move_down.png');
-      
       // Icons for edition
       if($parentList->isMine())
       {
          $output['icons'] = ' &nbsp;<a href="'.$webRootPath.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
-         $output['icons'] .= '<img class="itemIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
+         $output['icons'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
          
          if($item['rank'] > 1)
          {
-            $output['interactivity'] = '<a href="javascript:void(0)" class="moveItemUp"><img class="itemIcon"';
-            $output['interactivity'] .= ' src="'.$icons['moveUp'].'" alt="Déplacer vers le haut" title="Déplacer vers le haut"/></a> ';
+            $output['interactivity'] = '<a href="javascript:void(0)" class="moveItemUp">';
+            $output['interactivity'] .= '<i class="icon-general_up" title="Déplacer vers le haut"></i></a> ';
          }
          
          if($item['rank'] < count($parentList->getBufferedItems()))
          {
-            $output['interactivity'] .= '<a href="javascript:void(0)" class="moveItemDown"><img class="itemIcon"';
-            $output['interactivity'] .= ' src="'.$icons['moveDown'].'" alt="Déplacer vers le bas" title="Déplacer vers le bas"/></a> ';
+            $output['interactivity'] .= '<a href="javascript:void(0)" class="moveItemDown">';
+            $output['interactivity'] .= '<i class="icon-general_down" title="Déplacer vers le bas"></i></a> ';
          }
          
-         $output['interactivity'] .= '<a href="javascript:void(0)" class="deleteItem"><img class="itemIcon"';
-         $output['interactivity'] .= ' src="'.$icons['delete'].'" alt="Supprimer" title="Supprimer"/></a>';
+         $output['interactivity'] .= '<a href="javascript:void(0)" class="deleteItem">';
+         $output['interactivity'] .= '<i class="icon-general_trash" title="Supprimer"></i></a>';
       }
       else if(LoggedUser::isLoggedIn() && Utils::check(LoggedUser::$data['can_edit_all_posts']))
       {
          $output['icons'] = ' &nbsp;<a href="'.$webRootPath.'EditListItem.php?id_item='.$item['id_item'].'" target="_blank">';
-         $output['icons'] .= '<img class="itemIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
+         $output['icons'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
       }
       
       // If comment is ending with a div, do not end with "</p>"

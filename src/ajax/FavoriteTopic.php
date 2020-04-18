@@ -34,9 +34,9 @@ if(!empty($_POST['id_topic']) && preg_match('#^([0-9]+)$#', $_POST['id_topic']))
       else
          $topic->favorite();
       
-      $icon = PathHandler::HTTP_PATH().'res_icons/title_unfavourite.png';
+      $icon = 'icon-general_star';
       if($favorited)
-         $icon = PathHandler::HTTP_PATH().'res_icons/title_favourite.png';
+         $icon = 'icon-general_star_empty';
          
       header('Content-Type: text/html; charset=UTF-8');
       echo $icon;

@@ -62,8 +62,6 @@ class TopicHeaderIR
 
    public static function process($topic, $location = '')
    {
-      $webRootPath = PathHandler::HTTP_PATH();
-      
       // Gets topic DB line and metadata
       $data = $topic->getAll();
       $keywords = $topic->getBufferedKeywords();
@@ -87,15 +85,15 @@ class TopicHeaderIR
       
       // Title suffix
       if($location === 'edition')
-         $output['titleSuffix'] = ' <img src="'.$webRootPath.'res_icons/title_edit.png" alt="Editer" title="Edition du sujet"/>';
+         $output['titleSuffix'] = ' <i class="icon-general_edit" alt="Editer" title="Edition du sujet"></i>';
       else if($location === 'popular')
-         $output['titleSuffix'] = ' <img src="'.$webRootPath.'res_icons/title_popular.png" alt="Populaires" title="Messages populaires"/>';
+         $output['titleSuffix'] = ' <i class="icon-topic_popular" alt="Populaires" title="Messages populaires"></i>';
       else if($location === 'unpopular')
-         $output['titleSuffix'] = ' <img src="'.$webRootPath.'res_icons/title_unpopular.png" alt="Impopulaires" title="Messages impopulaires"/>';
+         $output['titleSuffix'] = ' <i class="icon-topic_unpopular" alt="Impopulaires" title="Messages impopulaires"></i>';
       else if($location === 'pins')
-         $output['titleSuffix'] = ' <img src="'.$webRootPath.'res_icons/title_pins.png" alt="Epinglés" title="Messages épinglés"/>';
+         $output['titleSuffix'] = ' <i class="icon-general_pin" alt="Epinglés" title="Messages épinglés"></i>';
       else if($location === 'uploads')
-         $output['titleSuffix'] = ' <img src="'.$webRootPath.'res_icons/title_uploads.png" alt="Uploads" title="Galerie d\'uploads"/>';
+         $output['titleSuffix'] = ' <i class="icon-topic_uploads" alt="Uploads" title="Galerie d\'uploads"></i>';
       
       // Checks that the user is able to edit the topic itself (title, keywords, etc.)
       $canEdit = false;
@@ -111,37 +109,37 @@ class TopicHeaderIR
       
       // Topic menu
       $output['menu'] = '<ul>'."\n";
-      $output['menu'] .= '<li><img class="topicIcon" src="'.$webRootPath.'res_icons/title_menu.png" alt="Menu"/>'."\n";
+      $output['menu'] .= '<li><i class="icon-general_menu" alt="Menu" style="font-size: 18px;"></i>'."\n";
       $output['menu'] .= '   <ul id="topicMenu">'."\n";
       if($featuredPosts['withUploads'] > 0 || $featuredPosts['popular'] > 0 || $featuredPosts['unpopular'] > 0 || $withPins || $canEdit)
       {
          if($featuredPosts['withUploads'] > 0)
          {
-            $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_uploads.png" alt="Uploads"/>';
+            $output['menu'] .= '      <li><i class="icon-topic_uploads" alt="Uploads"></i>';
             $output['menu'] .= '<a href="Uploads.php?id_topic='.$data['id_topic'].'">Galerie des uploads</a></li>'."\n";
          }
          if($featuredPosts['popular'] > 0)
          {
-            $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_popular.png" alt="Populaires"/>';
+            $output['menu'] .= '      <li><i class="icon-topic_popular" alt="Populaires"></i>';
             $output['menu'] .= '<a href="PopularPosts.php?id_topic='.$data['id_topic'].'">Messages populaires</a></li>'."\n";
          }
          if($featuredPosts['unpopular'] > 0)
          {
-            $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_unpopular.png" alt="Impopulaires"/>';
+            $output['menu'] .= '      <li><i class="icon-topic_unpopular" alt="Impopulaires"></i>';
             $output['menu'] .= '<a href="PopularPosts.php?id_topic='.$data['id_topic'].'&section=unpopular">Messages impopulaires</a></li>'."\n";
          }
          if($withPins)
          {
-            $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_pins.png" alt="Mes messages épinglés"/>';
+            $output['menu'] .= '      <li><i class="icon-general_pin" alt="Mes messages épinglés"></i>';
             $output['menu'] .= '<a href="PopularPosts.php?id_topic='.$data['id_topic'].'&section=pinned">Messages épinglés</a></li>'."\n";
          }
          if($canEdit)
          {
-            $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_edit.png" alt="Editer"/>';
+            $output['menu'] .= '      <li><i class="icon-general_edit" alt="Editer"></i>';
             $output['menu'] .= '<a href="EditTopic.php?id_topic='.$data['id_topic'].'">Editer ce sujet</a></li>'."\n";
          }
       }
-      $output['menu'] .= '      <li><img src="'.$webRootPath.'res_icons/title_last_post.png" alt="Dernier message"/>';
+      $output['menu'] .= '      <li><i class="icon-general_leave" alt="Dernier message"></i>';
       $output['menu'] .= '<a href="LastPost.php?id_topic='.$data['id_topic'].'">Aller au dernier message</a></li>'."\n";
       $output['menu'] .= '   </ul>'."\n";
       $output['menu'] .= '</ul>'."\n";
@@ -155,44 +153,44 @@ class TopicHeaderIR
       {
          if($favorited)
          {
-            $favoriteButton = ' &nbsp;<img id="buttonFavourite" class="topicIcon" src="'.$webRootPath.'res_icons/title_unfavourite.png" alt="Enlever" ';
-            $favoriteButton .= 'data-id-topic="'.$data['id_topic'].'" title="Enlever des favoris"/>'."\n";
+            $favoriteButton = ' &nbsp;<i id="buttonFavourite" class="icon-general_star" alt="Enlever" ';
+            $favoriteButton .= 'data-id-topic="'.$data['id_topic'].'" title="Enlever des favoris"></i>'."\n";
          }
          else
          {
-            $favoriteButton = ' &nbsp;<img id="buttonFavourite" class="topicIcon" src="'.$webRootPath.'res_icons/title_favourite.png" alt="Ajouter" ';
-            $favoriteButton .= 'data-id-topic="'.$data['id_topic'].'" title="Ajouter aux favoris"/>'."\n";
+            $favoriteButton = ' &nbsp;<i id="buttonFavourite" class="icon-general_star_empty" alt="Ajouter" ';
+            $favoriteButton .= 'data-id-topic="'.$data['id_topic'].'" title="Ajouter aux favoris"></i>'."\n";
          }
       
          if(Utils::check(LoggedUser::$data['can_delete']))
          {
-            $deletionButton .= ' &nbsp;<img id="buttonDelete" class="topicIcon" src="'.$webRootPath.'res_icons/title_delete.png" alt="Supprimer" ';
-            $deletionButton .= 'title="Supprimer ce sujet"/>'."\n";
+            $deletionButton .= ' &nbsp;<i id="buttonDelete" class="icon-general_trash" alt="Supprimer" ';
+            $deletionButton .= 'title="Supprimer ce sujet"></i>'."\n";
          }
       
          if(Utils::check($data['is_locked']))
          {
             if(Utils::check(LoggedUser::$data['can_lock']))
             {
-               $lockingButton .= ' &nbsp;<img id="buttonLock" class="topicIcon" src="'.$webRootPath.'res_icons/title_unlock.png" alt="Déverrouiller" ';
-               $lockingButton .= 'title="Déverrouiller ce sujet"/>'."\n";
+               $lockingButton .= ' &nbsp;<i id="buttonLock" class="icon-topic_unlock" alt="Déverrouiller" ';
+               $lockingButton .= 'title="Déverrouiller ce sujet"></i>'."\n";
             }
             else
             {
-               $lockingButton = ' &nbsp;<img class="topicIcon" src="'.$webRootPath.'res_icons/title_lock.png" alt="Verrouillé" ';
-               $lockingButton .= 'title="Ce sujet est verrouillé"/>'."\n";
+               $lockingButton = ' &nbsp;<i class="icon-topic_locked" alt="Verrouillé" ';
+               $lockingButton .= 'title="Ce sujet est verrouillé"></i>'."\n";
             }
          }
          else if(Utils::check(LoggedUser::$data['can_lock']))
          {
-            $lockingButton .= ' &nbsp;<img id="buttonLock" class="topicIcon" src="'.$webRootPath.'res_icons/title_lock.png" alt="Verrouiller" ';
-            $lockingButton .= 'title="Verrouiller ce sujet"/>'."\n";
+            $lockingButton .= ' &nbsp;<i id="buttonLock" class="icon-topic_lock" alt="Verrouiller" ';
+            $lockingButton .= 'title="Verrouiller ce sujet"></i>'."\n";
          }
       }
       else if(Utils::check($data['is_locked']))
       {
-         $lockingLink = ' &nbsp;<img class="topicIcon" src="'.$webRootPath.'res_icons/title_lock.png" alt="Verrouillé" title=';
-         $lockingLink .= '"Ce sujet est verrouillé"/>'."\n";
+         $lockingLink = ' &nbsp;<i class="icon-topic_locked" alt="Verrouillé" title=';
+         $lockingLink .= '"Ce sujet est verrouillé"></i>'."\n";
       }
       $output['contentIcons'] = $anonPostingIcon.$favoriteButton.$lockingButton.$deletionButton;
       
@@ -204,7 +202,7 @@ class TopicHeaderIR
          {
             if($i > 0)
                $listKeywords .= ' ';
-            $link = $webRootPath.'Search.php?keywords='.urlencode($keywords[$i]['tag']);
+            $link = PathHandler::HTTP_PATH().'Search.php?keywords='.urlencode($keywords[$i]['tag']);
             $ownColor = self::stringToColour($keywords[$i]['tag']);
             $style = 'style="background-color: rgb('.$ownColor.');" data-rgb="'.$ownColor.'"';
             $listKeywords .= '<a href="'.$link.'" target="blank" '.$style.'>'.$keywords[$i]['tag'].'</a>';

@@ -45,8 +45,7 @@ class ReviewIR
       {
          $split = explode('|', $review->get('external_link'));
          $output .= '-Contenu externe: <a href="'.$split[0].'" target="_blank">';
-         $output .= $split[1].'<img src="'.PathHandler::HTTP_PATH().'res_icons/external_link.png" ';
-         $output .= 'class="externalLink" alt="Lien externe"></a><br/>'."\n";
+         $output .= $split[1].'<i class="icon-general_leave" title="Lien externe"></i></a><br/>'."\n";
       }
       
       // Related topic
@@ -145,23 +144,18 @@ class ReviewIR
          $output['gameThumbnail'] .= '</div>'."\n";
       }
       
-      // Icons
-      $icons = array('permalink' => $webRootPath.'res_icons/post_permalink_med.png', 
-      'edit' => $webRootPath.'res_icons/post_edit_med.png', 
-      'delete' => $webRootPath.'res_icons/segment_delete.png');
-      
       // Permanent link (or permalink)
-      $output['title'] .= ' &nbsp;<a href="'.PathHandler::reviewURL($review->getAll()).'"><img ';
-      $output['title'] .= ' src="'.$icons['permalink'].'" alt="Lien permanent" title="Lien permanent"/></a>';
+      $output['title'] .= ' &nbsp;<a href="'.PathHandler::reviewURL($review->getAll()).'">';
+      $output['title'] .= '<i class="icon-general_hyperlink" title="Lien permanent"></i></a>';
       
       // Edition links
       if(LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) || $review->get('pseudo') === LoggedUser::$data['pseudo']))
       {
          $output['title'] .= ' <a href="./EditReview.php?id_review='.$review->get('id_commentable').'" target="_blank">';
-         $output['title'] .= '<img class="reviewIcon" src="'.$icons['edit'].'" alt="Editer" title="Editer"/></a>';
+         $output['title'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
          
          $output['title'] .= ' <a href="./DeleteContent.php?id_content='.$review->get('id_commentable').'" target="_blank">';
-         $output['title'] .= '<img class="reviewIcon" src="'.$icons['delete'].'" alt="Supprimer" title="Supprimer"/></a>';
+         $output['title'] .= '<i class="icon-general_trash" title="Supprimer"></i></a>';
       }
       
       // Ratings
@@ -215,16 +209,12 @@ class ReviewIR
          // If minimal display, adds an additional button to the tropes to allow user to get details
          if(!$fullDetails)
          {
-            $buttonIcon = 'review_details.png';
+            $buttonIcon = 'icon-general_plus';
             $buttonTitle = 'Cliquez pour plus de détails';
             if($hasLinks)
-            {
-               $buttonIcon = 'review_details_links.png';
                $buttonTitle = 'Cliquez pour les liens associés et les détails';
-            }
             
-            $output['miniTropes'] .= ' <img src="'.$webRootPath.'res_icons/'.$buttonIcon.'" ';
-            $output['miniTropes'] .= 'class="showReviewDetails" title="'.$buttonTitle.'"/>';
+            $output['miniTropes'] .= ' <span class="showReviewDetails"><i class="'.$buttonIcon.'" title="'.$buttonTitle.'"></i></span>';
          }
       }
       

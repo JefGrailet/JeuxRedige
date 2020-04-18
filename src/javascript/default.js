@@ -47,96 +47,25 @@ DefaultLib.addslashes = function(inputString)
  *
  * @param string ext      Extension of the file
  * @param string file     The path to the uploaded file being displayed (picture or video)
- * @param int    width    The full width (in pixels) of the item being displayed
- * @param int    height   The full height (in pixels) of the item being displayed
  * @param string comment  Optional comment (can be empty)
  */
 
-DefaultLib.updateLightboxSimple = function(ext, file, width, height, comment)
+DefaultLib.updateLightboxSimple = function(ext, file, comment)
 {
    var isVideo = (ext == 'mp4' || ext == 'webm');
-   var resized = false;
-   var greatestDim = width;
-   var ratio = 0.0;
-   if(height > greatestDim)
-   {
-      greatestDim = height;
-      ratio = width / height;
-   }
-   else
-      ratio = height / width;
    
-   // First comes the selection of a threshold for resizing (depends on user's screen)
-   var resizeThreshold = 1000; // Default
-   if(width >= height)
-   {
-      if(screen.width > 1980)
-         resizeThreshold = 2000;
-      else if(screen.width > 1300)
-         resizeThreshold = 1300;
-   }
-   else
-   {
-      if(screen.height > 1080)
-         resizeThreshold = 800;
-      else if(screen.height > 768)
-         resizeThreshold = 650;
-      else
-         resizeThreshold = 550;
-   }
-   if(ratio > 0.7)
-      resizeThreshold *= 0.6;
-   
-   // If necessary, new dimensions are computed
-   if(greatestDim > resizeThreshold)
-   {
-      if(width > height)
-      {
-         height = (resizeThreshold / width) * height;
-         width = resizeThreshold;
-      }
-      else
-      {
-         width = (resizeThreshold / height) * width;
-         height = resizeThreshold;
-      }
-      resized = true;
-   }
-   
-   // The content of the lightbox is updated
    var media = "";
    if(isVideo)
    {
-      media = "<video width=\"" + width + "\" height=\"" + height + "\" ";
-      media += "muted=\"true\" controls autoplay>\n";
+      media = "<video muted=\"true\" controls autoplay>\n";
       media += "<source src=\"" + file + "\" format=\"video/" + ext + "\">";
       media += "</video";
    }
    else
    {
-      media = '<img src="' + file + '" alt="Aperçu" ';
-      media += 'width="' + width + '" height="' + height + '" />';
+      media = '<img src="' + file + '" alt="Aperçu" />';
    }
    $('#lightbox .lightboxContent').html(media);
-   
-   // Then, lightbox can be resized properly
-   var newLightboxWidth = width + 10;
-   var newLightboxHeight = height + 50;
-   
-   // Default size/positioning
-   var editedStyle = 'width: 500px; ';
-   editedStyle += 'margin-left: -250px; ';
-   editedStyle += 'margin-top: -' + (newLightboxHeight / 2).toString() + 'px;';
-   
-   // Resizing/positioning if the window is big enough
-   if(width > 490)
-   {
-      editedStyle = 'width: ' + newLightboxWidth.toString() + 'px; ';
-      editedStyle += 'margin-left: -' + (newLightboxWidth / 2).toString() + 'px; ';
-      editedStyle += 'margin-top: -' + (newLightboxHeight / 2).toString() + 'px;';
-   }
-   
-   $('#lightbox').attr('style', editedStyle);
    $('#lightbox').attr('data-cur-file', file);
    
    // "Legend" of the picture (insertion code or comment + link to full size, if necessary)
@@ -150,13 +79,12 @@ DefaultLib.updateLightboxSimple = function(ext, file, width, height, comment)
       var explodedLink = file.split('upload/');
       legend += 'upload/' + explodedLink[1];
    }
-   if(resized)
-   {
-      if(isVideo)
-         legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
-      else
-         legend += ' (<a href="' + file + '" target="blank">Taille réelle</a>)';
-   }
+   
+   if(isVideo)
+      legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
+   else
+      legend += ' (<a href="' + file + '" target="blank">Fichier source</a>)';
+   
    $('#lightbox .lightboxBottom .LBCenter').html('<p>' + legend + '</p>');
 }
 
@@ -166,97 +94,26 @@ DefaultLib.updateLightboxSimple = function(ext, file, width, height, comment)
  *
  * @param string ext         Extension of the file
  * @param string file        The path to the uploaded file being displayed (picture or video)
- * @param int    width       The full width (in pixels) of the item being displayed
- * @param int    height      The full height (in pixels) of the item being displayed
  * @param string uploader    The uploader's pseudonym (can be empty)
  * @param string uploadDate  The date at which the file was uploaded
  */
 
-DefaultLib.updateLightboxDetailed = function(ext, file, width, height, uploader, uploadDate)
+DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
 {
    var isVideo = (ext == 'mp4' || ext == 'webm');
-   var resized = false;
-   var greatestDim = width;
-   var ratio = 0.0;
-   if(height > greatestDim)
-   {
-      greatestDim = height;
-      ratio = width / height;
-   }
-   else
-      ratio = height / width;
    
-   // First comes the selection of a threshold for resizing (depends on user's screen)
-   var resizeThreshold = 1000; // Default
-   if(width >= height)
-   {
-      if(screen.width > 1920)
-         resizeThreshold = 1700;
-      else if(screen.width > 1500)
-         resizeThreshold = 1250;
-   }
-   else
-   {
-      if(screen.height > 1080)
-         resizeThreshold = 800;
-      else if(screen.height > 768)
-         resizeThreshold = 650;
-      else
-         resizeThreshold = 550;
-   }
-   if(ratio > 0.7)
-      resizeThreshold *= 0.6;
-   
-   // If necessary, new dimensions are computed
-   if(greatestDim > resizeThreshold)
-   {
-      if(width > height)
-      {
-         height = (resizeThreshold / width) * height;
-         width = resizeThreshold;
-      }
-      else
-      {
-         width = (resizeThreshold / height) * width;
-         height = resizeThreshold;
-      }
-      resized = true;
-   }
-   
-   // The content of the lightbox is updated
    var media = "";
    if(isVideo)
    {
-      media = "<video width=\"" + width + "\" height=\"" + height + "\" ";
-      media += "muted=\"true\" controls autoplay>\n";
+      media = "<video muted=\"true\" controls autoplay>\n";
       media += "<source src=\"" + file + "\" format=\"video/" + ext + "\">";
       media += "</video";
    }
    else
    {
-      media = '<img src="' + file + '" alt="Aperçu" ';
-      media += 'width="' + width + '" height="' + height + '" />';
+      media = '<img src="' + file + '" alt="Aperçu" />';
    }
    $('#lightbox .lightboxContent').html(media);
-   
-   // Then, lightbox can be resized properly
-   var newLightboxWidth = width + 10;
-   var newLightboxHeight = height + 50;
-   
-   // Default size/positioning
-   var editedStyle = 'width: 500px; ';
-   editedStyle += 'margin-left: -250px; ';
-   editedStyle += 'margin-top: -' + (newLightboxHeight / 2).toString() + 'px;';
-   
-   // Resizing/positioning if the window is big enough
-   if(width > 490)
-   {
-      editedStyle = 'width: ' + newLightboxWidth.toString() + 'px; ';
-      editedStyle += 'margin-left: -' + (newLightboxWidth / 2).toString() + 'px; ';
-      editedStyle += 'margin-top: -' + (newLightboxHeight / 2).toString() + 'px;';
-   }
-   
-   $('#lightbox').attr('style', editedStyle);
    $('#lightbox').attr('data-cur-file', file);
    
    // "Legend" of the picture (author + link to full size if needed)
@@ -264,13 +121,10 @@ DefaultLib.updateLightboxDetailed = function(ext, file, width, height, uploader,
    if(uploader.length > 0)
       legend += 'par ' + uploader + ' ';
    legend += 'le ' + uploadDate;
-   if(resized)
-   {
-      if(isVideo)
-         legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
-      else
-         legend += ' (<a href="' + file + '" target="blank">Taille réelle</a>)';
-   }
+   if(isVideo)
+      legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
+   else
+      legend += ' (<a href="' + file + '" target="blank">Fichier source</a>)';
    
    $('#lightbox .lightboxBottom .LBCenter').html('<p>' + legend + '</p>');
    
@@ -340,75 +194,31 @@ DefaultLib.showUpload = function(uploadBlock)
    if(uploadBlock.attr('class') == 'miniature')
       slideShow = false;
       
-   // Checking the extension: upload treatment is not the same for videos and pictures
+   // Gets the extension
    var ext = filePath.substr((filePath.lastIndexOf('.') + 1)).toLowerCase();
    
-   if(ext == 'webm' || ext == 'mp4')
+   if(slideShow)
    {
-      // Already puts the video in the lightbox, because we need to load metadata to adjust size.
-      var media = "<video muted=\"true\" controls autoplay>\n";
-      media += "<source src=\"" + filePath + "\" format=\"video/" + ext + "\">";
-      media += "</video";
+      var uploader = uploadBlock.attr('data-uploader');
+      var uploadDate = uploadBlock.attr('data-upload-date');
+      if(typeof uploader === typeof undefined || uploader === false)
+          uploader = "";
       
-      $('#lightbox .lightboxContent').html(media);
-      $('#lightbox .lightboxContent video').bind("loadedmetadata", function ()
-      {
-         var width = this.videoWidth;
-         var height = this.videoHeight;
-         
-         // Then only, one can properly display the video.
-         if(slideShow)
-         {
-            var uploader = uploadBlock.attr('data-uploader');
-            var uploadDate = uploadBlock.attr('data-upload-date');
-            if(typeof uploader === typeof undefined || uploader === false)
-                uploader = "";
-            
-            DefaultLib.updateLightboxDetailed(ext, filePath, width, height, uploader, uploadDate);
-         }
-         else
-         {
-            var commentAttr = uploadBlock.attr('data-comment');
-            var comment = '';
-            if(typeof commentAttr !== typeof undefined && commentAttr !== false)
-               comment = commentAttr;
-            
-            DefaultLib.updateLightboxSimple(ext, filePath, width, height, comment);
-         }
-         
-         $('#blackScreen').fadeIn(500);
-         $('#blackScreen').click(function(e) { DefaultLib.stopShowingLightbox(); });
-         $('#lightbox').fadeIn(1000);
-      });
+      DefaultLib.updateLightboxDetailed(ext, filePath, uploader, uploadDate);
    }
-   // For pictures: the dimensions are already available
    else
    {
-      var width = parseInt(uploadBlock.attr('data-width'));
-      var height = parseInt(uploadBlock.attr('data-height'));
-      if(slideShow)
-      {
-         var uploader = uploadBlock.attr('data-uploader');
-         var uploadDate = uploadBlock.attr('data-upload-date');
-         if(typeof uploader === typeof undefined || uploader === false)
-            uploader = "";
-         
-         DefaultLib.updateLightboxDetailed(ext, filePath, width, height, uploader, uploadDate);
-      }
-      else
-      {
-         var commentAttr = uploadBlock.attr('data-comment');
-         var comment = '';
-         if(typeof commentAttr !== typeof undefined && commentAttr !== false)
-            comment = commentAttr;
+      var commentAttr = uploadBlock.attr('data-comment');
+      var comment = '';
+      if(typeof commentAttr !== typeof undefined && commentAttr !== false)
+         comment = commentAttr;
       
-         DefaultLib.updateLightboxSimple(ext, filePath, width, height, comment);
-      }
-
-      $('#blackScreen').fadeIn(500);
-      $('#blackScreen').click(function(e) { DefaultLib.stopShowingLightbox(); });
-      $('#lightbox').fadeIn(1000);
+      DefaultLib.updateLightboxSimple(ext, filePath, comment);
    }
+   
+   $('#blackScreen').fadeIn(500);
+   $('#blackScreen').click(function(e) { DefaultLib.stopShowingLightbox(); });
+   $('#lightbox').fadeIn(1000);
 }
 
 DefaultLib.slideShow = function(previousOrNext)
@@ -452,45 +262,18 @@ DefaultLib.slideShow = function(previousOrNext)
       component += '_' + (thisPictureID + 1).toString() + '"]';
    }
    
-   // Retrieves the data of the picture to show
+   // Retrieves the data of the next piece of media to show
    var newFilePath = "";
    if($(component).length > 0)
    {
       newFilePath = $(component).attr('data-file');
       
-      // The extension of the next file is checked to do the proper update
       var ext = newFilePath.substr((newFilePath.lastIndexOf('.') + 1)).toLowerCase();
-      if(ext == 'webm' || ext == 'mp4')
-      {
-         $('#lightbox').fadeOut(300, function()
-         {
-            var media = "<video muted=\"true\" controls autoplay>\n";
-            media += "<source src=\"" + newFilePath + "\" format=\"video/" + ext + "\">";
-            media += "</video";
-            
-            $('#lightbox .lightboxContent').html(media);
-            $('#lightbox .lightboxContent video').bind("loadedmetadata", function ()
-            {
-               var newWidth = this.videoWidth;
-               var newHeight = this.videoHeight;
-               var newUploader = $(component).attr('data-uploader');
-               var newUploadDate = $(component).attr('data-upload-date');
-               
-               DefaultLib.updateLightboxDetailed(ext, newFilePath, newWidth, newHeight, newUploader, newUploadDate);
-               $('#lightbox').fadeIn(300, function() { DefaultLib.blockKeypresses = false; });
-            });
-         });
-      }
-      else
-      {
-         var newWidth = parseInt($(component).attr('data-width'));
-         var newHeight = parseInt($(component).attr('data-height'));
-         var newUploader = $(component).attr('data-uploader');
-         var newUploadDate = $(component).attr('data-upload-date');
-         
-         DefaultLib.updateLightboxDetailed(ext, newFilePath, newWidth, newHeight, newUploader, newUploadDate);
-         DefaultLib.blockKeypresses = false;
-      }
+      var newUploader = $(component).attr('data-uploader');
+      var newUploadDate = $(component).attr('data-upload-date');
+      
+      DefaultLib.updateLightboxDetailed(ext, newFilePath, newUploader, newUploadDate);
+      DefaultLib.blockKeypresses = false;
    }
    else
    {
@@ -613,7 +396,7 @@ DefaultLib.isHandlingAJAX = function()
       if(!DefaultLib.usingAJAX)
          return;
       
-      $('#bubble').html('<img src="' + DefaultLib.httpPath + 'res_icons/loading.gif" alt="Chargement" title="En attente de la réponse..."/>');
+      $('#bubble').html('<p><i class="icon-general_loading" title="En attente de la réponse..."></i></p>');
       $('#bubble').fadeIn(200);
    }, 300);
    

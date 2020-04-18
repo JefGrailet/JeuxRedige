@@ -102,10 +102,19 @@
    color: black;
 }
 
+.articleEditBlock td p
+{
+   font-size: 20px;
+   margin: 0px;
+   padding: 0px;
+}
+
 .articleEditBlock .formatButton
 {
-   padding: 4px;
+   padding: 6px 6px 4px 6px;
    background-color: #383A49;
+   color: white;
+   font-size: 18px;
    border-radius: 3px;
    cursor: pointer;
 }
@@ -117,8 +126,10 @@
 
 .articleEditBlock .extendedFormatButton
 {
-   padding: 4px;
+   padding: 6px 6px 4px 6px;
    background-color: #00B53C;
+   color: white;
+   font-size: 18px;
    border-radius: 3px;
    cursor: pointer;
 }
@@ -431,6 +442,13 @@
    background-color: #383A49;
    opacity: 0.8;
    display: inline-block;
+}
+
+.uploadViewIcons i
+{
+   color: white;
+   padding: 6px 3px;
+   font-size: 14px;
 }
 
 .uploadViewIcons:hover

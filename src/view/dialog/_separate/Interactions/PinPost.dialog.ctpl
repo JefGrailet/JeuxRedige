@@ -6,7 +6,7 @@
    <div class="windowContent">
       <table class="windowFields">
          <tr>
-            <td class="integrateColumn1"><label for="comment">Commentaire :</label></td>
+            <td class="integrateColumn1"><label for="comment">Note:</label></td>
             <td class="integrateColumn3"><input type="text" name="comment" maxlength="100"/></td>
             <td class="integrateColumn4">Max. 100 caractères</td>
          </tr>

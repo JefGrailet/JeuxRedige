@@ -1,6 +1,6 @@
 /* Thumbnail container; the size depends on the browser window width in pixels. */
 
-#thumbnailsPool, #thumbnailsPoolIndex, #tropesPool
+#thumbnailsPool, #thumbnailsPoolIndex
 {
    display: block;
    margin: auto;
@@ -13,7 +13,7 @@
 
 @media screen and (max-width: 1079px)
 {
-   #thumbnailsPool, #thumbnailsPoolIndex, #tropesPool
+   #thumbnailsPool, #thumbnailsPoolIndex
    {
       width: 800px;
    }
@@ -21,7 +21,7 @@
 
 @media screen and (min-width: 1080px) and (max-width: 1349px)
 {
-   #thumbnailsPool, #tropesPool
+   #thumbnailsPool
    {
       width: 1080px;
    }
@@ -37,7 +37,7 @@
 
 @media screen and (min-width: 1350px) and (max-width: 1619px)
 {
-   #thumbnailsPool, #tropesPool
+   #thumbnailsPool
    {
       width: 1350px;
    }
@@ -45,7 +45,7 @@
 
 @media screen and (min-width: 1620px)
 {
-   #thumbnailsPool, #tropesPool
+   #thumbnailsPool
    {
       width: 1620px;
    }
@@ -53,7 +53,7 @@
 
 /* Emoticons have their own dedicated container. */
 
-#emoticonsPool, #lineItemsPool, #tropesPool
+#emoticonsPool, #lineItemsPool
 {
    display: block;
    margin: auto;

@@ -4,7 +4,6 @@ noGame & <p>Aucun jeu n'a été trouvé.<br/><br/><br/></p>|
 dbError & <p>Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus 
 tard ou contactez l'administrateur.<br/><br/><br/></p>|
 wrongTemplating & <p>Une erreur est survenue lors de la génération des vignettes. Réessayez plus 
-tard ou contactez l'administrateur.<br/><br/><br/></p>}
-   <a href="./SearchGames.php" class="prettyLink">Chercher un jeu</a> 
+tard ou contactez l'administrateur.<br/><br/><br/></p>} 
    {switch:newGameButton||yes & <a href="./NewGame.php" class="prettyLink">Nouveau jeu</a>}
 </div>

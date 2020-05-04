@@ -1642,43 +1642,13 @@ textarea
    color: #36DDFF;
 }
 
-/* Style for icon background in trope forms */
+/* Style for icon background */
 
 #previewIcon
 {
    background-color: #E0E0E0;
    padding: 10px;
    border-radius: 5px;
-}
-
-/* Style for color pick in trope forms */
-
-.tropeColorLine
-{
-   width: 100%;
-}
-
-.tropeColorLine p
-{
-   width: 40%;
-   float: left;
-   padding: 0px;
-   margin: 0px;
-}
-
-.tropeColorLine input[type=range]
-{
-   width: 100%;
-}
-
-.tropeColorLine .colorShow
-{
-   float: left;
-   margin: 10px;
-   display: inline-block;
-   width: 50px;
-   height: 21px;
-   border: 1px solid grey;
 }
 
 /* Classes to enhance the visuals of the lists of pages (in centeredContent blocks). */

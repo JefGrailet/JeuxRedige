@@ -65,7 +65,7 @@ class Keywords
    }
 
    /*
-   * Turns an array of keywords/aliases/tropes into HTML code displaying them with delete buttons.
+   * Turns an array of keywords/aliases into HTML code displaying them with delete buttons.
    *
    * @param string $arr[]  An array of keywords to display
    * @return string        HTML code displaying the keywords with delete button
@@ -73,7 +73,6 @@ class Keywords
 
    public static function display($arr) { return self::displayGeneric($arr, 'KeywordsLib.removeKeyword'); }
    public static function displayAliases($arr) { return self::displayGeneric($arr, 'GameEditorLib.removeAlias'); }
-   public static function displayTropes($arr) { return self::displayGeneric($arr, 'TropesLib.removeTrope'); }
 
    /*
    * Lists the common keywords between two sets, given as arrays. The result is an array as well.

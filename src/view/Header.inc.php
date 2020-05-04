@@ -241,7 +241,6 @@ if(LoggedUser::isLoggedIn())
    echo $padding.'   '.'<li><i class="icon-menu_articles"></i> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
    echo $padding.'   '.'<li><i class="icon-menu_lists"></i> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
    echo $padding.'   '.'<li><i class="icon-menu_games"></i> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_tropes"></i> <a href="'.$webRootPath.'Tropes.php">Codes ludiques</a><sup>Beta</sup></li>'."\n";
    echo $padding.'   '.'<li><i class="icon-menu_didyouknow"></i> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
    echo $padding.'   '.'<li><i class="icon-menu_invite"></i> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
    if($adminTools)

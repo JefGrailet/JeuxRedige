@@ -470,7 +470,6 @@ class Buffer
    public static function getArticleThumbnail() { return self::getByPrefix('article_thumbnail_'); }
    public static function getSegmentHeader() { return self::getByPrefix('header_'); }
    public static function getHighlight() { return self::getByPrefix('highlight_'); }
-   public static function getTropeIcon() { return self::getByPrefix('icon_'); }
 
    /*
    * Generic method to remove specific files from user's buffer, provided a prefix for the file 
@@ -503,6 +502,5 @@ class Buffer
    public static function cleanArticleThumbnails() { self::cleanByPrefix('article_thumbnail_'); }
    public static function cleanSegmentHeaders() { self::cleanByPrefix('header_'); }
    public static function cleanHighlights() { self::cleanByPrefix('highlight_'); }
-   public static function cleanTropeIcons() { self::cleanByPrefix('icon_'); }
 }
 ?>

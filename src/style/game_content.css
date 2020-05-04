@@ -1,6 +1,6 @@
-/* Style for game content, such as reviews, trivia, etc. */
+/* Style for game content, such as trivia */
 
-#reviewsContainer, #triviaContainer
+#triviaContainer
 {
    margin: auto;
    width: 80%;
@@ -9,7 +9,7 @@
 
 /* General style for blocks and content */
 
-.reviewBlock, .triviaBlock
+.triviaBlock
 {
    display: block;
    min-width: 760px;
@@ -18,20 +18,13 @@
    margin-top: 20px;
 }
 
-.reviewContent, .triviaContent
+.triviaContent
 {
    display: block;
    overflow: hidden;
 }
 
-.reviewContent
-{
-   background-color: white;
-   color: black;
-   border-radius: 5px;
-}
-
-.reviewContent p, .triviaHeader p, .triviaContent p
+.triviaHeader p, .triviaContent p
 {
    margin: 0px;
    font-family: "Arial", "Serif";
@@ -83,49 +76,6 @@
    background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Top of the review (game thumbnail aside) */
-
-.reviewTop
-{
-   display: block;
-   background-color: #f0f0f0;
-   color: #6e6e6e;
-   border-radius: 5px 5px 0px 0px;
-   padding: 0px;
-}
-
-.reviewRating
-{
-   display: inline-block;
-   border-radius: 5px 0px 0px 0px;
-   float: left;
-}
-
-.reviewContent .reviewRating
-{
-   padding: 11px;
-}
-
-.reviewTitle
-{
-   display: inline-block;
-   font-weight: bold;
-   float: left;
-}
-
-.reviewRatings
-{
-   display: inline-block;
-   float: right;
-}
-
-.reviewTitle img
-{
-   margin: 0px;
-   padding: 0px;
-   vertical-align: -25%;
-}
-
 /* Top of a piece of trivia */
 
 .triviaTop
@@ -151,32 +101,32 @@
    float: right;
 }
 
-.triviaTop a, .reviewTop a
+.triviaTop a
 {
    text-decoration: none;
 }
 
-.triviaTop i, .reviewTop i
+.triviaTop i
 {
    color: #6e6e6e;
    font-size: 18px;
    vertical-align: -2px;
 }
 
-.triviaTop i:hover, .reviewTop i:hover
+.triviaTop i:hover
 {
    color: white;
 }
 
-/* Misc., used for both */
+/* Misc. */
 
-.reviewRatings a, .triviaTop a
+.triviaTop a
 {
    text-decoration: none;
    color: #155dc8;
 }
 
-.reviewRatings a:hover, .triviaTop a:hover
+.triviaTop a:hover
 {
    color: blue;
 }
@@ -192,35 +142,6 @@
 {
    display: block;
    border-radius: 0px 0px 5px 5px;
-}
-
-.miniTropes
-{
-   display: inline-block;
-   float: left;
-   padding: 10px;
-}
-
-.miniTrope
-{
-   padding: 7.5px;
-   border-radius: 5px;
-}
-
-.showReviewDetails
-{
-   display: inline-block;
-   vertical-align: 24px;
-   padding: 20.5px 5px;
-   border-radius: 5px;
-   background-color: #557083;
-   color: white;
-}
-
-.showReviewDetails:hover
-{
-   background-color: grey;
-   cursor: pointer;
 }
 
 .contentAuthor
@@ -262,7 +183,7 @@
    padding: 15px 5px 15px 10px;
 }
 
-.reviewContent .contentAuthorPseudo a, .triviaText .contentAuthorPseudo a
+.triviaText .contentAuthorPseudo a
 {
    text-decoration: none;
    color: #6e6e6e;
@@ -324,7 +245,7 @@
    color: blue;
 }
 
-.fullContent .quotation, .reviewContent .spoiler
+.fullContent .quotation, .fullContent .spoiler
 {
    width: 96%;
    margin-left: 2%;

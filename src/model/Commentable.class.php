@@ -6,11 +6,7 @@
 * other users' evaluation anyway, to evaluate how relevant and useful this piece of content is. 
 * In particular, it allows bindings between a "commentable" and several topics to discuss the 
 * content more thoroughly, which should however stay an exception (a commentable isn't supposed 
-* to be long and as debatable as a full article). This should notably be the case of small 
-* reviews, tips and possibly news.
-* 
-* It should be noted that at the moment, only small reviews are being implemented as a child of 
-* this class, but the point of Commentable is to easily re-use its code for upcoming features.
+* to be long and as debatable as a full article).
 */
 
 class Commentable
@@ -417,7 +413,7 @@ class Commentable
    
    /*
    * Deletes the commentable. Thanks to InnoDB, everything related to the commentable in other 
-   * tables (like lines in "reviews" and tropes mapped to each) is deleted as well.
+   * tables is deleted as well.
    *
    * @throws Exception  If deletion could not be carried out in the DB (SQL error provided)
    */
@@ -443,9 +439,8 @@ class Commentable
    
    public static function whatKind($commentableID)
    {
-      $sql = 'SELECT commentables.id_commentable, reviews.rating, trivia.content, lists.ordering 
+      $sql = 'SELECT commentables.id_commentable trivia.content, lists.ordering 
       FROM commentables 
-      LEFT OUTER JOIN reviews ON reviews.id_commentable=commentables.id_commentable 
       LEFT OUTER JOIN trivia ON trivia.id_commentable=commentables.id_commentable 
       LEFT OUTER JOIN lists ON lists.id_commentable=commentables.id_commentable 
       WHERE commentables.id_commentable=?';
@@ -456,8 +451,6 @@ class Commentable
          if(!is_array($res[0]) && count($res) == 3)
             throw new Exception('Cannot check commentable type: '.$res[2]);
          
-         if($res[0]['rating'] != NULL)
-            return 'Review';
          if($res[0]['content'] != NULL)
             return 'Trivia';
          if($res[0]['ordering'] != NULL)

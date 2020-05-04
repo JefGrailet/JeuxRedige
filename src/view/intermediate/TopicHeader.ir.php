@@ -2,7 +2,6 @@
 
 // Includes two other IR's which can otherwise be used individually
 require './view/intermediate/Game.ir.php';
-// require './view/intermediate/Trope.ir.php';
 
 class TopicHeaderIR
 {

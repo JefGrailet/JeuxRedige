@@ -7,6 +7,5 @@
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
-   {switch:searchButton||yes & <a href="./SearchGames.php" class="prettyLink">Chercher un jeu</a> }
    {switch:newGameButton||yes & <a href="./NewGame.php" class="prettyLink">Nouveau jeu</a>}
 </div>

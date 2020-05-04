@@ -25,7 +25,7 @@ class CommentableIR
 
    /*
    * Generates the full details about the ratings of a commentable in a single string (as HTML). 
-   * Is called by other components such as ReviewIR but can be called separately.
+   * Is called by other components but can be called separately.
    *
    * @param mixed $commentable  The commentable itself, as an object
    * @param bool $showClick     Optional boolean value to append a small message for commentables 
@@ -117,9 +117,9 @@ class CommentableIR
    }
 
    /*
-   * Analyzes a Commentable object (such as a Review) to prepare the intermediate representation 
-   * (or IR) for the parts of the template that will contain the ratings and the users associated 
-   * to each rating.
+   * Analyzes a Commentable object to prepare the intermediate representation (or IR) for the 
+   * parts of the template that will contain the ratings and the users associated to each 
+   * rating.
    * 
    * @param mixed $commentable  The commentable (as an object)
    * @return mixed[]            The IR for the commentable part of the template

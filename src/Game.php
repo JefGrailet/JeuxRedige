@@ -2,8 +2,8 @@
 
 /**
 * Homepage of a given game (provided in URL). It consists of a game header along a list of all
-* content related to the game (articles tagged with the game, topics tagged with the game, tropes 
-* and reviews). There are two modes of display:
+* content related to the game (articles tagged with the game, topics tagged with the game, etc.). 
+* There are two modes of display:
 * 1) default display: the page displays a bit of everything, but with limited quantities and a 
 *    button for the second mode (see below) when the amount of items is above the threshold.
 * 2) selected display: the page displays only a category of content with pagination
@@ -57,7 +57,7 @@ if(!TemplateEngine::hasFailed($headerTpl))
 
 // Finds which display the user has chosen to see what libraries are relevant
 $displayMode = 'default';
-$modes = array('reviews', 'articles', 'trivia', 'lists', 'topics', 'default');
+$modes = array('articles', 'trivia', 'lists', 'topics', 'default');
 if(!empty($_GET['section']))
 {
    $selectedMode = Utils::secure($_GET['section']);
@@ -65,151 +65,11 @@ if(!empty($_GET['section']))
       $displayMode = $selectedMode;
 }
 
-// TODO: average rating
-
 // Fetches the content for each section
-$rReviews = '';
 $rArticles = '';
 $rTrivia = '';
 $rLists = '';
 $rTopics = '';
-if($displayMode === 'default' || $displayMode === 'reviews')
-{
-   require './model/Review.class.php';
-   require './view/intermediate/Review.ir.php';
-   require './libraries/MessageParsing.lib.php';
-   
-   // Additional JS
-   WebpageHandler::addJS('review_interaction');
-   
-   try
-   {
-      // Counts related reviews
-      $needle = $gameTitle;
-      $nbRelated = Review::countReviews($needle);
-      
-      if($nbRelated == 0)
-      {
-         $tplInput = array('error' => 'noReview', 'gameTitle' => urlencode($gameTitle));
-         $rReviews = TemplateEngine::parse('view/content/RelatedReviews.fail.ctpl', $tplInput);
-      }
-      else
-      {
-         // Overall template input
-         $tplInput = array('tropes' => '', 
-                           'fullTropes' => '', 
-                           'reviews' => '', 
-                           'pageConfig' => '', 
-                           'allReviews' => '', 
-                           'myReview' => '');
-         
-         // Display of the button "new review" depends if the user already wrote one or not
-         if(LoggedUser::isLoggedIn())
-         {
-            $existingReviewID = Review::hasReviewed($gameTitle);
-            if($existingReviewID != 0)
-               $tplInput['myReview'] = 'editMine||'.$existingReviewID;
-            else
-               $tplInput['myReview'] = 'none||'.urlencode($gameTitle);
-         }
-         else
-            $tplInput['myReview'] = 'none||'.urlencode($gameTitle);
-         
-         // Tropes
-         $tropes = $game->getTropes();
-         if($tropes != NULL)
-         {
-            $input = array();
-            for($i = 0; $i < count($tropes); $i++)
-               array_push($input, TropeIR::process($tropes[$i], false, false));
-            
-            $output = TemplateEngine::parseMultiple('view/content/Trope.ctpl', $input);
-            if(!TemplateEngine::hasFailed($output))
-            {
-               $tplInput['tropes'] = 'yes||';
-               for($i = 0; $i < count($output); $i++)
-                  $tplInput['tropes'] .= $output[$i];
-            }
-         }
-         
-         $perPage = WebpageHandler::$miscParams['topics_per_page'];
-         $firstReview = 0;
-         
-         // Pagination only makes sense on dedicated section and if there are enough reviews
-         if($displayMode === 'reviews')
-         {
-            $currentPage = 1;
-            $nbPages = ceil($nbRelated / $perPage);
-            if(!empty($_GET['page']) && preg_match('#^([0-9]+)$#', $_GET['page']))
-            {
-               $getPage = intval($_GET['page']);
-               if($getPage <= $nbPages)
-               {
-                  $currentPage = $getPage;
-                  $firstReview = ($getPage - 1) * $perPage;
-               }
-            }
-            
-            $tplInput['pageConfig'] = $perPage.'|'.$nbRelated.'|'.$currentPage;
-            $tplInput['pageConfig'] .= '|'.PathHandler::gameURL($game->getAll(), 'reviews', '[]');
-         }
-         // If not on the dedicated page, then only the 5 last reviews are displayed
-         else if($nbRelated > 5)
-         {
-            $perPage = 5;
-            $tplInput['allReviews'] = 'yes||'.PathHandler::gameURL($game->getAll(), 'reviews').'|'.$nbRelated;
-         }
-         
-         // Now retrieving the reviews themselves
-         $reviewsArr = Review::getReviews($firstReview, $perPage, $needle);
-         $reviews = array();
-         for($i = 0; $i < count($reviewsArr); $i++)
-         {
-            $reviewsArr[$i]['comment'] = MessageParsing::parse($reviewsArr[$i]['comment'], ($i + 1));
-            array_push($reviews, new Review($reviewsArr[$i]));
-         }
-         
-         // Rendering reviews
-         $input = array();
-         for($i = 0; $i < count($reviews); $i++)
-            array_push($input, ReviewIR::process($reviews[$i]));
-         $output = TemplateEngine::parseMultiple('view/content/Review.ctpl', $input);
-         
-         // Rendering associated tropes
-         $thumbnails = '';
-         if($fullTropes != NULL)
-         {
-            $tropesInput = array();
-            for($i = 0; $i < count($fullTropes); $i++)
-               array_push($tropesInput, TropeIR::process($fullTropes[$i]));
-            $tropesOutput = TemplateEngine::parseMultiple('view/content/Trope.ctpl', $tropesInput);
-            if(!TemplateEngine::hasFailed($tropesOutput))
-               for($i = 0; $i < count($tropesOutput); $i++)
-                  $thumbnails .= $tropesOutput[$i];
-         }
-         
-         // Displays the final reviews
-         if(TemplateEngine::hasFailed($output))
-         {
-            $tplInput = array('error' => 'badTemplating', 'gameTitle' => urlencode($gameTitle));
-            $rReviews = TemplateEngine::parse('view/content/RelatedReviews.fail.ctpl', $tplInput);
-         }
-         else
-         {
-            $tplInput['fullTropes'] = $thumbnails;
-            for($i = 0; $i < count($output); $i++)
-               $tplInput['reviews'] .= $output[$i];
-            $rReviews = TemplateEngine::parse('view/content/RelatedReviews.ctpl', $tplInput);
-         }
-      }
-   }
-   catch(Exception $e)
-   {
-      echo $e->getMessage().'<br/>';
-      $tplInput = array('error' => 'dbError', 'gameTitle' => urlencode($gameTitle));
-      $rReviews = TemplateEngine::parse('view/content/RelatedReviews.fail.ctpl', $tplInput);
-   }
-}
 if($displayMode === 'default' || $displayMode === 'articles')
 {
    require './model/Article.class.php';
@@ -547,10 +407,9 @@ if($displayMode === 'default')
 {
    if(strlen($rArticles) > 0)
       $rArticles .= "\n<br/>\n";
-   $rReviews .= "\n<br/>\n";
 }
 
 // Final HTML page
-WebpageHandler::wrap($headerTpl.$rReviews.$rArticles.$rTrivia.$rLists.$rTopics, $gameTitle);
+WebpageHandler::wrap($headerTpl.$rArticles.$rTrivia.$rLists.$rTopics, $gameTitle);
 
 ?>

@@ -687,7 +687,7 @@ class PathHandler
    public static function gameURL($game, $section = '', $page = '')
    {
       $URL = './Game.php?game='.urlencode($game['tag']);
-      if(in_array($section, array('reviews', 'articles', 'trivia', 'lists', 'topics')))
+      if(in_array($section, array('articles', 'trivia', 'lists', 'topics')))
       {
          $URL .= '&section='.$section;
          if($page !== '' && intval($page) != 1)
@@ -702,14 +702,6 @@ class PathHandler
       $URL = 'articles/'.$article['id_article'].'/'.$titleFormatted.'/';
       if($segment !== '' && intval($segment) != 1)
          $URL .= $segment.'/';
-      
-      return self::$HTTP_PATH.$URL;
-   }
-   
-   public static function reviewURL($review)
-   {
-      $URL = 'reviews/'.$review['id_commentable'].'/'.self::formatForURL($review['game']).'/';
-      $URL .= PathHandler::formatForURL($review['title']).'/';
       
       return self::$HTTP_PATH.$URL;
    }

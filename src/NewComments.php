@@ -36,14 +36,7 @@ if(!empty($_GET['id_content']) && preg_match('#^([0-9]+)$#', $_GET['id_content']
    try
    {
       $what = Commentable::whatKind($getID);
-      if($what === 'Review')
-      {
-         require './model/Review.class.php';
-         require './view/intermediate/ReviewFirstReaction.ir.php';
-         $commentable = new Review($getID);
-         $autoMessage = ReviewFirstReactionIR::process($commentable->getAll());
-      }
-      else if($what === 'Trivia')
+      if($what === 'Trivia')
       {
          require './model/Trivia.class.php';
          require './view/intermediate/TriviaFirstReaction.ir.php';
@@ -389,24 +382,18 @@ if(!empty($_POST['sent']))
          {
             // Title
             $notificationTitle = 'Votre ';
-            if($what === 'Review')
-               $notificationTitle .= 'évaluation';
-            else if($what === 'Trivia')
+            if($what === 'Trivia')
                $notificationTitle .= 'anecdote';
             else if($what === 'GamesList')
                $notificationTitle .= 'liste';
             $notificationTitle .= ' a été commenté';
-            if($what === 'Review' || $what === 'Trivia' || $what === 'GamesList')
+            if($what === 'Trivia' || $what === 'GamesList')
                $notificationTitle .= 'e';
             
             // Full title in the message
             $fullTitle = '';
             switch($what)
             {
-               case 'Review':
-                  $fullTitle = 'évaluation de '.$commentable->get('game');
-                  break;
-               
                case 'Trivia':
                   $fullTitle = 'anecdote <em>'.$commentable->get('title').'</em> pour le jeu '.$commentable->get('game');
                   break;

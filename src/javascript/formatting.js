@@ -26,11 +26,6 @@ FormattingLib.refreshPreview = function()
       if(SegmentEditorLib.previewEnabled)
          SegmentEditorLib.preview();
    }
-   else if(typeof ReviewEditorLib !== 'undefined')
-   {
-      if(ReviewEditorLib.previewEnabled)
-         ReviewEditorLib.preview();
-   }
 }
 
 /*

@@ -1,6 +1,0 @@
-<div id="tropesContainer">
-   {$fullTropes}
-</div>
-<div id="reviewsContainer">
-   {$review}
-</div>

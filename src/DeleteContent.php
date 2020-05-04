@@ -32,22 +32,7 @@ if(!empty($_GET['id_content']) && preg_match('#^([0-9]+)$#', $_GET['id_content']
    try
    {
       $what = Commentable::whatKind($getID);
-      if($what === 'Review')
-      {
-         require './model/Review.class.php';
-         $commentable = new Review($getID);
-         
-         $commentableTitle = 'Evaluation de '.$commentable->get('game').': '.$commentable->get('title');
-         $commentableURL = PathHandler::reviewURL($commentable->getAll());
-         $commentableOut = PathHandler::gameURL(array('tag' => $commentable->get('game')));
-         if($commentable->get('id_topic') != NULL && $commentable->get('id_article') != NULL)
-            $relatedContent = 'both';
-         else if($commentable->get('id_topic') != NULL)
-            $relatedContent = 'topic';
-         else if($commentable->get('id_article') != NULL)
-            $relatedContent = 'article';
-      }
-      else if($what === 'Trivia')
+      if($what === 'Trivia')
       {
          require './model/Trivia.class.php';
          $commentable = new Trivia($getID);

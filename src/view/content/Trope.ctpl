@@ -1,8 +1,0 @@
-<div data-trope="{$title}" class="mediaThumbnail" {$styleAndData}>
-   <div class="description">
-      <h1 {$styleBis}>{$title}{switch:editButton||yes & [0]}</h1>
-      <p {$textColor}>
-      {$description}
-      </p>
-   </div>
-</div>

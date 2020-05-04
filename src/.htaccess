@@ -1,6 +1,5 @@
 RewriteEngine On
 RewriteRule ^articles/([0-9]+)/([a-zA-Z0-9-]+)/([0-9]+)/$ Article.php?id_article=$1&title=$2&section=$3 [L,QSA]
 RewriteRule ^articles/([0-9]+)/([a-zA-Z0-9-]+)/$ Article.php?id_article=$1&title=$2 [L,QSA]
-RewriteRule ^reviews/([0-9]+)/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/$ Review.php?id_review=$1&game=$2&title=$3 [L,QSA]
 RewriteRule ^trivia/([0-9]+)/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/$ Trivia.php?id_trivia=$1&game=$2&title=$3 [L,QSA]
 RewriteRule ^lists/([0-9]+)/([a-zA-Z0-9-]+)/$ List.php?id_list=$1&title=$2 [L,QSA]

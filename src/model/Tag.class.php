@@ -73,9 +73,9 @@ class Tag
    
    /*
    * Checks if this tag can be used for aliases. For this to be possible, the tag should not be 
-   * already used for a game or a trope. Alternatively, this method can be used to check a tag 
-   * submitted for a game/trope is not already in use (provided the calling code also checks, via 
-   * countAliases(), that the tag is not used for aliases).
+   * already used for a game. Alternatively, this method can be used to check a tag submitted for 
+   * a game is not already in use (provided the calling code also checks, via countAliases(), that 
+   * the tag is not used for aliases).
    *
    * @return bool       True if the tag can be used for aliases, false otherwise
    * @throws Exception  If an error occurred while checking the tag (SQL error is provided)
@@ -83,7 +83,6 @@ class Tag
    
    public function canBeAnAlias()
    {
-      // Checks if it's used for a game
       $sql1 = "SELECT COUNT(*) AS nb FROM games WHERE tag=?";
       $res1 = Database::secureRead($sql1, array($this->_tag), true);
       
@@ -91,16 +90,6 @@ class Tag
          throw new Exception('Could not verify that '.addslashes($this->_tag).' can be used for aliases: '. $res1[2]);
       
       if($res1['nb'] == 1)
-         return false;
-      
-      // Checks if it's used for a trope
-      $sql2 = "SELECT COUNT(*) AS nb FROM tropes WHERE tag=?";
-      $res2 = Database::secureRead($sql2, array($this->_tag), true);
-      
-      if(sizeof($res2) == 3)
-         throw new Exception('Could not verify that '.addslashes($this->_tag).' can be used for aliases: '. $res2[2]);
-      
-      if($res2['nb'] == 1)
          return false;
       
       return true;
@@ -329,8 +318,7 @@ class Tag
       && tag NOT IN (SELECT tag FROM map_tags_articles GROUP BY tag) 
       && tag NOT IN (SELECT tag FROM map_aliases GROUP BY tag) 
       && tag NOT IN (SELECT alias FROM map_aliases GROUP BY alias) 
-      && tag NOT IN (SELECT tag FROM games) 
-      && tag NOT IN (SELECT tag FROM tropes)";
+      && tag NOT IN (SELECT tag FROM games)";
       
       $res = Database::hardWrite($sql);
       

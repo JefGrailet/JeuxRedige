@@ -29,7 +29,7 @@ $webRootPath = PathHandler::HTTP_PATH();
       ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
       </script>
       <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<? echo PathHandler::JS_EXTENSION(); ?>"></script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<?php echo PathHandler::JS_EXTENSION(); ?>"></script>
 <?php
 
 // After main CSS/JS files, the particular ones

@@ -1,19 +1,13 @@
 <div id="topicHeader">
-   <div id="innerHeader">
-      <div id="innerHeaderLeft">
-         {$menu}
-      </div>
-      <h1>
-         <a href="{$link}" id="topicTitle">{$title}</a>{$titleSuffix}
-      </h1>
-      <div id="innerHeaderRight">
-         {$contentIcons}
-      </div>
-      <div id="innerHeaderClear"></div>
+   <h1>
+      <a href="{$link}" id="topicTitle">{$title}</a>{$contentIcons}
+   </h1>
+   <div id="topicMenu">
+      {$menu}
    </div>
    <div class="topicThumbnail" style="background: url('{$thumbnail}') no-repeat top center;"></div>
 </div>
-<div id="placeholderTopicHeader"></div>
+<div id="topicHeaderPlaceholder"></div>
 <p class="topicKeywords">
    {$keywords}
 </p>

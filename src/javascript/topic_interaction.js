@@ -29,15 +29,11 @@ TopicInteractionLib.favouriteTopic = function(topic)
       DefaultLib.doneWithAJAX();
       if(data.localeCompare($('#buttonFavourite').attr('class')) !== 0)
       {
-         $('#buttonFavourite').hide(300, function()
-         {
-            $('#buttonFavourite').attr('class', data);
-            if(data.localeCompare('icon-general_star') === 0)
-               $('#buttonFavourite').attr('title', 'Enlever des favoris');
-            else
-               $('#buttonFavourite').attr('title', 'Ajouter aux favoris');
-            $('#buttonFavourite').show(300);
-         });
+         $('#buttonFavourite').attr('class', data);
+         if(data.localeCompare('icon-general_star') === 0)
+            $('#buttonFavourite').attr('title', 'Enlever des favoris');
+         else
+            $('#buttonFavourite').attr('title', 'Ajouter aux favoris');
       }
    },
    error: function(xmlhttprequest, textstatus, message)
@@ -180,13 +176,6 @@ $(document).ready(function()
       });
    }
    
-   // Topic menu
-   if($('#topicMenu').length)
-   {
-      $('#innerHeaderLeft').on('mouseover', function() { $('#topicMenu').css('display', 'block'); });
-      $('#innerHeaderLeft').on('mouseout', function() { $('#topicMenu').css('display', 'none'); });
-   }
-   
    if($('#buttonDelete').length)
    {
       $('#buttonDelete').on('click', function() { DefaultLib.openDialog('#delete'); });
@@ -200,7 +189,7 @@ $(document).ready(function()
    }
    
    // Show topic thumbnail on mouse over the title of the topic
-   $('#topicHeader h1').on('mouseover', function(e)
+   $('#topicHeader h1 a').on('mouseover', function(e)
    {
       var topicThumb = $('.topicThumbnail');
       var xInit = e.screenX, yInit = e.screenY;
@@ -218,7 +207,7 @@ $(document).ready(function()
    });
    
    // Stop showing topic thumbnail
-   $('#topicHeader h1').on('mouseout', function(e)
+   $('#topicHeader h1 a').on('mouseout', function(e)
    {
       $('.topicThumbnail').hide();
    });

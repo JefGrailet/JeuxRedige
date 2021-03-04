@@ -7,19 +7,22 @@ body
    margin: 0px 0px 0px 0px;
 }
 
-/* Upper menu (black band at the top of the page). */
+/* Upper menu (black bar at the top of the page). */
 
-#topMenu
+#topBar
 {
    min-width: 800px;
    width: 100%;
    margin-top: 0px;
    height: 46px;
    background-color: #383A49;
-   text-align: center; /* To center ul */
    position: fixed;
-   z-index: 60;
+   z-index: 30;
+   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+   border-bottom: 1px solid #9a9ba1;
 }
+
+/* Main block, i.e., part below the upper menu */
 
 #main
 {
@@ -28,51 +31,318 @@ body
    padding-top: 46px;
 }
 
-/* Left part of the top menu showing the title of the website. */
+/* Title corner, i.e., left part of the top bar with title and main (horizontal) menu */
 
-#topMenu .websiteMainMenu
+#titleCorner
 {
    display: inline-block;
    float: left;
-   margin-top: 7px;
-   margin-left: 10px;
-   width: 260px;
+   width: 49%;
    text-align: left;
 }
 
-.websiteMainMenu p
+#titleCorner ul
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
-   color: white;
+   display: inline-block;
+   padding: 0px;
    margin: 0px;
+   text-align: center;
+   z-index: 31;
 }
 
-.websiteMainMenu a
+#titleCorner li
 {
-   text-decoration: none;
-   color: #CCCCCC;
-}
-
-.websiteMainMenu a:hover
-{
-   color: #36DDFF;
-}
-
-#topMenu .websiteMainMenu .websiteTitle
-{
+   list-style-type: none;
+   display: table-cell;
+   margin: 0px;
+   padding: 0px 20px;
    font-family: "Arial", "Serif";
-   font-size: 23px;
+   font-size: 16px;
+   line-height: 42px;
    color: white;
-   text-decoration: none;
 }
 
-#topMenu .websiteMainMenu .websiteTitle:hover
+#titleCorner .websiteTitle
+{
+   font-size: 22px;
+}
+
+#titleCorner .websiteTitle:hover
 {
    color: rgb(220,220,230);
 }
 
-.websiteMainMenu sup
+/* Upper menu links */
+
+#titleCorner li a
+{
+   font-family: "Arial", "Serif";
+   text-decoration: none;
+   color: white;
+}
+
+#titleCorner li a:hover
+{
+   color: rgb(180,180,190);
+}
+
+#titleCorner ul li
+{
+   border-right: 1px solid #9a9ba1;
+}
+
+#titleCorner ul li:last-of-type
+{
+   border-right: none;
+}
+
+/* User corner (h6 -> pseudonym, i -> icons for hamburger menus) */
+
+#userCorner
+{
+   display: inline-block;
+   float: right;
+   width: 49%;
+   text-align: right;
+}
+
+#userCorner h6
+{
+   display: inline-block;
+   margin: 8px 10px 7px 0px; /* Dim. adjusted due to avatar (see below) */
+   padding: 0px;
+   font-family: "Arial", "Serif";
+   font-size: 20px;
+   font-weight: normal;
+   color: white;
+}
+
+#userCorner .avatarMini
+{
+   padding: 0px;
+   margin-right: 10px;
+   border-radius: 50%;
+   vertical-align: -40%; /* To align with pseudonym */
+}
+
+#userCorner i
+{
+   display: inline-block;
+   font-size: 20px;
+   color: white;
+   margin: 0px 10px 0px 0px;
+   vertical-align: -10%;
+}
+
+/* Sliding menus (user menu, pings, login form) */
+
+.userMenu, .pingsSlider, .loginSlider
+{
+   position: fixed;
+   float: right;
+   right: 0;
+   height: 100%;
+   border-left: 1px solid #9a9ba1;
+   overflow: auto;
+   box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
+   z-index: 20;
+   margin-top: 1px;
+}
+
+.userMenu
+{
+   width: 300px;
+   background-color: #383A49;
+   color: white;
+   transform: translateX(+310px);
+   transition: transform 250ms ease-in-out;
+}
+
+.pingsSlider
+{
+   width: 350px;
+   background-color: #e8e8e8;
+   color: #25b6d2;
+   transform: translateX(+360px);
+   transition: transform 250ms ease-in-out;
+}
+
+.loginSlider
+{
+   width: 350px;
+   background-color: #e8e8e8;
+   color: black;
+   transform: translateX(+360px);
+   transition: transform 250ms ease-in-out;
+}
+
+.userMenuToggle, .pingsToggle, .loginToggle
+{
+   position: absolute;
+   z-index: 31;
+   margin: 0px;
+   cursor: pointer;
+   opacity: 0;
+}
+
+.userMenuToggle
+{
+   top: 12px;
+   right: 44px;
+   width: 20px;
+   height: 20px;
+}
+
+.pingsToggle
+{
+   top: 12px;
+   right: 10px;
+   width: 20px;
+   height: 20px;
+}
+
+.loginToggle
+{
+   top: 6px;
+   right: 6px;
+   width: 170px;
+   height: 34px;
+}
+
+/* Transformations upon checking the hidden checkboxes */
+
+.userMenuToggle:checked ~ .userMenu
+{
+   transform: translateX(0px);
+}
+
+.userMenuToggle:checked ~ .icon-general_menu
+{
+   transition: opacity 250ms ease-in-out;
+   opacity: 0.5;
+}
+
+.pingsToggle:checked ~ .pingsSlider
+{
+   transform: translateX(0px);
+}
+
+.pingsToggle:checked ~ .icon-general_messages
+{
+   transition: opacity 250ms ease-in-out;
+   opacity: 0.5;
+}
+
+.loginToggle:checked ~ .loginSlider
+{
+   transform: translateX(0px);
+}
+
+.loginToggle:checked ~ .loginToggleUnderlay
+{
+   transition: opacity 250ms ease-in-out;
+   opacity: 0.5;
+}
+
+/* Style for ul/li in the hamburger menus */
+
+#userCorner .userMenu ul, #userCorner .pingsSlider ul
+{
+   display: block;
+   border: none;
+   margin: 0px 0px 0px 5px;
+   padding: 0px 5px;
+   text-align: left;
+}
+
+#userCorner .userMenu li, #userCorner .pingsSlider li
+{
+   list-style-type: none;
+   display: block;
+   margin-top: 0px;
+   border: none;
+   padding: 10px 10px 5px 5px;
+   text-align: left;
+   font-size: 16px;
+}
+
+#userCorner .userMenu i, #userCorner .pingsSlider i
+{
+   margin-right: 5px;
+}
+
+#userCorner li a
+{
+   font-family: "Arial", "Serif";
+   font-size: 16px;
+   text-decoration: none;
+   color: white;
+}
+
+#userCorner li a:hover
+{
+   color: rgb(180,180,190);
+}
+
+/* Style for the connection form */
+
+.loginSlider p
+{
+   text-align: left;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   margin: 10px;
+   padding: 0px;
+}
+
+.loginSlider input[type=text], .loginSlider input[type=password]
+{
+   font-size: 14px;
+   width: 98%;
+   padding: 3px;
+   margin: 0px;
+}
+
+.loginSlider input[type=checkbox]
+{
+   width: 16px;
+   height: 16px;
+   vertical-align: -3px;
+}
+
+.loginSlider p a
+{
+   text-decoration: none;
+   color: #155dc8;
+}
+
+.loginSlider p a:hover
+{
+   color: black;
+}
+
+/* N.B.: also used at LogIn.php. */
+
+.connectionForm
+{
+   line-height: 2em;
+}
+
+/* Miscellaneous for the top bar (e.g., colors for pings slider) */
+
+#userCorner h6 a
+{
+   text-decoration: none;
+   color: white;
+}
+
+#userCorner h6 a:hover
+{
+   cursor: pointer;
+   color: #00ffff;
+}
+
+#titleCorner sup, #userCorner sup
 {
    font-family: "Arial", "Serif";
    font-size: 12px;
@@ -80,128 +350,19 @@ body
    color: #36DDFF;
 }
 
-/* "Mirrored title", i.e., empty block put at the right to center user menu. */
-
-#topMenu .mirroredTitle
+#userCorner .pingsSlider li
 {
-   display: inline-block;
-   float: right;
-   margin-top: 7px;
-   margin-right: 10px;
-   width: 260px;
+   color: #23a0b8;
 }
 
-/* List (ul) for the upper menu. */
-
-#topMenu ul
+#userCorner .pingsSlider a
 {
-   display: inline-block;
-   padding-top: 8px;
-   padding-bottom: 5px;
-   padding-left: 0px;
-   padding-right: 0px;
-   margin: 0 auto;
-   text-align: center;
-   z-index: 2;
+   color: #23a0b8;
 }
 
-#topMenu li
+#userCorner .pingsSlider a:hover
 {
-   list-style-type: none;
-   display: inline;
-   margin-left: 5px;
-   margin-right: 5px;
-   margin-top: 0px;
-   margin-bottom: 0px;
-   padding: 0px 0px;
-   font-family: "Arial", "Serif";
-   font-size: 16px;
    color: white;
-   text-align: center; /* To center drop-down menu */
-}
-
-#topMenu li .avatarMini /* Avatar */
-{
-   padding: 0px;
-   margin-right: 10px;
-   border-radius: 50%;
-   vertical-align: -40%; /* To align with text (pseudonym) */
-}
-
-#topMenu li img /* Other icons */
-{
-   padding: 0px;
-   vertical-align: -15%;
-}
-
-#topMenu .separator
-{
-   font-size: 18px;
-   color: rgb(175,175,175);
-}
-
-/* Upper menu links */
-
-#topMenu li a
-{
-   font-family: "Arial", "Serif";
-   font-size: 15px;
-   text-decoration: none;
-   color: white;
-}
-
-#topMenu li a:hover
-{
-   color: rgb(180,180,190);
-}
-
-#topMenu .connectionLink:hover
-{
-   cursor: pointer;
-   color: #00ffff;
-}
-
-/* Drop-down menu */
-
-#topMenu ul li ul
-{
-   margin-top: 5px;
-   min-width: 150px;
-   position: absolute;
-   display: none;
-   border: none;
-   margin-top: 0px;
-   padding: 10px 10px 5px 5px;
-   background-color: #383A49;
-   border-radius: 0px 0px 10px 10px;
-}
-
-#topMenu ul li ul li
-{
-   display: block;
-   background: none;
-   padding: 0px 0px 5px 0px;
-   font-size: 15px;
-   text-align: left;
-}
-
-#topMenu ul li ul li img
-{
-   margin-left: 0px;
-   margin-right: 8px;
-}
-
-#topMenu ul li ul li sup
-{
-   font-family: "Arial", "Serif";
-   font-size: 11px;
-   padding-left: 5px;
-   color: #36DDFF;
-}
-
-#topMenu ul li ul li i
-{
-   margin-right: 3px;
 }
 
 /* Border for all input text fields */
@@ -213,7 +374,18 @@ body
 
 /* Buttons at the end of forms. */
 
-input[type=submit], button, .customButton
+input[type=submit]
+{
+   background-color: #0c960c;
+   color: white;
+   padding: 5px 15px;
+   border-radius: 4px;
+   font-family: "Arial", "Serif";
+   font-size: 14px;
+   border: none;
+}
+
+button, .customButton
 {
    background-color: #383A49;
    color: white;
@@ -224,7 +396,13 @@ input[type=submit], button, .customButton
    border: none;
 }
 
-input[type=submit]:hover, button:hover, .customButton:hover
+input[type=submit]:hover
+{
+   background-color: #6ec46e;
+   cursor: pointer;
+}
+
+button:hover, .customButton:hover
 {
    background-color: #557083;
    cursor: pointer;
@@ -798,6 +976,7 @@ input[type=submit]:active, button:active, .customButton:active
    text-align: center;
    margin-bottom: 30px;
    margin-top: 20px;
+   box-shadow: 0px 0px 3px 0px black;
 }
 
 /* Body container for simple pages and topics */
@@ -814,8 +993,10 @@ input[type=submit]:active, button:active, .customButton:active
 .wallOfText
 {
    background-color: white;
-   border-radius: 4px;
+   border-radius: 10px;
    padding-bottom: 5px;
+   margin-top: 20px;
+   box-shadow: 0px 0px 3px 0px black;
 }
 
 /* Variants (both container and wrapper block) for account edition only. */
@@ -848,8 +1029,9 @@ input[type=submit]:active, button:active, .customButton:active
    display: inline-block;
    width: 800px;
    background-color: white;
-   border-radius: 15px;
+   border-radius: 10px;
    margin-bottom: 15px;
+   box-shadow: 0px 0px 3px 0px black;
 }
 
 /* Footer. */
@@ -881,6 +1063,7 @@ input[type=submit]:active, button:active, .customButton:active
    padding: 7px 9px;
    margin-right: 3px;
    margin-bottom: 5px;
+   box-shadow: 0px 0px 2px 0px black;
 }
 
 #footer p .iconLink:hover
@@ -926,17 +1109,19 @@ input[type=submit]:active, button:active, .customButton:active
 #content h1, #contentMultiple h1
 {
    font-family: "Arial", "Serif";
+   font-weight: normal;
    font-size: 16px;
    text-align: justify;
    color: white;
    background-color: #383A49;
-   border-radius: 4px 4px 0px 0px;
-   padding: 7px;
+   border-radius: 10px 10px 0px 0px;
+   padding: 7px 19px;
 }
 
 #contentMultiple .singleBlock h1
 {
    margin-top: 0px;
+   font-weight: normal;
 }
 
 /* Style of links inside the content div */
@@ -1012,6 +1197,7 @@ textarea
    margin: 0px 0px 6px 6px;
    background: none;
    border-radius: 5px;
+   box-shadow: 0px 0px 2px 0px;
 }
 
 /* Icons in top left corner of the thumbnail */
@@ -1197,12 +1383,13 @@ textarea
    height: 208px;
    margin: 12px;
    background: none;
-   border: 3px solid #cccccc;
+   border: 2px solid #cccccc;
+   box-shadow: 0px 0px 3px 0px;
 }
 
 .articleThumbnail:hover
 {
-   border: 3px solid #f2f2f2;
+   border: 2px solid #f2f2f2;
 }
 
 .articleHighlight
@@ -1213,12 +1400,13 @@ textarea
    height: 400px;
    margin: 12px;
    background: none;
-   border: 3px solid #cccccc;
+   border: 2px solid #cccccc;
+   box-shadow: 0px 0px 3px 0px;
 }
 
 .articleHighlight:hover
 {
-   border: 3px solid #f2f2f2;
+   border: 2px solid #f2f2f2;
 }
 
 @media screen and (max-width: 1079px)

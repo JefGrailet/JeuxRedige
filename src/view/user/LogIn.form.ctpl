@@ -11,20 +11,14 @@ listées ci-contre.</span><br/>
 <br/>
 [1]</p>}
 <form action="./LogIn.php" method="post">
-<table class="userFields" width="450">
-   <tr>
-      <td class="userFieldsText" width="100"><label for="pseudo">Pseudo:</label></td>
-      <td class="userFieldsInput" width="200"><input type="text" name="pseudo" value="{$pseudo}" size="30"/></td>
-      <td class="userFieldsText" width="150"></td>
-   </tr>
-   <tr>
-      <td class="userFieldsText"><label for="pwd">Mot de passe:</label></td>
-      <td class="userFieldsInput"><input type="password" name="pwd" size="30"/></td>
-      <td class="userFieldsText"> <a href="./PasswordReset.php">Mot de passe perdu ?</a></td>
-   </tr>
-</table>
-<p><input type="hidden" name="redirection" value="{$redirection}"/>
-<input type="checkbox" name="rememberMe"/> <label for="rememberMe">Se souvenir de moi</label><br/>
-<br/>
-<input type="submit" name="sent" value="Connexion" /></p>
+<p class="connectionForm">
+<input type="text" name="pseudo" value="{$pseudo}" size="50" placeholder="Pseudonyme" required><br/>
+<input type="password" name="pwd" size="50" placeholder="Mot de passe" required><br/>
+<input type="hidden" name="redirection" value="{$redirection}">
+<input type="checkbox" name="rememberMe"> <label for="rememberMe">Se souvenir de moi</label><br/>
+<input type="submit" name="sent" value="Connexion"><br/>
+</p>
+<p>
+<a href="./Registration.php">Créer un compte</a><br/>
+<a href="./PasswordReset.php">Mot de passe perdu ?</a></p>
 </form>

@@ -120,7 +120,7 @@ if(!empty($_POST['sent']))
             
             // Redirection and success message
             $redirect = './index.php';
-            if(strlen($data['redirection']) > 0 && substr($data['redirection'], 0, 7) === 'http://')
+            if(strlen($data['redirection']) > 0 && (substr($data['redirection'], 0, 7) === 'http://' || substr($data['redirection'], 0, 8) === 'https://'))
                $redirect = str_replace('&amp;', '&', $data['redirection']);
             header('Location:'.$redirect);
             $display = TemplateEngine::parse('view/user/LogIn.success.ctpl', array('redirection' => $redirect));

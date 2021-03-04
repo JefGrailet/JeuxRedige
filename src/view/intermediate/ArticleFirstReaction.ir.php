@@ -67,7 +67,7 @@ class ArticleFirstReactionIR
             $truncatedText = substr($truncatedText, 0, $pos)."...";
       }
       
-      $output = '[g]'.$article['title'].' - '.$article['subtitle'].'[/g]'."\n";
+      $output = '[b]'.$article['title'].' - '.$article['subtitle'].'[/b]'."\n";
       $output .= "\n";
       $output .= $truncatedText."\n";
       $output .= "\n";

@@ -114,49 +114,7 @@ echo '      <title>'.$pageTitle.'</title>'."\n";
    <body>
       <div id="blackScreen"></div>
       <div id="bubble"></div>
-      
 <?php
-if(!LoggedUser::isLoggedIn())
-{
-?>
-      <div id="connection" class="window" style="display:none;"> 
-         <div class="windowTop">
-            <span class="windowTitle"><strong>Connexion</strong></span> 
-            <span class="closeDialog">Fermer</span>
-         </div>
-         <div class="windowContent">
-            <form method="post" action="<?php echo $webRootPath; ?>LogIn.php">
-            <table class="windowFields">
-               <tr>
-                  <td class="connectionColumn1">Pseudo:</td>
-                  <td class="connectionColumn2"><input type="text" name="pseudo"/></td>
-                  <td class="connectionColumn3"><a href="<?php echo $webRootPath; ?>Registration.php">M'inscrire</a></td>
-               </tr>
-               <tr>
-                  <td class="connectionColumn1">Mot de passe:</td>
-                  <td class="connectionColumn2"><input type="password" name="pwd"/></td>
-                  <td class="connectionColumn3"><a href="<?php echo $webRootPath; ?>PasswordReset.php">Mot de passe perdu ?</a></td>
-               </tr>
-            </table>
-            <p>
-<?php
-   if(WebpageHandler::$redirections['log_in'])
-   {
-      echo '               <input type="hidden" name="redirection" value="'.$webRootPath.$_SERVER['REQUEST_URI'].'"/>';
-   }
-   else
-   {
-       echo '               <input type="hidden" name="redirection" value=""/>';
-   }
-?>
-               <input type="checkbox" name="rememberMe"/> Se souvenir de moi 
-               <input type="submit" name="sent" value="Connexion"/>
-            </p>
-            </form>
-         </div>
-      </div>
-<?php
-}
 
 // Other dialog boxes, if provided by the calling code.
 if(isset($dialogs) && !empty($dialogs))
@@ -174,26 +132,19 @@ if(isset($dialogs) && !empty($dialogs))
             <div class="LBRight"></div>
          </div>
       </div>
-      <div id="topMenu">
-         <div class="websiteMainMenu">
-            <p>
-               <a class="websiteTitle" href="<?php echo $webRootPath; ?>">Project AG</a><sup>Beta</sup> &nbsp;
-               <a href="<?php echo $webRootPath; ?>Articles.php">Articles</a> | 
-               <a href="<?php echo $webRootPath; ?>Forum.php">Forum</a>
-            </p>
+      <div id="topBar">
+         <div id="titleCorner">
+            <ul>
+               <li><a class="websiteTitle" href="<?php echo $webRootPath; ?>">Project AG</a><sup>Beta</sup></li>
+               <li><a href="<?php echo $webRootPath; ?>Articles.php">Articles</a></li>
+               <li><a href="<?php echo $webRootPath; ?>Forum.php">Forum</a></li>
+            </ul>
          </div>
-         <?php
+         <div id="userCorner">
+<?php
 if(LoggedUser::isLoggedIn())
 {
-   $padding = '            ';
-   echo '<ul id="showUserMenu">'."\n";
-   echo $padding.'<li>';
-   
-   /*
-    * Handles function account of a logged user (i.e., the link to switch between accounts) and 
-    * "My account" page.
-    */
-   
+   // Account details (avatar, alternate account, etc.)
    $alternateAccount = '';
    $pseudoPart = '<img src="'.PathHandler::getAvatarSmall(LoggedUser::$data['used_pseudo']).'" class="avatarMini" alt="Avatar mini"/> ';
    $adminTools = false;
@@ -207,7 +158,7 @@ if(LoggedUser::isLoggedIn())
          }
          else
          {
-            $pseudoPart .= LoggedUser::$data['pseudo'];
+            $pseudoPart .= '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">'.LoggedUser::$data['pseudo'].'</a>';
          }
          $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
          $alternateAccount = '<a href="'.$webRootPath.'SwitchAccount.php?pos='.$r.'">Changer pour '.LoggedUser::$data['pseudo'].'</a>';
@@ -215,7 +166,7 @@ if(LoggedUser::isLoggedIn())
       }
       else
       {
-         $pseudoPart .= LoggedUser::$data['pseudo'];
+         $pseudoPart .= '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">'.LoggedUser::$data['pseudo'].'</a>';
          if(LoggedUser::$data['function_name'] === 'administrator')
          {
             $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
@@ -225,51 +176,27 @@ if(LoggedUser::isLoggedIn())
    }
    else
    {
-      $pseudoPart .= LoggedUser::$data['pseudo'];
+      $pseudoPart .= '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">'.LoggedUser::$data['pseudo'].'</a>';
    }
-   
-   // Display with dropdown menu
-   echo $padding.$pseudoPart.''."\n";
-   echo $padding.'<ul id="userMenu">'."\n";
-   if(strlen($alternateAccount) > 0)
-   {
-      echo $padding.'   '.'<li><i class="icon-menu_switch"></i> '.$alternateAccount.'</li>'."\n";
-   }
-   echo $padding.'   '.'<li><i class="icon-general_edit"></i> <a href="'.$webRootPath.'MyAccount.php">Mon compte</a></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_smilies"></i> <a href="'.$webRootPath.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-general_pin"></i> <a href="'.$webRootPath.'MyPins.php">Mes messages favoris</a></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_articles"></i> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_lists"></i> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_games"></i> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_didyouknow"></i> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
-   echo $padding.'   '.'<li><i class="icon-menu_invite"></i> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
-   if($adminTools)
-   {
-      echo $padding.'   '.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
-      echo $padding.'   '.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
-   }
-   // Log out link
-   if(WebpageHandler::$redirections['log_out'])
-   {
-      $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-      echo $padding.'   '.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
-   }
-   else
-   {
-      echo $padding.'   '.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php">Déconnexion</a></li>'."\n";
-   }
-   echo $padding.'</ul></li>'."\n";
-   echo '         </ul>'."\n";
-   
-   // Private messages
-   echo '         <ul id="showPings">'."\n";
+?>
+            <h6><?php echo $pseudoPart; ?></h6>
+            <input class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
+            <input class="pingsToggle" title="Mes pings" type="checkbox">
+            <i class="icon-general_menu"></i>
+<?php
+   // Padding to be used to align HTML tags
+   $padding1 = '               ';
+   $padding2 = '                  ';
+
+    // Private messages (or pings)
    if(LoggedUser::$data['new_pings'] > 0)
    {
-      echo $padding.'<li><i class="icon-general_messages" style="color: #4bd568;" ></i>'."\n";
-      echo $padding.'<ul id="pings">'."\n";
+      echo '            <i class="icon-general_messages" style="color: #4bd568;" title="Mes pings"></i>'."\n";
+      echo '            <div class="pingsSlider">'."\n";
+      echo $padding1.'<ul id="pings">'."\n";
       for($i = 0; $i < LoggedUser::$data['new_pings'] && $i < 5; $i++)
       {
-         echo $padding.'<li>';
+         echo $padding2.' <li>';
          switch(LoggedUser::$messages[$i]['ping_type'])
          {
             case 'notification':
@@ -294,38 +221,98 @@ if(LoggedUser::isLoggedIn())
          echo '</li>'."\n";
       }
       if(LoggedUser::$data['new_pings'] > 5)
-         echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
+         echo $padding2.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings ('.LoggedUser::$data['new_pings'].' nouveaux)</a></li>'."\n";
       else
-         echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
-      echo $padding.'</ul></li>'."\n";
+         echo $padding2.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding1.'</ul>'."\n";
+      echo '            </div>'."\n";
    }
    else if(LoggedUser::$data['new_pings'] == 0)
    {
-      echo $padding.'<li><i class="icon-general_messages" style="color: #25b6d2;"></i>'."\n";
-      echo $padding.'<ul id="pings">'."\n";
-      echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
-      echo $padding.'</ul></li>'."\n";
+      echo '            <i class="icon-general_messages" style="color: #25b6d2;" title="Mes pings"></i>'."\n";
+      echo '            <div class="pingsSlider">'."\n";
+      echo $padding1.'<ul id="pings">'."\n";
+      echo $padding2.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding1.'</ul>'."\n";
+      echo '            </div>'."\n";
    }
    else
    {
-      echo $padding.'<li><i class="icon-general_messages" style="color: #f2b851;"></i>'."\n";
-      echo $padding.'<ul id="pings">'."\n";
-      echo $padding.'<li>Une erreur est survenue...</li>'."\n";
-      echo $padding.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
-      echo $padding.'</ul></li>'."\n";
+      echo '            <i class="icon-general_messages" style="color: #f2b851;" title="Mes pings"></i>'."\n";
+      echo '            <div class="pingsSlider">'."\n";
+      echo $padding1.'<ul id="pings">'."\n";
+      echo $padding2.'<li>Une erreur est survenue...</li>'."\n";
+      echo $padding2.'<li><i class="icon-menu_lists" style="color: #25b6d2;"></i> <a href="'.$webRootPath.'Pings.php">Liste de mes pings</a></li>'."\n";
+      echo $padding1.'</ul>'."\n";
+      echo '            </div>'."\n";
    }
-   echo '         </ul>'."\n";
+   
+   // User hamburger menu
+   echo '            <div class="userMenu">'."\n";
+   echo $padding1.'<ul>'."\n";
+   if(strlen($alternateAccount) > 0)
+   {
+      echo $padding2.'<li><i class="icon-menu_switch"></i> '.$alternateAccount.'</li>'."\n";
+   }
+   echo $padding2.'<li><i class="icon-general_edit"></i> <a href="'.$webRootPath.'MyAccount.php">Mon compte</a></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_smilies"></i> <a href="'.$webRootPath.'MyEmoticons.php">Mes émoticônes</a></li>'."\n";
+   echo $padding2.'<li><i class="icon-general_pin"></i> <a href="'.$webRootPath.'MyPins.php">Mes messages favoris</a></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_articles"></i> <a href="'.$webRootPath.'MyArticles.php">Mes articles</a></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_lists"></i> <a href="'.$webRootPath.'MyLists.php">Mes listes</a><sup>Beta</sup></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_games"></i> <a href="'.$webRootPath.'Games.php">Jeux</a><sup>Beta</sup></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_didyouknow"></i> <a href="'.$webRootPath.'RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup></li>'."\n";
+   echo $padding2.'<li><i class="icon-menu_invite"></i> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
+   if($adminTools)
+   {
+      echo $padding2.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
+      echo $padding2.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
+   }
+   // Log out link
+   if(WebpageHandler::$redirections['log_out'])
+   {
+      $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+      echo $padding2.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
+   }
+   else
+   {
+      echo $padding2.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php">Déconnexion</a></li>'."\n";
+   }
+   echo $padding1.'</ul>'."\n";
+   echo '            </div>'."\n";
 }
 else
 {
 ?>
-         <ul>
-            <li><img src="<?php echo $webRootPath; ?>defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> <a class="connectionLink">Se connecter</a></li>
-         </ul>
+            <input class="loginToggle" title="Ouvrir le formulaire de connexion" type="checkbox">
+            <h6 class="loginToggleUnderlay"><img src="<?php echo $webRootPath; ?>defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> Se connecter</h6>
+            <div class="loginSlider">
+               <form method="post" action="<?php echo $webRootPath; ?>LogIn.php">
+               <p class="connectionForm">
+                  <input type="text" name="pseudo" placeholder="Pseudo" required><br/>
+                  <input type="password" name="pwd" placeholder="Mot de passe" required><br/>
+<?php
+   if(WebpageHandler::$redirections['log_in'])
+   {
+      echo '                  <input type="hidden" name="redirection" value="'.$webRootPath.$_SERVER['REQUEST_URI'].'"/>';
+   }
+   else
+   {
+       echo '                  <input type="hidden" name="redirection" value=""/>';
+   }
+?>
+                  <input type="checkbox" name="rememberMe"/><label for="rememberMe">Se souvenir de moi</label><br/>
+                  <input type="submit" name="sent" value="Connexion"/><br/>
+               </p>
+               <p>
+                  <a href="<?php echo $webRootPath; ?>Registration.php">Créer un compte</a><br/>
+                  <a href="<?php echo $webRootPath; ?>PasswordReset.php">Mot de passe perdu ?</a>
+               </p>
+               </form>
+            </div>
 <?php
 }
 ?>
-         <div class="mirroredTitle"></div>
+         </div>
       </div>
       <div id="main">
 <?php 

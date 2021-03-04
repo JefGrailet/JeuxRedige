@@ -72,6 +72,10 @@ class Upload
             $name = $fileName .'-'. $uniqueSeq;
          }
       }
+      else
+      {
+         $name = str_replace(' ', '_', $name);
+      }
       
       $filePath = $dirPath .'/'. $name .'.'. $extension;
       if(move_uploaded_file($arr['tmp_name'], $filePath))
@@ -126,6 +130,10 @@ class Upload
             $uniqueSeq = substr(md5(uniqid(rand(), true)), 0, 5);
             $name = $fileName .'-'. $uniqueSeq;
          }
+      }
+      else
+      {
+         $name = str_replace(' ', '_', $name);
       }
       
       // Computing the new dimensions of the picture

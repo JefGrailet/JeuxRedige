@@ -429,24 +429,11 @@ DefaultLib.doneWithAJAX = function()
 
 $(document).ready(function()
 {
-   if($('.connectionLink').length)
+   // Switch menus
+   if($('.userMenuToggle').length)
    {
-      $('.connectionLink').on('click', function() { DefaultLib.openDialog('#connection'); });
-      $('#connection .closeDialog').on('click', function() { DefaultLib.closeDialog(); });
-   }
-   
-   // User menu
-   if($('#showUserMenu').length)
-   {
-      $('#showUserMenu').on('mouseover', function() { $('#userMenu').css('display', 'block'); });
-      $('#showUserMenu').on('mouseout', function() { $('#userMenu').css('display', 'none'); });
-   }
-   
-   // Private messages menu
-   if($('#showPings').length)
-   {
-      $('#showPings').on('mouseover', function() { $('#pings').css('display', 'block'); });
-      $('#showPings').on('mouseout', function() { $('#pings').css('display', 'none'); });
+      $('.userMenuToggle').on('click', function() { $('.pingsToggle').prop("checked", false); });
+      $('.pingsToggle').on('click', function() { $('.userMenuToggle').prop("checked", false); });
    }
    
    // Show a password

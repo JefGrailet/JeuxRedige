@@ -189,7 +189,7 @@ catch(Exception $e)
 
 // Dialog for showing interactions with this user's last messages
 $dialogs = '';
-$interactionsTpl = TemplateEngine::parse('view/dialog/Interactions.dialog.ctpl');
+$interactionsTpl = TemplateEngine::parse('view/dialog/Interactions.multiple.ctpl');
 if(!TemplateEngine::hasFailed($interactionsTpl))
    $dialogs .= $interactionsTpl;
 

@@ -198,6 +198,7 @@
    width: 100px;
    height: 100px;
    border-radius: 5px;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 .pingBlockLeftColumn h1
@@ -211,6 +212,7 @@
    font-size: 11px;
    padding: 5px;
    text-align: center;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 /* Link on author's pseudo (link to history of posts) */
@@ -240,6 +242,7 @@
    margin: 0px 0px 0px 10px;
    border-radius: 5px;
    background-color: white;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 .pingBlockText img, .pingBlockText video
@@ -408,6 +411,7 @@
    margin-top: 20px;
    margin-left: 20px;
    margin-right: 20px;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 #slidingBlock
@@ -441,10 +445,11 @@
 {
    font-family: "arial", "calibri", "serif";
    font-size: 16px;
+   font-weight: normal;
    text-align: justify;
    color: white;
    background-color: #383A49;
-   padding: 7px;
+   padding: 7px 11px;
    border-radius: 4px 4px 0px 0px;
 }
 
@@ -452,10 +457,11 @@
 {
    font-family: "arial", "calibri", "serif";
    font-size: 16px;
+   font-weight: normal;
    text-align: justify;
    color: white;
    background-color: #383A49;
-   padding: 7px;
+   padding: 7px 11px;
    margin-top: 0px;
 }
 
@@ -669,6 +675,7 @@
    width: 100px;
    height: 100px;
    border-radius: 5px;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 .postBlockLeftColumn h1
@@ -711,6 +718,7 @@
    margin: 0px 0px 0px 10px;
    border-radius: 5px;
    background-color: white;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 .postBlockText img, .postBlockText video

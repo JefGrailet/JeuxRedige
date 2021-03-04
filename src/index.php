@@ -16,16 +16,11 @@ WebpageHandler::redirectionAtLoggingIn();
 WebpageHandler::addCSS('pool');
 WebpageHandler::noContainer();
 
-// Gets the last featured articles and active topics
+// Gets the last featured articles
 $articles = null;
-$topics = null;
-$favorited = null;
 try
 {
-   $articles = Article::getFeaturedArticles(5);
-   $topics = Topic::getTopics(0, 12);
-   if(LoggedUser::isLoggedIn() && $topics != NULL)
-      Topic::getUserViews($topics);
+   $articles = Article::getFeaturedArticles(8);
 }
 catch(Exception $e)
 {
@@ -34,7 +29,7 @@ catch(Exception $e)
    WebpageHandler::wrap($tpl, 'Impossible d\'atteindre le contenu');
 }
 
-if($articles == NULL && $topics == NULL)
+if($articles == NULL)
 {
    $errorTplInput = array('error' => 'noContent');
    $tpl = TemplateEngine::parse('view/content/Index.fail.ctpl', $errorTplInput);
@@ -97,35 +92,8 @@ if(count($fullInputSmall) > 0)
       $articleThumbnails .= $fullOutputSmall[$i];
 }
 
-// Rendered topic thumbnails
-$topicThumbnails = '';
-$fullInput = array();
-for($i = 0; $i < count($topics); $i++)
-{
-   $intermediate = TopicThumbnailIR::process($topics[$i]);
-   array_push($fullInput, $intermediate);
-}
-
-if(count($fullInput) > 0)
-{
-   $fullOutput = TemplateEngine::parseMultiple('view/content/TopicThumbnail.ctpl', $fullInput);
-   if(TemplateEngine::hasFailed($fullOutput))
-   {
-      $errorTplInput = array('error' => 'wrongTemplating');
-      $tpl = TemplateEngine::parse('view/content/Index.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Impossible d\'atteindre le contenu');
-   }
-
-   for($i = 0; $i < count($fullOutput); $i++)
-      $topicThumbnails .= $fullOutput[$i];
-}
-
 // Final HTML code (with page configuration)
-$finalTplInput = array('articles' => '', 'thumbnails' => '');
-if(strlen($articleThumbnails) > 0)
-   $finalTplInput['articles'] = 'yes||'.$articleThumbnails;
-if(strlen($topicThumbnails) > 0)
-   $finalTplInput['thumbnails'] = 'yes||'.$topicThumbnails;
+$finalTplInput['articles'] = $articleThumbnails;
 
 $content = TemplateEngine::parse('view/content/Index.ctpl', $finalTplInput);
 

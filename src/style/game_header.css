@@ -11,6 +11,8 @@
    display: block;
    margin-bottom: 30px;
    margin-top: 30px;
+   border-radius: 5px;
+   box-shadow: 0px 0px 3px 0px black;
 }
 
 /* Game header itself. */

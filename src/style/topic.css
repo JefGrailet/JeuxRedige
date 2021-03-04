@@ -186,6 +186,7 @@
    width: 125px;
    height: 125px;
    border-radius: 5px;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 /* Text part of a post */
@@ -200,6 +201,7 @@
    margin: 0px 0px 0px 10px;
    border-radius: 5px;
    background-color: white;
+   box-shadow: 0px 0px 2px 0px grey;
 }
 
 .postBlockText img, .postBlockText video
@@ -498,6 +500,7 @@
    margin-bottom: 7px;
    border-radius: 2px;
    line-height: 0;
+   box-shadow: 0px 0px 3px 0px grey;
 }
 
 .uploadDisplayAlign
@@ -608,6 +611,7 @@
    margin-top: 20px;
    margin-left: 20px;
    margin-right: 20px;
+   box-shadow: 0px 0px 3px 0px black;
 }
 
 #slidingBlock
@@ -642,10 +646,11 @@
 {
    font-family: "Arial", "Serif";
    font-size: 16px;
+   font-weight: normal;
    text-align: justify;
    color: white;
    background-color: #383A49;
-   padding: 7px;
+   padding: 7px 11px;
    border-radius: 4px 4px 0px 0px;
 }
 

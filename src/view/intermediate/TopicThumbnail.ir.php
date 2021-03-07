@@ -25,12 +25,19 @@ class TopicThumbnailIR
       $output = array('thumbnail' => PathHandler::getTopicThumbnail($topic['thumbnail'], $topic['id_topic']),
       'icons' => '',
       'lastAuthor' => $topic['last_author'],
-      'lastPostDate' => date('d/m \à H\hi', Utils::toTimestamp($topic['last_post'])),
+      'lastPostDate' => date('d/m/y \à H\hi', Utils::toTimestamp($topic['last_post'])),
       'marked' => '',
       'linkTopic' => PathHandler::topicURL($topic),
-      'author' => $topic['author'],
+      'fullTitle' => 'Sujet créé par '.$topic['author'],
       'title' => $topic['title'],
       'linkLastPage' => '');
+      
+      // Shortens the title for display purpose (full title can be seen via tooltip)
+      if(strlen($topic['title']) > 50)
+      {
+         $output['fullTitle'] = $topic['title'].' (par '.$topic['author'].')';
+         $output['title'] = substr($topic['title'], 0, 47).'...';
+      }
       
       // Checks the topic is favorited
       $favorited = false;

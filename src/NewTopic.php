@@ -176,7 +176,7 @@ if(!empty($_POST['sent']))
    // Errors (missing title/content and/or title too long)
    if(strlen($formData['title']) == 0 OR strlen($formData['content']) == 0)
       $formData['errors'] .= 'emptyFields|';
-   else if(strlen($formData['title']) > 50)
+   else if(strlen($formData['title']) > 125)
       $formData['errors'] .= 'titleTooLong|';
    if(count($keywordsArr) == 1 && strlen($keywordsArr[0]) == 0)
       $formData['errors'] .= 'noKeywords|';

@@ -177,12 +177,12 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
          $lengthTitle = strlen($formData['title']);
          $noKeywords = count($newKeywords) == 1 && strlen($newKeywords[0]) == 0;
          // Empty title or too long title errors
-         if($lengthTitle == 0 || $lengthTitle > 50 || $noKeywords)
+         if($lengthTitle == 0 || $lengthTitle > 125 || $noKeywords)
          {
             $formData['errors'] = '';
             if($lengthTitle == 0)
                $formData['errors'] .= 'emptyField|';
-            else if($lengthTitle > 50)
+            else if($lengthTitle > 125)
                $formData['errors'] .= 'titleTooLong|';
             if($noKeywords)
                $formData['errors'] .= 'noKeywords|';

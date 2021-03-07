@@ -114,10 +114,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       
       if($formTplInput['errors'] === '' && strlen($formTplInput['errors']) == 0)
       {
-         // Title of the topic
+         // Title of the topic (should normally fit: title of topics is VARCHAR(255), title and subtitle are VARCHAR(100))
          $topicTitle = 'Article: '.$article->get('title').' - '.$article->get('subtitle');
-         if(strlen($topicTitle) > 50)
-            $topicTitle = substr($topicTitle, 0, 47).'...';
          
          $thumbnail = 'none'; // Value that will be input in Topic::insert()
          $articleThumbnail = $article->getThumbnail(true);

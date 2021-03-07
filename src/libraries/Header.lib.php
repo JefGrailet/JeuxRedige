@@ -643,7 +643,7 @@ class PathHandler
    * The rest of the classes consists of a "[something]URL()" static methods. The principle is 
    * always the same: the method takes the array which matches the content for which the URL must 
    * be generated, possibly with additional variables to denote a specific section or page. The 
-   * output is always a string (the URL). Having such methods is a way to have a "choke point" to 
+   * output is always a string (the URL). Having such methods is a way to have a bottleneck to 
    * handle URLs for content, e.g. if the URL has to be updated because of a new URL rewriting 
    * policy.
    */

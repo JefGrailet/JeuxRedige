@@ -7,7 +7,7 @@
       </p>
    </div>
    <div class="captionThumbnail{$marked}">
-      <p><a href="{$linkTopic}" title="Sujet créé par {$author}">{$title}</a> 
+      <p><a href="{$linkTopic}" title="{$fullTitle}">{$title}</a> 
       {$linkLastPage}</p>
    </div>
    <a href="{$linkTopic}" class="thumbnailClick"><span></span></a>

@@ -9,7 +9,7 @@ dbError & un problème avec la base de données est survenu lors de la création
 Réessayez plus tard ou contactez l'administrateur.}
 <form action="./NewTopic.php" method="post">
 <p>
-<input type="text" name="title" value="{$title}" size="60" maxlength="50" placeholder="Entrez un titre"/><br/>
+<input type="text" name="title" value="{$title}" size="60" maxlength="125" placeholder="Entrez un titre"/><br/>
 <br/>
 <img src="{$thumbnailPath}" alt="Vignette du sujet" title="Cliquez pour éditer" id="previewThumbnail" /><br/>
 <br/>

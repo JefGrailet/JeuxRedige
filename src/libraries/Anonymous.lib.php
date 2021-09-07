@@ -21,7 +21,7 @@ class Anonymous
 
    public static function getPseudo()
    {
-      $timeMinus12h = timestampToDateTime(Utils::SQLServerTime() - 43200);
+      $timeMinus12h = Utils::toDatetime(Utils::SQLServerTime() - 43200);
       $sql = "SELECT author FROM posts WHERE date > ? && ip_author=? && posted_as='anonymous' ORDER BY date DESC LIMIT 1";
       $pseudo = Database::secureRead($sql, array($timeMinus12h, $_SERVER['REMOTE_ADDR']), true);
       
@@ -41,7 +41,7 @@ class Anonymous
 
    public static function isAvailable($pseudo)
    {
-      $timeMinus12h = timestampToDateTime(Utils::SQLServerTime() - 43200);
+      $timeMinus12h = Utils::toDatetime(Utils::SQLServerTime() - 43200);
       $sql = "SELECT COUNT(*) AS nb FROM posts WHERE date > ? && author=? && posted_as='anonymous' ORDER BY date DESC";
       $nbPosts = Database::secureRead($sql, array($timeMinus12h, $pseudo), true);
       

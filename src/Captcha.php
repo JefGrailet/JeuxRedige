@@ -57,7 +57,7 @@ header("Content-type: image/png");
 // Generates the picture, with random "twists" so that a bot cannot understand the calculation
 $size = 15;
 $margin = 15;
-$font = './font/OldTypewriter.TTF';
+$font = './style/fonts/OldTypewriter.ttf';
    
 $box = imagettfbbox($size, 0, $font, $expr);
 $width = $box[2] - $box[0];

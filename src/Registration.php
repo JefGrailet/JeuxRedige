@@ -47,6 +47,9 @@ if(!empty($_POST['sent']))
       $errors .= 'dataTooBig|';
    if(!preg_match('!^[a-zA-Z0-9_-]{3,20}$!', $data['pseudo']))
       $errors .= 'badPseudo|';
+   // Catpcha added in early September 2021
+   if(sha1(Utils::secure($_POST['captcha'])) != $_SESSION['captcha'])
+      $errors .= 'wrongCaptcha|';
    
    try
    {

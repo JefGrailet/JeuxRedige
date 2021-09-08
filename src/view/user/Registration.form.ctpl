@@ -3,11 +3,12 @@
 emptyFields & vous devez remplir tous les champs.|
 dataTooBig & les données soumises sont trop longues.|
 badPseudo & le pseudonyme doit faire au moins 3 caractères de long et ne peut contenir des caractères autres que des chiffres, des lettres et les caractères - et _.|
+wrongCaptcha & le résultat du calcul est incorrect.|
 pseudoAlreadyUsed & ce pseudonyme est déjà utilisé par un autre internaute inscrit.|
 emailAlreadyUsed & cette adresse e-mail est déjà utilisée par un autre internaute inscrit.|
 dbError & une erreur inconnue est survenue lors de l'inscription. Contactez l'administrateur ou réessayez plus tard.}
 <form action="./Registration.php" method="post">
-<table class="userFields" width="660">
+<table class="userFields" width="720">
 <tr>
    <td class="userFieldsText" width="200"><label for="pseudo">Pseudonyme :</label></td>
    <td class="userFieldsInput" width="210"><input type="text" name="pseudo" value="{$pseudo}" size="30"/></td>
@@ -34,6 +35,9 @@ vous motive à vous inscrire, ou encore mettre des liens vers des réalisations 
 justifient un accès rapide à tous les outils de création de contenu.<br/>
 <br/>
 <textarea name="presentation" rows="10" placeholder="Entrez une courte présentation (optionnel)">{$presentation}</textarea><br/>
+<br/>
+<img src="./Captcha.php" id="Captcha" alt="Donnez le résultat du calcul" style="border: 1px solid black"/> = 
+<input type="text" name="captcha" size="20" maxlength="10" placeholder="Entrez le résultat du calcul"/><br/>
 <br/>
 <input type="submit" name="sent" value="Je m'inscris"/></p>
 </form>

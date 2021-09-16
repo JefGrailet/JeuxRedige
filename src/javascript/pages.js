@@ -406,7 +406,7 @@ PagesLib.createPlaceholder = function(firstPage, lastPage)
    {
       $(parent + ' .missingPage').on('click', function()
       {
-         load($(this).attr('data-page'));
+         PagesLib.load($(this).attr('data-page'));
       });
       $(parent + ' .missingPages').on('click', function()
       {
@@ -586,8 +586,8 @@ PagesLib.getMessages = function(offset, callback)
                $('.page[data-page=' + pageNumber + '] .pin').on('click', function()
                {
                   postID = parseInt($(this).attr("data-post"));
-                  var curIcon = $(this).attr('src');
-                  if(curIcon.indexOf("post_pin") !== -1)
+                  var curIcon = $(this).attr('class');
+                  if(curIcon.indexOf("_pin") !== -1)
                   {
                      $('#pinPost .pinPostID').text(postID);
                      DefaultLib.openDialog('#pinPost');
@@ -601,7 +601,7 @@ PagesLib.getMessages = function(offset, callback)
                   var idPost = $(this).attr('data-post');
                   $('.quote[data-post=' + idPost + ']').on('click', function()
                   {
-                     PostInteractionLib.quotePost(idPost);
+                     TopicInteractionLib.quotePost(idPost);
                   });
                });
             }

@@ -23,7 +23,7 @@
    position: relative;
    min-height: 100px;
    border-radius: 15px 15px 0px 0px;
-   background-color: #383A49;
+   background-color: black;
 }
 
 .segmentHeaderPlain
@@ -40,19 +40,19 @@
    bottom: 0;
    left: 0;
    padding-top: 10px;
-   background-color: rgba(56, 58, 73, 0.8);
+   background-color: rgba(0, 0, 0, 0.4);
    border-radius: 0px 15px 0px 0px;
 }
 
 .segmentHeader .segmentHeaderBottom:hover
 {
-   background-color: rgba(56, 58, 73, 1.0);
+   background-color: rgba(0, 0, 0, 0.8);
 }
 
 .segmentHeader h1, .segmentHeaderPlain h1
 {
-   font-family: "Arial", "Serif";
-   font-size: 26px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.625rem; /* ~26px */
    font-weight: 200;
    text-align: justify;
    background: none;
@@ -61,8 +61,8 @@
 
 .segmentHeader h2, .segmentHeaderPlain h2
 {
-   font-family: "Arial", "Serif";
-   font-size: 20px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.25rem; /* ~20px */
    font-weight: 200;
    text-align: justify;
    background: none;
@@ -101,8 +101,8 @@
 
 .segmentBody p
 {
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    padding:  7px;
    margin: 5px 10px 5px 10px;
@@ -110,11 +110,11 @@
 
 .segmentBody p a
 {
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 .segmentBody p a:hover
@@ -125,22 +125,22 @@
 .segmentBody h2
 {
    margin: 4px 7px 4px 7px;
-   font-family: "arial", "calibri", "serif";
-   font-size: 20px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.25rem; /* ~20px */
    padding: 10px;
    text-align: justify;
-   color: rgb(56, 58, 73);
+   color: black;
 }
 
 .segmentBody h2 a
 {
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 .segmentBody h2 a:hover
 {
-   color: black;
+   color: #646464;
 }
 
 .segmentBody .quotation, .segmentBody .spoiler
@@ -189,8 +189,8 @@
 
 .segmentBody li
 {
-   font-size: 15px;
-   font-family: "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
    list-style-type: square;
    padding-bottom: 5px;
    padding-right: 10px;
@@ -206,7 +206,7 @@
 
 .emphasis .emphasisWithin
 {
-   background-color: rgba(56, 58, 73, 0.4);
+   background-color: rgba(0, 0, 0, 0.3);
    color: white;
 }
 
@@ -215,8 +215,8 @@
    padding: 50px;
    display: block;
    text-align: center;
-   font-family: "Times New Roman", "Arial", "Serif";
-   font-size: 30px;
+   font-family: "RobotoBold", "Arial", "Serif";
+   font-size: 1.625rem; /* ~26px */
    font-weight: bold;
 }
 
@@ -226,7 +226,7 @@
 {
    margin: 15px;
    clear: both;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    border-radius: 10px;
    padding-bottom: 5px;
@@ -235,8 +235,8 @@
 .emphasisText h3
 {
    background: none;
-   font-family: "Arial", "Serif";
-   font-size: 20px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.25rem; /* ~20px */
    font-weight: bold;
    margin: 0px;
    padding-left: 17px;
@@ -246,12 +246,12 @@
 
 .segmentBody .emphasisText p a
 {
-   color: #00E6FF;
+   color: #3475e5;
 }
 
 .segmentBody .emphasisText p a:hover
 {
-   color: #BBEDF7;
+   color: #c8c8c8;
 }
 
 /* Summary style */
@@ -281,10 +281,10 @@
    margin-right: 15px;
    padding: 10px 100px 10px 10px;
    border-radius: 10px;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-size: 16px;
-   font-family: "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .summaryGood ul, .summaryBad ul
@@ -297,8 +297,8 @@
 
 .summaryGood li, .summaryBad li
 {
-   font-size: 15px;
-   font-family: "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
    list-style-type: square;
    padding-bottom: 5px;
 }
@@ -323,8 +323,8 @@
 {
    position: relative;
    text-align: center;
-   font-family: "arial", "serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    background: none;
    margin-top: 20px;
    margin-bottom: 0px;
@@ -342,6 +342,7 @@
    color: white;
    background-color: #646464; /* Default */
    border-radius: 12px;
+   box-shadow: 0px 0px 3px 0px #646464;
    padding: 2px 12px;
    margin-right: 3px;
    margin-bottom: 5px;
@@ -349,7 +350,7 @@
 
 #articleKeywords a:hover
 {
-   background-color: #969696; /* Default */
+   background-color: #c8c8c8; /* Default */
 }
 
 /* Article footer. */
@@ -390,8 +391,8 @@
 
 #footerDetails p
 {
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-align: justify;
    padding: 0px;
    margin: 10px;
@@ -400,11 +401,11 @@
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-align: justify;
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 #footerDetails p a:hover, #footerDetails p .editSegment:hover
@@ -432,16 +433,16 @@
    margin-right: 10px;
    margin-top: 5px;
    padding: 5px;
-   background-color: rgba(56, 58, 73, 0.5);
+   background-color: rgba(0, 0, 0, 0.4);
    color: white;
    border-radius: 5px;
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
 }
 
 #articleComments p:hover
 {
-   background-color: rgba(56, 58, 73, 1.0);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 #articleComments p a
@@ -486,12 +487,12 @@
 {
    display: none;
    position: fixed;
-   right: 0;
-   top: 0;
    width: 30%;
    height: 100%;
+   right: 0;
+   top: 0;
    background-color: white;
-   border-left: 3px solid rgba(0,0,0,0.2);
+   border-left: 3px solid rgba(0, 0, 0, 0.2);
    background-clip: padding-box;
    z-index: 20;
    overflow-y: scroll;
@@ -501,8 +502,8 @@
 {
    margin: 55px 15px 0px 15px;
    padding: 0px;
-   font-family: "Arial", "Serif";
-   font-size: 24px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.375rem; /* ~22px */
    color: #383A49;
 }
 
@@ -510,34 +511,34 @@
 {
    margin: 15px;
    padding: 0px;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    color: black;
 }
 
 #commentsSlider #commentsHeader p a
 {
    text-decoration: none;
-   color: #0900B8;
+   color: #3475e5;
 }
 
 #commentsSlider #commentsHeader p a:hover
 {
-   color: grey;
+   color: #c8c8c8;
 }
 
 #commentsSlider #commentsHeader #closeSlider
 {
-   position: fixed;
-   right: 0;
+   position: relative;
+   float: right;
    top: 0;
 }
 
 #commentsSlider #commentsHeader #closeSlider p
 {
-   margin: 55px 25px 0px 0px;
+   margin: 0px 10px 0px 0px;
    padding: 0px;
-   font-size: 18px;
+   font-size: 1.125rem; /* ~18px */
    background-color: white;
    border-radius: 3px;
 }
@@ -549,13 +550,18 @@
 
 #commentsSlider #commentsHeader #closeSlider p #closeClickable
 {
-   color: #383A49;
+   color: black;
 }
 
 #commentsSlider #commentsHeader #closeSlider p #closeClickable:hover
 {
    opacity: 0.5;
    cursor: pointer;
+}
+
+#commentsSlider #commentsHeader #closeSlider p i
+{
+   vertical-align: -10%;
 }
 
 /* Style for comments */
@@ -596,19 +602,19 @@
 
 .commentText h1
 {
-   color: #383A49;
+   color: black;
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
 }
 
 .commentText p
 {
    margin: 0px;
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    padding: 10px 6px;
    text-align: justify;
 }
@@ -617,9 +623,9 @@
 {
    display: inline-block;
    border-radius: 5px 0px 0px 5px;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "Arial", "Serif";
+   font-family: "Roboto", "Arial", "Serif";
    margin: 0px;
    padding: 5px 10px;
 }
@@ -628,12 +634,12 @@
 {
    text-decoration: none;
    color: white;
-   font-family: "Arial", "Serif";
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .commentText .commentTextTop .commentAuthor a:hover
 {
-   color: #00ffff;
+   color: #3475e5;
 }
 
 .commentText .commentTextTop .commentDate
@@ -641,7 +647,7 @@
    display: inline-block;
    margin: 0px;
    padding: 5px 10px;
-   background-color: rgb(200,200,200);
+   background-color: #c8c8c8;
    border-radius: 0px 5px 5px 0px;
 }
 
@@ -657,12 +663,12 @@
 
 .commentText h2
 {
-   color: #383A49;
+   color: black;
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
 }
 
 .commentText ul 
@@ -674,8 +680,8 @@
 
 .commentText li
 {
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-align: justify;
    margin-top: 10px;
 }
@@ -683,7 +689,7 @@
 .commentText a
 {
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 .commentText a:hover
@@ -701,11 +707,11 @@
 {
    width: 96%;
    margin-left: 2%;
-   border-top: 1px solid rgb(220, 220, 220);
-   border-bottom: 1px solid rgb(220, 220, 220);
-   border-left: 2px solid #155dc8;
-   border-right: 1px solid rgb(220, 220, 220);
-   background-color: rgb(250,250,250);
+   border-top: 1px solid #c8c8c8;
+   border-bottom: 1px solid #c8c8c8;
+   border-left: 2px solid #3475e5;
+   border-right: 1px solid #c8c8c8;
+   background-color: #ffffff;
    margin-top: 10px;
    margin-bottom: 10px;
    margin-right: 0px;
@@ -728,7 +734,7 @@
 
 .commentText .userMiniPseudo
 {
-   font-size: 16px;
+   font-size: 1rem; /* ~16px */
    font-weight: bold;
 }
 
@@ -744,6 +750,36 @@
 {
    background-color: white;
    color: black;
+}
+
+/* Video thumbnail stuff */
+
+.commentText .videoThumbnail
+{
+   display: inline-block;
+   cursor: pointer;
+}
+
+.commentText .videoThumbnailOverlay
+{
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.commentText .videoThumbnailOverlay i
+{
+   opacity: 0.7;
+   background-color: white;
+   border-radius: 80px;
+}
+
+.commentText .videoThumbnailOverlay i:hover
+{
+   opacity: 1.0;
+   background-color: white;
+   border-radius: 80px;
 }
 
 /* Style for bottom wrapper, which contains navigation elements. */
@@ -790,10 +826,10 @@
 #previousSegment p, #segmentList p, #nextSegment p
 {
    display: inline-block;
-   background-color: rgba(56, 58, 73, 0.5);
+   background-color: rgba(0, 0, 0, 0.5);
    color: white;
    border-radius: 10px;
-   font-family: "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    margin-left: 15px;
    margin-right: 15px;
    margin-bottom: 15px;
@@ -801,12 +837,12 @@
 
 #previousSegment p, #nextSegment p
 {
-   font-size: 24px;
+   font-size: 1.5rem; /* ~24px */
 }
 
 #previousSegment p:hover, #segmentList p:hover, #nextSegment p:hover
 {
-   background-color: rgba(56, 58, 73, 1.0);
+   background-color: rgba(0, 0, 0, 1.0);
 }
 
 #previousSegment p, #nextSegment p
@@ -837,9 +873,9 @@
 
 #segmentList select
 {
-   font-size: 14px;
+   font-size: 1rem; /* ~16px */
    color: white;
-   background-color: rgba(56, 58, 73, 0.5);
+   background-color: rgba(0, 0, 0, 0.5);
    border: none;
 }
 

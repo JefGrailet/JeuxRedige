@@ -33,10 +33,9 @@ require './libraries/Keywords.lib.php';
 require './libraries/Buffer.lib.php';
 
 // Webpage settings
+WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
-else
-   WebpageHandler::addCSS('topic');
 WebpageHandler::addJS('uploads'); // Custom thumbnail creation enabled
 WebpageHandler::addJS('keywords');
 WebpageHandler::addJS('preview');

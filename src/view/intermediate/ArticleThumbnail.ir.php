@@ -39,7 +39,7 @@ class ArticleThumbnailIR
       'title' => $data['title'], 
       'subtitle' => $data['subtitle']);
       
-      $typeTranslation = array('review' => 'Critique', 'preview' => 'Aperçu', 'opinion' => 'Humeur');
+      $typeTranslation = array('review' => 'Critique', 'preview' => 'Aperçu', 'opinion' => 'Humeur', 'chronicle' => 'Chronique');
       if($edition)
       {
          if($data['date_publication'] !== '1970-01-01 00:00:00')

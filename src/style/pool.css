@@ -136,8 +136,8 @@
    width: 100%;
    margin: 0px;
    color: black;
-   font-family: "calibri", "arial", "serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
 }
 
@@ -163,19 +163,19 @@
 {
    margin: 0px;
    color: black;
-   font-family: "calibri", "arial", "serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
 }
 
 .centeredContent a
 {
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 .centeredContent a:hover
 {
-   color: blue;
+   color: white;
 }
 
 /* Gives the links the aspect of a button in order to enhance visual aspect */
@@ -183,19 +183,19 @@
 .centeredContent .prettyLink
 {
    text-decoration: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    padding: 10px 20px;
    border-radius: 4px;
-   font-family: "arial", "calibri", "serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    border: none;
    box-shadow: 0px 0px 2px 0px black;
 }
 
 .centeredContent .prettyLink:hover
 {
-   background-color: #557083;
+   background-color: #646464;
    color: white;
    cursor: pointer;
 }
@@ -209,13 +209,13 @@
 
 .prettyText
 {
-   background-color: rgb(100,100,100);
+   background-color: #646464;
    color: white;
    font-weight: bold;
    padding: 10px 20px;
    border-radius: 4px;
-   font-family: "arial", "calibri", "serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    border: none;
    box-shadow: 0px 0px 2px 0px black;
 }
@@ -251,9 +251,9 @@
    width: 115px;
    margin: 10px 0px 0px;
    border-radius: 5px;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-size: 11px;
+   font-size: 0.75rem; /* ~12px */
    padding: 5px;
    text-align: center;
    border: none;
@@ -262,8 +262,8 @@
 .userBlock h1 a
 {
    text-decoration: none;
-   font-family: "arial", "calibri", "serif";
-   font-size: 11px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.75rem; /* ~12px */
    color: white;
    padding: 0px;
    margin: 0px;
@@ -292,11 +292,11 @@
 
 .emoticonBlock h1
 {
-   font-family: "Calibri", "Arial", "Serif";
-   font-size: 16px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    color: white;
-   background-color: #383A49;
+   background-color: black;
    border-radius: 5px 5px 0px 0px;
    padding: 5px 10px 5px 10px;
    margin-top: 0px;
@@ -348,8 +348,8 @@
 
 .emoticonDetails p
 {
-   font-family: "Calibri", "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-align: justify;
    padding: 3px;
    margin: 5px 5px;
@@ -381,8 +381,8 @@
 
 .pinBlock p, .alertBlock p
 {
-   font-family: "Calibri", "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-align: justify;
    padding: 3px;
    margin: 3px 3px;
@@ -390,7 +390,7 @@
 
 .pinBlock i, .alertBlock i
 {
-   font-size: 16px;
+   font-size: 1rem; /* ~16px */
    vertical-align: -1px;
    padding: 6px 3px;
 }
@@ -399,7 +399,7 @@
 {
    height: 30px;
    float: left;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    border-radius: 5px 0px 0px 5px;
 }
@@ -461,7 +461,7 @@
 .pinBlockLeft a, .alertBlockLeft a
 {
    text-decoration: none;
-   color: #8cb5f3;
+   color: #3475e5;
 }
 
 .pinBlockLeft a:hover, .alertBlockLeft a:hover
@@ -476,7 +476,7 @@
 
 .pinBlockRight input[type=text]
 {
-   font-size: 12px;
+   font-size: 0.875rem; /* ~14px */
    margin: 0px;
    padding: 1px;
    width: 350px;
@@ -484,7 +484,7 @@
 
 .pinBlockRight button
 {
-   font-size: 12px;
+   font-size: 0.875rem; /* ~14px */
    vertical-align: 10%;
    padding: 2px 5px;
 }

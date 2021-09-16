@@ -41,10 +41,9 @@ else
 
 // Webpage settings
 WebpageHandler::addCSS('user_profile');
+WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
-else
-   WebpageHandler::addCSS('topic');
 WebpageHandler::addJS('topic_interaction');
 WebpageHandler::noContainer();
 

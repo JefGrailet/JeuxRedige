@@ -94,10 +94,9 @@ if(strlen($user->get('confirmation')) == 15)
 }
 
 // Webpage settings
+WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
-else
-   WebpageHandler::addCSS('topic');
 WebpageHandler::addJS('topic_interaction');
 WebpageHandler::noContainer();
 

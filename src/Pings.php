@@ -73,10 +73,9 @@ catch(Exception $e)
 }
 
 // Webpage settings
+WebpageHandler::addCSS('ping');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('ping_medium');
-else
-   WebpageHandler::addCSS('ping');
 WebpageHandler::addJS('formatting');
 WebpageHandler::addJS('ping_interaction');
 WebpageHandler::addJS('ping_recipient_selection');

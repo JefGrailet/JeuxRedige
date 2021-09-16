@@ -8,8 +8,8 @@
 
 #userDetailsContainer p
 {
-   font-size: 14px;
-   font-family: "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 #articlesContainer

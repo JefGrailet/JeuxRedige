@@ -1,15 +1,15 @@
-/* Style CSS pour les e-mails d'inscription. */
+/* CSS for registration e-mails. */
 
 p
 {
-   font-family: "calibri", "arial", "serif";
+   font-family: "Calibri", "Arial", "Serif";
    font-size: 13px;
    text-align: justify;
 }
 
 a
 {
-   font-family: "calibri", "arial", "serif";
+   font-family: "Calibri", "Arial", "Serif";
    font-size: 13px;
    text-align: justify;
    text-decoration: none;

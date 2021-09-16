@@ -63,10 +63,9 @@ if(!empty($_GET['id_post']) && preg_match('#^([0-9]+)$#', $_GET['id_post']))
    $intermediate['permalink'] = ''; // Not needed here
    
    // Webpage settings
+   WebpageHandler::addCSS('topic');
    if(WebpageHandler::$miscParams['message_size'] === 'medium')
       WebpageHandler::addCSS('topic_medium');
-   else
-      WebpageHandler::addCSS('topic');
    WebpageHandler::addJS('topic_interaction');
    WebpageHandler::addJS('post_interaction');
    WebpageHandler::noContainer();

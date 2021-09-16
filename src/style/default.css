@@ -1,8 +1,26 @@
+/* Roboto font */
+
+@font-face
+{
+    font-family: 'Roboto';
+    src: url('./fonts/Roboto-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: 'RobotoBold';
+    src: url('./fonts/Roboto-Bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Main CSS file. */
 
 body
 {
-   background-color: rgb(220,220,230);
+   background-color: white;
    color: black;
    margin: 0px 0px 0px 0px;
 }
@@ -15,11 +33,11 @@ body
    width: 100%;
    margin-top: 0px;
    height: 46px;
-   background-color: #383A49;
+   background-color: black;
    position: fixed;
    z-index: 30;
    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
-   border-bottom: 1px solid #9a9ba1;
+   border-bottom: 1px solid #646464;
 }
 
 /* Main block, i.e., part below the upper menu */
@@ -56,15 +74,15 @@ body
    display: table-cell;
    margin: 0px;
    padding: 0px 20px;
-   font-family: "Arial", "Serif";
-   font-size: 16px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    line-height: 42px;
    color: white;
 }
 
 #titleCorner .websiteTitle
 {
-   font-size: 22px;
+   font-size: 1.5rem; /* ~24px */
 }
 
 #titleCorner .websiteTitle:hover
@@ -76,19 +94,19 @@ body
 
 #titleCorner li a
 {
-   font-family: "Arial", "Serif";
+   font-family: "Roboto", "Arial", "Serif";
    text-decoration: none;
    color: white;
 }
 
 #titleCorner li a:hover
 {
-   color: rgb(180,180,190);
+   color: rgb(180,180,180);
 }
 
 #titleCorner ul li
 {
-   border-right: 1px solid #9a9ba1;
+   border-right: 1px solid #646464;
 }
 
 #titleCorner ul li:last-of-type
@@ -111,8 +129,8 @@ body
    display: inline-block;
    margin: 8px 10px 7px 0px; /* Dim. adjusted due to avatar (see below) */
    padding: 0px;
-   font-family: "Arial", "Serif";
-   font-size: 20px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1.25rem; /* ~20px */
    font-weight: normal;
    color: white;
 }
@@ -128,7 +146,7 @@ body
 #userCorner i
 {
    display: inline-block;
-   font-size: 20px;
+   font-size: 1.25rem; /* ~20px */
    color: white;
    margin: 0px 10px 0px 0px;
    vertical-align: -10%;
@@ -142,17 +160,16 @@ body
    float: right;
    right: 0;
    height: 100%;
-   border-left: 1px solid #9a9ba1;
+   border-left: 1px solid #646464;
    overflow: auto;
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
    z-index: 20;
-   margin-top: 1px;
 }
 
 .userMenu
 {
    width: 300px;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    transform: translateX(+310px);
    transition: transform 250ms ease-in-out;
@@ -161,8 +178,8 @@ body
 .pingsSlider
 {
    width: 350px;
-   background-color: #e8e8e8;
-   color: #25b6d2;
+   background-color: white;
+   color: #3475e5;
    transform: translateX(+360px);
    transition: transform 250ms ease-in-out;
 }
@@ -170,7 +187,7 @@ body
 .loginSlider
 {
    width: 350px;
-   background-color: #e8e8e8;
+   background-color: white;
    color: black;
    transform: translateX(+360px);
    transition: transform 250ms ease-in-out;
@@ -263,7 +280,7 @@ body
    border: none;
    padding: 10px 10px 5px 5px;
    text-align: left;
-   font-size: 16px;
+   font-size: 1rem; /* ~16px */
 }
 
 #userCorner .userMenu i, #userCorner .pingsSlider i
@@ -273,15 +290,15 @@ body
 
 #userCorner li a
 {
-   font-family: "Arial", "Serif";
-   font-size: 16px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-decoration: none;
    color: white;
 }
 
 #userCorner li a:hover
 {
-   color: rgb(180,180,190);
+   color: #c8c8c8;
 }
 
 /* Style for the connection form */
@@ -289,15 +306,15 @@ body
 .loginSlider p
 {
    text-align: left;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    margin: 10px;
    padding: 0px;
 }
 
 .loginSlider input[type=text], .loginSlider input[type=password]
 {
-   font-size: 14px;
+   font-size: 1rem; /* ~16px */
    width: 98%;
    padding: 3px;
    margin: 0px;
@@ -313,7 +330,7 @@ body
 .loginSlider p a
 {
    text-decoration: none;
-   color: #155dc8;
+   color: #3475e5;
 }
 
 .loginSlider p a:hover
@@ -344,25 +361,25 @@ body
 
 #titleCorner sup, #userCorner sup
 {
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.75rem; /* ~12px */
    padding-left: 5px;
-   color: #36DDFF;
+   color: #34b1e5;
 }
 
 #userCorner .pingsSlider li
 {
-   color: #23a0b8;
+   color: #3475e5;
 }
 
 #userCorner .pingsSlider a
 {
-   color: #23a0b8;
+   color: #3475e5;
 }
 
 #userCorner .pingsSlider a:hover
 {
-   color: white;
+   color: black;
 }
 
 /* Border for all input text fields */
@@ -380,19 +397,19 @@ input[type=submit]
    color: white;
    padding: 5px 15px;
    border-radius: 4px;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    border: none;
 }
 
 button, .customButton
 {
-   background-color: #383A49;
+   background-color: #646464;
    color: white;
    padding: 5px 15px;
    border-radius: 4px;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    border: none;
 }
 
@@ -404,13 +421,13 @@ input[type=submit]:hover
 
 button:hover, .customButton:hover
 {
-   background-color: #557083;
+   background-color: #c8c8c8;
    cursor: pointer;
 }
 
 input[type=submit]:active, button:active, .customButton:active
 {
-   background-color: grey;
+   background-color: #c8c8c8;
 }
 
 /* Style for the dialog windows which can appear through the use of JavaScript (jQuery). */
@@ -473,7 +490,7 @@ input[type=submit]:active, button:active, .customButton:active
    margin: 0px;
    padding: 0px;
    line-height: 0px;
-   font-size: 30px;
+   font-size: 1.875rem; /* ~30px */
    animation-name: rotate;
    animation-duration: 2.5s;
    animation-iteration-count: infinite;
@@ -501,7 +518,7 @@ input[type=submit]:active, button:active, .customButton:active
 {
    width: 100%;
    height: 30px;
-   background: #383A49;
+   background: black;
    border-radius: 4px 4px 0 0;
 }
 
@@ -509,8 +526,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowTitle
 {
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    float: left;
    color: white;
    margin-top: 5px;
@@ -521,8 +538,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 .closeDialog
 {
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    float: right;
    color: grey;
    margin-top: 5px;
@@ -546,8 +563,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowContent p
 {
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -555,7 +572,7 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowContent input[type="submit"], .windowContent button
 {
-   font-size: 11px;
+   font-size: 0.875rem; /* ~14px */
    float: right;
    margin-right: 5px;
 }
@@ -568,12 +585,12 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowContent .triggerDialog
 {
-   background-color: #383A49;
+   background-color: black;
    color: white;
    padding: 5px 15px;
    border-radius: 4px;
-   font-family: "Arial", "Serif";
-   font-size: 11px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    border: none;
    float: right;
    margin-right: 5px;
@@ -592,8 +609,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowContent a
 {
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    text-decoration: none;
    color: #155dc8;
 }
@@ -644,8 +661,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 90px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -671,8 +688,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 80px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -695,8 +712,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 130px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: grey;
    padding-left: 5px;
 }
@@ -706,8 +723,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 50px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -723,8 +740,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 248px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: grey;
    padding-left: 5px;
 }
@@ -734,8 +751,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 35px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -754,8 +771,8 @@ input[type=submit]:active, button:active, .customButton:active
 .integrateColumn3 select
 {
    width: 96%;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
 }
 
 /* Color picking form. */
@@ -765,8 +782,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 50px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
 }
 
@@ -789,8 +806,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 403px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: black;
    text-align: right;
    padding-right: 10px;
@@ -804,8 +821,8 @@ input[type=submit]:active, button:active, .customButton:active
 .colorPickColumn3 .colorShow
 {
    width: 30px;
-   height: 13px;
-   border: 1px solid grey;
+   height: 0.875rem; /* ~14px */
+   border: 1px solid #c8c8c8;
 }
 
 /* Upload form. */
@@ -822,8 +839,8 @@ input[type=submit]:active, button:active, .customButton:active
    width: 233px;
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.875rem; /* ~14px */
    color: grey;
 }
 
@@ -888,16 +905,16 @@ input[type=submit]:active, button:active, .customButton:active
 
 .LBCenter input[type=text]
 {
-   font-family: "Arial", "Serif";
-   font-size: 12px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.75rem; /* ~12px */
    color: black;
    margin-right: 5px;
 }
 
 .lightboxBottom p
 {
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.75rem; /* ~12px */
    color: black;
    margin: 0px;
    padding: 5px 0px 10px 0px;
@@ -921,8 +938,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 .lightboxBottom a
 {
-   font-family: "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.75rem; /* ~12px */
    text-decoration: none;
    color: #155dc8;
 }
@@ -946,7 +963,7 @@ input[type=submit]:active, button:active, .customButton:active
    color: black;
    text-align: center;
    font-family:  "Gothic", "Serif";
-   font-size: 50px;
+   font-size: 3.125rem; /* ~50px */
 }
 
 #banner h1 a
@@ -967,16 +984,16 @@ input[type=submit]:active, button:active, .customButton:active
    margin: auto;
    width: 350px;
    padding: 10px;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    border-radius: 5px;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 16px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
    margin-bottom: 30px;
    margin-top: 20px;
-   box-shadow: 0px 0px 3px 0px black;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 /* Body container for simple pages and topics */
@@ -996,7 +1013,7 @@ input[type=submit]:active, button:active, .customButton:active
    border-radius: 10px;
    padding-bottom: 5px;
    margin-top: 20px;
-   box-shadow: 0px 0px 3px 0px black;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 /* Variants (both container and wrapper block) for account edition only. */
@@ -1031,7 +1048,7 @@ input[type=submit]:active, button:active, .customButton:active
    background-color: white;
    border-radius: 10px;
    margin-bottom: 15px;
-   box-shadow: 0px 0px 3px 0px black;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 /* Footer. */
@@ -1048,8 +1065,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 #footer p
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
 }
 
@@ -1058,24 +1075,24 @@ input[type=submit]:active, button:active, .customButton:active
    display: inline-block;
    text-decoration: none;
    color: white;
-   background-color: #383A49; /* Default */
+   background-color: black; /* Default */
    border-radius: 15px;
    padding: 7px 9px;
    margin-right: 3px;
    margin-bottom: 5px;
-   box-shadow: 0px 0px 2px 0px black;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 #footer p .iconLink:hover
 {
-   background-color: #969696;
+   background-color: #646464;
 }
 
 #footer p a
 {
    text-decoration: none;
-   color: #155dc8;
-   font-size: 14px;
+   color: #3475e5;
+   font-size: 1rem; /* ~16px */
 }
 
 #footer p a:hover
@@ -1094,8 +1111,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 #content p, #contentMultiple p
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    padding: 7px;
    margin: 5px 10px 5px 10px; /* To not stick to the border of "wallOfText" */
@@ -1108,12 +1125,12 @@ input[type=submit]:active, button:active, .customButton:active
 
 #content h1, #contentMultiple h1
 {
-   font-family: "Arial", "Serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-weight: normal;
-   font-size: 16px;
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    color: white;
-   background-color: #383A49;
+   background-color: black;
    border-radius: 10px 10px 0px 0px;
    padding: 7px 19px;
 }
@@ -1128,8 +1145,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 #content a, #contentMultiple a
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
    color: #155dc8;
@@ -1163,8 +1180,8 @@ input[type=submit]:active, button:active, .customButton:active
 {
    background: none;
    border: none;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    color: black;
 }
 
@@ -1179,8 +1196,8 @@ input[type=submit]:active, button:active, .customButton:active
 textarea
 {
    width: 99.5%;
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    resize: vertical;
    box-sizing: border-box;
    margin: 0px;
@@ -1197,7 +1214,7 @@ textarea
    margin: 0px 0px 6px 6px;
    background: none;
    border-radius: 5px;
-   box-shadow: 0px 0px 2px 0px;
+   box-shadow: 0px 0px 2px 0px #646464;
 }
 
 /* Icons in top left corner of the thumbnail */
@@ -1210,7 +1227,7 @@ textarea
    margin: 0px;
    padding: 3px;
    border-radius: 5px 0px 5px 0px;
-   background-color: rgba(56, 58, 73, 0.8);
+   background-color: rgba(0, 0, 0, 0.6);
    opacity: 0.8;
    color: white;
    display: inline-block;
@@ -1219,7 +1236,7 @@ textarea
 
 .thumbnailIcons:hover
 {
-   background-color: rgba(56, 58, 73, 1);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 .thumbnailIcons a
@@ -1237,7 +1254,7 @@ textarea
    margin: 0px;
    padding: 3px;
    border-radius: 0px 5px 0px 5px;
-   background-color: rgba(56, 58, 73, 0.8);
+   background-color: rgba(0, 0, 0, 0.6);
    opacity: 0.8;
    display: inline-block;
    z-index: 1;
@@ -1245,7 +1262,7 @@ textarea
 
 .thumbnailTime:hover
 {
-   background-color: rgba(56, 58, 73, 1);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 /* Style for <p> inside thumbnailIcons / thumbnailTime */
@@ -1254,8 +1271,8 @@ textarea
 {
    margin: 0px;
    padding: 3px;
-   font-size: 12px;
-   font-family: Arial, serif;
+   font-size: 0.75rem; /* ~12px */
+   font-family: "Roboto", "Arial", "Serif";
    color: white;
 }
 
@@ -1283,7 +1300,7 @@ textarea
    width: 260px;
    min-height: 30px;
    border-radius: 0px 0px 5px 5px;
-   background-color: rgba(56, 58, 73, 0.8);
+   background-color: rgba(0, 0, 0, 0.6);
    color: white;
    opacity: 0.8;
    z-index: 1;
@@ -1291,7 +1308,7 @@ textarea
 
 .captionThumbnail:hover
 {
-   background-color: rgba(56, 58, 73, 1);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 /* Cursor stuff and main link (such that a click in the middle of the thumbnail leads to the topic). */
@@ -1326,7 +1343,7 @@ textarea
    width: 260px;
    height: 30px;
    border-radius: 0px 0px 5px 5px;
-   background-color: #640909;
+   background-color: black;
    color: white;
    opacity: 0.8;
 }
@@ -1343,8 +1360,8 @@ textarea
    margin: 0px;
    padding: 10px 4px;
    text-align: center;
-   font-family: arial, serif;
-   font-size: 11px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 0.675rem; /* ~11px */
    line-height: 130%;
    color: white;
 }
@@ -1357,20 +1374,20 @@ textarea
 
 .captionThumbnail a:hover, .captionThumbnailMarked a:hover
 {
-   color: #5599ff;
+   color: #91c148;
 }
 
 /* Style for the links to the last page in a thumbnail */
 
 .captionThumbnail .lastPage, .captionThumbnailMarked .lastPage
 {
-   color: #5599ff;
+   color: #3475e5;
    text-decoration: none;
 }
 
 .captionThumbnail .lastPage:hover, .captionThumbnailMarked .lastPage:hover
 {
-   color: #ff9955;
+   color: #91c148;
 }
 
 /* Style for article thumbnails and highlights */
@@ -1383,13 +1400,13 @@ textarea
    height: 208px;
    margin: 12px;
    background: none;
-   border: 2px solid #cccccc;
-   box-shadow: 0px 0px 3px 0px;
+   border: 2px solid #646464;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 .articleThumbnail:hover
 {
-   border: 2px solid #f2f2f2;
+   border: 2px solid #c8c8c8;
 }
 
 .articleHighlight
@@ -1400,13 +1417,13 @@ textarea
    height: 400px;
    margin: 12px;
    background: none;
-   border: 2px solid #cccccc;
-   box-shadow: 0px 0px 3px 0px;
+   border: 2px solid #646464;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 .articleHighlight:hover
 {
-   border: 2px solid #f2f2f2;
+   border: 2px solid #c8c8c8;
 }
 
 @media screen and (max-width: 1079px)
@@ -1426,7 +1443,7 @@ textarea
    left: 0;
    margin: 0px;
    border-radius: 0px 0px 5px 0px;
-   background-color: rgba(56, 58, 73, 0.7);
+   background-color: rgba(0, 0, 0, 0.5);
    color: white;
    display: inline-block;
    z-index: 1;
@@ -1439,7 +1456,7 @@ textarea
    right: 0;
    margin: 0px;
    border-radius: 0px 0px 0px 5px;
-   background-color: rgba(56, 58, 73, 0.7);
+   background-color: rgba(0, 0, 0, 0.5);
    color: white;
    display: inline-block;
    z-index: 1;
@@ -1447,23 +1464,23 @@ textarea
 
 .articleThumbnailType:hover, .articleThumbnailAuthor:hover, .articleHighlightDetails:hover
 {
-   background-color: rgba(56, 58, 73, 0.9);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 .articleThumbnailType p, .articleThumbnailAuthor p
 {
    margin: 0px;
    padding: 8px;
-   font-size: 14px;
-   font-family: arial, serif;
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .articleHighlightDetails p
 {
    margin: 0px;
    padding: 8px;
-   font-size: 18px;
-   font-family: arial, serif;
+   font-size: 1.25rem; /* ~20px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 /* Titles in thumbnail */
@@ -1473,31 +1490,31 @@ textarea
    position: absolute;
    bottom: 0;
    width: 370px;
-   background-color: rgba(56, 58, 73, 0.7);
+   background-color: rgba(0, 0, 0, 0.5);
    color: white;
    z-index: 1;
 }
 
 .articleThumbnail .articleTitles:hover
 {
-   background-color: rgba(56, 58, 73, 0.9);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 .articleThumbnail .articleTitle p
 {
    margin: 0px 5px;
    padding: 5px;
-   font-size: 17px;
+   font-size: 1.125rem; /* ~18px */
    font-weight: bold;
-   font-family: arial, serif;
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .articleThumbnail .articleSubtitle p
 {
    margin: 0px 5px;
    padding: 0px 5px 5px 5px;
-   font-size: 14px;
-   font-family: arial, serif;
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .articleThumbnail .articleTitles a
@@ -1508,7 +1525,7 @@ textarea
 
 .articleThumbnail .articleTitles a:hover
 {
-   color: #66ffff;
+   color: #3475e5;
 }
 
 /* Titles in highlight */
@@ -1519,31 +1536,31 @@ textarea
    bottom: 0;
    width: 100%;
    height: 80px;
-   background-color: rgba(56, 58, 73, 0.7);
+   background-color: rgba(0, 0, 0, 0.5);
    color: white;
    z-index: 1;
 }
 
 .articleHighlight .articleTitles:hover
 {
-   background-color: rgba(56, 58, 73, 0.9);
+   background-color: rgba(0, 0, 0, 0.9);
 }
 
 .articleHighlight .articleTitle p
 {
    margin: 0px 5px;
    padding: 5px;
-   font-size: 26px;
+   font-size: 1.625rem; /* ~26px */
    font-weight: bold;
-   font-family: arial, serif;
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .articleHighlight .articleSubtitle p
 {
    margin: 0px 5px;
    padding: 0px 5px 5px 5px;
-   font-size: 22px;
-   font-family: arial, serif;
+   font-size: 1.375rem; /* ~22px */
+   font-family: "Roboto", "Arial", "Serif";
 }
 
 .articleHighlight .articleTitles a
@@ -1554,7 +1571,7 @@ textarea
 
 .articleHighlight .articleTitles a:hover
 {
-   color: #66ffff;
+   color: #3475e5;
 }
 
 /* Style for ratings section of commentable content */
@@ -1588,8 +1605,8 @@ textarea
 .ratingsLeft p
 {
    min-width: 150px;
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
    padding: 16px;
    margin: 0px;
@@ -1600,8 +1617,8 @@ textarea
 
 .ratingsRight p
 {
-   font-family: "Arial", "Serif";
-   font-size: 15px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
    padding: 16px 5px;
    margin: 0px;
@@ -1724,8 +1741,8 @@ textarea
 
 #filterForm p, #gameSearchForm p, #userInputForm p
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
    padding: 2px 7px;
    margin: 0px;
@@ -1733,8 +1750,8 @@ textarea
 
 #filterFormInputs p
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: center;
    padding: 2px 7px;
    margin: 0px;
@@ -1742,8 +1759,8 @@ textarea
 
 #filterFormInputs a
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
    color: #155dc8;
@@ -1782,8 +1799,8 @@ textarea
 
 .suggestions li
 {
-   font-family: "Arial", "Serif";
-   font-size: 14px;
+   font-family: "Roboto", "Arial", "Serif";
+   font-size: 1rem; /* ~16px */
    padding: 4px;
 }
 
@@ -1811,7 +1828,7 @@ textarea
    display: inline-block;
    text-decoration: none;
    color: white;
-   background-color: #383A49;
+   background-color: black;
    border-radius: 3px;
    padding: 2px;
    margin-right: 3px;
@@ -1844,9 +1861,10 @@ textarea
 .backBlack
 {
    color: white;
-   background-color: #383A49;
+   background-color: black;
    padding: 4px 7px;
    border-radius: 3px;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 .backBlack:hover
@@ -1870,6 +1888,7 @@ textarea
    background-color : white;
    padding: 4px 7px;
    border-radius: 3px;
+   box-shadow: 0px 0px 3px 0px #646464;
 }
 
 .backGrey
@@ -1878,4 +1897,5 @@ textarea
    background-color : rgb(180, 180, 180);
    padding: 4px 7px;
    border-radius: 3px;
+   box-shadow: 0px 0px 3px 0px #646464;
 }

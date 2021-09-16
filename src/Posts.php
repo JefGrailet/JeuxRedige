@@ -100,10 +100,9 @@ if(!empty($_GET['author']))
       WebpageHandler::wrap($postsTpl, 'Une erreur est survenue lors de la lecture des messages');
    
    // Webpage settings
+   WebpageHandler::addCSS('topic');
    if(WebpageHandler::$miscParams['message_size'] === 'medium')
       WebpageHandler::addCSS('topic_medium');
-   else
-      WebpageHandler::addCSS('topic');
    WebpageHandler::addJS('topic_interaction');
    WebpageHandler::addJS('jquery.visible');
    WebpageHandler::addJS('pages');

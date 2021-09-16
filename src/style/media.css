@@ -1,7 +1,10 @@
 /**
 * This style sheet defines the style for a container displaying some media (games, for now) along
 * the style for all the elements it can contain. It is a separate sheet because it is not as widely
-* used as regular thumbnails (those which represents a topic).
+* used as regular thumbnails (those that represent a topic).
+*
+* General remark: font-size are in px rather than rem because thumbnails are meant to have a fixed 
+* size.
 */
 
 .mediaThumbnail
@@ -12,6 +15,7 @@
    height: 162px;
    float: left;
    border-radius: 5px;
+   box-shadow: 0px 0px 2px 0px black;
 }
 
 /* Ensures the background is a bit greyed, so the text put on it afterwards is readable. */
@@ -39,10 +43,9 @@
    padding: 5px;
    border-radius: 5px 5px 0px 0px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "arial", "serif";
-   font-weight: 200;
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 13px;
    text-align: center;
 }
@@ -55,7 +58,7 @@
 
 .mediaThumbnail h1 a:hover
 {
-   color: rgb(100,150,255);
+   color: #3475e5;
 }
 
 /* 
@@ -72,9 +75,9 @@
    padding: 7px;
    border-radius: 5px 0px 5px 0px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-weight: 200;
    font-size: 13px;
    opacity: 0.8;
@@ -88,7 +91,7 @@
 
 .mediaThumbnail h2 a:hover
 {
-   color: rgb(100,150,255);
+   color: #3475e5;
 }
 
 /* Style for game details */
@@ -108,9 +111,9 @@
    padding: 2px 5px;
    border-radius: 2px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 11px;
 }
 
@@ -121,9 +124,9 @@
    padding: 2px 5px;
    border-radius: 2px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 11px;
 }
 
@@ -136,18 +139,18 @@
 
 /* Style for covered supports. */
 
-.mediaThumbnail .hw_PC { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,230,230); color: black; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_X360 { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: green; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_XONE { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,150,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_XSX { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_PS3 { padding: 2px 4px; border-radius: 2px; background-color: rgb(90,90,90); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_PSV { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,200); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_PS4 { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,200); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_PS5 { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,230); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_Wii { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: grey; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_WiiU { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,230); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_Switch { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,0,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
-.mediaThumbnail .hw_3DS { padding: 2px 4px; border-radius: 2px; background-color: rgb(150,0,0); color: white; font-family: "arial", "serif"; font-size: 11px; }
+.mediaThumbnail .hw_PC { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,230,230); color: black; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_X360 { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: green; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_XONE { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,150,0); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_XSX { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,0); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_PS3 { padding: 2px 4px; border-radius: 2px; background-color: rgb(90,90,90); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_PSV { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,200); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_PS4 { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,200); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_PS5 { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,0,230); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_Wii { padding: 2px 4px; border-radius: 2px; background-color: rgb(255,255,255); color: grey; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_WiiU { padding: 2px 4px; border-radius: 2px; background-color: rgb(0,100,230); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_Switch { padding: 2px 4px; border-radius: 2px; background-color: rgb(230,0,0); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
+.mediaThumbnail .hw_3DS { padding: 2px 4px; border-radius: 2px; background-color: rgb(150,0,0); color: white; font-family: "Roboto", "Arial", "Serif"; font-size: 11px; }
 
 .mediaThumbnail .line .left:hover, .mediaThumbnail .line .right:hover
 {
@@ -165,11 +168,10 @@
    margin-bottom: 0px;
    border-radius: 0px 0px 5px 5px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
    opacity: 0.7;
-   font-family: "arial", "serif";
-   font-weight: 200;
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 13px;
    text-align: center;
 }
@@ -192,7 +194,7 @@
 .mediaThumbnail .description p
 {
    color: white;
-   font-family: "calibri", "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 13px;
    text-align: justify;
    padding: 0px 10px;
@@ -260,7 +262,7 @@
    padding-top: 0px;
    border-radius: 0px 5px 0px 5px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    cursor: pointer;
 }
 
@@ -275,7 +277,7 @@
    padding-top: 0px;
    border-radius: 5px 0px 5px 0px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    cursor: pointer;
 }
 
@@ -292,9 +294,9 @@
    padding: 2px;
    border-radius: 5px 5px 0px 0px;
    border: none;
-   background-color: #383A49;
+   background-color: black;
    color: white;
-   font-family: "calibri", "arial", "serif";
+   font-family: "Roboto", "Arial", "Serif";
    font-size: 13px;
    text-align: center;
 }
@@ -307,5 +309,5 @@
 
 .mediaThumbnail .bottomLine .bottomLineCenter a:hover
 {
-   color: rgb(100,150,255);
+   color: #3475e5;
 }

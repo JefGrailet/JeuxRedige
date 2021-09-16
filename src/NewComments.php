@@ -86,10 +86,9 @@ require './libraries/Buffer.lib.php';
 $isUserAuthor = (LoggedUser::$data['pseudo'] === $commentable->get('pseudo'));
 
 // Webpage settings
+WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
-else
-   WebpageHandler::addCSS('topic');
 WebpageHandler::addJS('uploads');
 if($isUserAuthor)
    WebpageHandler::addJS('keywords'); // Only author of the commentable can edit keywords

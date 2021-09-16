@@ -267,6 +267,8 @@ if(LoggedUser::isLoggedIn())
       echo $padding2.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
       echo $padding2.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
    }
+   echo $padding2.'<li></li>'; // Spacing out the log out link
+   echo $padding2.'<li></li>'; // Ditto
    // Log out link
    if(WebpageHandler::$redirections['log_out'])
    {

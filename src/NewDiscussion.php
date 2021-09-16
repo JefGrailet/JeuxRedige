@@ -24,10 +24,9 @@ require './model/Emoticon.class.php';
 require './libraries/FormParsing.lib.php';
 
 // Webpage settings
+WebpageHandler::addCSS('ping');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('ping_medium');
-else
-   WebpageHandler::addCSS('ping');
 WebpageHandler::addJS('formatting');
 WebpageHandler::addJS('ping_recipient_selection');
 WebpageHandler::addJS('preview');

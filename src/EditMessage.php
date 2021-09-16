@@ -91,10 +91,9 @@ if(!empty($_GET['id_post']) && preg_match('#^([0-9]+)$#', $_GET['id_post']))
    else
    {
       // Webpage settings
+      WebpageHandler::addCSS('topic');
       if(WebpageHandler::$miscParams['message_size'] === 'medium')
          WebpageHandler::addCSS('topic_medium');
-      else
-         WebpageHandler::addCSS('topic');
       WebpageHandler::addCSS('topic_header');
       if($topic->hasGames())
          WebpageHandler::addCSS('media');

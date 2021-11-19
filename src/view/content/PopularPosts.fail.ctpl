@@ -1,6 +1,6 @@
 {$header}
 <div style="padding-top: 20px; text-align:center;">
-   <p style="font-size: 14px; font-family: 'Arial', 'Calibri', 'Serif';">
+   <p style="font-size: 1rem; font-family: 'Roboto', 'Arial', sans-serif;">
       {switch:error||nothing & Ce sujet ne comporte aucun message avec un score positif ou négatif.|
 noPositive & Ce sujet ne comporte aucun message avec un score positif.|
 noNegative & Ce sujet ne comporte aucun message avec un score négatif.|

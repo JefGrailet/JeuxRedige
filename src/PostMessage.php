@@ -67,8 +67,6 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       
       // Prepares the input for the whole page template
       $finalTplInput = array('header' => '',
-      'previewPseudo' => '',
-      'previewRank' => '',
       'replyForm' => '',
       'uploadMenu' => '');
    
@@ -82,10 +80,9 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
          if(!TemplateEngine::hasFailed($formattingDialogsTpl))
             $dialogs .= $formattingDialogsTpl;
          
+         WebpageHandler::addCSS('preview');
          WebpageHandler::addJS('formatting');
          WebpageHandler::addJS('preview');
-         $finalTplInput['previewPseudo'] = LoggedUser::$data['used_pseudo'];
-         $finalTplInput['previewRank'] = LoggedUser::rank();
       }
    
       // Makes adjustment for uploads if it is relevant
@@ -175,7 +172,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       if(LoggedUser::isLoggedIn())
       {
          $formTplInput['anonPseudoStatus'] = '';
-         $formTplInput['formEnd'] = 'askPreview';
+         $formTplInput['formEnd'] = 'default';
       }
       else
       {

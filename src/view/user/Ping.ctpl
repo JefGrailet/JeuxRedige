@@ -1,4 +1,5 @@
-<div class="pingBlock" id="{$pingID}">
+<div class="pingBlock" data-id-post="{$pingID}">
+<div class="postBlockAnchor" id="{$pingID}"></div>
 <div class="pingBlockLeftColumn">
 <div class="pingBlockAvatar" style="background: url({$otherPartyAvatar}) no-repeat top center;"></div>
 <h1>{$otherPartyPseudo}</h1>

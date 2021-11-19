@@ -27,6 +27,7 @@ require './libraries/FormParsing.lib.php';
 WebpageHandler::addCSS('ping');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('ping_medium');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('formatting');
 WebpageHandler::addJS('ping_recipient_selection');
 WebpageHandler::addJS('preview');
@@ -43,11 +44,8 @@ $formData = array('errors' => '',
 'recipientSelection' => 'missing',
 'title' => '',
 'content' => '',
-'formEnd' => 'askPreview',
+'formEnd' => 'default',
 'recipient' => '');
-
-// Array for the final template (i.e., with preview HTML)
-$finalTplInput = array('newPingForm' => '', 'previewPseudo' => LoggedUser::$data['pseudo']);
 
 if(!empty($_POST['sent']))
 {
@@ -101,8 +99,8 @@ if(!empty($_POST['sent']))
    if($_POST['sent'] == 'Mode avancé')
    {
       $formData['errors'] = ''; // Will remove emptyRecipient| if there
-      $finalTplInput['newPingForm'] = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
-      $finalTpl = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
+      $finalTpl = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
+      $finalTpl = WebpageHandler::wrapInBlock($finalTpl, 'plainBlock');
       WebpageHandler::wrap($finalTpl, 'Lancer une nouvelle discussion', $dialogs);
    }
    
@@ -130,9 +128,8 @@ if(!empty($_POST['sent']))
       catch(Exception $e)
       {
          $formData['errors'] = 'dbError';
-         
-         $finalTplInput['newPingForm'] = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
-         $finalTpl = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
+         $finalTpl = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
+         $finalTpl = WebpageHandler::wrapInBlock($finalTpl, 'plainBlock');
          WebpageHandler::wrap($finalTpl, 'Lancer une nouvelle discussion', $dialogs);
       }
       
@@ -149,16 +146,15 @@ if(!empty($_POST['sent']))
    else
    {
       $formData['errors'] = substr($formData['errors'], 0, -1);
-      
-      $finalTplInput['newPingForm'] = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
-      $finalTpl = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
+      $finalTpl = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
+      $finalTpl = WebpageHandler::wrapInBlock($finalTpl, 'plainBlock');
       WebpageHandler::wrap($finalTpl, 'Lancer une nouvelle discussion', $dialogs);
    }
 }
 else
 {
-   $finalTplInput['newPingForm'] = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
-   $finalTpl = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
+   $finalTpl = TemplateEngine::parse('view/user/NewDiscussion.form.ctpl', $formData);
+   $finalTpl = WebpageHandler::wrapInBlock($finalTpl, 'plainBlock');
    WebpageHandler::wrap($finalTpl, 'Lancer une nouvelle discussion', $dialogs);
 }
    

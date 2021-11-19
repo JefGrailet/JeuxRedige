@@ -439,7 +439,7 @@ class Commentable
    
    public static function whatKind($commentableID)
    {
-      $sql = 'SELECT commentables.id_commentable trivia.content, lists.ordering 
+      $sql = 'SELECT commentables.id_commentable, trivia.content, lists.ordering 
       FROM commentables 
       LEFT OUTER JOIN trivia ON trivia.id_commentable=commentables.id_commentable 
       LEFT OUTER JOIN lists ON lists.id_commentable=commentables.id_commentable 

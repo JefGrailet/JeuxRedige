@@ -31,11 +31,10 @@ Réessayez plus tard ou contactez l'administrateur.}
 <span class="formatButton" id="buttonSpoiler" title="Ajouter un spoiler"><i class="icon-formatting_spoiler_bis"></i></span>
 <span class="formatButton" id="buttonImage" title="Intégrer une image ou un clip"><i class="icon-formatting_picture"></i></span>
 <span class="formatButton" id="buttonVideo" title="Intégrer une video"><i class="icon-formatting_video"></i></span>
-<span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
-<div id="textareaWrapper">
-<p id="editableWrapper"><textarea name="message" placeholder="Entrez ici le texte de votre anecdote">{$content}</textarea></p>
+<div id="textareaWrapper" data-preview-type="content">
+<p id="editableZone"><textarea name="message" placeholder="Entrez ici le texte de votre anecdote">{$content}</textarea></p>
 </div>
 <p>
 <button type="button" id="autoPreview">Aperçu automatique</button> 

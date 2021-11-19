@@ -89,7 +89,7 @@ if(!empty($_POST['sent']))
          $tplInput = array('mail' => 'mailFail');
          if(!TemplateEngine::hasFailed($emailContent))
          {
-            if(Mailing::send($data['email'], 'Inscription sur Project AG', $emailContent))
+            if(Mailing::send($data['email'], 'Inscription sur JeuxRedige.be', $emailContent))
                $tplInput['mail'] = 'mailSuccess';
          }
          $display = TemplateEngine::parse('view/user/Registration.success.ctpl', $tplInput);

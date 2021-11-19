@@ -69,7 +69,9 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
    
    // Webpage settings
+   WebpageHandler::$miscParams['webdesign_variant'] = $article->get('type'); // Changes the logo
    WebpageHandler::addCSS('article');
+   WebpageHandler::addCSS('charter_'.$article->get('type')); // To comply with the charter colors
    WebpageHandler::addCSS('media');
    WebpageHandler::addJS('article');
    WebpageHandler::noContainer();

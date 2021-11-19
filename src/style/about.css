@@ -1,0 +1,34 @@
+/* Some CSS for the "About" page */
+
+#aboutContainer
+{
+   margin: auto;
+   text-align: justify;
+   width: 70%;
+   min-width: 580px;
+   max-width: 1344px; /* 70% of width in Full HD */
+}
+
+#aboutContainer p
+{
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", sans-serif;
+}
+
+#aboutContainer a
+{
+   text-decoration: none;
+   color: #3475e5;
+}
+
+#aboutContainer a:hover
+{
+   color: #99368b;
+}
+
+#aboutContainer ul li
+{
+   font-size: 1rem; /* ~16px */
+   font-family: "Roboto", "Arial", sans-serif;
+   list-style-type: "\0025B6\00a0";
+}

@@ -78,7 +78,7 @@ class ArticleIR
       {
          if($topic['nb'] > 1)
          {
-            $output['comments'] = 'many||';
+            $output['comments'] = 'slider||';
             $output['comments'] .= PathHandler::topicURL($topic).'|';
             if($topic['nb'] > 2)
                $output['comments'] .= 'Commentaires ('.($topic['nb'] - 1).')|';

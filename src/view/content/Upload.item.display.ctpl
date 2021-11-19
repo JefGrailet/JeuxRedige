@@ -8,8 +8,11 @@ data-uploader="{$uploader}" data-upload-date="{$uploadDate}"
 spoiler &       <p class="hiddenMedia"><i class="icon-general_spoiler" title="Contient des spoiler(s)"></i></p>|
 nsfw &       <p class="hiddenMedia"><i class="icon-general_nsfw" title="Contenu NSFW (Not Safe For Work)"></i></p>|
 picture &       <img src="[0]" alt="Miniature"/>|
-video &       <video width="250" min-height="10">
+video &       <span class="clipThumbnail">
+      <video class="miniature" width="250" min-height="10">
          <source src="[0]" type="video/[1]">
-      </video>}
+      </video>
+      <span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>
+      </span>}
    </div>
 </div> 

@@ -13,6 +13,8 @@ data-upload-date="{$uploadDate}">
 yes & <a href="#uploadIcon" class="buttonDeleteUpload">
             <i class="icon-general_minus" title="Supprimer"></i>
          </a>}
+         {switch:isVideo||
+yes & <i class="icon-general_video" title="Clip vidéo"></i>}
       </div>
    </div>
    {switch:content||

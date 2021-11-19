@@ -2,15 +2,15 @@
 
 p
 {
-   font-family: "Calibri", "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Arial", sans-serif;
+   font-size: 1rem;
    text-align: justify;
 }
 
 a
 {
-   font-family: "Calibri", "Arial", "Serif";
-   font-size: 13px;
+   font-family: "Arial", sans-serif;
+   font-size: 1rem;
    text-align: justify;
    text-decoration: none;
    color: #155dc8;

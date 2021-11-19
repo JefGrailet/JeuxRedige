@@ -15,32 +15,23 @@
    </div>
 </div>
 {switch:comments||
-many & <div id="articleComments">
-   <p>
-      <a href="[0]" target="_blank" id="showComments">[1]</a>
-   </p>
-</div>
-<div id="coverScreen"></div>
-<div id="commentsSlider" data-id-topic="[3]">
-   <div id="commentsHeader">
-      <div id="closeSlider">
+slider & <div id="commentsWrapper">
+   <input class="toggleComments" id="slideComments" name="commentsCheckbox" type="checkbox">
+   <label class="toggleLabel" for="slideComments">[1]</label>
+   <div id="commentsSlider" data-id-topic="[3]">
+      <div id="commentsHeader">
+         <h1>[1]</h1>
          <p>
-            <span id="closeClickable">Fermer <i class="icon-general_close"></i></span>
+            <a href="[0]" target="_blank">Voir l'entièreté du sujet</a> - 
+            <a href="[2]" target="_blank">Rédiger un commentaire</a>
          </p>
       </div>
-      <h1>[1]</h1>
-      <p>
-         <a href="[0]" target="_blank">Voir l'entièreté du sujet</a> - 
-         <a href="[2]" target="_blank">Rédiger un commentaire</a>
-      </p>
-   </div>
-   <div id="commentsListed">
+      <div id="commentsListed">
+      </div>
    </div>
 </div>|
-beFirst & <div id="articleComments">
-   <p>
-      <a href="[0]" target="_blank">Commenter</a>
-   </p>
+beFirst & <div id="commentsWrapper">
+   <p class="beFirst"><a href="[0]" target="_blank">Commenter</a></p>
 </div>}
 <div id="bottomWrapper">
    <div id="previousSegment">

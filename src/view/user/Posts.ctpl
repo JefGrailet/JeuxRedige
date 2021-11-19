@@ -2,7 +2,7 @@
    <h1 class="centeredTitle">Historique des messages de {$user}</h1>
    <div class="messagesNav">
       {navigation:pagesConfig} 
-      {optional:editUserLink||<p class="topicMenu"><a href="[]">Modérer cet utilisateur</a></p>}
+      {optional:editUserLink||<p class="topicOptions"><a href="[]">Modérer cet utilisateur</a></p>}
    </div>
    <div id="postsWrapper">
       <div class="page">
@@ -10,7 +10,7 @@
       </div>
    </div>
    <div class="messagesNav">
-      {optional:editUserLink||<p class="topicMenu"><a href="[]">Modérer cet utilisateur</a></p>}
+      {optional:editUserLink||<p class="topicOptions"><a href="[]">Modérer cet utilisateur</a></p>}
       {navigation:pagesConfig} 
    </div>
 </div>

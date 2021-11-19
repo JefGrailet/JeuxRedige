@@ -50,7 +50,7 @@ class PostHistoryIR
             $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 0.2; cursor: default;" title="Non censuré"></i>';
          // Not censored yet
          else if(!Utils::check($post['censorship']))
-            $censorshipPart = ' <i class="censorship icon-general_alert" style="opacity: 0.5; cursor: pointer;" data-post="'.$post['id_post'].'" data-version="'.$post['version'].'" title="Censurer"/></i>';
+            $censorshipPart = ' <i class="censorship icon-general_alert" style="opacity: 0.5; cursor: pointer;" data-id-post="'.$post['id_post'].'" data-version="'.$post['version'].'" title="Censurer"/></i>';
          // Already censored
          else
             $censorshipPart = '<i class="censorship icon-general_alert" style="opacity: 1.0; cursor: default;" title="Censuré"></i>';

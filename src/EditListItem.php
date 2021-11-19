@@ -7,6 +7,7 @@
 
 require './libraries/Header.lib.php';
 require './libraries/FormParsing.lib.php';
+require './model/Emoticon.class.php';
 require './model/GamesList.class.php';
 require './model/ListItem.class.php';
 
@@ -62,9 +63,9 @@ if(!TemplateEngine::hasFailed($formattingDialogsTpl))
    $dialogs .= $formattingDialogsTpl;
 
 // Webpage settings
-WebpageHandler::addCSS('content_edition');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('formatting');
-WebpageHandler::addJS('content_editor');
+WebpageHandler::addJS('preview');
 
 // Content of the main form
 $formData = array('listURL' => PathHandler::listURL($parentList->getAll()), 
@@ -94,7 +95,7 @@ if(!empty($_POST['sent']))
       Database::beginTransaction();
       try
       {
-         $item->edit(FormParsing::parse($formData['comment']), $formData['title']);
+         $item->edit(FormParsing::parse(Emoticon::parseEmoticonsShortcuts($formData['comment'])), $formData['title']);
          $parentList->update(); // Will just update last edition date
          
          Database::commit();

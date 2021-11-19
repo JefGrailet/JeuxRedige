@@ -1,4 +1,0 @@
-<div class="plainBlock">
-{$newPingForm}
-</div>
-<div id="preview" data-author="{$previewPseudo}" data-rank="regular user"></div>

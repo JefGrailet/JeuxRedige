@@ -7,7 +7,6 @@ titleTooLong & le sujet proposé est trop long.|
 tooManyPings & vous avez déjà lancé une autre discussion il y a moins de 3 minutes.|
 talkingToOneself & vous ne pouvez pas lancer une discussion avec vous-même. Veuillez contacter un médecin pour de plus amples informations.|
 dbError & un problème avec la base de données est survenu lors de l'envoi du message. Réessayez plus tard.}
-
 <form action="./NewDiscussion.php" method="post">
 <p>
 <span class="recipientSelection">
@@ -38,17 +37,16 @@ missing & <input type="text" id="userInput" name="userInput" size="50" maxlength
 <span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
-<div id="textareaWrapper">
-<p><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+<div id="textareaWrapper" data-preview-type="message">
+<p id="editableZone"><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
 </div>
 <p>
 {switch:formEnd||
 askAdvancedMode & <input type="hidden" name="origin" value="quickForm" /> 
 <input type="submit" name="sent" value="Mode avancé" /> 
-<button type="button" id="quickPreview">Aperçu rapide</button> |
-askPreview & <input type="hidden" name="origin" value="fullForm" /> 
-<button type="button" id="manualPreview">Aperçu</button> 
-<button type="button" id="autoPreview">Aperçu auto</button> }
+<button type="button" id="autoPreview">Aperçu automatique</button> |
+default & <input type="hidden" name="origin" value="fullForm" /> 
+<button type="button" id="autoPreview">Aperçu automatique</button> }
 <input type="hidden" name="recipient" value="{$recipient}"/>
 <input type="submit" name="sent" value="Envoyer" />
 </p>

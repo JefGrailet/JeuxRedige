@@ -58,17 +58,14 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
       WebpageHandler::wrap($noFormTpl, 'Cette discussion a été archivée');
    }
    
-   // Prepares the input for the discussion template and reply form
-   $finalTplInput = array('newPingForm' => '',
-   'previewPseudo' => LoggedUser::$data['pseudo']);
-   
+   // Prepares the input for the reply form
    $formTplInput = array('otherParty' => $discussion->get('emitter'),
    'showTitle' => 'yes||'.$discussion->get('title'),
    'errors' => '', 
    'discussionID' => $discussion->get('id_ping'), 
    'content' => '', 
    'toArchive' => '', 
-   'formEnd' => 'askPreview');
+   'formEnd' => 'default');
    
    if(LoggedUser::$data['pseudo'] === $discussion->get('emitter'))
       $formTplInput['otherParty'] = $discussion->get('receiver');
@@ -77,6 +74,7 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
    WebpageHandler::addCSS('ping');
    if(WebpageHandler::$miscParams['message_size'] === 'medium')
       WebpageHandler::addCSS('ping_medium');
+   WebpageHandler::addCSS('preview');
    WebpageHandler::addJS('formatting');
    WebpageHandler::addJS('ping_interaction');
    WebpageHandler::addJS('preview');
@@ -99,13 +97,10 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
       // User just asked to move to advanced mode (with preview); re-displays form and quits
       if($_POST['sent'] == 'Mode avancé')
       {
-         $formTpl = TemplateEngine::parse('view/user/DiscussionReply.form.ctpl', $formTplInput);
-         if(!TemplateEngine::hasFailed($formTpl))
-            $finalTplInput['newPingForm'] = $formTpl;
-         else
-            WebpageHandler::wrap($formTpl, 'Une erreur est survenue lors de l\'accès à la discussion');
-         
-         $display = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
+         $display = TemplateEngine::parse('view/user/DiscussionReply.form.ctpl', $formTplInput);
+         if(TemplateEngine::hasFailed($display))
+            WebpageHandler::wrap($display, 'Une erreur est survenue lors de l\'accès à la discussion');
+         $display = WebpageHandler::wrapInBlock($display, 'plainBlock');
          WebpageHandler::wrap($display, 'Répondre à la discussion '.$discussion->get('title').'', $dialogs);
       }
       
@@ -161,7 +156,7 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
             $tplInput = array('target' => $newDiscussionURL);
             $successPage = TemplateEngine::parse('view/user/DiscussionReply.success.ctpl', $tplInput);
             WebpageHandler::resetDisplay();
-            WebpageHandler::wrap($successPage, 'Répondre à la discussion '.$discussion->get('title'));
+            WebpageHandler::wrap($successPage, 'Répondre à la discussion "'.$discussion->get('title').'"');
          }
       }
       // Some error occurred: form will be displayed again with errors
@@ -172,14 +167,11 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
    }
 
    // Displays form
-   $formTpl = TemplateEngine::parse('view/user/DiscussionReply.form.ctpl', $formTplInput);
-   if(!TemplateEngine::hasFailed($formTpl))
-      $finalTplInput['newPingForm'] = $formTpl;
-   else
-      WebpageHandler::wrap($formTpl, 'Une erreur est survenue lors de l\'accès à la discussion');
-   
-   $display = TemplateEngine::parse('view/user/PingFormPreview.ctpl', $finalTplInput);
-   WebpageHandler::wrap($display, 'Répondre à la discussion '.$discussion->get('title'), $dialogs);
+   $display = TemplateEngine::parse('view/user/DiscussionReply.form.ctpl', $formTplInput);
+   if(TemplateEngine::hasFailed($display))
+      WebpageHandler::wrap($display, 'Une erreur est survenue lors de l\'accès à la discussion');
+   $display = WebpageHandler::wrapInBlock($display, 'plainBlock');
+   WebpageHandler::wrap($display, 'Répondre à la discussion "'.$discussion->get('title').'"', $dialogs);
 }
 else
 {

@@ -1,12 +1,11 @@
 <?php
 
 /**
-* Ping class models the system of private messages of Project AG, which is actually closer to an 
-* alert system. Indeed, private discussions can only occur between two protagonists and are not 
-* supposed to be a kind of chat; most people will probably prefer using other means like Skype or 
-* Facebook to chat with more interactivity and more people at the same time. Moreover, the ping 
-* system also encompasses any kind of automatic message, such as invitations to exchange personal 
-* details (since there will be no such thing as a public profile), reviews for articles, etc.
+* Ping class models a system of private messages, which is actually closer to an alert system. 
+* Indeed, private discussions can only occur between two protagonists and are not supposed to 
+* constitute a complete system of chat; most people will probably prefer using other means like 
+* Discord, Skype or Facebook to chat with more functionalities and more people at the same time. 
+* Moreover, the ping system also encompasses any kind of automatic message.
 *
 * Methods allows the calling code to handle a ping without explicitely addressing the database, 
 * in a high-level fashion. As this class is more like a superclass (each type of ping has its 

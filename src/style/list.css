@@ -9,7 +9,7 @@
    color: white;
    border-radius: 5px;
    border: none;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
    margin-bottom: 30px;
@@ -40,7 +40,7 @@
 #listDescription p
 {
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
@@ -68,7 +68,7 @@
 
 #listContent p
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -140,7 +140,7 @@
 .itemContent p, .triviaHeader p, .triviaContent p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 10px;
    text-align: justify;
@@ -166,7 +166,7 @@
    position: relative;
    left: 0;
    top: 0;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: center;
    margin-top: 0px;
@@ -181,7 +181,7 @@
    position: absolute;
    left: 0;
    bottom: 0;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    font-weight: bold;
    margin: 0px;
@@ -215,7 +215,7 @@
 .itemComment h2
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    padding: 10px;
    text-align: justify;
@@ -230,7 +230,7 @@
 
 .itemComment li
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    margin-top: 10px;
@@ -245,83 +245,6 @@
 .itemComment a:hover
 {
    color: blue;
-}
-
-.itemComment .quotation, .reviewContent .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid #c8c8c8;
-   border-bottom: 1px solid #c8c8c8;
-   border-left: 2px solid #3475e5;
-   border-right: 1px solid #c8c8c8;
-   background-color: white;
-   margin-top: 10px;
-   margin-bottom: 10px;
-   margin-right: 0px;
-}
-
-.itemComment .spoiler a
-{
-   cursor: pointer;
-}
-
-.itemComment .userMiniAvatar
-{
-   padding: 0px;
-   margin-right: 5px;
-   border-radius: 50%;
-   vertical-align: -40%;
-}
-
-.itemComment .userMiniPseudo
-{
-   font-size: 1rem; /* ~16px */
-   font-weight: bold;
-}
-
-/* Hidden text */
-
-.hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-.hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
-
-/* Video thumbnail stuff */
-
-.videoThumbnail
-{
-   display: inline-block;
-   cursor: pointer;
-}
-
-.videoThumbnailOverlay
-{
-   color: black;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.videoThumbnailOverlay i
-{
-   opacity: 0.7;
-   background-color: white;
-   border-radius: 80px;
-}
-
-.videoThumbnailOverlay i:hover
-{
-   opacity: 1.0;
-   background-color: white;
-   border-radius: 80px;
 }
 
 /* Part dedicated to buttons below the list for edition, deletion, etc. */
@@ -339,7 +262,7 @@
 {
    margin: 0px;
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -350,7 +273,7 @@
    color: white;
    padding: 10px 20px;
    border-radius: 4px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    border: none;
 }
@@ -379,7 +302,7 @@
 
 .listRatings p
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }

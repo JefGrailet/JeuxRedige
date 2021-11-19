@@ -76,10 +76,11 @@ catch(Exception $e)
 WebpageHandler::addCSS('ping');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('ping_medium');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('formatting');
 WebpageHandler::addJS('ping_interaction');
 WebpageHandler::addJS('ping_recipient_selection');
-WebpageHandler::addJS('quick_preview');
+WebpageHandler::addJS('preview');
 WebpageHandler::changeContainer('pingsContent');
 
 // Some alternative display (no post to show)

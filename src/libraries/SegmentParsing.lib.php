@@ -57,6 +57,9 @@ class SegmentParsing
    {
       $parsed = $content;
       
+      // Accents that can be used in: names of uploaded files, miniature comments, emphasized quotes
+      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
+      
       // Videos
       $videos = array();
       preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
@@ -90,7 +93,7 @@ class SegmentParsing
       
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $images);
+      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
       
       for($i = 0; $i < count($images[1]); $i++)
       {
@@ -178,7 +181,7 @@ class SegmentParsing
       
       // WebM/MP4 clip (full display) parsing
       $clips = array();
-      preg_match_all("/\!clip\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $clips);
+      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
       
       for($i = 0; $i < count($clips[1]); $i++)
       {
@@ -227,8 +230,7 @@ class SegmentParsing
       
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
-      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
-      preg_match_all("/\!mini\[([_a-zA-Z0-9\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
+      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
       
       for($i = 0; $i < count($miniatures[1]); $i++)
       {
@@ -301,7 +303,7 @@ class SegmentParsing
             // Short video (WebM or MP4)
             else
             {
-               $miniHTML = '<video class="miniature" width="250" min-height="10" ';
+               $miniHTML = '<span class="clipThumbnail"';
                if($floating !== '')
                {
                   $miniHTML .= 'style="float: '.$floating.'; ';
@@ -311,12 +313,16 @@ class SegmentParsing
                      $miniHTML .= 'margin: 0px 0px 10px 10px;';
                   $miniHTML .= '" ';
                }
+               $miniHTML .= ">\n";
+               $miniHTML .= '<video class="miniature" width="250" min-height="10" ';
                if(strlen($comment) > 0)
                   $miniHTML .= "data-file=\"".$displayPath."\" data-comment=\"".$comment."\">\n";
                else
                   $miniHTML .= "data-file=\"".$displayPath."\">\n";
                $miniHTML .= "<source src=\"".$displayPath."\" type=\"video/".$ext."\">\n";
-               $miniHTML .= '</video>';
+               $miniHTML .= '</video>'."\n";
+               $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
+               $miniHTML .= '</span>'."\n";
                
                $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
             }
@@ -325,8 +331,7 @@ class SegmentParsing
       
       // In-article banners to emphasize on some quotes
       $emphasis = array();
-      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
-      preg_match_all("/\!emphase\[([_a-zA-Z0-9\.\\/;:\-]*?)\]\[([_a-zA-Z0-9 ".$accents."\/\.\,:;&'\"\?\!\=\-\+\(\)]*)\]/", $parsed, $emphasis);
+      preg_match_all("/\!emphase\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]\[([_a-zA-Z0-9 ".$accents."\/\.\,:;&'\"\?\!\=\-\+\(\)]*)\]/", $parsed, $emphasis);
       for($i = 0; $i < count($emphasis[1]); $i++)
       {
          $background = $emphasis[1][$i];
@@ -376,7 +381,6 @@ class SegmentParsing
       
       // Summary listing strong/weak points of the discussed subject.
       $summaries = array();
-      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
       $singleBlock = "([_a-zA-Z0-9 ".$accents."\/\.\,:;'\?\=\-\(\)\!\"]*)";
       preg_match_all("/\!resume\[([^\]]+)\]\[([^\]]+)\]/", $parsed, $summaries);
 

@@ -5,14 +5,14 @@
    margin: auto;
    width: 90%;
    min-width: 800px;
-   max-width: 1920px;
+   max-width: 1152px; /* 60% of the width in 1920x1080 */
    padding-top: 20px;
 }
 
 .articleSegment
 {
    background-color: white;
-   border-radius: 15px;
+   border-radius: 5px;
    margin: 20px;
    padding-bottom: 5px;
    box-shadow: 0px 0px 2px 0px grey;
@@ -22,13 +22,13 @@
 {
    position: relative;
    min-height: 100px;
-   border-radius: 15px 15px 0px 0px;
+   border-radius: 5px 5px 0px 0px;
    background-color: black;
 }
 
 .segmentHeaderPlain
 {
-   border-radius: 15px 15px 0px 0px;
+   border-radius: 5px 5px 0px 0px;
    background-color: white;
    padding-top: 20px;
    padding-bottom: 5px;
@@ -40,19 +40,21 @@
    bottom: 0;
    left: 0;
    padding-top: 10px;
-   background-color: rgba(0, 0, 0, 0.4);
-   border-radius: 0px 15px 0px 0px;
+   background-color: rgba(0, 0, 0, 0.75);
+   border-radius: 0px 5px 0px 0px;
+   /* border-top: 1px solid #646464; */
+   /* border-right: 1px solid #646464; */
 }
 
 .segmentHeader .segmentHeaderBottom:hover
 {
-   background-color: rgba(0, 0, 0, 0.8);
+   background-color: rgba(0, 0, 0, 0.85);
 }
 
 .segmentHeader h1, .segmentHeaderPlain h1
 {
-   font-family: "Roboto", "Arial", "Serif";
-   font-size: 1.625rem; /* ~26px */
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 1.875rem; /* ~30px */
    font-weight: 200;
    text-align: justify;
    background: none;
@@ -61,8 +63,8 @@
 
 .segmentHeader h2, .segmentHeaderPlain h2
 {
-   font-family: "Roboto", "Arial", "Serif";
-   font-size: 1.25rem; /* ~20px */
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 1.5rem; /* ~24px */
    font-weight: 200;
    text-align: justify;
    background: none;
@@ -101,7 +103,7 @@
 
 .segmentBody p
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding:  7px;
@@ -110,68 +112,42 @@
 
 .segmentBody p a
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .segmentBody p a:hover
 {
-   color: black;
+   color: black; /* Default if no "charter_..." side style sheet */
 }
 
 .segmentBody h2
 {
    margin: 4px 7px 4px 7px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    padding: 10px;
    text-align: justify;
    color: black;
 }
 
+.segmentBody h2:before
+{
+   content: "\0025B6\00a0";
+}
+
 .segmentBody h2 a
 {
    text-decoration: none;
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .segmentBody h2 a:hover
 {
-   color: #646464;
-}
-
-.segmentBody .quotation, .segmentBody .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid rgb(220, 220, 220);
-   border-bottom: 1px solid rgb(220, 220, 220);
-   border-left: 2px solid #155dc8;
-   border-right: 1px solid rgb(220, 220, 220);
-   background-color: rgb(250,250,250);
-   margin-top: 10px;
-   margin-bottom: 10px;
-   margin-right: 0px;
-}
-
-.segmentBody .miniature, .segmentBody .spoiler a
-{
-   cursor: pointer;
-}
-
-.segmentBody .hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-.segmentBody .hiddenText:hover
-{
-   background-color: white;
-   color: black;
+   color: #646464; /* Default if no "charter_..." side style sheet */
 }
 
 .segmentBody img, .segmentBody video
@@ -190,10 +166,18 @@
 .segmentBody li
 {
    font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", "Serif";
-   list-style-type: square;
+   font-family: "Roboto", "Arial", sans-serif;
+   list-style: none;
    padding-bottom: 5px;
    padding-right: 10px;
+}
+
+.segmentBody li:before
+{
+   content: "\0025B6";
+   display: inline-block;
+   width: 1rem;
+   margin-left: -1rem;
 }
 
 /* Emphasis (quote) style */
@@ -215,7 +199,7 @@
    padding: 50px;
    display: block;
    text-align: center;
-   font-family: "RobotoBold", "Arial", "Serif";
+   font-family: "RobotoBold", "Arial", sans-serif;
    font-size: 1.625rem; /* ~26px */
    font-weight: bold;
 }
@@ -228,14 +212,14 @@
    clear: both;
    background-color: black;
    color: white;
-   border-radius: 10px;
+   border-radius: 5px;
    padding-bottom: 5px;
 }
 
 .emphasisText h3
 {
    background: none;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    font-weight: bold;
    margin: 0px;
@@ -244,9 +228,14 @@
    padding-top: 10px;
 }
 
+.emphasisText h3:before
+{
+   content: "\0025B6\00a0";
+}
+
 .segmentBody .emphasisText p a
 {
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .segmentBody .emphasisText p a:hover
@@ -280,11 +269,11 @@
    margin-left: 15px;
    margin-right: 15px;
    padding: 10px 100px 10px 10px;
-   border-radius: 10px;
+   border-radius: 5px;
    background-color: black;
    color: white;
    font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
 }
 
 .summaryGood ul, .summaryBad ul
@@ -298,9 +287,18 @@
 .summaryGood li, .summaryBad li
 {
    font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", "Serif";
-   list-style-type: square;
+   font-family: "Roboto", "Arial", sans-serif;
+   list-style: none;
    padding-bottom: 5px;
+}
+
+.summaryGood li:before, .summaryBad li:before
+{
+   content: "\0025B6";
+   display: inline-block;
+   width: 1rem;
+   margin-left: -1rem;
+   margin-right: 0.25rem;
 }
 
 /* Style for bottom of segment (previous and next section) */
@@ -323,7 +321,7 @@
 {
    position: relative;
    text-align: center;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    background: none;
    margin-top: 20px;
@@ -341,7 +339,7 @@
    text-decoration: none;
    color: white;
    background-color: #646464; /* Default */
-   border-radius: 12px;
+   border-radius: 8px;
    box-shadow: 0px 0px 3px 0px #646464;
    padding: 2px 12px;
    margin-right: 3px;
@@ -391,7 +389,7 @@
 
 #footerDetails p
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    padding: 0px;
@@ -401,11 +399,11 @@
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    text-decoration: none;
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 #footerDetails p a:hover, #footerDetails p .editSegment:hover
@@ -418,91 +416,99 @@
    cursor: pointer;
 }
 
-/* Style for the top-left bubble, meant for comments advertising */
+/* Style for the top-left corner, meant for opening/closing comments */
 
-#articleComments
+#commentsWrapper
 {
    position: fixed;
    right: 0;
    top: 0;
-   margin-top: 50px;
+   margin-top: 60px;
 }
 
-#articleComments p
+/* Style to use when there are no comments yet (just to display a "Comment" link) */
+
+.beFirst
 {
-   margin-right: 10px;
-   margin-top: 5px;
-   padding: 5px;
-   background-color: rgba(0, 0, 0, 0.4);
+   display: inline-block;
+   margin: 0px;
+   padding: 10px;
+   background-color: rgba(0, 0, 0, 0.7);
    color: white;
-   border-radius: 5px;
-   font-family: "Roboto", "Arial", "Serif";
-   font-size: 1rem; /* ~16px */
+   border-radius: 0px 0px 0px 5px;
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 1.25rem; /* ~20px */
 }
 
-#articleComments p:hover
+.beFirst a
+{
+   text-decoration: none;
+   color: white;
+}
+
+.beFirst a:hover
+{
+   color: #c8c8c8;
+}
+
+/* Style for the toggle button (a label in the HTML code) */
+
+.toggleLabel
+{
+   display: inline-block;
+   margin: 0px;
+   padding: 10px;
+   background-color: rgba(0, 0, 0, 0.7);
+   color: white;
+   border-radius: 0px 0px 0px 5px;
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 1.25rem; /* ~20px */
+   cursor: pointer;
+   transition: transform 250ms ease-in-out;
+}
+
+.toggleLabel:hover
 {
    background-color: rgba(0, 0, 0, 0.9);
 }
 
-#articleComments p a
+/* Invisible checkbox (checked via .toggleLabel label above) for toggling the comments */
+
+.toggleComments
 {
-   text-decoration: none;
-   color: white;
+   position: absolute;
+   margin: 0px;
+   border: 0px;
+   width: 0px;
+   height: 0px;
+   opacity: 0;
 }
 
-#articleComments p a:hover
-{
-   color: grey;
-}
-
-#articleComments p #showComments
-{
-   text-decoration: none;
-   color: white;
-}
-
-#articleComments p #showComments:hover
-{
-   cursor: pointer;
-}
-
-/* Style for the cover screen just under the comments slider (clickable to close the slider) */
-
-#coverScreen
-{
-   display: none;
-   width: 100%;
-   height: 100%;
-   position: fixed;
-   top: 0;
-   left: 0;
-   z-index: 19;
-   background: none;
-}
-
-/* Style for comment slider */
+/* Style for the slider itself */
 
 #commentsSlider
 {
-   display: none;
    position: fixed;
-   width: 30%;
-   height: 100%;
-   right: 0;
+   float: right;
    top: 0;
+   right: 0;
+   height: 100%;
    background-color: white;
-   border-left: 3px solid rgba(0, 0, 0, 0.2);
+   border-left: 2px solid rgba(0, 0, 0, 0.2);
    background-clip: padding-box;
-   z-index: 20;
+   z-index: 19;
+   overflow-x: auto;
    overflow-y: scroll;
+   width: 576px;
+   transform: translateX(+578px); /* +2px due to border */
+   transition: transform 250ms ease-in-out;
 }
 
 #commentsSlider #commentsHeader h1
 {
-   margin: 55px 15px 0px 15px;
+   margin: 70px 15px 0px 15px;
    padding: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.375rem; /* ~22px */
    color: #383A49;
 }
@@ -511,7 +517,7 @@
 {
    margin: 15px;
    padding: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    color: black;
 }
@@ -519,7 +525,7 @@
 #commentsSlider #commentsHeader p a
 {
    text-decoration: none;
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 #commentsSlider #commentsHeader p a:hover
@@ -527,44 +533,19 @@
    color: #c8c8c8;
 }
 
-#commentsSlider #commentsHeader #closeSlider
+/* Toggling the slider and the label */
+
+.toggleComments:checked ~ #commentsSlider
 {
-   position: relative;
-   float: right;
-   top: 0;
+   transform: translateX(0px);
 }
 
-#commentsSlider #commentsHeader #closeSlider p
+.toggleComments:checked ~ .toggleLabel
 {
-   margin: 0px 10px 0px 0px;
-   padding: 0px;
-   font-size: 1.125rem; /* ~18px */
-   background-color: white;
-   border-radius: 3px;
+   transform: translateX(-576px);
 }
 
-#commentsSlider #commentsHeader #closeSlider p img
-{
-   vertical-align: -25%;
-}
-
-#commentsSlider #commentsHeader #closeSlider p #closeClickable
-{
-   color: black;
-}
-
-#commentsSlider #commentsHeader #closeSlider p #closeClickable:hover
-{
-   opacity: 0.5;
-   cursor: pointer;
-}
-
-#commentsSlider #commentsHeader #closeSlider p i
-{
-   vertical-align: -10%;
-}
-
-/* Style for comments */
+/* Style for the comments being displayed */
 
 .comment
 {
@@ -606,14 +587,14 @@
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
 .commentText p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding: 10px 6px;
    text-align: justify;
@@ -625,7 +606,7 @@
    border-radius: 5px 0px 0px 5px;
    background-color: black;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    margin: 0px;
    padding: 5px 10px;
 }
@@ -634,12 +615,12 @@
 {
    text-decoration: none;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
 }
 
 .commentText .commentTextTop .commentAuthor a:hover
 {
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .commentText .commentTextTop .commentDate
@@ -656,18 +637,13 @@
    max-width: 100%;
 }
 
-.commentText .emoticon
-{
-   vertical-align: middle;
-}
-
 .commentText h2
 {
    color: black;
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -680,7 +656,7 @@
 
 .commentText li
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    margin-top: 10px;
@@ -689,97 +665,12 @@
 .commentText a
 {
    text-decoration: none;
-   color: #3475e5;
+   color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .commentText a:hover
 {
    color: blue;
-}
-
-.commentText  .miniature
-{
-   border: none;
-   cursor: pointer;
-}
-
-.commentText .quotation, .commentText .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid #c8c8c8;
-   border-bottom: 1px solid #c8c8c8;
-   border-left: 2px solid #3475e5;
-   border-right: 1px solid #c8c8c8;
-   background-color: #ffffff;
-   margin-top: 10px;
-   margin-bottom: 10px;
-   margin-right: 0px;
-}
-
-.commentText .spoiler a
-{
-   cursor: pointer;
-}
-
-/* Pretty display of some user's pseudo */
-
-.commentText .userMiniAvatar
-{
-   padding: 0px;
-   margin-right: 5px;
-   border-radius: 50%;
-   vertical-align: -40%;
-}
-
-.commentText .userMiniPseudo
-{
-   font-size: 1rem; /* ~16px */
-   font-weight: bold;
-}
-
-/* Hidden text */
-
-.commentText .hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-.commentText .hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
-
-/* Video thumbnail stuff */
-
-.commentText .videoThumbnail
-{
-   display: inline-block;
-   cursor: pointer;
-}
-
-.commentText .videoThumbnailOverlay
-{
-   color: black;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.commentText .videoThumbnailOverlay i
-{
-   opacity: 0.7;
-   background-color: white;
-   border-radius: 80px;
-}
-
-.commentText .videoThumbnailOverlay i:hover
-{
-   opacity: 1.0;
-   background-color: white;
-   border-radius: 80px;
 }
 
 /* Style for bottom wrapper, which contains navigation elements. */
@@ -828,8 +719,8 @@
    display: inline-block;
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
-   border-radius: 10px;
-   font-family: "Roboto", "Arial", "Serif";
+   border-radius: 5px;
+   font-family: "Roboto", "Arial", sans-serif;
    margin-left: 15px;
    margin-right: 15px;
    margin-bottom: 15px;

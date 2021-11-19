@@ -8,8 +8,9 @@ class ArticleThumbnailIR
    *
    * -ID of the article
    * -Thumbnail of the article
-   * -Type of the article (as a string)
-   * -Author of the article
+   * -Type of the article as in the DB (as a string)
+   * -Type of the article, translated for the display (as a string)
+   * -An "extra" switch for displaying the author or the state of the publication
    * -Link to the article (either published, either edition page; URL)
    * -Additionnal info to be displayed on link hover (HTML)
    * -Main title of the article (as a string)
@@ -33,25 +34,37 @@ class ArticleThumbnailIR
       $output = array('ID' => $data['id_article'], 
       'thumbnail' => $artThumbnail, 
       'type' => '', 
-      'author' => '', 
+      'typeTranslated' => '',
+      'extra' => '', 
       'link' => '', 
       'additionnalInfo' => '', 
       'title' => $data['title'], 
       'subtitle' => $data['subtitle']);
       
+      // Type of article
       $typeTranslation = array('review' => 'Critique', 'preview' => 'Aperçu', 'opinion' => 'Humeur', 'chronicle' => 'Chronique');
+      if(in_array($data['type'], array_keys($typeTranslation)))
+      {
+         $output['type'] = ' '.$data['type'];
+         $output['typeTranslated'] = $typeTranslation[$data['type']];
+      }
+      else
+      {
+         $output['typeTranslated'] = 'Article'; // Default (in case)
+      }
+      
+      // Extra details: publication state (edition side) or author (for published content)
       if($edition)
       {
          if($data['date_publication'] !== '1970-01-01 00:00:00')
-            $output['type'] = $typeTranslation[$data['type']].' <span style="color: #40ff00;">[Publié]</span>';
+            $output['extra'] = 'state|| published|Publié';
          else
-            $output['type'] = $typeTranslation[$data['type']].' <span style="color: #36DDFF;">[En cours]</span>';
+            $output['extra'] = 'state|| wip|En cours';
       }
       else
       {
          if($showAuthor)
-            $output['author'] = 'show||'.$data['pseudo'];
-         $output['type'] = $typeTranslation[$data['type']];
+            $output['extra'] = 'author||'.$data['pseudo'];
       }
       
       if($edition)

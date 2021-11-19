@@ -40,8 +40,8 @@ pick & <span id="gameToSelect">
 <span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
-<div id="textareaWrapper">
-<p id="editableWrapper"><textarea name="message" placeholder="Rédigez votre anecdote ici">{$comment}</textarea></p>
+<div id="textareaWrapper" data-preview-type="message">
+<p id="editableZone"><textarea name="message" placeholder="Entrez ici votre commentaire">{$comment}</textarea></p>
 </div>
 <p>
 <input type="hidden" name="game" value="{$game}"/>

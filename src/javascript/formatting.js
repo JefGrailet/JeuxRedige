@@ -13,25 +13,15 @@ FormattingLib.refreshPreview = function()
 {
    if(typeof PreviewLib !== 'undefined')
    {
-      if(PreviewLib.auto)
+      if(PreviewLib.previewEnabled)
          PreviewLib.preview();
-   }
-   else if(typeof QuickPreviewLib !== 'undefined')
-   {
-      if(QuickPreviewLib.enabled)
-         QuickPreviewLib.preview();
-   }
-   else if(typeof SegmentEditorLib !== 'undefined')
-   {
-      if(SegmentEditorLib.previewEnabled)
-         SegmentEditorLib.preview();
    }
 }
 
 /*
 * Given two tags (respectively opening and closing tags), the next method inserts them in the 
 * textarea, with the currently selected zone being put between both tags. The preview is also 
-* updated if the function preview() is available and if autoPreview is set to true.
+* updated if the PreviewLib library is loaded and if the automatic preview is enabled.
 *
 * @param string openingTag  The opening tag
 * @param string closingTag  The closing tag
@@ -51,8 +41,8 @@ FormattingLib.insertTags = function(openingTag, closingTag)
 
 /*
 * Given an emoticon shortcut, the next function inserts it in the textarea, with the currently 
-* selected zone being replaced by the shortcut. The preview is also updated if the function 
-* preview() is available and if autoPreview is set to true.
+* selected zone being replaced by the shortcut. The preview is also updated if the PreviewLib 
+* library is loaded and if the automatic preview is enabled.
 *
 * @param string shortcut  The emoticon shortcut
 */
@@ -71,8 +61,8 @@ FormattingLib.insertShortcut = function(shortcut)
 
 /*
 * Deals with the input provided in addHyperlink div (dialog window) and inserts the proper format 
-* code into the textarea. The preview is also updated if the function preview() is available and 
-* if autoPreview is set to true.
+* code into the textarea. The preview is also updated if the PreviewLib library is loaded and if 
+* the automatic preview is enabled.
 */
 
 FormattingLib.insertHyperlink = function()
@@ -109,7 +99,7 @@ FormattingLib.insertHyperlink = function()
 /*
 * Deals with the input provided in integrateImg div (which is also a dialog window) and inserts 
 * the format code required to integrate the selected image into the textarea. The preview is also 
-* updated if the function preview() is available and if autoPreview is set to true.
+* updated if the PreviewLib library is loaded and if the automatic preview is enabled.
 */
 
 FormattingLib.insertImg = function()
@@ -169,7 +159,7 @@ FormattingLib.insertImg = function()
 /*
 * Deals with the input provided in integrateVideo div (which is also a dialog window) and inserts 
 * the format code required to integrate the given video into the textarea. Just like before, 
-* preview is refreshed if necessary.
+* the automatic preview is refreshed if necessary.
 */
 
 FormattingLib.insertVideo = function()
@@ -200,7 +190,7 @@ FormattingLib.insertVideo = function()
 /*
 * Deals with the input provided in putEmphasis div (which is also a dialog window) and inserts 
 * the format code required to integrate the emphasis into the textarea. Just like before, 
-* preview is refreshed if necessary.
+* the automatic preview is refreshed if necessary.
 *
 * This feature is exclusive to articles formatting.
 */

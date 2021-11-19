@@ -1,9 +1,13 @@
 <div class="articleThumbnail" id="{$ID}" style="background: url('{$thumbnail}') no-repeat top center;">
-   <div class="articleThumbnailType">
-      <p>{$type}</p>
+   <div class="articleThumbnailType{$type}">
+      <p>{$typeTranslated}</p>
    </div>
-   {switch:author||show & <div class="articleThumbnailAuthor">
+   {switch:extra||
+author & <div class="articleThumbnailExtra">
       <p>Par [0]</p>
+   </div>|
+state & <div class="articleThumbnailExtra [0]">
+      <p>[1]</p>
    </div>}
    <div class="articleTitles">
       <div class="articleTitle">

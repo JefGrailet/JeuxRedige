@@ -2,7 +2,7 @@
 <div id="visibleWrapper">
    <div class="messagesNav">
       {navigation:pagesConfig} 
-      {switch:replyLink||yes & <p class="topicMenu"><a href="[0]">Poster une réponse (avancé)</a></p>}
+      {switch:replyLink||yes & <p class="topicOptions"><a href="[0]">Poster une réponse (avancé)</a></p>}
    </div>
    <div id="postsWrapper">
       <div class="page">
@@ -10,7 +10,7 @@
       </div>
    </div>
    <div class="messagesNav">
-      {switch:replyLink||yes & <p class="topicMenu"><a href="[0]">Poster une réponse (avancé)</a></p>}
+      {switch:replyLink||yes & <p class="topicOptions"><a href="[0]">Poster une réponse (avancé)</a></p>}
       {navigation:pagesConfig} 
    </div>
 </div>
@@ -20,9 +20,9 @@
       <select id="highlightPosts">
          <option value="20">Score &#8805; 20</option>
          <option value="10">Score &#8805; 10</option>
-         <option value="1">Score &#8805; 0</option>
+         <option value="1">Score > 0</option>
          <option value="0" selected="selected">Pas de filtre</option>
-         <option value="-1">Score &#8804; 0</option>
+         <option value="-1">Score < 0</option>
          <option value="-10">Score &#8804; -10</option>
          <option value="-20">Score &#8804; -20</option>
       </select> 

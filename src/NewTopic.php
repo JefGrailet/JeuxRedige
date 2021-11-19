@@ -36,6 +36,7 @@ require './libraries/Buffer.lib.php';
 WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('uploads'); // Custom thumbnail creation enabled
 WebpageHandler::addJS('keywords');
 WebpageHandler::addJS('preview');

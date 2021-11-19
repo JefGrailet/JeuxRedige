@@ -1,6 +1,6 @@
 <div class="articleHighlight" id="{$ID}" style="background: url('{$highlight}') no-repeat top center;">
-   <div class="articleHighlightDetails">
-      <p>{$type}{switch:author||show &  par [0]}</p>
+   <div class="articleHighlightDetails{$type}">
+      <p>{$typeTranslated}{switch:extra||author &  par [0]|state & }</p>
    </div>
    <div class="articleTitles">
       <div class="articleTitle">

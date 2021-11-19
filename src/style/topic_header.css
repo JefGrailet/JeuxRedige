@@ -3,11 +3,11 @@
 #topicHeader
 {
    position: fixed;
-   top: 47px;
+   top: 60px;
    width: 100%;
    z-index: 20;
    border-bottom: 1px solid #c8c8c8;
-   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+   /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75); */
 }
 
 /* Title of the topic */
@@ -18,7 +18,7 @@
    background-color: #646464;
    color: white;
    text-align: center;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    font-weight: 200;
    padding: 10px;
@@ -60,7 +60,7 @@
    color: white;
    text-decoration: none;
    padding: 7px 10px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -75,7 +75,7 @@
    color: #58C8FF;
    font-weight: bold;
    padding: 7px 10px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -110,13 +110,15 @@
 .topicKeywords
 {
    text-align: center;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    background: none;
-   margin: 0px;
    line-height: 170%;
    color: black;
-   padding: 10px;
+   padding: 15px 10px 5px 10px;
+   min-width: 780px;
+   max-width: 1420px; /* 75% of the width in 1920x1080 when padding is included */
+   margin: auto;
 }
 
 .topicKeywords a

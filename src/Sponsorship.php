@@ -83,7 +83,7 @@ if(!empty($_POST['sent']))
                $formTplInput['success'] = 'mailFail';
                if(!TemplateEngine::hasFailed($mailContent))
                {
-                  if(Mailing::send($inputEmail, 'Vous êtes invité sur Project AG', $mailContent))
+                  if(Mailing::send($inputEmail, 'Vous êtes invité sur JeuxRedige.be', $mailContent))
                   {
                      $formTplInput['success'] = 'newInvitation';
                      $invitation->updateLastEmailDate();
@@ -116,7 +116,7 @@ if(!empty($_POST['sent']))
                   $formTplInput['success'] = 'mailFail';
                   if(!TemplateEngine::hasFailed($mailContent))
                   {
-                     if(Mailing::send($inputEmail, 'Vous êtes invité sur Project AG', $mailContent))
+                     if(Mailing::send($inputEmail, 'Vous êtes invité sur JeuxRedige.be', $mailContent))
                      {
                         $formTplInput['success'] = 'newEmail';
                         $invitation->updateLastEmailDate();

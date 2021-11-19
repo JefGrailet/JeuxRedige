@@ -109,15 +109,15 @@ class PostIR
       if($interactive && LoggedUser::isLoggedIn() && $post['author'] !== LoggedUser::$data['pseudo'] && 
          $post['author'] !== LoggedUser::$data['used_pseudo'])
       {
-         $output['editionLink'] .= ' &nbsp;<i class="quote icon-general_quote" data-post="'.$post['id_post'].'" title="Citer"></i>';
+         $output['editionLink'] .= ' &nbsp;<i class="quote icon-general_quote" data-id-post="'.$post['id_post'].'" title="Citer"></i>';
          
          if(strlen($post['user_pin']) > 0)
          {
-            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_unpin" data-post="'.$post['id_post'].'" title="'.$post['user_pin'].'"></i></a>';
+            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_unpin" data-id-post="'.$post['id_post'].'" title="'.$post['user_pin'].'"></i></a>';
          }
          else
          {
-            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_pin" data-post="'.$post['id_post'].'" title="Ajouter ce message à mes favoris"></i></a>';
+            $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_pin" data-id-post="'.$post['id_post'].'" title="Ajouter ce message à mes favoris"></i></a>';
          }
       }
       
@@ -126,7 +126,7 @@ class PostIR
       $finalScore = $post['nb_likes'] - $post['nb_dislikes'];
       
       $whoLikes = ''.$post['nb_likes'].' J\'aime, '.$post['nb_dislikes'].' Je n\'aime pas';
-      $whoLikes = ' <i class="postInteractions icon-general_info" data-post="'.$post['id_post'].'" data-likes="'.$post['nb_likes'].'" data-dislikes="'.$post['nb_dislikes'].'" title="'.$whoLikes.'"></i>';
+      $whoLikes = ' <i class="postInteractions icon-general_info" data-id-post="'.$post['id_post'].'" data-likes="'.$post['nb_likes'].'" data-dislikes="'.$post['nb_dislikes'].'" title="'.$whoLikes.'"></i>';
       
       // The way like/dislike buttons are displayed depends on whether the user is logged and/or voted
       if($interactive && LoggedUser::isLoggedIn() && (($post['author'] !== LoggedUser::$data['pseudo'] && $post['author'] !== LoggedUser::$data['used_pseudo']
@@ -143,16 +143,16 @@ class PostIR
          // Useful note: user_vote does not have to exist in the array if $interactive is set to false.
          
          if($finalScore > 0)
-            $scorePart = '<span style="color: green;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">+'.$finalScore.'</span>&nbsp; ';
+            $scorePart = '<span style="color: green;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-id-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">+'.$finalScore.'</span>&nbsp; ';
          else if($finalScore == 0)
-            $scorePart = '<span style="color: green;" class="votes" id="score'.$index.'" data-score="0" data-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">0</span>&nbsp; ';
+            $scorePart = '<span style="color: green;" class="votes" id="score'.$index.'" data-score="0" data-id-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">0</span>&nbsp; ';
          else
-            $scorePart = '<span style="color: red;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">'.$finalScore.'</span>&nbsp; ';
+            $scorePart = '<span style="color: red;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-id-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">'.$finalScore.'</span>&nbsp; ';
          $scorePart .= $whoLikes.'&nbsp;';
          
          $scorePart .= ' 
-         <i class="vote icon-general_thumb_up" style="color: #6ea838;'.$opacityLike.'" data-post="'.$post['id_post'].'" data-vote="1" title="J\'aime"></i> 
-         <i class="vote icon-general_thumb_down" style="color: #b5000f;'.$opacityDislike.'" data-post="'.$post['id_post'].'" data-vote="-1" title="Je n\'aime pas"></i>
+         <i class="vote icon-general_thumb_up" style="color: #6ea838;'.$opacityLike.'" data-id-post="'.$post['id_post'].'" data-vote="1" title="J\'aime"></i> 
+         <i class="vote icon-general_thumb_down" style="color: #b5000f;'.$opacityDislike.'" data-id-post="'.$post['id_post'].'" data-vote="-1" title="Je n\'aime pas"></i>
          ';
       }
       // If the user is not logged or is the author of this post, we just display the score.
@@ -175,7 +175,7 @@ class PostIR
          // Not reported yet
          if($post['user_alert'] === 'no')
          {
-            $output['report'] = ' <i class="report icon-general_alert" style="opacity: 0.5;" data-post="'.$post['id_post'].'" title="Emettre une alerte"></i> ';
+            $output['report'] = ' <i class="report icon-general_alert" style="opacity: 0.5;" data-id-post="'.$post['id_post'].'" title="Emettre une alerte"></i> ';
          }
          // Already reported
          else

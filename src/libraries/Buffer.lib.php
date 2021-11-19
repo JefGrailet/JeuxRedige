@@ -214,6 +214,7 @@ class Buffer
                      'uploadDate' => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix.$uploadsList[0][$i])), 
                      'fullSizeRelative' => $relativePrefix.$uploadsList[0][$i],
                      'delete' => $deleteButton, 
+                     'isVideo' => '', 
                      'content' => 'picture||'.$httpPathPrefix.$miniature.'|'.$dimMini[0].'|'.$dimMini[1]);
                      
                      array_push($fullInput, $tplInput);
@@ -239,6 +240,7 @@ class Buffer
                'uploadDate' => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix.$uploadsList[0][$i])), 
                'fullSizeRelative' => $relativePrefix.$uploadsList[0][$i],
                'delete' => $deleteButton, 
+               'isVideo' => 'yes', 
                'content' => 'video||'.$httpPathPrefix.$uploadsList[0][$i].'|'.$ext);
                
                array_push($fullInput, $tplInput);

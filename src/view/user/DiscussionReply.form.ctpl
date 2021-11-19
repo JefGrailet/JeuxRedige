@@ -23,8 +23,8 @@ dbError & un problème avec la base de données est survenu lors de l'envoi du m
 <span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
-<div id="textareaWrapper">
-<p><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+<div id="textareaWrapper" data-preview-type="message">
+<p id="editableZone"><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
 </div>
 <p>
 <input type="checkbox" name="archive" value="Yes" {switch:toArchive||yes & checked }/> <label for="archive">Interrompre la discussion après ce message et archiver</label><br/>
@@ -32,10 +32,9 @@ dbError & un problème avec la base de données est survenu lors de l'envoi du m
 {switch:formEnd||
 askAdvancedMode & <input type="hidden" name="origin" value="quickForm" /> 
 <input type="submit" name="sent" value="Mode avancé" /> 
-<button type="button" id="quickPreview">Aperçu rapide</button> |
-askPreview & <input type="hidden" name="origin" value="fullForm" /> 
-<button type="button" id="manualPreview">Aperçu</button> 
-<button type="button" id="autoPreview">Aperçu auto</button> }
+<button type="button" id="autoPreview">Aperçu automatique</button> |
+default & <input type="hidden" name="origin" value="fullForm" /> 
+<button type="button" id="autoPreview">Aperçu automatique</button> }
 <input type="submit" name="sent" value="Envoyer" />
 </p>
 </form>

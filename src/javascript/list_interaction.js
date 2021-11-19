@@ -182,8 +182,8 @@ $(document).ready(function()
    $('.itemBlock .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
    $('.itemBlock .videoThumbnail').on('click', function()
    {
-      var index = $(this).attr('data-post-id');
-      var videoId = $(this).attr('data-video-id');
+      var index = $(this).attr('data-id-post');
+      var videoId = $(this).attr('data-id-video');
       DefaultLib.showVideo(videoId, index);
    });
    

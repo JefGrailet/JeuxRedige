@@ -1,0 +1,109 @@
+/**
+* This style sheet overrides some properties of article.css to make it comply with the color 
+* associated to a review (2021 graphical charter).
+*/
+
+.segmentHeader .segmentHeaderBottom
+{
+   background-color: rgba(205, 48, 30, 0.75);
+}
+
+.segmentHeader .segmentHeaderBottom:hover
+{
+   background-color: rgba(205, 48, 30, 0.85);
+}
+
+.segmentBody p a
+{
+   color: #cd301e;
+}
+
+.segmentBody p a:hover
+{
+   color: black;
+}
+
+.segmentBody h2
+{
+   color: #cd301e;
+}
+
+.segmentBody h2 a
+{
+   color: black;
+}
+
+.segmentBody h2 a:hover
+{
+   color: #646464;
+}
+
+.segmentBody .quotation, .segmentBody .spoiler
+{
+   border-left: 2px solid #cd301e;
+}
+
+.segmentBody .emphasisText
+{
+   background-color: #cd301e;
+}
+
+.segmentBody .emphasisText p a
+{
+   color: black;
+}
+
+.segmentBody .emphasisText p a:hover
+{
+   color: #c8c8c8;
+}
+
+.segmentBody .summary h3
+{
+   background-color: #cd301e;
+}
+
+.segmentBody li:before, .summaryGood li:before, .summaryBad li:before
+{
+   color: #cd301e;
+}
+
+#footerDetails p a, #footerDetails p .editSegment
+{
+   color: #cd301e;
+}
+
+#footerDetails p a:hover, #footerDetails p .editSegment:hover
+{
+   color: black;
+}
+
+#commentsSlider #commentsHeader p a
+{
+   color: #cd301e;
+}
+
+#commentsSlider #commentsHeader p a:hover
+{
+   color: #c8c8c8;
+}
+
+.commentText .commentTextTop .commentAuthor a:hover
+{
+   color: #cd301e;
+}
+
+.commentText a
+{
+   color: #cd301e;
+}
+
+.commentText a:hover
+{
+   color: blue;
+}
+
+.commentText .quotation, .commentText .spoiler
+{
+   border-left: 2px solid #cd301e;
+}

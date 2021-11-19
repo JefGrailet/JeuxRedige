@@ -62,7 +62,9 @@ if(!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment']
    }
    
    // Webpage settings
-   WebpageHandler::addCSS('article_edition');
+   WebpageHandler::addCSS('preview');
+   WebpageHandler::addCSS('article_edition'); // Put here to override some values of preview.css
+   WebpageHandler::addJS('preview');
    WebpageHandler::addJS('formatting');
    WebpageHandler::addJS('segment_editor');
    WebpageHandler::changeContainer('fullWidthSequence');

@@ -54,9 +54,9 @@ if(!empty($_GET['id_trivia']) && preg_match('#^([0-9]+)$#', $_GET['id_trivia']))
       $dialogs .= $formattingDialogsTpl;
 
    // Webpage settings
-   WebpageHandler::addCSS('content_edition');
+   WebpageHandler::addCSS('preview');
    WebpageHandler::addJS('formatting');
-   WebpageHandler::addJS('content_editor');
+   WebpageHandler::addJS('preview');
    
    // Edition form components (with current values)
    $formData = array('URL' => PathHandler::triviaURL($trivia->getAll()),

@@ -17,15 +17,15 @@ var PostInteractionLib = {};
 
 PostInteractionLib.updateScore = function(post, vote)
 {
-   var curScore = $('.votes[data-post='+post+']').html();
+   var curScore = $('.votes[data-id-post='+post+']').html();
    if(curScore.charAt(0) == '+')
      curScore = curScore.substr(1);
    
    var newScore = parseInt(curScore) + vote;
-   $('.votes[data-post='+post+']').attr('data-score', newScore);
+   $('.votes[data-id-post='+post+']').attr('data-score', newScore);
    if(newScore > 0)
    {
-     $('.votes[data-post='+post+']').attr('style', 'color: green;');
+     $('.votes[data-id-post='+post+']').attr('style', 'color: green;');
      newScore = '+' + newScore;
    }
    else if(newScore == 0)
@@ -36,7 +36,7 @@ PostInteractionLib.updateScore = function(post, vote)
          var nbPosts = $('.postBlock').length;
          if(nbPosts > 1)
          {
-            $('#' + post).animate({opacity: 0}, 500, function()
+            $('.postBlock[data-id-post=' + post + ']').animate({opacity: 0}, 500, function()
             {
                $(this).remove();
             });
@@ -52,7 +52,7 @@ PostInteractionLib.updateScore = function(post, vote)
          }
          else
          {
-            $('#' + post).animate({opacity: 0}, 500, function()
+            $('.postBlock[data-id-post=' + post + ']').animate({opacity: 0}, 500, function()
             {
                $(this).replaceWith("<p class=\"centeredAlert\">Plus de message!</p>");
             });
@@ -68,12 +68,12 @@ PostInteractionLib.updateScore = function(post, vote)
          }
       }
       else
-         $('.votes[data-post='+post+']').attr('style', 'color: green;');
+         $('.votes[data-id-post='+post+']').attr('style', 'color: green;');
    }
    else
-     $('.votes[data-post='+post+']').attr('style', 'color: red;');
+     $('.votes[data-id-post='+post+']').attr('style', 'color: red;');
 
-   $('.votes[data-post='+post+']').html(newScore);
+   $('.votes[data-id-post='+post+']').html(newScore);
 }
 
 /*
@@ -87,8 +87,8 @@ PostInteractionLib.updateScore = function(post, vote)
 
 PostInteractionLib.updateTooltip = function(post, vote, undoneVoteOrNewVote)
 {
-   var currentLikes = parseInt($('.postInteractions[data-post='+post+']').attr('data-likes'));
-   var currentDislikes = parseInt($('.postInteractions[data-post='+post+']').attr('data-dislikes'));
+   var currentLikes = parseInt($('.postInteractions[data-id-post='+post+']').attr('data-likes'));
+   var currentDislikes = parseInt($('.postInteractions[data-id-post='+post+']').attr('data-dislikes'));
    
    if(vote == 1)
    {
@@ -105,11 +105,11 @@ PostInteractionLib.updateTooltip = function(post, vote, undoneVoteOrNewVote)
          currentDislikes += 1;
    }
    
-   $('.postInteractions[data-post='+post+']').attr('data-likes', currentLikes);
-   $('.postInteractions[data-post='+post+']').attr('data-dislikes', currentDislikes);
+   $('.postInteractions[data-id-post='+post+']').attr('data-likes', currentLikes);
+   $('.postInteractions[data-id-post='+post+']').attr('data-dislikes', currentDislikes);
    
    var newTitle = currentLikes + " J'aime, " + currentDislikes + " Je n'aime pas";
-   $('.postInteractions[data-post='+post+']').attr('title', newTitle);
+   $('.postInteractions[data-id-post='+post+']').attr('title', newTitle);
 }
 
 /*
@@ -124,7 +124,7 @@ PostInteractionLib.updateTooltip = function(post, vote, undoneVoteOrNewVote)
 PostInteractionLib.ratePost = function(post, vote)
 {
    // Has the user already voted for that post ?
-   var hasVoted = parseInt($('.votes[data-post='+post+']').attr('data-has-voted'));
+   var hasVoted = parseInt($('.votes[data-id-post='+post+']').attr('data-has-voted'));
 
    // Undoes a vote
    if(hasVoted != 0)
@@ -142,8 +142,8 @@ PostInteractionLib.ratePost = function(post, vote)
          DefaultLib.doneWithAJAX();
          if(text === 'OK')
          {
-            $('.votes[data-post='+post+']').attr('data-has-voted', 0);
-            $('.vote[data-post='+post+']').animate({opacity: 1.0}, 300);
+            $('.votes[data-id-post='+post+']').attr('data-has-voted', 0);
+            $('.vote[data-id-post='+post+']').animate({opacity: 1.0}, 300);
 
             PostInteractionLib.updateScore(post, -hasVoted);
             PostInteractionLib.updateTooltip(post, hasVoted, true);
@@ -176,11 +176,11 @@ PostInteractionLib.ratePost = function(post, vote)
       if(text === 'OK')
       {
          if(vote < 0)
-            $('.vote[data-post='+post+'][data-vote=1]').animate({opacity: 0.2}, 300);
+            $('.vote[data-id-post='+post+'][data-vote=1]').animate({opacity: 0.2}, 300);
          else
-            $('.vote[data-post='+post+'][data-vote=-1]').animate({opacity: 0.2}, 300);
+            $('.vote[data-id-post='+post+'][data-vote=-1]').animate({opacity: 0.2}, 300);
 
-         $('.votes[data-post='+post+']').attr('data-has-voted', vote);
+         $('.votes[data-id-post='+post+']').attr('data-has-voted', vote);
          PostInteractionLib.updateScore(post, vote);
          PostInteractionLib.updateTooltip(post, vote, false);
       }
@@ -276,10 +276,10 @@ PostInteractionLib.sendAlert = function(post, motiv)
          return;
       
       var newTooltip = 'Vous avez émis une alerte (' + motiv + ')';
-      $('.report[data-post='+post+']').unbind();
-      $('.report[data-post='+post+']').attr('title', newTooltip);
-      $('.report[data-post='+post+']').attr('alt', newTooltip);
-      $('.report[data-post='+post+']').animate({opacity: 1.0}, 300, function() { $('.report[data-post='+post+']').attr('class', 'reported icon-general_alert'); });
+      $('.report[data-id-post='+post+']').unbind();
+      $('.report[data-id-post='+post+']').attr('title', newTooltip);
+      $('.report[data-id-post='+post+']').attr('alt', newTooltip);
+      $('.report[data-id-post='+post+']').animate({opacity: 1.0}, 300, function() { $('.report[data-id-post='+post+']').attr('class', 'reported icon-general_alert'); });
       
       // Changes the display if the code says so
       if(dataInt == 1)
@@ -368,7 +368,7 @@ PostInteractionLib.pinPost = function(post, comment)
    {
       DefaultLib.doneWithAJAX();
       
-      var pinObject = '.pin[data-post=' + post + ']';
+      var pinObject = '.pin[data-id-post=' + post + ']';
       if(data === 'Pinned')
       {
          $(pinObject).removeClass('icon-general_pin');
@@ -412,7 +412,7 @@ PostInteractionLib.unpinPost = function(post)
    {
       DefaultLib.doneWithAJAX();
       
-      var pinObject = '.pin[data-post=' + post + ']';
+      var pinObject = '.pin[data-id-post=' + post + ']';
       if(data === 'Unpinned')
       {
          var url = window.location.href;
@@ -421,7 +421,7 @@ PostInteractionLib.unpinPost = function(post)
             var nbPosts = $('.postBlock').length;
             if(nbPosts > 1)
             {
-               $('#' + post).animate({opacity: 0}, 500, function()
+               $('.postBlock[data-id-post=' + post + ']').animate({opacity: 0}, 500, function()
                {
                   $(this).remove();
                });
@@ -437,7 +437,7 @@ PostInteractionLib.unpinPost = function(post)
             }
             else
             {
-               $('#' + post).animate({opacity: 0}, 500, function()
+               $('.postBlock[data-id-post=' + post + ']').animate({opacity: 0}, 500, function()
                {
                   $(this).replaceWith("<p class=\"centeredAlert\">Plus de message!</p>");
                });
@@ -500,19 +500,19 @@ $(document).ready(function()
       if(vote == 0)
          return;
      
-      post = parseInt($(this).attr("data-post"));
+      post = parseInt($(this).attr("data-id-post"));
       PostInteractionLib.ratePost(post, vote);
    });
    
    $('.report').on('click', function()
    {
-      post = parseInt($(this).attr("data-post"));
+      post = parseInt($(this).attr("data-id-post"));
       PostInteractionLib.getAlertMotivations(post);
    });
    
    $('.pin').on('click', function()
    {
-      postID = parseInt($(this).attr("data-post"));
+      postID = parseInt($(this).attr("data-id-post"));
       if($(this).hasClass("icon-general_pin"))
       {
          $('#pinPost .pinPostID').text(postID);

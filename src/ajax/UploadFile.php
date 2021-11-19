@@ -50,7 +50,7 @@ if(!empty($_FILES['newFile']))
       $originalName = substr($uploaded['name'], 0, (strlen($uploaded['name']) - strlen($ext) - 1));
       $miniSizeName = 'mini_'.$originalName;
       
-      // Supported formats: JPEG, GIF and PNG
+      // Supported formats: JPEG, GIF, PNG, MP4 and WebM
       if(in_array($ext, Utils::UPLOAD_OPTIONS['extensions']))
       {
          // Creates user's temporary directory if it does not exist yet
@@ -104,6 +104,7 @@ if(!empty($_FILES['newFile']))
                   'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
                   'fullSizeRelative' => $full,
                   'delete' => $deleteButton,
+                  'isVideo' => '', 
                   'content' => 'picture||'.$mini.'|'.$dimMini[0].'|'.$dimMini[1]);
                   
                   $tplOutput = TemplateEngine::parse('view/content/Upload.item.edition.ctpl', $tplInput);
@@ -143,6 +144,7 @@ if(!empty($_FILES['newFile']))
                'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$relative)), 
                'fullSizeRelative' => $full,
                'delete' => $deleteButton, 
+               'isVideo' => 'yes', 
                'content' => 'video||'.$full.'|'.$ext);
                
                $tplOutput = TemplateEngine::parse('view/content/Upload.item.edition.ctpl', $tplInput);
@@ -157,7 +159,9 @@ if(!empty($_FILES['newFile']))
          }
       }
       else
+      {
          $res = 'not a supported format';
+      }
    }
    
    header('Content-Type: text/html; charset=UTF-8');

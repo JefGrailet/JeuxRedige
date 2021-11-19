@@ -6,6 +6,7 @@
 
 require './libraries/Header.lib.php';
 require './libraries/FormParsing.lib.php';
+require './model/Emoticon.class.php';
 require './model/GamesList.class.php';
 require './model/Game.class.php';
 require './model/ListItem.class.php';
@@ -50,9 +51,9 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
 }
 
 // Webpage settings
-WebpageHandler::addCSS('content_edition');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('formatting');
-WebpageHandler::addJS('content_editor');
+WebpageHandler::addJS('preview');
 WebpageHandler::addJS('games'); // For game selection
 
 // Dialogs and JS stuff
@@ -136,7 +137,7 @@ if(!empty($_POST['sent']))
       {
          $newItem = ListItem::insert($list->get('id_commentable'), 
                                      $selectedGame->get('tag'), 
-                                     FormParsing::parse($formData['comment']), 
+                                     FormParsing::parse(Emoticon::parseEmoticonsShortcuts($formData['comment'])), 
                                      $nbItems + 1, 
                                      $formData['title']);
       }

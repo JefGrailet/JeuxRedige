@@ -1,4 +1,4 @@
-/* Style for article edition pages, consisting of several blocks (.articleEditBlock) */
+/* Additional style for article edition pages, consisting of several blocks (.articleEditBlock) */
 
 #blockSequence 
 {
@@ -16,10 +16,12 @@
    margin: 0px;
 }
 
+/* Main block style */
+
 .articleEditBlock
 {
    background-color: white;
-   border-radius: 15px;
+   border-radius: 5px;
    margin: 20px;
    padding-bottom: 5px;
    box-shadow: 0px 0px 3px 0px black;
@@ -27,7 +29,7 @@
 
 .articleEditBlock p
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding:  7px;
@@ -36,19 +38,19 @@
 
 .articleEditBlock h1
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    font-weight: normal;
    text-align: justify;
    color: white;
    background-color: black;
-   border-radius: 15px 15px 0px 0px;
+   border-radius: 5px 5px 0px 0px;
    padding: 7px 17px;
 }
 
 .articleEditBlock p a
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
@@ -83,7 +85,7 @@
 
 .articleEditBlock td
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding: 7px;
@@ -91,7 +93,7 @@
 
 .articleEditBlock td a
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    text-decoration: none;
@@ -108,21 +110,6 @@
    font-size: 1.25rem; /* ~20px */
    margin: 0px;
    padding: 0px;
-}
-
-.articleEditBlock .formatButton
-{
-   padding: 6px 6px 4px 6px;
-   background-color: black;
-   color: white;
-   font-size: 1.25rem; /* ~20px */
-   border-radius: 3px;
-   cursor: pointer;
-}
-
-.articleEditBlock .formatButton:hover
-{
-   background-color: #557083;
 }
 
 .articleEditBlock .extendedFormatButton
@@ -156,231 +143,26 @@
    cursor: pointer;
 }
 
-/*
-* Quick preview style.
-*/
+/* Override of the default sizes for preview zones */
 
-#textareaWrapper #editableWrapper
+.articleEditBlock #editableZone textarea
 {
-   width: 98.5%;
-   margin: 0px;
-   padding: 0px 0px 0px 15px;
-   display: inline-block;
+   height: 300px;
 }
 
-#textareaWrapper textarea
+.articleEditBlock #previewFrame
 {
-   border: 1px solid #c8c8c8;
-   height: 295px;
+   height: 292px;
 }
 
-#previewZone
-{
-   display: inline-block;
-   margin: 0px;
-   width: 49%;
-   height: 293px;
-   border: 1px solid #c8c8c8;
-   background: none;
-   overflow-y: auto;
-   resize: vertical;
-   margin-bottom: -3px;
-}
-
-@media screen and (max-width: 799px)
-{
-   #previewZone
-   {
-      width: 45%;
-   }
-}
-
-@media screen and (min-width: 800px) and (max-width: 999px)
-{
-   #previewZone
-   {
-      width: 47%;
-   }
-}
-
-#previewZone p
-{
-   padding: 3px;
-   margin: 0px;
-}
-
-#previewZone h2
-{
-   margin: 4px 7px 4px 7px;
-   font-family: "Roboto", "Arial", "Serif";
-   font-size: 1.25rem; /* ~20px */
-   padding: 10px;
-   text-align: justify;
-   color: black;
-}
-
-#previewZone h2 a
-{
-   font-size: 1.25rem; /* ~20px */
-}
-
-#previewZone .quotation, #previewZone .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid #c8c8c8;
-   border-bottom: 1px solid #c8c8c8;
-   border-left: 2px solid #3475e5;
-   border-right: 1px solid #c8c8c8;
-   background-color: white;
-   margin-top: 5px;
-   margin-bottom: 5px;
-   margin-right: 0px;
-   padding: 5px;
-}
-
-#previewZone .spoiler a
-{
-   cursor: pointer;
-}
-
-#previewZone .miniature
-{
-   cursor: pointer;
-}
-
-#previewZone .hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-#previewZone .hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
-
-/* Emphasis style */
-
-#previewZone .emphasis
-{
-   margin-top: 10px;
-   clear: both;
-}
-
-#previewZone .emphasis .emphasisWithin
-{
-   background-color: rgba(0, 0, 0, 0.4);
-   color: white;
-}
-
-#previewZone .emphasis .emphasisWithin p /* To override #previewZone p padding and margin */
-{
-   margin: 0px;
-   padding: 20px;
-   text-align: center;
-   font-family: "RobotoBold", "Arial", "Serif";
-   font-size: 1.625rem; /* ~26px */
-   font-weight: bold;
-}
-
-/* Emphasis (block) style */
-
-#previewZone .emphasisText
-{
-   margin: 5px;
-   clear: both;
-   background-color: black;
-   color: white;
-   border-radius: 10px;
-   padding-bottom: 10px;
-   padding-left: 10px;
-   padding-right: 10px;
-}
-
-#previewZone .emphasisText h3
-{
-   background: none;
-   font-family: "Roboto", "Arial", "Serif";
-   font-size: 1.25rem; /* ~20px */
-   font-weight: bold;
-   margin: 0px;
-   padding-left: 3px;
-   padding-right: 3px;
-   padding-top: 10px;
-}
-
-#previewZone .emphasisText a
-{
-   color: #3475e5;
-}
-
-#previewZone .emphasisText a:hover
-{
-   color: #c8c8c8;
-}
-
-/* Summary style */
-
-.summary
-{
-   clear: both;
-}
-
-.summaryGood
-{
-   width: 50%;
-   float: left;
-}
-
-.summaryBad
-{
-   width: 50%;
-   float: right;
-}
-
-.summaryGood h3, .summaryBad h3
-{
-   display: inline-block;
-   margin-top: 0px;
-   margin-left: 5px;
-   margin-right: 5px;
-   padding: 10px 100px 10px 10px;
-   border-radius: 10px;
-   background-color: black;
-   color: white;
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", "Serif";
-}
-
-.summaryGood ul, .summaryBad ul
-{
-   margin-top: 0px;
-   margin-bottom: 10px;
-   padding-left: 20px;
-}
-
-.summaryGood li, .summaryBad li
-{
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", "Serif";
-   list-style-type: square;
-   padding-bottom: 5px;
-}
-
-/*
-* Style for header preview.
-*/
+/* Style for header preview */
 
 #previewHeader
 {
    cursor: pointer;
 }
 
-/*
-* Style for uploads menu.
-*/
+/* Style for uploads menu */
 
 .uploadsView, .previousUploadsView
 {
@@ -438,7 +220,7 @@
 {
    float: right;
    margin: 0px;
-   padding: 3px;
+   padding: 7px 5px;
    border-radius: 0px 0px 5px 0px;
    background-color: black;
    opacity: 0.8;
@@ -448,7 +230,8 @@
 .uploadViewIcons i
 {
    color: white;
-   padding: 6px 3px;
+   padding-left: 3px;
+   padding-right: 3px;
    font-size: 1rem; /* ~16px */
 }
 

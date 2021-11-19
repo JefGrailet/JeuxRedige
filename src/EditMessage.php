@@ -95,6 +95,7 @@ if(!empty($_GET['id_post']) && preg_match('#^([0-9]+)$#', $_GET['id_post']))
       if(WebpageHandler::$miscParams['message_size'] === 'medium')
          WebpageHandler::addCSS('topic_medium');
       WebpageHandler::addCSS('topic_header');
+      WebpageHandler::addCSS('preview');
       if($topic->hasGames())
          WebpageHandler::addCSS('media');
       WebpageHandler::addJS('topic_interaction');
@@ -115,8 +116,6 @@ if(!empty($_GET['id_post']) && preg_match('#^([0-9]+)$#', $_GET['id_post']))
       // Prepares the input for the whole page template
       $finalTplInput = array('header' => '',
       'originalMessage' => '',
-      'previewPseudo' => $post->get('author'),
-      'previewRank' => $post->get('posted_as'),
       'editionForm' => '',
       'uploadMenu' => '');
    
@@ -302,11 +301,14 @@ if(!empty($_GET['id_post']) && preg_match('#^([0-9]+)$#', $_GET['id_post']))
                      strlen($uploadDisplayChoice) > 0 &&
                      in_array($uploadDisplayChoice, Utils::UPLOAD_OPTIONS['displayPolicies']))
                   {
+                     // N.B.: the next loop exists because, initially, several types of attachments were planned.
                      for($i = 0; $i < count($attachArr); $i++)
                      {
                         if(substr($attachArr[$i], 0, 7) === 'uploads')
                         {
                            $newPrefix = 'uploads_'.$uploadDisplayChoice;
+                           if($uploadDisplayChoice === 'default')
+                              $newPrefix = 'uploads';
                            $exploded = explode(':', $attachArr[$i]);
                            $attachArr[$i] = $newPrefix.':'.$exploded[1];
                            

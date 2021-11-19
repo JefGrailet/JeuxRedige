@@ -28,9 +28,10 @@ Réessayez plus tard ou contactez l'administrateur.}
 <span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
+<div id="textareaWrapper" data-preview-type="message">
+<p id="editableZone"><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+</div>
 <p>
-<textarea rows="10" name="message" placeholder="Entrez un message">{$content}</textarea><br/>
-<br/>
 <span class="uploadOptions">
 {switch:uploadOptions||yes & 
 <label for="upload_display_policy">Affichage des uploads:</label> 
@@ -42,14 +43,10 @@ Réessayez plus tard ou contactez l'administrateur.}
 </select><br/>
 <br/>}
 </span>
-<button type="button" id="manualPreview">Aperçu du message</button> 
-<button type="button" id="autoPreview">Aperçu auto</button> 
+<button type="button" id="autoPreview">Aperçu automatique</button> 
 <input type="submit" name="sent" value="Créer le sujet" /></p>
 </form>
 </div>
-
-<div id="preview" data-author="{$previewPseudo}" data-rank="{$previewRank}"></div>
-
 <div class="plainBlock" id="uploadMenu" style="padding-bottom: 6px;">
 <h1>Uploader des fichiers</h1>
 <p style="text-align: left;">

@@ -12,7 +12,7 @@ echo WebpageHandler::$container['end'];
             <a href="#main" class="iconLink"><i class="icon-general_up" style="font-size: 24px;" title="Revenir en haut de page"></i></a> 
             <a href="<?php echo $webRootPath; ?>" class="iconLink"><i class="icon-general_home" style="font-size: 24px;"  title="Revenir à l'accueil"></i></a>
          </p>
-         <p>v0.9 - Généré en <?php echo round(($overallEnd - $overallStart),5); ?> seconde</p>
+         <p>v1.0 - Généré en <?php echo round(($overallEnd - $overallStart),5); ?> seconde - <a href="<?php echo $webRootPath; ?>/About.php">À propos de JeuxRédige.be</a></p>
          </div>
       </div>
    </body>

@@ -56,18 +56,18 @@ PagesLib.getViewedPage = function()
 PagesLib.getViewedPost = function()
 {
    var onscreenPost = 0;
-   var firstVisible = parseInt($('.postBlock:visible:first').attr('id'));
-   var lastVisible = parseInt($('.postBlock:visible:last').attr('id'));
+   var firstVisible = parseInt($('.postBlock:visible:first').attr('data-id-post'));
+   var lastVisible = parseInt($('.postBlock:visible:last').attr('data-id-post'));
    for(i = firstVisible; i <= lastVisible; i++)
    {
-      if($('.postBlock[id=' + i + ']').visible(true))
+      if($('.postBlock[data-id-post=' + i + ']').visible(true))
       {
          var headerBottom = 0;
          if($('#topicHeader').length)
             headerBottom = $('#topicHeader').offset().top + $('#topicHeader').height();
          else if($('#pingsContent').length)
             headerBottom = $('#pingsContent .centeredTitle').offset().top + $('#pingsContent .centeredTitle').height();
-         var blockBottom = $('.postBlock[id=' + i + ']').offset().top + $('.postBlock[id=' + i + ']').height();
+         var blockBottom = $('.postBlock[data-id-post=' + i + ']').offset().top + $('.postBlock[data-id-post=' + i + ']').height();
          
          // Ensures we align on the last post visible below the topic header
          if(headerBottom < blockBottom)
@@ -365,7 +365,7 @@ PagesLib.toFlow = function(previousMode)
    if(onscreenPost > 0)
    {
       if(!($('.topicKeywords').visible()) && !($('.centeredTitle').visible()))
-         $(document).scrollTop($('.postBlock[id=' + onscreenPost + ']').offset().top - 95);
+         $(document).scrollTop($('.postBlock[data-id-post=' + onscreenPost + ']').offset().top - 95);
    }
 }
 
@@ -557,16 +557,16 @@ PagesLib.getMessages = function(offset, callback)
             // Binds events (same as seen in topic_interaction.js and post_interaction.js)
             $('.page[data-page=' + pageNumber + '] .spoiler a:first-child').on('click', function() { DefaultLib.showSpoiler($(this).attr('data-id-spoiler')); });
             $('.page[data-page=' + pageNumber + '] .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
-            $('.page[data-page=' + pageNumber + '] .videoThumbnail').on('click', function() { DefaultLib.showVideo($(this).attr('data-video-id'), $(this).attr('data-post-id')); });
+            $('.page[data-page=' + pageNumber + '] .videoThumbnail').on('click', function() { DefaultLib.showVideo($(this).attr('data-id-video'), $(this).attr('data-id-post')); });
             
             // Specific for forum posts
             if($('.page[data-page=' + pageNumber + '] .postInteractions').length)
             {
-               $('.page[data-page=' + pageNumber + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-post')); });
+               $('.page[data-page=' + pageNumber + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-id-post')); });
                $('.page[data-page=' + pageNumber + '] .uploadDisplay .uploadDisplayAlign').on('click', function() { DefaultLib.showUpload($(this).parent()); });
                $('.page[data-page=' + pageNumber + '] .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
                $('.page[data-page=' + pageNumber + '] .link_masked_attachment').on('click', function() { $('#maskedAttachment' + $(this).attr('data-id-post')).toggle(300); });
-               $('.page[data-page=' + pageNumber + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-post")); });
+               $('.page[data-page=' + pageNumber + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-id-post")); });
                $('.page[data-page=' + pageNumber + '] .vote').on('click', function()
                {
                   vote = parseInt($(this).attr("data-vote"));
@@ -579,13 +579,13 @@ PagesLib.getMessages = function(offset, callback)
                   if(vote == 0)
                      return;
                  
-                  post = parseInt($(this).attr("data-post"));
+                  post = parseInt($(this).attr("data-id-post"));
                   PostInteractionLib.ratePost(post, vote);
                });
                
                $('.page[data-page=' + pageNumber + '] .pin').on('click', function()
                {
-                  postID = parseInt($(this).attr("data-post"));
+                  postID = parseInt($(this).attr("data-id-post"));
                   var curIcon = $(this).attr('class');
                   if(curIcon.indexOf("_pin") !== -1)
                   {
@@ -598,8 +598,8 @@ PagesLib.getMessages = function(offset, callback)
                
                $('.page[data-page=' + pageNumber + '] .quote').each(function()
                {
-                  var idPost = $(this).attr('data-post');
-                  $('.quote[data-post=' + idPost + ']').on('click', function()
+                  var idPost = $(this).attr('data-id-post');
+                  $('.quote[data-id-post=' + idPost + ']').on('click', function()
                   {
                      TopicInteractionLib.quotePost(idPost);
                   });
@@ -631,7 +631,7 @@ $(document).ready(function()
    PagesLib.getter = $('.pagesNav:first').attr('data-getter');
    
    // Annotates current page
-   var firstVisibleID = parseInt($('.page .postBlock:first').attr('id'));
+   var firstVisibleID = parseInt($('.page .postBlock:first').attr('data-id-post'));
    var page = Math.ceil(firstVisibleID / PagesLib.nbMsgsPerPage);
    $('.page').attr('data-page', page.toString());
 
@@ -670,7 +670,7 @@ $(document).keydown(function(e)
          if(onscreenPost > 0)
          {
             // Just in case
-            viewedPage = $('.postBlock[id=' + onscreenPost + ']').parent().attr('data-page');
+            viewedPage = $('.postBlock[data-id-post=' + onscreenPost + ']').parent().attr('data-page');
             redirectURL = staticLink[0] + viewedPage;
             if(staticLink[1] !== '')
                redirectURL += staticLink[1];

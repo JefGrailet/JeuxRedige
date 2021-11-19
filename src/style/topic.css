@@ -16,9 +16,19 @@
    margin-top: 15px;
    margin-bottom: 10px;
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
+}
+
+/* Fixes width of the column of posts */
+
+#visibleWrapper
+{
+   width: 100%;
+   min-width: 800px;
+   max-width: 1344px; /* 70% of the width in 1920x1080 */
+   margin: auto;
 }
 
 /* Elements to display the list of pages in a pretty way. */
@@ -28,34 +38,34 @@
    display: block;
    width: auto;
    min-width: 760px;
-   margin-top: 20px;
-   margin-left: 20px;
-   margin-right: 20px;
+   max-width: 1400px; /* 75% of the width in 1920x1080 when padding is included */
+   margin: 20px 20px 0px 20px;
 }
 
-.messagesNav .topicMenu
+.messagesNav .topicOptions
 {
    margin: 0px;
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
 
-.topicMenu a
+.topicOptions a
 {
+   display: inline-block;
    text-decoration: none;
    background-color: black;
    color: white;
    padding: 6px 15px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
 
-.topicMenu a:hover
+.topicOptions a:hover
 {
    background-color: #3475e5;
    color: white;
@@ -68,7 +78,7 @@
    padding: 6px 15px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
@@ -82,7 +92,7 @@
 
 .messagesNav select
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding: 4px 3px;
    margin: 0px 4px;
@@ -94,7 +104,7 @@
    color: white;
    padding: 6px 15px;
    border-radius: 4px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
@@ -104,7 +114,7 @@
    margin-bottom: 15px;
    padding: 5px;
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
@@ -167,12 +177,21 @@
 
 .postBlock
 {
+   position: relative; /* For the anchor, see below */
    display: block;
    width: auto;
    min-width: 760px;
-   margin-left: 20px;
-   margin-right: 20px;
-   margin-top: 20px;
+   margin: 20px 20px 0px 20px;
+}
+
+/* Anchor (adjusted so the post remains below the horizontal menu of the topic) */
+
+.postBlockAnchor
+{
+   position: absolute;
+   width: 10px;
+   height: 10px;
+   top: -50px;
 }
 
 /* Left column of a post (avatar + author's pseudo). */
@@ -213,17 +232,6 @@
    max-width: 100%;
 }
 
-.postBlockText .emoticon
-{
-   vertical-align: middle;
-}
-
-.postBlockText .miniature
-{
-   border: none;
-   cursor: pointer;
-}
-
 .postBlockText h1
 {
    width: auto;
@@ -232,7 +240,7 @@
    margin: 0px;
    border-radius: 5px 5px 0px 0px;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.125rem; /* ~18px */
    padding: 10px;
 }
@@ -240,7 +248,7 @@
 .postBlockText p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 12px;
    text-align: justify;
@@ -249,7 +257,7 @@
 .postBlockTextTop p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 10px;
    text-align: justify;
@@ -274,7 +282,7 @@
 .postBlockText h2
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    padding: 10px;
    text-align: justify;
@@ -290,10 +298,19 @@
 
 .postBlockText li
 {
-   font-family: "Roboto", "Arial", "Serif";
+   list-style: none;
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    margin-top: 10px;
+}
+
+.postBlockText li:before
+{
+   content: "\0025B6";
+   display: inline-block;
+   width: 1rem;
+   margin-left: -1rem;
 }
 
 .postBlockText a
@@ -305,87 +322,6 @@
 .postBlockText a:hover
 {
    color: blue;
-}
-
-/* Quotation */
-
-.postBlockText .quotation, .postBlockText .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid #c8c8c8;
-   border-bottom: 1px solid #c8c8c8;
-   border-left: 2px solid #3475e5;
-   border-right: 1px solid #c8c8c8;
-   background-color: white;
-   margin-top: 10px;
-   margin-bottom: 10px;
-   margin-right: 0px;
-}
-
-.postBlockText .spoiler a
-{
-   cursor: pointer;
-}
-
-/* Pretty display of some user's pseudo */
-
-.postBlockText .userMiniAvatar
-{
-   padding: 0px;
-   margin-right: 5px;
-   border-radius: 50%;
-   vertical-align: -40%;
-}
-
-.postBlockText .userMiniPseudo
-{
-   font-size: 1rem; /* ~16px */
-   font-weight: bold;
-}
-
-/* Hidden text */
-
-.hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-.hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
-
-/* Video thumbnail stuff */
-
-.videoThumbnail
-{
-   display: inline-block;
-   cursor: pointer;
-}
-
-.videoThumbnailOverlay
-{
-   color: black;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.videoThumbnailOverlay i
-{
-   opacity: 0.7;
-   background-color: white;
-   border-radius: 80px;
-}
-
-.videoThumbnailOverlay i:hover
-{
-   opacity: 1.0;
-   background-color: white;
-   border-radius: 80px;
 }
 
 /* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
@@ -416,7 +352,7 @@
    border-radius: 5px 0px 0px 0px;
    background-color: black;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    margin: 0px;
    padding: 12px 20px 12px 20px;
    margin-right: 10px;
@@ -428,7 +364,7 @@
 {
    text-decoration: none;
    color: white;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
 }
 
 .postBlockTextTopLeftSide .postAuthor a:hover
@@ -463,7 +399,7 @@
 .postAttachmentAlign p
 {
    margin: 0px 0px 15px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    color: black;
    text-align: justify;
@@ -499,12 +435,13 @@
 .uploadDisplay
 {
    display: inline-block;
+   vertical-align: middle;
    background-color: white;
    margin-right: 7px;
    margin-bottom: 7px;
    border-radius: 2px;
    line-height: 0;
-   box-shadow: 0px 0px 3px 0px #646464;
+   box-shadow: 0px 0px 2px 0px #646464;
 }
 
 .uploadDisplayAlign
@@ -557,7 +494,7 @@
 .pagePlaceholder p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 10px;
    text-align: center;
@@ -612,11 +549,12 @@
 {
    width: auto;
    min-width: 760px;
+   max-width: 1304px; /* 70% of the width in 1920x1080 */
    border-radius: 5px;
    background-color: white;
    margin-top: 20px;
-   margin-left: 20px;
-   margin-right: 20px;
+   margin-left: auto;
+   margin-right: auto;
    box-shadow: 0px 0px 3px 0px #646464;
 }
 
@@ -631,9 +569,9 @@
 .plainBlock p, #slidingBlock p
 {
    margin : 0px;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
-   padding: 10px 10px 15px 10px;
+   padding: 10px 17px 15px 17px;
    text-align: justify;
 }
 
@@ -650,7 +588,7 @@
 
 .plainBlock h1
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    font-weight: normal;
    text-align: justify;
@@ -662,153 +600,13 @@
 
 #slidingBlock h1
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    color: white;
    background-color: black;
-   padding: 7px;
+   padding: 10px 17px;
    margin-top: 0px;
-}
-
-.plainBlock .formatButton, #slidingBlock .formatButton
-{
-   padding: 6px 6px 4px 6px;
-   background-color: black;
-   color: white;
-   font-size: 1.25rem; /* ~20px */
-   border-radius: 3px;
-   cursor: pointer;
-}
-
-.plainBlock .formatButton:hover, #slidingBlock .formatButton:hover
-{
-   background-color: #3475e5;
-}
-
-.plainBlock #emoticonsDisplay, #slidingBlock #emoticonsDisplay
-{
-   display: none;
-   height: 100px;
-   margin-left: 10px;
-   margin-right: 28px;
-   margin-bottom: 5px;
-   overflow-y: scroll;
-   border: 1px solid #c8c8c8;
-   font-size: 0;
-}
-
-.plainBlock #emoticonsDisplay .emoticon, #slidingBlock #emoticonsDisplay .emoticon
-{
-   display: inline-block;
-   margin-top: 5px;
-   margin-bottom: 5px;
-   margin-left: 5px;
-   cursor: pointer;
-}
-
-/*
-* Quick preview style.
-*/
-
-#textareaWrapper p
-{
-   width: 98.5%;
-   display: inline-block;
-   padding: 0px 0px 0px 10px;
-}
-
-#textareaWrapper textarea
-{
-   height: 160px;
-   margin: 0px;
-   border: 1px solid #c8c8c8;
-}
-
-#slidingBlock #previewZone
-{
-   display: inline-block;
-   margin: 0px;
-   width: 49%;
-   height: 158px;
-   border: 1px solid #c8c8c8;
-   background: none;
-   overflow-y: auto;
-   resize: vertical;
-   margin-bottom: -4px;
-}
-
-@media screen and (max-width: 799px)
-{
-   #slidingBlock #previewZone
-   {
-      width: 45%;
-   }
-}
-
-@media screen and (min-width: 800px) and (max-width: 999px)
-{
-   #slidingBlock #previewZone
-   {
-      width: 47%;
-   }
-}
-
-#previewZone p
-{
-   padding: 3px;
-   margin: 0px;
-}
-
-#previewZone .quotation, #previewZone .spoiler
-{
-   width: 96%;
-   margin-left: 2%;
-   border-top: 1px solid #c8c8c8;
-   border-bottom: 1px solid #c8c8c8;
-   border-left: 2px solid #3475e5;
-   border-right: 1px solid #c8c8c8;
-   background-color: white;
-   margin-top: 5px;
-   margin-bottom: 5px;
-   margin-right: 0px;
-   padding: 5px;
-}
-
-#previewZone .spoiler a
-{
-   cursor: pointer;
-}
-
-#previewZone .userMiniAvatar
-{
-   padding: 0px;
-   margin-right: 5px;
-   border-radius: 50%;
-   vertical-align: -40%;
-}
-
-#previewZone .userMiniPseudo
-{
-   font-size: 1rem; /* ~16px */
-   font-weight: bold;
-}
-
-#previewZone .hiddenText
-{
-   background-color: black;
-   color: black;
-}
-
-#previewZone .hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
-
-#previewZone p .emoticon
-{
-   vertical-align: middle;
 }
 
 /*
@@ -823,7 +621,7 @@
    color: white;
    margin-left: 20px;
    margin-bottom: 20px;
-   border-radius: 10px;
+   border-radius: 5px;
 }
 
 #navMenu:hover
@@ -834,7 +632,7 @@
 #navMenu p
 {
    background: none;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding-left: 10px;
    padding-right: 10px;
@@ -851,7 +649,7 @@
    border: none;
    background-color: white;
    color: black;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    margin-right: 6px;
    padding: 4px;
@@ -962,7 +760,6 @@
    margin: 0px 0px 6px 6px;
    background: none;
    border: 1px solid #c8c8c8;
-   border-radius: 0px;
 }
 
 .uploadView a
@@ -1006,7 +803,7 @@
 {
    float: right;
    margin: 0px;
-   padding: 3px;
+   padding: 7px 5px;
    border-radius: 0px 0px 5px 0px;
    background-color: black;
    opacity: 0.8;
@@ -1016,7 +813,8 @@
 .uploadViewIcons i
 {
    color: white;
-   padding: 6px 3px;
+   padding-left: 3px;
+   padding-right: 3px;
    font-size: 1rem; /* ~16px */
 }
 
@@ -1042,7 +840,7 @@
 
 #postsContainer .centeredText
 {
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    color: black;
    text-align: center;
@@ -1056,7 +854,7 @@
    padding: 10px 20px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", "Serif";
+   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    border: none;
 }

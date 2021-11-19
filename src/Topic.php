@@ -203,8 +203,9 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
          $formTplInput['anonPseudoStatus'] = '';
          $formTplInput['formEnd'] = 'askAdvancedMode';
          $formTplInput['showFormattingUI'] = 'yes';
+         WebpageHandler::addCSS('preview');
          WebpageHandler::addJS('formatting');
-         WebpageHandler::addJS('quick_preview');
+         WebpageHandler::addJS('preview');
          
          // Dialogs for formatting
          $formattingDialogsTpl = TemplateEngine::parse('view/dialog/Formatting.multiple.ctpl');

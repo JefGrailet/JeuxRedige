@@ -1,19 +1,19 @@
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-      <title>Réinitialisation de votre mot de passe (Project AG)</title>
+      <title>Réinitialisation de votre mot de passe (JeuxRédige.be)</title>
    </head>
 <body>
-   <p style="font-family: 'arial', 'serif'; font-size: 15px; text-align: justify;">
+   <p style="font-family: Arial, sans-serif; font-size: 1rem; text-align: justify;">
    Cher/Chère {$pseudo},<br/>
    <br/>
    Voici le code de vérification requis pour réinitialiser votre mot de passe: 
    <strong>{$code}</strong>. Utilisez-le afin de pouvoir associer un nouveau mot de passe à votre 
-   compte afin de pouvoir vous connecter à nouveau sur Project AG.<br/>
+   compte afin de pouvoir vous connecter à nouveau sur JeuxRédige.be.<br/>
    <br/>
    A très bientôt,<br/>
    <br/>
    Le webmaster<br/>
-   admin@projectag.org</p>
+   admin@jeuxredige.be</p>
 </body>
 </html>

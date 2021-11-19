@@ -1,0 +1,109 @@
+/**
+* This style sheet overrides some properties of article.css to make it comply with the color 
+* associated to an opinion (2021 graphical charter).
+*/
+
+.segmentHeader .segmentHeaderBottom
+{
+   background-color: rgba(52, 177, 229, 0.75);
+}
+
+.segmentHeader .segmentHeaderBottom:hover
+{
+   background-color: rgba(52, 177, 229, 0.85);
+}
+
+.segmentBody p a
+{
+   color: #34b1e5;
+}
+
+.segmentBody p a:hover
+{
+   color: black;
+}
+
+.segmentBody h2
+{
+   color: #34b1e5;
+}
+
+.segmentBody h2 a
+{
+   color: black;
+}
+
+.segmentBody h2 a:hover
+{
+   color: #646464;
+}
+
+.segmentBody .quotation, .segmentBody .spoiler
+{
+   border-left: 2px solid #34b1e5;
+}
+
+.segmentBody .emphasisText
+{
+   background-color: #34b1e5;
+}
+
+.segmentBody .emphasisText p a
+{
+   color: black;
+}
+
+.segmentBody .emphasisText p a:hover
+{
+   color: #c8c8c8;
+}
+
+.segmentBody .summary h3
+{
+   background-color: #34b1e5;
+}
+
+.segmentBody li:before, .summaryGood li:before, .summaryBad li:before
+{
+   color: #34b1e5;
+}
+
+#footerDetails p a, #footerDetails p .editSegment
+{
+   color: #34b1e5;
+}
+
+#footerDetails p a:hover, #footerDetails p .editSegment:hover
+{
+   color: black;
+}
+
+#commentsSlider #commentsHeader p a
+{
+   color: #34b1e5;
+}
+
+#commentsSlider #commentsHeader p a:hover
+{
+   color: #c8c8c8;
+}
+
+.commentText .commentTextTop .commentAuthor a:hover
+{
+   color: #34b1e5;
+}
+
+.commentText a
+{
+   color: #34b1e5;
+}
+
+.commentText a:hover
+{
+   color: blue;
+}
+
+.commentText .quotation, .commentText .spoiler
+{
+   border-left: 2px solid #34b1e5;
+}

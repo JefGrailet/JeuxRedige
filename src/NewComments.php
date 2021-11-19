@@ -89,6 +89,7 @@ $isUserAuthor = (LoggedUser::$data['pseudo'] === $commentable->get('pseudo'));
 WebpageHandler::addCSS('topic');
 if(WebpageHandler::$miscParams['message_size'] === 'medium')
    WebpageHandler::addCSS('topic_medium');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('uploads');
 if($isUserAuthor)
    WebpageHandler::addJS('keywords'); // Only author of the commentable can edit keywords
@@ -167,8 +168,6 @@ $topicSettings = array('title' => $defaultTitle,
 
 // Array which serves both for template input and collecting $_POST values
 $formData = array('commentableID' => $commentable->get('id_commentable'), 
-'previewPseudo' => LoggedUser::$data['used_pseudo'], 
-'previewRank' => LoggedUser::rank(), 
 'errors' => '', 
 'settings' => '', // Will contain the template for the settings
 'content' => '', 
@@ -299,7 +298,7 @@ if(!empty($_POST['sent']))
          Database::rollback();
          
          $formData['errors'] = 'dbError';
-         $formTpl = TemplateEngine::parse('view/content/NewTopic.form.ctpl', $formData);
+         $formTpl = TemplateEngine::parse('view/content/NewComments.form.ctpl', $formData);
          WebpageHandler::wrap($formTpl, 'Créer un nouveau sujet', $dialogs);
       }
       

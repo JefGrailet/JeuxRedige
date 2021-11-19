@@ -148,12 +148,13 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
    WebpageHandler::addCSS('ping');
    if(WebpageHandler::$miscParams['message_size'] === 'medium')
       WebpageHandler::addCSS('ping_medium');
+   WebpageHandler::addCSS('preview');
    WebpageHandler::addJS('formatting');
    WebpageHandler::addJS('ping_interaction');
    WebpageHandler::addJS('jquery.visible');
    WebpageHandler::addJS('pages');
    WebpageHandler::addJS('refresh');
-   WebpageHandler::addJS('quick_preview');
+   WebpageHandler::addJS('preview');
    WebpageHandler::changeContainer('pingsContent');
    
    // Generates the whole page

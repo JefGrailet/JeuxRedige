@@ -182,6 +182,7 @@ class GamesList extends Commentable
    }
    
    public function getBufferedItems() { return $this->_items; }
+   public function updateBufferedItems($updatedItems) { $this->_items = $updatedItems; }
    
    /*
    * Checks whether some game is already in the list or not.

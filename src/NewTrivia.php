@@ -27,9 +27,9 @@ if(!Utils::check(LoggedUser::$fullData['advanced_features']))
 }
 
 // Webpage settings
-WebpageHandler::addCSS('content_edition');
+WebpageHandler::addCSS('preview');
 WebpageHandler::addJS('formatting');
-WebpageHandler::addJS('content_editor');
+WebpageHandler::addJS('preview');
 WebpageHandler::addJS('games'); // For game selection
 
 $dialogs = '';

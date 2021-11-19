@@ -142,24 +142,24 @@ TopicInteractionLib.highlight = function(threshold)
 {
    $(".postBlock" ).each(function()
    {
-      var i = $(this).attr('id');
+      var i = $(this).attr('data-id-post');
       var score = parseInt($('#score' + i).attr('data-score'));
       if(threshold < 0)
       {
          if(score > threshold)
-            $('#' + i.toString()).animate({opacity: 0.5}, 300);
+            $('.postBlock[data-id-post=' + i.toString() + ']').animate({opacity: 0.5}, 300);
          else
-            $('#' + i.toString()).animate({opacity: 1.0}, 300);
+            $('.postBlock[data-id-post=' + i.toString() + ']').animate({opacity: 1.0}, 300);
       }
       else if(threshold > 0)
       {
          if(score < threshold)
-            $('#' + i.toString()).animate({opacity: 0.5}, 300);
+            $('.postBlock[data-id-post=' + i.toString() + ']').animate({opacity: 0.5}, 300);
          else
-            $('#' + i.toString()).animate({opacity: 1.0}, 300);
+            $('.postBlock[data-id-post=' + i.toString() + ']').animate({opacity: 1.0}, 300);
       }
       else
-         $('#' + i.toString()).animate({opacity: 1.0}, 300);
+         $('.postBlock[data-id-post=' + i.toString() + ']').animate({opacity: 1.0}, 300);
    });
 }
 
@@ -256,7 +256,7 @@ $(document).ready(function()
    });
    
    // Retrieving interactions of a single post in a small window
-   $('.postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-post')); });
+   $('.postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-id-post')); });
    
    // Closing the interactions window
    if($('#postInteractions').length)
@@ -273,8 +273,8 @@ $(document).ready(function()
    // Video thumbnails
    $('.videoThumbnail').on('click', function()
    {
-      var index = $(this).attr('data-post-id');
-      var videoId = $(this).attr('data-video-id');
+      var index = $(this).attr('data-id-post');
+      var videoId = $(this).attr('data-id-video');
       DefaultLib.showVideo(videoId, index);
    });
    
@@ -293,13 +293,13 @@ $(document).ready(function()
          $('#visibleWrapper').css('margin-bottom', $('#slidingBlock').height() - 100);
       $('#slidingBlock').slideToggle();
    });
-   $('#highlightPosts option').on('click', function() { highlight($(this).val()); });
+   $('#highlightPosts option').on('click', function() { TopicInteractionLib.highlight($(this).val()); });
    
    // Direct quote for the quick reply form
    $('.quote').each(function()
    {
-      var idPost = $(this).attr('data-post');
-      $('.quote[data-post=' + idPost + ']').on('click', function()
+      var idPost = $(this).attr('data-id-post');
+      $('.quote[data-id-post=' + idPost + ']').on('click', function()
       {
          TopicInteractionLib.quotePost(idPost);
       });

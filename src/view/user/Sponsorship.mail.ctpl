@@ -1,23 +1,23 @@
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-      <title>Invitation sur Project AG</title>
+      <title>Invitation sur JeuxRédige.be</title>
    </head>
    <body>
-   <p style="font-family: 'arial', 'serif'; font-size: 15px; text-align: justify;">
+   <p style="font-family: Arial, sans-serif; font-size: 1rem; text-align: justify;">
    Bonjour,<br/>
    <br/>
-   {$pseudo} souhaite vous faire découvrir Project AG, un nouveau site internet sur les jeux 
-   vidéo. Pour vous inscrire, c'est très simple: il suffit de cliquer sur le lien ci-contre, de 
-   créer votre pseudonyme ainsi que votre mot de passe. Une fois votre compte créé (sans étape de 
-   confirmation supplémentaire), vous pourrez vous connecter et disposer de toutes les 
+   {$pseudo} souhaite vous faire découvrir JeuxRédige.be, un site internet proposant des articles 
+   sur les jeux vidéo. Pour vous inscrire, c'est très simple: il suffit de cliquer sur le lien 
+   ci-contre, de créer votre pseudonyme ainsi que votre mot de passe. Une fois votre compte créé 
+   (sans étape de confirmation supplémentaire), vous pourrez vous connecter et disposer de toutes les 
    fonctionnalités du site.<br/>
    <br/>
    <a href="{$invitationLink}">{$invitationLink}</a><br/>
    <br/>
-   A très bientôt,<br/>
+   À très bientôt,<br/>
    <br/>
    Le webmaster<br/>
-   admin@projectag.org</p>
+   admin@jeuxredige.be</p>
    </body>
 </html>

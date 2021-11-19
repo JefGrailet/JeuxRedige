@@ -30,8 +30,8 @@ ArticleLib.showSpoiler = function(idSpoiler)
 
 ArticleLib.showVideo = function(idVideo, idPost)
 {
-   var type = $('.videoThumbnail[data-post-id="' + idPost + '"][data-video-id="' + idVideo + '"]').attr('data-video-type');
-   var trueID = $('.videoThumbnail[data-post-id="' + idPost + '"][data-video-id="' + idVideo + '"]').attr('data-video-true-id');
+   var type = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-type');
+   var trueID = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-true-id');
    
    if(type === 'youtube')
    {
@@ -45,75 +45,50 @@ ArticleLib.showVideo = function(idVideo, idPost)
 }
 
 /*
-* Slides in/out the comments slider.
+* Loads the comments to display in the slider.
 */
 
-ArticleLib.toggleComments = function()
+ArticleLib.loadComments = function()
 {
-   if($('#commentsSlider').is(':visible'))
+   if($('#commentsListed').html().length < 10)
    {
-      $('#commentsSlider').css('min-width', '0px');
-      $('#commentsSlider').animate({width: 'toggle'}, 500);
-      $('#coverScreen').fadeOut(200);
-      $('body').css('overflow', 'visible');
-   }
-   else
-   {
-      if($('#commentsListed').html().length < 10)
+      var topicID = $('#commentsSlider').attr('data-id-topic');
+      
+      if(DefaultLib.isHandlingAJAX())
+         return false;
+      
+      $.ajax({
+      type: 'GET',
+      url: DefaultLib.httpPath + 'ajax/GetComments.php', 
+      data: 'id_topic=' + topicID,
+      timeout: 5000, // Because all comments are retrieved (N.B.: may be limited to the X lattest comments later)
+      success: function(data)
       {
-         var topicID = $('#commentsSlider').attr('data-id-topic');
+         DefaultLib.doneWithAJAX();
          
-         if(DefaultLib.isHandlingAJAX())
-            return false;
-         
-         $.ajax({
-         type: 'GET',
-         url: DefaultLib.httpPath + 'ajax/GetComments.php', 
-         data: 'id_topic=' + topicID,
-         timeout: 5000, // Because all comments are retrieved
-         success: function(data)
+         // No particular error message handling, nor AJAX lock, because this is passive
+         if(data.length !== 0 && data !== 'No message' && data !== 'DB error' && data !== 'Template error')
          {
-            DefaultLib.doneWithAJAX();
-            // No particular error message handling, nor AJAX lock, because this is passive
-            if(data.length !== 0 && data !== 'No message' && data !== 'DB error' && data !== 'Template error')
-            {
-               // Shows the slider
-               $('#coverScreen').fadeIn(200);
-               $('#coverScreen').on('click', function(e) { toggleComments(); });
-               $('#commentsSlider').animate({width: 'toggle'}, 300, function()
-               {
-                  $('#commentsSlider').css('min-width', '400px');
-                  $('#commentsListed').html(data);
-                  
-                  // Binds events (few of them, due to simplified display)
-                  $('.comment .spoiler a:first-child').on('click', function() { ArticleLib.showSpoiler($(this).attr('data-id-spoiler')); });
-                  $('.comment .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
-                  $('.comment .videoThumbnail').on('click', function() { ArticleLib.showVideo($(this).attr('data-video-id'), $(this).attr('data-post-id')); });
-                  $('.comment .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
-                  
-                  $('body').css('overflow', 'hidden');
-               });
-            }
-            else
-            {
-               alert('Une erreur est survenue lors de la récupération des commentaires.');
-            }
-         },
-         error: function(xmlhttprequest, textstatus, message)
-         {
-            DefaultLib.doneWithAJAX();
-            DefaultLib.diagnose(textstatus, message);
+            // Completes the HTML with the data obtained through AJAX
+            $('#commentsListed').html(data);
+            
+            // Binds events (few of them, due to simplified display)
+            $('.comment .spoiler a:first-child').on('click', function() { ArticleLib.showSpoiler($(this).attr('data-id-spoiler')); });
+            $('.comment .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
+            $('.comment .videoThumbnail').on('click', function() { ArticleLib.showVideo($(this).attr('data-id-video'), $(this).attr('data-id-post')); });
+            $('.comment .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
          }
-         });
-      }
-      else
-      {
-         $('#coverScreen').fadeIn(200);
-         $('#commentsSlider').animate({width: 'toggle'}, 500, function()
+         else
          {
-            $('#commentsSlider').css('min-width', '400px');
-         });
+            alert('Une erreur est survenue lors de la récupération des commentaires.');
+         }
+      },
+      error: function(xmlhttprequest, textstatus, message)
+      {
+         DefaultLib.doneWithAJAX();
+         DefaultLib.diagnose(textstatus, message);
       }
+      });
    }
 }
 
@@ -278,13 +253,10 @@ $(document).ready(function()
       });
    }
    
-   // Comments slider, if present
+   // Comments slider, if present (just loads comments; toggling the slider is now done in HTML/CSS)
    if($('#commentsSlider').length)
    {
-      $('#closeClickable').on('click', ArticleLib.toggleComments);
-      var commentsLink = $('#showComments').html();
-      $('#showComments').replaceWith('<span id="showComments">' + commentsLink + '</span>');
-      $('#showComments').on('click', ArticleLib.toggleComments);
+      $('.toggleLabel').on('click', ArticleLib.loadComments);
    }
 });
 

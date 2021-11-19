@@ -1,6 +1,6 @@
 /**
 * This file contains functions to handle specific functionalities required for segment edition, 
-* such as segment preview and header creation.
+* such as segment header creation (via upload).
 */
 
 /******************
@@ -8,158 +8,6 @@
 *******************/
 
 var SegmentEditorLib = {};
-SegmentEditorLib.previewEnabled = false;
-SegmentEditorLib.leftRightPreview = true; // Default
-
-/*
-* Shows a spoiler, and edits the button to show/hide it depending on the state.
-*
-* @param idSpoiler  The ID of the spoiler to show/hide
-*/
-
-SegmentEditorLib.showSpoiler = function(idSpoiler)
-{
-   var visibleBlock = $('#' + idSpoiler + ':visible');
-   if(visibleBlock.length == 0)
-      $('a[data-id-spoiler="' + idSpoiler + '"]').html("Cliquez pour masquer");
-   else
-      $('a[data-id-spoiler="' + idSpoiler + '"]').html("Cliquez pour afficher");
-   $('#' + idSpoiler).toggle(100);
-}
-
-/*
-* previewMode() modifies the variable "previewEnabled" and updates the display accordingly (a 
-* single button). It also takes account of whether the user has picked the left/right or 
-* top/bottom comparison of the editable text and the preview.
-*/
-
-SegmentEditorLib.previewMode = function()
-{
-   if(SegmentEditorLib.previewEnabled)
-   {
-      SegmentEditorLib.previewEnabled = false;
-      $('#autoPreview').css("background-color", "#383a3f");
-      $('#autoPreview').hover(function () {
-         $('#autoPreview').css("background-color", "#557083");
-      }, function(){
-         $('#autoPreview').css("background-color", "#383a3f");
-      });
-      $('#autoPreview').click(function() {
-         $('#autoPreview').css("background-color", "grey");
-      });
-      
-      $('#previewZone').remove();
-      $('#previewMode').remove();
-      $('#previewInfo').remove();
-      $('#textareaWrapper #editableWrapper').css('width', '98.5%');
-   }
-   else
-   {
-      SegmentEditorLib.previewEnabled = true;
-      $('#autoPreview').css('background-color', '#557083');
-      $('#autoPreview').hover(function () {
-         $('#autoPreview').css("background-color", "#383a3f");
-      }, function(){
-         $('#autoPreview').css("background-color", "#557083");
-      });
-      $('#autoPreview').click(function() {
-         $('#autoPreview').css("background-color", "grey");
-      });
-      
-      // Additionnal span's to control the preview display and advertise the user about features
-      var prevMode = '<span id="previewMode">' + "\n";
-      if(SegmentEditorLib.leftRightPreview)
-         prevMode += '<input type="radio" name="prevMode" value="LeftRight" checked/> ';
-      else
-         prevMode += '<input type="radio" name="prevMode" value="LeftRight"/> ';
-      prevMode += '<label for="prevMode">Comparaison gauche/droite</label> ';
-      if(!SegmentEditorLib.leftRightPreview)
-         prevMode += '<input type="radio" name="prevMode" value="TopBottom" checked/> ';
-      else
-         prevMode += '<input type="radio" name="prevMode" value="TopBottom"/> ';
-      prevMode += '<label for="prevMode">Comparaison haut/bas</label> ';
-      prevMode += "<br/>\n<br/>\n</span>";
-      
-      var prevInfo = '<span style="color: grey;" id="previewInfo"><strong>Remarque:</strong> ';
-      prevInfo += 'l\'aperçu des fonctionnalités propres aux articles est sensiblement différent ';
-      prevInfo += 'sur cette page. Pensez à visualiser un aperçu complet du segment pour mieux ';
-      prevInfo += "évaluer la mise en page.<br/>\n<br/>\n</span>";
-      
-      if(SegmentEditorLib.leftRightPreview)
-         $('#textareaWrapper #editableWrapper').css('width', '48.5%');
-      $('#textareaWrapper').append(' <div id="previewZone"><p></p></div>');
-      if(!SegmentEditorLib.leftRightPreview)
-      {
-         $('#previewZone').css('width', '98%');
-         $('#previewZone').css('margin-left', '15px');
-         $('#previewZone').css('margin-top', '10px');
-      }
-      $('#textareaWrapper').nextAll('p:first').prepend(prevMode + prevInfo);
-      $('input[type=radio][name=prevMode]').on('click', function()
-      {
-         var radioValue = $(this).val();
-         if(SegmentEditorLib.leftRightPreview && radioValue == 'TopBottom')
-         {
-            $('#textareaWrapper #editableWrapper').css('width', '98.5%');
-            $('#previewZone').css('width', '98%');
-            $('#previewZone').css('margin-left', '15px');
-            $('#previewZone').css('margin-top', '10px');
-            SegmentEditorLib.leftRightPreview = false;
-         }
-         else if(!SegmentEditorLib.leftRightPreview && radioValue == 'LeftRight')
-         {
-            $('#textareaWrapper #editableWrapper').css('width', '48.5%');
-            $('#previewZone').css('width', '48.5%');
-            $('#previewZone').css('margin-left', '0px');
-            $('#previewZone').css('margin-top', '0px');
-            SegmentEditorLib.leftRightPreview = true;
-         }
-      });
-      SegmentEditorLib.preview();
-   }
-}
-
-/*
-* preview() takes the content of a textarea named "message" (content of a segment) and sends it to 
-* some PHP script which will produce HTML code corresponding to a preview of the segment. This new 
-* HTML code is placed inside a textarea named "previewZone".
-*/
-
-SegmentEditorLib.preview = function()
-{
-   var content = encodeURIComponent($('textarea[name=message]').val());
-   
-   // Nothing happens if the content in the form is empty
-   if(content == "")
-      return;
-   
-   $.ajax({
-   type: 'POST',
-   url: DefaultLib.httpPath + 'ajax/PreviewSegment.php', 
-   data: 'message='+content,
-   timeout: 5000,
-   success: function(text)
-   {
-      $('#previewZone p').html(text);
-      
-      // Ensures the "dynamic" parts of the formatting are working
-      $('.spoiler a:first-child').on('click', function()
-      {
-         var spoilerId = $(this).attr('data-id-spoiler');
-         SegmentEditorLib.showSpoiler(spoilerId);
-      });
-      
-      $('.miniature').on('click', function()
-      {
-         DefaultLib.showUpload($(this));
-      });
-   },
-   error: function(xmlhttprequest, textstatus, message)
-   {
-      // DefaultLib.diagnose(textstatus, message);
-   }
-   });
-}
 
 /**********
 * Uploads *
@@ -173,10 +21,10 @@ SegmentEditorLib.preview = function()
 
 SegmentEditorLib.update_progress = function(evt, target, additionnalText)
 {
-   if (evt.lengthComputable)
+   if(evt.lengthComputable)
    {
       var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-      if (percentLoaded <= 100)
+      if(percentLoaded <= 100)
       {
           $(target + ' .windowContent').html("<div class=\"progressBar\">" +
           "<span style=\"width:" + percentLoaded +"%\"></span>" +
@@ -282,8 +130,7 @@ SegmentEditorLib.loadFile = function()
             }
             else if(text == "fail2")
             {
-               alert("Une erreur inconnue est survenue. L'upload a eu lieu mais la création de\n"
-               + "son aperçu a échoué.");
+               alert("Une erreur inconnue est survenue. L'upload a eu lieu mais la création de son aperçu a échoué.");
             }
             // Success; display is going to be updated
             else
@@ -594,29 +441,6 @@ SegmentEditorLib.loadSegmentHeader = function()
 
 $(document).ready(function()
 {
-   $("#autoPreview").on('click', SegmentEditorLib.previewMode);
-
-   $('textarea[name="message"]').keydown(function(e)
-   {
-      if(SegmentEditorLib.previewEnabled)
-      {
-         clearTimeout($.data(this, 'timerPreview'));
-         var keystrokeEnd = setTimeout(SegmentEditorLib.preview, 1000);
-         $(this).data('timerPreview', keystrokeEnd);
-      }
-   });
-   
-   $('.spoiler a:first-child').on('click', function()
-   {
-      var spoilerId = $(this).attr('data-id-spoiler');
-      SegmentEditorLib.showSpoiler(spoilerId);
-   });
-   
-   $('.miniature').on('click', function()
-   {
-      DefaultLib.showUpload($(this));
-   });
-   
    if($('#previewHeader').length)
    {
       $('#previewHeader').on('click', function()

@@ -28,25 +28,25 @@ l'envoi de celle-ci. Veuillez vérifier le message avant de soumettre à nouveau
 <span class="formatButton" id="buttonEmoticons" title="Afficher/cacher mes émoticônes"><i class="icon-formatting_smilies"></i></span>
 </p>
 <div id="emoticonsDisplay"></div>
+<div id="textareaWrapper" data-preview-type="message">
+<p id="editableZone"><textarea name="message" placeholder="Entrez un message">{$content}</textarea></p>
+</div>
 <p>
-<textarea rows="10" name="message" placeholder="Entrez un message">{$content}</textarea><br/>
-<br/>
 <span class="uploadOptions">
 {switch:uploadOptions||yes & 
 <label for="upload_display_policy">Affichage des uploads:</label> 
 <select name="upload_display_policy">
-<option value="default">En dessous de mon message</option>
-<option value="spoiler"[0]>En dessous de mon message, masqué (spoilers)</option>
-<option value="nsfw"[1]>En dessous de mon message, masqué (contenu mature)</option>
-<option value="noshow"[2]>J'intègrerai mes uploads dans mon message</option>
-<option value="noshownsfw"[3]>J'intègrerai mes uploads dans mon message (NSFW dans la galerie)</option>
-<option value="noshowspoiler"[4]>J'intègrerai mes uploads dans mon message (spoiler dans la galerie)</option>
+<option value="default"[0]>En dessous de mon message</option>
+<option value="spoiler"[1]>En dessous de mon message, masqué (spoilers)</option>
+<option value="nsfw"[2]>En dessous de mon message, masqué (contenu mature)</option>
+<option value="noshow"[3]>J'intègrerai mes uploads dans mon message</option>
+<option value="noshownsfw"[4]>J'intègrerai mes uploads dans mon message (NSFW dans la galerie)</option>
+<option value="noshowspoiler"[5]>J'intègrerai mes uploads dans mon message (spoiler dans la galerie)</option>
 </select><br/>
 <br/>}
 </span>
 {$reportPart}
 <input type="hidden" name="nbEdits" value="{$nbEdits}"/>
-<button type="button" id="manualPreview">Aperçu</button> 
-<button type="button" id="autoPreview">Aperçu auto</button> 
+<button type="button" id="autoPreview">Aperçu automatique</button> 
 <input type="submit" name="sent" value="Editer" /></p>
 </form>

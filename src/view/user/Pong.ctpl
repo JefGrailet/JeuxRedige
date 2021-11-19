@@ -1,4 +1,5 @@
-<div class="postBlock" id="{$pongID}">
+<div class="postBlock" data-id-post="{$pongID}">
+<div class="postBlockAnchor" id="{$pongID}"></div>
 <div class="postBlockLeftColumn">
 <div class="postBlockAvatar" style="background: url({$authorAvatar}) no-repeat top center;"></div>
 </div>

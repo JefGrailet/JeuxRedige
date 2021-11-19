@@ -31,11 +31,11 @@ PostCensoringLib.censorPost = function(post, version)
       if(dataInt < 1) // Stops if 0, -1 or -2 returned (no censorship occurred)
          return;
       
-      $('.censorship[data-post='+post+'][data-version='+version+']').unbind();
-      $('.censorship[data-post='+post+'][data-version='+version+']').attr('title', 'Censuré');
-      $('.censorship[data-post='+post+'][data-version='+version+']').animate({opacity: 1.0}, 300, function()
+      $('.censorship[data-id-post='+post+'][data-version='+version+']').unbind();
+      $('.censorship[data-id-post='+post+'][data-version='+version+']').attr('title', 'Censuré');
+      $('.censorship[data-id-post='+post+'][data-version='+version+']').animate({opacity: 1.0}, 300, function()
       {
-         $('.censorship[data-post='+post+'][data-version='+version+']').css({cursor: 'default'});
+         $('.censorship[data-id-post='+post+'][data-version='+version+']').css({cursor: 'default'});
       });
       
       // Updates the display
@@ -106,7 +106,7 @@ $(document).ready(function()
 {
    $('.censorship').on('click', function()
    {
-      post = parseInt($(this).attr("data-post"));
+      post = parseInt($(this).attr("data-id-post"));
       version = parseInt($(this).attr("data-version"));
       PostCensoringLib.censorPost(post, version);
    });

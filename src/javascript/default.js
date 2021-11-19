@@ -314,8 +314,8 @@ DefaultLib.stopShowingLightbox = function()
 
 DefaultLib.showVideo = function(idVideo, idPost)
 {
-   var type = $('.videoThumbnail[data-post-id="' + idPost + '"][data-video-id="' + idVideo + '"]').attr('data-video-type');
-   var trueID = $('.videoThumbnail[data-post-id="' + idPost + '"][data-video-id="' + idVideo + '"]').attr('data-video-true-id');
+   var type = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-type');
+   var trueID = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-true-id');
    
    if(type === 'youtube')
    {

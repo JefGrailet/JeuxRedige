@@ -7,6 +7,7 @@
 require './libraries/Header.lib.php';
 require './libraries/MessageParsing.lib.php';
 require './model/GamesList.class.php';
+require './model/Emoticon.class.php';
 require './view/intermediate/List.ir.php';
 
 WebpageHandler::redirectionAtLoggingIn();
@@ -20,7 +21,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
    try
    {
       $list = new GamesList($listID);
-      $list->getItems();
+      $items = $list->getItems();
       
       $list->getTopic(); // Loads associated topic
       $list->getRatings();
@@ -52,8 +53,9 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
    WebpageHandler::noContainer();
    
    // Generates all useful data for list display.
-   for($i = 0; $i < count($items); $i++)
-      $items[$i]['content'] = MessageParsing::parse($items[$i]['content'], $i + 1);
+   for($i = 0; $i < count($items); $i++) // Still the buffered items
+      $items[$i]['comment'] = MessageParsing::parse($items[$i]['comment'], $i + 1);
+   $list->updateBufferedItems($items); // Makes sure the post-parsing is taken into account
    $listIR = ListIR::process($list);
    
    // Meta-tags (TODO: generalize)
@@ -63,8 +65,7 @@ if(!empty($_GET['id_list']) && preg_match('#^([0-9]+)$#', $_GET['id_list']))
    WebpageHandler::$miscParams['meta_url']= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
    
    // Display
-   $finalTplInput = array_merge(array('items' => $itemsStr), $listIR);
-   $tpl = TemplateEngine::parse('view/content/List.composite.ctpl', $finalTplInput);
+   $tpl = TemplateEngine::parse('view/content/List.composite.ctpl', $listIR);
    WebpageHandler::wrap($tpl, $list->get('title'));
 }
 else

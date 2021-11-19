@@ -56,7 +56,7 @@ RefreshLib.refreshPosts = function()
    
    if(selected == lastPage || $('.page[data-page=' + lastPage + ']').length)
    {
-      var lastPost = parseInt($('.page[data-page=' + lastPage + '] .postBlock:last').attr('id'));
+      var lastPost = parseInt($('.page[data-page=' + lastPage + '] .postBlock:last').attr('data-id-post'));
       
       RefreshLib.getNewMessages(lastPost, function(lastNewPage)
       {
@@ -207,19 +207,19 @@ RefreshLib.getNewMessages = function(offset, callback)
          for(i = 0; i < nbNewPosts; i++)
          {
             var postID = offset + i + 1;
-            $('.postBlock[id=' + postID + '] .spoiler a:first-child').on('click', function() { DefaultLib.showSpoiler($(this).attr('data-id-spoiler')); });
-            $('.postBlock[id=' + postID + '] .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
-            $('.postBlock[id=' + postID + '] .videoThumbnail').on('click', function() { DefaultLib.showVideo($(this).attr('data-video-id'), $(this).attr('data-post-id')); });
+            $('.postBlock[data-id-post=' + postID + '] .spoiler a:first-child').on('click', function() { DefaultLib.showSpoiler($(this).attr('data-id-spoiler')); });
+            $('.postBlock[data-id-post=' + postID + '] .miniature').on('click', function() { DefaultLib.showUpload($(this)); });
+            $('.postBlock[data-id-post=' + postID + '] .videoThumbnail').on('click', function() { DefaultLib.showVideo($(this).attr('data-id-video'), $(this).attr('data-id-post')); });
             
             // Specific for forum posts
-            if($('.postBlock[id=' + postID + '] .postInteractions').length)
+            if($('.postBlock[data-id-post=' + postID + '] .postInteractions').length)
             {
-               $('.postBlock[id=' + postID + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-post')); });
+               $('.postBlock[data-id-post=' + postID + '] .postInteractions').on('click', function() { TopicInteractionLib.showInteractions($(this).attr('data-id-post')); });
                $('.postAttachment[id=Attachment' + postID + '] .uploadDisplay .uploadDisplayAlign').on('click', function() { DefaultLib.showUpload($(this).parent()); });
                $('.postAttachment[id=Attachment' + postID + '] .link_masked_attachment').on('click', function() { $('#maskedAttachment' + $(this).attr('data-id-post')).toggle(300); });
-               $('.postBlock[id=' + postID + '] .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
-               $('.postBlock[id=' + postID + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-post")); });
-               $('.postBlock[id=' + postID + '] .vote').on('click', function()
+               $('.postBlock[data-id-post=' + postID + '] .link_masked_post').on('click', function() { $('#masked' + $(this).attr('data-id-post')).toggle(300); });
+               $('.postBlock[data-id-post=' + postID + '] .report').on('click', function() { PostInteractionLib.getAlertMotivations($(this).attr("data-id-post")); });
+               $('.postBlock[data-id-post=' + postID + '] .vote').on('click', function()
                {
                   vote = parseInt($(this).attr("data-vote"));
                  
@@ -231,13 +231,13 @@ RefreshLib.getNewMessages = function(offset, callback)
                   if(vote == 0)
                      return;
                  
-                  post = parseInt($(this).attr("data-post"));
+                  post = parseInt($(this).attr("data-id-post"));
                   PostInteractionLib.ratePost(post, vote);
                });
                
-               $('.postBlock[id=' + postID + '] .pin').on('click', function()
+               $('.postBlock[data-id-post=' + postID + '] .pin').on('click', function()
                {
-                  postID = parseInt($(this).attr("data-post"));
+                  postID = parseInt($(this).attr("data-id-post"));
                   var curIcon = $(this).attr('src');
                   if(curIcon.indexOf("post_pin") !== -1)
                   {
@@ -248,7 +248,7 @@ RefreshLib.getNewMessages = function(offset, callback)
                      PostInteractionLib.unpinPost(postID);
                });
                
-               $('.postBlock[id=' + postID + '] .quote').on('click', function() { PostInteractionLib.quotePost($(this).attr('data-post')); });
+               $('.postBlock[data-id-post=' + postID + '] .quote').on('click', function() { PostInteractionLib.quotePost($(this).attr('data-id-post')); });
             }
             
             /*
@@ -256,14 +256,14 @@ RefreshLib.getNewMessages = function(offset, callback)
             * attribute will be removed on scroll over the message.
             */
             
-            $('.postBlock[id=' + postID + ']').attr('data-viewed', 'no');
+            $('.postBlock[data-id-post=' + postID + ']').attr('data-viewed', 'no');
             
             /*
             * And a mouseover event to consider the post as viewed, if the page is not large 
             * enough to scroll over it.
             */
             
-            $('.postBlock[id=' + postID + ']').on('mouseover', function()
+            $('.postBlock[data-id-post=' + postID + ']').on('mouseover', function()
             {
                if($(this).visible(true)) // From jQuery plugin jquery.visible.js
                {
@@ -417,7 +417,7 @@ $(document).ready(function()
                      
                      // If quick preview is activated, we empty the zone as well
                      if($('#previewZone').length)
-                        $('#previewZone p').html('');
+                        $('#previewZone #previewFrame').html('');
                   }
                   RefreshLib.fromOneself = true;
                   RefreshLib.refreshPosts(); // 2) Calls the code to load all new messages

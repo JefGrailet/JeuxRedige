@@ -35,8 +35,8 @@ le premier segment. Les titre et sous-titre de l'article seront repris à la pla
 <span class="extendedFormatButton" id="buttonEmphasisBis" title="Insérer une emphase (bloc)"><i class="icon-formatting_block"></i></span>
 <span class="extendedFormatButton" id="buttonSummary" title="Intégrer un résumé (points forts/faibles)"><i class="icon-formatting_summary"></i></span>
 </p>
-<div id="textareaWrapper">
-<p id="editableWrapper"><textarea name="message" placeholder="Ecrivez votre texte ici">{$content}</textarea></p>
+<div id="textareaWrapper" data-preview-type="segment">
+<p id="editableZone"><textarea name="message" placeholder="Ecrivez votre texte ici">{$content}</textarea></p>
 </div>
 <p>
 <input type="hidden" name="header" value="{$header}"/>

@@ -8,11 +8,11 @@
 
 if(!isset($pageTitle) || strlen($pageTitle) == 0)
 {
-   $pageTitle = 'Project AG';
+   $pageTitle = 'JeuxRédige.be';
 }
 else
 {
-   $pageTitle .= ' - Project AG';
+   $pageTitle .= ' - JeuxRédige.be';
 }
 
 $webRootPath = PathHandler::HTTP_PATH();
@@ -28,7 +28,7 @@ $webRootPath = PathHandler::HTTP_PATH();
       var ConfigurationValues = {};
       ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
       </script>
-      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.6.0.min.js"></script>
       <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<?php echo PathHandler::JS_EXTENSION(); ?>"></script>
 <?php
 
@@ -74,9 +74,6 @@ if($cond1 || $cond2 || $cond3)
    if($cond2)
    {
       echo '         if (typeof PreviewLib !== \'undefined\') { PreviewLib.previewMode(); }'."\n";
-      echo '         else if (typeof QuickPreviewLib !== \'undefined\') { QuickPreviewLib.enable(); }'."\n";
-      echo '         else if (typeof SegmentEditorLib !== \'undefined\') { SegmentEditorLib.previewMode(); }'."\n";
-      echo '         else if (typeof ContentEditorLib !== \'undefined\') { ContentEditorLib.previewMode(); }'."\n";
    }
    
    /*
@@ -102,7 +99,7 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    echo '      <meta property="og:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
    echo '      <meta property="og:url" content="'.WebpageHandler::$miscParams['meta_url'].'">'."\n";
    
-   echo '      <meta property="og:site_name" content="Project AG">'."\n";
+   echo '      <meta property="og:site_name" content="JeuxRedige.be">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";
 }
 
@@ -122,6 +119,12 @@ if(isset($dialogs) && !empty($dialogs))
    echo $dialogs;
 }
 
+// Logo (varies for articles)
+$selectedLogo = 'default';
+$logoVariants = array('chronicle', 'opinion', 'preview', 'review'); // N.B.: could be moved in $miscParams
+if(in_array(WebpageHandler::$miscParams['webdesign_variant'], $logoVariants))
+   $selectedLogo = WebpageHandler::$miscParams['webdesign_variant'];
+
 // Finally, lightbox for pictures.
 ?>
       <div id="lightbox" style="display: none;" data-cur-file="none">
@@ -133,12 +136,10 @@ if(isset($dialogs) && !empty($dialogs))
          </div>
       </div>
       <div id="topBar">
-         <div id="titleCorner">
-            <ul>
-               <li><a class="websiteTitle" href="<?php echo $webRootPath; ?>">Project AG</a><sup>Beta</sup></li>
-               <li><a href="<?php echo $webRootPath; ?>Articles.php">Articles</a></li>
-               <li><a href="<?php echo $webRootPath; ?>Forum.php">Forum</a></li>
-            </ul>
+         <div id="mainMenu">
+            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>" class="mainMenuLogo <?php echo $selectedLogo; ?>"></a></div>
+            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Articles.php">Articles</a></div>
+            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Forum.php">Forum</a></div>
          </div>
          <div id="userCorner">
 <?php
@@ -146,7 +147,7 @@ if(LoggedUser::isLoggedIn())
 {
    // Account details (avatar, alternate account, etc.)
    $alternateAccount = '';
-   $pseudoPart = '<img src="'.PathHandler::getAvatarSmall(LoggedUser::$data['used_pseudo']).'" class="avatarMini" alt="Avatar mini"/> ';
+   $pseudoPart = '<img src="'.PathHandler::getAvatarMedium(LoggedUser::$data['used_pseudo']).'" class="avatarMini" alt="Avatar mini"/> ';
    $adminTools = false;
    if(strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus')
    {

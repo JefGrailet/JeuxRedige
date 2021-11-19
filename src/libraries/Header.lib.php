@@ -35,7 +35,7 @@ $configValues = include($autoWWW.'config/Config.inc.php');
 
 /*
 * Determines as well as the base URL. Base URL is forced to be prefixed with "www." to avoid 
-* logging in issues (e.g. if user first connects to the website with "projectag.org"). Note how 
+* logging in issues (e.g. if user first connects to the website without the "www."). Note how 
 * the protocol (i.e., HTTP or HTTPS) is part of the configuration values.
 */
 
@@ -476,12 +476,6 @@ LoggedUser::init();
 * one can use the URL /articles/1/My-article-title-and-subtitle which is better for referencing).
 */
 
-/*
-   const WWW_PATH = '/data/sites/web/projectagorg/www/';
-   const HTTP_PATH = 'https://www.projectag.org/';
-   */
-   
-
 class PathHandler
 {
    private static $WWW_PATH;
@@ -540,7 +534,7 @@ class PathHandler
    * getAvatarSmall() gets the absolute path to the smallest version of one user's avatar.
    *
    * @param string $pseudo  The user's pseudonym
-   * @return string         The absolute path to that user's avatar, or to a default one
+   * @return string         The absolute path to that user's avatar, small size
    */
    
    public static function getAvatarSmall($pseudo)
@@ -549,6 +543,21 @@ class PathHandler
       if(file_exists($avatarPath) == true)
          return self::$HTTP_PATH.'avatars/'.$pseudo.'-small.jpg';
       return self::$HTTP_PATH.'defaultavatar-small.jpg';
+   }
+   
+   /*
+   * getAvatarSmall() gets the absolute path to the medium version of one user's avatar.
+   *
+   * @param string $pseudo  The user's pseudonym
+   * @return string         The absolute path to that user's avatar, medium size
+   */
+   
+   public static function getAvatarMedium($pseudo)
+   {
+      $avatarPath = self::$WWW_PATH.'avatars/'.$pseudo.'-medium.jpg';
+      if(file_exists($avatarPath) == true)
+         return self::$HTTP_PATH.'avatars/'.$pseudo.'-medium.jpg';
+      return self::$HTTP_PATH.'defaultavatar-medium.jpg';
    }
    
    /*
@@ -768,6 +777,7 @@ class WebpageHandler
       
       // Default parameters
       self::$miscParams = array(
+      'webdesign_variant' => 'default', // (November 2021) Selects a specific variant of the logo while displaying an article (in function of its type)
       'posts_per_page' => 10, // Amount of messages per page in a topic (normally 20)
       'topics_per_page' => 30, // Amount of topics per page in a list of topics
       'articles_per_page' => 30, // Same for the articles
@@ -842,15 +852,16 @@ class WebpageHandler
    }
    
    /*
-   * Receives a HTML code and encapsulates it in a "singleBlock" div.
+   * Receives a HTML code and encapsulates it in a single div (default name: "singleBlock").
    *
    * @param string $html  The HTML code to encapsulated
+   * @param string $name  The name of the block; "singleBlock" by default
    * @return string       The encapsulated HTML code
    */
    
-   public static function wrapInBlock($html)
+   public static function wrapInBlock($html, $blockName = 'singleBlock')
    {
-      $newHtml = '      <div class="singleBlock">'."\n";
+      $newHtml = '      <div class="'.$blockName.'">'."\n";
       $newHtml .= $html;
       $newHtml .= '      </div>'."\n";
 
@@ -923,7 +934,7 @@ class Utils
    'bufferLimit' => 10, // Max amount of uploads per message (in the user's buffer)
    'extensions' => array('jpeg', 'jpg', 'gif', 'png', 'mp4', 'webm'), // Available extensions
    'miniExtensions' => array('jpeg', 'jpg', 'gif', 'png'), // Extensions with custom miniatures
-   'displayPolicies' => array('spoiler', 'nsfw', 'noshow', 'noshownsfw', 'noshowspoiler') // Display policies (besides typical display below message)
+   'displayPolicies' => array('default', 'spoiler', 'nsfw', 'noshow', 'noshownsfw', 'noshowspoiler') // Display policies (besides typical display below message)
    );
    
    /*

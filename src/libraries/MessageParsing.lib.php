@@ -55,6 +55,9 @@ class MessageParsing
    {
       $parsed = $content;
       
+      // Accents that can be used in names of uploaded files
+      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
+      
       // Videos
       $videos = array();
       preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
@@ -97,7 +100,7 @@ class MessageParsing
                      else
                         $videoHTML .= "width: 120px; height: 90px;";
                      $videoHTML .= "background-image: url('".$thumbnailLink."');\"\n";
-                     $videoHTML .= "data-video-id=\"".($i + 1)."\" data-post-id=\"".$index."\" ";
+                     $videoHTML .= "data-id-video=\"".($i + 1)."\" data-id-post=\"".$index."\" ";
                      $videoHTML .= "data-video-true-id=\"".$IDStr."\" data-video-type=\"youtube\">\n";
                      
                      /*
@@ -131,7 +134,7 @@ class MessageParsing
       
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $images);
+      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
       
       for($i = 0; $i < count($images[1]); $i++)
       {
@@ -219,7 +222,7 @@ class MessageParsing
       
       // WebM/MP4 clip (full display) parsing
       $clips = array();
-      preg_match_all("/\!clip\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $clips);
+      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
       
       for($i = 0; $i < count($clips[1]); $i++)
       {
@@ -268,8 +271,7 @@ class MessageParsing
       
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
-      $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
-      preg_match_all("/\!mini\[([_a-zA-Z0-9\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
+      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
       
       for($i = 0; $i < count($miniatures[1]); $i++)
       {
@@ -342,22 +344,26 @@ class MessageParsing
             // Short video (WebM or MP4)
             else
             {
-               $miniHTML = '<video class="miniature" width="250" min-height="10" ';
+               $miniHTML = '<span class="clipThumbnail"';
                if($floating !== '')
                {
                   $miniHTML .= 'style="float: '.$floating.'; ';
                   if($floating === 'left')
-                     $miniHTML .= 'margin: 5px 10px 5px 0px;';
+                     $miniHTML .= 'margin: 0px 10px 10px 0px;';
                   else
-                     $miniHTML .= 'margin: 5px 0px 5px 10px;';
+                     $miniHTML .= 'margin: 0px 0px 10px 10px;';
                   $miniHTML .= '" ';
                }
+               $miniHTML .= ">\n";
+               $miniHTML .= '<video class="miniature" width="250" min-height="10" ';
                if(strlen($comment) > 0)
                   $miniHTML .= "data-file=\"".$displayPath."\" data-comment=\"".$comment."\">\n";
                else
                   $miniHTML .= "data-file=\"".$displayPath."\">\n";
                $miniHTML .= "<source src=\"".$displayPath."\" type=\"video/".$ext."\">\n";
-               $miniHTML .= '</video>';
+               $miniHTML .= '</video>'."\n";
+               $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
+               $miniHTML .= '</span>'."\n";
                
                $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
             }

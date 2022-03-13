@@ -1,87 +1,60 @@
-# Comment installer une copie de PAG
+# À propos de JeuxRédige.be et de son code source
 
-_(N.B.: English version below)_
+_(English version below)_
 
-## Etape 1: installation de la base de données
-Sur votre serveur, créez une nouvelle base données avec le nom de votre choix, en choisissant 
-l'interclassement utf8_unicode_520_ci, puis importez le fichier `pag_db.sql` dans celle-ci. Cette 
-base de données contient bien sûr toutes les tables SQL qui sont utilisées par PAG mais aussi 
-quelques contenus de base, comme une première liste de jeux et un premier compte d'utilisateur.
+JeuxRédige.be est, comme son nom l'indique, un site web conçu comme un support d'écriture pour 
+parler de jeu vidéo de manière générale. Il s'agit aussi d'un travail de développement web 
+purement personnel visant à entretenir mes connaissances en la matière. Comme je considère que le 
+code que j'ai écrit n'a aucune raison d'être gardé secret et pourrait peut-être même s'avérer 
+utile à d'autres développeurs, je vous le propose ici en accès libre.
 
-## Etape 2: paramétrage du site
-Vous devez à présent modifier le fichier `src/config/Config.inc.php` si nécessaire. Il faut en 
-effet y renseigner les informations de connexion à la base de données de votre serveur (N.B.: par 
-défaut, le code fourni est configuré pour un serveur local).
+Une des particularités du code source de JeuxRédige.be est qu'il a été écrit en partant de presque 
+zéro, c.-à-d. en utilisant très peu de librairies extérieures, à l'exception notable de jQuery. Le 
+code que vous trouverez ici est donc aussi un exercice de conception qui n'est pas (forcément) 
+représentatif des conventions modernes en matière de développement web. Par ailleurs, comme le 
+code n'est mis à jour que de temps à autre (quand j'ai le temps), il est possible que certaines 
+parties de celui-ci soit datées par rapport aux évolutions récentes des langages web.
 
-Notez la présence de deux paramètres supplémentaires à considérer si nécessaire:
+Quelques remarques supplémentaires:
 
-* **_paths\_js\_extension_** renseigne l'extension par défaut de vos fichiers JavaScript. Si vous 
-  souhaitez utiliser les scripts tels quels, vous n'avez rien à faire. Si en revanche vous 
-  souhaitez par exemple les minimiser, faites-le en remplaçant l'extension `.js` par `.min.js`, 
-  afin de pouvoir garder les scripts originaux, et modifiez _paths_js_extension_ en conséquence.
-* **_protocol_** renseigne le protocole que vous utilisez pour accéder au site, typiquement HTTP 
-  ou HTTPS. Ce paramètre doit être modifié (par exemple, "_https_" au lieu de "_http_") si vous 
-  comptez utiliser un autre protocole et ce afin de correctement préfixer les URLs absolues vers 
-  les images/clips vidéo stockés sur le site ou vers les articles.
+* La majeure partie du code du site actuel a été écrite entre 2015 et 2017 (inclus), bien que 
+  quelques modifications significatives ont eu lieu depuis.
+* Vous trouverez des instructions pour installer une copie de JeuxRédige.be sur un serveur local 
+  (ou autre) dans `Install.md`. Une base de données vierge est également fournie.
+* Bien qu'il n'y ait pas de documentation (par exemple au format PDF) pour le moment, l'ensemble 
+  du code est (abondamment) commenté. Les commentaires sont en anglais par convention.
 
-**Remarque importante:** le fichier `src/libraries/Header.lib.php` se sert de 
-`$_SERVER['DOCUMENT_ROOT']` et `$_SERVER['SERVER_NAME']` pour déterminer automatiquement le chemin 
-absolu vers les fichiers du site et l'URL de base. Si votre serveur ne fournit pas de valeurs 
-correctes pour ces variables, pensez à éditer les premières lignes de ce fichier.
+Bonne visite !
 
-## Etape 3: copie des fichiers sources
-Copiez l'intégralité du contenu du dossier `src` (après les modifications de l'étape 2) dans votre 
-dossier `www` (ou équivalent). Le contenu copié reprend également les sous-dossiers d'upload et les 
-images qui correspondent au contenu fourni par défaut.
+<div style="text-align: right">Jean-François Grailet</div>
 
-## Etape 4: premier accès
-Vous pouvez à présent utiliser votre copie de PAG comme bon vous semble. Pour vous simplifier la 
-vie, un premier compte utilisateur est disponible dans la base de données initiale. Les 
-identifiants de ce compte sont (les espaces sont compris):
+# About JeuxRédige.be and its source code
 
-* **Pseudonyme:** _AlainTouring_
-* **Mot de passe:** _il n'y en a pas_
+JeuxRédige.be is, as its name implies in French, a web site designed as a writing platform to 
+discuss about video games in the broader sense. It is also a purely personnel web development 
+project that I carried out to maintain my knowledge in this domain. As I consider that the code 
+I wrote has no particular reason to be kept hidden and might even prove useful to other 
+developpers, I decided to make it public.
 
-# How to install a clone of PAG
+The main feature of the JeuxRédige.be source code is that it has been written almost from scratch, 
+that is, using as little external libraries as possible, with the obvious exception of jQuery. The 
+code you will find in this repository is thus also a design exercise that is not (necessarily) 
+representative of the state-of-the-art web development practices. Moreover, as the code is only 
+updated from time to time (when I have some), it is possible some parts of it are outdated with 
+respect to the latest evolutions of web languages.
 
-## Step 1: setting up the database
-On your server, create a new database with a name of your choice, choosing utf8_unicode_520_ci as 
-encoding, then import the `pag_db.sql` file inside it. This database contains of course all the 
-SQL tables which are used by PAG but also provides sauf default content such as a first list of 
-games and a first user account.
+Some additional remarks:
 
-## Step 2: configuration of the website
-You now have to edit the file `src/config/Config.inc.php` if necessary. Indeed, you have 
-to write there the details to connect to your database (N.B.: by default, provided code is 
-configured for a local server).
+* Most of the code of the current website has been written between 2015 and 2017 (included), 
+  though some considerable changes have been implemented since then.
+* You will find instructions to install your own copy of JeuxRédige.be on a local server (or 
+  other) in `Install.md`. A sample database is also provided.
+* While there's currently no documentation (say, in PDF format) for now, most of the code is 
+  (abundantly) commented. Comments are also in English for convenience.
 
-Note that there are two additional parameters you might want to edit too in some cases:
+Have a nice browsing !
 
-* **_paths\_js\_extension_** provides the default extension of your JavaScript files. If you wish 
-  to use them "_as is_", you don't have to do anything. If, on the contrary, you wish (for 
-  instance) to minimize them, do so while replacing the usual `.js` extension with `.min.js` in 
-  order to keep the original scripts. Then, modify _paths_js_extension_ accordingly.
-* **_protocol_** provides the protocol you use to access the website, e.g., HTTP or HTTPS. This 
-  parameter must be updated (e.g., "_https_" instead of "_http_") if you intend to use another 
-  protocol. This is necessary in order to correctly prefix all absolute URLs towards pictures or 
-  video clips stored on the website or towards articles.
-
-**Important remark:** the file `src/libraries/Header.lib.php` relies on 
-`$_SERVER['DOCUMENT_ROOT']` and `$_SERVER['SERVER_NAME']` to find automatically the absolute path 
-towards the files of the site as well as the base URL. If your server doesn't provide correct 
-values for these variables, you might want to edit the first lines of this file.
-
-## Step 3: copy of the source files
-Copy the entirety of the `src` folder (after the modifications of step 2) in your `www` folder (or 
-equivalent). The copied content also include the upload subfolders and the pictures that are part 
-of the default content.
-
-## Step 4: First use
-You can now use your PAG copy as you like. To simplify your life, a first user account is 
-available in the initial database. The credentials for this account are (blank spaces included):
-
-* **Pseudonym:** _AlainTouring_
-* **Password:** _il n'y en a pas_
+<div style="text-align: right">Jean-François Grailet</div>
 
 # Contact
 

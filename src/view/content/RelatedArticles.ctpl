@@ -1,9 +1,6 @@
 <h1 class="centeredTitle" id="topics">Articles associés</h1>
 <div id="articlesPool">
-   <div id="poolContent">
-      {$thumbnails}
-   </div>
-   <div class="clear"></div>
+   {$thumbnails}
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p><span class="backBlack">Pages :</span> |</p><br/><br/>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|&nbsp;...&nbsp;}

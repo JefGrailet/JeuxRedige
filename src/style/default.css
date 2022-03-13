@@ -1215,7 +1215,6 @@ textarea
 .thumbnail
 {
    position: relative;
-   float: left;
    width: 260px;
    height: 162px;
    margin: 0px 0px 6px 6px;
@@ -1402,7 +1401,6 @@ textarea
 .articleThumbnail
 {
    position: relative;
-   float: left;
    width: 370px;
    height: 208px;
    margin: 12px;
@@ -1419,7 +1417,6 @@ textarea
 .articleHighlight
 {
    position: relative;
-   float: left;
    width: 1170px;
    height: 400px;
    margin: 12px;

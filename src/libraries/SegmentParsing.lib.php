@@ -77,7 +77,7 @@ class SegmentParsing
                   $IDStr = substr($videos[1][$i], $posID + 3, 11);
                   
                   // In articles, videos are always embedded.
-                  $videoHTML = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+                  $videoHTML = "<iframe width=\"480\" height=\"270\" src=\"https://www.youtube.com/embed/";
                   $videoHTML .= $IDStr."\" frameborder=\"0\" allowfullscreen></iframe>\n";
                   
                   $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);

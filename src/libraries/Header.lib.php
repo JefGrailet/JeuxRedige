@@ -40,7 +40,7 @@ $configValues = include($autoWWW.'config/Config.inc.php');
 */
 
 $autoHTTP = $_SERVER['SERVER_NAME']; // Some insight: https://stackoverflow.com/questions/2297403/what-is-the-difference-between-http-host-and-server-name-in-php
-if(substr($autoHTTP, 0, 4) !== 'www.')
+if($configValues['www_prefix'] == true && substr($autoHTTP, 0, 4) !== 'www.')
    $autoHTTP = 'www.'.$autoHTTP;
 $autoHTTP = $configValues['protocol'].'://'.$autoHTTP.'/';
 

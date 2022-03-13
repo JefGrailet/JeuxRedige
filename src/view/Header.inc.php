@@ -99,7 +99,7 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    echo '      <meta property="og:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
    echo '      <meta property="og:url" content="'.WebpageHandler::$miscParams['meta_url'].'">'."\n";
    
-   echo '      <meta property="og:site_name" content="JeuxRedige.be">'."\n";
+   echo '      <meta property="og:site_name" content="JeuxRédige.be">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";
 }
 

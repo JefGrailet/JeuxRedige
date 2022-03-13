@@ -3,10 +3,7 @@
    {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
 </div>
 <div id="lineItemsPool">
-   <div id="poolContent">
-      {$alerts}
-   </div>
-   <div class="clear"></div>
+   {$alerts}
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}

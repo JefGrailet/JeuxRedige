@@ -50,7 +50,7 @@
 
 .segmentBody .emphasisText p a
 {
-   color: black;
+   color: #7BD1F6; /* Slightly lighter than the #34b1e5 from the charter (better contrast) */
 }
 
 .segmentBody .emphasisText p a:hover

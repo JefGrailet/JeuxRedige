@@ -3,7 +3,6 @@
 </div>
 <div id="thumbnailsPool">
    {$thumbnails}
-   <div class="clear"></div>
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}

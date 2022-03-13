@@ -1,6 +1,3 @@
 <div id="articlesPoolIndex">
-   <div id="poolContent">
-      {$articles}
-   </div>
-   <div class="clear"></div>
+   {$articles}
 </div>

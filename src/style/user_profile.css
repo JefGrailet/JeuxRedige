@@ -26,7 +26,8 @@
 
 #articlesPool
 {
-   display: block;
+   display: flex;
+   flex-wrap: wrap;
    margin: auto;
 }
 

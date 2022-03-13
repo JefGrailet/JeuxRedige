@@ -3,10 +3,7 @@
    {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
 </div>
 <div id="emoticonsPool">
-   <div id="poolContent">
-      {$thumbnails}
-   </div>
-   <div class="clear"></div>
+   {$thumbnails}
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}

@@ -198,16 +198,8 @@ EmoticonsLib.loadEmoticon = function()
             $("#newEmoticon .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
          });
       
-         // Add the emoticon to the current page, before the <div id="clear"></div>
-         if($('#emoticonsPool #poolContent').length)
-         {
-            $('#emoticonsPool #poolContent').append(text);
-         }
-         else
-         {
-            $('#emoticonsPool').html('<div id="poolContent">\n' +
-            text + "\n</div>\n" + '<div id="clear"></div>' + "\n");
-         }
+         // Add the emoticon to the current page
+         $('#emoticonsPool').append(text);
          
          // Binds the events
          $('.buttonUnmap').last().on('click', function()

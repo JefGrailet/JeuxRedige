@@ -2,7 +2,8 @@
 
 #thumbnailsPool, #thumbnailsPoolIndex
 {
-   display: block;
+   display: flex;
+   flex-wrap: wrap;
    margin: auto;
 }
 
@@ -55,7 +56,8 @@
 
 #emoticonsPool, #lineItemsPool
 {
-   display: block;
+   display: flex;
+   flex-wrap: wrap;
    margin: auto;
 }
 
@@ -90,7 +92,8 @@
 
 #articlesPool, #articlesPoolIndex
 {
-   display: block;
+   display: flex;
+   flex-wrap: wrap;
    margin: auto;
 }
 
@@ -139,14 +142,6 @@
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
-}
-
-/* .clear such that any thumbnail pool "closes" correctly. */
-
-.clear
-{
-   clear: both;
-   width: 100%;
 }
 
 /* Elements to centered elements such as page lists or specific buttons. */
@@ -227,7 +222,6 @@
 
 .userBlock
 {
-   float: left;
    margin: 0px 10px 10px 0px;
 }
 
@@ -280,24 +274,25 @@
 
 .emoticonBlock
 {
-   position: relative;
-   float: left;
    width: 390px;
    height: 122px;
    margin: 0px 5px 5px 0px;
    background-color: white;
    border-radius: 5px;
    padding: 0px;
+   display: flex;
+   flex-wrap: wrap;
 }
 
 .emoticonBlock h1
 {
    font-family: "Roboto", "Arial", sans-serif;
+   width: 390px;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    color: white;
    background-color: black;
-   border-radius: 5px 5px 0px 0px;
+   border-radius: 5px;
    padding: 5px 10px 5px 10px;
    margin-top: 0px;
    margin-bottom: 0px;
@@ -311,7 +306,6 @@
 
 .emoticonDisplay
 {
-   float: left;
    width: 120px;
    height: 90px;
    margin-left: 5px;
@@ -339,7 +333,6 @@
 
 .emoticonDetails
 {
-   float: right;
    width: 260px;
    height: 90px;
    margin-bottom: 5px;
@@ -378,6 +371,8 @@
    border-radius: 5px;
    padding: 0px;
    border: 1px solid #646464;
+   display: flex;
+   flex-wrap: wrap;
 }
 
 .pinBlock p, .alertBlock p
@@ -399,7 +394,6 @@
 .pinBlockLeft, .alertBlockLeft
 {
    height: 30px;
-   float: left;
    background-color: black;
    color: white;
    border-radius: 5px 0px 0px 5px;
@@ -427,18 +421,17 @@
 .pinBlockRight, .alertBlockRight
 {
    height: 30px;
-   float: right;
    text-align: justify;
 }
 
 .pinBlockRight
 {
-   width: 475px;
+   width: 468px; /* 470 - 2 */
 }
 
 .alertBlockRight
 {
-   width: 200px;
+   width: 198x; /* 200 - 2 */
 }
 
 .pinBlock img, .alertBlock img

@@ -1,9 +1,9 @@
 <?php
 
 /**
-* This library defines function(s) used to parse a message taken from the DB (which is already 
-* parsed, to some extent, in HTML) to treat features that should be easy to maintain and/or which 
-* are dependant on the configuration of the page. For example, it replaces !upload[] blocks which 
+* This library defines function(s) used to parse a message taken from the DB (which is already
+* parsed, to some extent, in HTML) to treat features that should be easy to maintain and/or which
+* are dependant on the configuration of the page. For example, it replaces !upload[] blocks which
 * can be used to have control over the ratio of the picture or display the corresponding miniature.
 */
 
@@ -22,8 +22,8 @@ class MessageParsing
    }
 
    /*
-   * Takes a complete URL (i.e., starting with http:// or https://) and ensures that it belongs to 
-   * the website, either returning the relative path to the file (URL belongs to site), either 
+   * Takes a complete URL (i.e., starting with http:// or https://) and ensures that it belongs to
+   * the website, either returning the relative path to the file (URL belongs to site), either
    * returning an empty string.
    *
    * @param string $URL  The URL
@@ -37,7 +37,7 @@ class MessageParsing
       {
          return substr($URL, strlen(PathHandler::HTTP_PATH()));
       }
-      
+
       return '';
    }
 
@@ -45,8 +45,8 @@ class MessageParsing
    * Parses an input message to translate format code related to features into HTML.
    *
    * @param string $content  The input message (partially formatted in HTML)
-   * @param string $index    The index of the message within a succession of messages (e.g. in a 
-   *                         topic or in user's history) to distinct video elements from one post 
+   * @param string $index    The index of the message within a succession of messages (e.g. in a
+   *                         topic or in user's history) to distinct video elements from one post
    *                         to another; by default it is 0 (i.e. only one message to display)
    * @return string          The same message, fully formatted in HTML
    */
@@ -54,14 +54,14 @@ class MessageParsing
    public static function parse($content, $index = 0)
    {
       $parsed = $content;
-      
+
       // Accents that can be used in names of uploaded files
       $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
-      
+
       // Videos
       $videos = array();
       preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
-      
+
       for($i = 0; $i < count($videos[1]); $i++)
       {
          if(self::isURL($videos[1][$i]))
@@ -73,26 +73,45 @@ class MessageParsing
                if($posID !== FALSE)
                {
                   $IDStr = substr($videos[1][$i], $posID + 3, 11);
-                  
+
+                  // Option to pick the width of the video
+                  $customRatio = false;
+                  $customWidth = 0.0;
+                  if(strpos($videos[1][$i], ';') !== FALSE)
+                  {
+                      $exploded = explode(';', $videos[1][$i]);
+                      $tmpFloatVal = floatval($exploded[1]);
+                      if($tmpFloatVal > 0. && $tmpFloatVal <= 1.0)
+                      {
+                          $customRatio = true;
+                          $customWidth = $tmpFloatVal * 100;
+                      }
+                  }
+
                   if(WebpageHandler::$miscParams['video_default_display'] === 'embedded')
                   {
-                     $videoHTML = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
-                     $videoHTML .= $IDStr."\" frameborder=\"0\" allowfullscreen></iframe>\n";
-                     
+                     $videoHTML = "<iframe ";
+                     if($customRatio)
+                        $videoHTML .= "style=\"width: ".$customWidth."%; height: auto; aspect-ratio: 16/9;\" ";
+                     else
+                        $videoHTML .= "width=\"480\" height=\"270\" ";
+                     $videoHTML .= "src=\"https://www.youtube.com/embed/".$IDStr."\" ";
+                     $videoHTML .= "frameborder=\"0\" allowfullscreen></iframe>\n";
+
                      $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
                   }
                   else
                   {
                      $thumbnailLink = 'http://img.youtube.com/vi/'.$IDStr.'/';
-                     
+
                      if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
                         $thumbnailLink .= 'hqdefault.jpg';
                      else
                         $thumbnailLink .= 'default.jpg';
-                     
+
                      // HTML/CSS shenanigans to create a clickable thumbnail with a SVG icon centered within.
                      $videoHTML = "<span class=\"videoWrapper".$index."-".($i + 1)."\">\n";
-                     
+
                      // Video thumbnail (with the data the JS part needs to load the embedded video)
                      $videoHTML .= "<span class=\"videoThumbnail\" style=\"";
                      if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
@@ -101,41 +120,45 @@ class MessageParsing
                         $videoHTML .= "width: 120px; height: 90px;";
                      $videoHTML .= "background-image: url('".$thumbnailLink."');\"\n";
                      $videoHTML .= "data-id-video=\"".($i + 1)."\" data-id-post=\"".$index."\" ";
+                     if($customRatio)
+                        $videoHTML .= "data-video-style=\"width: ".$customWidth."%; height: auto; aspect-ratio: 16/9;\" ";
+                     else
+                        $videoHTML .= "data-video-style=\"width: 480px; height: auto; aspect-ratio: 16/9;\" ";
                      $videoHTML .= "data-video-true-id=\"".$IDStr."\" data-video-type=\"youtube\">\n";
-                     
+
                      /*
-                      * Inner span with inner <i> containing the video icon; meant to center the icon within 
-                      * videoThumbnail while providing a white background for the icon (border-radius is 
+                      * Inner span with inner <i> containing the video icon; meant to center the icon within
+                      * videoThumbnail while providing a white background for the icon (border-radius is
                       * used to "cheat" with the background-color and ensure it stays behind the icon).
                       */
-                     
+
                      $videoHTML .= "<span class=\"videoThumbnailOverlay\" style=\"";
                      if(WebpageHandler::$miscParams['video_thumbnail_style'] === 'hq')
                         $videoHTML .= "font-size: 80px; height: 360px;";
                      else
                         $videoHTML .= "font-size: 40px; height: 90px;";
                      $videoHTML .= "\"><i class=\"icon-general_video\"></i></span>\n";
-                     
+
                      // Closing tags
                      $videoHTML .= "</span>\n";
                      $videoHTML .= "</span>\n";
-                     
+
                      $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
                   }
                }
             }
-            
+
             // TODO (for later): DailyMotion, Vimeo, etc.
          }
       }
-      
+
       // Accepted values for floating
       $acceptedFloating = array('left', 'right');
-      
+
       // Image (full image display) parsing
       $images = array();
       preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
-      
+
       for($i = 0; $i < count($images[1]); $i++)
       {
          $link = '';
@@ -145,12 +168,12 @@ class MessageParsing
          {
             $exploded = explode(';', $images[1][$i]);
             $link = $exploded[0];
-            
+
             /*
-             * Dealing with ratio and float parameters. For flexibility, their order can be switched 
+             * Dealing with ratio and float parameters. For flexibility, their order can be switched
              * (either link;ratio;float or link;float;ratio) as long as the link comes first.
              */
-            
+
             $tmpFloatVal = floatval($exploded[1]);
             if(in_array($exploded[1], $acceptedFloating))
             {
@@ -174,10 +197,10 @@ class MessageParsing
          }
          else
             $link = $images[1][$i];
-         
+
          $isAnURL = self::isURL($link);
          $relativeLink = self::relativize($link);
-         
+
          if($isAnURL && strlen($relativeLink) == 0)
          {
             $imageHTML = '<img src="'.$link.'" alt="Image externe" />';
@@ -187,22 +210,17 @@ class MessageParsing
          {
             if($isAnURL && strlen($relativeLink) > 0)
                $link = $relativeLink;
-         
+
             $filePath = PathHandler::WWW_PATH().$link;
             $displayPath = PathHandler::HTTP_PATH().$link;
             $extension = strtolower(substr(strrchr($filePath, '.'), 1));
-            
+
             if(in_array($extension, Utils::UPLOAD_OPTIONS['miniExtensions']) && file_exists($filePath))
             {
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
                   $imageHTML = '<img src="'.$displayPath.'" alt="Upload" ';
-                  if($ratio != 1.0)
-                  {
-                     $newWidth = $dimensions[0] * $ratio;
-                     $imageHTML .= 'width="'.$newWidth.'" ';
-                  }
                   if($floating !== '')
                   {
                      $imageHTML .= 'style="float: '.$floating.'; ';
@@ -212,18 +230,28 @@ class MessageParsing
                         $imageHTML .= 'margin: 5px 0px 5px 10px;';
                      $imageHTML .= '" ';
                   }
+                  if($ratio != 1.0)
+                  {
+                     $newWidth = $dimensions[0] * $ratio;
+                     $imageHTML .= 'width="'.$newWidth.'" ';
+
+                     // Adds the attributes to view full size upload in lightbox
+                     $imageHTML .= 'class="miniature" data-file="'.$displayPath.'" ';
+                     $imageHTML .= 'data-width="'.$dimensions[0].'" ';
+                     $imageHTML .= 'data-height="'.$dimensions[1].'" ';
+                  }
                   $imageHTML .= '/>';
-                  
+
                   $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
                }
             }
          }
       }
-      
+
       // WebM/MP4 clip (full display) parsing
       $clips = array();
       preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
-      
+
       for($i = 0; $i < count($clips[1]); $i++)
       {
          $link = '';
@@ -232,7 +260,7 @@ class MessageParsing
          {
             $exploded = explode(';', $clips[1][$i]);
             $link = $exploded[0];
-            
+
             // Floating
             if(in_array($exploded[1], $acceptedFloating))
             {
@@ -244,11 +272,11 @@ class MessageParsing
 
          if(self::isURL($link))
             $link = self::relativize($link);
-      
+
          $filePath = PathHandler::WWW_PATH().$link;
          $displayPath = PathHandler::HTTP_PATH().$link;
          $extension = strtolower(substr(strrchr($filePath, '.'), 1));
-         
+
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
          {
             $clipHTML = '<video ';
@@ -264,15 +292,15 @@ class MessageParsing
             $clipHTML .= ' controls>'."\n";
             $clipHTML .= '<source src="'.$displayPath.'" format="video/'.$extension.'">'."\n";
             $clipHTML .= '</video>';
-            
+
             $parsed = str_replace($clips[0][$i], $clipHTML, $parsed);
          }
       }
-      
+
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
       preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
-      
+
       for($i = 0; $i < count($miniatures[1]); $i++)
       {
          $link = '';
@@ -286,14 +314,14 @@ class MessageParsing
          }
          else
             $link = $miniatures[1][$i];
-         
+
          if(!in_array($floating, $acceptedFloating))
             $floating = '';
-         
+
          // Comment is entirely optional, and is provided in $miniatures[2] and $miniatures[3]
          if(count($miniatures) > 3 && strlen($miniatures[3][$i]) > 0)
             $comment = $miniatures[3][$i];
-         
+
          $isAnURL = self::isURL($link);
          if($isAnURL)
          {
@@ -303,16 +331,16 @@ class MessageParsing
             else
                continue;
          }
-         
+
          $filePath = PathHandler::WWW_PATH().$link;
          $displayPath = PathHandler::HTTP_PATH().$link;
          if(file_exists($filePath))
          {
             /*
-             * Two possible cases: either the upload as its own miniature, either it doesn't. This is 
+             * Two possible cases: either the upload as its own miniature, either it doesn't. This is
              * verified with the extension of the file.
              */
-            
+
             $ext = strtolower(substr(strrchr($filePath, '.'), 1));
             if(in_array($ext, Utils::UPLOAD_OPTIONS['miniExtensions']))
             {
@@ -364,37 +392,37 @@ class MessageParsing
                $miniHTML .= '</video>'."\n";
                $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
                $miniHTML .= '</span>'."\n";
-               
+
                $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
             }
          }
       }
-      
+
       // Users (pretty display)
       $usersPretty = array();
       preg_match_all("/\!user\[([a-zA-Z0-9_-]{3,20})\]/", $parsed, $usersPretty);
-      
+
       for($i = 0; $i < count($usersPretty[1]); $i++)
       {
          $userPseudo = $usersPretty[1][$i];
          $userHTML = '<img src="'.PathHandler::getAvatarSmall($userPseudo).'" alt="'.$userPseudo.'" class="userMiniAvatar" /> ';
          $userHTML .= '<span class="userMiniPseudo">'.$userPseudo.'</span>';
-         
+
          $parsed = str_replace($usersPretty[0][$i], $userHTML, $parsed);
       }
-      
+
       // Final step: cleans-up the HTML code from useless tags
       $parsed = preg_replace('(<p>([\s]+)</p>)iUs', '', $parsed);
       $parsed = str_replace("<p><br />\r\n</p>", '', $parsed);
       $parsed = str_replace("<p><br />\n</p>", '', $parsed);
       $parsed = str_replace("<p><br/>", "<p>", $parsed);
       $parsed = str_replace("<p><br />", "<p>", $parsed);
-      
+
       return $parsed;
    }
 
    /*
-   * Parses an input message to replace format code related to features by empty strings, as a 
+   * Parses an input message to replace format code related to features by empty strings, as a
    * method of censorship.
    *
    * @param string $content  The input message (partially formatted in HTML)
@@ -404,34 +432,34 @@ class MessageParsing
    public static function parseCensored($content)
    {
       $parsed = $content;
-      
+
       // Videos
       $videos = array();
       preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
-      
+
       for($i = 0; $i < count($videos[1]); $i++)
          $parsed = str_replace($videos[0][$i], '', $parsed);
-      
+
       // Image (full image display) parsing
       $images = array();
       preg_match_all("/\!img\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $images);
-      
+
       for($i = 0; $i < count($images[1]); $i++)
          $parsed = str_replace($images[0][$i], '', $parsed);
-      
+
       // Images which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
       preg_match_all("/\!mini\[([_a-zA-Z0-9\.\\/;:\-]*?)\]/", $parsed, $miniatures);
-      
+
       for($i = 0; $i < count($miniatures[1]); $i++)
          $parsed = str_replace($miniatures[0][$i], '', $parsed);
-      
+
       return $parsed;
    }
 
    /*
-   * Parses an input message to take care of references to other posts. This is only relevant in 
-   * topics or private threads, but not in out-of-context messages such as what can be seen in one 
+   * Parses an input message to take care of references to other posts. This is only relevant in
+   * topics or private threads, but not in out-of-context messages such as what can be seen in one
    * user's post history.
    *
    * @param string $content  The input message (partially formatted in HTML)
@@ -445,7 +473,7 @@ class MessageParsing
 
       $references = array();
       preg_match_all("/\!ref\[([_a-zA-Z0-9\.\\/;:\?=\-' ]*?)\]/", $parsed, $references);
-      
+
       for($i = 0; $i < count($references[1]); $i++)
       {
          $idPost = 0;
@@ -465,16 +493,16 @@ class MessageParsing
             $idPost = intval($references[1][$i]);
             $name = $references[1][$i];
          }
-         
+
          // TODO: move to post via Jquery
-         
+
          $nbPage = ceil($idPost / WebpageHandler::$miscParams['posts_per_page']);
          $refHTML = "<a href=\"".str_replace('[]', $nbPage, $URL)."#".$idPost."\">@".$name."</a>";
          $parsed = str_replace($references[0][$i], $refHTML, $parsed);
       }
-      
+
       // TODO: parse !user[] tags (display a user with mini-avatar)
-      
+
       return $parsed;
    }
 
@@ -488,10 +516,10 @@ class MessageParsing
    public static function removeReferences($content)
    {
       $parsed = $content;
-      
+
       $references = array();
       preg_match_all("/\!ref\[([_a-zA-Z0-9\.\\/\;\:\?\=\-' ]*?)\]/", $parsed, $references);
-      
+
       for($i = 0; $i < count($references[1]); $i++)
       {
          $name = '';
@@ -508,11 +536,11 @@ class MessageParsing
          {
             $name = $references[1][$i];
          }
-         
+
          $refHTML = "<span style=\"color: grey;\">@".$name."</span>";
          $parsed = str_replace($references[0][$i], $refHTML, $parsed);
       }
-      
+
       return $parsed;
    }
 }

@@ -1,7 +1,7 @@
 {switch:previousUploads||yes & <div class="articleEditBlock" id="previousUploads" style="padding-bottom: 6px;">
 <h1>Précédents uploads</h1>
 <p style="text-align: left;">
-<span style="color: grey;"><strong>Remarque:</strong> si vous uploadez de nouveaux fichiers, seuls 
+<span style="color: grey;"><strong>Remarque:</strong> si vous uploadez de nouveaux fichiers, seuls
 les premiers (par ordre lexicographique) seront conservés si le total excède [0] uploads.</span>
 </p>
 <div class="previousUploadsView">
@@ -12,7 +12,7 @@ les premiers (par ordre lexicographique) seront conservés si le total excède [
 <div class="articleEditBlock" id="uploadMenu" style="padding-bottom: 6px;">
 <h1>Média</h1>
 <p style="text-align: left;">
-<span style="color: grey;"><strong>Remarque:</strong> les média joints à un segment ne sont jamais 
+<span style="color: grey;"><strong>Remarque:</strong> les média joints à une page d'article ne sont jamais 
 affichés automatiquement. Vous devez les intégrer à votre texte.</span><br/>
 <br/>
 {switch:uploadMessage||

@@ -1,8 +1,8 @@
 /*
  * Icons were selected and downloaded from IconMonstr. This CSS file was generated with IcoMoon.
  *
- * https://iconmonstr.com 
- * https://icomoon.io 
+ * https://iconmonstr.com
+ * https://icomoon.io
  */
 
 @font-face {
@@ -113,7 +113,7 @@
 .icon-general_home:before {
   content: "\e91a";
 }
-.icon-general_hyperlink:before {
+.icon-general_hyperlink:before, .icon-formatting_link:before {
   content: "\e91b";
 }
 .icon-general_info:before {

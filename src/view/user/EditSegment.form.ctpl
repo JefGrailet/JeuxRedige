@@ -1,21 +1,21 @@
 <div class="articleEditBlock">
-<h1>Modifier un segment d'article</h1>
+<h1>Modifier une page d'article</h1>
 {switch:success||yes & <p style="color: green";>Les modifications ont été enregistrées avec succès.</p>}
 {list:errors[<p style="color: red;">Erreur: |<p style="color: red;">Erreurs:<br/>|</p>]||
 emptyField & vous devez écrire un texte.|
-titleNeeded & un titre est requis si ce segment n'est pas le premier de l'article.|
+titleNeeded & un titre est requis si cette page n'est pas le première de l'article.|
 titleTooLong & le titre proposé est trop long.|
 dbError & un problème avec la base de données est survenu lors de l'enregistrement. Réessayez plus tard.}
 <form id="editSegmentForm" action="./EditSegment.php?id_segment={$segmentID}" method="post">
 <p>
 <strong>Article:</strong> <a href="./EditArticle.php?id_article={$articleID}">{$fullArticleTitle}</a><br/>
 <br/>
-<img src="{$headerPath}" style="width: 25%;" alt="En-tête du segment" title="Cliquez pour éditer" id="previewHeader" /><br/>
+<img src="{$headerPath}" style="width: 25%;" alt="En-tête de la page" title="Cliquez pour éditer" id="previewHeader" /><br/>
 <br/>
-<input type="text" name="title" value="{$title}" size="60" maxlength="100" placeholder="Entrez un titre"/><br/>
+<input type="text" name="title" value="{$title}" size="60" maxlength="100" placeholder="Titre (optionnel pour n°1)"/><br/>
 <br/>
-{switch:noteFirstSegment||yes & <span style="color: grey;">Vous pouvez laisser ce champ vide pour 
-le premier segment. Les titre et sous-titre de l'article seront repris à la place.</span><br/>
+{switch:noteFirstSegment||yes & <span style="color: grey;">Vous pouvez laisser ce champ vide pour
+la première page. Les titre et sous-titre de l'article seront repris à la place.</span><br/>
 <br/>}
 <span class="formatButton" id="buttonBold" title="Mettre en gras"><i class="icon-formatting_bold"></i></span>
 <span class="formatButton" id="buttonItalic" title="Mettre en italique"><i class="icon-formatting_italic"></i></span>
@@ -40,9 +40,12 @@ le premier segment. Les titre et sous-titre de l'article seront repris à la pla
 <p id="editableZone"><textarea name="message" placeholder="Ecrivez votre texte ici">{$content}</textarea></p>
 </div>
 <p>
+{switch:adminEdit||yes & <input type="checkbox" name="do_not_record"[0]>
+<label for="do_not_record">Ne pas enregistrer la date de modification</label><br/>
+<br/>}
 <input type="hidden" name="header" value="{$header}"/>
-<button type="button" id="autoPreview">Aperçu automatique</button> 
-<input type="submit" name="sent" value="Enregistrer" /> 
+<button type="button" id="autoPreview">Aperçu automatique</button>
+<input type="submit" name="sent" value="Enregistrer" />
 <input type="submit" name="sentBis" value="Enregistrer et voir" />
 </p>
 </form>

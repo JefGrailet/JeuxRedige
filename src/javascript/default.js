@@ -1,5 +1,5 @@
 /**
-* This file contains JavaScript functions which should be present on every page of the site (hence 
+* This file contains JavaScript functions which should be present on every page of the site (hence
 * the name "default.js").
 */
 
@@ -42,7 +42,7 @@ DefaultLib.addslashes = function(inputString)
 }
 
 /*
- * Handles the lightbox before being displayed, in a simple case (that is, without slideshow and 
+ * Handles the lightbox before being displayed, in a simple case (that is, without slideshow and
  * additionnal details such as the uploader's pseudonym).
  *
  * @param string ext      Extension of the file
@@ -53,7 +53,7 @@ DefaultLib.addslashes = function(inputString)
 DefaultLib.updateLightboxSimple = function(ext, file, comment)
 {
    var isVideo = (ext == 'mp4' || ext == 'webm');
-   
+
    var media = "";
    if(isVideo)
    {
@@ -67,7 +67,7 @@ DefaultLib.updateLightboxSimple = function(ext, file, comment)
    }
    $('#lightbox .lightboxContent').html(media);
    $('#lightbox').attr('data-cur-file', file);
-   
+
    // "Legend" of the picture (insertion code or comment + link to full size, if necessary)
    var legend = '';
    if(comment !== '')
@@ -79,17 +79,17 @@ DefaultLib.updateLightboxSimple = function(ext, file, comment)
       var explodedLink = file.split('upload/');
       legend += 'upload/' + explodedLink[1];
    }
-   
+
    if(isVideo)
       legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
    else
       legend += ' (<a href="' + file + '" target="blank">Fichier source</a>)';
-   
+
    $('#lightbox .lightboxBottom .LBCenter').html('<p>' + legend + '</p>');
 }
 
 /*
- * Handles the lightbox before being displayed, in the case where the lightbox is enriched with 
+ * Handles the lightbox before being displayed, in the case where the lightbox is enriched with
  * data about the uploader and upload date and a slide show.
  *
  * @param string ext         Extension of the file
@@ -101,7 +101,7 @@ DefaultLib.updateLightboxSimple = function(ext, file, comment)
 DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
 {
    var isVideo = (ext == 'mp4' || ext == 'webm');
-   
+
    var media = "";
    if(isVideo)
    {
@@ -115,7 +115,7 @@ DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
    }
    $('#lightbox .lightboxContent').html(media);
    $('#lightbox').attr('data-cur-file', file);
-   
+
    // "Legend" of the picture (author + link to full size if needed)
    var legend = 'Uploadé ';
    if(uploader.length > 0)
@@ -125,16 +125,16 @@ DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
       legend += ' (<a href="' + file + '" target="blank">Voir dans un nouvel onglet</a>)';
    else
       legend += ' (<a href="' + file + '" target="blank">Fichier source</a>)';
-   
+
    $('#lightbox .lightboxBottom .LBCenter').html('<p>' + legend + '</p>');
-   
+
    // Next and previous buttons (only for "uploadDisplay" blocks)
    var correspondingDiv = $('.uploadDisplay[data-file="' + file + '"]');
    if(correspondingDiv.length > 0)
    {
       var IDComponents = correspondingDiv.attr('id').split('_');
       var thisFileID = parseInt(IDComponents[2]);
-      
+
       // Linking multiple galleries with the "data-slideshow-" attributes (for Uploads.php)
       var previousPost = IDComponents[1];
       if(correspondingDiv.attr('data-slideshow-previous'))
@@ -142,10 +142,10 @@ DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
       var nextPost = IDComponents[1];
       if(correspondingDiv.attr('data-slideshow-next'))
          nextPost = correspondingDiv.attr('data-slideshow-next');
-      
+
       var prefixPrevious = '.uploadDisplay[id="' + IDComponents[0] + '_' + previousPost + '_';
       var prefixNext = '.uploadDisplay[id="' + IDComponents[0] + '_' + nextPost + '_';
-      
+
       if($(prefixPrevious + (thisFileID - 1).toString() + '"]').length > 0)
       {
          var previousButton = '<p><a href="#lightbox">Précédent</a></p>';
@@ -156,7 +156,7 @@ DefaultLib.updateLightboxDetailed = function(ext, file, uploader, uploadDate)
       {
          $('#lightbox .lightboxBottom .LBLeft').html('');
       }
-      
+
       if($(prefixNext + (thisFileID + 1).toString() + '"]').length > 0)
       {
          var nextButton = '<p><a href="#lightbox">Suivant</a></p>';
@@ -179,31 +179,31 @@ DefaultLib.showUpload = function(uploadBlock)
       return;
 
    /*
-    * "uploadBlock" is the block containing the upload (picture or video) to display. The way the 
-    * upload (which the path is found in field "data-file" of uploadBlock) will be displayed 
-    * depends on the type of block we got. So far, there are 3 possible classes: uploadDisplay, 
+    * "uploadBlock" is the block containing the upload (picture or video) to display. The way the
+    * upload (which the path is found in field "data-file" of uploadBlock) will be displayed
+    * depends on the type of block we got. So far, there are 3 possible classes: uploadDisplay,
     * uploadView and miniature).
     */
-   
+
    var slideShow = true;
    var filePath = uploadBlock.attr('data-file');
    if(filePath.length == 0)
       return;
-   
+
    // No slide show in this case
    if(uploadBlock.attr('class') == 'miniature')
       slideShow = false;
-      
+
    // Gets the extension
    var ext = filePath.substr((filePath.lastIndexOf('.') + 1)).toLowerCase();
-   
+
    if(slideShow)
    {
       var uploader = uploadBlock.attr('data-uploader');
       var uploadDate = uploadBlock.attr('data-upload-date');
       if(typeof uploader === typeof undefined || uploader === false)
           uploader = "";
-      
+
       DefaultLib.updateLightboxDetailed(ext, filePath, uploader, uploadDate);
    }
    else
@@ -212,10 +212,10 @@ DefaultLib.showUpload = function(uploadBlock)
       var comment = '';
       if(typeof commentAttr !== typeof undefined && commentAttr !== false)
          comment = commentAttr;
-      
+
       DefaultLib.updateLightboxSimple(ext, filePath, comment);
    }
-   
+
    $('#blackScreen').fadeIn(500);
    $('#blackScreen').click(function(e) { DefaultLib.stopShowingLightbox(); });
    $('#lightbox').fadeIn(1000);
@@ -231,7 +231,7 @@ DefaultLib.slideShow = function(previousOrNext)
       DefaultLib.blockKeypresses = false;
       return;
    }
-   
+
    // Checks there is indeed a block corresponding to the current file
    var curFile = $('#lightbox').attr('data-cur-file');
    var correspondingDiv = $('.uploadDisplay[data-file="' + curFile + '"]');
@@ -240,7 +240,7 @@ DefaultLib.slideShow = function(previousOrNext)
       DefaultLib.blockKeypresses = false;
       return;
    }
-   
+
    // Computes what should be the id attribute of the previous/next picture
    var IDComponents = correspondingDiv.attr('id').split('_');
    var thisPictureID = parseInt(IDComponents[2]);
@@ -261,17 +261,17 @@ DefaultLib.slideShow = function(previousOrNext)
          component += IDComponents[1];
       component += '_' + (thisPictureID + 1).toString() + '"]';
    }
-   
+
    // Retrieves the data of the next piece of media to show
    var newFilePath = "";
    if($(component).length > 0)
    {
       newFilePath = $(component).attr('data-file');
-      
+
       var ext = newFilePath.substr((newFilePath.lastIndexOf('.') + 1)).toLowerCase();
       var newUploader = $(component).attr('data-uploader');
       var newUploadDate = $(component).attr('data-upload-date');
-      
+
       DefaultLib.updateLightboxDetailed(ext, newFilePath, newUploader, newUploadDate);
       DefaultLib.blockKeypresses = false;
    }
@@ -288,7 +288,7 @@ DefaultLib.stopShowingLightbox = function()
    // Checking the lightbox is indeed being shown
    if($('#lightbox .lightboxContent').html().length == 0)
       return;
-   
+
    DefaultLib.blockKeypresses = true;
 
    $('#blackScreen').fadeOut(500);
@@ -305,7 +305,7 @@ DefaultLib.stopShowingLightbox = function()
 }
 
 /*
-* Replaces a video block by the embedded video upon click. This function used to be defined in 
+* Replaces a video block by the embedded video upon click. This function used to be defined in
 * topic_interaction.js and ping_interaction.js, but was put in common here.
 *
 * @param string idVideo  ID of the video to show
@@ -316,12 +316,13 @@ DefaultLib.showVideo = function(idVideo, idPost)
 {
    var type = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-type');
    var trueID = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-true-id');
-   
+   var styleToUse = $('.videoThumbnail[data-id-post="' + idPost + '"][data-id-video="' + idVideo + '"]').attr('data-video-style');
+
    if(type === 'youtube')
    {
-      var embedded = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+      var embedded = "<iframe style=\"" + styleToUse + "\" src=\"https://www.youtube.com/embed/";
       embedded += trueID + "\" frameborder=\"0\" allowfullscreen></iframe>";
-      
+
       $('.videoWrapper' + idPost + '-' + idVideo).animate({opacity: 0.0}, 500, function()
       {
          $('.videoWrapper' + idPost + '-' + idVideo).html(embedded);
@@ -377,7 +378,7 @@ DefaultLib.diagnose = function(textstatus, message)
 }
 
 /*
-* Function to check if an AJAX request is being handled. If not, it sets usingAJAX to true and 
+* Function to check if an AJAX request is being handled. If not, it sets usingAJAX to true and
 * returns false, otherwise it returns true.
 *
 * @return boolean  False if there is no AJAX request being handled
@@ -387,19 +388,19 @@ DefaultLib.isHandlingAJAX = function()
 {
    if(DefaultLib.usingAJAX)
       return true;
-   
+
    DefaultLib.usingAJAX = true;
-   
+
    clearTimeout($.data(this, 'timerAJAX'));
    setTimeout(function()
    {
       if(!DefaultLib.usingAJAX)
          return;
-      
+
       $('#bubble').html('<p><i class="icon-general_loading" title="En attente de la réponse..."></i></p>');
       $('#bubble').fadeIn(200);
    }, 300);
-   
+
    return false;
 }
 
@@ -410,7 +411,7 @@ DefaultLib.isHandlingAJAX = function()
 DefaultLib.doneWithAJAX = function()
 {
    DefaultLib.usingAJAX = false;
-   
+
    if($('#bubble').is(":visible"))
    {
       $('#bubble').fadeOut(200, function() {
@@ -435,7 +436,7 @@ $(document).ready(function()
       $('.userMenuToggle').on('click', function() { $('.pingsToggle').prop("checked", false); });
       $('.pingsToggle').on('click', function() { $('.userMenuToggle').prop("checked", false); });
    }
-   
+
    // Show a password
    if($('input[type=password]').length)
    {
@@ -454,13 +455,13 @@ $(document).ready(function()
          }
       });
    }
-   
-   /* 
-   * Code to re-align scroll correctly on page load when they are anchors. The difficulty is that 
-   * images might not be fully loaded at the time, resulting in a bad scroll. To mitigate this, a 
+
+   /*
+   * Code to re-align scroll correctly on page load when they are anchors. The difficulty is that
+   * images might not be fully loaded at the time, resulting in a bad scroll. To mitigate this, a
    * small timeout of 0,5s is being used.
    */
-   
+
    if(window.location.hash && window.location.hash !== '#main')
    {
       setTimeout(function()
@@ -519,7 +520,7 @@ $(function()
             var offset = 0;
             if(target !== 'main')
                offset = 95;
-            
+
             $('html, body').animate({
                scrollTop: target.offset().top - offset
             }, 1000);

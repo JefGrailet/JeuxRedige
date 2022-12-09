@@ -1,10 +1,10 @@
 <?php
 
 /**
-* This library is used to parse a segment taken from the DB (which is already parsed, to some 
-* extent, in HTML) to treat features that should be easy to maintain (in the sense, changing their 
-* HTML/CSS should be easy to do and shouldn't need re-parsing content which is already online). It 
-* is very similar to MessageParsing.lib.php, but has some features less, and some features more 
+* This library is used to parse a segment taken from the DB (which is already parsed, to some
+* extent, in HTML) to treat features that should be easy to maintain (in the sense, changing their
+* HTML/CSS should be easy to do and shouldn't need re-parsing content which is already online). It
+* is very similar to MessageParsing.lib.php, but has some features less, and some features more
 * (due to being designed for articles).
 */
 
@@ -23,8 +23,8 @@ class SegmentParsing
    }
 
    /*
-   * Takes a complete URL (i.e., starting with http:// or https://) and ensures that it belongs to 
-   * the website, either returning the relative path to the file (URL belongs to site), either 
+   * Takes a complete URL (i.e., starting with http:// or https://) and ensures that it belongs to
+   * the website, either returning the relative path to the file (URL belongs to site), either
    * returning an empty string.
    *
    * @param string $URL  The URL
@@ -38,17 +38,17 @@ class SegmentParsing
       {
          return substr($URL, strlen(PathHandler::HTTP_PATH()));
       }
-      
+
       return '';
    }
 
    /*
-   * Parses an input segment to translate format code related to article features (e.g., quoting 
+   * Parses an input segment to translate format code related to article features (e.g., quoting
    * with a background) into HTML.
    *
    * @param string $content  The input segment (partially formatted in HTML)
-   * @param string $index    The index of the segment within a succession of segments to distinct 
-   *                         video elements from one segment to another; by default it is 0 (i.e. 
+   * @param string $index    The index of the segment within a succession of segments to distinct
+   *                         video elements from one segment to another; by default it is 0 (i.e.
    *                         only one segment to display)
    * @return string          The same segment, fully formatted in HTML
    */
@@ -56,14 +56,14 @@ class SegmentParsing
    public static function parse($content, $index = 0)
    {
       $parsed = $content;
-      
+
       // Accents that can be used in: names of uploaded files, miniature comments, emphasized quotes
       $accents = "áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ";
-      
+
       // Videos
       $videos = array();
       preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
-      
+
       for($i = 0; $i < count($videos[1]); $i++)
       {
          if(self::isURL($videos[1][$i]))
@@ -75,26 +75,45 @@ class SegmentParsing
                if($posID !== FALSE)
                {
                   $IDStr = substr($videos[1][$i], $posID + 3, 11);
-                  
+
+                  // Option to pick the width of the video
+                  $customRatio = false;
+                  $customWidth = 0.0;
+                  if(strpos($videos[1][$i], ';') !== FALSE)
+                  {
+                      $exploded = explode(';', $videos[1][$i]);
+                      $tmpFloatVal = floatval($exploded[1]);
+                      if($tmpFloatVal > 0. && $tmpFloatVal <= 1.0)
+                      {
+                          $customRatio = true;
+                          $customWidth = $tmpFloatVal * 100;
+                      }
+                  }
+
                   // In articles, videos are always embedded.
-                  $videoHTML = "<iframe width=\"480\" height=\"270\" src=\"https://www.youtube.com/embed/";
-                  $videoHTML .= $IDStr."\" frameborder=\"0\" allowfullscreen></iframe>\n";
-                  
+                  $videoHTML = "<iframe ";
+                  if($customRatio)
+                     $videoHTML .= "style=\"width: ".$customWidth."%; height: auto; aspect-ratio: 16/9;\" ";
+                  else
+                     $videoHTML .= "width=\"480\" height=\"270\" ";
+                  $videoHTML .= "src=\"https://www.youtube.com/embed/".$IDStr."\" ";
+                  $videoHTML .= "frameborder=\"0\" allowfullscreen></iframe>\n";
+
                   $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
                }
             }
-            
+
             // TODO (for later): DailyMotion, Vimeo, etc.
          }
       }
-      
+
       // Accepted values for floating
       $acceptedFloating = array('left', 'right');
-      
+
       // Image (full image display) parsing
       $images = array();
       preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
-      
+
       for($i = 0; $i < count($images[1]); $i++)
       {
          $link = '';
@@ -104,12 +123,12 @@ class SegmentParsing
          {
             $exploded = explode(';', $images[1][$i]);
             $link = $exploded[0];
-            
+
             /*
-             * Dealing with ratio and float parameters. For flexibility, their order can be switched 
+             * Dealing with ratio and float parameters. For flexibility, their order can be switched
              * (either link;ratio;float or link;float;ratio) as long as the link comes first.
              */
-            
+
             $tmpFloatVal = floatval($exploded[1]);
             if(in_array($exploded[1], $acceptedFloating))
             {
@@ -133,10 +152,10 @@ class SegmentParsing
          }
          else
             $link = $images[1][$i];
-         
+
          $isAnURL = self::isURL($link);
          $relativeLink = self::relativize($link);
-         
+
          if($isAnURL && strlen($relativeLink) == 0)
          {
             $imageHTML = '<img src="'.$link.'" alt="Image externe" />';
@@ -146,22 +165,17 @@ class SegmentParsing
          {
             if($isAnURL && strlen($relativeLink) > 0)
                $link = $relativeLink;
-         
+
             $filePath = PathHandler::WWW_PATH().$link;
             $displayPath = PathHandler::HTTP_PATH().$link;
             $extension = strtolower(substr(strrchr($filePath, '.'), 1));
-            
+
             if(in_array($extension, Utils::UPLOAD_OPTIONS['miniExtensions']) && file_exists($filePath))
             {
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
                   $imageHTML = '<img src="'.$displayPath.'" alt="Upload" ';
-                  if($ratio != 1.0)
-                  {
-                     $newWidth = $dimensions[0] * $ratio;
-                     $imageHTML .= 'width="'.$newWidth.'" ';
-                  }
                   if($floating !== '')
                   {
                      $imageHTML .= 'style="float: '.$floating.'; ';
@@ -171,18 +185,28 @@ class SegmentParsing
                         $imageHTML .= 'margin: 0px 0px 3px 10px;';
                      $imageHTML .= '" ';
                   }
+                  if($ratio != 1.0)
+                  {
+                     $newWidth = $dimensions[0] * $ratio;
+                     $imageHTML .= 'width="'.$newWidth.'" ';
+
+                     // Adds the attributes to view full size upload in lightbox
+                     $imageHTML .= 'class="miniature" data-file="'.$displayPath.'" ';
+                     $imageHTML .= 'data-width="'.$dimensions[0].'" ';
+                     $imageHTML .= 'data-height="'.$dimensions[1].'" ';
+                  }
                   $imageHTML .= '/>';
-                  
+
                   $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
                }
             }
          }
       }
-      
+
       // WebM/MP4 clip (full display) parsing
       $clips = array();
       preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
-      
+
       for($i = 0; $i < count($clips[1]); $i++)
       {
          $link = '';
@@ -191,7 +215,7 @@ class SegmentParsing
          {
             $exploded = explode(';', $clips[1][$i]);
             $link = $exploded[0];
-            
+
             // Floating
             if(in_array($exploded[1], $acceptedFloating))
             {
@@ -203,11 +227,11 @@ class SegmentParsing
 
          if(self::isURL($link))
             $link = self::relativize($link);
-      
+
          $filePath = PathHandler::WWW_PATH().$link;
          $displayPath = PathHandler::HTTP_PATH().$link;
          $extension = strtolower(substr(strrchr($filePath, '.'), 1));
-         
+
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
          {
             $clipHTML = '<video ';
@@ -223,15 +247,15 @@ class SegmentParsing
             $clipHTML .= ' controls>'."\n";
             $clipHTML .= '<source src="'.$displayPath.'" format="video/'.$extension.'">'."\n";
             $clipHTML .= '</video>';
-            
+
             $parsed = str_replace($clips[0][$i], $clipHTML, $parsed);
          }
       }
-      
+
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
       preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
-      
+
       for($i = 0; $i < count($miniatures[1]); $i++)
       {
          $link = '';
@@ -245,14 +269,14 @@ class SegmentParsing
          }
          else
             $link = $miniatures[1][$i];
-         
+
          if(!in_array($floating, $acceptedFloating))
             $floating = '';
-         
+
          // Comment is entirely optional, and is provided in $miniatures[2] and $miniatures[3]
          if(count($miniatures) > 3 && strlen($miniatures[3][$i]) > 0)
             $comment = $miniatures[3][$i];
-         
+
          $isAnURL = self::isURL($link);
          if($isAnURL)
          {
@@ -262,16 +286,16 @@ class SegmentParsing
             else
                continue;
          }
-         
+
          $filePath = PathHandler::WWW_PATH().$link;
          $displayPath = PathHandler::HTTP_PATH().$link;
          if(file_exists($filePath))
          {
             /*
-             * Two possible cases: either the upload as its own miniature, either it doesn't. This is 
+             * Two possible cases: either the upload as its own miniature, either it doesn't. This is
              * verified with the extension of the file.
              */
-            
+
             $ext = strtolower(substr(strrchr($filePath, '.'), 1));
             if(in_array($ext, Utils::UPLOAD_OPTIONS['miniExtensions']))
             {
@@ -323,12 +347,12 @@ class SegmentParsing
                $miniHTML .= '</video>'."\n";
                $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
                $miniHTML .= '</span>'."\n";
-               
+
                $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
             }
          }
       }
-      
+
       // In-article banners to emphasize on some quotes
       $emphasis = array();
       preg_match_all("/\!emphase\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]\[([_a-zA-Z0-9 ".$accents."\/\.\,:;&'\"\?\!\=\-\+\(\)]*)\]/", $parsed, $emphasis);
@@ -336,7 +360,7 @@ class SegmentParsing
       {
          $background = $emphasis[1][$i];
          $quote = $emphasis[2][$i];
-         
+
          $isAnURL = self::isURL($background);
          if($isAnURL)
          {
@@ -346,26 +370,26 @@ class SegmentParsing
             else
                continue;
          }
-         
+
          $filePath = PathHandler::WWW_PATH().$background;
          $displayPath = PathHandler::HTTP_PATH().$background;
          if(file_exists($filePath))
          {
             $backgroundStyle = 'background: url(\''.$displayPath.'\') no-repeat center; background-size: 100%';
-         
+
             $emphasisHTML = "</p>\n<div class=\"emphasis\" style=\"".$backgroundStyle."\">\n";
             $emphasisHTML .= "<div class=\"emphasisWithin\">\n";
             $emphasisHTML .= "<p>\n« ".$quote." »\n</p>\n";
             $emphasisHTML .= "</div>\n</div>\n<p>";
-            
+
             $parsed = str_replace($emphasis[0][$i], $emphasisHTML, $parsed);
          }
       }
-      
+
       // Blocks to emphasize on some text (e.g., conclusion of the article)
       $emphasisBis = array();
       preg_match_all("/\!bloc\[([_a-zA-Z0-9 ".$accents."\/\.\,:;'\"\?\!\=\-\(\)]*)\]\[(.*)\]/Us", $parsed, $emphasisBis);
-      
+
       for($i = 0; $i < count($emphasisBis[1]); $i++)
       {
          $title = $emphasisBis[1][$i];
@@ -375,10 +399,10 @@ class SegmentParsing
          $emphasisHTML .= "<h3>".$title."</h3>\n";
          $emphasisHTML .= "<p>".$content;
          $emphasisHTML .= "</p>\n</div>\n<p>";
-            
+
          $parsed = str_replace($emphasisBis[0][$i], $emphasisHTML, $parsed);
       }
-      
+
       // Summary listing strong/weak points of the discussed subject.
       $summaries = array();
       $singleBlock = "([_a-zA-Z0-9 ".$accents."\/\.\,:;'\?\=\-\(\)\!\"]*)";
@@ -388,7 +412,7 @@ class SegmentParsing
       {
          $goodPointsBase = explode(';', $summaries[1][$i]);
          $badPointsBase = explode(';', $summaries[2][$i]);
-         
+
          // Filters lines (removes \n, \r, <br/>, <br> and <br />)
          $goodPoints = array();
          for($j = 0; $j < count($goodPointsBase); $j++)
@@ -404,7 +428,7 @@ class SegmentParsing
                   array_push($goodPoints, $filtered);
             }
          }
-         
+
          $badPoints = array();
          for($j = 0; $j < count($badPointsBase); $j++)
          {
@@ -419,10 +443,10 @@ class SegmentParsing
                   array_push($badPoints, $filtered);
             }
          }
-         
+
          if(count($goodPoints) == 0 || count($badPoints) == 0)
             continue;
-         
+
          $summaryHTML = "</p>\n<div class=\"summary\">\n";
          $summaryHTML .= "<div class=\"summaryGood\">\n";
          $summaryHTML .= "<h3>Points forts</h3>\n";
@@ -437,17 +461,17 @@ class SegmentParsing
             $summaryHTML .= "<li>".$badPoints[$j]."</li>\n";
          $summaryHTML .= "</ul>\n</div>\n";
          $summaryHTML .= "<div style=\"clear: both;\"></div>\n</div>\n<p>";
-         
+
          $parsed = str_replace($summaries[0][$i], $summaryHTML, $parsed);
       }
-      
+
       // Final step: cleans-up the HTML code from useless tags
       $parsed = preg_replace('(<p>([\s]+)</p>)iUs', '', $parsed);
       $parsed = str_replace("<p><br />\r\n</p>", '', $parsed);
       $parsed = str_replace("<p><br />\n</p>", '', $parsed);
       $parsed = str_replace("<p><br/>", "<p>", $parsed);
       $parsed = str_replace("<p><br />", "<p>", $parsed);
-      
+
       return $parsed;
    }
 }

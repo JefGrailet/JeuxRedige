@@ -1,6 +1,6 @@
-<div id="addHyperlink" class="window" style="display:none;"> 
+<div id="addHyperlink" class="window" style="display:none;">
    <div class="windowTop">
-      <span class="windowTitle"><strong>Ajouter un hyperlien</strong></span> 
+      <span class="windowTitle"><strong>Ajouter un hyperlien</strong></span>
       <span class="closeDialog">Fermer</span>
    </div>
    <div class="windowContent">
@@ -21,9 +21,9 @@
       </p>
    </div>
 </div>
-<div id="addReference" class="window" style="display:none;"> 
+<div id="addReference" class="window" style="display:none;">
    <div class="windowTop">
-      <span class="windowTitle"><strong>Ajouter une référence vers un autre message</strong></span> 
+      <span class="windowTitle"><strong>Ajouter une référence vers un autre message</strong></span>
       <span class="closeDialog">Fermer</span>
    </div>
    <div class="windowContent">
@@ -45,9 +45,9 @@
       </p>
    </div>
 </div>
-<div id="integrateImg" class="window" style="display:none;"> 
+<div id="integrateImg" class="window" style="display:none;">
    <div class="windowTop">
-      <span class="windowTitle"><strong>Intégrer une image ou un clip</strong></span> 
+      <span class="windowTitle"><strong>Intégrer une image ou un clip</strong></span>
       <span class="closeDialog">Fermer</span>
    </div>
    <div class="windowContent">
@@ -95,9 +95,9 @@
       </p>
    </div>
 </div>
-<div id="integrateVideo" class="window" style="display:none;"> 
+<div id="integrateVideo" class="window" style="display:none;">
    <div class="windowTop">
-      <span class="windowTitle"><strong>Intégrer une video</strong></span> 
+      <span class="windowTitle"><strong>Intégrer une vidéo</strong></span>
       <span class="closeDialog">Fermer</span>
    </div>
    <div class="windowContent">
@@ -106,6 +106,18 @@
             <td class="integrateColumn1"><label for="url_video">URL :</label></td>
             <td class="integrateColumn2"><input type="text" name="url_video"/></td>
          </tr>
+         <tr>
+            <td class="integrateColumn1"><label for="format_img">Taille :</label></td>
+            <td class="integrateColumn2">
+               <select name="ratio_video">
+                  <option value="default">Par défaut (480 x 270 pixels)</option>
+                  <option value="0.25">Ajustée à 25% de la largeur</option>
+                  <option value="0.5">Ajustée à 50% de la largeur</option>
+                  <option value="0.75">Ajustée à 75% de la largeur</option>
+                  <option value="1.0">Ajustée à 100% de la largeur</option>
+               </select>
+            </td>
+         </tr>
       </table>
       <p>
          <span class="triggerDialog">Insérer</span>
@@ -113,9 +125,9 @@
       </p>
    </div>
 </div>
-<div id="pickColor" class="window" style="display:none;"> 
+<div id="pickColor" class="window" style="display:none;">
    <div class="windowTop">
-      <span class="windowTitle"><strong>Changer la couleur du texte</strong></span> 
+      <span class="windowTitle"><strong>Changer la couleur du texte</strong></span>
       <span class="closeDialog">Fermer</span>
    </div>
    <div class="windowContent">

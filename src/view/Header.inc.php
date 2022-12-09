@@ -28,7 +28,7 @@ $webRootPath = PathHandler::HTTP_PATH();
       var ConfigurationValues = {};
       ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
       </script>
-      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.6.0.min.js"></script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.6.1.min.js"></script>
       <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<?php echo PathHandler::JS_EXTENSION(); ?>"></script>
 <?php
 
@@ -53,7 +53,7 @@ if($cond1 || $cond2 || $cond3)
 {
    echo '      <script type="text/javascript">'."\n";
    echo '      $(document).ready(function() {'."\n";
-   
+
    // Default navigation mode
    if($cond1)
    {
@@ -69,24 +69,24 @@ if($cond1 || $cond2 || $cond3)
             break;
       }
    }
-   
+
    // Automatic (or quick) preview
    if($cond2)
    {
       echo '         if (typeof PreviewLib !== \'undefined\') { PreviewLib.previewMode(); }'."\n";
    }
-   
+
    /*
-   * Remark for auto preview: previewMode() is defined in both preview.js and 
-   * quick_preview.js, and as these files are mutually exclusive (never invoked at the same 
-   * time), we do not need to check here which kind of preview is activated. The existing 
+   * Remark for auto preview: previewMode() is defined in both preview.js and
+   * quick_preview.js, and as these files are mutually exclusive (never invoked at the same
+   * time), we do not need to check here which kind of preview is activated. The existing
    * previewMode() always matches the current type of preview.
    */
-   
+
    // Automatic refresh
    if($cond3)
       echo '         if (typeof RefreshLib !== \'undefined\') { RefreshLib.changeAutoRefresh(); }'."\n";
-   
+
    echo '      });'."\n";
    echo '      </script>'."\n";
 }
@@ -98,7 +98,7 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    echo '      <meta property="og:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
    echo '      <meta property="og:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
    echo '      <meta property="og:url" content="'.WebpageHandler::$miscParams['meta_url'].'">'."\n";
-   
+
    echo '      <meta property="og:site_name" content="JeuxRédige.be">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";
 }
@@ -107,7 +107,7 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
 echo '      <title>'.$pageTitle.'</title>'."\n";
 ?>
    </head>
- 
+
    <body>
       <div id="blackScreen"></div>
       <div id="bubble"></div>
@@ -204,7 +204,7 @@ if(LoggedUser::isLoggedIn())
                echo '<i class="icon-general_alert" style="color: #e04f5f;"></i> ';
                echo LoggedUser::$messages[$i]['title'];
                break;
-            
+
             case 'ping pong':
                $otherParty = LoggedUser::$messages[$i]['emitter'];
                if($otherParty === LoggedUser::$data['pseudo'])
@@ -212,7 +212,7 @@ if(LoggedUser::isLoggedIn())
                echo '<i class="icon-general_messages" style="color: #25b6d2;"></i> ';
                echo '<a href="'.$webRootPath.'PrivateDiscussion.php?id_ping='.LoggedUser::$messages[$i]['id_ping'].'"><strong>'.$otherParty.' -</strong> '.LoggedUser::$messages[$i]['title'].'</a>';
                break;
-            
+
             // Unknown
             default:
                echo '<i class="icon-general_alert" style="color: #f2b851;"></i> ';
@@ -247,7 +247,7 @@ if(LoggedUser::isLoggedIn())
       echo $padding1.'</ul>'."\n";
       echo '            </div>'."\n";
    }
-   
+
    // User hamburger menu
    echo '            <div class="userMenu">'."\n";
    echo $padding1.'<ul>'."\n";
@@ -318,6 +318,6 @@ else
          </div>
       </div>
       <div id="main">
-<?php 
+<?php
 echo WebpageHandler::$container['start'];
 ?>

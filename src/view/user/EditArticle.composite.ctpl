@@ -3,15 +3,15 @@
    <h1>Structure de l'article</h1>
    {$segmentsList}
    <p>
-   {optional:newSegmentButton||<a class="customButton" href="./NewSegment.php?id_article=[]" style="color: white;">Ajouter un nouveau segment</a> }
+   {optional:newSegmentButton||<a class="customButton" href="./NewSegment.php?id_article=[]" style="color: white;">Ajouter une nouvelle page</a> }
    {optional:truePreviewButton||<a id="fullPreviewButton" class="customButton" href="[]" style="color: white;">Aperçu de l'article complet</a>}
    </p>
 </div>
 {switch:publication||
 publish & <div class="articleEditBlock">
 <h1 id="publiMenuTitle">Publication</h1>
-<p id="publiDetails"><strong>Attention:</strong> une fois l'article publié, il sera visible de tous et sa structure 
-(nombre de segments) ne pourra plus être modifiée. Vous aurez toutefois encore la possibilité de 
+<p id="publiDetails"><strong>Attention:</strong> une fois l'article publié, il sera visible de tous et sa structure
+(nombre de pages) ne pourra plus être modifiée. Vous aurez toutefois encore la possibilité de
 le supprimer.<br/>
 </p>
 <form id="publiRequest" method="post" action="./PublishArticle.php?id_article=[0]">
@@ -25,8 +25,8 @@ published & <div class="articleEditBlock">
 <h1>Administration</h1>
 <p><strong>Vues:</strong> [1]<br/>
 <br/>
-<strong>Attention:</strong> si vous supprimez l'article, l'intégralité de son contenu 
-(segments, uploads, etc.) sera irrécupérable. En revanche, le sujet de réactions associé ne sera 
+<strong>Attention:</strong> si vous supprimez l'article, l'intégralité de son contenu
+(pages, uploads, etc.) sera irrécupérable. En revanche, le sujet de réactions associé ne sera
 pas effacé.<br/>
 </p>
 <form method="post" action="./DeleteArticle.php?id_article=[0]">

@@ -452,7 +452,7 @@ input[type=submit]:active, button:active, .customButton:active
 }
 
 /*
-* Small bubble located at a fixed position on the bottom left; it is notably used for loading times 
+* Small bubble located at a fixed position on the bottom left; it is notably used for loading times
 * with slow AJAX requests and is "on top" of anything when displayed.
 */
 
@@ -477,7 +477,7 @@ input[type=submit]:active, button:active, .customButton:active
 
 /* Rotation of the loading icon */
 
-@keyframes rotate 
+@keyframes rotate
 {
    0%
    {
@@ -585,8 +585,8 @@ input[type=submit]:active, button:active, .customButton:active
 }
 
 /*
-* Added in July 2017 to replace button in dialogs. Indeed, with a HTML5 button, there is a risk 
-* with the Enter key press that some hidden button is "clicked" (e.g., I press enter to submit a 
+* Added in July 2017 to replace button in dialogs. Indeed, with a HTML5 button, there is a risk
+* with the Enter key press that some hidden button is "clicked" (e.g., I press enter to submit a
 * keyword, this also triggers the button in the (hidden) dialog window).
 */
 
@@ -770,9 +770,17 @@ input[type=submit]:active, button:active, .customButton:active
    border: none;
 }
 
-.connectionColumn2 input[type=text], .connectionColumn2 input[type=password], .integrateColumn2 input[type=text], .integrateColumn3 input[type=text], .integrateColumn6 input[type=text], .emoticonDialColumn2 input[type=text]
+.connectionColumn2 input[type=text], .connectionColumn2 input[type=password], .integrateColumn2 input[type=text],
+.integrateColumn3 input[type=text], .integrateColumn6 input[type=text], .emoticonDialColumn2 input[type=text]
 {
    width: 96%;
+}
+
+.integrateColumn2 select
+{
+   width: 98%;
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 0.875rem; /* ~14px */
 }
 
 .integrateColumn3 select
@@ -1125,8 +1133,8 @@ input[type=submit]:active, button:active, .customButton:active
    margin: 5px 10px 5px 10px; /* To not stick to the border of "wallOfText" */
 }
 
-/* 
- * N.B.: there is no margin in h1 because h1 is supposed to stick to the top of a "wallOfText" 
+/*
+ * N.B.: there is no margin in h1 because h1 is supposed to stick to the top of a "wallOfText"
  * block. Moreover, there should be only one h1 per such a block and only at the beginning.
  */
 
@@ -1682,14 +1690,16 @@ textarea
 {
    opacity: 0.7;
    background-color: white;
-   border-radius: 80px;
+   padding: 10px;
+   border-radius: 85px;
 }
 
 .videoThumbnailOverlay i:hover
 {
    opacity: 1.0;
    background-color: white;
-   border-radius: 80px;
+   padding: 10px;
+   border-radius: 85px;
 }
 
 /* Style for clip miniatures */

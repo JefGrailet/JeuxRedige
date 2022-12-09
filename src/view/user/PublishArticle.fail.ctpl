@@ -5,6 +5,6 @@ missingID & L'ID de l'article à publier n'est pas précisé.|
 nonexistingArticle & L'article recherché n'existe pas ou plus.|
 alreadyPublished & cet article est déjà publié.|
 notYours & L'ID ne correspond pas à un de vos articles.|
-noSegment & Vous ne pouvez pas publier un article dépourvu de segment.|
-dbError & Une erreur est survenue lors de la consultation de la base de données. Réessayez plus 
+noSegment & Vous ne pouvez pas publier un article dépourvu de contenu.|
+dbError & Une erreur est survenue lors de la consultation de la base de données. Réessayez plus
 tard ou contactez l'administrateur.}</p>

@@ -1,6 +1,6 @@
 /**
-* This file defines functions specially designed for article edition pages (that is, edition of 
-* the structure of the article). Most of them are similar to other scripts (like uploads.js) but 
+* This file defines functions specially designed for article edition pages (that is, edition of
+* the structure of the article). Most of them are similar to other scripts (like uploads.js) but
 * are slightly adapted to articles.
 */
 
@@ -41,7 +41,7 @@ ArticleEditorLib.update_progress = function(evt, target)
 ArticleEditorLib.loadThumbnail = function()
 {
    var file = $('#uploadThumbnail');
-   
+
    if((file)[0].files.length === 0)
    {
       alert('Sélectionnez un fichier.');
@@ -52,15 +52,15 @@ ArticleEditorLib.loadThumbnail = function()
    var actualFile = (file)[0].files[0];
    var formData = new FormData();
    formData.append("image", actualFile);
-   
+
    // Gets the form to put it back later, after the upload
    var titleWindow = $('#customThumbnail .windowTop').html();
    var form = $('#customThumbnail .windowContent').html();
-   
+
    // "Now loading..."
    $('#customThumbnail .windowTop').html("<span class=\"windowTitle\"><strong>Chargement en cours...</strong></span>");
    $('#customThumbnail .windowContent').html("<p style=\"text-align: center;\">0%</p>");
-   
+
    // Handles an upload progress bar
    var xhr = jQuery.ajaxSettings.xhr(); // Tells jQuery that we expand xhr object
    if(xhr.upload)
@@ -71,14 +71,14 @@ ArticleEditorLib.loadThumbnail = function()
       }, false);
    }
    provider = function() { return xhr; }
-   
+
    if(DefaultLib.isHandlingAJAX())
       return;
-   
+
    // AJAX request sent to the PHP script that will generate the thumbnail
    $.ajax({
    type: 'POST',
-   url: DefaultLib.httpPath + 'ajax/CreateArticleThumbnail.php', 
+   url: DefaultLib.httpPath + 'ajax/CreateArticleThumbnail.php',
    data: formData,
    xhr: provider,
    timeout: 30000,
@@ -118,17 +118,17 @@ ArticleEditorLib.loadThumbnail = function()
          $('#customThumbnail').fadeOut(100);
          $('#customThumbnail .windowTop').html(titleWindow);
          $('#customThumbnail .windowContent').html(form);
-      
+
          // The old image fades away and the new image appears in the reverse way
          $('#previewThumbnail').animate({opacity: 0.0}, 600).promise().done(function()
          {
             $('#previewThumbnail').attr('src', DefaultLib.httpPath + text.substr(2));
             $('#previewThumbnail').animate({opacity: 1.0}, 600);
          });
-         
+
          $('input[name=thumbnail]').attr('value', text);
       }
-      
+
       // Rebinds events
       $('#customThumbnail .triggerDialog').on('click', ArticleEditorLib.loadThumbnail);
       $("#customThumbnail .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
@@ -137,10 +137,10 @@ ArticleEditorLib.loadThumbnail = function()
    {
       DefaultLib.doneWithAJAX();
       DefaultLib.diagnose(textstatus, message);
-      
+
       $('#customThumbnail .windowTop').html(titleWindow);
       $('#customThumbnail .windowContent').html(form);
-      
+
       // Rebinds events
       $('#customThumbnail .triggerDialog').on('click', ArticleEditorLib.loadThumbnail);
       $("#customThumbnail .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
@@ -159,7 +159,7 @@ ArticleEditorLib.loadThumbnail = function()
 ArticleEditorLib.loadHighlight = function()
 {
    var file = $('#uploadHighlight');
-   
+
    if((file)[0].files.length === 0)
    {
       alert('Sélectionnez un fichier.');
@@ -170,15 +170,15 @@ ArticleEditorLib.loadHighlight = function()
    var actualFile = (file)[0].files[0];
    var formData = new FormData();
    formData.append("image", actualFile);
-   
+
    // Gets the form to put it back later, after the upload
    var titleWindow = $('#customHighlight .windowTop').html();
    var form = $('#customHighlight .windowContent').html();
-   
+
    // "Now loading..."
    $('#customHighlight .windowTop').html("<span class=\"windowTitle\"><strong>Chargement en cours...</strong></span>");
    $('#customHighlight .windowContent').html("<p style=\"text-align: center;\">0%</p>");
-   
+
    // Handles an upload progress bar
    var xhr = jQuery.ajaxSettings.xhr(); // Tells jQuery that we expand xhr object
    if(xhr.upload)
@@ -189,14 +189,14 @@ ArticleEditorLib.loadHighlight = function()
       }, false);
    }
    provider = function() { return xhr; }
-   
+
    if(DefaultLib.isHandlingAJAX())
       return;
-   
+
    // AJAX request sent to the PHP script that will generate the highlight picture
    $.ajax({
    type: 'POST',
-   url: DefaultLib.httpPath + 'ajax/CreateArticleHighlight.php', 
+   url: DefaultLib.httpPath + 'ajax/CreateArticleHighlight.php',
    data: formData,
    xhr: provider,
    timeout: 30000,
@@ -238,23 +238,23 @@ ArticleEditorLib.loadHighlight = function()
          $('#customHighlight').fadeOut(100);
          $('#customHighlight .windowTop').html(titleWindow);
          $('#customHighlight .windowContent').html(form);
-      
+
          // The old image fades away and the new image appears in the reverse way
          $('#previewHighlight').animate({opacity: 0.0}, 600).promise().done(function()
          {
             $('#previewHighlight').attr('src', DefaultLib.httpPath + text.substr(2));
             $('#previewHighlight').animate({opacity: 1.0}, 600);
          });
-         
+
          $('input[name=highlight]').attr('value', text);
       }
-      
+
       if(restoreDialog)
       {
          $('#customHighlight .windowTop').html(titleWindow);
          $('#customHighlight .windowContent').html(form);
       }
-      
+
       // Rebinds events
       $('#customHighlight .triggerDialog').on('click', ArticleEditorLib.loadHighlight);
       $("#customHighlight .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
@@ -263,10 +263,10 @@ ArticleEditorLib.loadHighlight = function()
    {
       DefaultLib.doneWithAJAX();
       DefaultLib.diagnose(textstatus, message);
-      
+
       $('#customHighlight .windowTop').html(titleWindow);
       $('#customHighlight .windowContent').html(form);
-      
+
       // Rebinds events
       $('#customHighlight .triggerDialog').on('click', ArticleEditorLib.loadHighlight);
       $("#customHighlight .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
@@ -290,17 +290,17 @@ ArticleEditorLib.moveSegment = function(posToMove, direction)
       segmentID1 = parseInt($('tr[data-pos=' + posToMove + '] .moveUp').attr('data-segment-id'));
    else
       segmentID1 = parseInt($('tr[data-pos=' + posToMove + '] .moveDown').attr('data-segment-id'));
-   
+
    if(segmentID1 == -1)
       return;
-   
+
    var nextPos = -1;
    var segmentID2 = -1;
    if(direction >= 0) // Up
    {
       if(posToMove == 1)
          return;
-      
+
       nextPos = (posToMove - 1);
       if($('tr[data-pos=' + nextPos + '] .moveDown').length)
          segmentID2 = parseInt($('tr[data-pos=' + nextPos + '] .moveDown').attr('data-segment-id'));
@@ -311,51 +311,51 @@ ArticleEditorLib.moveSegment = function(posToMove, direction)
       if($('tr[data-pos=' + nextPos + '] .moveUp').length)
          segmentID2 = parseInt($('tr[data-pos=' + nextPos + '] .moveUp').attr('data-segment-id'));
    }
-   
+
    if(segmentID2 == -1)
       return;
-   
+
    var findID = $('form:first').attr('action').split('?id_article=');
    var articleID = findID[1];
-   
+
    if(DefaultLib.isHandlingAJAX())
       return;
 
    $.ajax({
    type: 'POST',
-   url: DefaultLib.httpPath + 'ajax/SwitchSegments.php', 
+   url: DefaultLib.httpPath + 'ajax/SwitchSegments.php',
    data: 'id_article=' + articleID + '&id_segment1=' + segmentID1 + '&id_segment2=' + segmentID2,
    timeout: 5000,
    success: function(text)
    {
       DefaultLib.doneWithAJAX();
-      
+
       if(text.startsWith("OK\n"))
       {
          var splitted = text.substr(3).split("\nSplit\n");
-         
+
          // Replaces HTML
          $('tr[data-pos=' + posToMove + ']').fadeOut("slow", function()
          {
             $('tr[data-pos=' + posToMove + ']').replaceWith($(splitted[0]));
-            
+
             // Rebinds events
             $('tr[data-pos=' + posToMove + '] .moveUp').on('click', function()  { ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), 1);  });
             $('tr[data-pos=' + posToMove + '] .moveDown').on('click', function() { ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), -1); });
             $('tr[data-pos=' + posToMove + '] .deleteSegment').on('click', function() { ArticleEditorLib.deleteSegment(parseInt($(this).attr('data-segment-id'))); });
-            
+
             $('tr[data-pos=' + posToMove + ']').fadeIn("slow");
          });
-         
+
          $('tr[data-pos=' + nextPos + ']').fadeOut("slow", function()
          {
             $('tr[data-pos=' + nextPos + ']').replaceWith($(splitted[1]));
-            
+
             // Rebinds events
             $('tr[data-pos=' + nextPos + '] .moveUp').on('click', function() { ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), 1); });
             $('tr[data-pos=' + nextPos + '] .moveDown').on('click', function() { ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), -1); });
             $('tr[data-pos=' + nextPos + '] .deleteSegment').on('click', function() { ArticleEditorLib.deleteSegment(parseInt($(this).attr('data-segment-id'))); });
-            
+
             $('tr[data-pos=' + nextPos + ']').fadeIn("slow");
          });
       }
@@ -376,7 +376,7 @@ ArticleEditorLib.moveSegment = function(posToMove, direction)
 
 ArticleEditorLib.deleteSegment = function(IDToRemove)
 {
-   if(!confirm('Êtes-vous sûr ? Le contenu du segment ne pourra être récupéré.'))
+   if(!confirm('Êtes-vous sûr ? Le contenu de la page ne pourra être récupéré.'))
      return;
 
    var posToRemove = -1;
@@ -384,16 +384,16 @@ ArticleEditorLib.deleteSegment = function(IDToRemove)
       posToRemove = parseInt($('.deleteSegment[data-segment-id=' + IDToRemove + ']').closest('tr').attr('data-pos'));
    else
       return;
-   
+
    var findID = $('form:first').attr('action').split('?id_article=');
    var articleID = findID[1];
-   
+
    if(DefaultLib.isHandlingAJAX())
       return;
 
    $.ajax({
    type: 'POST',
-   url: DefaultLib.httpPath + 'ajax/DeleteSegment.php', 
+   url: DefaultLib.httpPath + 'ajax/DeleteSegment.php',
    data: 'id_article=' + articleID + '&id_segment=' + IDToRemove,
    timeout: 5000,
    success: function(text)
@@ -415,7 +415,7 @@ ArticleEditorLib.deleteSegment = function(IDToRemove)
                      $(this).find('td:first').html('<strong>' + curPosStr + '</strong>');
                   }
                });
-               
+
                if($('tr:last .moveDown').length)
                   $('tr:last .moveDown').remove();
             }
@@ -423,7 +423,7 @@ ArticleEditorLib.deleteSegment = function(IDToRemove)
             {
                $('#segmentsList').remove();
                $('#fullPreviewButton').remove();
-               
+
                if($('#publiRequest').length)
                {
                   $('#publiMenuTitle').html('Suppression');
@@ -436,7 +436,7 @@ ArticleEditorLib.deleteSegment = function(IDToRemove)
       }
       else
          alert('Une erreur est survenue lors de la mise à jour. Réessayez plus tard ou prévenez un administrateur.');
-      
+
       DefaultLib.doneWithAJAX();
    },
    error: function(xmlhttprequest, textstatus, message)
@@ -453,20 +453,20 @@ $(document).ready(function()
 {
    $('#customThumbnail .triggerDialog').on('click', ArticleEditorLib.loadThumbnail);
    $("#customThumbnail .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
-   
+
    $('#customHighlight .triggerDialog').on('click', ArticleEditorLib.loadHighlight);
    $("#customHighlight .closeDialog").on('click', function () { DefaultLib.closeDialog(); });
-   
+
    $('.moveUp').on('click', function()
    {
       ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), 1);
    });
-   
+
    $('.moveDown').on('click', function()
    {
       ArticleEditorLib.moveSegment(parseInt($(this).closest('tr').attr('data-pos')), -1);
    });
-   
+
    $('.deleteSegment').on('click', function()
    {
       ArticleEditorLib.deleteSegment(parseInt($(this).attr('data-segment-id')));

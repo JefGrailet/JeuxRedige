@@ -98,6 +98,13 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    echo '      <meta property="og:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
    echo '      <meta property="og:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
    echo '      <meta property="og:url" content="'.WebpageHandler::$miscParams['meta_url'].'">'."\n";
+   
+   // Twitter
+   echo '      <meta name="twitter:card" content="summary_large_image" />'."\n";
+   echo '      <meta name="twitter:site" content="JeuxRédige.be">'."\n";
+   echo '      <meta name="twitter:title" content="'.WebpageHandler::$miscParams['meta_title'].'">'."\n";
+   echo '      <meta name="twitter:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
+   echo '      <meta name="twitter:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
 
    echo '      <meta property="og:site_name" content="JeuxRédige.be">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";

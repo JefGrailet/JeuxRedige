@@ -1,5 +1,5 @@
 /*
- * Icons were selected and downloaded from IconMonstr. This CSS file was generated with IcoMoon.
+ * Most icons were selected and downloaded from IconMonstr. This CSS file was generated with IcoMoon.
  *
  * https://iconmonstr.com
  * https://icomoon.io
@@ -7,11 +7,11 @@
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?d923ir');
-  src:  url('fonts/icomoon.eot?d923ir#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?d923ir') format('truetype'),
-    url('fonts/icomoon.woff?d923ir') format('woff'),
-    url('fonts/icomoon.svg?d923ir#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?cu0jdf');
+  src:  url('fonts/icomoon.eot?cu0jdf#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?cu0jdf') format('truetype'),
+    url('fonts/icomoon.woff?cu0jdf') format('woff'),
+    url('fonts/icomoon.svg?cu0jdf#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -224,21 +224,24 @@
 .icon-nav_static:before {
   content: "\e93f";
 }
-.icon-topic_lock:before {
+.icon-social_twitter:before {
   content: "\e940";
 }
-.icon-topic_locked:before {
+.icon-topic_lock:before {
   content: "\e941";
 }
-.icon-topic_popular:before {
+.icon-topic_locked:before {
   content: "\e942";
 }
-.icon-topic_unlock:before {
+.icon-topic_popular:before {
   content: "\e943";
 }
-.icon-topic_unpopular:before {
+.icon-topic_unlock:before {
   content: "\e944";
 }
-.icon-topic_uploads:before {
+.icon-topic_unpopular:before {
   content: "\e945";
+}
+.icon-topic_uploads:before {
+  content: "\e946";
 }

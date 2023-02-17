@@ -228,6 +228,20 @@ class MessageParsing
                         $imageHTML .= 'margin: 5px 10px 5px 0px;';
                      else
                         $imageHTML .= 'margin: 5px 0px 5px 10px;';
+                     // Additionnal adjustement: padding to align with paragraph, depending on width
+                     if($ratio != 1.0)
+                     {
+                        $newWidth = $dimensions[0] * $ratio;
+                        if($newWidth > 200)
+                        {
+                           if($newWidth < 250)
+                              $imageHTML .= ' padding-top: 5px;';
+                           else if($newWidth < 350)
+                              $imageHTML .= ' padding-top: 10px;';
+                           else
+                              $imageHTML .= ' padding-top: 25px;';
+                        }
+                     }
                      $imageHTML .= '" ';
                   }
                   if($ratio != 1.0)
@@ -358,7 +372,7 @@ class MessageParsing
                            $miniHTML .= 'margin: 5px 10px 5px 0px;';
                         else
                            $miniHTML .= 'margin: 5px 0px 5px 10px;';
-                        $miniHTML .= '" ';
+                        $miniHTML .= ' padding-top: 2px;" ';
                      }
                      $miniHTML .= 'data-file="'.$displayPath.'" data-width="'.$dimensions[0].'" ';
                      if(strlen($comment) > 0)

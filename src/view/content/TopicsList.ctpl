@@ -1,11 +1,11 @@
 <div class="centeredContent">
-   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+   {pages:pageConfig||<p style="margin: 25px 0px 25px 0px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
 </div>
 <div id="thumbnailsPool">
    {$thumbnails}
 </div>
 <div class="centeredContent">
-   {pages:pageConfig||<p>Pages : |</p><br/><br/>|<strong>[]</strong>|none|...}
+   {pages:pageConfig||<p style="margin-bottom: 42px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
    {switch:wholeList||
 link & <a href="./Forum.php" class="prettyLink">Tous les sujets</a>&nbsp; |
 viewed & <span class="prettyText">Tous les sujets</span>&nbsp; }

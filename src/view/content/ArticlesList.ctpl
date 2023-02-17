@@ -1,10 +1,11 @@
 <div class="centeredContent">
-   {pages:pageConfig||<p>Pages : |</p>|<strong>[]</strong>|none|...}
+   {pages:pageConfig||<p style="margin-top: 25px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
 </div>
 <div id="articlesPool">
    {$thumbnails}
 </div>
 <div class="centeredContent">
+   {pages:pageConfig||<p style="margin-bottom: 42px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
    {switch:wholeList||
 link & <a href="./Articles.php" class="prettyLink">Tous les articles</a>&nbsp; |
 viewed & <span class="prettyText">Tous les articles</span>&nbsp; }

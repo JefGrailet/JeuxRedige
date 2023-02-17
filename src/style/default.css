@@ -1092,7 +1092,7 @@ input[type=submit]:active, button:active, .customButton:active
    color: white;
    background-color: black; /* Default */
    border-radius: 15px;
-   padding: 7px 9px;
+   padding: 7px 9px 5px 9px;
    margin-right: 3px;
    margin-bottom: 5px;
    box-shadow: 0px 0px 3px 0px #646464;

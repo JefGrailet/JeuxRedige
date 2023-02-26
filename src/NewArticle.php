@@ -40,8 +40,8 @@ $dialogs = '';
 if(!TemplateEngine::hasFailed($dialogTpl))
    $dialogs = $dialogTpl;
 
-$validTypes = array('review', 'preview', 'opinion'); // Valid types of articles
-$typeChoices = 'review,Critique|preview,Aperçu|opinion,Humeur|chronicle,Chronique'; // Types of articles, formatted for <select>
+$validTypes = array('review', 'preview', 'opinion', 'chronicle', 'guide'); // Valid types of articles
+$typeChoices = 'review,Critique|preview,Aperçu|opinion,Humeur|chronicle,Chronique|guide,Guide'; // Types of articles, formatted for <select>
 
 $currentThumbnail = Buffer::getArticleThumbnail();
 $currentThumbnailValue = '';

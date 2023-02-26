@@ -42,7 +42,12 @@ class ArticleThumbnailIR
       'subtitle' => $data['subtitle']);
       
       // Type of article
-      $typeTranslation = array('review' => 'Critique', 'preview' => 'Aperçu', 'opinion' => 'Humeur', 'chronicle' => 'Chronique');
+      $typeTranslation = array('review' => 'Critique', 
+      'preview' => 'Aperçu', 
+      'opinion' => 'Humeur', 
+      'chronicle' => 'Chronique', 
+      'guide' => 'Guide');
+      
       if(in_array($data['type'], array_keys($typeTranslation)))
       {
          $output['type'] = ' '.$data['type'];
@@ -53,13 +58,24 @@ class ArticleThumbnailIR
          $output['typeTranslated'] = 'Article'; // Default (in case)
       }
       
-      // Extra details: publication state (edition side) or author (for published content)
+      /* 
+       * Extra details: publication state (author's side) or author (for published content or 
+       * editorial review).
+       */
+      
       if($edition)
       {
-         if($data['date_publication'] !== '1970-01-01 00:00:00')
-            $output['extra'] = 'state|| published|Publié';
+         if($showAuthor)
+         {
+            $output['extra'] = 'author||'.$data['pseudo'];
+         }
          else
-            $output['extra'] = 'state|| wip|En cours';
+         {
+            if($data['date_publication'] !== '1970-01-01 00:00:00')
+               $output['extra'] = 'state|| published|Publié';
+            else
+               $output['extra'] = 'state|| wip|En cours';
+         }
       }
       else
       {

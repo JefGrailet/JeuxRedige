@@ -17,7 +17,7 @@ $nbArticles = 0;
 $articles = null;
 try
 {
-   $nbArticles = Article::countPublishedArticles();
+   $nbArticles = Article::countArticles(); // Counts published articles by default
    if($nbArticles == 0)
    {
       $errorTplInput = array('error' => 'noArticle', 'wholeList' => 'viewed', 'research' => 'link');
@@ -37,7 +37,7 @@ try
          $firstArticle = ($getPage - 1) * WebpageHandler::$miscParams['articles_per_page'];
       }
    }
-   $articles = Article::getPublishedArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page']);
+   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page']);
 }
 catch(Exception $e)
 {

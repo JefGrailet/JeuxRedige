@@ -98,11 +98,9 @@ body
    height: 60px;
 }
 
+/* For other variants, see the charter_*.css files. */
+
 .mainMenuLogo.default { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white.svg'); }
-.mainMenuLogo.chronicle { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_chronicle.svg'); }
-.mainMenuLogo.opinion { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_opinion.svg'); }
-.mainMenuLogo.preview { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_preview.svg'); }
-.mainMenuLogo.review { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_review.svg'); }
 
 /* Upper menu links */
 
@@ -306,6 +304,11 @@ body
 #userCorner li a:hover
 {
    color: #c8c8c8;
+}
+
+#userCorner li .adminLink
+{
+   color: #91c148;
 }
 
 /* Style for the connection form */
@@ -1505,6 +1508,8 @@ textarea
 .articleThumbnailType.preview:hover, .articleHighlightDetails.preview:hover { background-color: rgba(52, 177, 229, 1.0); }
 .articleThumbnailType.review, .articleHighlightDetails.review { background-color: rgba(205, 48, 30, 0.8); }
 .articleThumbnailType.review:hover, .articleHighlightDetails.review:hover { background-color: rgba(205, 48, 30, 1.0); }
+.articleThumbnailType.guide, .articleHighlightDetails.guide { background-color: rgba(221, 147, 2, 0.8); }
+.articleThumbnailType.guide:hover, .articleHighlightDetails.guide:hover { background-color: rgba(221, 147, 2, 1.0); }
 
 .articleThumbnailExtra.published { background-color: rgba(145, 193, 72, 0.8); }
 .articleThumbnailExtra.published:hover { background-color: rgba(145, 193, 72, 1.0); }

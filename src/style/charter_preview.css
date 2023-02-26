@@ -3,6 +3,11 @@
 * associated to an opinion (2021 graphical charter).
 */
 
+.mainMenuLogo.preview
+{
+   background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_preview.svg');
+}
+
 .segmentHeader .segmentHeaderBottom
 {
    background-color: rgba(52, 177, 229, 0.75);

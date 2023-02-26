@@ -60,7 +60,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // Restricted view
    if(!$article->isPublished())
    {
-      if((!LoggedUser::isLoggedIn()) || $article->get('pseudo') !== LoggedUser::$data['pseudo'])
+      if((!LoggedUser::isLoggedIn()) || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
       {
          $tplInput = array('error' => 'restrictedAccess');
          $tpl = TemplateEngine::parse('view/content/Article.fail.ctpl', $tplInput);

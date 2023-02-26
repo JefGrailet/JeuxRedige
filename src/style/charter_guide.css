@@ -1,26 +1,26 @@
 /**
 * This style sheet overrides some properties of article.css to make it comply with the color 
-* associated to a chronicle (2021 graphical charter).
+* associated to a review (2021 graphical charter).
 */
 
-.mainMenuLogo.chronicle
+.mainMenuLogo.guide
 {
-   background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_chronicle.svg');
+   background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_guide.svg');
 }
 
 .segmentHeader .segmentHeaderBottom
 {
-   background-color: rgba(153, 54, 139, 0.75);
+   background-color: rgba(221, 147, 2, 0.75);
 }
 
 .segmentHeader .segmentHeaderBottom:hover
 {
-   background-color: rgba(153, 54, 139, 0.85);
+   background-color: rgba(221, 147, 2, 0.85);
 }
 
 .segmentBody p a
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 .segmentBody p a:hover
@@ -30,12 +30,12 @@
 
 .segmentBody h2
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 .segmentBody h2 a
 {
-   color: #black;
+   color: black;
 }
 
 .segmentBody h2 a:hover
@@ -45,17 +45,17 @@
 
 .segmentBody .quotation, .segmentBody .spoiler
 {
-   border-left: 2px solid #99368b;
+   border-left: 2px solid #dd9302;
 }
 
 .segmentBody .emphasisText
 {
-   background-color: #99368b;
+   background-color: #dd9302;
 }
 
 .segmentBody .emphasisText p a
 {
-   color: #7BD1F6; /* Slightly lighter than the #34b1e5 from the charter (better contrast) */
+   color: #FFC858; /* N.B.: not part of graphical charter, but better contrast on the background */
 }
 
 .segmentBody .emphasisText p a:hover
@@ -65,17 +65,17 @@
 
 .segmentBody .summary h3
 {
-   background-color: #99368b;
+   background-color: #dd9302;
 }
 
 .segmentBody li:before, .summaryGood li:before, .summaryBad li:before
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 #footerDetails p a:hover, #footerDetails p .editSegment:hover
@@ -85,7 +85,7 @@
 
 #commentsSlider #commentsHeader p a
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 #commentsSlider #commentsHeader p a:hover
@@ -95,12 +95,12 @@
 
 .commentText .commentTextTop .commentAuthor a:hover
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 .commentText a
 {
-   color: #99368b;
+   color: #dd9302;
 }
 
 .commentText a:hover
@@ -110,5 +110,5 @@
 
 .commentText .quotation, .commentText .spoiler
 {
-   border-left: 2px solid #99368b;
+   border-left: 2px solid #dd9302;
 }

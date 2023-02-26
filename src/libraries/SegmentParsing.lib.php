@@ -112,7 +112,7 @@ class SegmentParsing
 
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
+      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\]/", $parsed, $images);
 
       for($i = 0; $i < count($images[1]); $i++)
       {
@@ -219,7 +219,7 @@ class SegmentParsing
 
       // WebM/MP4 clip (full display) parsing
       $clips = array();
-      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
+      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\]/", $parsed, $clips);
 
       for($i = 0; $i < count($clips[1]); $i++)
       {
@@ -268,7 +268,7 @@ class SegmentParsing
 
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
-      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
+      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
 
       for($i = 0; $i < count($miniatures[1]); $i++)
       {
@@ -369,7 +369,7 @@ class SegmentParsing
 
       // In-article banners to emphasize on some quotes
       $emphasis = array();
-      preg_match_all("/\!emphase\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]\[([_a-zA-Z0-9 ".$accents."\/\.\,:;&'\"\?\!\=\-\+\(\)]*)\]/", $parsed, $emphasis);
+      preg_match_all("/\!emphase\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\]\[([_a-zA-Z0-9 ".$accents."\/\.\,:;&'\"\?\!\=\-\+\(\)]*)\]/", $parsed, $emphasis);
       for($i = 0; $i < count($emphasis[1]); $i++)
       {
          $background = $emphasis[1][$i];

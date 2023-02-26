@@ -3,6 +3,11 @@
 * associated to a review (2021 graphical charter).
 */
 
+.mainMenuLogo.review 
+{
+   background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white_review.svg');
+}
+
 .segmentHeader .segmentHeaderBottom
 {
    background-color: rgba(205, 48, 30, 0.75);

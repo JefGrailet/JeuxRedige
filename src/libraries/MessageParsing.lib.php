@@ -157,7 +157,7 @@ class MessageParsing
 
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $images);
+      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\]/", $parsed, $images);
 
       for($i = 0; $i < count($images[1]); $i++)
       {
@@ -264,7 +264,7 @@ class MessageParsing
 
       // WebM/MP4 clip (full display) parsing
       $clips = array();
-      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\]/", $parsed, $clips);
+      preg_match_all("/\!clip\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\]/", $parsed, $clips);
 
       for($i = 0; $i < count($clips[1]); $i++)
       {
@@ -313,7 +313,7 @@ class MessageParsing
 
       // Images/clips which can be opened in the lightbox (in addition with regular display)
       $miniatures = array();
-      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
+      preg_match_all("/\!mini\[([_a-zA-Z0-9".$accents."\.\\/;:\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $miniatures);
 
       for($i = 0; $i < count($miniatures[1]); $i++)
       {

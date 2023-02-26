@@ -52,8 +52,8 @@ $headerTplInput = GameHeaderIR::process($game->getAll(), $aliases);
 $headerTpl = TemplateEngine::parse('view/content/GameHeader.ctpl', $headerTplInput);
 if(!TemplateEngine::hasFailed($headerTpl))
    $finalTplInput['header'] = $headerTpl;
-   else
-      WebpageHandler::wrap($headerTpl, 'Une erreur est survenue lors de la lecture du jeu');
+else
+   WebpageHandler::wrap($headerTpl, 'Une erreur est survenue lors de la lecture du jeu');
 
 // Finds which display the user has chosen to see what libraries are relevant
 $displayMode = 'default';

@@ -538,15 +538,22 @@ class Article
    }
    
    /*
-   * Static method to count the total amount of published articles.
+   * Static method to count the total number of (un)published articles. By default, this method 
+   * counts how many published articles there are, but an optional boolean parameter can be used 
+   * to rather count the number of unpublished articles (useful for editorial purposes).
    *
-   * @return integer    The total amount of published articles recorded in the database
-   * @throws Exception  If anything goes wrong while consulting the DB (SQL error provided)
+   * @param boolean $published  Set to false for unpublished articles (optional; true by default)
+   * @return integer            The total number of articles (published or unpublished) in the DB
+   * @throws Exception          If anything goes wrong while consulting the DB (SQL error provided)
    */
    
-   public static function countPublishedArticles()
+   public static function countArticles($published = true)
    {
-      $sql = 'SELECT COUNT(*) AS nb FROM articles WHERE date_publication > \'1970-01-01 00:00:00\'';
+      $sql = 'SELECT COUNT(*) AS nb FROM articles WHERE ';
+      if ($published)
+         $sql .= 'date_publication > \'1970-01-01 00:00:00\'';
+      else
+         $sql .= 'date_publication = \'1970-01-01 00:00:00\'';
       $res = Database::hardRead($sql, true);
       
       if(count($res) == 3)
@@ -577,7 +584,43 @@ class Article
    }
    
    /*
-   * Static method to obtain a set of published articles. Articles are listed by publication date.
+   * Static method to obtain a set of articles. Like countArticles(), the method can be used to 
+   * retrieve either published or unpublished articles via an optional parameter (by default, it 
+   * seeks published articles). Articles are listed by most recent publication date when published 
+   * and by most recent creation date otherwise.
+   *
+   * @param number $first       The index of the first article of the set
+   * @param number $nb          The maximum amount of articles to list
+   * @param boolean $published  Set to false for unpublished articles (optional; true by default)
+   * @return mixed[]            The articles that were found
+   * @throws Exception          If articles could not be found (SQL error is provided)
+   */
+
+   public static function getArticles($first, $nb, $published = true)
+   {
+      $sql = 'SELECT * FROM articles ';
+      if($published)
+      {
+         $sql .= 'WHERE date_publication > \'1970-01-01 00:00:00\' ';
+         $sql .= 'ORDER BY date_publication DESC ';
+      }
+      else
+      {
+         $sql .= 'WHERE date_publication = \'1970-01-01 00:00:00\' ';
+         $sql .= 'ORDER BY date_creation DESC ';
+      }
+      $sql .= 'LIMIT '.$first.','.$nb;
+      $res = Database::hardRead($sql);
+      
+      if(!is_array($res[0]) && count($res) == 3)
+         throw new Exception('Articles could not be listed: '. $res[2]);
+      
+      return $res;
+   }
+   
+   /*
+   * Same as above but for unpublished articles. Articles are then ordered by the date at which 
+   * they were created. Used for editorial features.
    *
    * @param number $first  The index of the first article of the set
    * @param number $nb     The maximum amount of articles to list
@@ -585,11 +628,11 @@ class Article
    * @throws Exception     If articles could not be found (SQL error is provided)
    */
 
-   public static function getPublishedArticles($first, $nb)
+   public static function getUnpublishedArticles($first, $nb)
    {
       $sql = 'SELECT * FROM articles 
-      WHERE date_publication > \'1970-01-01 00:00:00\' 
-      ORDER BY date_publication DESC 
+      WHERE date_publication=\'1970-01-01 00:00:00\' 
+      ORDER BY date_creation DESC 
       LIMIT '.$first.','.$nb;
       $res = Database::hardRead($sql);
       

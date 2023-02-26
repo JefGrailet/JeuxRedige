@@ -60,7 +60,7 @@ class GameHeaderIR
       $output['hardware'] = $hardwareString;
 
       $aliasesString = '';
-      if($aliases != NULL && is_array($aliases))
+      if($aliases != NULL && is_array($aliases) && count($aliases) > 0)
       {
          $aliasesString = '<strong>Alias:</strong> ';
          for($i = 0; $i < count($aliases); $i++)

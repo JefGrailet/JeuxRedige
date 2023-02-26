@@ -8,8 +8,10 @@
    {pages:pageConfig||<p style="margin-bottom: 42px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
    {switch:wholeList||
 link & <a href="./Articles.php" class="prettyLink">Tous les articles</a>&nbsp; |
-viewed & <span class="prettyText">Tous les articles</span>&nbsp; }
+viewed & <span class="prettyText">Tous les articles</span>&nbsp; |
+none & }
    {switch:research||
 link & <a href="./SearchArticles.php" class="prettyLink">Filtrer</a>|
-viewed & <span class="prettyText">Filtrer</span>}
+viewed & <span class="prettyText">Filtrer</span>|
+none & }
 </div>

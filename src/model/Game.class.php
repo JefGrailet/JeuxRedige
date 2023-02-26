@@ -117,16 +117,20 @@ class Game
    
    public function getAliases()
    {
-      $res = Database::secureRead("SELECT tag FROM map_aliases WHERE alias=? ORDER BY tag", 
-                        array($this->_data['tag']));
+      $sql = "SELECT tag FROM map_aliases WHERE alias=? ORDER BY tag";
+      $res = Database::secureRead($sql, array($this->_data['tag']));
       
       if($res != NULL && !is_array($res[0]) && sizeof($res) == 3)
          throw new Exception('Cannot retrieve aliases: '. $res[2]);
       else if($res == NULL)
          return NULL;
       
-      // Simplification : Database::secureRead() result is a 2D array; it is converted into a linear one.
+      // No alias: returns an empty array
       $result = array();
+      if(count($res) == 1 && strlen($res[0]['tag']) == 0)
+         return $result; 
+      
+      // Simplification : Database::secureRead() result is a 2D array; it is converted into a linear one.
       for($i = 0; $i < count($res); $i++)
          array_push($result, $res[$i]['tag']);
       

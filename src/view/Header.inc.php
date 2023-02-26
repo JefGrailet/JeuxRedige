@@ -128,7 +128,7 @@ if(isset($dialogs) && !empty($dialogs))
 
 // Logo (varies for articles)
 $selectedLogo = 'default';
-$logoVariants = array('chronicle', 'opinion', 'preview', 'review'); // N.B.: could be moved in $miscParams
+$logoVariants = array('chronicle', 'opinion', 'preview', 'review', 'guide'); // N.B.: could be moved in $miscParams
 if(in_array(WebpageHandler::$miscParams['webdesign_variant'], $logoVariants))
    $selectedLogo = WebpageHandler::$miscParams['webdesign_variant'];
 
@@ -272,8 +272,9 @@ if(LoggedUser::isLoggedIn())
    echo $padding2.'<li><i class="icon-menu_invite"></i> <a href="'.$webRootPath.'Sponsorship.php">Inviter un ami</a></li>'."\n";
    if($adminTools)
    {
-      echo $padding2.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php">Utilisateurs</a></li>'."\n";
-      echo $padding2.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php">Alertes</a></li>'."\n";
+      echo $padding2.'<li><i class="icon-menu_articles"></i> <a href="'.$webRootPath.'UnpublishedArticles.php" class="adminLink">Articles en cours</a></li>'."\n";
+      echo $padding2.'<li><i class="icon-menu_users"></i> <a href="'.$webRootPath.'Users.php" class="adminLink">Utilisateurs</a></li>'."\n";
+      echo $padding2.'<li><i class="icon-general_alert"></i> <a href="'.$webRootPath.'Alerts.php" class="adminLink">Alertes</a></li>'."\n";
    }
    echo $padding2.'<li></li>'; // Spacing out the log out link
    echo $padding2.'<li></li>'; // Ditto

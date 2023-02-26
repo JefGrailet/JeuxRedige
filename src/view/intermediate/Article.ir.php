@@ -124,7 +124,8 @@ class ArticleIR
       $typeTranslation = array('review' => 'Critique rédigée', 
       'preview' => 'Aperçu rédigé', 
       'opinion' => 'Humeur rédigée',
-      'chronicle' => 'Chronique rédigée');
+      'chronicle' => 'Chronique rédigée',
+      'guide' => 'Guide rédigé');
       
       // Details about the author
       $lastModification = Utils::toTimestamp($article->get('date_last_modifications'));

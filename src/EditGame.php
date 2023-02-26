@@ -148,7 +148,7 @@ if(!empty($_GET['game']))
          else
          {
             $formInput[$inputList[$i]] = Utils::secure($_POST[$inputList[$i]]);
-            if($formInput[$inputList[$i]] === '')
+            if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'aliases')
                $fullyCompleted = false;
          }
       }

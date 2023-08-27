@@ -121,13 +121,19 @@ class ArticleIR
          $output['keywords'] = $listKeywords;
       }
       
-      $typeTranslation = array('review' => 'Critique rédigée', 
-      'preview' => 'Aperçu rédigé', 
-      'opinion' => 'Humeur rédigée',
-      'chronicle' => 'Chronique rédigée',
-      'guide' => 'Guide rédigé');
+      // Formats categories for later display
+      $typeTranslation = array();
+      $artCategories = array_keys(Utils::ARTICLES_CATEGORIES);
+      for ($i = 0; $i < count($artCategories); $i++)
+      {
+         $key = $artCategories[$i];
+         $typeTranslation[$key] = Utils::ARTICLES_CATEGORIES[$key][0];
+         $typeTranslation[$key] .= ' rédigé';
+         if(Utils::ARTICLES_CATEGORIES[$key][1] == 'f')
+            $typeTranslation[$key] .= 'e';
+      }
       
-      // Details about the author
+      // Details about the author, date, etc.
       $lastModification = Utils::toTimestamp($article->get('date_last_modifications'));
       $details = $typeTranslation[$article->get('type')].' par <a href="'.PathHandler::userURL($article->get('pseudo')).'">';
       $details .= $article->get('pseudo')."</a><br/>\n";

@@ -31,12 +31,15 @@ if(!Utils::check(LoggedUser::$data['can_edit_all_posts']))
 WebpageHandler::addCSS('pool');
 WebpageHandler::noContainer();
 
+ // For now, cannot browse unpublished articles based on category (may be easily added later)
+$artCategory = '';
+
 // Gets the articles
 $nbArticles = 0;
 $articles = null;
 try
 {
-   $nbArticles = Article::countArticles($published = false); // Counts published articles by default
+   $nbArticles = Article::countArticles($artCategory, false);
    if($nbArticles == 0)
    {
       $errorTplInput = array('error' => 'noArticle', 'wholeList' => 'viewed', 'research' => 'link');
@@ -56,7 +59,7 @@ try
          $firstArticle = ($getPage - 1) * WebpageHandler::$miscParams['articles_per_page'];
       }
    }
-   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page'], $published = false);
+   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page'], $artCategory, false);
 }
 catch(Exception $e)
 {

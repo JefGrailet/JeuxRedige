@@ -21,6 +21,8 @@ class Tag
    
    public function __construct($arg)
    {
+      $arg = ucfirst($arg); // Enforces first char to be in uppercase
+      
       $res = Database::secureWrite("INSERT INTO tags VALUES(:tag)", array('tag' => $arg));
       
       if($res != NULL && strstr($res[2], '\'PRIMARY\'') == FALSE)

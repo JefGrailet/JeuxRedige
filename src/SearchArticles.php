@@ -18,6 +18,7 @@ WebpageHandler::noContainer();
 
 // Input for the form
 $formData = array('strict' => '',
+'article_category' => Utils::makeCategoryChoice(true), 
 'keywordsList' => '',
 'keywords' => '',
 'permanentLink' => '',
@@ -46,6 +47,20 @@ if(!empty($_POST['sent']) && strlen($getKeywords) == 0)
 // Will search topics and display them
 else if($gotInput)
 {
+   // Has a specific (and valid) category been selected ?
+   $artCategory = ''; // Empty string -> all categories blended together
+   if(!empty($_GET['article_category']) || !empty($_POST['article_category']))
+   {
+      if (!empty($_GET['article_category']))
+         $artCategory = Utils::secure($_GET['article_category']);
+      else
+         $artCategory = Utils::secure($_POST['article_category']);
+      if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
+         $artCategory = '';
+      else
+         $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
+   }
+   
    // Option for strict research (i.e. all keywords are found) which can be deactivated
    $strict = false;
    if(!empty($_POST['strict']) || !empty($_GET['strict']))
@@ -74,7 +89,7 @@ else if($gotInput)
    
    try
    {
-      $nbResults = Article::countArticlesWithKeywords($keywordsArr, $strict);
+      $nbResults = Article::countArticlesWithKeywords($keywordsArr, $artCategory, $strict);
       if($nbResults == 0)
       {
          $formData['specialMessage'] = 'noResult';
@@ -95,7 +110,7 @@ else if($gotInput)
             $firstArt = ($getPage - 1) * $perPage;
          }
       }
-      $results = Article::getArticlesWithKeywords($keywordsArr, $firstArt, $perPage, $strict);
+      $results = Article::getArticlesWithKeywords($keywordsArr, $firstArt, $perPage, $artCategory, $strict);
       
       // Now, we can render the thumbnails of the current page
       $thumbnails = '';
@@ -115,17 +130,20 @@ else if($gotInput)
       
       // Permanent link to this research
       $permaLink = './SearchArticles.php?keywords='.urlencode($formData['keywords']);
+      if(strlen($artCategory) > 0)
+         $permaLink .= '&article_category='.$artCategory;
       if($strict)
          $permaLink .= '&strict=ok';
-      $permaLink .= '&page=';
-      $truePermaLink = $permaLink.$currentPage;
+      $truePermaLink = $permaLink.'&page='.$currentPage;
       $truePermaLink = '<a href="'.$truePermaLink.'">Lien permanent</a>'."\n";
       
-      // HTML code (with page configuration) containing the results
+      // Page configuration
       $pageConfig = $perPage.'|'.$nbResults.'|'.$currentPage;
-      $pageConfig .= '|'.$permaLink.'[]';
+      $pageConfig .= '|'.$permaLink.'&page=[]';
+      
+      // HTML code; colored links nullified here since article category is selected with the form
       $contInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails, 
-                         'wholeList' => 'link', 'research' => 'viewed');
+                         'categoriesLinks' => '', 'research' => 'goBack');
       $content = TemplateEngine::parse('view/content/ArticlesList.ctpl', $contInput);
       
       // Concats that with the form (+ the current input)

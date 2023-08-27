@@ -42,6 +42,19 @@ if(isset($_POST['keyword']) && !empty($_POST['keyword']))
                $output .= '<li><a href="javascript:void(0)" data-kindex="'.$i.'" onclick="javascript:KeywordsLib.addKeyword(\'';
             $output .= addslashes($results[$i]).'\')">'.$results[$i].'</a></li>'."\n";
          }
+         
+         /*
+          * Also allows to create new keywords if aliases/existing keywords are prefixes to some 
+          * provided string (27/08/2023).
+          */
+         
+         if(!empty($_POST['creation']))
+         {
+             $output .= '<li><a href="javascript:void(0)" data-kindex="'.$nbResults.'" ';
+             $output .= 'data-new="yes" onclick="javascript:KeywordsLib.addKeyword(\'\')">';
+             $output .= 'Créer un nouveau mot-clef (Clic/Enter)</li>'."\n";
+         }
+         
          header('Content-Type: text/html; charset=UTF-8');
          echo "<ul id=\"suggestionsList\" data-sugg=\"".$nbResults."\">\n".$output."</ul>\n";
       }

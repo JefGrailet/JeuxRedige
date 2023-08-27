@@ -1219,6 +1219,7 @@ textarea
    resize: vertical;
    box-sizing: border-box;
    margin: 0px;
+   text-align: justify;
 }
 
 /* Formatting topic thumbnails */
@@ -1866,7 +1867,7 @@ textarea
    margin-top: 30px;
    margin-left: auto;
    margin-right: auto;
-   width: 500px;
+   width: 700px;
    border: none;
 }
 

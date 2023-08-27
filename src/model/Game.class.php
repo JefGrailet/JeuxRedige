@@ -33,6 +33,8 @@ class Game
       }
       else
       {
+         $arg = ucfirst($arg); // Enforces first char to be in uppercase
+         
          $this->_data = Database::secureRead("SELECT * FROM games WHERE tag=?", array($arg), true);
          
          if($this->_data == NULL)

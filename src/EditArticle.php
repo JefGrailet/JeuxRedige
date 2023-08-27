@@ -27,8 +27,7 @@ $dialogs = '';
 if(!TemplateEngine::hasFailed($dialogTpl))
    $dialogs = $dialogTpl;
 
-$validTypes = array('review', 'preview', 'opinion', 'chronicle', 'guide'); // Valid types of articles
-$typeChoices = 'review,Critique|preview,Aperçu|opinion,Humeur|chronicle,Chronique|guide,Guide'; // Types of articles, formatted for <select>
+$typeChoices = Utils::makeCategoryChoice(); // Types of articles formatted for <select>
 
 // Obtains article ID and retrieves the corresponding entry
 if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']))
@@ -191,7 +190,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       // Various errors (title already used for alias, wrong genre, etc.)
       if(!$fullyCompleted)
          $formComp['errors'] .= 'emptyFields|';
-      if(!in_array($formInput['type'], $validTypes))
+      if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
          $formComp['errors'] .= 'invalidType|';
       if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
          $formComp['errors'] .= 'tooLongData|';

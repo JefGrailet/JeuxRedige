@@ -200,6 +200,28 @@
    background-color: grey;
 }
 
+/* Colored pretty links based on the charter (only changes background color) */
+
+.centeredContent .prettyLink.chronicle { background-color: #99368b; }
+.centeredContent .prettyLink.guide { background-color: #dd9302; }
+.centeredContent .prettyLink.opinion { background-color: #91c148; }
+.centeredContent .prettyLink.preview { background-color: #34b1e5; }
+.centeredContent .prettyLink.review { background-color: #cd301e; }
+
+.centeredContent .prettyLink.chronicle:hover, .centeredContent .prettyLink.guide:hover, 
+.centeredContent .prettyLink.opinion:hover, .centeredContent .prettyLink.preview:hover, 
+.centeredContent .prettyLink.review:hover
+{
+   background-color: #646464;
+}
+
+.centeredContent .prettyLink.chronicle:active, .centeredContent .prettyLink.guide:active, 
+.centeredContent .prettyLink.opinion:active, .centeredContent .prettyLink.preview:active, 
+.centeredContent .prettyLink.review:active
+{
+   background-color: #646464;
+}
+
 /* Similar CSS but for text only (pages being viewed) */
 
 .prettyText

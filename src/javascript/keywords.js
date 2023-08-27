@@ -81,6 +81,9 @@ KeywordsLib.addKeyword = function(keyword)
    if(keyword.length === 0)
    {
       keyword = $('input[type=text][name="keyword"]').val();
+      
+      // 27/08/2023: enforces first character of new keywords to be uppercase
+      keyword = keyword.charAt(0).toUpperCase() + keyword.slice(1);
    }
    $('input[type=text][name="keyword"]').val('');
    

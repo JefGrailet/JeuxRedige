@@ -931,10 +931,19 @@ class Utils
    private static $bufferedTime = 0;
    
    const UPLOAD_OPTIONS = array(
-   'bufferLimit' => 10, // Max amount of uploads per message (in the user's buffer)
+   'bufferLimit' => 15, // Max amount of uploads per message (in the user's buffer)
    'extensions' => array('jpeg', 'jpg', 'gif', 'png', 'mp4', 'webm'), // Available extensions
    'miniExtensions' => array('jpeg', 'jpg', 'gif', 'png'), // Extensions with custom miniatures
    'displayPolicies' => array('default', 'spoiler', 'nsfw', 'noshow', 'noshownsfw', 'noshowspoiler') // Display policies (besides typical display below message)
+   );
+   
+   // [0] => French name, [1] = gender in French
+   const ARTICLES_CATEGORIES = array(
+   'review' => array('Critique', 'f'), 
+   'preview' => array('Aperçu', 'm'), 
+   'opinion' => array('Humeur', 'f'), 
+   'chronicle' => array('Chronique', 'f'), 
+   'guide' => array('Guide', 'm')
    );
    
    /*
@@ -1112,6 +1121,68 @@ class Utils
          $prev = $cur;
       }
       return $arrays;
+   }
+   
+   /*
+   * Returns a string suitable for the template engine to allow picking a category for an article 
+   * via a <select> tag. It essentially mixes together the values of 'cat_db' and 'cat_fr_names'.
+   *
+   * @param bool withNone   An optional boolean parameter to set to true if an additional choice 
+   *                        allowing to not consider a specific category (e.g. in search forms) 
+   *                        should be added (default is false)
+   * @return string         A string feeding the categories for a <select> tag
+   */
+   
+   public static function makeCategoryChoice($withNone = false)
+   {
+      $selectStr = '';
+      $categories = array_keys(self::ARTICLES_CATEGORIES);
+      for ($i = 0; $i < count($categories); $i++)
+      {
+         if ($i > 0)
+            $selectStr .= '|';
+         $selectStr .= $categories[$i].','.self::ARTICLES_CATEGORIES[$categories[$i]][0];
+      }
+      if ($withNone)
+         $selectStr = 'all,Toute catégorie confondue|'.$selectStr;
+      return $selectStr;
+   }
+   
+   /*
+   * Returns a HTML string to print the categories of articles as a succession of "pretty links" 
+   * for any given page where it's possible to browse by article category. The idea is to avoid 
+   * modifying each template involving such links when a new category is being added or renamed.
+   *
+   * @param string $curPage   The page where the links will be inserted
+   * @param string $selected  A category that has been selected (optional; empty by default)
+   * @return string           A string listing the links
+   */
+   
+   public static function makeCategoryLinks($curPage, $selected = '')
+   {
+      $linksHtml = '';
+      $categories = array_keys(self::ARTICLES_CATEGORIES);
+      $categorySelected = false;
+      for ($i = 0; $i < count($categories); $i++)
+      {
+         if ($categories[$i] === $selected)
+         {
+            $linksHtml .= '<span class="prettyText">';
+            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0].'s</span> '."\n";
+            $categorySelected = true;
+         }
+         else
+         {
+            $linksHtml .= '<a class="prettyLink '.$categories[$i].'" ';
+            $linksHtml .= 'href="'.$curPage.'?article_category='.$categories[$i].'">';
+            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0].'s</a> '."\n";
+         }
+      }
+      if ($categorySelected)
+         $linksHtml = '<a class="prettyLink" href="'.$curPage.'">Tout</a> '."\n".$linksHtml;
+      else
+         $linksHtml = '<span class="prettyText">Tout</span> '."\n".$linksHtml;
+      return $linksHtml;
    }
 }
 

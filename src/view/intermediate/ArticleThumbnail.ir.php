@@ -42,11 +42,10 @@ class ArticleThumbnailIR
       'subtitle' => $data['subtitle']);
       
       // Type of article
-      $typeTranslation = array('review' => 'Critique', 
-      'preview' => 'Aperçu', 
-      'opinion' => 'Humeur', 
-      'chronicle' => 'Chronique', 
-      'guide' => 'Guide');
+      $typeTranslation = array();
+      $artCategories = array_keys(Utils::ARTICLES_CATEGORIES);
+      for ($i = 0; $i < count($artCategories); $i++)
+         $typeTranslation[$artCategories[$i]] = Utils::ARTICLES_CATEGORIES[$artCategories[$i]][0];
       
       if(in_array($data['type'], array_keys($typeTranslation)))
       {

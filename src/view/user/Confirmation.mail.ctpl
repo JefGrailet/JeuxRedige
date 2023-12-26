@@ -2,8 +2,8 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
       <title>{switch:type||
-newAccount & Confirmation de votre compte sur JeuxRédige.be|
-newEmail & Confirmation de votre nouvelle adresse (JeuxRédige.be)}</title>
+newAccount & Confirmation de votre compte sur JeuxRédige|
+newEmail & Confirmation de votre nouvelle adresse (JeuxRédige)}</title>
    </head>
    <body>
    <p style="font-family: Arial, sans-serif; font-size: 1rem; text-align: justify;">
@@ -11,13 +11,13 @@ newEmail & Confirmation de votre nouvelle adresse (JeuxRédige.be)}</title>
    <br/>
    {switch:type||
 newAccount & Votre compte a été confirmé avec succès. Vous pouvez dès à présent vous connecter en
- cliquant sur "Se connecter" en haut de page sur JeuxRédige.be.|
+ cliquant sur "Se connecter" en haut de page sur JeuxRédige.|
 newEmail & Votre nouvelle adresse a été confirmée avec succès. Vous pouvez de nouveau utiliser
- votre compte sur JeuxRédige.be.}<br/>
+ votre compte sur JeuxRédige.}<br/>
    <br/>
    A très bientôt,<br/>
    <br/>
    Le webmaster<br/>
-   admin@jeuxredige.be</p>
+   admin@jeuxredige.com</p>
    </body>
 </html>

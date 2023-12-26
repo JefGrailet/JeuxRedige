@@ -943,7 +943,8 @@ class Utils
    'preview' => array('Aperçu', 'm'), 
    'opinion' => array('Humeur', 'f'), 
    'chronicle' => array('Chronique', 'f'), 
-   'guide' => array('Guide', 'm')
+   'guide' => array('Guide', 'm'), 
+   'misc' => array('Hors Jeu', 'm')
    );
    
    /*
@@ -999,7 +1000,7 @@ class Utils
    
    public static function secure($text)
    {
-      return htmlspecialchars(preg_replace('(javascript\s{0,}:)iUs','',$text));
+      return htmlspecialchars(preg_replace('(javascript\s{0,}:)iUs','',$text), ENT_NOQUOTES);
    }
    
    /*

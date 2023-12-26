@@ -92,6 +92,12 @@ if(count($fullInputSmall) > 0)
       $articleThumbnails .= $fullOutputSmall[$i];
 }
 
+// Meta-tags
+WebpageHandler::$miscParams['meta_title']= "JeuxRédige";
+WebpageHandler::$miscParams['meta_description']= "Critiques et chroniques sur le jeu vidéo par des passionnés";
+WebpageHandler::$miscParams['meta_image']= "https://".$_SERVER['HTTP_HOST']."/default_meta_logo.jpg";
+WebpageHandler::$miscParams['meta_url']= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
 // Final HTML code (with page configuration)
 $finalTplInput['articles'] = $articleThumbnails;
 

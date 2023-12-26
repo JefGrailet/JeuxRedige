@@ -1,38 +1,31 @@
 <div id="aboutContainer">
-<h1 class="centeredTitle">À propos de JeuxRédige.be</h1>
-<p><strong>JeuxRédige.be</strong> est, comme son nom l'indique, un site web conçu comme un support 
-d'écriture pour parler de jeu vidéo de manière générale. Vous pourrez y trouver des critiques et 
-des chroniques sur les jeux vidéo de ces dernières années (ou des sujets liés) sous la forme de 
-(longs) textes détaillés accompagnés de quelques illustrations souvent capturées pour 
-l'occasion.<br/>
+<h1 class="centeredTitle">À propos de ce site</h1>
+<p><strong>JeuxRédige</strong> est, comme son nom l'indique, un site web qui a été conçu comme 
+un support d'écriture pour parler de jeu vidéo de manière générale. Vous pourrez y trouver des 
+critiques, des chroniques ou même des guides sur les jeux vidéo récents comme anciens, avec à 
+l'occasion quelques billets d'humeur, toujours en rapport avec la culture des jeux.<br/>
 <br/>
-À la base, JeuxRédige.be s'intitulait <em>Project AG</em> (le nom de domaine 
-<a href="https://projectag.org"><tt>projectag.org</tt></a> étant, par ailleurs, toujours actif) et 
-était un projet personnel que j'ai créé pour (re)mettre à jour mes connaissances en développement 
-web, et ce par pur loisir. Le <strong><u>AG</u></strong> était un acronyme pour 
-<strong><u>A</u></strong>nother <strong><u>G</u>...</strong>, en référence aux très nombreux sites 
-dédiés au jeu vidéo dont le nom commence par  "<em><strong><u>G</u></strong>ame(r)...</em>". En 
-effet, l'essentiel du projet n'avait pas pour vocation de réinventer la roue mais plutôt de 
-re-créer l'essentiel des fonctionnalités classiques d'un tel site, avec quelques petites 
-innovations ici et là. Parmi celles-ci se trouvent un système de mots-clefs pour classer les 
-articles et les sujets du forum, une fonctionnalité à laquelle l'ancien nom de domaine 
-<tt>projec<strong>tag</strong>.org</tt> fait toujours référence.<br/>
+À l'origine un simple projet personnel que j'ai créé pour expérimenter avec le développement Web, 
+réalisé quelque part entre 2015 et 2017 (inclus) mais amélioré par petites touches depuis lors, 
+JeuxRédige est aujourd'hui une petite rédaction de joueurs passionnés qui, en marge de leur vie 
+professionnelle dans des domaines divers et variés, souhaitent vous faire part de leurs 
+impressions sur les dernières grandes sorties du jeu vidéo ainsi que leurs derniers coups de coeur 
+en la matière.<br/>
 <br/>
-J'ai développé l'essentiel du site actuel sur mon temps libre, de 2015 à 2017 (inclus). Faute 
-d'avoir le temps d'étendre les fonctionnalités du site, notamment en développant son aspect 
-"base de données sur les jeux", je n'ai fait depuis lors que des modifications occasionnelles 
-par-ci par-là pour améliorer l'interface et la gestion du contenu, tout en continuant à rédiger 
-par loisir. Ce pourquoi le site a été rebaptisé <strong>JeuxRédige.be</strong> 
-("<em>je rédige</em>") en 2021 pour clarifier son utilisation dès le titre.<br/>
+Bien que nous soyons en pleine croissance, sans pour autant chercher à nous professionnaliser, 
+notre site reste un projet ouvert à tous. Vous pouvez donc vous y inscrire pour également écrire 
+vos propres articles ou simplement faire mumuse avec ses fonctionnalités, tout particulièrement si 
+vous vous intéressez à son code source, disponible en accès libre<sup>1</sup>.<br/>
 <br/>
-Cela étant, le site en tant que tel est ouvert à tous. Vous pouvez donc vous y inscrire pour 
-également écrire vos propres articles (si vous aimez écrire vous aussi) ou simplement faire 
-mumuse avec ses fonctionnalités, tout particulièrement si vous vous intéressez à son code 
-source<sup>1</sup>. Je vous invite également à me contacter soit sur le site, soit via 
-l'adresse e-mail <tt>admin[at]jeuxredige.be</tt>, en cas de question/remarque sur le site 
-web lui-même ou pour toute demande quant à la création de contenu. Quoi qu'il arrive: vous 
-êtes le bienvenu.</p>
-<p style="text-align: right">Jean-François Grailet (<a href="https://www.jeuxredige.be/User.php?user=JefGrailet">JefGrailet</a>)</p>
+Les rédacteurs en herbe et les plumes occasionnelles peuvent d'ailleurs nous contacter à l'adresse 
+e-mail <tt>jeuxredige.redaction[at]gmail.com</tt> en vue de rejoindre notre équipe et de 
+bénéficier, entre autres, de mises en Une de leurs articles. Je vous invite également à me 
+contacter via l'adresse e-mail <tt>admin[at]jeuxredige.com</tt> en cas de question ou de remarque 
+par rapport au site web lui-même. Les développeurs souhaitant contribuer au code sont également les 
+bienvenus !<br/>
+<br/>
+Bonne navigation, et si vous souhaitez nous rejoindre, n'hésitez pas à nous contacter !</p>
+<p style="text-align: right">Jean-François Grailet (<a href="https://www.jeuxredige.com/User.php?user=JefGrailet">JefGrailet</a>)</p>
 <p><sup>1</sup>disponible en <em>open source</em> sur <a href="https://github.com/JefGrailet/JeuxRedigeBE">GitHub</a>.</p>
 <h1 class="centeredTitle">Remerciements</h1>
 <ul>

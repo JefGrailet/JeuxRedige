@@ -98,9 +98,32 @@ body
    height: 60px;
 }
 
+/* Style for logos for external channels, social media */
+
+.mainMenuItem.iconBox
+{
+   padding-top: 10px;
+   padding-bottom: 10px;
+   padding-right: 20px;
+   padding-left: 0px;
+}
+
+.mainMenuItem i
+{
+   font-size: 40px;
+}
+
+/* Sub-classes to remove colored border for the first elements of the top menu */
+
+.mainMenuItem.borderless, .mainMenuItem.iconBox.borderless
+{
+   padding-right: 10px;
+   border-right: none;
+}
+
 /* For other variants, see the charter_*.css files. */
 
-.mainMenuLogo.default { background-image: url('https://www.jeuxredige.be/logos/JeuxRedigeBe_logo_h_white.svg'); }
+.mainMenuLogo.default { background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white.svg'); }
 
 /* Upper menu links */
 
@@ -1511,6 +1534,8 @@ textarea
 .articleThumbnailType.review:hover, .articleHighlightDetails.review:hover { background-color: rgba(205, 48, 30, 1.0); }
 .articleThumbnailType.guide, .articleHighlightDetails.guide { background-color: rgba(221, 147, 2, 0.8); }
 .articleThumbnailType.guide:hover, .articleHighlightDetails.guide:hover { background-color: rgba(221, 147, 2, 1.0); }
+.articleThumbnailType.misc, .articleHighlightDetails.misc { background-color: rgba(150, 150, 150, 0.8); }
+.articleThumbnailType.misc:hover, .articleHighlightDetails.misc:hover { background-color: rgba(150, 150, 150, 1.0); }
 
 .articleThumbnailExtra.published { background-color: rgba(145, 193, 72, 0.8); }
 .articleThumbnailExtra.published:hover { background-color: rgba(145, 193, 72, 1.0); }

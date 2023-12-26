@@ -61,7 +61,7 @@ if(!empty($_GET['pseudo']))
                
                $inputEmail = array('pseudo' => $pseudo, 'type' => 'newAccount');
                $tplRes = TemplateEngine::parse('view/user/Confirmation.success.ctpl', array('type' => 'newAccount'));
-               $titleRes = 'Bienvenue sur JeuxRedige.be !';
+               $titleRes = 'Bienvenue sur JeuxRédige !';
             }
             elseif(strlen($dbKey) == 10)
             {

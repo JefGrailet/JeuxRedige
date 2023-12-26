@@ -42,7 +42,7 @@ try
    $nbArticles = Article::countArticles($artCategory, false);
    if($nbArticles == 0)
    {
-      $errorTplInput = array('error' => 'noArticle', 'wholeList' => 'viewed', 'research' => 'link');
+      $errorTplInput = array('error' => 'noArticle', 'wholeList' => 'link', 'research' => 'none');
       $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
       WebpageHandler::wrap($tpl, 'Articles');
    }
@@ -63,7 +63,7 @@ try
 }
 catch(Exception $e)
 {
-   $errorTplInput = array('error' => 'dbError', 'wholeList' => 'viewed', 'research' => 'link');
+   $errorTplInput = array('error' => 'dbError', 'wholeList' => 'link', 'research' => 'none');
    $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
    WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les articles');
 }
@@ -85,7 +85,7 @@ if(count($fullInput) > 0)
    $fullOutput = TemplateEngine::parseMultiple('view/content/ArticleThumbnail.ctpl', $fullInput);
    if(TemplateEngine::hasFailed($fullOutput))
    {
-      $errorTplInput = array('error' => 'wrongTemplating', 'wholeList' => 'viewed', 'research' => 'link');
+      $errorTplInput = array('error' => 'wrongTemplating', 'wholeList' => 'link', 'research' => 'none');
       $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
       WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les articles');
    }
@@ -98,8 +98,20 @@ if(count($fullInput) > 0)
 $pageConfig = WebpageHandler::$miscParams['articles_per_page'].'|'.$nbArticles.'|'.$currentPage;
 $pageConfig .= '|./UnpublishedArticles.php?page=[]';
 $finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails, 
-                       'wholeList' => 'none', 'research' => 'none');
+                       'categoriesLinks' => '', 'research' => 'goBack');
 $content = TemplateEngine::parse('view/content/ArticlesList.ctpl', $finalTplInput);
+
+/*
+ * Extra space for the thumbnails pool when there is not enough articles (in the selected 
+ * category) to have several pages.
+ */
+
+if ($nbPages == 1)
+{
+   $initialDiv = '<div id="articlesPool">';
+   $withExtraSpace = '<div id="articlesPool" style="margin-top: 20px;">';
+   $content = str_replace($initialDiv, $withExtraSpace, $content);
+}
 
 // Displays the produced page
 WebpageHandler::wrap($content, 'Articles');

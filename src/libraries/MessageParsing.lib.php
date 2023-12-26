@@ -60,7 +60,7 @@ class MessageParsing
 
       // Videos
       $videos = array();
-      preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-]*?)\]/", $parsed, $videos);
+      preg_match_all("/\!video\[([_a-zA-Z0-9\.\\/;:\?\=\-\&]*?)\]/", $parsed, $videos);
 
       for($i = 0; $i < count($videos[1]); $i++)
       {
@@ -69,6 +69,13 @@ class MessageParsing
             // Youtube
             if(strpos($videos[1][$i], 'youtu') !== FALSE)
             {
+               // 28/09/2023: removal of time stamp (if found)
+               $posTimestamp = strpos($videos[1][$i], '&t=');
+               if($posTimestamp !== FALSE)
+               {
+                  $videos[1][$i] = substr($videos[1][$i], 0, $posTimestamp);
+               }
+               
                $posID = strpos($videos[1][$i], '?v=');
                if($posID !== FALSE)
                {

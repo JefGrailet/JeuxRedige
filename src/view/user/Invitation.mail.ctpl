@@ -1,18 +1,18 @@
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-      <title>Inscription sur JeuxRédige.be</title>
+      <title>Inscription sur JeuxRédige</title>
    </head>
    <body>
    <p style="font-family: Arial, sans-serif; font-size: 1rem; text-align: justify;">
    Cher/Chère {$pseudo},<br/>
    <br/>
-   Merci d'avoir créé un compte sur JeuxRédige.be. Vous pouvez dès à présent profiter de toutes 
+   Merci d'avoir créé un compte sur JeuxRédige. Vous pouvez dès à présent profiter de toutes 
    les fonctionnalités du site. Aucune étape de confirmation supplémentaire n'est requise.<br/>
    <br/>
    À très bientôt,<br/>
    <br/>
    Le webmaster<br/>
-   admin@jeuxredige.be</p>
+   admin@jeuxredige.com</p>
    </body>
 </html>

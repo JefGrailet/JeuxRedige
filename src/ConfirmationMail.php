@@ -54,7 +54,7 @@ if(!empty($_POST['sent']))
             if(strlen($confirmKey) == 15)
             {
                $emailContent = TemplateEngine::parse('view/user/Registration.mail.ctpl', $emailInput);
-               $emailTitle = 'Inscription sur JeuxRedige.be';
+               $emailTitle = 'Inscription sur JeuxRédige';
             }
             elseif(strlen($confirmKey) == 10)
             {

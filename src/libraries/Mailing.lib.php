@@ -22,8 +22,8 @@ class Mailing
    public static function send($dest, $title, $content, $encoding = "UTF-8")
    {   
       $headers  = 'MIME-Version: 1.0' . "\r\n";
-      $headers .= 'From: "JeuxRedige.be" <noreply@jeuxredige.be>' . "\r\n";
-      $headers .= 'Reply-to: "JeuxRedige.be" <noreply@jeuxredige.be>' . "\r\n";
+      $headers .= 'From: "JeuxRédige" <noreply@jeuxredige.com>' . "\r\n";
+      $headers .= 'Reply-to: "JeuxRédige" <noreply@jeuxredige.com>' . "\r\n";
       $headers .= 'Content-Type: text/html; charset="'.$encoding.'"' . "\r\n";
       $headers .= 'Content-Transfer-Encoding: 8bit' . "\r\n";
       $headers .= 'Date: ' . date('r', $_SERVER['REQUEST_TIME']) . "\r\n";

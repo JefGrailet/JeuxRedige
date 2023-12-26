@@ -1,26 +1,30 @@
 /**
 * This style sheet overrides some properties of article.css to make it comply with the color 
-* associated to a review (2021 graphical charter).
+* associated to a misceallenous article ("Hors Jeu", added in September 2023).
+*
+* Important remark: though the original charter anticipated the shades of grey #646464 (100 
+* everywhere) and #c8c8c8 (200 everywhere), the first shade was too dark to be easily 
+* distinguishable  and the second too light, so the average of both was picked instead.
 */
 
-.mainMenuLogo.review 
+.mainMenuLogo.misc
 {
-   background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_review.svg');
+   background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_misc.svg');
 }
 
 .segmentHeader .segmentHeaderBottom
 {
-   background-color: rgba(205, 48, 30, 0.75);
+   background-color: rgba(150, 150, 150, 0.75); /* 200,200,200 is a bit too clear */
 }
 
 .segmentHeader .segmentHeaderBottom:hover
 {
-   background-color: rgba(205, 48, 30, 0.85);
+   background-color: rgba(150, 150, 150, 0.85);
 }
 
 .segmentBody p a
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 .segmentBody p a:hover
@@ -30,12 +34,12 @@
 
 .segmentBody h2
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 .segmentBody h2 a
 {
-   color: black;
+   color: #black;
 }
 
 .segmentBody h2 a:hover
@@ -45,37 +49,37 @@
 
 .segmentBody .quotation, .segmentBody .spoiler
 {
-   border-left: 2px solid #cd301e;
+   border-left: 2px solid #969696;
 }
 
 .segmentBody .emphasisText
 {
-   background-color: #cd301e;
+   background-color: #969696;
 }
 
 .segmentBody .emphasisText p a
 {
-   color: #FFC858; /* N.B.: not part of graphical charter, but better contrast on the background */
+   color: #646464;
 }
 
 .segmentBody .emphasisText p a:hover
 {
-   color: #c8c8c8;
+   color: white;
 }
 
 .segmentBody .summary h3
 {
-   background-color: #cd301e;
+   background-color: #969696;
 }
 
 .segmentBody li:before, .summaryGood li:before, .summaryBad li:before
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 #footerDetails p a:hover, #footerDetails p .editSegment:hover
@@ -85,22 +89,22 @@
 
 #commentsSlider #commentsHeader p a
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 #commentsSlider #commentsHeader p a:hover
 {
-   color: #c8c8c8;
+   color: #969696;
 }
 
 .commentText .commentTextTop .commentAuthor a:hover
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 .commentText a
 {
-   color: #cd301e;
+   color: #969696;
 }
 
 .commentText a:hover
@@ -110,5 +114,5 @@
 
 .commentText .quotation, .commentText .spoiler
 {
-   border-left: 2px solid #cd301e;
+   border-left: 2px solid #969696;
 }

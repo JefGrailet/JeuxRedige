@@ -116,10 +116,10 @@ if(!empty($_GET['key']))
             $inputEmail = array('pseudo' => $data['pseudo']);
             $emailContent = TemplateEngine::parse('view/user/Invitation.mail.ctpl', $inputEmail);
             if(!TemplateEngine::hasFailed($emailContent))
-               Mailing::send($user->get('email'), 'Bienvenue sur JeuxRedige.be', $emailContent);
+               Mailing::send($user->get('email'), 'Bienvenue sur JeuxRédige', $emailContent);
             
             $display = TemplateEngine::parse('view/user/Invitation.success.ctpl');
-            WebpageHandler::wrap($display, 'Bienvenue sur JeuxRedige.be !');
+            WebpageHandler::wrap($display, 'Bienvenue sur JeuxRédige !');
          }
          // Fail while creating new account : check the error provided by SQL
          catch(Exception $e)

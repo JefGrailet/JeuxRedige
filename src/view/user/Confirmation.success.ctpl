@@ -1,5 +1,5 @@
 <h1>{switch:type||
-newAccount & Bienvenue sur JeuxRedige.be !|
+newAccount & Bienvenue sur JeuxRédige !|
 newEmail & Nouvelle adresse e-mail confirmée}</h1>
 <p>{switch:type||
 newAccount & Votre compte est désormais utilisable.|

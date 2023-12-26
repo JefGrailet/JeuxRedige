@@ -1,11 +1,11 @@
-# Comment installer une copie de JeuxRédige.be
+# Comment installer une copie de JeuxRédige
 
 _(English version below)_
 
 ## Etape 1: installation de la base de données
 Sur votre serveur, créez une nouvelle base données avec le nom de votre choix, en choisissant 
 l'interclassement utf8_unicode_520_ci, puis importez le fichier `sample_db.sql` dans celle-ci. 
-Cette base de données contient bien sûr toutes les tables SQL qui sont utilisées sur JeuxRédige.be 
+Cette base de données contient bien sûr toutes les tables SQL qui sont utilisées sur JeuxRédige 
 mais aussi quelques contenus de base, comme une première liste de jeux et un premier compte 
 d'utilisateur.
 
@@ -40,19 +40,19 @@ dossier `www` (ou équivalent). Le contenu copié reprend également les sous-do
 images qui correspondent au contenu fourni par défaut.
 
 ## Etape 4: premier accès
-Vous pouvez à présent utiliser votre copie de JeuxRédige.be comme bon vous semble. Pour vous 
+Vous pouvez à présent utiliser votre copie de JeuxRédige comme bon vous semble. Pour vous 
 simplifier la vie, un premier compte utilisateur est disponible dans la base de données initiale. 
 Les identifiants de ce compte sont donnés en italique ci-contre (les espaces sont à inclure):
 
 * **Pseudonyme:** _AlainTouring_
 * **Mot de passe:** _il n'y en a pas_
 
-# How to install a clone of JeuxRédige.be
+# How to install a clone of JeuxRédige
 
 ## Step 1: setting up the database
 On your server, create a new database with a name of your choice, choosing utf8_unicode_520_ci as 
 encoding, then import the `sample_db.sql` file inside it. This database contains of course all the 
-SQL tables which are used by JeuxRédige.be but also provides sauf default content such as a first 
+SQL tables which are used by JeuxRédige but also provides sauf default content such as a first 
 list of games and a first user account.
 
 ## Step 2: configuration of the website
@@ -87,7 +87,7 @@ equivalent). The copied content also include the upload subfolders and the pictu
 of the default content.
 
 ## Step 4: First use
-You can now use your JeuxRédige.be copy as you like. To simplify your life, a first user account 
+You can now use your JeuxRédige copy as you like. To simplify your life, a first user account 
 is available in the initial database. The credentials for this account are hereby given in italic 
 (blank spaces must be included):
 

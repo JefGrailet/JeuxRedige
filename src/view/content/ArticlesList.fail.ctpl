@@ -11,5 +11,6 @@ link & <a href="./Articles.php" class="prettyLink">Tous les articles</a>&nbsp; |
 viewed & <span class="prettyText">Tous les articles</span>&nbsp; }
    {switch:research||
 link & <a href="./SearchArticles.php" class="prettyLink">Filtrer</a>|
-goBack & <a href="./Articles.php" class="prettyLink">Retour à la liste des articles</a>}
+goBack & <a href="./Articles.php" class="prettyLink">Retour à la liste des articles</a>|
+none & }
 </div>

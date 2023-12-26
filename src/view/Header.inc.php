@@ -8,11 +8,11 @@
 
 if(!isset($pageTitle) || strlen($pageTitle) == 0)
 {
-   $pageTitle = 'JeuxRédige.be';
+   $pageTitle = 'JeuxRédige';
 }
 else
 {
-   $pageTitle .= ' - JeuxRédige.be';
+   $pageTitle .= ' - JeuxRédige';
 }
 
 $webRootPath = PathHandler::HTTP_PATH();
@@ -101,12 +101,12 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    
    // Twitter
    echo '      <meta name="twitter:card" content="summary_large_image" />'."\n";
-   echo '      <meta name="twitter:site" content="JeuxRédige.be">'."\n";
+   echo '      <meta name="twitter:site" content="JeuxRédige">'."\n";
    echo '      <meta name="twitter:title" content="'.WebpageHandler::$miscParams['meta_title'].'">'."\n";
    echo '      <meta name="twitter:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
    echo '      <meta name="twitter:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
 
-   echo '      <meta property="og:site_name" content="JeuxRédige.be">'."\n";
+   echo '      <meta property="og:site_name" content="JeuxRédige">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";
 }
 
@@ -128,7 +128,7 @@ if(isset($dialogs) && !empty($dialogs))
 
 // Logo (varies for articles)
 $selectedLogo = 'default';
-$logoVariants = array('chronicle', 'opinion', 'preview', 'review', 'guide'); // N.B.: could be moved in $miscParams
+$logoVariants = array_keys(Utils::ARTICLES_CATEGORIES);
 if(in_array(WebpageHandler::$miscParams['webdesign_variant'], $logoVariants))
    $selectedLogo = WebpageHandler::$miscParams['webdesign_variant'];
 
@@ -144,7 +144,9 @@ if(in_array(WebpageHandler::$miscParams['webdesign_variant'], $logoVariants))
       </div>
       <div id="topBar">
          <div id="mainMenu">
-            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>" class="mainMenuLogo <?php echo $selectedLogo; ?>"></a></div>
+            <div class="mainMenuItem borderless"><a href="<?php echo $webRootPath; ?>" class="mainMenuLogo <?php echo $selectedLogo; ?>"></a></div>
+            <div class="mainMenuItem iconBox borderless"><a href="https://www.youtube.com/@jeuxredige" target="blank"><i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i></a></div>
+            <div class="mainMenuItem iconBox"><a href="https://twitter.com/JeuxRedigeBE" target="blank"><i title="Suivez nous sur X (Twitter)" class="icon-social_x"></i></a></div>
             <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Articles.php">Articles</a></div>
             <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Forum.php">Forum</a></div>
          </div>

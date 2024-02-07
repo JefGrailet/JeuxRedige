@@ -79,7 +79,7 @@ $fullInput = array();
 for($i = 0; $i < count($users); $i++)
 {
    $blockInput = array('avatar' => PathHandler::getAvatar($users[$i]['pseudo']),
-   'formattedPseudo' => utf8_encode($users[$i]['pseudo']),
+   'formattedPseudo' => mb_convert_encoding($users[$i]['pseudo'], 'UTF-8', 'ISO-8859-1'),
    'pseudo' => $users[$i]['pseudo']);
    
    array_push($fullInput, $blockInput);

@@ -27,15 +27,13 @@ class PongIR
 
       if(array_key_exists('online', $pong) && $pong['online'])
          $output['authorStyle'] = ' style="background-color: #38883f;" title="En ligne"';
-      
-      // If content is ending with a div, do not end with "</p>"
-      $pongEnd = '</p>';
-      if(substr($pong['message'], -8) === "</div>\r\n")
-         $pongEnd = '';
 
       $output['content'] = '<p>
       '.$pong['message'].'
-      '.$pongEnd;
+      </p>';
+      
+      // Strips empty <p></p> HTML tags
+      $output['content'] = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $output['content']);
       
       return $output;
    }

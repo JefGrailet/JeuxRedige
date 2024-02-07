@@ -60,7 +60,6 @@ class TriviaIR
    {
       $webRootPath = PathHandler::HTTP_PATH();
       
-      $ratingInt = intval($trivia->get('rating'));
       $output = array('ID' => $trivia->get('id_commentable'), 
       'gameThumbnail' => '', 
       'title' => $trivia->get('title'), 

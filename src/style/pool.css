@@ -207,17 +207,18 @@
 .centeredContent .prettyLink.opinion { background-color: #91c148; }
 .centeredContent .prettyLink.preview { background-color: #34b1e5; }
 .centeredContent .prettyLink.review { background-color: #cd301e; }
+.centeredContent .prettyLink.misc { background-color: #969696; }
 
 .centeredContent .prettyLink.chronicle:hover, .centeredContent .prettyLink.guide:hover, 
 .centeredContent .prettyLink.opinion:hover, .centeredContent .prettyLink.preview:hover, 
-.centeredContent .prettyLink.review:hover
+.centeredContent .prettyLink.review:hover, .prettyLink.misc:hover
 {
    background-color: #646464;
 }
 
 .centeredContent .prettyLink.chronicle:active, .centeredContent .prettyLink.guide:active, 
 .centeredContent .prettyLink.opinion:active, .centeredContent .prettyLink.preview:active, 
-.centeredContent .prettyLink.review:active
+.centeredContent .prettyLink.review:active, .prettyLink.misc:active
 {
    background-color: #646464;
 }

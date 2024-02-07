@@ -28,7 +28,7 @@ $webRootPath = PathHandler::HTTP_PATH();
       var ConfigurationValues = {};
       ConfigurationValues.HTTP_PATH = '<?php echo $webRootPath; ?>';
       </script>
-      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.6.1.min.js"></script>
+      <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/jquery-3.7.1.min.js"></script>
       <script type="text/javascript" src="<?php echo $webRootPath; ?>javascript/default<?php echo PathHandler::JS_EXTENSION(); ?>"></script>
 <?php
 
@@ -91,9 +91,21 @@ if($cond1 || $cond2 || $cond3)
    echo '      </script>'."\n";
 }
 
-// Meta-tags (it's assumed all meta_ fields are filled if the title is not empty)
+// HTML meta-tags, keywords
+if(strlen(WebpageHandler::$miscParams['meta_description']) > 0)
+{
+   echo '      <meta name="author" content="'.WebpageHandler::$miscParams['meta_author'].'">'."\n";
+   echo '      <meta name="description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
+}
+if(strlen(WebpageHandler::$miscParams['meta_keywords']) > 0)
+{
+   echo '      <meta name="keywords" content="'.WebpageHandler::$miscParams['meta_keywords'].'">'."\n";
+}
+
+// Social media meta-tags (it's assumed all meta_ fields are filled if the title is not empty)
 if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
 {
+   echo '      <meta property="og:site_name" content="JeuxRédige">'."\n";
    echo '      <meta property="og:title" content="'.WebpageHandler::$miscParams['meta_title'].'">'."\n";
    echo '      <meta property="og:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
    echo '      <meta property="og:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
@@ -105,8 +117,6 @@ if(strlen(WebpageHandler::$miscParams['meta_title']) > 0)
    echo '      <meta name="twitter:title" content="'.WebpageHandler::$miscParams['meta_title'].'">'."\n";
    echo '      <meta name="twitter:description" content="'.WebpageHandler::$miscParams['meta_description'].'">'."\n";
    echo '      <meta name="twitter:image" content="'.WebpageHandler::$miscParams['meta_image'].'">'."\n";
-
-   echo '      <meta property="og:site_name" content="JeuxRédige">'."\n";
    echo '      <meta name="twitter:image:alt" content="Vignette">'."\n";
 }
 
@@ -147,8 +157,21 @@ if(in_array(WebpageHandler::$miscParams['webdesign_variant'], $logoVariants))
             <div class="mainMenuItem borderless"><a href="<?php echo $webRootPath; ?>" class="mainMenuLogo <?php echo $selectedLogo; ?>"></a></div>
             <div class="mainMenuItem iconBox borderless"><a href="https://www.youtube.com/@jeuxredige" target="blank"><i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i></a></div>
             <div class="mainMenuItem iconBox"><a href="https://twitter.com/JeuxRedigeBE" target="blank"><i title="Suivez nous sur X (Twitter)" class="icon-social_x"></i></a></div>
-            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Articles.php">Articles</a></div>
-            <div class="mainMenuItem"><a href="<?php echo $webRootPath; ?>Forum.php">Forum</a></div>
+            <div class="mainMenuItem articlesMenu">
+               <div class="dropdown">
+                  <a href="<?php echo $webRootPath; ?>Articles.php">ARTICLES</a>
+                  <div class="dropdownContent">
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=review" class="review">CRITIQUES</a>
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=preview" class="preview">APERÇUS</a>
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=guide" class="guide">GUIDES</a>
+                     <a href="https://www.jeuxredige.com/Articles.php?article_category=misc" class="misc">HORS JEU</a>
+                     <a href="https://www.jeuxredige.com/Articles.php">VOIR TOUT</a>
+                  </div>
+               </div>
+            </div>
+            <div class="mainMenuItem lastLink"><a href="<?php echo $webRootPath; ?>Forum.php">FORUM</a></div>
          </div>
          <div id="userCorner">
 <?php
@@ -158,7 +181,8 @@ if(LoggedUser::isLoggedIn())
    $alternateAccount = '';
    $pseudoPart = '<img src="'.PathHandler::getAvatarMedium(LoggedUser::$data['used_pseudo']).'" class="avatarMini" alt="Avatar mini"/> ';
    $adminTools = false;
-   if(strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus')
+   if(LoggedUser::$data !== NULL && LoggedUser::$data['function_pseudo'] !== NULL && 
+      strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus')
    {
       if(LoggedUser::$data['function_pseudo'] === LoggedUser::$data['used_pseudo'])
       {
@@ -170,7 +194,7 @@ if(LoggedUser::isLoggedIn())
          {
             $pseudoPart .= '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">'.LoggedUser::$data['pseudo'].'</a>';
          }
-         $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+         $r = str_replace('&', 'amp;', "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
          $alternateAccount = '<a href="'.$webRootPath.'SwitchAccount.php?pos='.$r.'">Changer pour '.LoggedUser::$data['pseudo'].'</a>';
          $adminTools = true; // Always, for now
       }
@@ -179,7 +203,7 @@ if(LoggedUser::isLoggedIn())
          $pseudoPart .= '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">'.LoggedUser::$data['pseudo'].'</a>';
          if(LoggedUser::$data['function_name'] === 'administrator')
          {
-            $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+            $r = str_replace('&', 'amp;', "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
             $alternateAccount = '<a href="'.$webRootPath.'SwitchAccount.php?pos='.$r.'">Changer pour <span style="color: rgb(255,63,63);">'.LoggedUser::$data['function_pseudo'].'</span></a>';
          }
       }
@@ -283,7 +307,7 @@ if(LoggedUser::isLoggedIn())
    // Log out link
    if(WebpageHandler::$redirections['log_out'])
    {
-      $r = str_replace('&', 'amp;', "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+      $r = str_replace('&', 'amp;', "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
       echo $padding2.'<li><i class="icon-menu_logout"></i> <a href="'.$webRootPath.'LogOut.php?redirection='.$r.'">Déconnexion</a></li>'."\n";
    }
    else

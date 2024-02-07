@@ -58,6 +58,10 @@ class ArticleFirstReactionIR
       for($i = 0; $i < count($summaries[1]); $i++)
          $truncatedText = str_replace($summaries[0][$i], '', $truncatedText);
       
+      // Removing multiple consecutive \r or \n (3 or more) with only two \n\n (06/02/2024)
+      // From: https://stackoverflow.com/questions/6360566/replace-multiple-newlines-tabs-and-spaces
+      $truncatedText = preg_replace("/(\r?\n){2,}/", "\n\n", $truncatedText);
+      
       // Final truncated text
       $txtLength = 1500;
       if(strlen($truncatedText) > 1500)

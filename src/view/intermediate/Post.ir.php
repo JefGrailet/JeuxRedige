@@ -200,11 +200,6 @@ class PostIR
          $displayModifications .= '" target="_blank">historique complète</a>).</p>';
       }
       
-      // If content is ending with a div, do not end with "</p>"
-      $postEnd = '</p>';
-      if(substr($post['content'], -8) === "</div>\r\n")
-         $postEnd = '';
-      
       // Message is masked if reported too many times or reported by an admin
       if($post['bad_score'] >= 10)
       {
@@ -219,7 +214,7 @@ class PostIR
          <div id="masked'.$post['id_post'].'" style="display: none;">
          <p>
          '.$post['content'].'
-         '.$postEnd.'
+         </p>
          '.$displayModifications.'
          </div>';
       }
@@ -227,9 +222,12 @@ class PostIR
       {
          $output['content'] = '<p>
          '.$post['content'].'
-         '.$postEnd.'
+         </p>
          '.$displayModifications;
       }
+      
+      // Strips empty <p></p> HTML tags
+      $output['content'] = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $output['content']);
       
       // Attachment part (the parsing is currently done here)
       if(strlen($post['attachment']) > 0)

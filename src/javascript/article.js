@@ -224,7 +224,7 @@ $(document).ready(function()
    
    if($('#segmentList select').length)
    {
-      $('#segmentList select option').on('click', function()
+      $('#segmentList select').on('change', function()
       {
          ArticleLib.switchSegment($(this).val());
       });

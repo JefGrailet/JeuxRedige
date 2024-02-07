@@ -13,7 +13,7 @@ $redirection = './index.php';
 if(!empty($_GET['redirection']))
 {
    $urlRedirection = Utils::secure($_GET['redirection']);
-   if(substr($urlRedirection, 0, 7) == "http://")
+   if(substr($urlRedirection, 0, 8) == "https://")
       $redirection = str_replace('amp;', '&', $urlRedirection);
 }
 

@@ -88,6 +88,9 @@ class PostHistoryIR
          </p>';
       }
       
+      // Strips empty <p></p> HTML tags
+      $output['content'] = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $output['content']);
+      
       // Attachment part (the parsing is currently done here)
       if(strlen($post['attachment']) > 0)
       {

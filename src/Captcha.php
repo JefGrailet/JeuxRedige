@@ -72,7 +72,7 @@ for($i = 0; $i < strlen($expr); ++$i)
 {
    $l = $expr[$i];
    $angle = mt_rand(-20, 20);
-   imagettftext($img, $size, $angle, ($i * $widthCharacter) + $margin, $height + mt_rand(0, $margin / 2), $black, $font, $l);
+   imagettftext($img, $size, $angle, ($i * $widthCharacter) + $margin, $height + mt_rand(0, ceil($margin / 2)), $black, $font, $l);
 }
 
 imagepng($img);

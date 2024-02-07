@@ -16,7 +16,7 @@ require '../model/Tag.class.php';
 
 if(isset($_POST['alias']) && !empty($_POST['alias']))
 {
-   $needle = utf8_decode(Utils::secure($_POST['alias']));
+   $needle = mb_convert_encoding(Utils::secure($_POST['alias']), 'ISO-8859-1', 'UTF-8');
    $needle = str_replace('|', '', $needle);
    $needle = str_replace('"', '', $needle);
    

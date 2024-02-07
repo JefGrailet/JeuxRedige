@@ -46,7 +46,7 @@ class SegmentIR
       
       // If content is ending with a div, do not end with "</p>"
       $contentEnd = '</p>';
-      if(substr($data['content'], -8) === "</div>\r\n")
+      if(str_contains(substr($data['content'], -10), "</div>") !== FALSE)
          $contentEnd = '';
       
       $finalContent = "<p>\n".$data['content'];
@@ -55,17 +55,19 @@ class SegmentIR
       $lastTimestamp = Utils::toTimestamp($data['date_last_modification']);
       if($lastTimestamp > 0)
       {
-         if($contentEnd === '')
-            $finalContent .= "<p><br/>\n";
-         else
+         // If ending with a closing </div>, a <p> should be there: no addition needed (19/01/24)
+         if($contentEnd !== '')
             $finalContent .= "<br/>\n<br/>\n";
          $finalContent .= '<span style="color: grey;">Dernière modification le ';
          $finalContent .= date('d/m/Y à H:i', $lastTimestamp).'.</span>';
          if($contentEnd === '')
-            $finalContent .= '\n</p>';
+            $finalContent .= "\n".'</p>';
       }
       
       $finalContent .= $contentEnd;
+      
+      // Strips empty <p></p> HTML tags
+      $finalContent = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $finalContent);
       
       $output['content'] = $finalContent;
       return $output;

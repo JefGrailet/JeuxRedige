@@ -485,9 +485,8 @@ class SegmentParsing
 
          $parsed = str_replace($summaries[0][$i], $summaryHTML, $parsed);
       }
-
-      // Final step: cleans-up the HTML code from useless tags
-      $parsed = preg_replace('(<p>([\s]+)</p>)iUs', '', $parsed);
+      
+      // Final step: cleans-up the HTML code from useless tags (rough; IR classes provide better)
       $parsed = str_replace("<p><br />\r\n</p>", '', $parsed);
       $parsed = str_replace("<p><br />\n</p>", '', $parsed);
       $parsed = str_replace("<p><br/>", "<p>", $parsed);

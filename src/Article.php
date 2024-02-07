@@ -117,10 +117,21 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       WebpageHandler::wrap($segmentsTpl, 'Une erreur est survenue lors de la lecture des pages');
 
    // Meta-tags
-   WebpageHandler::$miscParams['meta_title']= $article->get('title');
-   WebpageHandler::$miscParams['meta_description']= $article->get('subtitle');
-   WebpageHandler::$miscParams['meta_image']= $article->getThumbnail();
-   WebpageHandler::$miscParams['meta_url']= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+   WebpageHandler::$miscParams['meta_title'] = $article->get('title');
+   WebpageHandler::$miscParams['meta_author'] = $article->get('pseudo');
+   WebpageHandler::$miscParams['meta_description'] = $article->get('subtitle');
+   WebpageHandler::$miscParams['meta_image'] = $article->getThumbnail();
+   WebpageHandler::$miscParams['meta_url'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+   
+   // Adds keywords to the meta-data
+   $keywords = $article->getBufferedKeywords();
+   WebpageHandler::$miscParams['meta_keywords'] = '';
+   for($i = 0; $i < count($keywords); $i++)
+   {
+      if($i > 0)
+         WebpageHandler::$miscParams['meta_keywords'] .= ', ';
+      WebpageHandler::$miscParams['meta_keywords'] .= $keywords[$i]['tag'];
+   }
 
    // Display
    $finalTplInput = array_merge(array('segments' => $segmentsStr), $articleIR);

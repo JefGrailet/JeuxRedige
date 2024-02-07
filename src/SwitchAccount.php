@@ -32,7 +32,7 @@ if(LoggedUser::isLoggedIn() && strlen(LoggedUser::$data['function_name']) > 0 &&
    if(!empty($_GET['pos']))
    {
       $urlRedirection = Utils::secure($_GET['pos']);
-      if(substr($urlRedirection, 0, 7) == "http://")
+      if(substr($urlRedirection, 0, 8) == "https://")
          header('Location:'.str_replace('amp;', '&', $urlRedirection));
       else
          header('Location:./index.php');

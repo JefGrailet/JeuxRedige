@@ -15,7 +15,7 @@ echo WebpageHandler::$container['end'];
             <a href="https://www.youtube.com/@jeuxredige" target="blank" class="iconLink"><i class="icon-ext_youtube_logo" style="font-size: 24px;" title="Notre chaîne YouTube"></i></a>
             <a href="https://twitter.com/JeuxRedigeBE" target="blank" class="iconLink"><i class="icon-social_x" style="font-size: 24px;" title="Suivez-nous sur X (Twitter)"></i></a>
          </p>
-         <p>v1.0 - Généré en <?php echo round(($overallEnd - $overallStart),5); ?> seconde - <a href="<?php echo $webRootPath; ?>About.php">À propos de JeuxRédige</a></p>
+         <p>v1.1 - Généré en <?php echo round(($overallEnd - $overallStart),5); ?> seconde - <a href="<?php echo $webRootPath; ?>About.php">À propos de JeuxRédige</a></p>
          </div>
       </div>
    </body>

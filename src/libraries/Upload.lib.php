@@ -181,6 +181,12 @@ class Upload
          }
       }
       
+      // Conversion to integers for imagecopyresampled()
+      $newW = ceil($newW);
+      $newH = ceil($newH);
+      $wBestFit = ceil($wBestFit);
+      $hBestFit = ceil($hBestFit);
+      
       // The creation of the miniature starts here
       $finalFilePath = $dirPath .'/'. $name .'.'. $extension;
       

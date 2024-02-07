@@ -213,7 +213,7 @@ class Tag
          }
          $sql .= '?';
          array_push($arg, $tags[$i]);
-         $mappings .= '(' + addslashes($tags[$i]) + ',' + $id + ')';
+         $mappings .= '('.addslashes($tags[$i]).','.strval($id).')';
       }
       $sql .= ') && id_topic =?';
       array_push($arg, $id);
@@ -251,7 +251,7 @@ class Tag
          }
          $sql .= '?';
          array_push($arg, $tags[$i]);
-         $mappings .= '(' + addslashes($tags[$i]) + ',' + $id + ')';
+         $mappings .= '('.addslashes($tags[$i]).','.strval($id).')';
       }
       $sql .= ') && id_article=?';
       array_push($arg, $id);
@@ -289,7 +289,7 @@ class Tag
          }
          $sql .= '?';
          array_push($arg, $aliases[$i]);
-         $mappings .= '(' + addslashes($aliases[$i]) + ',' + $aliasee + ')';
+         $mappings .= '('.addslashes($aliases[$i]).','.$aliasee.')';
       }
       $sql .= ') && alias=?';
       array_push($arg, $aliasee);

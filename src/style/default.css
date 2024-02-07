@@ -29,7 +29,7 @@ body
 
 #topBar
 {
-   min-width: 800px;
+   min-width: 1000px;
    width: 100%;
    margin-top: 0px;
    height: 60px;
@@ -129,15 +129,81 @@ body
 
 .mainMenuItem a
 {
-   font-family: "Roboto", "Arial", sans-serif;
+   font-family: "Roboto Bold", "Arial", sans-serif;
+   font-size: 1.35rem;
+   font-weight: bold;
+   letter-spacing: 0.05rem;
    text-decoration: none;
    color: white;
 }
 
 .mainMenuItem a:hover
 {
-   color: rgb(180,180,180);
+   opacity: 0.5;
 }
+
+.mainMenuItem a:active
+{
+   color: white;
+}
+
+/* Extra sub-classes to properly align things */
+
+.mainMenuItem.articlesMenu
+{
+   padding: 0px;
+   text-align: center;
+}
+
+.mainMenuItem.lastLink
+{
+   padding: 0px 0px 0px 30px;
+}
+
+/* Dropdown menu (full CSS) */
+
+.dropdown
+{
+   position: relative;
+   display: inline-block;
+   width: 180px;
+}
+
+.dropdown a
+{
+   display: inline-block;
+}
+
+.dropdownContent
+{
+   display: none;
+   position: absolute;
+   width: 160px;
+   text-align: center;
+   padding: 0px 10px;
+   background-color: black;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   z-index: 1;
+}
+
+.dropdownContent a:hover
+{
+   opacity: 0.5;
+}
+
+.dropdown:hover .dropdownContent
+{
+  display: block;
+}
+
+/* Sub-classes for main menu links */
+
+.dropdown .dropdownContent .chronicle { color: #99368b; }
+.dropdown .dropdownContent .guide { color: #dd9302; }
+.dropdown .dropdownContent .misc { color: #969696; }
+.dropdown .dropdownContent .opinion { color: #91c148; }
+.dropdown .dropdownContent .preview { color: #34b1e5; }
+.dropdown .dropdownContent .review { color: #cd301e; }
 
 /* User corner (h6 -> pseudonym, i -> icons for hamburger menus) */
 

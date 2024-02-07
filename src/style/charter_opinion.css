@@ -20,7 +20,7 @@
 
 .segmentBody p a
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (darker shade for readability) */
 }
 
 .segmentBody p a:hover
@@ -30,7 +30,7 @@
 
 .segmentBody h2
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 .segmentBody h2 a
@@ -70,12 +70,12 @@
 
 .segmentBody li:before, .summaryGood li:before, .summaryBad li:before
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 #footerDetails p a:hover, #footerDetails p .editSegment:hover
@@ -85,7 +85,7 @@
 
 #commentsSlider #commentsHeader p a
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 #commentsSlider #commentsHeader p a:hover
@@ -95,12 +95,12 @@
 
 .commentText .commentTextTop .commentAuthor a:hover
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 .commentText a
 {
-   color: #91c148;
+   color: #68912a; /* Original: #91c148 (same as above) */
 }
 
 .commentText a:hover

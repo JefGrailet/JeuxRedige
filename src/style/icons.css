@@ -65,7 +65,7 @@
 .icon-formatting_quotation:before {
   content: "\e90a";
 }
-.icon-formatting_quote:before {
+.icon-formatting_quote:before, .icon-general_quote:before {
   content: "\e90b";
 }
 .icon-formatting_right-aligned:before {

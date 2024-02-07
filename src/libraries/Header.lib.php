@@ -105,11 +105,15 @@ class Database
    
    public static function hardWrite($query, $nbRows = false)
    {
-      $queryObject = self::$pdo->query($query);
-      
-      $error = self::$pdo->errorInfo();
-      if($error[1] != NULL)
-         return $error;
+      $queryObject = NULL;
+      try
+      {
+         $queryObject = self::$pdo->query($query);
+      }
+      catch (PDOException $e)
+      {
+         return $e->errorInfo;
+      }
          
       $returnValue = NULL;
       if($nbRows)
@@ -132,11 +136,15 @@ class Database
    
    public static function hardRead($query, $singleRes = false)
    {
-      $queryObject = self::$pdo->query($query);
-      
-      $error = self::$pdo->errorInfo();
-      if($error[1] != NULL)
-         return $error;
+      $queryObject = NULL;
+      try
+      {
+         $queryObject = self::$pdo->query($query);
+      }
+      catch (PDOException $e)
+      {
+         return $e->errorInfo;
+      }
       
       if($singleRes)
          $result = $queryObject->fetch(PDO::FETCH_ASSOC);
@@ -161,17 +169,16 @@ class Database
    
    public static function secureWrite($query, $arg, $nbRows = false)
    {
-      $queryObject = self::$pdo->prepare($query);
-      
-      $error = self::$pdo->errorInfo();
-      if($error[1] != NULL)
-         return $error;
-      
-      $queryObject->execute($arg);
-      
-      $error = $queryObject->errorInfo();
-      if($error[1] != NULL)
-         return $error;
+      $queryObject = NULL;
+      try
+      {
+        $queryObject = self::$pdo->prepare($query);
+        $queryObject->execute($arg);
+      }
+      catch (PDOException $e)
+      {
+         return $e->errorInfo;
+      }
       
       $returnValue = NULL;
       if($nbRows)
@@ -194,17 +201,16 @@ class Database
    
    public static function secureRead($query, $arg, $singleRes = false)
    {
-      $queryObject = self::$pdo->prepare($query);
-      
-      $error = self::$pdo->errorInfo();
-      if($error[1] != NULL)
-         return $error;
-      
-      $queryObject->execute($arg);
-      
-      $error = $queryObject->errorInfo();
-      if($error[1] != NULL)
-         return $error;
+      $queryObject = NULL;
+      try
+      {
+         $queryObject = self::$pdo->prepare($query);
+         $queryObject->execute($arg);
+      }
+      catch (PDOException $e)
+      {
+         return $e->errorInfo;
+      }
       
       if($singleRes)
          $result = $queryObject->fetch(PDO::FETCH_ASSOC);
@@ -378,7 +384,7 @@ class LoggedUser
       'can_ban' => 'no', 
       'can_invite' => 'no');
 
-      if(strlen(self::$data['function_pseudo']) > 0)
+      if(self::$data !== NULL && self::$data['function_pseudo'] !== NULL && strlen(self::$data['function_pseudo']) > 0)
       {
          $sql = "SELECT functions.* FROM map_functions NATURAL JOIN functions WHERE function_pseudo=?";
          $secondAccount = Database::secureRead($sql, array(self::$data['function_pseudo']), true);
@@ -794,9 +800,11 @@ class WebpageHandler
       'consecutive_topics_delay' => 1800, // Same but for consecutive topics created by the same user (except if admin)
       'consecutive_pings_delay' => 180, // Same but for consecutive "pings" created by the same user (except if admin)
       'meta_title' => '', // Meta-tag: title of the content
+      'meta_author' => '', // Meta-tag: author of the content
       'meta_description' => '', // Meta-tag: description of the content
       'meta_image' => '', // Meta-tag: image/thumbnail
-      'meta_url' => '' // Meta-tag: URL
+      'meta_url' => '', // Meta-tag: URL
+      'meta_keywords' => '' // Meta-tag: keywords
       );
    }
    
@@ -1169,14 +1177,20 @@ class Utils
          if ($categories[$i] === $selected)
          {
             $linksHtml .= '<span class="prettyText">';
-            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0].'s</span> '."\n";
+            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0];
+            if ($i < (count($categories) - 1))
+               $linksHtml .= 's';
+            $linksHtml .= '</span> '."\n";
             $categorySelected = true;
          }
          else
          {
             $linksHtml .= '<a class="prettyLink '.$categories[$i].'" ';
             $linksHtml .= 'href="'.$curPage.'?article_category='.$categories[$i].'">';
-            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0].'s</a> '."\n";
+            $linksHtml .= self::ARTICLES_CATEGORIES[$categories[$i]][0];
+            if ($i < (count($categories) - 1))
+               $linksHtml .= 's';
+            $linksHtml .= '</a> '."\n";
          }
       }
       if ($categorySelected)

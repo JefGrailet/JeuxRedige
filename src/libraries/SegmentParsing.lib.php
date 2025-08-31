@@ -198,10 +198,10 @@ class SegmentParsing
                         {
                            if($newWidth < 250)
                               $imageHTML .= ' padding-top: 5px;';
-                           else if($newWidth < 350)
-                              $imageHTML .= ' padding-top: 10px;';
+                           // else if($newWidth < 350)
+                           //   $imageHTML .= ' padding-top: 10px;';
                            else
-                              $imageHTML .= ' padding-top: 25px;';
+                              $imageHTML .= ' padding-top: 10px;'; // 25px in older versions
                         }
                      }
                      $imageHTML .= '" ';

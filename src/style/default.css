@@ -956,7 +956,6 @@ input[type=submit]:active, button:active, .customButton:active
 #lightbox
 {
    position: fixed;
-   min-width: 500px;
    text-align: center;
    top: 50%;
    left: 50%;
@@ -974,10 +973,15 @@ input[type=submit]:active, button:active, .customButton:active
    background: none;
 }
 
+/* Credits to Danielo for the next block, which guarantees lightbox always resizes nicely */
+
 .lightboxContent img, .lightboxContent video
 {
-   width: 100%;
-   height: 100%;
+   max-width: 80vw;
+   max-height: 80vh;
+   object-fit: cover;
+   display: block;
+   margin: auto;
 }
 
 /* Content of the window. */
@@ -1504,7 +1508,7 @@ textarea
    position: relative;
    width: 370px;
    height: 208px;
-   margin: 12px;
+   margin: 12px 13px;
    background: none;
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;

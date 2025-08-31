@@ -945,14 +945,14 @@ class Utils
    'displayPolicies' => array('default', 'spoiler', 'nsfw', 'noshow', 'noshownsfw', 'noshowspoiler') // Display policies (besides typical display below message)
    );
    
-   // [0] => French name, [1] = gender in French
+   // [0] => French name, [1] = gender in French, [2] = additional meta keywords
    const ARTICLES_CATEGORIES = array(
-   'review' => array('Critique', 'f'), 
-   'preview' => array('Aperçu', 'm'), 
-   'opinion' => array('Humeur', 'f'), 
-   'chronicle' => array('Chronique', 'f'), 
-   'guide' => array('Guide', 'm'), 
-   'misc' => array('Hors Jeu', 'm')
+   'review' => array('Critique', 'f', 'Critique, Test, Review'), 
+   'preview' => array('Aperçu', 'm', 'Aperçu, Preview'), 
+   'opinion' => array('Humeur', 'f', 'Humeur, Opinion'), 
+   'chronicle' => array('Chronique', 'f', 'Chronique, Chronicle'), 
+   'guide' => array('Guide', 'm', 'Guide, Astuces, Tips'), 
+   'misc' => array('Hors Jeu', 'm', 'Hors Jeu, Divers, Inclassable')
    );
    
    /*

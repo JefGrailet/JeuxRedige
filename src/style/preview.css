@@ -206,3 +206,8 @@
    width: 1rem;
    margin-left: -0.75rem;
 }
+
+#previewZone img, #previewZone video
+{
+   max-width: 100%;
+}

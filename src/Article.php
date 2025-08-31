@@ -116,22 +116,20 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    else
       WebpageHandler::wrap($segmentsTpl, 'Une erreur est survenue lors de la lecture des pages');
 
-   // Meta-tags
+   // Default meta keywords (Warning: it's assumed the type of article exists in ARTICLES_CATEGORIES)
+   WebpageHandler::$miscParams['meta_keywords'] = Utils::ARTICLES_CATEGORIES[$article->get('type')][2];
+   
+   // Meta stuff for social media (cards)
    WebpageHandler::$miscParams['meta_title'] = $article->get('title');
    WebpageHandler::$miscParams['meta_author'] = $article->get('pseudo');
    WebpageHandler::$miscParams['meta_description'] = $article->get('subtitle');
    WebpageHandler::$miscParams['meta_image'] = $article->getThumbnail();
    WebpageHandler::$miscParams['meta_url'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
    
-   // Adds keywords to the meta-data
+   // Meta keywords for the <meta> HTML tag (assumed to be first filled with default keywords, cf. above)
    $keywords = $article->getBufferedKeywords();
-   WebpageHandler::$miscParams['meta_keywords'] = '';
    for($i = 0; $i < count($keywords); $i++)
-   {
-      if($i > 0)
-         WebpageHandler::$miscParams['meta_keywords'] .= ', ';
-      WebpageHandler::$miscParams['meta_keywords'] .= $keywords[$i]['tag'];
-   }
+      WebpageHandler::$miscParams['meta_keywords'] .= ', '.$keywords[$i]['tag'];
 
    // Display
    $finalTplInput = array_merge(array('segments' => $segmentsStr), $articleIR);

@@ -127,12 +127,11 @@ class Game
       else if($res == NULL)
          return NULL;
       
-      // No alias: returns an empty array
       $result = array();
       if(count($res) == 1 && strlen($res[0]['tag']) == 0)
          return $result; 
       
-      // Simplification : Database::secureRead() result is a 2D array; it is converted into a linear one.
+      // Database::secureRead() returns a 2D array, converted into a linear one
       for($i = 0; $i < count($res); $i++)
          array_push($result, $res[$i]['tag']);
       

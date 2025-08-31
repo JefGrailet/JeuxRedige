@@ -176,21 +176,21 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          }
 
          // Specific redirection (if asked)
+         $redirectURL = '';
          if(!empty($_POST['sentBis']))
          {
-            $updatedURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
-            header('Location:'.$updatedURL);
+            $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
          }
          // Default redirection
          else
          {
-            $articleEditionURL = './EditArticle.php?id_article='.$article->get('id_article');
-            header('Location:'.$articleEditionURL);
+            $redirectURL = './EditArticle.php?id_article='.$article->get('id_article');
          }
+         header('Location:'.$redirectURL);
 
          // Success page
          $tplInput = array('title' => $formData['title'] != NULL ? $formData['title'] : 'Sommaire',
-                           'target' => $articleEditionURL,
+                           'target' => $redirectURL,
                            'articleTitle' => $article->get('title'));
          $successPage = TemplateEngine::parse('view/user/NewSegment.success.ctpl', $tplInput);
          WebpageHandler::resetDisplay();

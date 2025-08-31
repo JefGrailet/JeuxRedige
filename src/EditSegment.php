@@ -114,7 +114,9 @@ if(!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment']
       $formData['headerPath'] = './default_article_header.jpg';
 
    // Takes care of previous uploads of this segment
-   $attachArr = explode('|', $segment->get('attachment'));
+   $attachArr = array(); // Empty array
+   if ($segment->get('attachment') !== NULL && strlen($segment->get('attachment')) > 0)
+      $attachArr = explode('|', $segment->get('attachment'));
    $existingUploads = '';
    $nbExistingUploads = 0;
    for($i = 0; $i < count($attachArr); $i++)

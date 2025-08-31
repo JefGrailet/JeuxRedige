@@ -144,6 +144,49 @@
    text-align: center;
 }
 
+/* Soundcloud box (March 2024) */
+
+#soundcloudBoxIndex
+{
+   display: flex;
+   flex-wrap: wrap;
+   margin: auto;
+}
+
+#soundcloudBoxIndex iframe
+{
+  height: 300px;
+  margin: 20px 16px;
+}
+
+@media screen and (max-width: 1199px)
+{
+   #soundcloudBoxIndex
+   {
+      width: 800px;
+   }
+   
+   #soundcloudBoxIndex iframe
+   {
+      width: 760px;
+   }
+}
+
+@media screen and (min-width: 1200px)
+{
+   #soundcloudBoxIndex
+   {
+      width: 1200px;
+   }
+   
+   #soundcloudBoxIndex iframe
+   {
+      width: 1160px;
+   }
+}
+
+
+
 /* Elements to centered elements such as page lists or specific buttons. */
 
 .centeredContent

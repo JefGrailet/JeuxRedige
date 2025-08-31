@@ -120,7 +120,7 @@ if(!empty($_GET['game']))
    'publication_month' => $curM.'||'.$monthsAsString, 
    'publication_year' => $curY.'||'.$yearsAsString, 
    'hardware' => $game->get('hardware').'||'.$hardwareAsString, 
-   'aliases' => implode('|', $curAliases), 
+   'aliases' => $curAliases != null ? implode('|', $curAliases) : '', 
    'aliasesList' => Keywords::displayAliases($curAliases));
 
    // New input only
@@ -241,11 +241,14 @@ if(!empty($_GET['game']))
          $aliasesToAdd = Keywords::distinct($newAliases, $curAliases);
          
          // Deletes the keywords absent from the new string
-         try
+         if(count($aliasesToDelete) > 0)
          {
-            Tag::unmapAliases($game->get('tag'), $aliasesToDelete);
+            try
+            {
+               Tag::unmapAliases($game->get('tag'), $aliasesToDelete);
+            }
+            catch(Exception $e) { } // No dedicated error printed for now
          }
-         catch(Exception $e) { } // No dedicated error printed for now
          
          // Adds the new aliases (maximum 10 - $nbCommonAliases)
          for($j = 0; $j < count($aliasesToAdd) && $j < (10 - $nbCommonAliases); $j++)

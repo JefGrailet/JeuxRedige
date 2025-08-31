@@ -1036,7 +1036,9 @@ class Topic
       $sql = 'SELECT date FROM topics WHERE author=? ORDER BY date DESC LIMIT 1';
       $res = Database::secureRead($sql, array(LoggedUser::$data['pseudo']), true);
       
-      if(sizeof($res) == 3)
+      if(is_bool($res)) // User hasn't posted any topic yet (PHP 8)
+         return $currentTime;
+      else if(count($res) == 3)
          throw new Exception('Could not get date of the lattest created topic: '. $res[2]);
       else if($res == NULL)
          return $currentTime;

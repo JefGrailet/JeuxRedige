@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : sam. 12 mars 2022 à 22:44
--- Version du serveur : 8.0.27
--- Version de PHP : 7.4.26
+-- Hôte : com-linweb840.srv.combell-ops.net:3306
+-- Généré le : dim. 31 août 2025 à 17:06
+-- Version du serveur : 5.7.44-49-log
+-- Version de PHP : 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,22 +27,19 @@ SET time_zone = "+00:00";
 -- Structure de la table `articles`
 --
 
-DROP TABLE IF EXISTS `articles`;
-CREATE TABLE IF NOT EXISTS `articles` (
-  `id_article` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Main author of the article.',
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `subtitle` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `type` set('review','preview','opinion','chronicle') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'opinion',
-  `related_topic` int UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Topic not deleted if article is deleted.',
+CREATE TABLE `articles` (
+  `id_article` int(10) UNSIGNED NOT NULL,
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Main author of the article.',
+  `title` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `subtitle` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `type` set('review','preview','opinion','chronicle','guide','misc') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'opinion',
+  `related_topic` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Topic not deleted if article is deleted.',
   `date_creation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_publication` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `date_last_modifications` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
-  `featured` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `views` int UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id_article`),
-  KEY `author` (`pseudo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `featured` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `views` int(10) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -50,20 +47,16 @@ CREATE TABLE IF NOT EXISTS `articles` (
 -- Structure de la table `articles_segments`
 --
 
-DROP TABLE IF EXISTS `articles_segments`;
-CREATE TABLE IF NOT EXISTS `articles_segments` (
-  `id_segment` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_article` int UNSIGNED NOT NULL,
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Author of the segment.',
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL COMMENT 'Can be NULL if position = 1 (single segment article).',
-  `position` tinyint UNSIGNED NOT NULL,
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `attachment` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci,
-  `date_last_modification` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
-  PRIMARY KEY (`id_segment`),
-  KEY `id_article` (`id_article`),
-  KEY `author` (`pseudo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `articles_segments` (
+  `id_segment` int(10) UNSIGNED NOT NULL,
+  `id_article` int(10) UNSIGNED NOT NULL,
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Author of the segment.',
+  `title` varchar(100) COLLATE utf8_unicode_520_ci DEFAULT NULL COMMENT 'Can be NULL if position = 1 (single segment article).',
+  `position` tinyint(3) UNSIGNED NOT NULL,
+  `content` longtext COLLATE utf8_unicode_520_ci NOT NULL,
+  `attachment` text COLLATE utf8_unicode_520_ci,
+  `date_last_modification` datetime NOT NULL DEFAULT '1970-01-01 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -71,20 +64,16 @@ CREATE TABLE IF NOT EXISTS `articles_segments` (
 -- Structure de la table `commentables`
 --
 
-DROP TABLE IF EXISTS `commentables`;
-CREATE TABLE IF NOT EXISTS `commentables` (
-  `id_commentable` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Author of the content.',
-  `title` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `commentables` (
+  `id_commentable` int(10) UNSIGNED NOT NULL,
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Author of the content.',
+  `title` varchar(60) COLLATE utf8_unicode_520_ci NOT NULL,
   `date_publication` datetime NOT NULL,
   `date_last_edition` datetime NOT NULL,
-  `votes_relevant` smallint UNSIGNED NOT NULL,
-  `votes_irrelevant` smallint UNSIGNED NOT NULL,
-  `id_topic` int UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id_commentable`),
-  KEY `commentables_ibkf_2` (`pseudo`),
-  KEY `commentables_ibkf_1` (`id_topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `votes_relevant` smallint(6) UNSIGNED NOT NULL,
+  `votes_irrelevant` smallint(6) UNSIGNED NOT NULL,
+  `id_topic` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -92,15 +81,12 @@ CREATE TABLE IF NOT EXISTS `commentables` (
 -- Structure de la table `commentables_ratings`
 --
 
-DROP TABLE IF EXISTS `commentables_ratings`;
-CREATE TABLE IF NOT EXISTS `commentables_ratings` (
-  `id_commentable` int UNSIGNED NOT NULL,
-  `user` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `rating` set('relevant','irrelevant') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Might be extended with other choices later.',
-  `date` datetime NOT NULL,
-  UNIQUE KEY `user_commentable_tuple` (`id_commentable`,`user`),
-  KEY `ratings_ibkf_2` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `commentables_ratings` (
+  `id_commentable` int(11) UNSIGNED NOT NULL,
+  `user` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `rating` set('relevant','irrelevant') COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Might be extended with other choices later.',
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -108,18 +94,14 @@ CREATE TABLE IF NOT EXISTS `commentables_ratings` (
 -- Structure de la table `emoticons`
 --
 
-DROP TABLE IF EXISTS `emoticons`;
-CREATE TABLE IF NOT EXISTS `emoticons` (
-  `id_emoticon` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `file` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `uploader` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `emoticons` (
+  `id_emoticon` int(10) UNSIGNED NOT NULL,
+  `file` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
+  `uploader` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
   `upload_date` datetime NOT NULL,
-  `suggested_shortcut` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`id_emoticon`),
-  UNIQUE KEY `suggested_shortcut` (`suggested_shortcut`),
-  KEY `uploader` (`uploader`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `suggested_shortcut` varchar(30) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -127,21 +109,19 @@ CREATE TABLE IF NOT EXISTS `emoticons` (
 -- Structure de la table `functions`
 --
 
-DROP TABLE IF EXISTS `functions`;
-CREATE TABLE IF NOT EXISTS `functions` (
-  `function_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `can_create_topics` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_upload` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_invite` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `can_edit_all_posts` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_edit_games` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_edit_users` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_mark` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_lock` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_delete` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `can_ban` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`function_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `functions` (
+  `function_name` varchar(30) COLLATE utf8_unicode_520_ci NOT NULL,
+  `can_create_topics` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_upload` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_invite` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL,
+  `can_edit_all_posts` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_edit_games` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_edit_users` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_mark` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_lock` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_delete` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `can_ban` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `functions`
@@ -157,17 +137,14 @@ INSERT INTO `functions` (`function_name`, `can_create_topics`, `can_upload`, `ca
 -- Structure de la table `games`
 --
 
-DROP TABLE IF EXISTS `games`;
-CREATE TABLE IF NOT EXISTS `games` (
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `genre` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `publisher` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `developer` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `games` (
+  `tag` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `genre` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
+  `publisher` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
+  `developer` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
   `publication_date` datetime NOT NULL,
-  `hardware` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`tag`),
-  KEY `games_ibfk_2` (`genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `hardware` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `games`
@@ -226,11 +203,9 @@ INSERT INTO `games` (`tag`, `genre`, `publisher`, `developer`, `publication_date
 -- Structure de la table `genres`
 --
 
-DROP TABLE IF EXISTS `genres`;
-CREATE TABLE IF NOT EXISTS `genres` (
-  `genre` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `genres` (
+  `genre` varchar(30) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `genres`
@@ -242,11 +217,19 @@ INSERT INTO `genres` (`genre`) VALUES
 ('Beat\'em All'),
 ('Combat'),
 ('Courses'),
+('FPS'),
 ('MMORPG'),
+('Musical'),
+('Plateforme'),
 ('Réflexion'),
 ('RPG'),
 ('Simulation'),
-('Stratégie');
+('Sport'),
+('STR'),
+('Stratégie'),
+('Survie'),
+('TPS'),
+('Visual novel');
 
 -- --------------------------------------------------------
 
@@ -254,12 +237,10 @@ INSERT INTO `genres` (`genre`) VALUES
 -- Structure de la table `hardware`
 --
 
-DROP TABLE IF EXISTS `hardware`;
-CREATE TABLE IF NOT EXISTS `hardware` (
-  `code` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `full_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `hardware` (
+  `code` varchar(10) COLLATE utf8_unicode_520_ci NOT NULL,
+  `full_name` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `hardware`
@@ -268,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `hardware` (
 INSERT INTO `hardware` (`code`, `full_name`) VALUES
 ('3DS', 'Nintendo 3DS'),
 ('DS', 'Nintendo DS'),
+('NS2', 'Nintendo Switch 2'),
 ('PC', 'PC'),
 ('PS3', 'PlayStation 3'),
 ('PS4', 'PlayStation 4'),
@@ -287,18 +269,13 @@ INSERT INTO `hardware` (`code`, `full_name`) VALUES
 -- Structure de la table `invitations`
 --
 
-DROP TABLE IF EXISTS `invitations`;
-CREATE TABLE IF NOT EXISTS `invitations` (
-  `invitation_key` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `sponsor` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `guest_email` varchar(125) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `invitations` (
+  `invitation_key` varchar(15) COLLATE utf8_unicode_520_ci NOT NULL,
+  `sponsor` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `guest_email` varchar(125) COLLATE utf8_unicode_520_ci NOT NULL,
   `emission_date` datetime NOT NULL,
-  `last_email` datetime NOT NULL,
-  PRIMARY KEY (`invitation_key`),
-  UNIQUE KEY `key` (`invitation_key`),
-  UNIQUE KEY `guest` (`guest_email`),
-  KEY `invitations_ibfk_1` (`sponsor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `last_email` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -306,12 +283,10 @@ CREATE TABLE IF NOT EXISTS `invitations` (
 -- Structure de la table `lists`
 --
 
-DROP TABLE IF EXISTS `lists`;
-CREATE TABLE IF NOT EXISTS `lists` (
-  `id_commentable` int UNSIGNED NOT NULL,
+CREATE TABLE `lists` (
+  `id_commentable` int(10) UNSIGNED NOT NULL,
   `description` text NOT NULL,
-  `ordering` set('default','top') NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`id_commentable`)
+  `ordering` set('default','top') NOT NULL DEFAULT 'default'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -320,13 +295,10 @@ CREATE TABLE IF NOT EXISTS `lists` (
 -- Structure de la table `map_aliases`
 --
 
-DROP TABLE IF EXISTS `map_aliases`;
-CREATE TABLE IF NOT EXISTS `map_aliases` (
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `alias` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  UNIQUE KEY `alias` (`tag`,`alias`),
-  KEY `map_aliases_ibfk_2` (`alias`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_aliases` (
+  `tag` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `alias` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `map_aliases`
@@ -454,15 +426,11 @@ INSERT INTO `map_aliases` (`tag`, `alias`) VALUES
 -- Structure de la table `map_emoticons`
 --
 
-DROP TABLE IF EXISTS `map_emoticons`;
-CREATE TABLE IF NOT EXISTS `map_emoticons` (
-  `id_emoticon` int UNSIGNED NOT NULL,
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `shortcut` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`id_emoticon`,`pseudo`),
-  UNIQUE KEY `user_mapping` (`pseudo`,`shortcut`) USING BTREE,
-  KEY `mapping` (`id_emoticon`,`pseudo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_emoticons` (
+  `id_emoticon` int(10) UNSIGNED NOT NULL,
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `shortcut` varchar(30) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -470,14 +438,11 @@ CREATE TABLE IF NOT EXISTS `map_emoticons` (
 -- Structure de la table `map_functions`
 --
 
-DROP TABLE IF EXISTS `map_functions`;
-CREATE TABLE IF NOT EXISTS `map_functions` (
-  `function_pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `function_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`function_pseudo`),
-  KEY `function_name` (`function_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_functions` (
+  `function_pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `function_name` varchar(30) COLLATE utf8_unicode_520_ci NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `map_functions`
@@ -492,17 +457,13 @@ INSERT INTO `map_functions` (`function_pseudo`, `function_name`, `date`) VALUES
 -- Structure de la table `map_lists_games`
 --
 
-DROP TABLE IF EXISTS `map_lists_games`;
-CREATE TABLE IF NOT EXISTS `map_lists_games` (
-  `id_item` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_commentable` int UNSIGNED NOT NULL,
+CREATE TABLE `map_lists_games` (
+  `id_item` int(10) UNSIGNED NOT NULL,
+  `id_commentable` int(10) UNSIGNED NOT NULL,
   `game` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
   `subtitle` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL COMMENT 'Optional title to replace the name of the game.',
   `comment` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Comment about why this game is in the list.',
-  `rank` tinyint UNSIGNED NOT NULL COMMENT 'To list items following a specific order chosen by the user.',
-  PRIMARY KEY (`id_item`),
-  UNIQUE KEY `list_game_tuple` (`id_commentable`,`game`),
-  KEY `map_lists_games_ibfk_2` (`game`)
+  `rank` tinyint(3) UNSIGNED NOT NULL COMMENT 'To list items following a specific order chosen by the user.'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -511,16 +472,12 @@ CREATE TABLE IF NOT EXISTS `map_lists_games` (
 -- Structure de la table `map_pings`
 --
 
-DROP TABLE IF EXISTS `map_pings`;
-CREATE TABLE IF NOT EXISTS `map_pings` (
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `id_ping` int UNSIGNED NOT NULL,
-  `viewed` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `last_update` datetime NOT NULL,
-  PRIMARY KEY (`pseudo`,`id_ping`),
-  UNIQUE KEY `pseudo` (`pseudo`,`id_ping`),
-  KEY `id_ping` (`id_ping`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_pings` (
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `id_ping` int(10) UNSIGNED NOT NULL,
+  `viewed` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL,
+  `last_update` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -528,14 +485,10 @@ CREATE TABLE IF NOT EXISTS `map_pings` (
 -- Structure de la table `map_tags`
 --
 
-DROP TABLE IF EXISTS `map_tags`;
-CREATE TABLE IF NOT EXISTS `map_tags` (
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `id_topic` int UNSIGNED NOT NULL,
-  PRIMARY KEY (`tag`,`id_topic`),
-  UNIQUE KEY `tag` (`tag`,`id_topic`),
-  KEY `id_topic` (`id_topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_tags` (
+  `tag` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `id_topic` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -543,14 +496,10 @@ CREATE TABLE IF NOT EXISTS `map_tags` (
 -- Structure de la table `map_tags_articles`
 --
 
-DROP TABLE IF EXISTS `map_tags_articles`;
-CREATE TABLE IF NOT EXISTS `map_tags_articles` (
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `id_article` int UNSIGNED NOT NULL,
-  PRIMARY KEY (`tag`,`id_article`),
-  UNIQUE KEY `tag` (`tag`,`id_article`),
-  KEY `id_article` (`id_article`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_tags_articles` (
+  `tag` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `id_article` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -558,17 +507,12 @@ CREATE TABLE IF NOT EXISTS `map_tags_articles` (
 -- Structure de la table `map_topics_users`
 --
 
-DROP TABLE IF EXISTS `map_topics_users`;
-CREATE TABLE IF NOT EXISTS `map_topics_users` (
-  `id_topic` int UNSIGNED NOT NULL,
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `favorite` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `last_seen` int UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_topic`,`pseudo`),
-  UNIQUE KEY `pseudo` (`id_topic`,`pseudo`),
-  KEY `id_topic` (`id_topic`),
-  KEY `map_topics_users_ibfk_1` (`pseudo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `map_topics_users` (
+  `id_topic` int(10) UNSIGNED NOT NULL,
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `favorite` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `last_seen` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -576,18 +520,16 @@ CREATE TABLE IF NOT EXISTS `map_topics_users` (
 -- Structure de la table `pings`
 --
 
-DROP TABLE IF EXISTS `pings`;
-CREATE TABLE IF NOT EXISTS `pings` (
-  `id_ping` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emitter` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `receiver` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `ping_type` set('ping pong','friendship request','notification') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `state` set('pending','cancelled','archived') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `message` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `emission_date` datetime NOT NULL,
-  PRIMARY KEY (`id_ping`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `pings` (
+  `id_ping` int(11) UNSIGNED NOT NULL,
+  `emitter` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `receiver` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `ping_type` set('ping pong','friendship request','notification') COLLATE utf8_unicode_520_ci NOT NULL,
+  `state` set('pending','cancelled','archived') COLLATE utf8_unicode_520_ci NOT NULL,
+  `title` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
+  `message` text COLLATE utf8_unicode_520_ci NOT NULL,
+  `emission_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -595,18 +537,14 @@ CREATE TABLE IF NOT EXISTS `pings` (
 -- Structure de la table `pongs`
 --
 
-DROP TABLE IF EXISTS `pongs`;
-CREATE TABLE IF NOT EXISTS `pongs` (
-  `id_pong` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_ping` int UNSIGNED NOT NULL,
-  `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `ip_author` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `pongs` (
+  `id_pong` int(11) UNSIGNED NOT NULL,
+  `id_ping` int(11) UNSIGNED NOT NULL,
+  `author` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `ip_author` varchar(50) COLLATE utf8_unicode_520_ci NOT NULL,
   `date` datetime NOT NULL,
-  `message` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`id_pong`),
-  KEY `pongs_ibfk_1` (`id_ping`),
-  KEY `pongs_ibfk_2` (`author`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `message` text COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -614,25 +552,22 @@ CREATE TABLE IF NOT EXISTS `pongs` (
 -- Structure de la table `posts`
 --
 
-DROP TABLE IF EXISTS `posts`;
-CREATE TABLE IF NOT EXISTS `posts` (
-  `id_post` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_topic` int UNSIGNED NOT NULL,
-  `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `ip_author` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
+CREATE TABLE `posts` (
+  `id_post` int(10) UNSIGNED NOT NULL,
+  `id_topic` int(10) UNSIGNED NOT NULL,
+  `author` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `ip_author` varchar(50) COLLATE utf8_unicode_520_ci DEFAULT NULL,
   `date` datetime NOT NULL,
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+  `content` longtext COLLATE utf8_unicode_520_ci NOT NULL,
   `last_edit` datetime DEFAULT NULL,
-  `last_editor` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `nb_edits` tinyint UNSIGNED NOT NULL,
-  `nb_likes` smallint UNSIGNED NOT NULL,
-  `nb_dislikes` smallint UNSIGNED NOT NULL,
-  `bad_score` smallint NOT NULL,
-  `posted_as` set('anonymous','regular user','administrator','author') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `attachment` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci,
-  PRIMARY KEY (`id_post`),
-  KEY `id_topic` (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `last_editor` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `nb_edits` tinyint(3) UNSIGNED NOT NULL,
+  `nb_likes` smallint(5) UNSIGNED NOT NULL,
+  `nb_dislikes` smallint(5) UNSIGNED NOT NULL,
+  `bad_score` smallint(4) NOT NULL,
+  `posted_as` set('anonymous','regular user','administrator','author') COLLATE utf8_unicode_520_ci NOT NULL,
+  `attachment` text COLLATE utf8_unicode_520_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `posts`
@@ -641,28 +576,26 @@ CREATE TABLE IF NOT EXISTS `posts` (
 INSERT INTO `posts` (`id_post`, `id_topic`, `author`, `ip_author`, `date`, `content`, `last_edit`, `last_editor`, `nb_edits`, `nb_likes`, `nb_dislikes`, `bad_score`, `posted_as`, `attachment`) VALUES
 (1, 1, 'AlainTouring', '::1', '2022-01-01 00:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque nisl sit amet neque varius, in finibus erat venenatis. Aenean accumsan in lacus vel fermentum. Cras gravida molestie nisi non pretium. Cras massa nibh, vestibulum a justo quis, elementum commodo dolor. Aliquam ut justo purus. Donec tincidunt, est quis ornare ultricies, felis turpis pharetra sem, sit amet consequat lorem lectus id elit. Proin ornare interdum ante sed sagittis. Curabitur eget risus vel nulla pharetra molestie. Donec tempor odio id auctor pulvinar. Nulla pulvinar, lorem eget varius fermentum, nisl leo ultricies neque, vel vestibulum lectus nunc non sapien.<br />\r\n<br />\r\nPhasellus eros augue, auctor at tincidunt sit amet, scelerisque at justo. Vivamus at mi sodales, sodales libero ultrices, elementum leo. Etiam vitae condimentum neque. Sed quis eleifend tortor. Sed pharetra lacus nisi, sit amet tincidunt arcu egestas in. Maecenas eget nunc ullamcorper justo consequat congue vitae non mi. Etiam id maximus ex, a viverra leo. Nam sagittis malesuada purus, congue cursus ex consectetur fringilla. Praesent metus velit, malesuada eu nunc eu, tristique lacinia odio. Nunc dolor odio, efficitur laoreet gravida in, congue ut elit. Sed vehicula tortor mi, vitae fermentum felis luctus vel. Vestibulum tristique risus ut ligula tristique rhoncus. Suspendisse nec nunc sed tellus elementum venenatis a at lorem. Nulla sit amet ipsum nibh. Etiam suscipit aliquam feugiat.<br />\r\n<br />\r\nCurabitur erat tellus, egestas at convallis lobortis, pulvinar vel purus. Etiam nulla lectus, placerat sed gravida a, sollicitudin vitae metus. Suspendisse odio nisl, interdum non libero in, blandit cursus sapien. Duis mauris est, fringilla quis vulputate vel, malesuada sed lectus. Proin vitae ultricies sapien, ac ultricies metus. Proin tincidunt viverra faucibus. Sed sed orci vitae ligula iaculis consectetur quis suscipit nunc. In quis ornare sem, vel venenatis lorem.<br />\r\n<br />\r\nCurabitur consectetur posuere neque eget pellentesque. Integer finibus, lorem ac scelerisque imperdiet, dolor nibh commodo tellus, nec hendrerit mauris lacus et arcu. Fusce vitae interdum lorem, eu luctus erat. Quisque vitae molestie turpis. Ut vel venenatis velit, quis semper nunc. Etiam in mi leo. Quisque eleifend velit nec lacinia suscipit. Etiam ut eros nisi. Nullam gravida mauris eget quam porttitor pretium. Ut at condimentum ligula. Curabitur tristique lorem tristique, iaculis diam at, pellentesque magna. Nulla facilisi. Maecenas magna libero, tincidunt eu aliquam et, dignissim eu elit.<br />\r\n<br />\r\nSed id ultricies mauris. Morbi eu velit ipsum. Vivamus feugiat velit lectus. Mauris efficitur varius tortor. Donec sit amet facilisis lacus, non feugiat enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In hac habitasse platea dictumst. Donec tempus tortor ac velit facilisis volutpat. Phasellus eu sem nec lorem luctus vulputate quis nec nunc. Vestibulum vitae interdum elit. Maecenas efficitur dapibus vulputate. Etiam ultrices eros in orci sagittis, at facilisis quam molestie. ', '1970-01-01 00:00:00', '', 0, 0, 0, 0, 'regular user', '');
 
+
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `posts_history`
 --
 
-DROP TABLE IF EXISTS `posts_history`;
-CREATE TABLE IF NOT EXISTS `posts_history` (
-  `id_post` int UNSIGNED NOT NULL,
-  `version` tinyint UNSIGNED NOT NULL,
-  `id_topic` int UNSIGNED NOT NULL,
-  `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `ip_author` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  `editor` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `posted_as` set('anonymous','regular user','administrator') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `posts_history` (
+  `id_post` int(10) UNSIGNED NOT NULL,
+  `version` tinyint(3) UNSIGNED NOT NULL,
+  `id_topic` int(10) UNSIGNED NOT NULL,
+  `author` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `ip_author` varchar(50) COLLATE utf8_unicode_520_ci DEFAULT NULL,
+  `editor` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `posted_as` set('anonymous','regular user','administrator') COLLATE utf8_unicode_520_ci NOT NULL,
   `date` datetime NOT NULL,
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `attachment` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci,
-  `censorship` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  UNIQUE KEY `id_history` (`id_post`,`version`),
-  KEY `posts_history_ibfk_2` (`id_topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `content` longtext COLLATE utf8_unicode_520_ci NOT NULL,
+  `attachment` text COLLATE utf8_unicode_520_ci,
+  `censorship` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -670,17 +603,12 @@ CREATE TABLE IF NOT EXISTS `posts_history` (
 -- Structure de la table `posts_interactions`
 --
 
-DROP TABLE IF EXISTS `posts_interactions`;
-CREATE TABLE IF NOT EXISTS `posts_interactions` (
-  `id_interaction` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_post` int UNSIGNED NOT NULL,
-  `user` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id_interaction`),
-  UNIQUE KEY `couple` (`id_interaction`,`id_post`),
-  KEY `posts_interactions_ibfk_2` (`user`),
-  KEY `posts_interactions_ibfk_1` (`id_post`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `posts_interactions` (
+  `id_interaction` int(10) UNSIGNED NOT NULL,
+  `id_post` int(10) UNSIGNED NOT NULL,
+  `user` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -688,13 +616,11 @@ CREATE TABLE IF NOT EXISTS `posts_interactions` (
 -- Structure de la table `posts_interactions_alerts`
 --
 
-DROP TABLE IF EXISTS `posts_interactions_alerts`;
-CREATE TABLE IF NOT EXISTS `posts_interactions_alerts` (
-  `id_interaction` int UNSIGNED NOT NULL,
-  `motivation` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `function_pseudo` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  PRIMARY KEY (`id_interaction`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `posts_interactions_alerts` (
+  `id_interaction` int(11) UNSIGNED NOT NULL,
+  `motivation` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `function_pseudo` varchar(20) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -702,12 +628,10 @@ CREATE TABLE IF NOT EXISTS `posts_interactions_alerts` (
 -- Structure de la table `posts_interactions_pins`
 --
 
-DROP TABLE IF EXISTS `posts_interactions_pins`;
-CREATE TABLE IF NOT EXISTS `posts_interactions_pins` (
-  `id_interaction` int UNSIGNED NOT NULL,
-  `comment` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  PRIMARY KEY (`id_interaction`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `posts_interactions_pins` (
+  `id_interaction` int(10) UNSIGNED NOT NULL,
+  `comment` varchar(100) CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -715,12 +639,10 @@ CREATE TABLE IF NOT EXISTS `posts_interactions_pins` (
 -- Structure de la table `posts_interactions_votes`
 --
 
-DROP TABLE IF EXISTS `posts_interactions_votes`;
-CREATE TABLE IF NOT EXISTS `posts_interactions_votes` (
-  `id_interaction` int UNSIGNED NOT NULL,
-  `vote` tinyint NOT NULL,
-  PRIMARY KEY (`id_interaction`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `posts_interactions_votes` (
+  `id_interaction` int(11) UNSIGNED NOT NULL,
+  `vote` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -728,18 +650,15 @@ CREATE TABLE IF NOT EXISTS `posts_interactions_votes` (
 -- Structure de la table `records_sentences`
 --
 
-DROP TABLE IF EXISTS `records_sentences`;
-CREATE TABLE IF NOT EXISTS `records_sentences` (
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `judge` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `records_sentences` (
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `judge` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
   `date` datetime NOT NULL,
-  `duration` int NOT NULL,
+  `duration` int(11) NOT NULL,
   `expiration` datetime NOT NULL,
-  `relaxed` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `details` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  UNIQUE KEY `pseudo` (`pseudo`,`judge`,`date`,`duration`),
-  KEY `records_banishment_ibfk_2` (`judge`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `relaxed` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `details` text COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -747,11 +666,9 @@ CREATE TABLE IF NOT EXISTS `records_sentences` (
 -- Structure de la table `tags`
 --
 
-DROP TABLE IF EXISTS `tags`;
-CREATE TABLE IF NOT EXISTS `tags` (
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `tags` (
+  `tag` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `tags`
@@ -899,24 +816,22 @@ INSERT INTO `tags` (`tag`) VALUES
 -- Structure de la table `topics`
 --
 
-DROP TABLE IF EXISTS `topics`;
-CREATE TABLE IF NOT EXISTS `topics` (
-  `id_topic` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL COMMENT '255 to notably fit full titles of articles..',
-  `thumbnail` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  `created_as` set('regular user','administrator','author') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'regular user',
+CREATE TABLE `topics` (
+  `id_topic` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_520_ci DEFAULT NULL COMMENT '255 to notably fit full titles of articles..',
+  `thumbnail` varchar(50) COLLATE utf8_unicode_520_ci DEFAULT NULL,
+  `author` varchar(20) COLLATE utf8_unicode_520_ci DEFAULT NULL,
+  `created_as` set('regular user','administrator','author') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'regular user',
   `date` datetime DEFAULT NULL,
-  `type` tinyint UNSIGNED DEFAULT NULL,
-  `is_anon_posting_enabled` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `uploads_enabled` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `is_locked` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `is_marked` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `type` tinyint(3) UNSIGNED DEFAULT NULL,
+  `is_anon_posting_enabled` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `uploads_enabled` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `is_locked` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `is_marked` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
   `last_post` datetime DEFAULT NULL,
-  `last_author` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  `posted_as` set('anonymous','regular user','administrator','author') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  PRIMARY KEY (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `last_author` varchar(20) COLLATE utf8_unicode_520_ci DEFAULT NULL,
+  `posted_as` set('anonymous','regular user','administrator','author') COLLATE utf8_unicode_520_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `topics`
@@ -931,14 +846,11 @@ INSERT INTO `topics` (`id_topic`, `title`, `thumbnail`, `author`, `created_as`, 
 -- Structure de la table `trivia`
 --
 
-DROP TABLE IF EXISTS `trivia`;
-CREATE TABLE IF NOT EXISTS `trivia` (
-  `id_commentable` int UNSIGNED NOT NULL,
-  `game` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`id_commentable`),
-  KEY `trivia_ibfk_2` (`game`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+CREATE TABLE `trivia` (
+  `id_commentable` int(10) UNSIGNED NOT NULL,
+  `game` varchar(100) COLLATE utf8_unicode_520_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 -- --------------------------------------------------------
 
@@ -946,31 +858,28 @@ CREATE TABLE IF NOT EXISTS `trivia` (
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `email` varchar(125) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `secret` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Normally 60 characters.',
-  `confirmation` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
+CREATE TABLE `users` (
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `email` varchar(125) COLLATE utf8_unicode_520_ci NOT NULL,
+  `secret` varchar(15) COLLATE utf8_unicode_520_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_520_ci NOT NULL COMMENT 'Normally 60 characters.',
+  `confirmation` varchar(15) COLLATE utf8_unicode_520_ci NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_connection` datetime NOT NULL,
-  `advanced_features` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `function_pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT NULL,
-  `pwd_reset_attempts` smallint NOT NULL,
+  `advanced_features` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `function_pseudo` varchar(20) COLLATE utf8_unicode_520_ci DEFAULT NULL,
+  `pwd_reset_attempts` smallint(6) NOT NULL,
   `pwd_reset_last_attempt` datetime NOT NULL,
   `last_ban_expiration` datetime NOT NULL,
-  `using_preferences` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
-  `pref_message_size` set('default','medium') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `pref_posts_per_page` tinyint UNSIGNED NOT NULL DEFAULT '20',
-  `pref_video_default_display` set('embedded','thumbnail') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'thumbnail',
-  `pref_video_thumbnail_style` set('hq','small') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'hq',
-  `pref_default_nav_mode` set('classic','dynamic','flow') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT 'classic',
-  `pref_auto_preview` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT 'no',
-  `pref_auto_refresh` set('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_520_ci DEFAULT 'no',
-  PRIMARY KEY (`pseudo`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci;
+  `using_preferences` set('yes','no') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'no',
+  `pref_message_size` set('default','medium') COLLATE utf8_unicode_520_ci NOT NULL,
+  `pref_posts_per_page` tinyint(3) UNSIGNED NOT NULL DEFAULT '20',
+  `pref_video_default_display` set('embedded','thumbnail') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'thumbnail',
+  `pref_video_thumbnail_style` set('hq','small') COLLATE utf8_unicode_520_ci NOT NULL DEFAULT 'hq',
+  `pref_default_nav_mode` set('classic','dynamic','flow') COLLATE utf8_unicode_520_ci DEFAULT 'classic',
+  `pref_auto_preview` set('yes','no') COLLATE utf8_unicode_520_ci DEFAULT 'no',
+  `pref_auto_refresh` set('yes','no') COLLATE utf8_unicode_520_ci DEFAULT 'no'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -985,12 +894,313 @@ INSERT INTO `users` (`pseudo`, `email`, `secret`, `password`, `confirmation`, `r
 -- Structure de la table `users_presentations`
 --
 
-DROP TABLE IF EXISTS `users_presentations`;
-CREATE TABLE IF NOT EXISTS `users_presentations` (
-  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  `presentation` text CHARACTER SET utf8 COLLATE utf8_unicode_520_ci NOT NULL,
-  PRIMARY KEY (`pseudo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_520_ci COMMENT='To motivate quick access to advanced features (optional)';
+CREATE TABLE `users_presentations` (
+  `pseudo` varchar(20) COLLATE utf8_unicode_520_ci NOT NULL,
+  `presentation` text COLLATE utf8_unicode_520_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci COMMENT='To motivate quick access to advanced features (optional)';
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `articles`
+--
+ALTER TABLE `articles`
+  ADD PRIMARY KEY (`id_article`),
+  ADD KEY `author` (`pseudo`);
+
+--
+-- Index pour la table `articles_segments`
+--
+ALTER TABLE `articles_segments`
+  ADD PRIMARY KEY (`id_segment`),
+  ADD KEY `id_article` (`id_article`),
+  ADD KEY `author` (`pseudo`);
+
+--
+-- Index pour la table `commentables`
+--
+ALTER TABLE `commentables`
+  ADD PRIMARY KEY (`id_commentable`),
+  ADD KEY `commentables_ibkf_2` (`pseudo`),
+  ADD KEY `commentables_ibkf_1` (`id_topic`);
+
+--
+-- Index pour la table `commentables_ratings`
+--
+ALTER TABLE `commentables_ratings`
+  ADD UNIQUE KEY `user_commentable_tuple` (`id_commentable`,`user`),
+  ADD KEY `ratings_ibkf_2` (`user`);
+
+--
+-- Index pour la table `emoticons`
+--
+ALTER TABLE `emoticons`
+  ADD PRIMARY KEY (`id_emoticon`),
+  ADD UNIQUE KEY `suggested_shortcut` (`suggested_shortcut`),
+  ADD KEY `uploader` (`uploader`);
+
+--
+-- Index pour la table `functions`
+--
+ALTER TABLE `functions`
+  ADD PRIMARY KEY (`function_name`);
+
+--
+-- Index pour la table `games`
+--
+ALTER TABLE `games`
+  ADD PRIMARY KEY (`tag`),
+  ADD KEY `games_ibfk_2` (`genre`);
+
+--
+-- Index pour la table `genres`
+--
+ALTER TABLE `genres`
+  ADD PRIMARY KEY (`genre`);
+
+--
+-- Index pour la table `hardware`
+--
+ALTER TABLE `hardware`
+  ADD PRIMARY KEY (`code`);
+
+--
+-- Index pour la table `invitations`
+--
+ALTER TABLE `invitations`
+  ADD PRIMARY KEY (`invitation_key`),
+  ADD UNIQUE KEY `key` (`invitation_key`),
+  ADD UNIQUE KEY `guest` (`guest_email`),
+  ADD KEY `invitations_ibfk_1` (`sponsor`);
+
+--
+-- Index pour la table `lists`
+--
+ALTER TABLE `lists`
+  ADD PRIMARY KEY (`id_commentable`);
+
+--
+-- Index pour la table `map_aliases`
+--
+ALTER TABLE `map_aliases`
+  ADD UNIQUE KEY `alias` (`tag`,`alias`),
+  ADD KEY `map_aliases_ibfk_2` (`alias`);
+
+--
+-- Index pour la table `map_emoticons`
+--
+ALTER TABLE `map_emoticons`
+  ADD PRIMARY KEY (`id_emoticon`,`pseudo`),
+  ADD UNIQUE KEY `user_mapping` (`pseudo`,`shortcut`) USING BTREE,
+  ADD KEY `mapping` (`id_emoticon`,`pseudo`);
+
+--
+-- Index pour la table `map_functions`
+--
+ALTER TABLE `map_functions`
+  ADD PRIMARY KEY (`function_pseudo`),
+  ADD KEY `function_name` (`function_name`);
+
+--
+-- Index pour la table `map_lists_games`
+--
+ALTER TABLE `map_lists_games`
+  ADD PRIMARY KEY (`id_item`),
+  ADD UNIQUE KEY `list_game_tuple` (`id_commentable`,`game`),
+  ADD KEY `map_lists_games_ibfk_2` (`game`);
+
+--
+-- Index pour la table `map_pings`
+--
+ALTER TABLE `map_pings`
+  ADD PRIMARY KEY (`pseudo`,`id_ping`),
+  ADD UNIQUE KEY `pseudo` (`pseudo`,`id_ping`),
+  ADD KEY `id_ping` (`id_ping`);
+
+--
+-- Index pour la table `map_tags`
+--
+ALTER TABLE `map_tags`
+  ADD PRIMARY KEY (`tag`,`id_topic`),
+  ADD UNIQUE KEY `tag` (`tag`,`id_topic`),
+  ADD KEY `id_topic` (`id_topic`);
+
+--
+-- Index pour la table `map_tags_articles`
+--
+ALTER TABLE `map_tags_articles`
+  ADD PRIMARY KEY (`tag`,`id_article`),
+  ADD UNIQUE KEY `tag` (`tag`,`id_article`),
+  ADD KEY `id_article` (`id_article`);
+
+--
+-- Index pour la table `map_topics_users`
+--
+ALTER TABLE `map_topics_users`
+  ADD PRIMARY KEY (`id_topic`,`pseudo`),
+  ADD UNIQUE KEY `pseudo` (`id_topic`,`pseudo`),
+  ADD KEY `id_topic` (`id_topic`),
+  ADD KEY `map_topics_users_ibfk_1` (`pseudo`);
+
+--
+-- Index pour la table `pings`
+--
+ALTER TABLE `pings`
+  ADD PRIMARY KEY (`id_ping`);
+
+--
+-- Index pour la table `pongs`
+--
+ALTER TABLE `pongs`
+  ADD PRIMARY KEY (`id_pong`),
+  ADD KEY `pongs_ibfk_1` (`id_ping`),
+  ADD KEY `pongs_ibfk_2` (`author`);
+
+--
+-- Index pour la table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id_post`),
+  ADD KEY `id_topic` (`id_topic`);
+
+--
+-- Index pour la table `posts_history`
+--
+ALTER TABLE `posts_history`
+  ADD UNIQUE KEY `id_history` (`id_post`,`version`),
+  ADD KEY `posts_history_ibfk_2` (`id_topic`);
+
+--
+-- Index pour la table `posts_interactions`
+--
+ALTER TABLE `posts_interactions`
+  ADD PRIMARY KEY (`id_interaction`),
+  ADD UNIQUE KEY `couple` (`id_interaction`,`id_post`),
+  ADD KEY `posts_interactions_ibfk_2` (`user`),
+  ADD KEY `posts_interactions_ibfk_1` (`id_post`);
+
+--
+-- Index pour la table `posts_interactions_alerts`
+--
+ALTER TABLE `posts_interactions_alerts`
+  ADD PRIMARY KEY (`id_interaction`);
+
+--
+-- Index pour la table `posts_interactions_pins`
+--
+ALTER TABLE `posts_interactions_pins`
+  ADD PRIMARY KEY (`id_interaction`);
+
+--
+-- Index pour la table `posts_interactions_votes`
+--
+ALTER TABLE `posts_interactions_votes`
+  ADD PRIMARY KEY (`id_interaction`);
+
+--
+-- Index pour la table `records_sentences`
+--
+ALTER TABLE `records_sentences`
+  ADD UNIQUE KEY `pseudo` (`pseudo`,`judge`,`date`,`duration`),
+  ADD KEY `records_banishment_ibfk_2` (`judge`);
+
+--
+-- Index pour la table `tags`
+--
+ALTER TABLE `tags`
+  ADD PRIMARY KEY (`tag`);
+
+--
+-- Index pour la table `topics`
+--
+ALTER TABLE `topics`
+  ADD PRIMARY KEY (`id_topic`);
+
+--
+-- Index pour la table `trivia`
+--
+ALTER TABLE `trivia`
+  ADD PRIMARY KEY (`id_commentable`),
+  ADD KEY `trivia_ibfk_2` (`game`);
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`pseudo`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Index pour la table `users_presentations`
+--
+ALTER TABLE `users_presentations`
+  ADD PRIMARY KEY (`pseudo`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `articles`
+--
+ALTER TABLE `articles`
+  MODIFY `id_article` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `articles_segments`
+--
+ALTER TABLE `articles_segments`
+  MODIFY `id_segment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `commentables`
+--
+ALTER TABLE `commentables`
+  MODIFY `id_commentable` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `emoticons`
+--
+ALTER TABLE `emoticons`
+  MODIFY `id_emoticon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `map_lists_games`
+--
+ALTER TABLE `map_lists_games`
+  MODIFY `id_item` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `pings`
+--
+ALTER TABLE `pings`
+  MODIFY `id_ping` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `pongs`
+--
+ALTER TABLE `pongs`
+  MODIFY `id_pong` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id_post` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `posts_interactions`
+--
+ALTER TABLE `posts_interactions`
+  MODIFY `id_interaction` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `id_topic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -1033,7 +1243,7 @@ ALTER TABLE `emoticons`
 -- Contraintes pour la table `games`
 --
 ALTER TABLE `games`
-  ADD CONSTRAINT `games_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`) ON DELETE CASCADE,
+  ADD CONSTRAINT `games_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `games_ibfk_2` FOREIGN KEY (`genre`) REFERENCES `genres` (`genre`);
 
 --
@@ -1053,7 +1263,7 @@ ALTER TABLE `lists`
 --
 ALTER TABLE `map_aliases`
   ADD CONSTRAINT `map_aliases_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`),
-  ADD CONSTRAINT `map_aliases_ibfk_2` FOREIGN KEY (`alias`) REFERENCES `tags` (`tag`);
+  ADD CONSTRAINT `map_aliases_ibfk_2` FOREIGN KEY (`alias`) REFERENCES `tags` (`tag`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `map_emoticons`
@@ -1086,14 +1296,14 @@ ALTER TABLE `map_pings`
 -- Contraintes pour la table `map_tags`
 --
 ALTER TABLE `map_tags`
-  ADD CONSTRAINT `map_tags_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`),
+  ADD CONSTRAINT `map_tags_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`) ON UPDATE CASCADE,
   ADD CONSTRAINT `map_tags_ibfk_2` FOREIGN KEY (`id_topic`) REFERENCES `topics` (`id_topic`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `map_tags_articles`
 --
 ALTER TABLE `map_tags_articles`
-  ADD CONSTRAINT `map_tags_articles_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`),
+  ADD CONSTRAINT `map_tags_articles_ibfk_1` FOREIGN KEY (`tag`) REFERENCES `tags` (`tag`) ON UPDATE CASCADE,
   ADD CONSTRAINT `map_tags_articles_ibfk_2` FOREIGN KEY (`id_article`) REFERENCES `articles` (`id_article`) ON DELETE CASCADE;
 
 --

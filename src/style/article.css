@@ -199,7 +199,6 @@
    padding: 50px;
    display: block;
    text-align: center;
-   font-family: "RobotoBold", "Arial", sans-serif;
    font-size: 1.625rem; /* ~26px */
    font-weight: bold;
 }
@@ -647,7 +646,7 @@
    font-size: 1rem; /* ~16px */
 }
 
-.commentText ul 
+.commentText ul
 {
    margin-top: 10px;
    margin-bottom: 10px;
@@ -664,8 +663,8 @@
 
 .commentText a
 {
-   text-decoration: none;
-   color: #3475e5; /* Default if no "charter_..." side style sheet */
+  text-decoration: none;
+  color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
 .commentText a:hover
@@ -677,8 +676,7 @@
 
 #bottomWrapper
 {
-   position: fixed;
-   left: 0;
+   position: sticky;
    bottom: 0;
    width: 100%;
    z-index: 10;

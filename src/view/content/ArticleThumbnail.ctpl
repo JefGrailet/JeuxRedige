@@ -1,4 +1,4 @@
-<div class="articleThumbnail" id="{$ID}" style="background: url('{$thumbnail}') no-repeat top center;">
+<div class="articleThumbnail" id="{$ID}" style="background: url('{$thumbnail}') no-repeat top center; background-size: cover;">
    <div class="articleThumbnailType{$type}">
       <p>{$typeTranslated}</p>
    </div>

@@ -241,6 +241,7 @@
    color: white;
    padding: 0px;
    margin-right: max(env(safe-area-inset-right), 10px);
+   transition: opacity var(--transition-time);
 
    &:hover,
    &:focus {
@@ -261,6 +262,7 @@
       gap: 10px;
       align-items: center;
       font-size: 1.625rem;
+      transition: opacity var(--transition-time);
 
       &:hover,
       &:focus-within {

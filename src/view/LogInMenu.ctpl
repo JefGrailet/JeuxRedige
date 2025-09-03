@@ -1,0 +1,19 @@
+<input class="loginToggle" title="Ouvrir le formulaire de connexion" type="checkbox">
+<h6 class="loginToggleUnderlay">
+   <img src="{$webRoot}defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> Se connecter
+</h6>
+<div class="loginSlider">
+   <form method="post" action="{$webRoot}LogIn.php">
+   <p class="connectionForm">
+      <input type="text" name="pseudo" placeholder="Pseudo" required><br/>
+      <input type="password" name="pwd" placeholder="Mot de passe" required><br/>
+      <input type="hidden" name="redirection" value="{$logInRedirection}"/>
+      <input type="checkbox" name="rememberMe"/><label for="rememberMe">Se souvenir de moi</label><br/>
+      <input type="submit" name="sent" value="Connexion"/><br/>
+   </p>
+   <p>
+      <a href="{$webRoot}Registration.php">Créer un compte</a><br/>
+      <a href="{$webRoot}PasswordReset.php">Mot de passe perdu ?</a>
+   </p>
+   </form>
+</div>

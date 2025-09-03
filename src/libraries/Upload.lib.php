@@ -1,23 +1,23 @@
 <?php
 
 /**
-* This library defines handles user uploads (pictures and short clips so far). Not to confuse with 
-* the "management" library, on the other side, which purpose is to handle the various folders used 
-* to store uploads temporarily (user's buffer) or permanently.
-*/
+ * This library defines handles user uploads (pictures and short clips so far). Not to confuse 
+ * with the "management" library, on the other side, which purpose is to handle the various 
+ * folders used to store uploads temporarily (user's buffer) or permanently.
+ */
 
 require realpath(dirname(__FILE__)."/external/GIFResizer.class.php");
 
 class Upload
 {
-   /*
-   * Gives the size (in octets) of a given directory where files should be uploaded. Returns -1 if 
-   * the path does not correspond to a directory. The given path should also be relative to the 
-   * root directory.
-   *
-   * @param string $dir  The path to a directory to evaluate
-   * @return number      The size of this directory in octets or -1 if this is not a directory
-   */
+   /**
+    * Gives the size (in octets) of a given directory where files should be uploaded. Returns -1 
+    * if the path does not correspond to a directory. The given path should also be relative to 
+    * the root directory.
+    *
+    * @param string $dir  The path to a directory to evaluate
+    * @return number      The size of this directory in octets or -1 if this is not a directory
+    */
 
    public static function directorySize($dir)
    {
@@ -35,18 +35,18 @@ class Upload
       return $size;
    }
 
-   /*
-   * Stores a file given as an array (assumed to be obtained from a global $_FILES) in given 
-   * directory, possibly with a new name. The function also checks that the file name is not 
-   * already taken (if yes, it will generate a slightly edited name until storage is possible) and 
-   * that the submitted file is in a supported format (for now, pictures and short video clips).
-   *
-   * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
-   * @param string $dir   The path to the directory where this picture must be stored
-   * @param string $name  The new name of the uploaded file after storage (optional)
-   * @return string       The path to the stored picture (relative to the root directory) or an 
-   *                      empty string if the format of the file is not supported
-   */
+   /**
+    * Stores a file given as an array (assumed to be obtained from a global $_FILES) in given 
+    * directory, possibly with a new name. The function also checks that the file name is not 
+    * already taken (if yes, it will generate a slightly edited name until storage is possible) 
+    * and that the submitted file is in a supported format (for now, pictures and short clips).
+    *
+    * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
+    * @param string $dir   The path to the directory where this picture must be stored
+    * @param string $name  The new name of the uploaded file after storage (optional)
+    * @return string       The path to the stored picture (relative to the root directory) or an 
+    *                      empty string if the format of the file is not supported
+    */
 
    public static function storeFile($arr, $dir, $name = "")
    {
@@ -65,7 +65,7 @@ class Upload
       if(strlen($name) == 0)
       {
          $name = $fileName;
-         $name = PathHandler::formatForFilesystem($name);
+         $name = PathHandler::formatForURL($name);
          while(file_exists($dirPath .'/'. $name .'.'. $extension))
          {
             $uniqueSeq = substr(md5(uniqid(rand(), true)), 0, 5);
@@ -83,25 +83,25 @@ class Upload
       return "";
    }
 
-   /*
-   * Stores a picture in a similar fashion than that of storeFile(), but also resizes it. Two 
-   * additionnal parameters are required and determine the size of the miniature. The policy is 
-   * the following :
-   *
-   * -If $h = 0, $w is the new size of the greatest dimension of the picture (the other dimension 
-   *  is resized with respect to the original proportions of the picture)
-   * -If $h > 0, the function will select the greatest zone inside the image that respects the 
-   *  proportions of an image of $w x $h pixels and resize it
-   *
-   * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
-   * @param string $dir   The path to the directory where this picture must be stored
-   * @param number $w     The width of the miniature OR the new size of the greatest dimension
-   * @param number $h     The height of the miniature (= 0 for the first case)
-   * @param string $name  The new name of the uploaded file after storage (optional)
-   * @return string       The path to the stored picture (relative to the root directory) or an 
-   *                      empty string if the file is not a JPEG/GIF/PNG, if $w or $h are negative 
-   *                      or if the creation of the miniature with imagecopyresampled() fails
-   */
+   /**
+    * Stores a picture in a similar fashion than that of storeFile(), but also resizes it. Two 
+    * additionnal parameters are required and determine the size of the miniature. The policy is 
+    * the following :
+    *
+    * -If $h = 0, $w is the new size of the greatest dimension of the picture (the other dimension 
+    *  is resized with respect to the original proportions of the picture)
+    * -If $h > 0, the function will select the greatest zone inside the image that respects the 
+    *  proportions of an image of $w x $h pixels and resize it
+    *
+    * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
+    * @param string $dir   The path to the directory where this picture must be stored
+    * @param number $w     The width of the miniature OR the new size of the greatest dimension
+    * @param number $h     The height of the miniature (= 0 for the first case)
+    * @param string $name  The new name of the uploaded file after storage (optional)
+    * @return string       The path to the stored picture (relative to the root directory) or an 
+    *                      empty string if: the file is not a JPEG/GIF/PNG, $w or $h are 
+    *                      negative or imagecopyresampled() fails
+    */
 
    public static function storeResizedPicture($arr, $dir, $w, $h, $name = "")
    {
@@ -124,7 +124,7 @@ class Upload
       if(strlen($name) == 0)
       {
          $name = $fileName;
-         $name = PathHandler::formatForFilesystem($name);
+         $name = PathHandler::formatForURL($name);
          while(file_exists($dirPath .'/'. $name .'.'. $extension))
          {
             $uniqueSeq = substr(md5(uniqid(rand(), true)), 0, 5);
@@ -191,9 +191,9 @@ class Upload
       $finalFilePath = $dirPath .'/'. $name .'.'. $extension;
       
       /*
-       * GIF pictures are a particular case, as they consist of several frames (usually, since GIFs 
-       * are most of the time animated). To handle this case, the class GIFResizer (obtained from 
-       * the website PHPClasses) is being used.
+       * GIF pictures are a particular case, as they consist of several frames (usually, since 
+       * GIFs are most of the time animated). To handle this case, the class GIFResizer (obtained 
+       * from the website PHPClasses) is being used.
        */
       
       if($extension === 'gif')

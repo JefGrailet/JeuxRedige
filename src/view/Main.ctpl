@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <meta charset="UTF-8" />
+      <link rel="stylesheet" href="{$webRoot}style/default.css" />
+      <link rel="stylesheet" href="{$webRoot}style/icons.css" />
+      <script text="text/javascript">
+         {$configJS}
+      </script>
+      <script type="text/javascript" src="{$webRoot}javascript/jquery-3.7.1.min.js" defer></script>
+      <script type="text/javascript" src="{$webRoot}javascript/default{$extJS}" defer></script>
+      {enum:CSSFiles||<link rel="stylesheet" href="|" />}
+      {enum:JSFiles||<script type="text/javascript" src="|" defer></script>}
+      {optional:autoJS||<script type="text/javascript">[]</script>}
+      {optional:metaAuthor||<meta name="author" content="[]">}
+      {optional:metaFullTitle||<meta name="description" content="[]">}
+      {optional:metaKeywords||<meta name="keywords" content="[]">}
+      {optional:metaTitle||<meta property="og:site_name" content="JeuxRédige">
+      <meta property="og:title" content="[]">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:site" content="JeuxRédige">
+      <meta name="twitter:title" content="[]">}
+      {optional:metaDescription||<meta property="og:description" content="[]">
+      <meta name="twitter:description" content="[]">}
+      {optional:metaImage||<meta property="og:image" content="[]">
+      <meta name="twitter:image" content="[]">
+      <meta name="twitter:image:alt" content="Vignette">}
+      {optional:metaURL||<meta property="og:url" content="[]">}
+      <title>{$pageTitle}</title>
+   </head>
+   <body>
+      <div id="blackScreen"></div>
+      <div id="bubble"></div>
+      {$dialogs}
+      <div id="lightbox" style="display: none;" data-cur-file="none">
+         <div class="lightboxContent"></div>
+         <div class="lightboxBottom">
+            <div class="LBLeft"></div>
+            <div class="LBCenter"></div>
+            <div class="LBRight"></div>
+         </div>
+      </div>
+      <div id="topBar">
+         <div id="mainMenu">
+            <div class="mainMenuItem borderless">
+               <a href="{$webRoot}" class="mainMenuLogo {$selectedLogo}"></a>
+            </div>
+            <div class="mainMenuItem iconBox">
+               <a href="https://www.youtube.com/@ShoganaiTV" target="blank">
+                  <i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i>
+               </a>
+            </div>
+            <!-- Add borderless to class above if using next link -->
+            <!-- <div class="mainMenuItem iconBox">
+               <a href="https://twitter.com/[...]" target="blank">
+                  <i title="Suivez nous sur X (Twitter)" class="icon-social_x"></i>
+               </a>
+            </div> -->
+            <div class="mainMenuItem articlesMenu">
+               <div class="dropdown">
+                  <a href="{$webRoot}Articles.php">ARTICLES</a>
+                  <div class="dropdownContent">
+                     <a href="{$webRoot}Articles.php?article_category=review" class="review">CRITIQUES</a>
+                     <a href="{$webRoot}Articles.php?article_category=preview" class="preview">APERÇUS</a>
+                     <a href="{$webRoot}Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
+                     <a href="{$webRoot}Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
+                     <a href="{$webRoot}Articles.php?article_category=guide" class="guide">GUIDES</a>
+                     <a href="{$webRoot}Articles.php?article_category=misc" class="misc">HORS JEU</a>
+                     <a href="{$webRoot}Articles.php">VOIR TOUT</a>
+                  </div>
+               </div>
+            </div>
+            <div class="mainMenuItem lastLink"><a href="{$webRoot}Forum.php">FORUM</a></div>
+         </div>
+         <div id="userCorner">
+{$userCorner}
+         </div>
+      </div>
+      <div id="main">
+{$innerMainDivStart}
+{$content}
+{$innerMainDivEnd}
+      </div>
+      <div id="footer">
+         <p>
+            <a href="#main" class="iconLink">
+               <i class="icon-general_up" style="font-size: 24px;" title="Revenir en haut de page"></i>
+            </a> 
+            <a href="{$webRoot}" class="iconLink">
+               <i class="icon-general_home" style="font-size: 24px;" title="Revenir à l'accueil"></i>
+            </a> 
+            <a href="https://github.com/JefGrailet/JeuxRedige" target="blank" class="iconLink">
+               <i class="icon-ext_github" style="font-size: 24px;" title="Code source sur GitHub"></i>
+            </a> 
+            <a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="iconLink">
+               <i class="icon-ext_youtube_logo" style="font-size: 24px;" title="Notre chaîne YouTube"></i>
+            </a>
+            <!-- <a href="https://twitter.com/[...]" target="blank" class="iconLink">
+               <i class="icon-social_x" style="font-size: 24px;" title="Suivez-nous sur X (Twitter)"></i>
+            </a> -->
+         </p>
+         <p>
+            v1.1 - Généré en {$renderTime} seconde - <a href="{$webRoot}About.php">À propos de JeuxRédige</a>
+         </p>
+         </div>
+      </div>
+   </body>
+</html>

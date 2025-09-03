@@ -169,7 +169,7 @@ class LoggedUser
       
       self::$messages = Database::secureRead($sql, array(self::$data['pseudo']));
       $nbNew = count(self::$messages);
-      if($nbNew == 0 || is_array(self:$messages[0]))
+      if($nbNew == 0 || is_array(self::$messages[0]))
          self::$data['new_pings'] = $nbNew;
       else
          self::$data['new_pings'] = -1; // Alert other parts of the code that there's a problem

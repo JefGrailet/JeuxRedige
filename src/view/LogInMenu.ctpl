@@ -4,7 +4,7 @@
       class="avatarMini"
       alt="Avatar mini"
    />
-   <span class="hiddenSmallerThanTablet"> Se connecter </span>
+   <span class="loginButtonLabel" style="text-wrap: nowrap;"> Se connecter </span>
 </button>
 
 <dialog class="formLoginModal" data-modal="form-login">

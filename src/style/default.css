@@ -22,6 +22,10 @@
    --transition-time: 0.3s;
 }
 
+html:has(dialog[open]) {
+    overflow: hidden;
+}
+
 /* Main CSS file. */
 
 body
@@ -45,7 +49,6 @@ body
       display: revert;
    }
 }
-
 
 /* Main block, i.e., part below the upper menu */
 
@@ -97,7 +100,7 @@ body
 
 /* Sliding menus (user menu, pings, login form) */
 
-.userMenu, .pingsSlider, .loginSlider
+.userMenu, .pingsSlider
 {
    position: fixed;
    float: right;
@@ -123,15 +126,6 @@ body
    width: 350px;
    background-color: white;
    color: #3475e5;
-   transform: translateX(+360px);
-   transition: transform 250ms ease-in-out;
-}
-
-.loginSlider
-{
-   width: 350px;
-   background-color: white;
-   color: black;
    transform: translateX(+360px);
    transition: transform 250ms ease-in-out;
 }
@@ -568,6 +562,7 @@ input[type=submit]:active, button:active, .customButton:active
 }
 
 .formLoginModal {
+   overscroll-behavior-y: contain;
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
    position: fixed;
    max-width: 90%;

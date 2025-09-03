@@ -1,19 +1,74 @@
-<input class="loginToggle" title="Ouvrir le formulaire de connexion" type="checkbox">
-<h6 class="loginToggleUnderlay">
-   <img src="{$webRoot}defaultavatar-small.jpg" class="avatarMini" alt="Avatar mini"/> Se connecter
-</h6>
-<div class="loginSlider">
-   <form method="post" action="{$webRoot}LogIn.php">
-   <p class="connectionForm">
-      <input type="text" name="pseudo" placeholder="Pseudo" required><br/>
-      <input type="password" name="pwd" placeholder="Mot de passe" required><br/>
-      <input type="hidden" name="redirection" value="{$logInRedirection}"/>
-      <input type="checkbox" name="rememberMe"/><label for="rememberMe">Se souvenir de moi</label><br/>
-      <input type="submit" name="sent" value="Connexion"/><br/>
-   </p>
-   <p>
-      <a href="{$webRoot}Registration.php">Créer un compte</a><br/>
-      <a href="{$webRoot}PasswordReset.php">Mot de passe perdu ?</a>
-   </p>
-   </form>
-</div>
+<button class="loginButton" data-trigger-modal="form-login">
+   <img
+      src="{$webRoot}defaultavatar-small.jpg"
+      class="avatarMini"
+      alt="Avatar mini"
+   />
+   <span class="loginButtonLabel" style="text-wrap: nowrap;"> Se connecter </span>
+</button>
+
+<dialog class="formLoginModal" data-modal="form-login">
+   <header class="header">
+      <p class="title">Connexion</p>
+      <button class="closeModal" data-close-modal="">
+         <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+         >
+            <path
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               d="M6 18 18 6M6 6l12 12"
+            />
+         </svg>
+         Fermer
+      </button>
+   </header>
+   <div class="content">
+      <form method="post" action="{$webRoot}LogIn.php">
+         <input type="hidden" name="redirection" value="{$logInRedirection}" />
+
+         <div class="inputContainer">
+            <label for="pseudo">Pseudo</label>
+            <input
+               type="text"
+               id="pseudo"
+               name="pseudo"
+               placeholder="Pseudo"
+               required
+            />
+         </div>
+         <div class="inputContainer">
+            <label for="pwd">Mot de passe</label>
+            <input
+               type="password"
+               id="pwd"
+               name="pwd"
+               placeholder="Mot de passe"
+               required
+            />
+         </div>
+         <div>
+            <label
+               ><input type="checkbox" name="rememberMe" /> Se souvenir de
+               moi</label
+            >
+         </div>
+         <div class="inputContainer">
+            <input type="submit" name="sent" value="Connexion" />
+         </div>
+
+         <p>
+            <a href="{$webRoot}Registration.php" class="loginLink"
+               >Créer un compte</a
+            ><br />
+            <a href="{$webRoot}PasswordReset.php" class="loginLink"
+               >Mot de passe perdu ?</a
+            >
+         </p>
+      </form>
+   </div>
+</dialog>

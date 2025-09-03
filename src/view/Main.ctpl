@@ -3,12 +3,17 @@
    <head>
       <meta charset="UTF-8" />
       <link rel="stylesheet" href="{$webRoot}style/default.css" />
+      <link rel="stylesheet" href="{$webRoot}style/main_menu.css" />
       <link rel="stylesheet" href="{$webRoot}style/icons.css" />
+      <meta name="theme-color" content="black" />
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
       <script text="text/javascript">
          {$configJS}
       </script>
       <script type="text/javascript" src="{$webRoot}javascript/jquery-3.7.1.min.js" defer></script>
       <script type="text/javascript" src="{$webRoot}javascript/default{$extJS}" defer></script>
+      <script type="text/javascript" src="{$webRoot}javascript/modal_manager{$extJS}" defer></script>
       {enum:CSSFiles||<link rel="stylesheet" href="|" />}
       {enum:JSFiles||<script type="text/javascript" src="|" defer></script>}
       {optional:autoJS||<script type="text/javascript">[]</script>}
@@ -40,42 +45,37 @@
             <div class="LBRight"></div>
          </div>
       </div>
-      <div id="topBar">
-         <div id="mainMenu">
-            <div class="mainMenuItem borderless">
+      <header id="topBar">
+         <div class="wrapper">
+            <div class="icons">
                <a href="{$webRoot}" class="mainMenuLogo {$selectedLogo}"></a>
-            </div>
-            <div class="mainMenuItem iconBox">
-               <a href="https://www.youtube.com/@ShoganaiTV" target="blank">
+               <a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="ytIcon">
                   <i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i>
                </a>
             </div>
-            <!-- Add borderless to class above if using next link -->
-            <!-- <div class="mainMenuItem iconBox">
-               <a href="https://twitter.com/[...]" target="blank">
-                  <i title="Suivez nous sur X (Twitter)" class="icon-social_x"></i>
-               </a>
-            </div> -->
-            <div class="mainMenuItem articlesMenu">
-               <div class="dropdown">
+            <div class="mainMenuItemsContainer">
+               <div class="dropdown mainMenuItem">
                   <a href="{$webRoot}Articles.php">ARTICLES</a>
-                  <div class="dropdownContent">
-                     <a href="{$webRoot}Articles.php?article_category=review" class="review">CRITIQUES</a>
-                     <a href="{$webRoot}Articles.php?article_category=preview" class="preview">APERÇUS</a>
-                     <a href="{$webRoot}Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
-                     <a href="{$webRoot}Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
-                     <a href="{$webRoot}Articles.php?article_category=guide" class="guide">GUIDES</a>
-                     <a href="{$webRoot}Articles.php?article_category=misc" class="misc">HORS JEU</a>
-                     <a href="{$webRoot}Articles.php">VOIR TOUT</a>
+                  <div class="dropdownContentWrapper">
+                     <div class="dropdownContent">
+                        <a href="{$webRoot}Articles.php?article_category=review" class="review">CRITIQUES</a>
+                        <a href="{$webRoot}Articles.php?article_category=preview" class="preview">APERÇUS</a>
+                        <a href="{$webRoot}Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
+                        <a href="{$webRoot}Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
+                        <a href="{$webRoot}Articles.php?article_category=guide" class="guide">GUIDES</a>
+                        <a href="{$webRoot}Articles.php?article_category=misc" class="misc">HORS JEU</a>
+                        <a href="{$webRoot}Articles.php">VOIR TOUT</a>
                   </div>
                </div>
+               </div>
+               <div class="mainMenuItem lastLink"><a href="{$webRoot}Forum.php">FORUM</a></div>
             </div>
-            <div class="mainMenuItem lastLink"><a href="{$webRoot}Forum.php">FORUM</a></div>
-         </div>
-         <div id="userCorner">
-{$userCorner}
-         </div>
-      </div>
+
+            <div id="userCorner">
+               {$userCorner}
+            </div>
+          </div>
+      </header>
       <div id="main">
 {$innerMainDivStart}
 {$content}
@@ -85,13 +85,13 @@
          <p>
             <a href="#main" class="iconLink">
                <i class="icon-general_up" style="font-size: 24px;" title="Revenir en haut de page"></i>
-            </a> 
+            </a>
             <a href="{$webRoot}" class="iconLink">
                <i class="icon-general_home" style="font-size: 24px;" title="Revenir à l'accueil"></i>
-            </a> 
+            </a>
             <a href="https://github.com/JefGrailet/JeuxRedige" target="blank" class="iconLink">
                <i class="icon-ext_github" style="font-size: 24px;" title="Code source sur GitHub"></i>
-            </a> 
+            </a>
             <a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="iconLink">
                <i class="icon-ext_youtube_logo" style="font-size: 24px;" title="Notre chaîne YouTube"></i>
             </a>

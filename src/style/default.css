@@ -10,10 +10,20 @@
 
 @font-face
 {
-    font-family: 'RobotoBold';
+    font-family: 'Roboto';
     src: url('./fonts/Roboto-Bold-webfont.woff') format('woff');
-    font-weight: normal;
+    font-weight: bold;
     font-style: normal;
+}
+
+:root {
+   --link-hover-opacity: 0.5;
+   --top-menu-width: 1200px;
+   --transition-time: 0.3s;
+}
+
+html:has(dialog[open]) {
+    overflow: hidden;
 }
 
 /* Main CSS file. */
@@ -23,21 +33,21 @@ body
    background-color: white;
    color: black;
    margin: 0px 0px 0px 0px;
+   font-family: "Roboto", "Arial", sans-serif;
 }
 
-/* Upper menu (black bar at the top of the page). */
+.hiddenSmallerThanMobile {
+   display: none;
+   @media screen and (width > 640px) {
+      display: revert;
+   }
+}
 
-#topBar
-{
-   min-width: 1000px;
-   width: 100%;
-   margin-top: 0px;
-   height: 60px;
-   background-color: black;
-   position: fixed;
-   z-index: 30;
-   /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75); */
-   border-bottom: 1px solid #646464;
+.hiddenSmallerThanTablet {
+   display: none;
+   @media screen and (width > 768px) {
+      display: revert;
+   }
 }
 
 /* Main block, i.e., part below the upper menu */
@@ -47,71 +57,8 @@ body
    max-width: 1920px;
    margin: auto;
    width: 100%;
-   padding-top: 60px;
 }
 
-/* Title corner, i.e., left part of the top bar with title and main (horizontal) menu */
-
-#mainMenu
-{
-   height: 60px;
-   display: flex;
-   justify-content: flex-start; /* Normally the default behaviour */
-   float: left;
-   width: 49%;
-   text-align: left;
-}
-
-/* Items of the main menu */
-
-.mainMenuItem
-{
-   margin: 0px;
-   padding: 0px 20px;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1.25rem; /* ~20px */
-   color: white;
-   border-right: 1px solid #646464; /* Except the last one, see below */
-   line-height: 60px;
-}
-
-.mainMenuItem:first-of-type
-{
-   padding: 0px 10px; /* Spacing differs than default because the logo already includes some */
-   line-height: 0px; /* No text; space is taken by fixed-size logo exclusively */
-}
-
-.mainMenuItem:last-of-type
-{
-   border-right: none;
-}
-
-/* Logo in the main menu (as a link, therefore clickable; SVG logo depends on a second class) */
-
-.mainMenuLogo
-{
-   display: inline-block;
-   text-decoration: none;
-   margin: 0px;
-   padding: 0px; /* SVG logo already includes spacing */
-   width: 197px;
-   height: 60px;
-}
-
-/* Style for logos for external channels, social media */
-
-.mainMenuItem.iconBox
-{
-   padding-top: 10px;
-   padding-bottom: 10px;
-   padding-right: 20px;
-   padding-left: 0px;
-}
-
-.mainMenuItem i
-{
-   font-size: 40px;
-}
 
 /* Sub-classes to remove colored border for the first elements of the top menu */
 
@@ -121,100 +68,7 @@ body
    border-right: none;
 }
 
-/* For other variants, see the charter_*.css files. */
-
-.mainMenuLogo.default { background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white.svg'); }
-
-/* Upper menu links */
-
-.mainMenuItem a
-{
-   font-family: "Roboto Bold", "Arial", sans-serif;
-   font-size: 1.35rem;
-   font-weight: bold;
-   letter-spacing: 0.05rem;
-   text-decoration: none;
-   color: white;
-}
-
-.mainMenuItem a:hover
-{
-   opacity: 0.5;
-}
-
-.mainMenuItem a:active
-{
-   color: white;
-}
-
-/* Extra sub-classes to properly align things */
-
-.mainMenuItem.articlesMenu
-{
-   padding: 0px;
-   text-align: center;
-}
-
-.mainMenuItem.lastLink
-{
-   padding: 0px 0px 0px 30px;
-}
-
-/* Dropdown menu (full CSS) */
-
-.dropdown
-{
-   position: relative;
-   display: inline-block;
-   width: 180px;
-}
-
-.dropdown a
-{
-   display: inline-block;
-}
-
-.dropdownContent
-{
-   display: none;
-   position: absolute;
-   width: 160px;
-   text-align: center;
-   padding: 0px 10px;
-   background-color: black;
-   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-   z-index: 1;
-}
-
-.dropdownContent a:hover
-{
-   opacity: 0.5;
-}
-
-.dropdown:hover .dropdownContent
-{
-  display: block;
-}
-
-/* Sub-classes for main menu links */
-
-.dropdown .dropdownContent .chronicle { color: #99368b; }
-.dropdown .dropdownContent .guide { color: #dd9302; }
-.dropdown .dropdownContent .misc { color: #969696; }
-.dropdown .dropdownContent .opinion { color: #91c148; }
-.dropdown .dropdownContent .preview { color: #34b1e5; }
-.dropdown .dropdownContent .review { color: #cd301e; }
-
 /* User corner (h6 -> pseudonym, i -> icons for hamburger menus) */
-
-#userCorner
-{
-   height: 60px;
-   display: inline-block;
-   float: right;
-   width: 49%;
-   text-align: right;
-}
 
 #userCorner h6
 {
@@ -232,9 +86,7 @@ body
    height: 40px;
    width: 40px;
    padding: 0px;
-   margin-right: 10px;
    border-radius: 50%;
-   vertical-align: -40%; /* To align with pseudonym */
 }
 
 #userCorner i
@@ -248,7 +100,7 @@ body
 
 /* Sliding menus (user menu, pings, login form) */
 
-.userMenu, .pingsSlider, .loginSlider
+.userMenu, .pingsSlider
 {
    position: fixed;
    float: right;
@@ -278,15 +130,6 @@ body
    transition: transform 250ms ease-in-out;
 }
 
-.loginSlider
-{
-   width: 350px;
-   background-color: white;
-   color: black;
-   transform: translateX(+360px);
-   transition: transform 250ms ease-in-out;
-}
-
 .userMenuToggle, .pingsToggle, .loginToggle
 {
    position: absolute;
@@ -295,6 +138,8 @@ body
    cursor: pointer;
    opacity: 0;
 }
+
+
 
 .userMenuToggle
 {
@@ -398,43 +243,6 @@ body
 #userCorner li .adminLink
 {
    color: #91c148;
-}
-
-/* Style for the connection form */
-
-.loginSlider p
-{
-   text-align: left;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1rem; /* ~16px */
-   margin: 10px;
-   padding: 0px;
-}
-
-.loginSlider input[type=text], .loginSlider input[type=password]
-{
-   font-size: 1rem; /* ~16px */
-   width: 98%;
-   padding: 3px;
-   margin: 0px;
-}
-
-.loginSlider input[type=checkbox]
-{
-   width: 16px;
-   height: 16px;
-   vertical-align: -3px;
-}
-
-.loginSlider p a
-{
-   text-decoration: none;
-   color: #3475e5;
-}
-
-.loginSlider p a:hover
-{
-   color: black;
 }
 
 /* N.B.: also used at LogIn.php. */
@@ -751,6 +559,82 @@ input[type=submit]:active, button:active, .customButton:active
    border: none;
    border-collapse: collapse;
    width: 433px;
+}
+
+.formLoginModal {
+   overscroll-behavior-y: contain;
+   box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
+   position: fixed;
+   max-width: 90%;
+   @media screen and (width > 640px) {
+      max-width: 500px;
+   }
+   width: 100%;
+   border-width: 1px;
+   border-radius: 0.5rem;
+   padding: 0;
+
+   &::backdrop {
+      background-color: rgba(33, 33, 33, 0.786);
+   }
+
+   .content {
+      padding: 0 1rem 1rem;
+   }
+
+   .header {
+      padding: 0.75rem 1rem;
+      background-color: black;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .title {
+      font-weight: normal;
+      font-size: 1rem;
+      color: white;
+      margin: 0;
+      /* border-radius: 10px 10px 0px 0px; */
+   }
+
+   .closeModal {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      background-color: transparent;
+      padding: 0;
+
+      &:is(:hover, :focus) {
+         opacity: var(--link-hover-opacity);
+      }
+
+      svg {
+         flex-shrink: 0;
+         width: 20px;
+      }
+   }
+
+   .inputContainer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.75rem;
+
+      input:is([type="text"], [type="password"]) {
+         padding-block: 0.5rem;
+      }
+   }
+
+   .loginLink {
+      text-decoration: none;
+      color: #3475e5;
+
+      &:hover, &:focus {
+         color: black;
+      }
+   }
 }
 
 /* Log in (connection) form. */
@@ -1112,7 +996,7 @@ input[type=submit]:active, button:active, .customButton:active
 #content
 {
    margin: auto;
-   min-width: 800px;
+   /* min-width: 800px; */
    max-width: 1200px;
 }
 

@@ -1,0 +1,236 @@
+/* Upper menu (black bar at the top of the page). */
+
+#topBar {
+   width: 100%;
+   margin-top: 0px;
+   background-color: black;
+   position: sticky;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 30;
+   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+   border-bottom: 1px solid #646464;
+
+   .wrapper {
+      max-width: var(--top-menu-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(2, auto);
+      container-type: inline-size;
+      container-name: top-bar-wrapper;
+
+      @media screen and (width > 768px) {
+         grid-template-columns: auto auto 1fr;
+         grid-template-rows: auto;
+      }
+   }
+
+   .icons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+
+      a {
+         text-decoration: none;
+         transition: opacity var(--transition-time);
+
+         &:hover,
+         &:focus {
+            opacity: var(--link-hover-opacity);
+         }
+      }
+
+      .iconBox {
+         padding-top: 10px;
+         padding-bottom: 10px;
+         padding-right: 20px;
+         padding-left: 0px;
+      }
+
+      .ytIcon {
+         font-size: 2.5rem;
+         color: white;
+         /* border-right: 1px solid #646464; */
+      }
+   }
+
+   #userCorner {
+      justify-self: self-end;
+      display: flex;
+      align-content: center;
+      grid-row: 1 / 2;
+      grid-column: 2 / 3;
+
+      @media screen and (width > 768px) {
+         grid-column: auto / auto;
+         grid-row: auto / auto;
+      }
+   }
+}
+
+.mainMenuItemsContainer {
+   display: flex;
+   flex-direction: row;
+   grid-column: 1 / 3;
+   @media screen and (width > 768px) {
+      grid-column: auto / auto;
+   }
+
+   &::after {
+      content: "";
+      display: block;
+      bottom: 0;
+      width: 85%;
+      z-index: 99;
+      background-color: #64646476;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 1px;
+   }
+}
+
+/* Items of the main menu */
+.mainMenuItem {
+   margin: 0px;
+   padding: 0px 20px;
+   font-family: "Roboto", "Arial", sans-serif;
+   font-size: 1.25rem; /* ~20px */
+   color: white;
+   border-right: 1px solid #646464; /* Except the last one, see below */
+   line-height: 60px;
+   text-align: center;
+   flex: 1 1 0;
+
+   &:last-of-type {
+      border-right: none;
+   }
+}
+
+.mainMenuLogo {
+   display: inline-block;
+   text-decoration: none;
+   margin: 0px;
+   padding: 0px; /* SVG logo already includes spacing */
+   width: 197px;
+   height: 60px;
+   margin-left: env(safe-area-inset-left, 0px);
+
+   /* For other variants, see the charter_*.css files. */
+   &.default {
+      background-image: url("https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white.svg");
+   }
+}
+
+/* Upper menu links */
+
+.mainMenuItem a {
+   font-size: 1.35rem;
+   font-weight: bold;
+   letter-spacing: 0.05rem;
+   text-decoration: none;
+   color: white;
+   transition: opacity var(--transition-time);
+
+   &:hover,
+   &:focus {
+      opacity: var(--link-hover-opacity);
+   }
+
+   &:active {
+      color: white;
+   }
+}
+
+/* Dropdown menu (full CSS) */
+
+.dropdown {
+   display: inline-block;
+
+   a {
+      display: inline-block;
+      width: 100%;
+   }
+
+   &:is(:hover, :focus-within) .dropdownContentWrapper {
+      display: block;
+   }
+}
+
+.dropdownContentWrapper {
+   display: none;
+   position: absolute;
+   left: 0;
+   right: 0;
+   background-color: black;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdownContent {
+   display: flex;
+   margin: 0 auto;
+   padding-inline: max(env(safe-area-inset-right), 0.75rem);
+   max-width: var(--top-menu-width);
+   text-align: center;
+   z-index: 1;
+   gap: 1rem;
+   overflow: auto;
+   white-space: nowrap;
+   transition: opacity var(--transition-time);
+
+   a:hover {
+      opacity: var(--link-hover-opacity);
+   }
+
+   .chronicle {
+      color: #99368b;
+   }
+
+   .guide {
+      color: #dd9302;
+   }
+
+   .misc {
+      color: #969696;
+   }
+
+   .opinion {
+      color: #91c148;
+   }
+
+   .preview {
+      color: #34b1e5;
+   }
+
+   .review {
+      color: #cd301e;
+   }
+}
+
+.loginButton {
+   appearance: none;
+   background-color: transparent;
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   font-size: 1.625rem;
+   font-weight: normal;
+   color: white;
+   padding: 0px;
+   margin-right: max(env(safe-area-inset-right), 10px);
+
+   &:hover,
+   &:focus {
+      opacity: var(--link-hover-opacity);
+      background-color: transparent;
+   }
+
+   .loginButtonLabel {
+      @container top-bar-wrapper (width < 700px) {
+         display: none;
+      }
+   }
+}

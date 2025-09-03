@@ -25,13 +25,18 @@
          grid-template-columns: auto auto 1fr;
          grid-template-rows: auto;
       }
+
+      .rightLabel {
+         @container top-bar-wrapper (width < 700px) {
+            display: none;
+         }
+      }
    }
 
    .icons {
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 10px;
 
       a {
          text-decoration: none;
@@ -84,7 +89,6 @@
       display: block;
       bottom: 0;
       width: 85%;
-      z-index: 99;
       background-color: #64646476;
       position: absolute;
       left: 50%;
@@ -115,8 +119,13 @@
    text-decoration: none;
    margin: 0px;
    padding: 0px; /* SVG logo already includes spacing */
-   width: 197px;
-   height: 60px;
+   width: 170px;
+   aspect-ratio: 197 / 60;
+
+   @media screen and (width > 640px) {
+      width: 197px;
+   }
+
    margin-left: env(safe-area-inset-left, 0px);
 
    /* For other variants, see the charter_*.css files. */
@@ -185,6 +194,17 @@
       opacity: var(--link-hover-opacity);
    }
 
+   /* Pour indiquer dans le sous-menu "article" l'élement actuel */
+   /* position: absolute;
+  content: "";
+  display: block;
+  width: 10px;
+  aspect-ratio: 1;
+  background: currentColor;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%) rotateZ(45deg); */
+
    .chronicle {
       color: #99368b;
    }
@@ -227,10 +247,30 @@
       opacity: var(--link-hover-opacity);
       background-color: transparent;
    }
+}
 
-   .loginButtonLabel {
-      @container top-bar-wrapper (width < 700px) {
-         display: none;
+#userCorner {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+
+   .userInfos {
+      margin: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 1.625rem;
+
+      &:hover,
+      &:focus-within {
+         opacity: var(--link-hover-opacity);
+      }
+
+      a {
+         color: white;
+         text-decoration: none;
+         transition: var(--transition-time) opacity;
       }
    }
 }

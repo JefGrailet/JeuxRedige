@@ -502,30 +502,3 @@ $(document).keydown(function(e)
    }
 });
 
-/*
- * Performs smooth scrolling. Not from me; taken right from CSS-tricks:
- * https://css-tricks.com/snippets/jquery/smooth-scrolling/
- */
-
-$(function()
-{
-   // Smooth scrolling
-   $('a[href*="#"]:not([href="#"])').click(function() {
-      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname)
-      {
-         var target = $(this.hash);
-         target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-         if (target.length)
-         {
-            var offset = 0;
-            if(target !== 'main')
-               offset = 95;
-
-            $('html, body').animate({
-               scrollTop: target.offset().top - offset
-            }, 1000);
-            return false;
-         }
-      }
-   });
-});

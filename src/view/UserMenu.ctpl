@@ -1,16 +1,20 @@
-<h6>
-   <img src="{$userAvatar}" class="avatarMini" alt="Avatar mini"/> 
+<p class="userInfos">
+   <img src="{$userAvatar}" class="avatarMini" alt="Avatar mini"/>
    {$pseudoDisplay}
-</h6>
-<input class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
-<input class="pingsToggle" title="Mes pings" type="checkbox">
-<i class="icon-general_menu"></i>
-<i class="icon-general_messages" style="color: {$pingsColor};" title="Mes pings"></i>
+</p>
+<input id="userMenu" class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
+<input id="pingsMenu" class="pingsToggle" title="Mes pings" type="checkbox">
+<label for="userMenu">
+   <i class="icon-general_menu"></i>
+</label>
+<label for="pingsMenu">
+   <i class="icon-general_messages" style="color: {$pingsColor};" title="Mes pings"></i>
+</label>
 <div class="pingsSlider">
    <ul id="pings">
       {$pingsContent}
       <li>
-         <i class="icon-menu_lists" style="color: #25b6d2;"></i> 
+         <i class="icon-menu_lists" style="color: #25b6d2;"></i>
          <a href="{$webRoot}Pings.php">
             Liste de mes pings {optional:morePings||([] nouveaux)}
          </a>
@@ -20,51 +24,51 @@
 <div class="userMenu">
    <ul>
       {optional:switchAccount||<li>
-         <i class="icon-menu_switch"></i> 
+         <i class="icon-menu_switch"></i>
          []
       </li>}
       <li>
-         <i class="icon-general_edit"></i> 
+         <i class="icon-general_edit"></i>
          <a href="{$webRoot}MyAccount.php">Mon compte</a>
       </li>
       <li>
-         <i class="icon-menu_smilies"></i> 
+         <i class="icon-menu_smilies"></i>
          <a href="{$webRoot}MyEmoticons.php">Mes émoticônes</a>
       </li>
       <li>
-         <i class="icon-general_pin"></i> 
+         <i class="icon-general_pin"></i>
          <a href="{$webRoot}MyPins.php">Mes messages favoris</a>
       </li>
       <li>
-         <i class="icon-menu_articles"></i> 
+         <i class="icon-menu_articles"></i>
          <a href="{$webRoot}MyArticles.php">Mes articles</a>
       </li>
       <li>
-         <i class="icon-menu_lists"></i> 
+         <i class="icon-menu_lists"></i>
          <a href="{$webRoot}MyLists.php">Mes listes</a><sup>Beta</sup>
       </li>
       <li>
-         <i class="icon-menu_games"></i> 
+         <i class="icon-menu_games"></i>
          <a href="{$webRoot}Games.php">Jeux</a><sup>Beta</sup>
       </li>
       <li>
-         <i class="icon-menu_didyouknow"></i> 
+         <i class="icon-menu_didyouknow"></i>
          <a href="{$webRoot}RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup>
       </li>
       <li>
-         <i class="icon-menu_invite"></i> 
+         <i class="icon-menu_invite"></i>
          <a href="{$webRoot}Sponsorship.php">Inviter un ami</a>
       </li>
       {switch:adminTools||yes & <li>
-         <i class="icon-menu_articles"></i> 
+         <i class="icon-menu_articles"></i>
          <a href="[0]UnpublishedArticles.php" class="adminLink">Articles en cours</a>
       </li>
       <li>
-         <i class="icon-menu_users"></i> 
+         <i class="icon-menu_users"></i>
          <a href="[0]Users.php" class="adminLink">Utilisateurs</a>
       </li>
       <li>
-         <i class="icon-general_alert"></i> 
+         <i class="icon-general_alert"></i>
          <a href="[0]Alerts.php" class="adminLink">Alertes</a>
       </li>}
       <li></li>

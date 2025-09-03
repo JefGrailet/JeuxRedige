@@ -411,7 +411,7 @@ class WebpageHandler
       {
          $logInTplInput = array(
             'webRoot' => $webRootPath, 
-            'loginRedirection' => ''
+            'logInRedirection' => ''
          );
 
          if(self::$redirections['log_in'])

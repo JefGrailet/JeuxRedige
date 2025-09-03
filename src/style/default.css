@@ -16,14 +16,31 @@
     font-style: normal;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachement: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+}
+
 :root {
    --link-hover-opacity: 0.5;
    --top-menu-width: 1200px;
    --transition-time: 0.3s;
 }
 
-html:has(dialog[open]) {
-    overflow: hidden;
+html {
+   scroll-behavior: smooth;
+
+   &:has(dialog[open]) {
+      overflow: hidden;
+      scrollbar-gutter: stable;
+   }
 }
 
 /* Main CSS file. */
@@ -68,18 +85,6 @@ body
    border-right: none;
 }
 
-/* User corner (h6 -> pseudonym, i -> icons for hamburger menus) */
-
-#userCorner h6
-{
-   display: inline-block;
-   margin: 10px 10px 9px 0px; /* Dim. adjusted due to avatar (see below) */
-   padding: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1.625rem; /* ~26px */
-   font-weight: normal;
-   color: white;
-}
 
 #userCorner .avatarMini
 {
@@ -105,6 +110,7 @@ body
    position: fixed;
    float: right;
    right: 0;
+   top: 0;
    height: 100%;
    border-left: 1px solid #646464;
    overflow: auto;
@@ -1048,12 +1054,9 @@ input[type=submit]:active, button:active, .customButton:active
 
 /* Footer. */
 
-#footer
-{
-   margin: auto;
-   width: 800px;
-   margin-top: 50px;
-   margin-bottom: 50px;
+#footer {
+   margin-inline: auto;
+   margin-block: 50px;
    background: none;
    color: black;
 }

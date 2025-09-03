@@ -313,7 +313,7 @@ class WebpageHandler
          );
 
          // Default pseudo display, with link to profile (will be changed with function account)
-         $profileLink = '<a href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">';
+         $profileLink = '<a class="rightLabel" href="'.$webRootPath.'User.php?user='.LoggedUser::$data['pseudo'].'">';
          $profileLink .= LoggedUser::$data['pseudo'].'</a>';
          $userMenuTplInput['pseudoDisplay'] = $profileLink;
 

@@ -16,6 +16,7 @@
 {
    margin-top: 30px;
    margin-bottom: 30px;
+   margin-inline: var(--root-side-margin);
    display: block;
 }
 
@@ -26,31 +27,22 @@
 
 #articlesPool
 {
-   display: flex;
-   flex-wrap: wrap;
+   display: grid;
+   grid-template-columns: repeat(1, 1fr);
+
+   @media screen and (width > 640px) {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   @media screen and (width > 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+   }
+
+   @media screen and (width > 1536px) {
+      grid-template-columns: repeat(4, 1fr);
+   }
+
    margin: auto;
+   gap: 2rem;
 }
 
-@media screen and (max-width: 1199px)
-{
-   #articlesPool
-   {
-      width: 800px;
-   }
-}
-
-@media screen and (min-width: 1200px) and (max-width: 1599px)
-{
-   #articlesPool
-   {
-      width: 1200px;
-   }
-}
-
-@media screen and (min-width: 1600px)
-{
-   #articlesPool
-   {
-      width: 1600px;
-   }
-}

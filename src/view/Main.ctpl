@@ -68,7 +68,7 @@
                   </div>
                </div>
                </div>
-               <div class="mainMenuItem lastLink"><a href="{$webRoot}Forum.php">FORUM</a></div>
+               <div class="mainMenuItem"><a href="{$webRoot}Forum.php">FORUM</a></div>
             </div>
 
             <div id="userCorner">

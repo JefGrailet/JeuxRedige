@@ -92,9 +92,22 @@
 
 #articlesPool, #articlesPoolIndex
 {
-   display: flex;
-   flex-wrap: wrap;
-   margin: auto;
+   display: grid;
+   gap: 2rem;
+   grid-template-columns: repeat(1, 1fr);
+
+   @media screen and (width > 640px) {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   @media screen and (width > 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+   }
+
+   @media screen and (width > 1536px) {
+      grid-template-columns: repeat(4, 1fr);
+   }
+   margin-inline: var(--root-side-margin);
 }
 
 #articlesPoolIndex
@@ -102,37 +115,6 @@
    margin-top: 20px;
 }
 
-@media screen and (max-width: 1199px)
-{
-   #articlesPool, #articlesPoolIndex
-   {
-      width: 800px;
-   }
-}
-
-@media screen and (min-width: 1200px) and (max-width: 1599px)
-{
-   #articlesPool
-   {
-      width: 1200px;
-   }
-}
-
-@media screen and (min-width: 1200px)
-{
-   #articlesPoolIndex
-   {
-      width: 1200px;
-   }
-}
-
-@media screen and (min-width: 1600px)
-{
-   #articlesPool
-   {
-      width: 1600px;
-   }
-}
 
 #emoticonsPool .poolError, #lineItemsPool .poolError, #articlesPool .poolError
 {
@@ -165,7 +147,7 @@
    {
       width: 800px;
    }
-   
+
    #soundcloudBoxIndex iframe
    {
       width: 760px;
@@ -178,7 +160,7 @@
    {
       width: 1200px;
    }
-   
+
    #soundcloudBoxIndex iframe
    {
       width: 1160px;
@@ -252,15 +234,15 @@
 .centeredContent .prettyLink.review { background-color: #cd301e; }
 .centeredContent .prettyLink.misc { background-color: #969696; }
 
-.centeredContent .prettyLink.chronicle:hover, .centeredContent .prettyLink.guide:hover, 
-.centeredContent .prettyLink.opinion:hover, .centeredContent .prettyLink.preview:hover, 
+.centeredContent .prettyLink.chronicle:hover, .centeredContent .prettyLink.guide:hover,
+.centeredContent .prettyLink.opinion:hover, .centeredContent .prettyLink.preview:hover,
 .centeredContent .prettyLink.review:hover, .prettyLink.misc:hover
 {
    background-color: #646464;
 }
 
-.centeredContent .prettyLink.chronicle:active, .centeredContent .prettyLink.guide:active, 
-.centeredContent .prettyLink.opinion:active, .centeredContent .prettyLink.preview:active, 
+.centeredContent .prettyLink.chronicle:active, .centeredContent .prettyLink.guide:active,
+.centeredContent .prettyLink.opinion:active, .centeredContent .prettyLink.preview:active,
 .centeredContent .prettyLink.review:active, .prettyLink.misc:active
 {
    background-color: #646464;
@@ -282,8 +264,8 @@
 }
 
 /*
-* Style for user blocks, since they will only occur in "pools" (therefore, a separate stylesheet 
-* would be unnecessary). 
+* Style for user blocks, since they will only occur in "pools" (therefore, a separate stylesheet
+* would be unnecessary).
 */
 
 .userBlock
@@ -335,7 +317,7 @@
 }
 
 /*
-* Similarly, style for emoticon blocks. 
+* Similarly, style for emoticon blocks.
 */
 
 .emoticonBlock
@@ -385,8 +367,8 @@
 
 .emoticonDisplay img
 {
-   max-height: 100%;  
-   max-width: 100%; 
+   max-height: 100%;
+   max-width: 100%;
    width: auto;
    height: auto;
    position: absolute;

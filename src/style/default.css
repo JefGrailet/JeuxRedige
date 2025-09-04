@@ -31,7 +31,9 @@
 :root {
    --link-hover-opacity: 0.5;
    --top-menu-width: 1200px;
+   --content-max-width: 1920px;
    --transition-time: 0.3s;
+   --root-side-margin: max(env(safe-area-inset-right), 0.75rem);
 }
 
 html {
@@ -71,7 +73,7 @@ body
 
 #main
 {
-   max-width: 1920px;
+   max-width: var(--content-max-width);
    margin: auto;
    width: 100%;
 }
@@ -149,27 +151,14 @@ body
 
 .userMenuToggle
 {
-   top: 12px;
-   right: 48px;
-   width: 30px;
-   height: 30px;
+   left: -9999px;
 }
 
 .pingsToggle
 {
-   top: 12px;
-   right: 8px;
-   width: 30px;
-   height: 30px;
+   left: -9999px;
 }
 
-.loginToggle
-{
-   top: 6px;
-   right: 6px;
-   width: 170px;
-   height: 34px;
-}
 
 /* Transformations upon checking the hidden checkboxes */
 
@@ -1393,17 +1382,16 @@ textarea
 .articleThumbnail
 {
    position: relative;
-   width: 370px;
-   height: 208px;
-   margin: 12px 13px;
+   width: 100%;
+   aspect-ratio: 370 / 208;
    background: none;
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;
-}
 
-.articleThumbnail:hover
-{
-   border: 1px solid #c8c8c8;
+   &:hover
+   {
+      border: 1px solid #c8c8c8;
+   }
 }
 
 .articleHighlight
@@ -1505,7 +1493,7 @@ textarea
 {
    position: absolute;
    bottom: 0;
-   width: 370px;
+   width: 100%;
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
    z-index: 1;

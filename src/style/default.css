@@ -1072,6 +1072,7 @@ input[type=submit]:active, button:active, .customButton:active
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
+   margin-inline: var(--root-side-margin);
 }
 
 #footer p .iconLink
@@ -1097,25 +1098,18 @@ input[type=submit]:active, button:active, .customButton:active
    text-decoration: none;
    color: #3475e5;
    font-size: 1rem; /* ~16px */
-}
+   transition: color var(--transition-time);
 
-#footer p a:hover
-{
-   color: black;
-}
-
-/* Footer is enlarged if possible TODO extensible */
-
-@media screen and (min-width: 1200px)
-{
-   #footer { width: 1200px; }
+   &:hover
+   {
+      color: black;
+   }
 }
 
 /* Text style */
 
 #content p, #contentMultiple p
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding: 7px;
@@ -1129,7 +1123,6 @@ input[type=submit]:active, button:active, .customButton:active
 
 #content h1, #contentMultiple h1
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-weight: normal;
    font-size: 1rem; /* ~16px */
    text-align: justify;

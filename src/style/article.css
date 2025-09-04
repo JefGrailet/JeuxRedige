@@ -1,19 +1,10 @@
 /* Style for articles */
 
-#articleWrapper
-{
-   margin: auto;
-   width: 90%;
-   min-width: 800px;
-   max-width: 1152px; /* 60% of the width in 1920x1080 */
-   padding-top: 20px;
-}
-
 .articleSegment
 {
    background-color: white;
    border-radius: 5px;
-   margin: 20px;
+   margin: 20px var(--root-side-margin);
    padding-bottom: 5px;
    box-shadow: 0px 0px 2px 0px grey;
 }
@@ -356,7 +347,7 @@
 #articleFooter
 {
    background: none;
-   margin: 20px;
+   margin: 20px var(--root-side-margin);
    padding-bottom: 5px;
 }
 
@@ -647,7 +638,7 @@
    font-size: 1rem; /* ~16px */
 }
 
-.commentText ul 
+.commentText ul
 {
    margin-top: 10px;
    margin-bottom: 10px;

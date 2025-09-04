@@ -37,7 +37,7 @@ class SegmentIR
          $output['headerStyle'] = 'class="segmentHeader"';
          $output['headerStyle'] .= ' style="background: url(\''.$URL.'\') no-repeat center;';
          $output['headerStyle'] .= ' padding-top: 16%;';
-         $output['headerStyle'] .= ' background-size: 100%;"';
+         $output['headerStyle'] .= ' background-size: cover;"';
       }
       else
       {

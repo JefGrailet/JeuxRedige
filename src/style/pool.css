@@ -93,7 +93,7 @@
 #articlesPool, #articlesPoolIndex
 {
    display: grid;
-   gap: 2rem;
+   gap: 1.5rem;
    grid-template-columns: repeat(1, 1fr);
 
    @media screen and (width > 640px) {
@@ -104,9 +104,6 @@
       grid-template-columns: repeat(3, 1fr);
    }
 
-   @media screen and (width > 1536px) {
-      grid-template-columns: repeat(4, 1fr);
-   }
    margin-inline: var(--root-side-margin);
 }
 

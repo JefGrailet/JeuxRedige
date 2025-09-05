@@ -94,6 +94,7 @@
       left: 50%;
       transform: translateX(-50%);
       height: 1px;
+      pointer-events: none;
    }
 }
 
@@ -184,7 +185,6 @@
    padding-inline: max(env(safe-area-inset-right), 0.75rem);
    max-width: var(--top-menu-width);
    text-align: center;
-   z-index: 1;
    gap: 1rem;
    overflow: auto;
    white-space: nowrap;

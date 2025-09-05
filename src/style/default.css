@@ -31,7 +31,7 @@
 :root {
    --link-hover-opacity: 0.5;
    --top-menu-width: 1200px;
-   --content-max-width: 1920px;
+   --content-max-width: 1200px;
    --transition-time: 0.3s;
    --root-side-margin: max(env(safe-area-inset-right), 0.75rem);
 }
@@ -136,6 +136,23 @@ body
    color: #3475e5;
    transform: translateX(+360px);
    transition: transform 250ms ease-in-out;
+}
+
+.headerSlider {
+   display: flex;
+   align-items: center;
+   width: 100%;
+
+   label {
+      display: inline-block;
+      width: 25px;
+      aspect-ratio: 1;
+      transition: color var(--transition-time);
+
+      &:hover, &:focus {
+         color: oklch(from currentColor calc(l * .65) c h);;
+      }
+   }
 }
 
 .userMenuToggle, .pingsToggle, .loginToggle
@@ -1055,6 +1072,7 @@ input[type=submit]:active, button:active, .customButton:active
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
+   margin-inline: var(--root-side-margin);
 }
 
 #footer p .iconLink
@@ -1080,25 +1098,18 @@ input[type=submit]:active, button:active, .customButton:active
    text-decoration: none;
    color: #3475e5;
    font-size: 1rem; /* ~16px */
-}
+   transition: color var(--transition-time);
 
-#footer p a:hover
-{
-   color: black;
-}
-
-/* Footer is enlarged if possible TODO extensible */
-
-@media screen and (min-width: 1200px)
-{
-   #footer { width: 1200px; }
+   &:hover
+   {
+      color: black;
+   }
 }
 
 /* Text style */
 
 #content p, #contentMultiple p
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding: 7px;
@@ -1112,7 +1123,6 @@ input[type=submit]:active, button:active, .customButton:active
 
 #content h1, #contentMultiple h1
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-weight: normal;
    font-size: 1rem; /* ~16px */
    text-align: justify;
@@ -1390,31 +1400,27 @@ textarea
 
    &:hover
    {
-      border: 1px solid #c8c8c8;
+      border-color: #c8c8c8;
    }
 }
 
 .articleHighlight
 {
    position: relative;
-   width: 1170px;
-   height: 400px;
-   margin: 12px;
+   aspect-ratio: 770 / 400;
+   @media screen and (width > 640px) {
+      aspect-ratio: 1170 / 400;
+   }
+   width: 100%;
    background: none;
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;
-}
+   grid-column: 1 / -1;
+   transition: border-color var(--transition-time);
 
-.articleHighlight:hover
-{
-   border: 1px solid #c8c8c8;
-}
-
-@media screen and (max-width: 1079px)
-{
-   .articleHighlight
+   &:hover
    {
-      width: 770px;
+      border-color: #c8c8c8;
    }
 }
 
@@ -1497,11 +1503,12 @@ textarea
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
    z-index: 1;
-}
+   transition: border-color var(--transition-time);
 
-.articleThumbnail .articleTitles:hover
-{
-   background-color: rgba(0, 0, 0, 0.9);
+   &:hover
+   {
+      background-color: rgba(0, 0, 0, 0.9);
+   }
 }
 
 .articleThumbnail .articleTitle p
@@ -1539,7 +1546,7 @@ textarea
    position: absolute;
    bottom: 0;
    width: 100%;
-   height: 80px;
+   min-height: 80px;
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
    z-index: 1;

@@ -14,18 +14,32 @@
    <ul id="pings">
       {$pingsContent}
       <li>
-         <i class="icon-menu_lists" style="color: #25b6d2;"></i>
-         <a href="{$webRoot}Pings.php">
-            Liste de mes pings {optional:morePings||([] nouveaux)}
-         </a>
+         <div class="headerSlider">
+            <i class="icon-menu_lists" style="color: #25b6d2;"></i>
+            <a href="{$webRoot}Pings.php">
+               Liste de mes pings {optional:morePings||([] nouveaux)}
+            </a>
+            <label for="pingsMenu" style="margin-left: auto;">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+               </svg>
+            </label>
+         </div>
       </li>
    </ul>
 </div>
 <div class="userMenu">
    <ul>
       {optional:switchAccount||<li>
-         <i class="icon-menu_switch"></i>
-         []
+         <div class="headerSlider">
+            <i class="icon-menu_switch"></i>
+            []
+            <label for="userMenu" style="margin-left: auto;">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+               </svg>
+            </label>
+         </div>
       </li>}
       <li>
          <i class="icon-general_edit"></i>

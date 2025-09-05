@@ -1,4 +1,4 @@
-<div class="articleHighlight" id="{$ID}" style="background: url('{$highlight}') no-repeat top center;">
+<div class="articleHighlight" id="{$ID}" style="background: url('{$highlight}') no-repeat top center; background-size: cover;">
    <div class="articleHighlightDetails{$type}">
       <p>{$typeTranslated}{switch:extra||author &  par [0]|state & }</p>
    </div>

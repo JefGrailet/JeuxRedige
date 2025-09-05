@@ -38,11 +38,7 @@
       grid-template-columns: repeat(3, 1fr);
    }
 
-   @media screen and (width > 1536px) {
-      grid-template-columns: repeat(4, 1fr);
-   }
-
    margin: auto;
-   gap: 2rem;
+   gap: var(--articles-grid-gap);
 }
 

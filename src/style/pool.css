@@ -93,7 +93,7 @@
 #articlesPool, #articlesPoolIndex
 {
    display: grid;
-   gap: 1.5rem;
+   gap: var(--articles-grid-gap);
    grid-template-columns: repeat(1, 1fr);
 
    @media screen and (width > 640px) {
@@ -231,9 +231,9 @@
 .centeredContent .prettyLink.review { background-color: #cd301e; }
 .centeredContent .prettyLink.misc { background-color: #969696; }
 
-.centeredContent .prettyLink.chronicle:hover, .centeredContent .prettyLink.guide:hover,
-.centeredContent .prettyLink.opinion:hover, .centeredContent .prettyLink.preview:hover,
-.centeredContent .prettyLink.review:hover, .prettyLink.misc:hover
+.centeredContent .prettyLink.chronicle:is(:hover, :focus), .centeredContent .prettyLink.guide:is(:hover, :focus),
+.centeredContent .prettyLink.opinion:is(:hover, :focus), .centeredContent .prettyLink.preview:is(:hover, :focus),
+.centeredContent .prettyLink.review:is(:hover, :focus), .prettyLink.misc:is(:hover, :focus)
 {
    background-color: #646464;
 }

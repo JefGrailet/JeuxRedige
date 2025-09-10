@@ -1,0 +1,37 @@
+<header id="topBar">
+	<div class="wrapper">
+		<div class="icons">
+			<a href="{{ webRoot }}" class="mainMenuLogo {{selectedLogo}}"></a>
+			<a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="ytIcon">
+				<i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i>
+			</a>
+		</div>
+		<div class="mainMenuItemsContainer">
+			<div class="dropdown mainMenuItem">
+				<a href="{{ webRoot }}Articles.php">ARTICLES</a>
+				<div class="dropdownContentWrapper">
+					<div class="dropdownContent">
+						<a href="{{ webRoot }}Articles.php?article_category=review" class="review">CRITIQUES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=preview" class="preview">APERÇUS</a>
+						<a href="{{ webRoot }}Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
+						<a href="{{ webRoot }}Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=guide" class="guide">GUIDES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=misc" class="misc">HORS JEU</a>
+						<a href="{{ webRoot }}Articles.php">VOIR TOUT</a>
+					</div>
+				</div>
+			</div>
+			<div class="mainMenuItem">
+				<a href="{{ webRoot }}Forum.php">FORUM</a>
+			</div>
+		</div>
+
+		<div id="userCorner">
+      {% if is_user_logged %}
+			{% include "includes/user-menu_panel.html.twig" %}
+      {% else %}
+			{% include "includes/visitor_panel.html.twig" %}
+      {% endif %}
+		</div>
+	</div>
+</header>

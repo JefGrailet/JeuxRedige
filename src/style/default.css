@@ -1095,12 +1095,18 @@ input[type=submit]:active, button:active, .customButton:active
    margin-right: 3px;
    margin-bottom: 5px;
    box-shadow: 0px 0px 3px 0px #646464;
+   transition: background-color var(--transition-time);
+
+   &:is(:hover, :focus)
+   {
+      background-color: #646464;
+   }
+
+   i {
+      font-size: 1.5rem;
+   }
 }
 
-#footer p .iconLink:hover
-{
-   background-color: #646464;
-}
 
 #footer p a
 {
@@ -1332,9 +1338,10 @@ textarea
    top: 0;
    left: 0;
    z-index: 0;
+   transition: background-color var(--transition-time);
 }
 
-.thumbnail:hover > .thumbnailClick, .articleHighlight:hover > .thumbnailClick, .articleThumbnail:hover > .thumbnailClick
+.thumbnail:hover > .thumbnailClick
 {
    background-color: rgba(255, 255, 255, 0.2);
 }
@@ -1425,6 +1432,11 @@ textarea
       {
          color: #3475e5;
       }
+
+      > .thumbnailClick
+      {
+         background-color: rgba(255, 255, 255, 0.2);
+      }
    }
 
    .articleTitles
@@ -1460,6 +1472,7 @@ textarea
       color: white;
       display: inline-block;
       width: 100%;
+      transition: color var(--transition-time);
    }
 }
 
@@ -1477,9 +1490,63 @@ textarea
    grid-column: 1 / -1;
    transition: border-color var(--transition-time);
 
-   &:hover
+   &:hover, &:focus-within
    {
       border-color: #c8c8c8;
+
+      .articleThumbnailType
+      {
+         background-color: rgb(from var(--background) r g b / 1);
+      }
+
+      .articleTitles
+      {
+         background-color: rgba(0, 0, 0, 0.9);
+      }
+
+      a
+      {
+         color: #3475e5;
+      }
+
+      > .thumbnailClick {
+         background-color: rgba(255, 255, 255, 0.2);
+      }
+   }
+
+   a
+   {
+      text-decoration: none;
+      color: white;
+   }
+
+   .articleSubtitle p
+   {
+      margin: 0px 5px;
+      padding: 0px 5px 5px 5px;
+      font-size: 1.375rem; /* ~22px */
+   }
+
+   .articleTitle p
+   {
+      margin: 0px 5px;
+      padding: 5px;
+      font-size: 1.625rem; /* ~26px */
+      font-weight: bold;
+      font-family: "Roboto", "Arial", sans-serif;
+   }
+
+   /* Titles in highlight */
+   .articleTitles
+   {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      min-height: 80px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      z-index: 1;
+      transition: background-color var(--transition-time);
    }
 }
 
@@ -1568,51 +1635,6 @@ textarea
    background-color: var(--background);
 }
 
-/* Titles in highlight */
-
-.articleHighlight .articleTitles
-{
-   position: absolute;
-   bottom: 0;
-   width: 100%;
-   min-height: 80px;
-   background-color: rgba(0, 0, 0, 0.5);
-   color: white;
-   z-index: 1;
-}
-
-.articleHighlight .articleTitles:hover
-{
-   background-color: rgba(0, 0, 0, 0.9);
-}
-
-.articleHighlight .articleTitle p
-{
-   margin: 0px 5px;
-   padding: 5px;
-   font-size: 1.625rem; /* ~26px */
-   font-weight: bold;
-   font-family: "Roboto", "Arial", sans-serif;
-}
-
-.articleHighlight .articleSubtitle p
-{
-   margin: 0px 5px;
-   padding: 0px 5px 5px 5px;
-   font-size: 1.375rem; /* ~22px */
-   font-family: "Roboto", "Arial", sans-serif;
-}
-
-.articleHighlight .articleTitles a
-{
-   text-decoration: none;
-   color: white;
-}
-
-.articleHighlight .articleTitles a:hover
-{
-   color: #3475e5;
-}
 
 /* Next comes some styling for formatting elements (in articles, forum posts, etc.) */
 

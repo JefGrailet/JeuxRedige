@@ -60,6 +60,8 @@
 
 #articlesPool, #articlesPoolIndex
 {
+   list-style: none;
+   padding: 0;
    display: grid;
    gap: var(--articles-grid-gap);
    grid-template-columns: repeat(1, 1fr);
@@ -135,11 +137,17 @@
 
 
 /* Elements to centered elements such as page lists or specific buttons. */
+.categoriesLinks {
+   display: flex;
+   justify-content: center;
+   align-items: start;
+   gap: calc(var(--articles-grid-gap) / 4);
+   flex-wrap: wrap;
+}
 
 .centeredContent
 {
    width: 100%;
-   min-width: 800px;
    margin: 20px 0px;
    text-align: center;
 }

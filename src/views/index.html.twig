@@ -1,0 +1,42 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+{# {{ cancel("fooo")}} #}
+	<ul id="articlesPoolIndex">
+		{% for article in list_articles %}
+			<li
+            class={{ (article.is_highlighted == true) ? 'articleHighlight' : 'articleThumbnail' }}
+            id="{{article.id_article}}"
+            style="background: url('{{article.thumbnail}}') no-repeat top center; background-size: cover;"
+            {{ article.date_time is defined ? ('title="Publié le ' ~article.date_time ~ '"')|raw }}
+         >
+               <div class="{{ (article.is_highlighted == true) ? 'articleHighlightDetails' : 'articleThumbnailType' }} {{ article.type }}">
+                  <p>
+                     {{ articles_categories[article.type].name }}
+                     {% if article.is_highlighted %} par {{ article.pseudo }}{% endif %}
+                  </p>
+               </div>
+            {% if article.is_highlighted == false %}
+               <div class="articleThumbnailExtra">
+					<p>Par {{ article.pseudo }}</p>
+				</div>
+            {% endif %}
+				<div class="articleTitles">
+					<div class="articleTitle">
+						<p>
+							<a href="{{ article.link }}"tabindex="-1">{{article.title}}</a>
+						</p>
+					</div>
+					<div class="articleSubtitle">
+						<p>
+							<a href="{{ article.link }}" tabindex="-1">{{article.subtitle}}</a>
+						</p>
+					</div>
+				</div>
+				<a href="{{ article.link }}" class="thumbnailClick">
+					<span></span>
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

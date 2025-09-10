@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Site de critique de jeux vidéo
+			{% endblock %}
+			— JeuxRedige.com</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="{{webRoot}}style/default.css"/>
+		<link rel="stylesheet" href="{{webRoot}}style/main_menu.css"/>
+		<link rel="stylesheet" href="{{webRoot}}style/icons.css"/>
+
+		<meta name="theme-color" content="black"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+		{% if meta.title %}
+			<meta name="title" content="{{ meta.title }} — JeuxRedige.com"/>
+			<meta name="twitter:title" content="{{ meta.title }} — JeuxRedige.com">
+
+			<meta property="og:title" content="{{ meta.title }}">
+         <meta property="og:type" content="website" />
+
+			<meta property="og:site_name" content="JeuxRédige">
+			<meta name="twitter:card" content="summary_large_image">
+			<meta name="twitter:site" content="JeuxRédige">
+
+         <meta property="og:url" content="{{ meta.url }}">
+         <meta property="twitter:url" content="{{ meta.url }}">
+			{% if meta.description %}
+				<meta name="description" content="With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, X and more!"/>
+				<meta property="og:description" content="{{ meta.description }}">
+				<meta name="twitter:description" content="{{ meta.description }}">
+			{% endif %}
+			{% if meta.image %}
+				<meta property="og:image" content="{{ meta.image }}">
+				<meta name="twitter:image" content="{{ meta.image }}">
+				{# <meta name="twitter:image:alt" content="Vignette"> #}
+			{% endif %}
+			{# {% if metaURL %}
+				<meta property="og:url" content="{{ metaURL }}">
+			{% endif %} #}
+		{% endif %}
+
+      {% for css_file in list_css_files %}
+      <link rel="stylesheet" href="{{ webRoot ~ "style/" ~ css_file ~ ".css" }}">
+      {% endfor %}
+
+		<script text="text/javascript">
+			{$configJS}
+		</script>
+		<script type="text/javascript" src="{{webRoot}}javascript/jquery-3.7.1.min.js" defer></script>
+		<script type="text/javascript" src="{{webRoot}}javascript/default{{extJS}}" defer></script>
+		<script type="text/javascript" src="{{webRoot}}javascript/modal_manager{{extJS}}" defer></script>
+	</head>
+	<body>
+		{% include 'includes/header.html.twig' %}
+		<main id="main">
+			{% block content %}{% endblock %}
+		</main>
+		{% include 'includes/footer.html.twig' %}
+	</body>
+</html>

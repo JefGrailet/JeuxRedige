@@ -1,92 +1,127 @@
 <p class="userInfos">
-   <img src="{{ userInfos.avatar }}" class="avatarMini" alt="Avatar de {{ userInfos.pseudo }}"/>
-   <a class="rightLabel" href="{{webRoot}}User.php?user={{ userInfos.pseudo }}">{{ userInfos.pseudo }}</a>
+	<img src="{{ userInfos.avatar }}" class="avatarMini" alt="Avatar de {{ userInfos.pseudo }}"/>
+	<a class="rightLabel" href="{{webRoot}}User.php?user={{ userInfos.pseudo }}">{{ userInfos.pseudo }}</a>
 </p>
 <input id="userMenu" class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
 <input id="pingsMenu" class="pingsToggle" title="Mes pings" type="checkbox">
 <label for="userMenu">
-   <i class="icon-general_menu"></i>
+	<i class="icon-general_menu"></i>
 </label>
 <label for="pingsMenu">
-   <i class="icon-general_messages" style="color: {$pingsColor};" title="Mes pings"></i>
+	<i class="icon-general_messages" style="color: {$pingsColor};" title="Mes pings"></i>
 </label>
 <div class="pingsSlider">
-   <ul id="pings">
-      {$pingsContent}
-      <li>
-         <div class="headerSlider">
-            <i class="icon-menu_lists" style="color: #25b6d2;"></i>
-            <a href="{{ webRoot }}Pings.php">
-               Liste de mes pings {optional:morePings||([] nouveaux)}
-            </a>
-            <label for="pingsMenu" style="margin-left: auto;">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-               </svg>
-            </label>
-         </div>
-      </li>
-   </ul>
+	<ul id="pings">
+		{$pingsContent}
+		<li>
+			<div class="headerSlider">
+				<i class="icon-menu_lists" style="color: #25b6d2;"></i>
+				<a href="{{ webRoot }}Pings.php">
+					Liste de mes pings {optional:morePings||([] nouveaux)}
+				</a>
+				<label for="pingsMenu" style="margin-left: auto;">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+					</svg>
+				</label>
+			</div>
+		</li>
+	</ul>
 </div>
 <div class="userMenu">
-   <ul>
-      {optional:switchAccount||<li>
-         <div class="headerSlider">
-            <i class="icon-menu_switch"></i>
-            []
-            <label for="userMenu" style="margin-left: auto;">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-               </svg>
-            </label>
-         </div>
-      </li>}
-      <li>
-         <i class="icon-general_edit"></i>
-         <a href="{{ webRoot }}MyAccount.php">Mon compte</a>
-      </li>
-      <li>
-         <i class="icon-menu_smilies"></i>
-         <a href="{{ webRoot }}MyEmoticons.php">Mes émoticônes</a>
-      </li>
-      <li>
-         <i class="icon-general_pin"></i>
-         <a href="{{ webRoot }}MyPins.php">Mes messages favoris</a>
-      </li>
-      <li>
-         <i class="icon-menu_articles"></i>
-         <a href="{{ webRoot }}MyArticles.php">Mes articles</a>
-      </li>
-      <li>
-         <i class="icon-menu_lists"></i>
-         <a href="{{ webRoot }}MyLists.php">Mes listes</a><sup>Beta</sup>
-      </li>
-      <li>
-         <i class="icon-menu_games"></i>
-         <a href="{{ webRoot }}Games.php">Jeux</a><sup>Beta</sup>
-      </li>
-      <li>
-         <i class="icon-menu_didyouknow"></i>
-         <a href="{{ webRoot }}RandomTrivia.php">Le saviez-vous ?</a><sup>Beta</sup>
-      </li>
-      <li>
-         <i class="icon-menu_invite"></i>
-         <a href="{{ webRoot }}Sponsorship.php">Inviter un ami</a>
-      </li>
-      {switch:adminTools||yes & <li>
-         <i class="icon-menu_articles"></i>
-         <a href="[0]UnpublishedArticles.php" class="adminLink">Articles en cours</a>
-      </li>
-      <li>
-         <i class="icon-menu_users"></i>
-         <a href="[0]Users.php" class="adminLink">Utilisateurs</a>
-      </li>
-      <li>
-         <i class="icon-general_alert"></i>
-         <a href="[0]Alerts.php" class="adminLink">Alertes</a>
-      </li>}
-      <li></li>
-      <li></li>
-      <li><i class="icon-menu_logout"></i> <a href="{$logOutLink}">Déconnexion</a></li>
-   </ul>
+	<ul>
+		{% if userInfos.test %}
+			<li>
+				<div class="headerSlider">
+					<i class="icon-menu_switch"></i>
+					<a href="{{webRoot}}SwitchAccount.php?pos=">
+						Changer pour
+						{{ userInfos.alt_pseudo }}
+					</a>
+					<label for="userMenu" style="margin-left: auto;">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+						</svg>
+					</label>
+				</div>
+			</li>
+		{% endif %}
+		<li>
+			<a href="{{ webRoot }}MyAccount.php">
+				<i class="icon-general_edit"></i>
+				Mon compte
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}MyEmoticons.php">
+				<i class="icon-menu_smilies"></i>
+				Mes émoticônes
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}MyPins.php">
+				<i class="icon-general_pin"></i>
+				Mes messages favoris
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}MyArticles.php">
+				<i class="icon-menu_articles"></i>
+				Mes articles
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}MyLists.php">
+				<i class="icon-menu_lists"></i>
+				Mes listes
+				<sup>Beta</sup>
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}Games.php">
+				<i class="icon-menu_games"></i>
+				Jeux
+				<sup>Beta</sup>
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}RandomTrivia.php">
+				<i class="icon-menu_didyouknow"></i>
+				Le saviez-vous ?
+				<sup>Beta</sup>
+			</a>
+		</li>
+		<li>
+			<a href="{{ webRoot }}Sponsorship.php">
+				<i class="icon-menu_invite"></i>
+				Inviter un ami
+			</a>
+		</li>
+		{% if is_using_admin_account %}
+			<li>
+				<a href="[0]UnpublishedArticles.php" class="adminLink">
+					<i class="icon-menu_articles"></i>
+					Articles en cours
+				</a>
+			</li>
+			<li>
+				<a href="[0]Users.php" class="adminLink">
+					<i class="icon-menu_users"></i>
+					Utilisateurs
+				</a>
+			</li>
+			<li>
+				<a href="[0]Alerts.php" class="adminLink">
+					<i class="icon-general_alert"></i>
+					Alertes
+				</a>
+			</li>
+		{% endif %}
+		<li>
+			<a href="{$logOutLink}">
+				<i class="icon-menu_logout"></i>
+				Déconnexion
+			</a>
+		</li>
+	</ul>
 </div>

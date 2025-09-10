@@ -129,6 +129,10 @@ body
    color: white;
    transform: translateX(+310px);
    transition: transform 250ms ease-in-out;
+
+   li:last-child {
+      margin-top: 2rem!important;
+   }
 }
 
 .pingsSlider

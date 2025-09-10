@@ -14,9 +14,6 @@ require_once './vendor/autoload.php';
 
 WebpageHandler::redirectionAtLoggingIn();
 
-// Webpage settings
-WebpageHandler::addCSS('pool');
-WebpageHandler::noContainer();
 
 $loader = new \Twig\Loader\FilesystemLoader('./views');
 
@@ -24,11 +21,6 @@ $twig = new \Twig\Environment($loader, [
    'debug' => true,
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
-
-$function = new \Twig\TwigFunction('cancel', function ($msg = "Une erreur est survenue") {
-    throw new \Twig\Error\Error("Process cancelled with msg: $msg");
-});
-$twig->addFunction($function);
 
 $twig->addGlobal("webRoot", PathHandler::HTTP_PATH());
 $twig->addGlobal("configJS", "");
@@ -68,8 +60,12 @@ $twig->addGlobal("userSide", "default");
 $twig->addGlobal("is_user_logged", LoggedUser::isLoggedIn());
 if (LoggedUser::isLoggedIn()) {
    $twig->addGlobal("userInfos", array(
-      'avatar' => PathHandler::getAvatarMedium(LoggedUser::$data['used_pseudo']),
-      'pseudo' => LoggedUser::$data['pseudo'],
+      "avatar" => PathHandler::getAvatarMedium(LoggedUser::$data['used_pseudo']),
+      "pseudo" => LoggedUser::$data['pseudo'],
+      "is_admin" => LoggedUser::$data['function_pseudo'] !== NULL && strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus',
+      "is_using_admin_account" => LoggedUser::$data['function_pseudo'] === LoggedUser::$data['used_pseudo'],
+      "alt_pseudo" => LoggedUser::$data['function_pseudo'],
+      "test" => LoggedUser::$data['function_name'] === 'administrator',
    ));
 }
 $twig->addGlobal("renderTime", number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 5, '.', ""));
@@ -80,16 +76,16 @@ try {
    $articles = Article::getFeaturedArticles(8);
 } catch (Exception $e) {
    $errorTplInput = array('error' => 'dbError');
-   $tpl = TemplateEngine::parse('view/content/Index.fail.ctpl', $errorTplInput);
-   WebpageHandler::wrap($tpl, 'Impossible d\'atteindre le contenu');
+   echo $twig->render("index_fail.html.twig", ["error_key" => "dbError"]);
+   return;
 }
 
 if ($articles == NULL) {
    $errorTplInput = array('error' => 'noContent');
-   $tpl = TemplateEngine::parse('view/content/Index.fail.ctpl', $errorTplInput);
-   WebpageHandler::wrap($tpl, 'Impossible d\'atteindre le contenu');
-}
+   echo $twig->render("index_fail.html.twig", ["error_key" => "noContent"]);
 
+   return;
+}
 
 $NB_MAX_ARTICLES_HIGHLIGHTED = 2;
 

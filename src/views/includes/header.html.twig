@@ -11,12 +11,12 @@
 				<a href="{{ webRoot }}Articles.php">ARTICLES</a>
 				<div class="dropdownContentWrapper">
 					<div class="dropdownContent">
-						<a href="{{ webRoot }}Articles.php?article_category=review" class="review">CRITIQUES</a>
-						<a href="{{ webRoot }}Articles.php?article_category=preview" class="preview">APERÇUS</a>
-						<a href="{{ webRoot }}Articles.php?article_category=opinion" class="opinion">HUMEURS</a>
-						<a href="{{ webRoot }}Articles.php?article_category=chronicle" class="chronicle">CHRONIQUES</a>
-						<a href="{{ webRoot }}Articles.php?article_category=guide" class="guide">GUIDES</a>
-						<a href="{{ webRoot }}Articles.php?article_category=misc" class="misc">HORS JEU</a>
+						<a href="{{ webRoot }}Articles.php?article_category=review" class="review {{ current_category == "review" ? "active" }}">CRITIQUES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=preview" class="preview {{ current_category == "preview" ? "active" }}">APERÇUS</a>
+						<a href="{{ webRoot }}Articles.php?article_category=opinion" class="opinion {{ current_category == "opinion" ? "active" }}">HUMEURS</a>
+						<a href="{{ webRoot }}Articles.php?article_category=chronicle" class="chronicle {{ current_category == "chronicle" ? "active" }}">CHRONIQUES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=guide" class="guide {{ current_category == "guide" ? "active" }}">GUIDES</a>
+						<a href="{{ webRoot }}Articles.php?article_category=misc" class="misc {{ current_category == "misc" ? "active" }}">HORS JEU</a>
 						<a href="{{ webRoot }}Articles.php">VOIR TOUT</a>
 					</div>
 				</div>

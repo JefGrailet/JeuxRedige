@@ -36,6 +36,13 @@
    --transition-time: 0.3s;
    --root-side-margin: max(env(safe-area-inset-right), 0.75rem);
    --articles-grid-gap: 1.5rem;
+
+   --article-chronicle-color: #99368b;
+   --article-guide-color: #dd9302;
+   --article-misc-color: #969696;
+   --article-opinion-color: #91c148;
+   --article-preview-color: #34b1e5;
+   --article-review-color: #cd301e;
 }
 
 html {

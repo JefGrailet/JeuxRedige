@@ -48,6 +48,12 @@
 		<script type="text/javascript" src="{{webRoot}}javascript/jquery-3.7.1.min.js" defer></script>
 		<script type="text/javascript" src="{{webRoot}}javascript/default{{extJS}}" defer></script>
 		<script type="text/javascript" src="{{webRoot}}javascript/modal_manager{{extJS}}" defer></script>
+
+      <style>
+         :root {
+            --current-page-color: {{ articles_categories[current_category].color }};
+         }
+      </style>
 	</head>
 	<body>
 		{% include 'includes/header.html.twig' %}

@@ -7,7 +7,6 @@ require './libraries/Header.lib.php';
 require './model/Article.class.php';
 require './view/intermediate/ArticleThumbnail.ir.php';
 
-require_once './vendor/autoload.php';
 require_once './libraries/core/Twig.config.php';
 
 WebpageHandler::redirectionAtLoggingIn();
@@ -17,13 +16,11 @@ $articles = null;
 try {
    $articles = Article::getFeaturedArticles(8);
 } catch (Exception $e) {
-   $errorTplInput = array('error' => 'dbError');
    echo $twig->render("index_fail.html.twig", ["error_key" => "dbError"]);
    return;
 }
 
 if ($articles == NULL) {
-   $errorTplInput = array('error' => 'noContent');
    echo $twig->render("index_fail.html.twig", ["error_key" => "noContent"]);
 
    return;

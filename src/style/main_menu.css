@@ -177,6 +177,9 @@
    right: 0;
    background-color: black;
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   border-bottom: var(--current-page-color, transparent) 2px solid;
+
+   /* border-bottom: #34b1e5 2px solid; */
 }
 
 .dropdownContent {
@@ -189,21 +192,29 @@
    overflow: auto;
    white-space: nowrap;
    transition: opacity var(--transition-time);
+   overflow-y: hidden;
 
-   a:hover {
-      opacity: var(--link-hover-opacity);
+   a {
+      position: relative;
+      &:is(:hover, :focus) {
+         opacity: var(--link-hover-opacity);
+      }
+
+      &.active::after {
+         position: absolute;
+         content: "";
+         display: block;
+         width: 15px;
+         aspect-ratio: 1;
+         background: currentColor;
+         bottom: 0;
+         left: 50%;
+         transform: translateX(-50%) translateY(50%) rotateZ(45deg);
+      }
    }
 
    /* Pour indiquer dans le sous-menu "article" l'élement actuel */
-   /* position: absolute;
-  content: "";
-  display: block;
-  width: 10px;
-  aspect-ratio: 1;
-  background: currentColor;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(50%) rotateZ(45deg); */
+   /*  */
 
    .chronicle {
       color: #99368b;

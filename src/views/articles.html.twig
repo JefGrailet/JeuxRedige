@@ -1,11 +1,12 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block content %}
-	<ul id="articlesPoolIndex">
+{{ nbPages }}
+	<ul id="articlesPool">
 		{% for article in list_articles %}
 			{% include "includes/article-thumbnail.html.twig" with article %}
 		{% else %}
-        <li>Il n'y a actuellement aucun contenu.</li>
-    {% endfor %}
+			<li>Il n'y a actuellement aucun contenu.</li>
+		{% endfor %}
 	</ul>
 {% endblock %}

@@ -1,4 +1,5 @@
 <?php
+require_once './vendor/autoload.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('./views');
 
@@ -15,21 +16,27 @@ $twig->addGlobal("autoJS", "");
 $twig->addGlobal("articles_categories", [
    "review" => [
       "name" => "Critique",
+      "color" => "#cd301e",
    ],
    "preview" => [
       "name" => "Aperçu",
+      "color" => "#34b1e5",
    ],
    "opinion" => [
       "name" => "Humeur",
+      "color" => "#91c148",
    ],
    "chronicle" => [
       "name" => "Chronique",
+      "color" => "#99368b",
    ],
    "guide" => [
       "name" => "Guide",
+      "color" => "#dd9302",
    ],
    "misc" => [
       "name" => "Hors-Jeu",
+      "color" => "#969696",
    ],
 ]);
 $twig->addGlobal("meta", [
@@ -55,5 +62,6 @@ if (LoggedUser::isLoggedIn()) {
    ));
 }
 $twig->addGlobal("renderTime", number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 5, '.', ""));
-parse_str($queryString["QUERY_STRING"], $queryString);
+parse_str($_SERVER["QUERY_STRING"], $queryString);
 $twig->addGlobal("query_string", $queryString);
+$twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");

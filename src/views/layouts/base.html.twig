@@ -55,9 +55,10 @@
          <script type="text/javascript" src="{{ webRoot ~ "javascript/" ~ js_file ~ extJS }}" defer></script>
       {% endfor %}
 
-      <style>:root
+      <style>
+      :root
       {
-         --current-page-color: {{list_categories[current_category].color}};
+         --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
       }
    </style>
 </head>

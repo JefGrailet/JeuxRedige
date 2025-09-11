@@ -8,11 +8,11 @@
 			{% elseif error_key == "dbError" %}
 				Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus
 											tard ou contactez l'administrateur.
-			{% elseif error_key == "" %}
+			{% elseif error_key == "wrongTemplating" %}
 				Une erreur est survenue lors de la génération des vignettes. Réessayez plus
 									tard ou contactez l'administrateur.
 			{% else %}
-				Une erreur est survenue
+				Une erreur est survenue. Veuillez réessayer.
 			{% endif %}
 		</p>
 	</div>

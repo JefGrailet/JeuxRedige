@@ -4,8 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
-			{% block title %}Site de critique de jeux vidéo
-			{% endblock %}
+			{{ page_title }}
 			— JeuxRedige.com</title>
 		<meta charset="UTF-8"/>
 		<link rel="stylesheet" href="{{webRoot}}style/default.css"/>
@@ -37,9 +36,6 @@
 				<meta name="twitter:image" content="{{ meta.image }}">
 				{# <meta name="twitter:image:alt" content="Vignette"> #}
 			{% endif %}
-			{# {% if metaURL %}
-				<meta property="og:url" content="{{ metaURL }}">
-			{% endif %} #}
 		{% endif %}
 
       {% for css_file in list_css_files %}

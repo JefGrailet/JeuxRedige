@@ -30,6 +30,7 @@
 
 :root {
    --link-hover-opacity: 0.5;
+   --link-color: #3475e5;
    --top-menu-width: 1200px;
    --content-max-width: 1200px;
    --transition-time: 0.3s;
@@ -139,7 +140,7 @@ body
 {
    width: 350px;
    background-color: white;
-   color: #3475e5;
+   color: var(--link-color);
    transform: translateX(+360px);
    transition: transform 250ms ease-in-out;
 }
@@ -301,12 +302,12 @@ label[for="pingsMenu"], label[for="userMenu"] {
 
 #userCorner .pingsSlider li
 {
-   color: #3475e5;
+   color: var(--link-color);
 }
 
 #userCorner .pingsSlider a
 {
-   color: #3475e5;
+   color: var(--link-color);
 }
 
 #userCorner .pingsSlider a:hover
@@ -332,6 +333,12 @@ input[type=submit]
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
+   cursor: pointer;
+
+   &:is(:hover, :focus)
+   {
+      background-color: oklch(from #0c960c calc(l * .75) c h);
+   }
 }
 
 button, .customButton
@@ -345,11 +352,6 @@ button, .customButton
    border: none;
 }
 
-input[type=submit]:hover
-{
-   background-color: #6ec46e;
-   cursor: pointer;
-}
 
 button:hover, .customButton:hover
 {
@@ -654,7 +656,7 @@ input[type=submit]:active, button:active, .customButton:active
 
    .loginLink {
       text-decoration: none;
-      color: #3475e5;
+      color: var(--link-color);
 
       &:hover, &:focus {
          color: black;
@@ -1115,11 +1117,11 @@ input[type=submit]:active, button:active, .customButton:active
 #footer p a
 {
    text-decoration: none;
-   color: #3475e5;
+   color: var(--link-color);
    font-size: 1rem; /* ~16px */
    transition: color var(--transition-time);
 
-   &:hover
+   &:is(:hover, :focus)
    {
       color: black;
    }
@@ -1492,7 +1494,8 @@ textarea
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;
    grid-column: 1 / -1;
-   transition: border-color var(--transition-time);
+   transition-property: border-color, aspect-ratio;
+   transition-duration: var(--transition-time);
 
    &:hover, &:focus-within
    {
@@ -1522,6 +1525,8 @@ textarea
    {
       text-decoration: none;
       color: white;
+      display: inline-block;
+      width: 100%;
    }
 
    .articleSubtitle p

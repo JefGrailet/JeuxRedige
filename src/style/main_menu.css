@@ -193,6 +193,8 @@
    white-space: nowrap;
    transition: opacity var(--transition-time);
    overflow-y: hidden;
+   scrollbar-width: thin;
+   scrollbar-color: var(--current-page-color) oklch(from var(--current-page-color) calc(l * 1.25) c h);
 
    a {
       position: relative;

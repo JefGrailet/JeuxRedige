@@ -9,7 +9,6 @@ $twig = new \Twig\Environment($loader, [
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
 $twig->addGlobal("webRoot", PathHandler::HTTP_PATH());
-$twig->addGlobal("configJS", "");
 $twig->addGlobal("extJS", PathHandler::JS_EXTENSION());
 $twig->addGlobal("JSFiles", "");
 $twig->addGlobal("autoJS", "");
@@ -17,26 +16,32 @@ $twig->addGlobal("list_categories", [
    "review" => [
       "name" => "Critiques",
       "color" => "#cd301e",
+      "empty_message" => "aucune critique",
    ],
    "preview" => [
       "name" => "Aperçus",
       "color" => "#34b1e5",
+      "empty_message" => "aucun aperçu",
    ],
    "opinion" => [
       "name" => "Humeurs",
       "color" => "#91c148",
+      "empty_message" => "aucune humeur",
    ],
    "chronicle" => [
       "name" => "Chroniques",
       "color" => "#99368b",
+      "empty_message" => "aucune chronique",
    ],
    "guide" => [
       "name" => "Guides",
       "color" => "#dd9302",
+      "empty_message" => "aucun guide",
    ],
    "misc" => [
       "name" => "Hors-Jeu",
       "color" => "#969696",
+      "empty_message" => "aucun hors-jeu",
    ],
 ]);
 $twig->addGlobal("meta", [

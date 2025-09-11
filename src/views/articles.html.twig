@@ -1,12 +1,18 @@
 {% extends "layouts/base.html.twig" %}
-
 {% block content %}
-{{ nbPages }}
-	<ul id="articlesPool">
-		{% for article in list_articles %}
-			{% include "includes/article-thumbnail.html.twig" with article %}
-		{% else %}
-			<li>Il n'y a actuellement aucun contenu.</li>
-		{% endfor %}
-	</ul>
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./Articles.php",
+      "extra_query_string": "article_category=" ~ query_string.article_category
+   } %}
+   <ul id="articlesPool">
+      {% for article in list_articles %}
+         {% include "includes/article-thumbnail.html.twig" with article %}
+      {% else %}
+         <li style="grid-column: 1 / -1;">Il n'y a actuellement aucun contenu.</li>
+      {% endfor %}
+   </ul>
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./Articles.php",
+      "extra_query_string": "article_category=" ~ query_string.article_category
+   } %}
 {% endblock %}

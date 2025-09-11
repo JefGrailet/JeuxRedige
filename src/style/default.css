@@ -85,6 +85,7 @@ body
    max-width: var(--content-max-width);
    margin: auto;
    width: 100%;
+   padding-top: 1.25rem;
 }
 
 

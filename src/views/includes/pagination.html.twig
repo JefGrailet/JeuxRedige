@@ -1,0 +1,10 @@
+{% if nbPages > 0 %}
+	<div class="pagination">
+		{% set current_page = query_string.page is defined ? query_string.page : 1 %}
+		<p class="label">Pages :</p>
+		{% for i in 0..nbPages %}
+			{% set page = i + 1 %}
+			<a href="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
+		{% endfor %}
+	</div>
+{% endif %}

@@ -1,0 +1,37 @@
+.pagination {
+   display: flex;
+   flex-direction: row;
+   gap: 0.25rem;
+   justify-content: center;
+   align-items: center;
+
+   .label {
+      color: white;
+      background-color: black;
+      padding: 4px 7px;
+      border-radius: 3px;
+      box-shadow: 0px 0px 3px 0px #646464;
+      margin: 0;
+   }
+
+   a {
+      text-decoration: none;
+      display: inline-block;
+
+      color: var(--link-color);
+      background-color: white;
+      padding: 4px 7px;
+      border-radius: 3px;
+      box-shadow: 0px 0px 3px 0px #646464;
+
+      &[inert] {
+         color: black;
+         background-color: rgb(180, 180, 180);
+      }
+
+      &:is(:focus, :hover) {
+         color: white;
+         background-color: black;
+      }
+   }
+}

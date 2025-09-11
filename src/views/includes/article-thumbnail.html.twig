@@ -1,7 +1,7 @@
 <li class={{ (article.is_highlighted == true) ? 'articleHighlight' : 'articleThumbnail' }} id="{{article.id_article}}" style="background: url('{{article.thumbnail}}') no-repeat top center; background-size: cover;" {{ article.date_time is defined ? ('title="Publié le ' ~article.date_time ~ '"')|raw }}>
 	<div class="{{ (article.is_highlighted == true) ? 'articleHighlightDetails' : 'articleThumbnailType' }} {{ article.type }}">
 		<p>
-			{{ articles_categories[article.type].name }}
+			{{ list_categories[article.type].name }}
 			{% if article.is_highlighted %}
 				par
 				{{ article.pseudo }}

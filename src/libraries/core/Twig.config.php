@@ -13,25 +13,25 @@ $twig->addGlobal("configJS", "");
 $twig->addGlobal("extJS", PathHandler::JS_EXTENSION());
 $twig->addGlobal("JSFiles", "");
 $twig->addGlobal("autoJS", "");
-$twig->addGlobal("articles_categories", [
+$twig->addGlobal("list_categories", [
    "review" => [
-      "name" => "Critique",
+      "name" => "Critiques",
       "color" => "#cd301e",
    ],
    "preview" => [
-      "name" => "Aperçu",
+      "name" => "Aperçus",
       "color" => "#34b1e5",
    ],
    "opinion" => [
-      "name" => "Humeur",
+      "name" => "Humeurs",
       "color" => "#91c148",
    ],
    "chronicle" => [
-      "name" => "Chronique",
+      "name" => "Chroniques",
       "color" => "#99368b",
    ],
    "guide" => [
-      "name" => "Guide",
+      "name" => "Guides",
       "color" => "#dd9302",
    ],
    "misc" => [

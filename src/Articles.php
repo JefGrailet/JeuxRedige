@@ -84,12 +84,17 @@ $listArticlesComputed = array_map(function ($article) {
    );
 }, $articles, array_keys($articles));
 
+$logoCSSFile = null;
+if ($twig->getGlobals()["current_category"] != "default") {
+   $logoCSSFile = "charter_" . $twig->getGlobals()["current_category"];
+}
+
 echo $twig->render("articles.html.twig", [
    "list_articles" => $listArticlesComputed,
-   "list_css_files" => ["pool"],
+   "list_css_files" => array_filter(["pool", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
    "page_title" => "Articles",
    "nbPages" => $nbPages,
-   "selectedLogo" => "default",
+   "selectedLogo" => $twig->getGlobals()["current_category"],
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "JeuxRédige",

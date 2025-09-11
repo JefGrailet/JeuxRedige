@@ -1,0 +1,68 @@
+.categoriesContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   margin-top: 1.5rem;
+   ;
+   .listCategories {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+   }
+
+   a {
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 0.875rem; /* ~14px */
+      border: none;
+      box-shadow: 0px 0px 2px 0px black;
+      border: 2px solid transparent;
+   }
+
+   .prettyLink {
+      color: rgb(53, 53, 53);
+      display: block;
+      background-color: currentColor;
+      transition: background-color var(--transition-time);
+
+      &:is(:focus, :hover) {
+         background-color: oklch(from currentColor calc(l * 0.6) c h);
+      }
+
+      &.active {
+         border-color: currentColor;
+         background-color: oklch(from currentColor calc(l * 0.4) c h);
+      }
+
+      span {
+         color: white;
+      }
+   }
+
+   .filterLink {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      color: var(--link-color);
+
+      &:is(:focus, :hover) {
+         background-color: oklch(from currentColor calc(l * 0.6) c h);
+
+         span {
+            color: white;
+         }
+
+         svg {
+            fill: white;
+         }
+      }
+
+      svg {
+         aspect-ratio: 1;
+         width: 1rem;
+      }
+   }
+}

@@ -75,8 +75,7 @@
       grid-template-columns: repeat(3, 1fr);
    }
 
-
-   li:only-child
+   li:not(:has(a)):only-child
    {
       grid-column: 1 / -1;
       text-align: center;

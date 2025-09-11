@@ -14,32 +14,50 @@ $twig->addGlobal("JSFiles", "");
 $twig->addGlobal("autoJS", "");
 $twig->addGlobal("list_categories", [
    "review" => [
-      "name" => "Critiques",
+      "name" => [
+         "singular" => "Critique",
+         "plural" => "Critiques",
+      ],
       "color" => "#cd301e",
       "empty_message" => "aucune critique",
    ],
    "preview" => [
-      "name" => "Aperçus",
+      "name" => [
+         "singular" => "Aperçu",
+         "plural" => "Aperçus",
+      ],
       "color" => "#34b1e5",
       "empty_message" => "aucun aperçu",
    ],
    "opinion" => [
-      "name" => "Humeurs",
+      "name" => [
+         "singular" => "Humeur",
+         "plural" => "Humeurs",
+      ],
       "color" => "#91c148",
       "empty_message" => "aucune humeur",
    ],
    "chronicle" => [
-      "name" => "Chroniques",
+      "name" => [
+         "singular" => "Chronique",
+         "plural" => "Chroniques",
+      ],
       "color" => "#99368b",
       "empty_message" => "aucune chronique",
    ],
    "guide" => [
-      "name" => "Guides",
+      "name" => [
+         "singular" => "Guide",
+         "plural" => "Guides",
+      ],
       "color" => "#dd9302",
       "empty_message" => "aucun guide",
    ],
    "misc" => [
-      "name" => "Hors-Jeu",
+      "name" => [
+         "singular" => "Hors-jeu",
+         "plural" => "Hors-jeu",
+      ],
       "color" => "#969696",
       "empty_message" => "aucun hors-jeu",
    ],

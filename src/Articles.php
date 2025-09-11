@@ -89,7 +89,7 @@ if ($twig->getGlobals()["current_category"] != "default") {
    $logoCSSFile = "charter_" . $twig->getGlobals()["current_category"];
 }
 
-$currentCategory = $twig->getGlobals()["list_categories"][$twig->getGlobals()["current_category"]]["name"] ?? "Articles";
+$currentCategory = $twig->getGlobals()["list_categories"][$twig->getGlobals()["current_category"]]["name"]["plural"] ?? "Articles";
 $currentPage = $twig->getGlobals()["query_string"]["page"] ?? "1";
 
 echo $twig->render("articles.html.twig", [

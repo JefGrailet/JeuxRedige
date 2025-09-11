@@ -34,6 +34,7 @@
       border: none;
       box-shadow: 0px 0px 2px 0px black;
       border: 2px solid transparent;
+      transition: background-color var(--transition-time);
    }
 
    .prettyLink {
@@ -41,7 +42,6 @@
       display: block;
       position: relative;
       background-color: currentColor;
-      transition: background-color var(--transition-time);
 
       &:is(:focus, :hover) {
          background-color: oklch(from currentColor calc(l * 0.6) c h);
@@ -62,6 +62,11 @@
             transform: translateX(-50%) translateY(-50%) rotateZ(45deg);
             left: 50%;
             z-index: -1;
+            transition: transform var(--transition-time);
+
+            @starting-style {
+               transform: translateX(-50%) translateY(50%) rotateZ(45deg);
+            }
          }
       }
 

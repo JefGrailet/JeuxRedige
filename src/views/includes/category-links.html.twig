@@ -8,7 +8,7 @@
       {% for key, value in list_categories %}
          <li>
             <a href="?article_category={{ key }}" class="prettyLink {{ current_category == key ? " active" }} {{key}}" style="color: var(--article-{{ key }}-color)">
-               <span>{{ value.name }}</span>
+               <span>{{ value.name.plural }}</span>
             </a>
          </li>
       {% endfor %}
@@ -16,7 +16,7 @@
    <select class="dropdownCategories" data-dropdown-redirect>
       <option value="?" {{ current_category == " default" ? " selected" }}>Tout</option>
       {% for key, value in list_categories %}
-         <option value="?article_category={{ key }}" {{ current_category == key ? " selected" }}>{{ value.name }}</option>
+         <option value="?article_category={{ key }}" {{ current_category == key ? " selected" }}>{{ value.name.plural }}</option>
       {% endfor %}
    </select>
    <a href="./SearchArticles.php" class="filterLink">

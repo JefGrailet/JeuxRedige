@@ -18,6 +18,7 @@ $("[data-dropdown-keywords]").select2({
    minimumResultsForSearch: 2,
    language: "fr",
    cache: true,
+   width: '100%',
    ajax: {
       delay: 250,
       url: "./ajax/FindKeywordsJSON.php",
@@ -39,7 +40,7 @@ $("[data-dropdown-keywords]").select2({
 });
 
 const urlParams = new URLSearchParams(window.location.search);
-const listKeywords = urlParams.getAll('keyword[]');
+const listKeywords = urlParams.getAll('keywords[]');
 
 listKeywords.forEach((keyword) => {
    const option = new Option(keyword, keyword, true, true);

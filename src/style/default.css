@@ -45,6 +45,12 @@
    --article-review-color: #cd301e;
 }
 
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
 html {
    scroll-behavior: smooth;
 
@@ -1259,7 +1265,6 @@ textarea
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    resize: vertical;
-   box-sizing: border-box;
    margin: 0px;
    text-align: justify;
 }

@@ -1,7 +1,7 @@
 <header id="topBar">
 	<div class="wrapper">
 		<div class="icons">
-			<a href="{{ webRoot }}" class="mainMenuLogo {{selectedLogo}}"></a>
+			<a href="{{ webRoot }}" class="mainMenuLogo {{ no_custom_logo ? "default" : selectedLogo }}"></a>
 			<a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="ytIcon">
 				<i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i>
 			</a>

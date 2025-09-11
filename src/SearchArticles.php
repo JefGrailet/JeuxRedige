@@ -50,18 +50,20 @@ WebpageHandler::noContainer();
 // else if($gotInput)
 // {
 //    // Has a specific (and valid) category been selected ?
-//    $artCategory = ''; // Empty string -> all categories blended together
-//    if(!empty($_GET['article_category']) || !empty($_POST['article_category']))
-//    {
-//       if (!empty($_GET['article_category']))
-//          $artCategory = Utils::secure($_GET['article_category']);
-//       else
-//          $artCategory = Utils::secure($_POST['article_category']);
-//       if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
-//          $artCategory = '';
-//       else
-//          $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
-//    }
+   // $artCategory = ''; // Empty string -> all categories blended together
+   // if(!empty($_GET['article_category']) || !empty($_POST['article_category']))
+   // {
+   //    if (!empty($_GET['article_category']))
+   //       $artCategory = Utils::secure($_GET['article_category']);
+   //    else
+   //       $artCategory = Utils::secure($_POST['article_category']);
+   //    if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
+   //       $artCategory = '';
+   //    else
+   //       $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
+   // }
+
+   // echo $artCategory;
 
 //    // Option for strict research (i.e. all keywords are found) which can be deactivated
 //    $strict = false;
@@ -91,7 +93,9 @@ WebpageHandler::noContainer();
 
 //    try
 //    {
-//       $nbResults = Article::countArticlesWithKeywords($keywordsArr, $artCategory, $strict);
+      // $nbResults = Article::countArticlesWithKeywords(["The Witness"], "", false);
+      // $results = Article::getArticlesWithKeywords(["The Witness"], 1, 1, "");
+      // print_r($nbResults);
 //       if($nbResults == 0)
 //       {
 //          $formData['specialMessage'] = 'noResult';
@@ -170,10 +174,10 @@ WebpageHandler::noContainer();
 
 echo $twig->render("search-articles.html.twig", [
    "list_articles" => $listArticlesComputed,
-   "list_css_files" => ["pool", "select2.min", "keywords"],
+   "list_css_files" => ["pool", "select2.min", "form_search"],
    "list_js_files" => ["select2.min", "select2.fr.min", "search_articles"],
    "page_title" => "Rechercher des articles",
-   "nbPages" => $nbPages,
+   "no_custom_logo" => true,
    "selectedLogo" => $twig->getGlobals()["current_category"],
    "meta" => [
       ...$twig->getGlobals()["meta"],

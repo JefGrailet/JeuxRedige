@@ -73,6 +73,7 @@ $twig->addGlobal("dialogs", "");
 $twig->addGlobal("page_title", "Site de critiques de jeux vidéo");
 $twig->addGlobal("selectedLogo", "default");
 $twig->addGlobal("userSide", "default");
+$twig->addGlobal("no_custom_logo", false);
 $twig->addGlobal("is_user_logged", LoggedUser::isLoggedIn());
 if (LoggedUser::isLoggedIn()) {
    $twig->addGlobal("userInfos", array(

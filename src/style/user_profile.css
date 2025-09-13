@@ -1,26 +1,5 @@
 /* CSS for user profile */
 
-#userDetailsContainer {
-   margin: auto;
-   text-align: center;
-}
-
-#userDetailsContainer p {
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", sans-serif;
-}
-
-#articlesContainer {
-   margin-top: 30px;
-   margin-bottom: 30px;
-   margin-inline: var(--root-side-margin);
-   display: block;
-}
-
-#postsContainer {
-   display: block;
-}
-
 #articlesPool {
    padding: 0;
    list-style: none;
@@ -40,14 +19,26 @@
    gap: var(--articles-grid-gap);
 }
 
+.userProfileSection {
+   margin-bottom: 3rem;
+}
+
+.bannedStatus {
+   background-color: crimson;
+   color: white;
+   padding: 0.5rem 1.5rem;
+   margin: auto;
+   width: fit-content;
+   border-radius: 0.75rem;
+}
+
 .userProfile {
    margin-inline: auto;
-   margin-bottom: 3rem;
-   .userDetails {
+   .userCard {
       width: fit-content;
       margin: auto;
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
 
       p {
          margin: 0;
@@ -63,5 +54,19 @@
    .userAvatar {
       border-radius: 5px;
       align-self: center;
+   }
+}
+
+.morePosts {
+   text-align: center;
+}
+
+.link {
+   color: var(--link-color);
+   text-decoration: none;
+   transition: color var(--transition-time);
+
+   &:is(:hover, :focus) {
+      color: oklch(from var(--link-color) calc(l * .65) c h);
    }
 }

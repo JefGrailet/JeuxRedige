@@ -4,9 +4,14 @@
 {# {{ dump(user)}} #}
 {# {{ attribute(user, "pseudo") }} #}
 	{% if user != null %}
-      <div class="userProfile">
+	   {% if user.banned %}
+         <div class="bannedStatus">
+            {{ user.pseudo }} est actuellement banni
+         </div>
+      {% endif %}
+      <div class="userProfile userProfileSection">
          <p class="centeredTitle">A propos de {{ user.pseudo }}</p>
-         <div class="userDetails">
+         <div class="userCard">
             <img class="userAvatar" src="{{ user.avatar }}" alt="Image de profil de {{ user.pseudo }}">
             <div>
                <h1 class="userPseudo">{{ user.pseudo }}</h1>
@@ -18,16 +23,23 @@
             </div>
          </div>
       </div>
-      <div>
+      <div class="userProfileSection">
          <p class="centeredTitle">Les articles publiés par {{ user.pseudo }}</p>
          <ul id="articlesPool">
-      {% for article in user.list_articles %}
-         {% include "includes/article-thumbnail.html.twig" with article %}
-      {% else %}
+            {% for article in user.list_articles %}
+               {% include "includes/article-thumbnail.html.twig" with article %}
+            {% else %}
 
-         <li>{{ user.avatar }} n'a pas encore écrit d'articles</li>
-      {% endfor %}
-   </ul>
+               <li>{{ user.avatar }} n'a pas encore écrit d'articles</li>
+            {% endfor %}
+         </ul>
+      </div>
+      <div class="userProfileSection">
+         <p class="centeredTitle">Les 5 derniers messages de {{ user.pseudo }}</p>
+
+         <p class="morePosts">
+            <a class="link" href="">Voir tous les messages de {{ user.pseudo }}</a>
+         </p>
       </div>
 		{% else %}
 			<div class="errorContainer">

@@ -1,9 +1,9 @@
 <?php
 
 /**
-* This script displays the published articles and last messages of some user. It also provides
-* some general information.
-*/
+ * This script displays the published articles and last messages of some user. It also provides
+ * some general information.
+ */
 
 require './libraries/Header.lib.php';
 require './libraries/MessageParsing.lib.php';
@@ -23,17 +23,14 @@ $user = null;
 
 $getUserString = Utils::secure($_GET['user']);
 
-try
-{
+try {
    $user = new User($getUserString);
-}
-catch(Exception $e)
-{
+} catch (Exception $e) {
 }
 
 $userListArticles = $user->getArticles();
 
-$userListArticlesComputed = array_map(function ($article)  {
+$userListArticlesComputed = array_map(function ($article) {
    return array(
       ...$article,
       "link" => ArticleThumbnailIR::getLink($article),
@@ -44,9 +41,31 @@ $userListArticlesComputed = array_map(function ($article)  {
 
 $userComputed = [
    ...$user->getAll(),
+   // "last_connection" => Utils::toTimestamp($user->get('last_connection')),
+   // "registration_date" => Utils::toTimestamp($user->get('registration_date')),
    "avatar" => PathHandler::getAvatar($user->get('pseudo')),
+   'banned' => (Utils::toTimestamp($user->get('last_ban_expiration')) > Utils::SQLServerTime()),
    "list_articles" => $userListArticlesComputed,
 ];
+
+$userListPosts = [];
+
+try {
+   $userListPosts = $user->getPosts(0, 5, true);
+
+   $userListPostsComputed = array_map(function ($post) {
+      $content = MessageParsing::parse($post['content']);
+      $content =  MessageParsing::removeReferences($content);
+
+      return array(
+         ...$post,
+         "content" => $content,
+      );
+   }, $userListPosts, array_keys($userListPosts));
+} catch (Exception $e) {
+}
+
+print_r($userListPosts);
 
 
 echo $twig->render("user-profile.html.twig", [

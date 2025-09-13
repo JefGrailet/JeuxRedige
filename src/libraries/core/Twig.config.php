@@ -7,6 +7,7 @@ $twig = new \Twig\Environment($loader, [
    'debug' => true,
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
+$twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
 
 $twig->addGlobal("webRoot", PathHandler::HTTP_PATH());
 $twig->addGlobal("extJS", PathHandler::JS_EXTENSION());

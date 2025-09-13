@@ -6,7 +6,6 @@
 */
 
 require './libraries/Header.lib.php';
-
 require_once './libraries/core/Twig.config.php';
 
 echo $twig->render("about.html.twig", [
@@ -21,7 +20,3 @@ echo $twig->render("about.html.twig", [
       "full_title" => "",
    ]
 ]);
-
-// WebpageHandler::wrap(TemplateEngine::parse('view/content/About.ctpl'), 'À propos');
-
-?>

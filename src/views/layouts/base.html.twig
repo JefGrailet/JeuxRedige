@@ -57,6 +57,7 @@
       :root
       {
          --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
+         --scrollbar-menu-color: {{ list_categories[current_category].color is defined ? "var(--current-page-color)" : "auto"}};
       }
    </style>
 </head>

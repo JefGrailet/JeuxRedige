@@ -1,32 +1,29 @@
 /* CSS for user profile */
 
-#userDetailsContainer
-{
+#userDetailsContainer {
    margin: auto;
    text-align: center;
 }
 
-#userDetailsContainer p
-{
+#userDetailsContainer p {
    font-size: 1rem; /* ~16px */
    font-family: "Roboto", "Arial", sans-serif;
 }
 
-#articlesContainer
-{
+#articlesContainer {
    margin-top: 30px;
    margin-bottom: 30px;
    margin-inline: var(--root-side-margin);
    display: block;
 }
 
-#postsContainer
-{
+#postsContainer {
    display: block;
 }
 
-#articlesPool
-{
+#articlesPool {
+   padding: 0;
+   list-style: none;
    display: grid;
    grid-template-columns: repeat(1, 1fr);
 
@@ -39,6 +36,32 @@
    }
 
    margin: auto;
+   margin-inline: var(--root-side-margin);
    gap: var(--articles-grid-gap);
 }
 
+.userProfile {
+   margin-inline: auto;
+   margin-bottom: 3rem;
+   .userDetails {
+      width: fit-content;
+      margin: auto;
+      display: flex;
+      gap: 1rem;
+
+      p {
+         margin: 0;
+      }
+   }
+
+   .userPseudo {
+      margin: 0;
+      margin-bottom: 0.75rem;
+      font-size: 1.75rem;
+   }
+
+   .userAvatar {
+      border-radius: 5px;
+      align-self: center;
+   }
+}

@@ -1,6 +1,8 @@
 <p class="userInfos">
-   <img src="{{ userInfos.avatar }}" class="avatarMini" alt="Avatar de {{ userInfos.pseudo }}"/>
-   <a class="rightLabel" href="{{webRoot}}User.php?user={{ userInfos.pseudo }}">{{ userInfos.pseudo }}</a>
+   <a class="userPseudoContainer" href="{{webRoot}}User.php?user={{ userInfos.pseudo }}">
+      <img src="{{ userInfos.avatar }}" class="avatarMini" alt="Avatar de {{ userInfos.pseudo }}"/>
+      <span class="userPseudo">{{ userInfos.pseudo }}</span>
+   </a>
 </p>
 <input id="userMenu" class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
 <input id="pingsMenu" class="pingsToggle" title="Mes pings" type="checkbox">

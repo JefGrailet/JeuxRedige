@@ -1,0 +1,39 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+{# {{ dump(user)}} #}
+{# {{ attribute(user, "pseudo") }} #}
+	{% if user != null %}
+      <div class="userProfile">
+         <p class="centeredTitle">A propos de {{ user.pseudo }}</p>
+         <div class="userDetails">
+            <img class="userAvatar" src="{{ user.avatar }}" alt="Image de profil de {{ user.pseudo }}">
+            <div>
+               <h1 class="userPseudo">{{ user.pseudo }}</h1>
+               <p>Inscrit le <time datetime="{{user.registration_date}}">{{user.registration_date|date("d/m/Y à H:i")}}</time></p>
+               <p>Dernière connexion le <time datetime="{{user.last_connection}}">{{user.last_connection|date("d/m/Y à H:i")}}</time></p>
+               {% if user.advanced_features == "yes" %}
+               <p>A accès aux fonctions avancées</p>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+      <div>
+         <p class="centeredTitle">Les articles publiés par {{ user.pseudo }}</p>
+         <ul id="articlesPool">
+      {% for article in user.list_articles %}
+         {% include "includes/article-thumbnail.html.twig" with article %}
+      {% else %}
+
+         <li>{{ user.avatar }} n'a pas encore écrit d'articles</li>
+      {% endfor %}
+   </ul>
+      </div>
+		{% else %}
+			<div class="errorContainer">
+				<h1>Erreur</h1>
+				<p>L'utilisateur dont vous souhaitez voir le profil n'existe pas.
+				</p>
+			</div>
+	{% endif %}
+{% endblock %}

@@ -1,5 +1,5 @@
+@import "./error.css";
 /* Roboto font */
-
 @font-face
 {
     font-family: 'Roboto';
@@ -27,6 +27,8 @@
         transition-delay: 0s !important;
     }
 }
+
+
 
 :root {
    --link-hover-opacity: 0.5;
@@ -612,6 +614,26 @@ input[type=submit]:active, button:active, .customButton:active
    border-radius: 0.5rem;
    padding: 0;
 
+   --start-position-y: 50vh;
+   opacity: 0;
+   translate: 0 var(--start-position-y);
+   transition: opacity var(--transition-time) ease-out,
+      translate var(--transition-time) ease-out,
+      overlay var(--transition-time) ease-out allow-discrete,
+      display var(--transition-time) ease-out allow-discrete;
+
+   &[open] {
+      opacity: 1;
+      translate: 0 0;
+   }
+
+   @starting-style {
+      &[open] {
+         opacity: 0;
+         translate: 0 var(--start-position-y);
+      }
+   }
+
    &::backdrop {
       background-color: rgba(33, 33, 33, 0.786);
    }
@@ -1050,8 +1072,7 @@ input[type=submit]:active, button:active, .customButton:active
 {
    margin: auto;
    width: fit-content;
-   max-width: 350px;
-   padding: 10px 3rem;
+   padding: 10px 3.5rem;
    background-color: black;
    color: white;
    border-radius: 5px;

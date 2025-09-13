@@ -638,6 +638,10 @@ input[type=submit]:active, button:active, .customButton:active
       background-color: rgba(33, 33, 33, 0.786);
    }
 
+   input {
+      margin-left: 0;
+   }
+
    .content {
       padding: 0 1rem 1rem;
    }
@@ -2108,43 +2112,11 @@ textarea
    color: #36DDFF;
 }
 
-/* Classes to enhance the visuals of the lists of pages (in centeredContent blocks). */
-
-.backBlack
-{
-   color: white;
-   background-color: black;
-   padding: 4px 7px;
-   border-radius: 3px;
-   box-shadow: 0px 0px 3px 0px #646464;
-}
-
-.backBlack:hover
-{
-   background-color: #557083;
-}
-
-.backBlack a, .backBlack a:hover
-{
-   color: white;
-}
-
-.backWhite
-{
-   color: black;
-   background-color : white;
-   padding: 4px 7px;
-   border-radius: 3px;
-   box-shadow: 0px 0px 3px 0px #646464;
-}
-
-.backGrey
-{
-   color: black;
-   background-color : rgb(180, 180, 180);
-   padding: 4px 7px;
-   border-radius: 3px;
-   box-shadow: 0px 0px 3px 0px #646464;
+.dropdownPagination {
+   display: revert;
+   @media screen and (width >= 768px) {
+      display: none;
+   }
 }
 
 .keyword-result {

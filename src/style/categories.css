@@ -19,13 +19,6 @@
       }
    }
 
-   .dropdownCategories {
-      display: revert;
-      @media screen and (width > 768px) {
-         display: none;
-      }
-   }
-
    a {
       text-decoration: none;
       padding: 10px 20px;

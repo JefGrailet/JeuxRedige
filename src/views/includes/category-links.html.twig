@@ -13,7 +13,7 @@
 			</li>
 		{% endfor %}
 	</ul>
-	<select class="dropdownCategories" data-dropdown-redirect>
+	<select class="dropdownPagination" data-dropdown-redirect>
 		<option value="?" {{ current_category == " default" ? " selected" }}>Tout</option>
 		{% for key, value in list_categories %}
 			<option value="?article_category={{ key }}" {{ current_category == key ? " selected" }}>{{ value.name.plural }}</option>

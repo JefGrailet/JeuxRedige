@@ -72,7 +72,6 @@ $twig->addGlobal("meta", [
 ]);
 $twig->addGlobal("dialogs", "");
 $twig->addGlobal("page_title", "Site de critiques de jeux vidéo");
-$twig->addGlobal("selectedLogo", "default");
 $twig->addGlobal("userSide", "default");
 $twig->addGlobal("no_custom_logo", false);
 $twig->addGlobal("is_user_logged", LoggedUser::isLoggedIn());
@@ -90,3 +89,4 @@ $twig->addGlobal("renderTime", number_format(microtime(true) - $_SERVER['REQUEST
 parse_str($_SERVER["QUERY_STRING"], $queryString);
 $twig->addGlobal("query_string", $queryString);
 $twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");
+$twig->addGlobal("selectedLogo", empty($twig->getGlobals()["current_category"]) ? "default" : $twig->getGlobals()["current_category"]);

@@ -438,23 +438,23 @@ $(document).ready(function()
    }
 
    // Show a password
-   if($('input[type=password]').length)
-   {
-      $('input[type=password]').each(function()
-      {
-         var name = $(this).attr('name');
-         if($('input[type=checkbox][name=' + name + '_show]').length)
-         {
-            $('input[type=checkbox][name=' + name + '_show]').on('click', function()
-            {
-               if($('input[type=password][name=' + name + ']').length)
-                  $('input[name=' + name + ']').attr('type', 'text');
-               else
-                  $('input[name=' + name + ']').attr('type', 'password');
-            });
-         }
-      });
-   }
+   // if($('input[type=password]').length)
+   // {
+   //    $('input[type=password]').each(function()
+   //    {
+   //       var name = $(this).attr('name');
+   //       if($('input[type=checkbox][name=' + name + '_show]').length)
+   //       {
+   //          $('input[type=checkbox][name=' + name + '_show]').on('click', function()
+   //          {
+   //             if($('input[type=password][name=' + name + ']').length)
+   //                $('input[name=' + name + ']').attr('type', 'text');
+   //             else
+   //                $('input[name=' + name + ']').attr('type', 'password');
+   //          });
+   //       }
+   //    });
+   // }
 
    /*
    * Code to re-align scroll correctly on page load when they are anchors. The difficulty is that

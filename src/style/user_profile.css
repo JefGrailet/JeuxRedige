@@ -37,7 +37,9 @@
    .userCard {
       width: fit-content;
       margin: auto;
-      display: flex;
+      display: grid;
+      grid-auto-rows: max-content;
+      grid-template-columns: max-content 1fr;
       gap: 0.75rem;
 
       p {

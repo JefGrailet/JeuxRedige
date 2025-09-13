@@ -23,8 +23,15 @@ $user = null;
 
 $getUserString = Utils::secure($_GET['user']);
 
+$isCurrentUser = false;
+
 try {
    $user = new User($getUserString);
+
+   if (LoggedUser::isLoggedIn()) {
+      $currentUser = new User(LoggedUser::$fullData);
+      $isCurrentUser = $currentUser->get("pseudo") === $user->get("pseudo");
+   }
 } catch (Exception $e) {
 }
 
@@ -65,7 +72,7 @@ try {
 } catch (Exception $e) {
 }
 
-print_r($userListPosts);
+// print_r($userListPosts);
 
 
 echo $twig->render("user-profile.html.twig", [
@@ -73,6 +80,7 @@ echo $twig->render("user-profile.html.twig", [
    "list_js_files" => ["topic_interaction"],
    "page_title" => "A propos de {$userComputed["pseudo"]}",
    "user" => $userComputed,
+   "is_current_user" => $isCurrentUser,
    "selectedLogo" => $twig->getGlobals()["current_category"],
    "meta" => [
       ...$twig->getGlobals()["meta"],

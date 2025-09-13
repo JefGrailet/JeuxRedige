@@ -1,0 +1,114 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<div class="smallContainer">
+		<h1>Mon compte</h1>
+      <div class="userProfile">
+      {% include "includes/user-card.html.twig" with user %}
+      </div>
+		<nav class="shortcutMenu alert neutral">
+			<ul>
+				<li><a href="#password">Mot de passe</a></li>
+				<li><a href="#avatar">Avatar</a></li>
+				<li><a href="#email">Adresse e-mail</a></li>
+				<li><a href="#preferences">Préférences</a></li>
+				<li><a href="#role">Accès</a></li>
+				<li><a href="#role">Sanctions</a></li>
+			</ul>
+		</nav>
+		<section class="sectionBlock myAccount" id="password">
+			<h2 class="title">Modifier mon mot de passe</h2>
+			<form action="" class="content" method="POST">
+            <input type="hidden" name="dataToEdit" value="password"/>
+            {% if form_id_updated == "password" %}
+               <p class="alert success">Mise à jour réussie</p>
+            {% endif %}
+				<div class="inputContainer row">
+					<label for="oldPwd_show">Nouveau mot de passe</label>
+					<input type="password" style="flex-grow: 1" data-input-toggle-visibility required name="oldPwd_showe" id="oldPwd_show">
+				</div>
+				<div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+				</div>
+			</form>
+		</section>
+		<section class="sectionBlock myAccount" id="avatar">
+			<h2 class="title">Modifier l'avatar</h2>
+		</section>
+		<section class="sectionBlock myAccount" id="email">
+			<h2 class="title">Modifier mon adresse e-mail</h2>
+         <form action="" class="content" method="POST">
+         <input type="hidden" name="dataToEdit" value="email"/>
+            {% if form_id_updated == "email" %}
+               <p class="alert success">Mise à jour réussie</p>
+            {% endif %}
+				<div class="inputContainer row">
+					<label for="newEmail">Adresse e-mail</label>
+					<input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail" required>
+				</div>
+            <div class="notes">
+               <p class="title">Remarques :</p>
+               <ul>
+                  <li>Si vous changez votre adresse, un e-mail de confirmation sera envoyé sur votre nouvelle adresse pour vérifier sa validité</li>
+                  <li>Vous serez également automatiquement déconnecté et votre compte temporairement désactivé jusqu'à
+ce que la procédure soit complétée</li>
+                  <li>
+                     Le changement sera annulé si vous n'utilisez pas le lien de confirmation dans les 24 heures
+qui suivent
+                  </li>
+               </ul>
+
+            </div>
+				<div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+				</div>
+			</form>
+		</section>
+		<section class="sectionBlock myAccount" id="preferences">
+			<h2 class="title">Mes préférences</h2>
+		</section>
+		<section class="sectionBlock myAccount" id="role">
+			<h2 class="title">Accès aux fonctionnalités avancées</h2>
+			<div class="content">
+				{{ dump(user)}}
+				<div class="alert info">
+					{% if user.advanced_features == "yes" %}
+						<p>Vous avez accès aux fonctions avancées</p>
+					{% else %}
+						<p>Vous n'avez pas accès aux fonctions avancées</p>
+					{% endif %}
+				</div>
+				<p>
+					<strong>Pour rappel,
+					</strong>
+					les fonctionnalités avancées sont :</p>
+				<ul>
+					<li>La création de sujets</li>
+					<li>L'édition de ses propres sujets</li>
+					<li>L'intégration de n'importe quel média au sein des messages et l'accès aux
+																		fonctionnalités d'upload</li>
+				</ul>
+
+				<p>Ces fonctionnalités ne sont pas disponibles dès l'inscription (sauf
+															parrainage) afin d'empêcher flood et affichage de contenu inapproprié par des individus
+															malveillants. Vous pouvez toutefois demander accès à ces fonctionnalités à l'administration après
+															avoir été actif durant un certain temps (les décisions se font au cas par cas).</p>
+			</div>
+		</section>
+		<section class="sectionBlock myAccount" id="sanctions">
+			<h2 class="title">Historique des sanctions</h2>
+			<div class="content">
+				{% if user.list_sentences %}
+					<ul>
+						{% for sentence in user.list_sentences %}
+							<li></li>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<div class="alert info">
+						<p>Vous n'avez jamais été sanctionné(e).</p>
+					</div>
+				{% endif %}
+			</div>
+		</section>
+	</div>
+{% endblock %}

@@ -2173,9 +2173,17 @@ textarea
    }
 
    &.error {
-      background-color: #ffeff8;
-      border: 1px solid #991b1b;
-      color: #991b1b;
+
+      &:not(:empty) {
+         background-color: #ffeff8;
+         border: 1px solid #991b1b;
+         color: #991b1b;
+      }
+
+      &:empty {
+         margin: 0;
+         padding: 0;
+      }
    }
 
    &.neutral {
@@ -2194,6 +2202,7 @@ textarea
 .link {
    color: var(--link-color);
    text-decoration: none;
+   transition: color var(--transition-time);
 
    &:is(:hover, :focus) {
       color: oklch(from var(--link-color) calc(l * 0.75) c h);

@@ -7,12 +7,12 @@
       </div>
 		<nav class="shortcutMenu alert neutral">
 			<ul>
-				<li><a href="#password">Mot de passe</a></li>
-				<li><a href="#avatar">Avatar</a></li>
-				<li><a href="#email">Adresse e-mail</a></li>
-				<li><a href="#preferences">Préférences</a></li>
-				<li><a href="#role">Accès</a></li>
-				<li><a href="#role">Sanctions</a></li>
+				<li><a class="link" href="#password">Mot de passe</a></li>
+				<li><a class="link" href="#avatar">Avatar</a></li>
+				<li><a class="link" href="#email">Adresse e-mail</a></li>
+				<li><a class="link" href="#preferences">Préférences</a></li>
+				<li><a class="link" href="#role">Accès</a></li>
+				<li><a class="link" href="#role">Sanctions</a></li>
 			</ul>
 		</nav>
 		<section class="sectionBlock myAccount" id="password">
@@ -36,14 +36,20 @@
 		</section>
 		<section class="sectionBlock myAccount" id="email">
 			<h2 class="title">Modifier mon adresse e-mail</h2>
-         <form action="" class="content" method="POST">
-         <input type="hidden" name="dataToEdit" value="email"/>
+         <form action="" class="content" novalidate method="POST" data-form-schema-validation="email">
+            <script type="text/schema" data-form-schema="email">
+               return Joi.object({
+                  newEmail: Joi.string().email().required().error(new Error('test age required')),
+               })
+            </script>
+            <input type="hidden" name="dataToEdit" value="email"/>
             {% if form_id_updated == "email" %}
                <p class="alert success">Mise à jour réussie</p>
             {% endif %}
+            <p class="alert error" data-form-error="email"></p>
 				<div class="inputContainer row">
 					<label for="newEmail">Adresse e-mail</label>
-					<input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail" required>
+					<input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail">
 				</div>
             <div class="notes">
                <p class="title">Remarques :</p>

@@ -39,6 +39,7 @@
    --root-side-margin: max(env(safe-area-inset-right), 0.75rem);
    --articles-grid-gap: 1.5rem;
    --border-radius: 0.85rem;
+   --box-shadow: 0px 0px 3px 0px #646464;
 
    --article-chronicle-color: #99368b;
    --article-guide-color: #dd9302;
@@ -679,12 +680,19 @@ input[type=submit]:active, button:active, .customButton:active
          flex-direction: row;
      }
    }
-   margin-bottom: 0.75rem;
+
+   &:not(:last-of-type) {
+      margin-bottom: 0.75rem;
+   }
 }
 
-input:is(:not([type="checkbox"], [type="radio"])) {
-      padding-block: 0.5rem;
-   }
+input:is(:not([type="checkbox"], [type="radio"], [type="submit"])) {
+   padding: 0.5rem 0.35rem;
+}
+
+input[type="submit"] {
+   padding-block: 0.5rem;
+}
 
 .inputInfo {
    text-align: start;
@@ -2148,47 +2156,7 @@ textarea
    margin: 0;
 }
 
-.alert {
-   border-radius: var(--border-radius);
-   padding: 0.5rem 1rem;
-   margin-block: 0.75rem;
 
-   & > * {
-      margin: 0;
-   }
-
-   &.info {
-      background-color: #eff6ff;
-      border: 1px solid #1e40af;
-      color: #1e40af;
-   }
-
-   &.error {
-
-      &:not(:empty) {
-         background-color: #ffeff8;
-         border: 1px solid #991b1b;
-         color: #991b1b;
-      }
-
-      &:empty {
-         margin: 0;
-         padding: 0;
-      }
-   }
-
-   &.neutral {
-      background-color: whitesmoke;
-      border: 1px solid #1f2937;
-      color: #1f2937;
-   }
-
-   &.success {
-      background-color: #ecfdf5;
-      border: 1px solid #065f46;
-      color: #065f46;
-   }
-}
 
 .link {
    color: var(--link-color);
@@ -2215,6 +2183,41 @@ textarea
 
       .inputContainer {
          display: contents;
+      }
+   }
+}
+
+.toggleInputVisibilityContainer {
+   position: relative;
+
+   input {
+      width: 100%;
+   }
+
+   .toggleButton {
+      padding: 0.5rem;
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      translate: 0 -50%;
+      width: 1.5rem;
+      aspect-ratio: 1;
+      background-color: white;
+      /* border-radius: var(--border-radius); */
+      box-shadow: var(--box-shadow);
+      transition: var(--transition-time) background-color;
+
+      &:is(:focus, :hover) {
+         background-color: whitesmoke;
+      }
+
+      svg {
+         width: 0.85rem;
+         aspect-ratio: 1;
+         position: absolute;
+         left: 50%;
+         translate: -50% -50%;
+         fill: black;
       }
    }
 }

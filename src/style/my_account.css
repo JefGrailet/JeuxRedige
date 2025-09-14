@@ -1,4 +1,5 @@
 .shortcutMenu {
+   z-index: 99;
    margin-inline: auto;
    position: sticky;
    top: 130px;

@@ -21,7 +21,9 @@
 				<script type="text/schema" data-form-schema="password">
 					return Joi.object({
                   password: Joi.string().required(),
-                  passwordConfirmation: Joi.any().valid(Joi.ref('password')).required(),
+                  passwordConfirmation: Joi.any().valid(Joi.ref('password')).required().messages({
+                     "any.only" : "Les mots de passe ne correspondent pas"
+                  }),
                })
 				</script>
 				<p class="alert error" data-form-error="password"></p>
@@ -31,8 +33,8 @@
 				{% endif %}
 				<div class="gridForm">
 					<div class="inputContainer row">
-						<label for="password">Nouveau mot de passe</label>
-						<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="password">
+						<label for="newPassword">Nouveau mot de passe</label>
+						<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="newPassword">
 					</div>
 					<div class="inputContainer row">
 						<label for="passwordConfirmation">Confirmer mot de passe</label>
@@ -52,7 +54,10 @@
 			<form action="MyAccount.php" class="content" novalidate method="POST" data-form-schema-validation="email">
 				<script type="text/schema" data-form-schema="email">
 					return Joi.object({
-                  newEmail: Joi.string().email().required().error(new Error('test age required')),
+                  newEmail: Joi.string().email().trim().required().messages({
+                     "email.empty" : "Vous devez mettre une adresse e-mail",
+                     "any.invalid" : "Vous devez mettre une adresse e-mail valide",
+                  }),
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="email"/>

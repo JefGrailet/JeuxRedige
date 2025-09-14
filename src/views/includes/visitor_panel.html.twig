@@ -28,7 +28,18 @@
       </button>
    </header>
    <div class="content">
-      <form method="post" action="{{ webRoot }}LogIn.php">
+      <form method="post" action="{{ webRoot }}LogIn.php" data-form-schema-validation="login">
+         <script type="text/schema" data-form-schema="login">
+            return Joi.object({
+               pseudo: Joi.string().required().messages({
+                  "string.empty": `Pseudo obligatoire`,
+               }),
+               pwd: Joi.string().required().messages({
+                  "string.empty": `Mot de passe obligatoire`,
+               }),
+            })
+         </script>
+         <p class="alert error" data-form-error="login"></p>
          <input type="hidden" name="redirection" value="{$logInRedirection}" />
 
          <div class="inputContainer">
@@ -38,7 +49,6 @@
                id="pseudo"
                name="pseudo"
                placeholder="Pseudo"
-               required
             />
          </div>
          <div class="inputContainer">
@@ -48,7 +58,7 @@
                id="pwd"
                name="pwd"
                placeholder="Mot de passe"
-               required
+               data-input-toggle-visibility
             />
          </div>
          <div class="inputContainer">

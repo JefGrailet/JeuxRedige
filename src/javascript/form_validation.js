@@ -8,12 +8,14 @@ const formValidation = (e) => {
 
    if (schema) {
       const formData = new FormData(form);
-      schema = schema.options({ allowUnknown: true, abortEarly: false });
-      const validator = schema.validate(Object.fromEntries(formData));
+      // schema = schema.options({ allowUnknown: true, abortEarly: false });
+      const validator = schema.validate(Object.fromEntries(formData), { allowUnknown: true, abortEarly: false, errors : {language: "FR"} });
       if (validator.error) {
+         console.log(validator)
          const bannerError = form.querySelector(`[data-form-error=${schemaName}]`);
          if (bannerError) {
-            bannerError.textContent = validator.error.message
+            bannerError.style.whiteSpace = "pre";
+            bannerError.textContent = validator.error.message.split(".").map((item) => `• ${item.trim()}`).join("\n");
          }
          return;
       }

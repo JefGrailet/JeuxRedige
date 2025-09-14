@@ -90,3 +90,4 @@ parse_str($_SERVER["QUERY_STRING"], $queryString);
 $twig->addGlobal("query_string", $queryString);
 $twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");
 $twig->addGlobal("selectedLogo", empty($twig->getGlobals()["current_category"]) ? "default" : $twig->getGlobals()["current_category"]);
+$twig->addGlobal("list_js_files", ["toggle_input_visibility", "joi.min", "form_validation"]);

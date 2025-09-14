@@ -1,0 +1,40 @@
+.alert {
+   border-radius: var(--border-radius);
+   padding: 0.5rem 1rem;
+   margin-block: 0.75rem;
+
+   & > * {
+      margin: 0;
+   }
+
+   &.info {
+      background-color: #eff6ff;
+      border: 1px solid #1e40af;
+      color: #1e40af;
+   }
+
+   &.error {
+      &:not(:empty) {
+         background-color: #ffeff8;
+         border: 1px solid #991b1b;
+         color: #991b1b;
+      }
+
+      &:empty {
+         margin: 0;
+         padding: 0;
+      }
+   }
+
+   &.neutral {
+      background-color: whitesmoke;
+      border: 1px solid #1f2937;
+      color: #1f2937;
+   }
+
+   &.success {
+      background-color: #ecfdf5;
+      border: 1px solid #065f46;
+      color: #065f46;
+   }
+}

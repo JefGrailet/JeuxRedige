@@ -19,11 +19,12 @@
 			<h2 class="title">Modifier mon mot de passe</h2>
 			<form action="MyAccount.php" class="content" autocomplete="off" method="POST" data-form-schema-validation="password">
 				<script type="text/schema" data-form-schema="password">
-					return Joi.object({
-                  password: Joi.string().required(),
-                  passwordConfirmation: Joi.any().valid(Joi.ref('password')).required().messages({
-                     "any.only" : "Les mots de passe ne correspondent pas"
-                  }),
+               return z.object({
+                  password: z.string().min(1, {error: "feffe" }),
+                  passwordConfirmation: z.string("rrrr")
+               }).refine((data) => data.password === data.passwordConfirmation, {
+                  error: "Les mots de passe ne correspondent pas",
+                  path: ['password']
                })
 				</script>
 				<p class="alert error" data-form-error="password"></p>
@@ -50,13 +51,22 @@
 			<h2 class="title">Modifier l'avatar</h2>
          <form action="MyAccount.php" enctype="multipart/form-data" class="content" novalidate method="POST" data-form-schema-validation="avatar">
             <script type="text/schema" data-form-schema="avatar">
-					return Joi.object({
-                  avatar: Joi.object().keys({
-                     name: Joi.string().required()
-                  }).required(),
+               return z.object({
+                  avatar: z.instanceof(File)
+                        .refine((file) =>
+                           [
+                              "image/png",
+                              "image/jpeg",
+                              "image/jpg",
+                              "image/svg+xml",
+                              "image/gif",
+                           ].includes(file.type),
+                           { message: "Vous devez mettre un avatar" }
+                        )
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="avatar"/>
+            <p class="alert error" data-form-error="avatar"></p>
 				{% if form_id_updated == "avatar" %}
 					<p class="alert success">Mise à jour réussie</p>
 				{% endif %}
@@ -83,7 +93,7 @@
                      <td colspan="2">
                         <div class="labelWrapper">
                            <label class="primaryButton">
-                              Sélectionnez un fichier
+                              Sélectionner un avatar
                               <input type="file" name="avatar" accept=".jpg, .jpeg, .png" data-upload-input id="avatar">
                            </label>
                         </div>
@@ -101,11 +111,8 @@
 			<h2 class="title">Modifier mon adresse e-mail</h2>
 			<form action="MyAccount.php" class="content" novalidate method="POST" data-form-schema-validation="email">
 				<script type="text/schema" data-form-schema="email">
-					return Joi.object({
-                  newEmail: Joi.string().email().trim().required().messages({
-                     "string.empty" : "Vous devez mettre une adresse e-mail",
-                     "string.email" : "Vous devez mettre une adresse e-mail valide",
-                  }),
+               return z.object({
+                  email: z.email("Vous devez mettre une adresse e-mail valide"),
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="email"/>

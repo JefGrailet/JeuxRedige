@@ -414,7 +414,7 @@ $userComputed = [
 
 echo $twig->render("my-account.html.twig", [
    "list_css_files" => ["my_account", "user_profile", "input_file"],
-   "list_js_files" => ["toggle_input_visibility", "joi.min", "form_validation", "upload"],
+   "list_js_files" => ["toggle_input_visibility", ["file" => "form_validation"], "upload"],
    "page_title" => "Mon compte",
    "form_id_updated" => $formUpdated,
    "user" => $userComputed,

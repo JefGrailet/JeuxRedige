@@ -51,7 +51,11 @@
       <script type="text/javascript" src="{{ webRoot }}javascript/default{{ extJS }}" defer></script>
       <script type="text/javascript" src="{{ webRoot }}javascript/modal_manager{{ extJS }}" defer></script>
       {% for js_file in list_js_files %}
+         {% if js_file is iterable %}
+            <script type='module' src="{{ webRoot ~ "javascript/" ~ js_file.file ~ extJS }}"></script>
+         {% else %}
          <script type="text/javascript" src="{{ webRoot ~ "javascript/" ~ js_file ~ extJS }}" defer></script>
+         {% endif %}
       {% endfor %}
 
       <style>

@@ -84,6 +84,10 @@
    }
 }
 
+body:not(.logged) .userPseudo {
+   display: initial!important;
+}
+
 .mainMenuItemsContainer {
    display: flex;
    flex-direction: row;

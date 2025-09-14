@@ -666,15 +666,6 @@ input[type=submit]:active, button:active, .customButton:active
          width: 20px;
       }
    }
-
-   .loginLink {
-      text-decoration: none;
-      color: var(--link-color);
-
-      &:hover, &:focus {
-         color: black;
-      }
-   }
 }
 
 .inputContainer {
@@ -689,12 +680,11 @@ input[type=submit]:active, button:active, .customButton:active
      }
    }
    margin-bottom: 0.75rem;
+}
 
-   input:is(:not([type="checkbox"], [type="radio"])) {
-   /* input:i:s([type="text"], [type="password"]) { */
+input:is(:not([type="checkbox"], [type="radio"])) {
       padding-block: 0.5rem;
    }
-}
 
 .inputInfo {
    text-align: start;
@@ -1154,6 +1144,7 @@ input[type=submit]:active, button:active, .customButton:active
       border-radius: 10px 10px 0px 0px;
       margin: 0px;
       font-weight: normal;
+      box-shadow: 0px 0px 3px 0px #646464;
    }
 
    .content, > .title {
@@ -2205,6 +2196,25 @@ textarea
    transition: color var(--transition-time);
 
    &:is(:hover, :focus) {
-      color: oklch(from var(--link-color) calc(l * 0.75) c h);
+      color: oklch(from var(--link-color) calc(l * 0.35) c h);
+   }
+}
+
+.gridForm {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 0.75rem;
+   align-items: center;
+
+   .inputContainer {
+      margin-bottom: 0;
+   }
+
+   @media screen and (width >= 640px) {
+      grid-template-columns: max-content 1fr;
+
+      .inputContainer {
+         display: contents;
+      }
    }
 }

@@ -62,13 +62,3 @@
 .morePosts {
    text-align: center;
 }
-
-.link {
-   color: var(--link-color);
-   text-decoration: none;
-   transition: color var(--transition-time);
-
-   &:is(:hover, :focus) {
-      color: oklch(from var(--link-color) calc(l * .65) c h);
-   }
-}

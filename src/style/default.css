@@ -719,7 +719,7 @@ input[type="submit"] {
    border: none;
    transition: background-color var(--transition-time);
 
-   &:is(:focus, :hover) {
+   &:is(:focus, :hover, :focus-within) {
       background: oklch(from #0c960c calc(l * .75) c h);
    }
 }

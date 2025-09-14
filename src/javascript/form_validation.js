@@ -8,10 +8,16 @@ const formValidation = (e) => {
 
    if (schema) {
       const formData = new FormData(form);
+      e.currentTarget.querySelectorAll("[type='file']").forEach((item) => {
+         if (item?.files[0]) {
+            console.log(item?.files[0])
+            formData.append(item.name, item?.files[0])
+         }
+      })
+      console.log(Object.fromEntries(formData))
       // schema = schema.options({ allowUnknown: true, abortEarly: false });
       const validator = schema.validate(Object.fromEntries(formData), { allowUnknown: true, abortEarly: false, errors : {language: "FR"} });
       if (validator.error) {
-         console.log(validator)
          const bannerError = form.querySelector(`[data-form-error=${schemaName}]`);
          if (bannerError) {
             bannerError.style.whiteSpace = "pre";
@@ -20,7 +26,7 @@ const formValidation = (e) => {
          return;
       }
    }
-   form.submit();
+   // form.submit();
 }
 
 const listForms = document.querySelectorAll("[data-form-schema-validation]");

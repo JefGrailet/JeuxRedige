@@ -406,8 +406,6 @@ try {
 
 $userComputed = [
    ...$user->getAll(),
-   // "last_connection" => Utils::toTimestamp($user->get('last_connection')),
-   // "registration_date" => Utils::toTimestamp($user->get('registration_date')),
    "avatar" => PathHandler::getAvatar($user->get('pseudo')),
    'banned' => (Utils::toTimestamp($user->get('last_ban_expiration')) > Utils::SQLServerTime()),
    'list_sentences' => $listSentences,
@@ -415,8 +413,8 @@ $userComputed = [
 
 
 echo $twig->render("my-account.html.twig", [
-   "list_css_files" => ["my_account", "user_profile"],
-   "list_js_files" => ["toggle_input_visibility", "joi.min", "form_validation"],
+   "list_css_files" => ["my_account", "user_profile", "input_file"],
+   "list_js_files" => ["toggle_input_visibility", "joi.min", "form_validation", "upload"],
    "page_title" => "Mon compte",
    "form_id_updated" => $formUpdated,
    "user" => $userComputed,

@@ -48,6 +48,54 @@
 		</section>
 		<section class="sectionBlock myAccount" id="avatar">
 			<h2 class="title">Modifier l'avatar</h2>
+         <form action="MyAccount.php" enctype="multipart/form-data" class="content" novalidate method="POST" data-form-schema-validation="avatar">
+            <script type="text/schema" data-form-schema="avatar">
+					return Joi.object({
+                  avatar: Joi.object().keys({
+                     name: Joi.string().required()
+                  }).required(),
+               })
+				</script>
+				<input type="hidden" name="dataToEdit" value="avatar"/>
+				{% if form_id_updated == "avatar" %}
+					<p class="alert success">Mise à jour réussie</p>
+				{% endif %}
+            <table class="inputFileContainer">
+               <thead>
+                  <tr>
+                     <th>Nouvelle image</th>
+                     <th>Image actuelle</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr  style="position: relative">
+                     <td>
+                     <img data-preview-upload="{{ name }}" alt="" class="max-w-full max-h-full">
+                        <div class="arrowIcon">
+                           <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
+                        </div>
+                     </td>
+                     <td>
+                        <img src="{{ user.avatar }}" alt="">
+                     </td>
+                  </tr>
+                  <tr>
+                     <td colspan="2">
+                        <div class="labelWrapper">
+                           <label class="primaryButton">
+                              Sélectionnez un fichier
+                              <input type="file" name="avatar" accept=".jpg, .jpeg, .png" data-upload-input id="avatar">
+                           </label>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+				</div>
+         </form>
 		</section>
 		<section class="sectionBlock myAccount" id="email">
 			<h2 class="title">Modifier mon adresse e-mail</h2>
@@ -55,8 +103,8 @@
 				<script type="text/schema" data-form-schema="email">
 					return Joi.object({
                   newEmail: Joi.string().email().trim().required().messages({
-                     "email.empty" : "Vous devez mettre une adresse e-mail",
-                     "any.invalid" : "Vous devez mettre une adresse e-mail valide",
+                     "string.empty" : "Vous devez mettre une adresse e-mail",
+                     "string.email" : "Vous devez mettre une adresse e-mail valide",
                   }),
                })
 				</script>

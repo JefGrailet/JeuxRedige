@@ -44,6 +44,29 @@ $user = new User(LoggedUser::$fullData);
 // $display5 = '';
 // $display6 = '';
 
+$avatarMaxSize = 1048576;
+$avatarRequirements = [
+   "mimeTypes" => ["image/jpeg", "image/jpg"],
+   "maxSize" => 1048576,
+];
+$formErrorMessagesTriggered = [
+   "avatar" => [],
+   "email" => [],
+   "password" => [],
+   "preferences" => [],
+];
+
+$formErrorMessages = [
+      "avatar" => [
+         "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
+         "notJPEG" => "Pour générer un avatar, vous devez utiliser une image au format JPEG/JPG",
+         "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
+         "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
+         "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
+      ]
+];
+
+
 // // Input for the avatar form template (avatar path must be provided)
 // $avatarTplInput = array('avatar' => PathHandler::getAvatar(LoggedUser::$data['used_pseudo']),
 // 'pseudo' => LoggedUser::$data['used_pseudo'],
@@ -127,42 +150,37 @@ $user = new User(LoggedUser::$fullData);
 //       }
 //    }
 // }
-// // Avatar edition (upload library is required)
-// elseif(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['image']))
-// {
-//    require './libraries/Upload.lib.php';
 
-//    // Form input (never kept from one "try" to another)
-//    $uploaded = $_FILES['image'];
-//    $extension = strtolower(substr(strrchr($uploaded['name'], '.'), 1));
+// Avatar edition (upload library is required)
+if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avatar'])) {
+   require './libraries/Upload.lib.php';
+   $uploaded = $_FILES['avatar'];
 
-//    if($uploaded['error'] != 0)
-//       $avatarTplInput['error'] = 'uploadError';
-//    elseif($uploaded['size'] > 1048576)
-//       $avatarTplInput['error'] = 'tooBig';
-//    elseif(($uploaded['size'] + Upload::directorySize('avatars')) > (2 * 1024 * 1024 * 1024))
-//       $avatarTplInput['error'] = 'notEnoughSpace';
-//    elseif($extension != 'jpeg' && $extension != 'jpg')
-//       $avatarTplInput['error'] = 'notJPEG';
-//    else
-//    {
-//       // Generates the new avatar (3 sizes)
-//       $res1 = Upload::storeResizedPicture($uploaded, 'avatars', 125, 125, LoggedUser::$data['used_pseudo']);
-//       $res2 = Upload::storeResizedPicture($uploaded, 'avatars', 100, 100, LoggedUser::$data['used_pseudo'].'-medium');
-//       $res3 = Upload::storeResizedPicture($uploaded, 'avatars', 30, 30, LoggedUser::$data['used_pseudo'].'-small');
+   $avatarMimeType = mime_content_type($uploaded['tmp_name']);
 
-//       if(strlen($res1) > 0 && strlen($res2) > 0 && strlen($res3) > 0)
-//          $avatarTplInput['success'] = 'OK';
-//       else
-//          $avatarTplInput['error'] = 'resizeError';
-//    }
+   if (!in_array($avatarMimeType, $avatarRequirements["mimeTypes"])) {
+      array_push($formErrorMessagesTriggered["avatar"], $formErrorMessages["avatar"]["notJPEG"]);
+   }
 
-//    $display1 = TemplateEngine::parse('view/user/PasswordEdition.form.ctpl');
-//    $display2 = TemplateEngine::parse('view/user/AvatarEdition.form.ctpl', $avatarTplInput);
-//    $display3 = TemplateEngine::parse('view/user/EmailEdition.form.ctpl', $emailTplInput);
-//    $display4 = TemplateEngine::parse('view/user/Preferences.form.ctpl', $prefTplInput);
-//    $display5 = TemplateEngine::parse('view/user/AdvancedFeatures.display.ctpl', $advFeatTplInput);
-// }
+   if (filesize($uploaded['tmp_name']) > $avatarMaxSize || filesize($uploaded['tmp_name']) < 1) {
+      array_push($formErrorMessagesTriggered["avatar"], $formErrorMessages["avatar"]["tooBig"]);
+   }
+
+   if ((filesize($uploaded['tmp_name']) + Upload::directorySize('avatars')) > (2 * 1024 * 1024 * 1024)) {
+      array_push($formErrorMessagesTriggered["avatar"], $formErrorMessages["avatar"]["notEnoughSpace"]);
+   }
+
+   if (count($formErrorMessagesTriggered["avatar"]) === 0) {
+      $res1 = Upload::storeResizedPicture($uploaded, 'avatars', 125, 125, LoggedUser::$data['used_pseudo']);
+      $res2 = Upload::storeResizedPicture($uploaded, 'avatars', 100, 100, LoggedUser::$data['used_pseudo'] . '-medium');
+      $res3 = Upload::storeResizedPicture($uploaded, 'avatars', 30, 30, LoggedUser::$data['used_pseudo'] . '-small');
+
+      if(!(strlen($res1) > 0 && strlen($res2) > 0 && strlen($res3) > 0)) {
+         array_push($formErrorMessagesTriggered, $formErrorMessages["avatar"]["resizeError"]);
+      }
+   }
+}
+
 // // E-mail address edition
 // elseif(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'email')
 // {
@@ -339,7 +357,7 @@ $user = new User(LoggedUser::$fullData);
 
 $formUpdated = $_POST['dataToEdit'];
 
-if(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password') {
+if (!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password') {
    // $formUpdated = "email";
 } elseif (!empty($_POST['sent']) && $_POST['dataToEdit'] === 'email') {
    // $formUpdated = "email";
@@ -389,14 +407,6 @@ if(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password') {
 //    $display6 = TemplateEngine::parse('view/user/BanishHistory.error.ctpl');
 // }
 
-// $display = WebpageHandler::wrapInBlock($display1);
-// $display .= WebpageHandler::wrapInBlock($display2);
-// $display .= WebpageHandler::wrapInBlock($display3);
-// $display .= WebpageHandler::wrapInBlock($display4);
-// $display .= WebpageHandler::wrapInBlock($display5);
-// $display .= WebpageHandler::wrapInBlock($display6);
-
-// WebpageHandler::wrap($display, 'Mon compte');
 
 $listSentences = [];
 try {
@@ -416,7 +426,13 @@ echo $twig->render("my-account.html.twig", [
    "list_css_files" => ["my_account", "user_profile", "input_file"],
    "list_js_files" => ["toggle_input_visibility", ["file" => "form_validation"], "upload"],
    "page_title" => "Mon compte",
+   "avatar_requirements" => [
+      ...$avatarRequirements,
+      "mimeTypes" => join(",", $avatarRequirements["mimeTypes"])
+   ], // join(",", $avatarMimeTypesAuthorized)
    "form_id_updated" => $formUpdated,
+   "form_error_messages_triggered" => $formErrorMessagesTriggered,
+   "form_error_messages" => $formErrorMessages,
    "user" => $userComputed,
    "meta" => [
       ...$twig->getGlobals()["meta"],

@@ -1,5 +1,10 @@
 {% extends "layouts/base.html.twig" %}
 {% block content %}
+<style>
+   .alert.error {
+      white-space: break-spaces;
+   }
+</style>
 	<div class="smallContainer">
 		<h1>Mon compte</h1>
 		<div class="userProfile">
@@ -27,15 +32,15 @@
                   path: ['password']
                })
 				</script>
-				<p class="alert error" data-form-error="password"></p>
 				<input type="hidden" name="dataToEdit" value="password"/>
-				{% if form_id_updated == "password" %}
+            <p class="alert error" data-form-error="password">{{ form_error_messages_triggered.password|map(p => "• #{p}")|join('\n') }}</p>
+				{% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
 					<p class="alert success">Mise à jour réussie</p>
 				{% endif %}
 				<div class="gridForm">
 					<div class="inputContainer row">
 						<label for="newPassword">Nouveau mot de passe</label>
-						<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="newPassword">
+						<input type="password" autocomplete="new-password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="newPassword">
 					</div>
 					<div class="inputContainer row">
 						<label for="passwordConfirmation">Confirmer mot de passe</label>
@@ -49,27 +54,32 @@
 		</section>
 		<section class="sectionBlock myAccount" id="avatar">
 			<h2 class="title">Modifier l'avatar</h2>
-         <form action="MyAccount.php" enctype="multipart/form-data" class="content" novalidate method="POST" data-form-schema-validation="avatar">
+         <form action="./MyAccount.php" enctype="multipart/form-data" class="content" novalidate method="POST" data-form-schema-validation="avatar">
             <script type="text/schema" data-form-schema="avatar">
                return z.object({
-                  avatar: z.instanceof(File)
-                        .refine((file) =>
-                           [
-                              "image/png",
-                              "image/jpeg",
-                              "image/jpg",
-                              "image/svg+xml",
-                              "image/gif",
-                           ].includes(file.type),
-                           { message: "Vous devez mettre un avatar" }
+                  avatar: z.file()
+                        .min(1)
+                        .max({{ avatar_requirements.maxSize }})
+                        .mime("{{ avatar_requirements.mimeTypes }}".split(","),
+                           { error: "{{ form_error_messages.avatar.notJPEG }}" }
                         )
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="avatar"/>
-            <p class="alert error" data-form-error="avatar"></p>
-				{% if form_id_updated == "avatar" %}
-					<p class="alert success">Mise à jour réussie</p>
+            <p class="alert error" data-form-error="avatar">{{ form_error_messages_triggered.avatar|map(p => "• #{p}")|join('\n') }}</p>
+				{% if form_id_updated == "avatar" and form_error_messages_triggered.avatar|length == 0 %}
+					<p class="alert success">Mise à jour réussie. Si le changement n'est
+pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
 				{% endif %}
+            <div class="notes">
+					<p class="title">Remarques :</p>
+					<ul>
+						<li>L'image étant rognée, préférez un format rectangulaire</li>
+						<li>L'image doit être au format .jpg / .jpeg</li>
+						<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+					</ul>
+
+				</div>
             <table class="inputFileContainer">
                <thead>
                   <tr>
@@ -78,15 +88,15 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr  style="position: relative">
+                  <tr style="position: relative">
                      <td>
-                     <img data-preview-upload="{{ name }}" alt="" class="max-w-full max-h-full">
+                     <img data-preview-upload="avatar" alt="" class="max-w-full max-h-full">
                         <div class="arrowIcon">
                            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
                         </div>
                      </td>
                      <td>
-                        <img src="{{ user.avatar }}" alt="">
+                        <img src="{{ user.avatar }}" alt="Avatar de {{ user.pseudo }}">
                      </td>
                   </tr>
                   <tr>
@@ -94,7 +104,7 @@
                         <div class="labelWrapper">
                            <label class="primaryButton">
                               Sélectionner un avatar
-                              <input type="file" name="avatar" accept=".jpg, .jpeg, .png" data-upload-input id="avatar">
+                              <input type="file" name="avatar" accept="{{ avatar_requirements.mimeTypes }}" data-upload-input id="avatar">
                            </label>
                         </div>
                      </td>
@@ -112,14 +122,14 @@
 			<form action="MyAccount.php" class="content" novalidate method="POST" data-form-schema-validation="email">
 				<script type="text/schema" data-form-schema="email">
                return z.object({
-                  email: z.email("Vous devez mettre une adresse e-mail valide"),
+                  email: z.email({ error:"Vous devez mettre une adresse e-mail valide"}),
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="email"/>
-				{% if form_id_updated == "email" %}
+				<p class="alert error" data-form-error="email">{{ form_error_messages_triggered.email|map(p => "• #{p}")|join('\n') }}</p>
+				{% if form_id_updated == "email" and form_error_messages_triggered.email|length == 0 %}
 					<p class="alert success">Mise à jour réussie</p>
 				{% endif %}
-				<p class="alert error" data-form-error="email"></p>
 				<div class="inputContainer row">
 					<label for="newEmail">Adresse e-mail</label>
 					<input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail">
@@ -135,7 +145,6 @@
 							qui suivent
 						</li>
 					</ul>
-
 				</div>
 				<div class="inputContainer">
 					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
@@ -148,7 +157,6 @@
 		<section class="sectionBlock myAccount" id="role">
 			<h2 class="title">Accès aux fonctionnalités avancées</h2>
 			<div class="content">
-				{# {{ dump(user)}} #}
 				<div class="alert info">
 					{% if user.advanced_features == "yes" %}
 						<p>Vous avez accès aux fonctions avancées</p>

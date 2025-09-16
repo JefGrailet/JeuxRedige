@@ -2203,12 +2203,11 @@ textarea
       width: 1.5rem;
       aspect-ratio: 1;
       background-color: white;
-      /* border-radius: var(--border-radius); */
       box-shadow: var(--box-shadow);
       transition: var(--transition-time) background-color;
 
       &:is(:focus, :hover) {
-         background-color: whitesmoke;
+         background-color: #dfdfdf;
       }
 
       svg {

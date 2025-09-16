@@ -25,6 +25,6 @@ const formValidation = (e) => {
 
 const listForms = document.querySelectorAll("[data-form-schema-validation]");
 listForms.forEach((item) => {
-   console.log("fefze")
    item.addEventListener("submit", formValidation);
 });
+

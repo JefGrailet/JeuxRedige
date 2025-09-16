@@ -8,11 +8,11 @@ const toggleVisibility = (e) => {
 
    if (input.type === "password") {
       input.type = "text"
-      input.title="Cacher mot de passe"
+      input.parentNode.querySelector("button").title="Cacher mot de passe"
       icon.replaceWith(document.importNode(hiddenIconTemplate.content, true).querySelector("svg"))
    } else {
       input.type = "password"
-      input.title="Afficher mot de passe"
+      input.parentNode.querySelector("button").title="Afficher mot de passe"
       icon.replaceWith(document.importNode(visibleIconTemplate.content, true).querySelector("svg"))
    }
 }

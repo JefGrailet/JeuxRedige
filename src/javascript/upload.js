@@ -5,7 +5,6 @@ const previewUpload = (e) => {
    const img = container.querySelector("img");
 
    const file = e.currentTarget.files[0];
-
    img.src = URL.createObjectURL(file);
 };
 

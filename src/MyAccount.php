@@ -424,12 +424,12 @@ $userComputed = [
 
 echo $twig->render("my-account.html.twig", [
    "list_css_files" => ["my_account", "user_profile", "input_file"],
-   "list_js_files" => ["toggle_input_visibility", ["file" => "form_validation"], "upload"],
+   "list_js_files" => ["toggle_input_visibility", ["file" => "form_validation"], "upload", "toggle_user_prefs"],
    "page_title" => "Mon compte",
    "avatar_requirements" => [
       ...$avatarRequirements,
       "mimeTypes" => join(",", $avatarRequirements["mimeTypes"])
-   ], // join(",", $avatarMimeTypesAuthorized)
+   ],
    "form_id_updated" => $formUpdated,
    "form_error_messages_triggered" => $formErrorMessagesTriggered,
    "form_error_messages" => $formErrorMessages,

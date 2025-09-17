@@ -2178,6 +2178,15 @@ textarea
       margin-bottom: 0;
    }
 
+   .full {
+      grid-column: 1/-1;
+      margin: 0;
+   }
+
+   .notes {
+      margin-top: calc(0.75rem * -1);
+   }
+
    @media screen and (width >= 640px) {
       grid-template-columns: max-content 1fr;
 
@@ -2185,6 +2194,10 @@ textarea
          display: contents;
       }
    }
+}
+
+:is([disabled], [inert]) * {
+   opacity: 0.5;
 }
 
 .toggleInputVisibilityContainer {

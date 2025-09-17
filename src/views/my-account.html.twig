@@ -78,39 +78,9 @@ pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
 						<li>L'image doit être au format .jpg / .jpeg</li>
 						<li>L'image doit avoir une taille inférieure à 1 Mo</li>
 					</ul>
-
 				</div>
-            <table class="inputFileContainer">
-               <thead>
-                  <tr>
-                     <th>Nouvelle image</th>
-                     <th>Image actuelle</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr style="position: relative">
-                     <td>
-                     <img data-preview-upload="avatar" alt="" class="max-w-full max-h-full">
-                        <div class="arrowIcon">
-                           <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
-                        </div>
-                     </td>
-                     <td>
-                        <img src="{{ user.avatar }}" alt="Avatar de {{ user.pseudo }}">
-                     </td>
-                  </tr>
-                  <tr>
-                     <td colspan="2">
-                        <div class="labelWrapper">
-                           <label class="primaryButton">
-                              Sélectionner un avatar
-                              <input type="file" name="avatar" accept="{{ avatar_requirements.mimeTypes }}" data-upload-input id="avatar">
-                           </label>
-                        </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+
+            {% include "includes/input-file.html.twig" with user %}
 
             <div class="inputContainer">
 					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
@@ -153,6 +123,91 @@ pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
 		</section>
 		<section class="sectionBlock myAccount" id="preferences">
 			<h2 class="title">Mes préférences</h2>
+         <form action="MyAccount.php" class="content" autocomplete="off" method="POST" data-form-schema-validation="password">
+				<script type="text/schema" data-form-schema="password">
+               return z.object({
+                  password: z.string().min(1, {error: "feffe" }),
+                  passwordConfirmation: z.string("rrrr")
+               }).refine((data) => data.password === data.passwordConfirmation, {
+                  error: "Les mots de passe ne correspondent pas",
+                  path: ['password']
+               })
+				</script>
+				<input type="hidden" name="dataToEdit" value="password"/>
+            <p class="alert error" data-form-error="password">{{ form_error_messages_triggered.password|map(p => "• #{p}")|join('\n') }}</p>
+				{% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
+					<p class="alert success">Mise à jour réussie</p>
+				{% endif %}
+				<div class="gridForm">
+					<div class="inputContainer row">
+						<label for="using_preferences">Activer les préférences personnelles ?</label>
+						<select name="using_preferences" id="using_preferences" data-select-user-prefs>
+                     <option value="yes">Oui</option>
+                     <option value="no" selected="selected">Non</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Laissez sur "Non" si vous souhaitez garder les paramètres par défaut. Si vous choisissez "Oui", vous utilisez les paramètres ci-après.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="message_size">Taille des messages :</label>
+						<select name="message_size"  id="message_size">
+<option value="default">Taille par défaut</option>
+<option value="medium" selected="selected">Taille "Medium"</option>
+</select>
+					</div>
+                  <p class="full notes">Choisir la taille "medium" réduit la taille des avatars et icônes pour laisser plus de place aux messages.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="posts_per_page">Nombre de messages par page d'un sujet :</label>
+						<select name="posts_per_page" id="posts_per_page">
+                     {% for i in 5..100 %}
+                        <option value="{{i}}">{{i}}</option>
+                     {% endfor %}
+                  </select>
+					</div>
+                  <p class="full notes"> Vous pouvez afficher entre 5 et 100 messages par page d'un sujet.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="video_default_display">Affichage des vidéos : </label>
+						<select id="video_default_display" name="video_default_display">
+                     <option value="thumbnail">Vignette cliquable</option>
+                     <option value="embedded">Intégration directe</option>
+                  </select>
+					</div>
+                  <p class="full notes">  Vous pouvez faire directement afficher les vidéos ou bien les remplacer par une vignette cliquable pour éviter de charger trop de vidéos à la fois.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="video_default_display">Affichage des vignettes (vidéo) : </label>
+						<select id="video_default_display" name="video_default_display">
+                     <option value="hq">Grande taille (480x360 pixels)</option>
+                     <option value="small">Petite taille (120x90 pixels)</option>
+                  </select>
+					</div>
+                  <p class="full notes">Si vous remplacez temporairement les vidéos par des vignettes, vous pouvez choisir entre des vignettes de grande taille (480x360 pixels) ou de petite taille (120x90 pixels).</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="newPassword">Navigation par défaut : </label>
+						<select id="default_nav_mode" name="default_nav_mode">
+                     <option value="classic">Pagination classique</option>
+                     <option value="dynamic">Pagination dynamique</option>
+                     <option value="flow">Flot continu de messages</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Le mode choisi s'active au chargement d'un sujet ou d'une discussion privée. Vous pouvez le changer en cours de navigation.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="auto_preview">Aperçu automatique/rapide : </label>
+						<select name="auto_preview" id="auto_preview">
+                     <option value="yes">Toujours actif</option>
+                     <option value="no" selected="selected">Sur demande</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Vous pouvez (dés)activer cette fonctionnalité en cours de navigation.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="newPassword">Rafraîchissement automatique : </label>
+						<select name="" id=""></select>
+					</div>
+                  <p class="full notes"> Vous pouvez (dés)activer cette fonctionnalité en cours de navigation.</p>
+
+               <div class="inputContainer">
+                  <input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+               </div>
+            </div>
+			</form>
 		</section>
 		<section class="sectionBlock myAccount" id="role">
 			<h2 class="title">Accès aux fonctionnalités avancées</h2>

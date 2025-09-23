@@ -1,5 +1,5 @@
 <div id="articlesContainer">
-   <h1 class="centeredTitle">Les articles publiés par {$user}</h1>
+   <p class="centeredTitle">Les articles publiés par {$user}</p>
    <div id="articlesPool">
       {$articles}
    </div>

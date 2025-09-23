@@ -11,10 +11,10 @@ state & <div class="articleThumbnailExtra [0]">
    </div>}
    <div class="articleTitles">
       <div class="articleTitle">
-         <p><a href="{$link}"{$additionnalInfo}>{$title}</a></p>
+         <p><a href="{$link}"{$additionnalInfo} tabindex="-1">{$title}</a></p>
       </div>
       <div class="articleSubtitle">
-         <p><a href="{$link}"{$additionnalInfo}>{$subtitle}</a></p>
+         <p><a href="{$link}"{$additionnalInfo} tabindex="-1">{$subtitle}</a></p>
       </div>
    </div>
    <a href="{$link}" class="thumbnailClick"><span></span></a>

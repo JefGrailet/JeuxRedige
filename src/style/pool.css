@@ -14,41 +14,17 @@
 
 @media screen and (max-width: 1079px)
 {
-   #thumbnailsPool, #thumbnailsPoolIndex
+   #thumbnailsPool
    {
       width: 800px;
    }
 }
 
-@media screen and (min-width: 1080px) and (max-width: 1349px)
-{
-   #thumbnailsPool
-   {
-      width: 1080px;
-   }
-}
-
 @media screen and (min-width: 1080px)
 {
-   #thumbnailsPoolIndex
+   #thumbnailsPool, #thumbnailsPoolIndex
    {
-      width: 1080px;
-   }
-}
-
-@media screen and (min-width: 1350px) and (max-width: 1619px)
-{
-   #thumbnailsPool
-   {
-      width: 1350px;
-   }
-}
-
-@media screen and (min-width: 1620px)
-{
-   #thumbnailsPool
-   {
-      width: 1620px;
+      width: 1070px;
    }
 }
 
@@ -79,14 +55,6 @@
    #emoticonsPool
    {
       width: 1200px;
-   }
-}
-
-@media screen and (min-width: 1600px)
-{
-   #emoticonsPool
-   {
-      width: 1600px;
    }
 }
 

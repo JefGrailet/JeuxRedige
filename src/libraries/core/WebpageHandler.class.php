@@ -46,8 +46,8 @@ class WebpageHandler
       self::$miscParams = array(
       'webdesign_variant' => 'default', // (November 2021) Logo variant linked to article type
       'posts_per_page' => 10, // Amount of messages per page in a topic (normally 20)
-      'topics_per_page' => 30, // Amount of topics per page in a list of topics
-      'articles_per_page' => 16, // Same for the articles
+      'topics_per_page' => 20, // Amount of topics per page in a list of topics
+      'articles_per_page' => 15, // Same for the articles
       'emoticons_per_page' => 30, // Amount of emoticons per page on the "My emoticons" page 
       'pins_per_page' => 50, // Amount of pins per page on the "My pins" page
       'message_size' => 'default', // "Size" of displayed messages (size of avatars, font, etc.)
@@ -427,7 +427,7 @@ class WebpageHandler
       $mainTplInput['renderTime'] = round(($overallEnd - self::$overallStart), 5);
 
       $renderedPage = TemplateEngine::parse('./view/Main.ctpl', $mainTplInput);
-      $renderedPage = preg_replace('/^[ \t]*[\r\n]+/m', '', $renderedPage);
+      //$renderedPage = preg_replace('/^[ \t]*[\r\n]+/m', '', $renderedPage);
       echo $renderedPage;
       exit();
    }

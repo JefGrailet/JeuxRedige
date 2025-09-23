@@ -104,6 +104,7 @@ body
    color: white;
    margin: 0px 10px 0px 0px;
    vertical-align: -10%;
+   cursor: pointer;
 }
 
 /* Sliding menus (user menu, pings, login form) */
@@ -161,7 +162,6 @@ body
    position: absolute;
    z-index: 31;
    margin: 0px;
-   cursor: pointer;
    opacity: 0;
 }
 

@@ -30,13 +30,9 @@
    <div class="content">
       <form method="post" action="{{ webRoot }}LogIn.php" data-form-schema-validation="login">
          <script type="text/schema" data-form-schema="login">
-            return Joi.object({
-               pseudo: Joi.string().required().messages({
-                  "string.empty": `Pseudo obligatoire`,
-               }),
-               pwd: Joi.string().required().messages({
-                  "string.empty": `Mot de passe obligatoire`,
-               }),
+            return z.object({
+               pseudo: z.string().min(1, {error: "Vous devez entrer un pseudo" }),
+               pwd: z.string().min(1, {error: "Vous devez entrer un mot de passe" })
             })
          </script>
          <p class="alert error" data-form-error="login"></p>

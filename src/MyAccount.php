@@ -47,7 +47,7 @@ $user = new User(LoggedUser::$fullData);
 $avatarMaxSize = 1048576;
 $avatarRequirements = [
    "mimeTypes" => ["image/jpeg", "image/jpg"],
-   "maxSize" => 1048576,
+   "maxSize" => $avatarMaxSize,
 ];
 $formErrorMessagesTriggered = [
    "avatar" => [],
@@ -57,13 +57,25 @@ $formErrorMessagesTriggered = [
 ];
 
 $formErrorMessages = [
-      "avatar" => [
-         "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
-         "notJPEG" => "Pour générer un avatar, vous devez utiliser une image au format JPEG/JPG",
-         "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
-         "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
-         "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
-      ]
+   "avatar" => [
+      "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
+      "notJPEG" => "Pour générer un avatar, vous devez utiliser une image au format JPEG/JPG",
+      "tooSmall" => "Vous devez sélectionner une image",
+      "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
+      "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
+      "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
+   ],
+   "preferences" => [
+      "incorrectInput" => "Les valeurs entrées ne sont pas valides. Veuillez les modifier conformément à ce que le formulaire stipule",
+   ],
+   "email" => [
+      "wrongCurrentPwd" => "Le mot de passe que vous avez entré est incorrect",
+      "emailTooLong" => "La nouvelle adresse est anormalement longue (maximum 60 caractères)",
+      "alreadyUsed" => "Vous utilisez déjà l'adresse que vous venez d'entrer",
+      "usedBySomeoneElse" => "Cette nouvelle adresse est déjà utilisée pour un autre compte",
+   ],
+   "emptyFields" => "Vous devez remplir tous les champs",
+   "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
 ];
 
 
@@ -152,7 +164,7 @@ $formErrorMessages = [
 // }
 
 // Avatar edition (upload library is required)
-if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avatar'])) {
+if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar') { //  && !empty($_FILES['avatar'])
    require './libraries/Upload.lib.php';
    $uploaded = $_FILES['avatar'];
 
@@ -175,9 +187,107 @@ if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avata
       $res2 = Upload::storeResizedPicture($uploaded, 'avatars', 100, 100, LoggedUser::$data['used_pseudo'] . '-medium');
       $res3 = Upload::storeResizedPicture($uploaded, 'avatars', 30, 30, LoggedUser::$data['used_pseudo'] . '-small');
 
-      if(!(strlen($res1) > 0 && strlen($res2) > 0 && strlen($res3) > 0)) {
+      if (!(strlen($res1) > 0 && strlen($res2) > 0 && strlen($res3) > 0)) {
          array_push($formErrorMessagesTriggered, $formErrorMessages["avatar"]["resizeError"]);
       }
+   }
+}
+// Preferences edition
+else if (!empty($_POST) && $_POST['dataToEdit'] === 'preferences') {
+   $data = array(
+      'using_preferences' => Utils::secure($_POST['using_preferences']),
+      'message_size' => Utils::secure($_POST['message_size']),
+      'posts_per_page' => Utils::secure($_POST['posts_per_page']),
+      'video_default_display' => Utils::secure($_POST['video_default_display']),
+      'video_thumbnail_style' => Utils::secure($_POST['video_thumbnail_style']),
+      'default_nav_mode' => Utils::secure($_POST['default_nav_mode']),
+      'auto_preview' => Utils::secure($_POST['auto_preview']),
+      'auto_refresh' => Utils::secure($_POST['auto_refresh'])
+   );
+
+   $acceptedInput = array(
+      "using_preferences" => array('yes', 'no'),
+      "message_size" => array('default', 'medium'),
+      "posts_per_page" => range(5, 100),
+      "video_default_display" => array('thumbnail', 'embedded'),
+      "video_thumbnail_style" => array('hq', 'small'),
+      "default_nav_mode" => array('classic', 'dynamic', 'flow'),
+      "auto_preview" => array('yes', 'no'),
+      "auto_refresh" => array('yes', 'no'),
+   );
+
+   if (
+      !in_array($data['using_preferences'], $acceptedInput["using_preferences"]) ||
+      !in_array($data['message_size'], $acceptedInput["message_size"]) ||
+      !in_array(intval($data['posts_per_page']), $acceptedInput["posts_per_page"]) ||
+      !in_array($data['video_default_display'], $acceptedInput["video_default_display"]) ||
+      !in_array($data['video_thumbnail_style'], $acceptedInput["video_thumbnail_style"]) ||
+      !in_array($data['default_nav_mode'], $acceptedInput["default_nav_mode"]) ||
+      !in_array($data['auto_preview'], $acceptedInput["auto_preview"]) ||
+      !in_array($data['auto_refresh'], $acceptedInput["auto_refresh"])
+   ) {
+      array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages[$_POST['dataToEdit']]["incorrectInput"]);
+   } else {
+      try {
+         $user->updatePreferences($data);
+      } catch (Exception $e) {
+         array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages["dbError"]);
+      }
+   }
+}
+// E-mail address edition
+else if (!empty($_POST) && $_POST['dataToEdit'] === 'email') {
+   require './libraries/Mailing.lib.php';
+
+   $data = array(
+      'pwd' => Utils::secure($_POST['pwd']),
+      'newEmail' => Utils::secure($_POST['newEmail'])
+   );
+   $recomputedHash = sha1($user->get('pseudo') . $user->get('secret') . $data['pwd']);
+
+   if (strlen($data['pwd']) == 0 || strlen($data['newEmail']) == 0) {
+      array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages["emptyFields"]);
+   }
+
+   if (!password_verify($recomputedHash, $user->get('password'))) {
+      array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages[$_POST['dataToEdit']]["wrongCurrentPwd"]);
+   }
+
+   if (strlen($data['newEmail']) > 60) {
+      array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages[$_POST['dataToEdit']]["emailTooLong"]);
+   }
+
+   if ($data['newEmail'] === $user->get('email')) {
+      array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages[$_POST['dataToEdit']]["alreadyUsed"]);
+   }
+
+   // if (strlen($data['newPwd']) > 200) {
+   //    array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages[$_POST['dataToEdit']]["pwdTooLong"]);
+   // }
+
+   if (count($formErrorMessagesTriggered[$_POST['dataToEdit']]) === 0) {
+      // $user->editEmail($data['newEmail']);
+      // $confirmKey = $user->get('confirmation');
+      // $confirmLink = 'https://' . $_SERVER['HTTP_HOST'] . '/Confirmation.php?pseudo=' . LoggedUser::$data['pseudo'] . '&key=' . $confirmKey;
+
+      // $emailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'confirmLink' => $confirmLink);
+      // $emailTitle = 'Modification de votre adresse e-mail';
+
+      // $emailContent = TemplateEngine::parse('view/user/EmailEdition.mail.ctpl', $emailInput);
+      // $mailSuccess = false;
+      // if (!TemplateEngine::hasFailed($emailContent)) {
+      //    if (Mailing::send($data['newEmail'], $emailTitle, $emailContent))
+      //       $mailSuccess = true;
+      // }
+
+      // try {
+      //    $user->setPassword($data['newPwd']);
+      //    $_SESSION['password'] = $user->get('password');
+      //    if (isset($_COOKIE['password']) && !empty($_COOKIE['password']))
+      //       $_COOKIE['password'] = $user->get('password');
+      // } catch (Exception $e) {
+      //    array_push($formErrorMessagesTriggered[$_POST['dataToEdit']], $formErrorMessages["dbError"]);
+      // }
    }
 }
 
@@ -187,9 +297,9 @@ if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avata
 //    require './libraries/Mailing.lib.php';
 
 //    // Input data
-//    $data = array('pwd' => Utils::secure($_POST['pwd']),
-//                  'newEmail' => Utils::secure($_POST['newEmail']));
-//    $recomputedHash = sha1($user->get('pseudo') . $user->get('secret') . $data['pwd']);
+// $data = array('pwd' => Utils::secure($_POST['pwd']),
+//               'newEmail' => Utils::secure($_POST['newEmail']));
+// $recomputedHash = sha1($user->get('pseudo') . $user->get('secret') . $data['pwd']);
 
 //    /*
 //     * Regarding "recomputedHash": see comment about the same topic in password edition form.
@@ -232,17 +342,17 @@ if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avata
 //             // Generates confirmation e-mail
 //             $confirmKey = $user->get('confirmation');
 //             $confirmLink = 'https://'.$_SERVER['HTTP_HOST'].'/Confirmation.php?pseudo='.LoggedUser::$data['pseudo'].'&key='.$confirmKey;
-//             $emailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'confirmLink' => $confirmLink);
-//             $emailTitle = 'Modification de votre adresse e-mail';
+// $emailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'confirmLink' => $confirmLink);
+// $emailTitle = 'Modification de votre adresse e-mail';
 //             $emailContent = TemplateEngine::parse('view/user/EmailEdition.mail.ctpl', $emailInput);
 
 //             // Sends it and checks if it was successfully sent
-//             $mailSuccess = false;
-//             if(!TemplateEngine::hasFailed($emailContent))
-//             {
-//                if(Mailing::send($data['newEmail'], $emailTitle, $emailContent))
-//                   $mailSuccess = true;
-//             }
+// $mailSuccess = false;
+// if(!TemplateEngine::hasFailed($emailContent))
+// {
+//    if(Mailing::send($data['newEmail'], $emailTitle, $emailContent))
+//       $mailSuccess = true;
+// }
 
 //             // Generates output page (not displayed yet)
 //             $tplInput = array('email' => 'emailFail');
@@ -280,88 +390,9 @@ if (!empty($_POST) && $_POST['dataToEdit'] === 'avatar' && !empty($_FILES['avata
 //    $display5 = TemplateEngine::parse('view/user/AdvancedFeatures.display.ctpl', $advFeatTplInput);
 // }
 // // Preferences edition
-// elseif(!empty($_POST['sent']) && $_POST['dataToEdit'] === 'preferences')
-// {
-//    $data = array('using_preferences' => Utils::secure($_POST['using_preferences']),
-//                  'message_size' => Utils::secure($_POST['message_size']),
-//                  'posts_per_page' => Utils::secure($_POST['posts_per_page']),
-//                  'video_default_display' => Utils::secure($_POST['video_default_display']),
-//                  'video_thumbnail_style' => Utils::secure($_POST['video_thumbnail_style']),
-//                  'default_nav_mode' => Utils::secure($_POST['default_nav_mode']),
-//                  'auto_preview' => Utils::secure($_POST['auto_preview']),
-//                  'auto_refresh' => Utils::secure($_POST['auto_refresh']));
 
-//    $acceptedInput = array(array('yes', 'no'),
-//    array('default', 'medium'),
-//    range(5,100),
-//    array('thumbnail', 'embedded'),
-//    array('hq', 'small'),
-//    array('classic', 'dynamic', 'flow'),
-//    array('yes', 'no'),
-//    array('yes', 'no'));
-
-//    // Deals with errors (empty fields, new password too long, etc.)
-//    $errors = '';
-//    if(!in_array($data['using_preferences'], $acceptedInput[0]) ||
-//       !in_array($data['message_size'], $acceptedInput[1]) ||
-//       !in_array(intval($data['posts_per_page']), $acceptedInput[2]) ||
-//       !in_array($data['video_default_display'], $acceptedInput[3]) ||
-//       !in_array($data['video_thumbnail_style'], $acceptedInput[4]) ||
-//       !in_array($data['default_nav_mode'], $acceptedInput[5]) ||
-//       !in_array($data['auto_preview'], $acceptedInput[6]) ||
-//       !in_array($data['auto_refresh'], $acceptedInput[7]))
-//    {
-//       $prefTplInput['outcome'] = 'incorrectInput';
-//       $display4 = TemplateEngine::parse('view/user/Preferences.form.ctpl', $prefTplInput);
-//    }
-//    else
-//    {
-//       // Tries to edit preferences and changes the display accordingly.
-//       try
-//       {
-//          $user->updatePreferences($data);
-//          $prefTplInput['outcome'] = 'OK';
-
-//          $prefTplInput['using_preferences'] = $user->get('using_preferences').'||yes,Oui|no,Non';
-//          $prefTplInput['message_size'] = $user->get('pref_message_size').'||default,Taille par défaut|medium,Taille "Medium"';
-//          $prefTplInput['posts_per_page'] = $user->get('pref_posts_per_page').'||'.implode('|', range(5, 100));
-//          $prefTplInput['video_default_display'] = $user->get('pref_video_default_display').'||thumbnail,Vignette cliquable|embedded,Intégration directe';
-//          $prefTplInput['video_thumbnail_style'] = $user->get('pref_video_thumbnail_style').'||hq,Grande taille (480x360 pixels)|small,Petite taille (120x90 pixels)';
-//          $prefTplInput['default_nav_mode'] = $user->get('pref_default_nav_mode').'||classic,Pagination classique';
-//          $prefTplInput['default_nav_mode'] .= '|dynamic,Pagination dynamique';
-//          $prefTplInput['default_nav_mode'] .= '|flow,Flot continu de messages';
-//          $prefTplInput['auto_preview'] = $user->get('pref_auto_preview').'||yes,Toujours actif|no,Sur demande';
-//          $prefTplInput['auto_refresh'] = $user->get('pref_auto_refresh').'||yes,Toujours actif|no,Sur demande';
-//       }
-//       catch(Exception $e)
-//       {
-//          $prefTplInput['outcome'] = 'dbError';
-//       }
-
-//       $display4 = TemplateEngine::parse('view/user/Preferences.form.ctpl', $prefTplInput);
-//    }
-
-//    $display1 = TemplateEngine::parse('view/user/PasswordEdition.form.ctpl');
-//    $display2 = TemplateEngine::parse('view/user/AvatarEdition.form.ctpl', $avatarTplInput);
-//    $display3 = TemplateEngine::parse('view/user/EmailEdition.form.ctpl', $emailTplInput);
-//    $display5 = TemplateEngine::parse('view/user/AdvancedFeatures.display.ctpl', $advFeatTplInput);
-// }
-// else
-// {
-//    $display1 = TemplateEngine::parse('view/user/PasswordEdition.form.ctpl');
-//    $display2 = TemplateEngine::parse('view/user/AvatarEdition.form.ctpl', $avatarTplInput);
-//    $display3 = TemplateEngine::parse('view/user/EmailEdition.form.ctpl', $emailTplInput);
-//    $display4 = TemplateEngine::parse('view/user/Preferences.form.ctpl', $prefTplInput);
-//    $display5 = TemplateEngine::parse('view/user/AdvancedFeatures.display.ctpl', $advFeatTplInput);
-// }
 
 $formUpdated = $_POST['dataToEdit'];
-
-if (!empty($_POST['sent']) && $_POST['dataToEdit'] === 'password') {
-   // $formUpdated = "email";
-} elseif (!empty($_POST['sent']) && $_POST['dataToEdit'] === 'email') {
-   // $formUpdated = "email";
-}
 
 // // Sentences history
 // try

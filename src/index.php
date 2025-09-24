@@ -43,6 +43,7 @@ $listCSSFiles = ["pool"];
 echo $twig->render("index.html.twig", [
    "list_articles" => $listArticlesComputed,
    "list_css_files" => ["pool"],
+   // "list_js_files" => ["form_validation"],
    "selectedLogo" => "default",
    "meta" => [
       ...$twig->getGlobals()["meta"],

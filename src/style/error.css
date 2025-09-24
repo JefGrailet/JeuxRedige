@@ -7,10 +7,14 @@
    padding: 0.5rem 1rem;
    color: white;
 
-   h1 {
+   .title {
       margin: 0;
       font-size: 2.25rem;
 
       border-bottom: 1px solid white;
    }
+}
+
+input.error {
+   border-color: oklch(44.4% 0.177 26.899) !important;
 }

@@ -33,7 +33,7 @@
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="password"/>
-            <p class="alert error" data-form-error="password">{{ form_error_messages_triggered.password|map(p => "• #{p}")|join('\n') }}</p>
+            <ul class="alert error" role="alert" data-form-error="password">{% for error_message in form_error_messages_triggered.password %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				{% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
 					<p class="alert success">Mise à jour réussie</p>
 				{% endif %}
@@ -66,7 +66,7 @@
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="avatar"/>
-            <p class="alert error" data-form-error="avatar">{{ form_error_messages_triggered.avatar|map(p => "• #{p}")|join('\n') }}</p>
+            <ul class="alert error" role="alert" data-form-error="avatar">{% for error_message in form_error_messages_triggered.avatar %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				{% if form_id_updated == "avatar" and form_error_messages_triggered.avatar|length == 0 %}
 					<p class="alert success">Mise à jour réussie. Si le changement n'est
 pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
@@ -98,7 +98,7 @@ pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
                })
 				</script>
 				<input type="hidden" name="dataToEdit" value="email"/>
-				<p class="alert error" data-form-error="email">{{ form_error_messages_triggered.email|map(p => "• #{p}")|join('\n') }}</p>
+				<ul class="alert error" role="alert" data-form-error="email">{% for error_message in form_error_messages_triggered.email %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				{% if form_id_updated == "email" and form_error_messages_triggered.email|length == 0 %}
 					<p class="alert success">Mise à jour réussie. Veuillez vérifier vos e-mails pour confirmer le changement</p>
 				{% endif %}
@@ -134,7 +134,7 @@ pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
 			<h2 class="title">Mes préférences</h2>
          <form action="MyAccount.php" class="content" autocomplete="off" method="POST">
 				<input type="hidden" name="dataToEdit" value="preferences"/>
-            <p class="alert error" data-form-error="preferences">{{ form_error_messages_triggered.preferences|map(p => "• #{p}")|join('\n') }}</p>
+            <ul class="alert error" role="alert" data-form-error="preferences">{{ form_error_messages_triggered.preferences|map(p => "• #{p}")|join('\n') }}</ul>
 				{% if form_id_updated == "preferences" and form_error_messages_triggered.preferences|length == 0 %}
 					<p class="alert success">Mise à jour réussie</p>
 				{% endif %}

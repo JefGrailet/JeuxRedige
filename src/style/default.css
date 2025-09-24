@@ -712,7 +712,7 @@ input[type="submit"] {
 .primaryButton {
    background-color: #0c960c;
    color: white;
-   padding: 5px 15px;
+   padding: 0.25rem 1.25rem;
    border-radius: 4px;
    font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem;
@@ -2194,6 +2194,10 @@ textarea
          display: contents;
       }
    }
+}
+
+.login-form {
+   max-width: 25rem; /* 400px */
 }
 
 :is([disabled], [inert]) * {

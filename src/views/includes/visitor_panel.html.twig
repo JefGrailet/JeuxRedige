@@ -35,7 +35,7 @@
                pwd: z.string().min(1, {error: "Vous devez entrer un mot de passe" })
             })
          </script>
-         <p class="alert error" data-form-error="login"></p>
+         <ul class="alert error" role="alert" data-form-error="login"></ul>
          <input type="hidden" name="redirection" value="{$logInRedirection}" />
 
          <div class="inputContainer">
@@ -67,14 +67,16 @@
             <input type="submit" class="primaryButton" name="sent" value="Connexion" />
          </div>
 
-         <p>
-            <a href="{{ webRoot }}Registration.php" class="link"
-               >Créer un compte</a
-            ><br />
-            <a href="{{ webRoot }}PasswordReset.php" class="link"
-               >Mot de passe perdu ?</a
-            >
-         </p>
+         <footer>
+            <p>
+               <a href="{{ webRoot }}Registration.php" class="link"
+            >Créer un compte</a
+               ><br />
+               <a href="{{ webRoot }}PasswordReset.php" class="link"
+                  >Mot de passe perdu ?</a
+               >
+            </p>
+         </footer>
       </form>
    </div>
 </dialog>

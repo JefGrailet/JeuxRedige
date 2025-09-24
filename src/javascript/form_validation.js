@@ -19,12 +19,11 @@ const formValidation = (e) => {
 
       if (!validator.success) {
          const bannerError = form.querySelector(`[data-form-error=${schemaName}]`);
-         if (bannerError) {
-            bannerError.style.whiteSpace = "pre";
-            bannerError.textContent = validator.error.issues.map((item) => `• ${item.message}`).join("\n");
-         }
 
          validator.error.issues.forEach((item) => {
+            const li = document.createElement('li');
+            li.textContent = item.message;
+
             item.path.forEach((path) => {
                const inputRelated = form.querySelector(`input[name="${String(path)}"]`);
 
@@ -33,6 +32,8 @@ const formValidation = (e) => {
                     inputRelated.ariaInvalid = "true";
                 }
             })
+
+            bannerError?.appendChild(li);
         })
 
          return;

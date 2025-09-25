@@ -1,0 +1,56 @@
+services:
+   php:
+      build:
+         context: .
+         dockerfile: php.Dockerfile
+      volumes:
+         - ./src/:/var/www/html
+         - vendor:/var/www/html/vendor
+         # - /home/node/app/node_modules
+      ports:
+         - "80:80"
+      depends_on:
+         - composer
+         - mysql
+      stdin_open: true
+      tty: true
+      # links:
+      #    - composer
+   composer:
+      image: composer:latest
+      command: sh -c "composer install"
+      working_dir: "/home"
+      volumes:
+         - ./src/composer.json:/home/composer.json
+         - ./src/composer.lock:/home/composer.lock
+         - vendor:/home/vendor
+   mysql:
+      image: mysql:latest
+      restart: always
+      container_name: mysql
+      environment:
+         MYSQL_ROOT_PASSWORD: root
+         # MYSQL_DATABASE: jeux_redige
+         MYSQL_USER: root
+         MYSQL_PASSWORD: root
+      ports:
+         - "3307:3306"
+      volumes:
+         # - mysql-data:/var/lib/mysql
+         - ./Dump20250925.sql:/docker-entrypoint-initdb.d/dump.sql
+   phpmyadmin:
+      image: phpmyadmin:latest
+      restart: always
+      depends_on:
+         - mysql
+      # container_name: phpmyadmin
+      environment:
+         PMA_HOST: mysql
+         MYSQL_ROOT_PASSWORD: root
+         PMA_ARBITRARY: 1
+      ports:
+         - 8080:80
+
+volumes:
+   vendor:
+   # mysql-data:

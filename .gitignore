@@ -4,3 +4,6 @@ src/config/Config.inc.php
 /**/*.tmp.*
 
 src/avatars/**
+
+Dump*
+dump*

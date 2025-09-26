@@ -38,8 +38,6 @@ $listArticlesComputed = array_map(function ($article, $idx) use ($NB_MAX_ARTICLE
    );
 }, $articles, array_keys($articles));
 
-$listCSSFiles = ["pool"];
-
 echo $twig->render("index.html.twig", [
    "list_articles" => $listArticlesComputed,
    "list_css_files" => ["pool"],

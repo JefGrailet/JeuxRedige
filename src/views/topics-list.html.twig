@@ -1,0 +1,35 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	{{ dump(list_topics)}}
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./Forum.php",
+   } %}
+	<ul id="articlesPoolIndex" class="large">
+		{% for topic in list_topics %}
+         {% set titleAttr = topic.title ~ " par " ~ topic.author %}
+			<li class="topic-item articleThumbnail topic" style="background-image: url('{{ topic.thumbnail }}');">
+				<div class="thumbnailTime">
+					<p>
+						<i class="icon-general_time" alt="Date du dernier message"></i>
+						<time title="Dernier message posté par {{ topic.lastAuthor }}" datetime="{{ topic.lastPostDate }}">{{ topic.lastPostDate|date("d/m/Y \\à\\ H\\hi") }}</time>
+					</p>
+				</div>
+				<div class="captionThumbnail">
+					<p>
+               {# Article: Star Wars Outlaws - Que vaut le portage Switch 2? (par Ataru) #}
+						<a tabIndex="-1" href="{{ topic.linkTopic }}" title="{{ titleAttr }}">{{ topic.title }}</a>
+                  <a tabIndex="-1" href="{{ topic.linkTopic }}" class="small">Par {{ topic.author }}</a>
+               </p>
+				</div>
+				<a href="{{ topic.linkTopic }}" class="thumbnailClick" title="{{ titleAttr }}"></a>
+			</li>
+
+		{% else %}
+			<li>Aucun sujet de discussion n'a été trouvé</li>
+		{% endfor %}
+	</ul>
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./Forum.php",
+   } %}
+{% endblock %}

@@ -33,7 +33,7 @@
 :root {
    --link-hover-opacity: 0.5;
    --link-color: #3475e5;
-   --top-menu-width: 1200px;
+
    --content-max-width: 1200px;
    --transition-time: 0.3s;
    --root-side-margin: max(env(safe-area-inset-right), 0.75rem);
@@ -96,7 +96,7 @@ body
    max-width: var(--content-max-width);
    margin: auto;
    width: 100%;
-   padding-top: 1.25rem;
+   /* padding-top: 1.25rem; */
 }
 
 
@@ -1418,19 +1418,22 @@ textarea
 {
    position: absolute;
    bottom: 0;
-   width: 260px;
+   left: 0;
+   right: 0;
    min-height: 30px;
    border-radius: 0px 0px 5px 5px;
    background-color: rgba(0, 0, 0, 0.6);
    color: white;
    opacity: 0.8;
    z-index: 1;
+
+
+   &:is(:hover, :focus)
+   {
+      background-color: rgba(0, 0, 0, 0.9);
+   }
 }
 
-.captionThumbnail:hover
-{
-   background-color: rgba(0, 0, 0, 0.9);
-}
 
 /* Cursor stuff and main link (such that a click in the middle of the thumbnail leads to the topic). */
 
@@ -1477,26 +1480,29 @@ textarea
 
 /* Style of the links and text in a thumbnail */
 
-.captionThumbnail p, .captionThumbnailMarked p
-{
-   margin: 0px;
-   padding: 10px 4px;
-   text-align: center;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 0.675rem; /* ~11px */
-   line-height: 130%;
-   color: white;
-}
+:is(.captionThumbnail, .captionThumbnailMarked) {
+   p
+   {
+      margin: 0px;
+      padding: 0.65rem 1rem;
+      text-align: start;
+      font-size: 0.675rem; /* ~11px */
+      line-height: 130%;
+      color: white;
+   }
 
-.captionThumbnail a, .captionThumbnailMarked a
-{
-   color: white;
-   text-decoration: none;
-}
+   a
+   {
+      color: white;
+      text-decoration: none;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
-.captionThumbnail a:hover, .captionThumbnailMarked a:hover
-{
-   color: #91c148;
+      &:is(:hover, :focus) {
+         color: #91c148;
+      }
+   }
 }
 
 /* Style for the links to the last page in a thumbnail */
@@ -1519,6 +1525,11 @@ textarea
    position: relative;
    width: 100%;
    aspect-ratio: 370 / 208;
+
+   &.topic {
+      aspect-ratio: 260 / 162;
+   }
+
    background: none;
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;
@@ -1532,14 +1543,13 @@ textarea
          background-color: rgb(from var(--background) r g b / 1);
       }
 
-      .articleTitles
+      .articleTitles, .captionThumbnail, .thumbnailTime
       {
          background-color: rgba(0, 0, 0, 0.9);
       }
 
-      a
-      {
-         color: #3475e5;
+      &:is(:not(.topic)) a {
+         color: var(--link-color);
       }
 
       > .thumbnailClick
@@ -1579,9 +1589,13 @@ textarea
    {
       text-decoration: none;
       color: white;
-      display: inline-block;
+      display: block;
       width: 100%;
       transition: color var(--transition-time);
+   }
+
+   .small {
+      font-size: 0.9em;
    }
 }
 

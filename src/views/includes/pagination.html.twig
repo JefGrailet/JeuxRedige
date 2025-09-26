@@ -2,13 +2,13 @@
 	<div class="pagination">
 		{% set current_page = query_string.page is defined ? query_string.page : 1 %}
 		<p class="label">Pages :</p>
-		{% for i in 0..nb_pages %}
-			{% set page = i + 1 %}
+		{% for i in 1..nb_pages %}
+			{% set page = i %}
 			<a href="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
 		{% endfor %}
       <select class="dropdownPagination" data-dropdown-redirect>
-         {% for i in 0..nb_pages %}
-            {% set page = i + 1 %}
+         {% for i in 1..nb_pages %}
+            {% set page = i %}
             <option value="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
          {% endfor %}
       </select>

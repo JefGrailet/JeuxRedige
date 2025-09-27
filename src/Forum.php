@@ -117,5 +117,3 @@ echo $twig->render("topics-list.html.twig", [
       "full_title" => "",
    ]
 ]);
-
-// WebpageHandler::wrap($content, 'Forum');

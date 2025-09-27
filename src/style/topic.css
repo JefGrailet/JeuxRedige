@@ -7,6 +7,17 @@
    background-repeat: no-repeat;
 }
 
+.listPosts {
+   display: flex;
+   gap: 1rem;
+   flex-direction: column;
+
+   .post {
+      display: flex;
+      flex-direction: row;
+   }
+}
+
 /**
 * This style sheet defines the style used to render a topic. This sheet is also responsive to the
 * resolution of a browser.
@@ -203,68 +214,78 @@
 .postBlockText {
    display: block;
    overflow: hidden;
-   width: auto;
-   min-width: 625px;
+   flex: 1 1 auto;
+   /* min-width: 625px; */
    min-height: 125px;
    margin: 0px 0px 0px 10px;
    border-radius: 5px;
    background-color: white;
    box-shadow: 0px 0px 3px 0px #646464;
-}
 
-.postBlockText img,
-.postBlockText video {
-   max-width: 100%;
-}
+   .permalink {
+      color: #646464;
+      &:where(:hover, :focus) {
+         color: black!important;
+      }
+   }
 
-.postBlockText h1 {
-   width: auto;
-   min-width: 605px;
-   background-color: black;
-   margin: 0px;
-   border-radius: 5px 5px 0px 0px;
-   color: white;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1.125rem; /* ~18px */
-   padding: 10px;
-}
+   h1, .title {
+      width: auto;
+      min-width: 605px;
+      background-color: black;
+      margin: 0px;
+      border-radius: 5px 5px 0px 0px;
+      color: white;
+      font-size: 1.125rem; /* ~18px */
+      padding: 10px;
+   }
 
-.postBlockText p {
-   margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1rem; /* ~16px */
-   padding: 12px;
-   text-align: justify;
-}
+   h2, .subTitle {
+      margin: 0px;
+      font-size: 1.25rem; /* ~20px */
+      padding: 10px;
+      text-align: justify;
+   }
 
-.postBlockTextTop p {
-   margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1rem; /* ~16px */
-   padding: 10px;
-   text-align: justify;
-   color: #646464;
-}
+   p {
+      margin: 0px;
+      font-size: 1rem; /* ~16px */
+      text-align: justify;
+   }
 
-.postBlockTextTop i {
-   color: black;
-   font-size: 1.25rem; /* ~20px */
-   vertical-align: -3px;
-   margin: 0px 2px;
-   cursor: pointer;
-}
+   .getPostInteractions {
+      appearance: none;
+      background-color: transparent;
 
-.postBlockTextTop .realigned {
-   padding-top: 13px;
-   padding-bottom: 7px;
-}
+      &:where(:hover, :focus) {
+         color: var(--link-color);
+      }
+   }
 
-.postBlockText h2 {
-   margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1.25rem; /* ~20px */
-   padding: 10px;
-   text-align: justify;
+   &:where(.articlePost) {
+      .contentWrapper {
+         padding: 12px;
+      }
+   }
+
+   &:not(.articlePost) {
+      .contentWrapper {
+         padding: 12px;
+      }
+   }
+
+   img, video {
+      max-width: 100%;
+   }
+
+
+   .content {
+      line-clamp: 10;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 10;
+      overflow: hidden;
+   }
 }
 
 .postBlockText ul {
@@ -301,31 +322,57 @@
 /* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
 
 .postBlockTextTop {
-   display: block;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
    width: auto;
    border-radius: 5px 5px 0px 0px;
    background-color: #e9e9e9;
-}
 
-.postBlockTextTopLeftSide {
-   float: left;
-   width: 70%;
+   p {
+      margin: 0px;
+      font-size: 1rem; /* ~16px */
+      /* padding: 10px; */
+      text-align: justify;
+   }
+
+   i {
+      color: black;
+      font-size: 1.25rem; /* ~20px */
+      vertical-align: -3px;
+      margin: 0px 2px;
+      cursor: pointer;
+   }
+
+   .realigned {
+      padding-top: 13px;
+      padding-bottom: 7px;
+   }
 }
 
 .postBlockTextTopRightCorner {
-   float: right;
-   width: 30%;
+   display: flex;
+   align-items: center;
 }
 
-.postBlockTextTopLeftSide .postAuthor {
-   float: left;
-   border-radius: 5px 0px 0px 0px;
-   background-color: black;
-   color: white;
-   font-family: "Roboto", "Arial", sans-serif;
-   margin: 0px;
-   padding: 12px 20px 12px 20px;
-   margin-right: 10px;
+.postBlockTextTopLeftSide {
+   color: #646464;
+   display: flex;
+   gap: 10px;
+   align-items: center;
+
+   .postAuthor {
+      border-radius: 5px 0px 0px 0px;
+      background-color: black;
+      color: white;
+      margin: 0px;
+      padding: 12px 20px;
+      width: fit-content;
+   }
+
+   .postInfos {
+
+   }
 }
 
 /* Link on author's pseudo (link to history of posts) */

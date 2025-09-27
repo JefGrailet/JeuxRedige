@@ -28,9 +28,8 @@
     }
 }
 
-
-
 :root {
+   --black: #171718;
    --link-hover-opacity: 0.5;
    --link-color: #3475e5;
 
@@ -96,7 +95,7 @@ body
    max-width: var(--content-max-width);
    margin: auto;
    width: 100%;
-   /* padding-top: 1.25rem; */
+   padding-top: 1.25rem;
 }
 
 
@@ -435,15 +434,33 @@ input[type=submit]:active, button:active, .customButton:active
 
 .window
 {
-   position: fixed;
-   width: 450px; /* Can be edited by the calling code if needed. */
-   top: 50%;
-   left: 50%;
-   margin-left: -225px;
-   margin-top: -75px;
+   max-width: 600px; /* Can be edited by the calling code if needed. */
+   padding: 0;
    background: white;
-   border-radius: 4px;
+   border-radius: var(--border-radius);
    z-index: 100;
+   border: none;
+   overflow: hidden;
+
+   .header {
+      gap: 1.5rem;
+      height: 30px;
+      background: black;
+      border-radius: 4px 4px 0 0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 0.75rem;
+   }
+
+   .content {
+      padding-inline: 0.75rem;
+      padding-block: 0.625rem;
+      margin: 0px;
+      color: black;
+      font-size: 0.875rem;
+   }
 }
 
 /* Upper part of the dialog window. */
@@ -460,7 +477,6 @@ input[type=submit]:active, button:active, .customButton:active
 
 .windowTitle
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    float: left;
    color: white;
@@ -588,6 +604,32 @@ input[type=submit]:active, button:active, .customButton:active
    width: 433px;
 }
 
+dialog, [popover] {
+   --start-position-y: 50vh;
+   opacity: 0;
+   translate: 0 var(--start-position-y);
+   transition: opacity var(--transition-time) ease-out,
+      translate var(--transition-time) ease-out,
+      overlay var(--transition-time) ease-out allow-discrete,
+      display var(--transition-time) ease-out allow-discrete;
+
+   &[open], &:popover-open {
+      opacity: 1;
+      translate: 0 0;
+   }
+
+   @starting-style {
+      &[open], &:popover-open {
+         opacity: 0;
+         translate: 0 var(--start-position-y);
+      }
+   }
+
+   &::backdrop {
+      background-color: rgba(33, 33, 33, 0.786);
+   }
+}
+
 .formLoginModal {
    overscroll-behavior-y: contain;
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
@@ -600,30 +642,6 @@ input[type=submit]:active, button:active, .customButton:active
    border-width: 1px;
    border-radius: 0.5rem;
    padding: 0;
-
-   --start-position-y: 50vh;
-   opacity: 0;
-   translate: 0 var(--start-position-y);
-   transition: opacity var(--transition-time) ease-out,
-      translate var(--transition-time) ease-out,
-      overlay var(--transition-time) ease-out allow-discrete,
-      display var(--transition-time) ease-out allow-discrete;
-
-   &[open] {
-      opacity: 1;
-      translate: 0 0;
-   }
-
-   @starting-style {
-      &[open] {
-         opacity: 0;
-         translate: 0 var(--start-position-y);
-      }
-   }
-
-   &::backdrop {
-      background-color: rgba(33, 33, 33, 0.786);
-   }
 
    input {
       margin-left: 0;
@@ -650,22 +668,24 @@ input[type=submit]:active, button:active, .customButton:active
       margin: 0;
       /* border-radius: 10px 10px 0px 0px; */
    }
+}
 
-   .closeModal {
-      display: flex;
-      flex-direction: row;
-      gap: 0.5rem;
+.closeModal, .closePopover {
+   display: flex;
+   flex-direction: row;
+   gap: 0.5rem;
+   background-color: transparent;
+   padding: 0;
+   transition: opacity var(--transition-time);
+
+   &:is(:hover, :focus) {
       background-color: transparent;
-      padding: 0;
+      opacity: var(--link-hover-opacity);
+   }
 
-      &:is(:hover, :focus) {
-         opacity: var(--link-hover-opacity);
-      }
-
-      svg {
-         flex-shrink: 0;
-         width: 20px;
-      }
+   svg {
+      flex-shrink: 0;
+      width: 20px;
    }
 }
 
@@ -1498,25 +1518,19 @@ textarea
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+   }
 
-      &:is(:hover, :focus) {
+   /* Style for the links to the last page in a thumbnail */
+   .lastPage {
+      color: var(--link-color);
+      text-decoration: none;
+
+      &:hover {
          color: #91c148;
       }
    }
 }
 
-/* Style for the links to the last page in a thumbnail */
-
-.captionThumbnail .lastPage, .captionThumbnailMarked .lastPage
-{
-   color: #3475e5;
-   text-decoration: none;
-}
-
-.captionThumbnail .lastPage:hover, .captionThumbnailMarked .lastPage:hover
-{
-   color: #91c148;
-}
 
 /* Style for article thumbnails and highlights */
 
@@ -1550,6 +1564,12 @@ textarea
 
       &:is(:not(.topic)) a {
          color: var(--link-color);
+      }
+
+      &:has(.captionThumbnail, .captionThumbnailMarked) {
+         a {
+            color: #91c148;
+         }
       }
 
       > .thumbnailClick

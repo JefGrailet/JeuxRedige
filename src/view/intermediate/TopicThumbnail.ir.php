@@ -86,7 +86,6 @@ class TopicThumbnailIR
    public static function compute($topic) {
       $payload = [
          'thumbnail' => PathHandler::getTopicThumbnail($topic['thumbnail'], $topic['id_topic']),
-         'icons' => '',
          'lastAuthor' => $topic['last_author'],
          'lastPostDate' => $topic['last_post'],
          'marked' => '',
@@ -102,6 +101,20 @@ class TopicThumbnailIR
          $favorited = true;
 
       $payload["isFavorite"] = $favorited;
+
+      $icons = [];
+      if ($topic['created_as'] === 'author')
+         array_push($icons, ["class" => "icon-general_content", "alt" => "Réactions à un article", "title" => "Réactions à un article"]);
+      if (Utils::check($topic['is_anon_posting_enabled']))
+         array_push($icons, ["class" => "icon-general_anonymous", "alt" => "Posts anonymes autorisés", "title" => "Posts anonymes autorisés"]);
+      if (Utils::check($topic['is_locked']))
+         array_push($icons, ["class" => "icon-topic_lock", "alt" => "Sujet verrouillé", "title" => "Sujet verrouillé"]);
+      if ($favorited)
+         array_push($icons, ["class" => "icon-general_star", "alt" => "Sujet favori", "title" => "Sujet favori"]);
+      $payload["icons"] = $icons;
+
+      if (Utils::check($topic['is_marked']))
+         $payload['marked'] = 'Marked';
 
       return $payload;
    }

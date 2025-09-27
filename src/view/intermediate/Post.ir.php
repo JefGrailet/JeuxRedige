@@ -3,7 +3,7 @@
 class PostIR
 {
    /*
-   * Converts the array modelizing a post into an intermediate representation, ready to be used in 
+   * Converts the array modelizing a post into an intermediate representation, ready to be used in
    * a template. The intermediate representation is a new array containing:
    *
    * -ID of the post
@@ -28,27 +28,27 @@ class PostIR
    public static function process($post, $index, $interactive = true)
    {
       $webRootPath = PathHandler::HTTP_PATH();
-      
+
       // Special case: if the post is automatic, $interactive is reset to false
       if($post['posted_as'] === 'author')
          $interactive = false;
-      
-      $output = array('ID' => $post['id_post'], 
-      'index' => '', 
-      'topLeftPart' => '', 
-      'authorPseudo' => $post['author'], 
-      'authorAvatar' => $webRootPath.'defaultavatar.jpg', 
+
+      $output = array('ID' => $post['id_post'],
+      'index' => '',
+      'topLeftPart' => '',
+      'authorPseudo' => $post['author'],
+      'authorAvatar' => $webRootPath.'defaultavatar.jpg',
       'authorStyle' => '',
       'authorType' => '',
-      'date' => Utils::printDate($post['date']), 
-      'editionLink' => '', 
-      'quoteLink' => '', 
+      'date' => Utils::printDate($post['date']),
+      'editionLink' => '',
+      'quoteLink' => '',
       'pinButton' => '',
-      'score' => '', 
-      'report' => '', 
-      'content' => '', 
+      'score' => '',
+      'report' => '',
+      'content' => '',
       'showAttachment' => '');
-      
+
       // Top left part: index of the post in the parent topic or link to replace in context
       if($index <= 0)
       {
@@ -60,11 +60,11 @@ class PostIR
          $output['index'] = $index;
          $output['topLeftPart'] = '<strong>#'.$index.'</strong>';
       }
-      
+
       // Avatar, style of the author's pseudonym and online status
       if($post['posted_as'] !== 'anonymous')
          $output['authorAvatar'] = PathHandler::getAvatar($post['author']);
-      
+
       if($post['posted_as'] === 'anonymous')
       {
          $output['authorStyle'] = ' style="background-color: #557083;" title="Anonyme"';
@@ -84,33 +84,33 @@ class PostIR
             $output['authorStyle'] = ' style="background-color: #38883f;" title="En ligne"';
          $output['authorType'] = 'user';
       }
-      
+
       // If author is not anonymous, a link to User.php with his/her history is added
       if($post['posted_as'] !== 'anonymous' && $post['posted_as'] !== 'administrator')
       {
          $output['authorPseudo'] = '<a href="'.PathHandler::userURL($post['author']).'" target="_blank" class="authorPseudo">'.$post['author'].'</a>';
       }
-      
+
       // Permanent link (or permalink)
       $output['permalink'] = ' &nbsp;<a href="'.$webRootPath.'Permalink.php?id_post='.$post['id_post'].'" target="_blank">';
       $output['permalink'] .= '<i class="icon-general_hyperlink" title="Lien permanent"></i></a>';
-      
+
       // Edition link
       $output['editionLink'] = '';
-      
+
       if($interactive && LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) OR (($post['author'] === LoggedUser::$data['pseudo']
          || $post['author'] === LoggedUser::$data['used_pseudo']) && $post['posted_as'] !== 'anonymous')))
       {
          $output['editionLink'] .= ' &nbsp;<a href="'.$webRootPath.'EditMessage.php?id_post='.$post['id_post'].'">';
          $output['editionLink'] .= '<i class="icon-general_edit" title="Editer"></i></a>';
       }
-      
+
       // Quote link and pin/unpin buttons
-      if($interactive && LoggedUser::isLoggedIn() && $post['author'] !== LoggedUser::$data['pseudo'] && 
+      if($interactive && LoggedUser::isLoggedIn() && $post['author'] !== LoggedUser::$data['pseudo'] &&
          $post['author'] !== LoggedUser::$data['used_pseudo'])
       {
          $output['editionLink'] .= ' &nbsp;<i class="quote icon-general_quote" data-id-post="'.$post['id_post'].'" title="Citer"></i>';
-         
+
          if(strlen($post['user_pin']) > 0)
          {
             $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_unpin" data-id-post="'.$post['id_post'].'" title="'.$post['user_pin'].'"></i></a>';
@@ -120,14 +120,14 @@ class PostIR
             $output['pinButton'] .= ' &nbsp;<i class="pin icon-general_pin" data-id-post="'.$post['id_post'].'" title="Ajouter ce message à mes favoris"></i></a>';
          }
       }
-      
+
       // Scoring part of the post
       $scorePart = '';
       $finalScore = $post['nb_likes'] - $post['nb_dislikes'];
-      
+
       $whoLikes = ''.$post['nb_likes'].' J\'aime, '.$post['nb_dislikes'].' Je n\'aime pas';
       $whoLikes = ' <i class="postInteractions icon-general_info" data-id-post="'.$post['id_post'].'" data-likes="'.$post['nb_likes'].'" data-dislikes="'.$post['nb_dislikes'].'" title="'.$whoLikes.'"></i>';
-      
+
       // The way like/dislike buttons are displayed depends on whether the user is logged and/or voted
       if($interactive && LoggedUser::isLoggedIn() && (($post['author'] !== LoggedUser::$data['pseudo'] && $post['author'] !== LoggedUser::$data['used_pseudo']
          && $post['author'] !== LoggedUser::$data['function_pseudo']) || $post['posted_as'] === 'anonymous'))
@@ -139,9 +139,9 @@ class PostIR
             $opacityLike = ' opacity: 0.2;';
          else if($vote > 0)
             $opacityDislike = ' opacity: 0.2;';
-         
+
          // Useful note: user_vote does not have to exist in the array if $interactive is set to false.
-         
+
          if($finalScore > 0)
             $scorePart = '<span style="color: green;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-id-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">+'.$finalScore.'</span>&nbsp; ';
          else if($finalScore == 0)
@@ -149,9 +149,9 @@ class PostIR
          else
             $scorePart = '<span style="color: red;" class="votes" id="score'.$index.'" data-score="'.$finalScore.'" data-id-post="'.$post['id_post'].'" data-has-voted="'.$vote.'">'.$finalScore.'</span>&nbsp; ';
          $scorePart .= $whoLikes.'&nbsp;';
-         
-         $scorePart .= ' 
-         <i class="vote icon-general_thumb_up" style="color: #6ea838;'.$opacityLike.'" data-id-post="'.$post['id_post'].'" data-vote="1" title="J\'aime"></i> 
+
+         $scorePart .= '
+         <i class="vote icon-general_thumb_up" style="color: #6ea838;'.$opacityLike.'" data-id-post="'.$post['id_post'].'" data-vote="1" title="J\'aime"></i>
          <i class="vote icon-general_thumb_down" style="color: #b5000f;'.$opacityDislike.'" data-id-post="'.$post['id_post'].'" data-vote="-1" title="Je n\'aime pas"></i>
          ';
       }
@@ -166,9 +166,9 @@ class PostIR
             $scorePart = '<span style="color: red;" id="score'.$index.'" data-score="'.$finalScore.'" >'.$finalScore.'</span>&nbsp; ';
          $scorePart .= $whoLikes;
       }
-      
+
       $output['score'] = $scorePart;
-      
+
       // Report part of the post
       if($interactive && LoggedUser::isLoggedIn() && LoggedUser::$data['pseudo'] !== $post['author'] && LoggedUser::$data['function_pseudo'] !== $post['author'])
       {
@@ -184,7 +184,7 @@ class PostIR
             $output['report'] = '<i class="reported icon-general_alert" style="opacity: 1.0; cursor: default;" title="'.$alertDetails.'"></i>';
          }
       }
-      
+
       // Finally, we prepare the content itself
       $displayModifications = '';
       if($post['nb_edits'] > 0)
@@ -199,7 +199,7 @@ class PostIR
          $displayModifications .= ' (<a href="'.$webRootPath.'PostHistory.php?id_post='.$post['id_post'];
          $displayModifications .= '" target="_blank">historique complète</a>).</p>';
       }
-      
+
       // Message is masked if reported too many times or reported by an admin
       if($post['bad_score'] >= 10)
       {
@@ -225,10 +225,10 @@ class PostIR
          </p>
          '.$displayModifications;
       }
-      
+
       // Strips empty <p></p> HTML tags
       $output['content'] = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $output['content']);
-      
+
       // Attachment part (the parsing is currently done here)
       if(strlen($post['attachment']) > 0)
       {
@@ -237,7 +237,7 @@ class PostIR
          {
             $attachPrefix = substr($post['attachment'], 0, $posColon);
             $attachContent = substr($post['attachment'], $posColon + 1);
-            
+
             // Parses the display policy (if any)
             $displayPolicy = '';
             $hiddenPolicies = array('noshow', 'noshownsfw', 'noshowspoiler');
@@ -247,7 +247,7 @@ class PostIR
                $attachPrefix = $prefixSplitted[0];
                $displayPolicy = $prefixSplitted[1];
             }
-            
+
             if($attachPrefix === 'uploads' && !in_array($displayPolicy, $hiddenPolicies))
             {
                $uploadsArr = explode(',', $attachContent);
@@ -255,7 +255,7 @@ class PostIR
                $filePathPrefix = PathHandler::WWW_PATH().'upload/topics/'.$post['id_topic'].'/';
                $httpPathPrefix .= $post['id_post'].'_';
                $filePathPrefix .= $post['id_post'].'_';
-               
+
                $uploadDisplay = '';
                $IDInGallery = 0;
                $fullInput = array();
@@ -268,12 +268,12 @@ class PostIR
                      if(in_array($extension, Utils::UPLOAD_OPTIONS['miniExtensions']))
                      {
                         $IDInGallery++;
-                     
+
                         $explodedUpload = explode('_', $uploadsArr[$i], 2);
                         $uploader = $explodedUpload[0];
                         $miniature = $httpPathPrefix.$uploader.'_mini_'.substr($explodedUpload[1], 5);
                         $dimensions = getimagesize($filePath);
-                        
+
                         $tplInput = array('fullSize' => $httpPathPrefix.$uploadsArr[$i],
                         'dimensions' => 'yes||'.$dimensions[0].'|'.$dimensions[1],
                         'uploader' => $uploader,
@@ -283,16 +283,16 @@ class PostIR
                         'slideshowPrevious' => '',
                         'slideshowNext' => '',
                         'content' => 'picture||'.$miniature);
-                        
+
                         array_push($fullInput, $tplInput);
                      }
                      else
                      {
                         $IDInGallery++;
-                        
+
                         $explodedUpload = explode('_', $uploadsArr[$i], 2);
                         $uploader = $explodedUpload[0];
-                        
+
                         $tplInput = array('fullSize' => $httpPathPrefix.$uploadsArr[$i],
                         'dimensions' => '',
                         'uploader' => $uploader,
@@ -302,16 +302,16 @@ class PostIR
                         'slideshowPrevious' => '',
                         'slideshowNext' => '',
                         'content' => 'video||'.$httpPathPrefix.$uploadsArr[$i].'|'.$extension);
-                        
+
                         array_push($fullInput, $tplInput);
                      }
                   }
                }
-               
+
                if(count($fullInput) > 0)
                {
                   $tplOutput = TemplateEngine::parseMultiple('view/content/Upload.item.display.ctpl', $fullInput);
-                  
+
                   if(!TemplateEngine::hasFailed($tplOutput))
                   {
                      $first = true;
@@ -325,23 +325,23 @@ class PostIR
                      }
                   }
                }
-               
+
                if(strlen($uploadDisplay) > 0)
                {
                   $showingAttachment = 'yes||'.$post['id_post'].'|';
                   if($post['bad_score'] >= 10 || strlen($displayPolicy) > 0)
                   {
-                     $showingAttachment .= '<p><a href="javascript:void(0)" class="link_masked_attachment" 
-                     data-id-post="'.$post['id_post'].'">Cliquez ici</a> 
+                     $showingAttachment .= '<p><a href="javascript:void(0)" class="link_masked_attachment"
+                     data-id-post="'.$post['id_post'].'">Cliquez ici</a>
                      pour afficher/masquer les uploads liés à ce message';
-                     
+
                      if($post['bad_score'] >= 10)
                         $showingAttachment .= ' (<strong>censuré</strong>)';
                      else if($displayPolicy === 'spoiler')
                         $showingAttachment .= ' (<strong>spoilers</strong>)';
                      else if($displayPolicy === 'nsfw')
                         $showingAttachment .= ' (<strong>contenu mature</strong>)';
-                     
+
                      $showingAttachment .= '.</span></p>'."\n";
                      $showingAttachment .= '<div id="maskedAttachment'.$post['id_post'].'" style="display: none;">'."\n";
                      $showingAttachment .= $uploadDisplay;
@@ -351,13 +351,73 @@ class PostIR
                   {
                      $showingAttachment .= $uploadDisplay."\n";
                   }
-                  
+
                   $output['showAttachment'] = $showingAttachment;
                }
             }
          }
       }
-      
+
+      return $output;
+   }
+
+   public static function compute($post, $index, $interactive = true)
+   {
+      $webRootPath = PathHandler::HTTP_PATH();
+      if($post['posted_as'] === 'author')
+         $interactive = false;
+
+      $output = array('ID' => $post['id_post'],
+         'index' => $index <= 0 ? $post['id_post'] : $index,
+         'author' => [
+            "pseudo" => $post['author'],
+            "avatar" => $webRootPath . 'defaultavatar.jpg',
+            "type" => "",
+            "style" => "",
+         ],
+         'date' => $post['date'],
+         'editionLink' => '',
+         'quoteLink' => '',
+         'pinButton' => '',
+         'report' => '',
+         'content' => '',
+         'showAttachment' => '',
+         'score' => $post['nb_likes'] - $post['nb_dislikes'],
+         'nb_likes' => $post['nb_likes'],
+         'nb_dislikes' => $post['nb_dislikes'],
+         'permalink' => $webRootPath . 'Permalink.php?id_post=' . $post['id_post'],
+         'content' => $post["content"],
+         'nb_edits' => $post["nb_edits"],
+         'last_editor' => $post["last_editor"],
+         'attachment' => $post["attachment"],
+         'last_edit' => $post["last_edit"],
+      );
+
+      if($post['posted_as'] !== 'anonymous') {
+         $output["author"]["avatar"] = PathHandler::getAvatar($post['author']);
+         if ($post['posted_as'] !== 'administrator') {
+            $output["author"]["profileUrl"] = PathHandler::userURL($post['author']);
+         }
+      }
+
+      if($post['posted_as'] === 'anonymous')
+      {
+         $output["author"]["type"] = 'anon';
+      }
+      else if ($post['posted_as'] === 'administrator')
+      {
+         $output["author"]["type"] = 'admin';
+      } else {
+         $output["author"]["type"] = 'user';
+      }
+
+      $output['editionLink'] = '';
+
+      if($interactive && LoggedUser::isLoggedIn() && (Utils::check(LoggedUser::$data['can_edit_all_posts']) OR (($post['author'] === LoggedUser::$data['pseudo']
+         || $post['author'] === LoggedUser::$data['used_pseudo']) && $post['posted_as'] !== 'anonymous'))) {
+            $output['editionLink'] = $webRootPath . 'EditMessage.php?id_post=' . $post['id_post'];
+      }
+
       return $output;
    }
 }

@@ -12,7 +12,7 @@
 				<div class="thumbnailTime">
 					<p>
 						<i class="icon-general_time" alt="Date du dernier message"></i>
-						<time title="Dernier message posté par {{ topic.lastAuthor }}" datetime="{{ topic.lastPostDate }}">{{ topic.lastPostDate|date("d/m/Y \\à\\ H\\hi") }}</time>
+						<time title="Dernier message posté par {{ topic.lastAuthor }} à {{ topic.lastPostDate|date("d/m/Y H\\hi") }}" datetime="{{ topic.lastPostDate }}">{{ topic.lastPostDate|date("d/m/Y \\à\\ H\\hi") }}</time>
 					</p>
 				</div>
 				<div class="captionThumbnail">
@@ -24,7 +24,6 @@
 				</div>
 				<a href="{{ topic.linkTopic }}" class="thumbnailClick" title="{{ titleAttr }}"></a>
 			</li>
-
 		{% else %}
 			<li>Aucun sujet de discussion n'a été trouvé</li>
 		{% endfor %}

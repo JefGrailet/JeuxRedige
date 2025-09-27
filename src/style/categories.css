@@ -2,8 +2,10 @@
    display: flex;
    flex-direction: row;
    justify-content: center;
+   align-items: center;
    margin-top: 3rem;
    margin-inline: var(--root-side-margin);
+   gap: 1.75rem;
 
    .listCategories {
       list-style: none;
@@ -65,34 +67,6 @@
 
       span {
          color: white;
-      }
-   }
-
-   .filterLink {
-      display: flex;
-      align-self: flex-start;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-left: 1.75rem;
-      padding-block: 0.46rem;
-      color: var(--link-color);
-
-      &:is(:focus, :hover) {
-         background-color: oklch(from currentColor calc(l * 0.6) c h);
-
-         span {
-            color: white;
-         }
-
-         svg {
-            fill: white;
-         }
-      }
-
-      svg {
-         aspect-ratio: 1;
-         width: 1.5rem;
       }
    }
 }

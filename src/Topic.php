@@ -243,12 +243,13 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
    // Generates the whole page
    // $display = TemplateEngine::parse('view/content/Topic.composite.ctpl', $finalTplInput);
    // WebpageHandler::wrap($display, 'Sujet: '.$topic->get('title').'', $dialogs);
-
+   $topicObject = $topic->getAll();
    echo $twig->render("topic.html.twig", [
       "list_posts" => $postsComputed,
+      "topic" => $topic->getAll(),
       "list_css_files" => ["topic"],
       "list_js_files" => ["get_post_interactions", "post_interaction", "jquery.visible", "pages", "refresh"],
-      // "page_title" => "{$currentCategory} Page {$currentPage}",
+      "page_title" => "Sujet {$topicObject["title"]}",
       "nb_pages" => 2,
       "meta" => [
          ...$twig->getGlobals()["meta"],

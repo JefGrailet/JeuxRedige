@@ -11,10 +11,30 @@
    display: flex;
    gap: 1rem;
    flex-direction: column;
+   padding-left: 0;
 
    .post {
       display: flex;
       flex-direction: row;
+   }
+}
+
+.topicSummary {
+   margin-bottom: 2rem;
+
+   .title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+   }
+
+   .subtitle {
+      margin: 0;
+      font-size: 1.25rem;
+   }
+
+   .extraInfos {
+      margin: 0;
    }
 }
 
@@ -203,10 +223,15 @@
 }
 
 .postBlockAvatar {
-   width: 125px;
-   height: 125px;
+   width: 90px;
+   height: 90px;
    border-radius: 5px;
    box-shadow: 0px 0px 3px 0px #646464;
+
+   @media screen and (width >= 640px) {
+      width: 125px;
+      height: 125px;
+   }
 }
 
 /* Text part of a post */
@@ -224,8 +249,12 @@
 
    .permalink {
       color: #646464;
+      padding: 12px 20px;
       &:where(:hover, :focus) {
          color: black!important;
+      }
+      @media screen and (width >= 640px) {
+         padding: 0;
       }
    }
 
@@ -328,6 +357,11 @@
    width: auto;
    border-radius: 5px 5px 0px 0px;
    background-color: #e9e9e9;
+   align-items: start;
+
+   @media screen and (width >= 640px) {
+      align-items: center;
+   }
 
    p {
       margin: 0px;
@@ -353,13 +387,19 @@
 .postBlockTextTopRightCorner {
    display: flex;
    align-items: center;
+   padding: 12px 0;
 }
 
 .postBlockTextTopLeftSide {
    color: #646464;
    display: flex;
-   gap: 10px;
+   column-gap: 10px;
    align-items: center;
+   flex-direction: column;
+
+   @media screen and (width >= 640px) {
+      flex-direction: row;
+   }
 
    .postAuthor {
       border-radius: 5px 0px 0px 0px;
@@ -367,7 +407,11 @@
       color: white;
       margin: 0px;
       padding: 12px 20px;
-      width: fit-content;
+      width: 100%;
+
+      @media screen and (width >= 640px) {
+         width: fit-content;
+      }
    }
 
    .postInfos {

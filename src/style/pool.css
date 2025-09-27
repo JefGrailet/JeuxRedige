@@ -64,7 +64,6 @@
    padding: 0;
    display: grid;
    gap: var(--articles-grid-gap);
-   margin-inline: var(--root-side-margin);
    grid-template-columns: repeat(1, 1fr);
 
    @media screen and (width > 640px) {

@@ -3,7 +3,6 @@
    flex-direction: row;
    gap: 0.25rem;
    justify-content: center;
-   align-items: center;
 
    .label {
       color: white;

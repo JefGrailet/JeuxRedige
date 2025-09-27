@@ -15,7 +15,6 @@
    }
 
    margin: auto;
-   margin-inline: var(--root-side-margin);
    gap: var(--articles-grid-gap);
 }
 

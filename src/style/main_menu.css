@@ -84,9 +84,9 @@
    }
 }
 
-body:not(.logged) .userPseudo {
+/* body:not(.logged) .userPseudo {
    display: initial!important;
-}
+} */
 
 .mainMenuItemsContainer {
    display: flex;

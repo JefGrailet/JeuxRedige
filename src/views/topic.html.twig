@@ -2,9 +2,14 @@
 
 {% block content %}
 	<div data-page="">
+      <header class="topicSummary">
+         <p class="subtitle">Sujet :</p>
+         <h1 class="title">{{ topic.title }}</h1>
+         <p class="extraInfos">Crée par {{ topic.author }} le {{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</p>
+         {# {{ dump(topic)}} #}
+      </header>
 		<ul class="listPosts">
 			{% for post in list_posts %}
-				{# {{ dump(post)}} #}
 				<li class="post">
 					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
 					<div class="postBlockText">
@@ -19,7 +24,7 @@
 									<p class="postInfos">
 										<b>#{{ post.index }}</b>
 										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\hi\\:s") }}</time>
+										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
 										<i class="icon-general_hyperlink" title="Lien permanent"></i>
 									</p>
 								</a>

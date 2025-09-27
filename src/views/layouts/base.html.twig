@@ -68,7 +68,10 @@
 </head>
 <body{{ is_user_logged ? ' class="logged"'}}>
    {% include 'includes/header.html.twig' %}
-   <main id="main"> {% block content %}{% endblock %}
+   <main id="main">
+      <div class="wrapper">
+      {% block content %}{% endblock %}
+      </div>
       </main>
       {% include 'includes/footer.html.twig' %}
 

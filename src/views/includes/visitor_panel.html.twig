@@ -1,6 +1,6 @@
 <button class="loginButton" data-trigger-modal="form-login">
    <img
-      src="{{ webRoot }}defaultavatar-small.jpg"
+      src="{{ webRoot }}/defaultavatar-small.jpg"
       class="avatarMini"
       alt="Avatar mini"
    />
@@ -28,7 +28,7 @@
       </button>
    </header>
    <div class="content">
-      <form method="post" action="{{ webRoot }}LogIn.php" data-form-schema-validation="login">
+      <form method="post" action="{{ webRoot }}/LogIn.php" data-form-schema-validation="login">
          <script type="text/schema" data-form-schema="login">
             return z.object({
                pseudo: z.string().min(1, {error: "Vous devez entrer un pseudo" }),
@@ -36,7 +36,7 @@
             })
          </script>
          <ul class="alert error" role="alert" data-form-error="login"></ul>
-         <input type="hidden" name="redirection" value="{$logInRedirection}" />
+         <input type="hidden" name="redirection" value="{{ logInRedirection }}" />
 
          <div class="inputContainer">
             <label for="pseudo">Pseudo</label>
@@ -69,10 +69,10 @@
 
          <footer>
             <p>
-               <a href="{{ webRoot }}Registration.php" class="link"
+               <a href="{{ webRoot }}/Registration.php" class="link"
             >Créer un compte</a
                ><br />
-               <a href="{{ webRoot }}PasswordReset.php" class="link"
+               <a href="{{ webRoot }}/PasswordReset.php" class="link"
                   >Mot de passe perdu ?</a
                >
             </p>

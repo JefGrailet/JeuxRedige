@@ -16,6 +16,7 @@
    .post {
       display: flex;
       flex-direction: row;
+      gap: 0.625rem;
    }
 }
 
@@ -49,9 +50,13 @@
    }
 
    .title {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: bold;
       margin: 0;
+
+      @media screen and (width >= 640px) {
+         font-size: 2rem;
+      }
 
       @supports (animation-timeline: scroll()) {
          animation-name: summaryTitle;
@@ -78,13 +83,24 @@
    .extraInfos {
       margin: 0;
       font-size: 0.85rem;
+      @supports (animation-timeline: scroll()) {
+         animation-name: hideSummarySubtitle;
+         animation-timeline: scroll();
+         animation-range: 0 200px;
+         animation-timing-function: linear;
+         animation-fill-mode: both;
+
+         @media screen and (width >= 640px) {
+            animation-name: none;
+         }
+      }
    }
 }
 
 @keyframes summary {
   to {
-    padding-block: 10px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .26);
+   padding-block: 10px;
+   box-shadow: 0 2px 3px 0px  #646464a9;
   }
 }
 
@@ -121,7 +137,6 @@
    margin-top: 15px;
    margin-bottom: 10px;
    color: black;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
@@ -148,7 +163,6 @@
 .messagesNav .topicOptions {
    margin: 0px;
    color: black;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
@@ -161,7 +175,6 @@
    padding: 6px 15px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
@@ -177,7 +190,6 @@
    padding: 6px 15px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
@@ -189,7 +201,6 @@
 }
 
 .messagesNav select {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding: 4px 3px;
    margin: 0px 4px;
@@ -200,7 +211,6 @@
    color: white;
    padding: 6px 15px;
    border-radius: 4px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
 }
@@ -209,7 +219,6 @@
    margin-bottom: 15px;
    padding: 5px;
    color: black;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: center;
 }
@@ -309,9 +318,7 @@
    display: block;
    overflow: hidden;
    flex: 1 1 auto;
-   /* min-width: 625px; */
    min-height: 125px;
-   margin: 0px 0px 0px 10px;
    border-radius: 5px;
    background-color: white;
    box-shadow: 0px 0px 3px 0px #646464;
@@ -396,7 +403,6 @@
 
 .postBlockText li {
    list-style: none;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    margin-top: 10px;
@@ -436,8 +442,6 @@
    p {
       margin: 0px;
       font-size: 1rem; /* ~16px */
-      /* padding: 10px; */
-      text-align: justify;
    }
 
    i {
@@ -496,7 +500,6 @@
 .postBlockTextTopLeftSide .postAuthor a {
    text-decoration: none;
    color: white;
-   font-family: "Roboto", "Arial", sans-serif;
 }
 
 .postBlockTextTopLeftSide .postAuthor a:hover {
@@ -526,7 +529,6 @@
 
 .postAttachmentAlign p {
    margin: 0px 0px 15px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    color: black;
    text-align: justify;
@@ -611,7 +613,6 @@
 
 .pagePlaceholder p {
    margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 10px;
    text-align: center;
@@ -681,7 +682,6 @@
 .plainBlock p,
 #slidingBlock p {
    margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    padding: 10px 17px 15px 17px;
    text-align: justify;
@@ -699,7 +699,6 @@
 }
 
 .plainBlock h1 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    font-weight: normal;
    text-align: justify;
@@ -710,7 +709,6 @@
 }
 
 #slidingBlock h1 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    color: white;
@@ -739,7 +737,6 @@
 
 #navMenu p {
    background: none;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding-left: 10px;
    padding-right: 10px;
@@ -755,7 +752,6 @@
    border: none;
    background-color: white;
    color: black;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    margin-right: 6px;
    padding: 4px;
@@ -925,7 +921,6 @@
 }
 
 #postsContainer .centeredText {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    color: black;
    text-align: center;
@@ -939,7 +934,6 @@
    padding: 10px 20px;
    border-radius: 4px;
    box-shadow: 0px 0px 3px 0px #646464;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    border: none;
 }

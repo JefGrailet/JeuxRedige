@@ -7,11 +7,11 @@
          {{ page_title }}
          — JeuxRedige.com</title>
       <meta charset="UTF-8"/>
-      <link rel="stylesheet" href="{{webRoot}}style/default.css"/>
-      <link rel="stylesheet" href="{{webRoot}}style/pagination.css"/>
-      <link rel="stylesheet" href="{{webRoot}}style/main_menu.css"/>
-      <link rel="stylesheet" href="{{webRoot}}style/icons.css"/>
-      <link rel="stylesheet" href="{{webRoot}}style/alert.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/default.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/pagination.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/main_menu.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/icons.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/alert.css"/>
 
       <meta name="theme-color" content="black"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -40,21 +40,23 @@
       {% endif %}
 
       {% for css_file in list_css_files %}
-         <link rel="stylesheet" href="{{ webRoot ~ "style/" ~ css_file ~ ".css" }}">
+         <link rel="stylesheet" href="{{ webRoot ~ "/style/" ~ css_file ~ ".css" }}">
       {% endfor %}
+
 
       <script text="text/javascript">
          const ConfigurationValues = {};
-         ConfigurationValues.HTTP_PATH = "{{ webRoot }}";
+         ConfigurationValues.HTTP_PATH = "{{ webRoot }}/";
       </script>
-      <script type="text/javascript" src="{{ webRoot }}javascript/jquery-3.7.1.min.js" defer></script>
-      <script type="text/javascript" src="{{ webRoot }}javascript/default{{ extJS }}" defer></script>
-      <script type="text/javascript" src="{{ webRoot }}javascript/modal_manager{{ extJS }}" defer></script>
-      {% for js_file in list_js_files %}
+      <script type="text/javascript" src="{{ webRoot }}/javascript/jquery-3.7.1.min.js" defer></script>
+      <script type="text/javascript" src="{{ webRoot }}/javascript/default{{ extJS }}" defer></script>
+      <script type="text/javascript" src="{{ webRoot }}/javascript/modal_manager{{ extJS }}" defer></script>
+      {% set list_js_files = list_js_files ? list_js_files : [] %}
+      {% for js_file in list_js_files|merge(base_js_files) %}
          {% if js_file is iterable %}
-            <script type='module' src="{{ webRoot ~ "javascript/" ~ js_file.file ~ extJS }}"></script>
+            <script type='module' src="{{ webRoot ~ "/javascript/" ~ js_file.file ~ extJS }}"></script>
          {% else %}
-         <script type="text/javascript" src="{{ webRoot ~ "javascript/" ~ js_file ~ extJS }}" defer></script>
+         <script type="text/javascript" src="{{ webRoot ~ "/javascript/" ~ js_file ~ extJS }}" defer></script>
          {% endif %}
       {% endfor %}
 

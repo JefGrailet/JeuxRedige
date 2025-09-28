@@ -8,8 +8,7 @@ $twig = new \Twig\Environment($loader, [
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
-
-$twig->addGlobal("webRoot", PathHandler::HTTP_PATH());
+$twig->addGlobal("webRoot", substr(PathHandler::HTTP_PATH(), 0, -1));
 $twig->addGlobal("extJS", PathHandler::JS_EXTENSION());
 $twig->addGlobal("JSFiles", "");
 $twig->addGlobal("autoJS", "");
@@ -90,7 +89,7 @@ parse_str($_SERVER["QUERY_STRING"], $queryString);
 $twig->addGlobal("query_string", $queryString);
 $twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");
 $twig->addGlobal("selectedLogo", empty($twig->getGlobals()["current_category"]) ? "default" : $twig->getGlobals()["current_category"]);
-$twig->addGlobal("list_js_files", ["toggle_input_visibility", ["file" => "form_validation"]]);
+$twig->addGlobal("base_js_files", ["toggle_input_visibility", ["file" => "form_validation"]]);
 
 
 $filter = new \Twig\TwigFilter('since_days', function ($charset) {

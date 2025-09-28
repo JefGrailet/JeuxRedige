@@ -12,7 +12,7 @@
                })
 				</script>
             <ul class="alert error" data-form-error="login">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
-
+            <input type="hidden" name="redirection" value="{{ logInRedirection }}" />
 				<div class="inputContainer">
 					<label for="pseudo">Pseudo</label>
 					<input type="text" style="flex-grow: 1" name="pseudo" id="pseudo">

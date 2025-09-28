@@ -109,7 +109,7 @@ if(!empty($_POST))
              *  cracked and we want to avoid this.
              */
 
-            if($_POST['rememberMe'] == 'on')
+            if(array_key_exists('rememberMe', $_POST) && $_POST['rememberMe'] == 'on')
             {
                $expire = time() + (60 * 60 * 24 * 100);
                setcookie('pseudonym', $user->get('pseudo'), $expire);
@@ -140,8 +140,9 @@ if(!empty($_POST))
 
 echo $twig->render("log-in.html.twig", [
    "page_title" => "Connexion",
-    "form_error_messages_triggered" => $formErrorMessagesTriggered,
-    "list_sentences" => [],
+   "form_error_messages_triggered" => $formErrorMessagesTriggered,
+   "list_sentences" => [],
+   "logInRedirection" => $twig->getGlobals()["webRoot"],
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "Connexion - JeuxRédige",

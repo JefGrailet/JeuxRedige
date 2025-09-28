@@ -77,6 +77,10 @@ a {
    color: var(--link-color);
    text-decoration: none;
 
+   &:has(svg) {
+      display: inline-flex;
+   }
+
    &:hover, &:focus {
       text-decoration: underline;
       color: oklch(from var(--link-color) calc(l * .75) c h);

@@ -3,7 +3,7 @@
 {% block fullWidthBanner %}
 <header class="fullBanner topicSummary">
    <div class="wrapper">
-      <a href="/Forum.php"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg></a>
+      <a href="/Forum.php" title="Retourner à la liste des sujets"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg></a>
       <div class="infos">
          <p class="subtitle">Sujet :</p>
          <h1 class="title">{{ topic.title }}</h1>
@@ -21,6 +21,7 @@
 	<div data-page="">
 		<ul class="listPosts">
 			{% for post in list_posts %}
+            {% for i in 0..10 %}
 				<li class="post">
 					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
 					<div class="postBlockText">
@@ -42,7 +43,6 @@
 							</div>
 							<div class="postBlockTextTopRightCorner">
 								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
 									<i class="postInteractions icon-general_info"></i>
 								</button>
 							</div>
@@ -68,241 +68,7 @@
 						<div class="content" data-content></div>
 					</div>
 				</li>
-            <li class="post">
-					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
-					<div class="postBlockText">
-						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
-									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
-										{{ post.author.pseudo }}
-									</a>
-								</p>
-								<a href="{{ post.permalink }}" class="permalink">
-									<p class="postInfos">
-										<b>#{{ post.index }}</b>
-										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
-										<i class="icon-general_hyperlink" title="Lien permanent"></i>
-									</p>
-								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
-									<i class="postInteractions icon-general_info"></i>
-								</button>
-							</div>
-						</header>
-						<div class="contentWrapper">
-							<p class="content">
-								{{ post.content|raw }}
-							</p>
-						</div>
-					</div>
-					<div id="postInfo-{{ post.ID }}" class="window" popover="manual" data-has-been-loaded="false">
-						<header class="header">
-							<p>
-								Interactions des utilisateurs avec le message #{{ post.ID }}
-							</p>
-							<button class="closePopover" popovertargetaction="hide" popovertarget="postInfo-{{ post.ID }}" type="button">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-								</svg>
-								Fermer
-							</button>
-						</header>
-						<div class="content" data-content></div>
-					</div>
-				</li>
-            <li class="post">
-					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
-					<div class="postBlockText">
-						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
-									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
-										{{ post.author.pseudo }}
-									</a>
-								</p>
-								<a href="{{ post.permalink }}" class="permalink">
-									<p class="postInfos">
-										<b>#{{ post.index }}</b>
-										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
-										<i class="icon-general_hyperlink" title="Lien permanent"></i>
-									</p>
-								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
-									<i class="postInteractions icon-general_info"></i>
-								</button>
-							</div>
-						</header>
-						<div class="contentWrapper">
-							<p class="content">
-								{{ post.content|raw }}
-							</p>
-						</div>
-					</div>
-					<div id="postInfo-{{ post.ID }}" class="window" popover="manual" data-has-been-loaded="false">
-						<header class="header">
-							<p>
-								Interactions des utilisateurs avec le message #{{ post.ID }}
-							</p>
-							<button class="closePopover" popovertargetaction="hide" popovertarget="postInfo-{{ post.ID }}" type="button">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-								</svg>
-								Fermer
-							</button>
-						</header>
-						<div class="content" data-content></div>
-					</div>
-				</li>
-            <li class="post">
-					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
-					<div class="postBlockText">
-						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
-									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
-										{{ post.author.pseudo }}
-									</a>
-								</p>
-								<a href="{{ post.permalink }}" class="permalink">
-									<p class="postInfos">
-										<b>#{{ post.index }}</b>
-										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
-										<i class="icon-general_hyperlink" title="Lien permanent"></i>
-									</p>
-								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
-									<i class="postInteractions icon-general_info"></i>
-								</button>
-							</div>
-						</header>
-						<div class="contentWrapper">
-							<p class="content">
-								{{ post.content|raw }}
-							</p>
-						</div>
-					</div>
-					<div id="postInfo-{{ post.ID }}" class="window" popover="manual" data-has-been-loaded="false">
-						<header class="header">
-							<p>
-								Interactions des utilisateurs avec le message #{{ post.ID }}
-							</p>
-							<button class="closePopover" popovertargetaction="hide" popovertarget="postInfo-{{ post.ID }}" type="button">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-								</svg>
-								Fermer
-							</button>
-						</header>
-						<div class="content" data-content></div>
-					</div>
-				</li>
-            <li class="post">
-					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
-					<div class="postBlockText">
-						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
-									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
-										{{ post.author.pseudo }}
-									</a>
-								</p>
-								<a href="{{ post.permalink }}" class="permalink">
-									<p class="postInfos">
-										<b>#{{ post.index }}</b>
-										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
-										<i class="icon-general_hyperlink" title="Lien permanent"></i>
-									</p>
-								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
-									<i class="postInteractions icon-general_info"></i>
-								</button>
-							</div>
-						</header>
-						<div class="contentWrapper">
-							<p class="content">
-								{{ post.content|raw }}
-							</p>
-						</div>
-					</div>
-					<div id="postInfo-{{ post.ID }}" class="window" popover="manual" data-has-been-loaded="false">
-						<header class="header">
-							<p>
-								Interactions des utilisateurs avec le message #{{ post.ID }}
-							</p>
-							<button class="closePopover" popovertargetaction="hide" popovertarget="postInfo-{{ post.ID }}" type="button">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-								</svg>
-								Fermer
-							</button>
-						</header>
-						<div class="content" data-content></div>
-					</div>
-				</li>
-            <li class="post">
-					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
-					<div class="postBlockText">
-						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
-									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
-										{{ post.author.pseudo }}
-									</a>
-								</p>
-								<a href="{{ post.permalink }}" class="permalink">
-									<p class="postInfos">
-										<b>#{{ post.index }}</b>
-										-
-										<time datetime="{{ post.date }}">{{ post.date|date("d/m/Y \\à H\\:i\\:s") }}</time>
-										<i class="icon-general_hyperlink" title="Lien permanent"></i>
-									</p>
-								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
-                        {# popovertarget="postInfo-{{ post.ID }}" #}
-									<i class="postInteractions icon-general_info"></i>
-								</button>
-							</div>
-						</header>
-						<div class="contentWrapper">
-							<p class="content">
-								{{ post.content|raw }}
-							</p>
-						</div>
-					</div>
-					<div id="postInfo-{{ post.ID }}" class="window" popover="manual" data-has-been-loaded="false">
-						<header class="header">
-							<p>
-								Interactions des utilisateurs avec le message #{{ post.ID }}
-							</p>
-							<button class="closePopover" popovertargetaction="hide" popovertarget="postInfo-{{ post.ID }}" type="button">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-								</svg>
-								Fermer
-							</button>
-						</header>
-						<div class="content" data-content></div>
-					</div>
-				</li>
+			{% endfor %}
 			{% endfor %}
 		</ul>
 	</div>

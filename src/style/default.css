@@ -113,22 +113,21 @@ a {
 
 #main
 {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
+   display: grid
+;
    width: 100%;
    padding-top: 1.25rem;
 
    .wrapper {
       max-width: var(--content-max-width);
-      margin-inline: var(--root-side-margin);
-      width: calc(100% - var(--root-side-margin));
+      margin-inline: max(env(safe-area-inset-right), var(--root-side-margin));
+      /* width: calc(100% - max(env(safe-area-inset-right), var(--root-side-margin))); */
    }
 
    & > .fullBanner {
       align-self: stretch;
       display: flex;
-      justify-content: center;
+      /* justify-content: center; */
    }
 }
 
@@ -1118,7 +1117,7 @@ input[type="submit"] {
 {
    margin: auto;
    width: fit-content;
-   padding: 10px 3.5rem;
+   padding: 10px 2.5rem;
    background-color: black;
    color: white;
    border-radius: 5px;

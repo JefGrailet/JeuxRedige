@@ -17,6 +17,10 @@
       display: flex;
       flex-direction: row;
       gap: 0.625rem;
+
+      a {
+         text-decoration: none;
+      }
    }
 }
 
@@ -54,7 +58,7 @@
       font-weight: bold;
       margin: 0;
 
-      @media screen and (width >= 640px) {
+      @media screen and (width >= 1024px) {
          font-size: 2rem;
       }
 
@@ -70,9 +74,9 @@
    .subtitle {
       margin: 0;
       font-size: 1rem;
-      margin-bottom: -0.85rem;
+      margin-bottom: -0.55rem;
       @supports (animation-timeline: scroll()) {
-         animation-name: hideSummarySubtitle;
+         /* animation-name: hideSummarySubtitle; */
          animation-timeline: scroll();
          animation-range: 0 200px;
          animation-timing-function: linear;
@@ -90,7 +94,7 @@
          animation-timing-function: linear;
          animation-fill-mode: both;
 
-         @media screen and (width >= 640px) {
+         @media screen and (width >= 1024px) {
             animation-name: none;
          }
       }
@@ -106,15 +110,15 @@
 
 @keyframes summaryTitle {
   to {
-    font-size: 1.5rem;
+   font-size: 1.5rem;
   }
 }
 
 @keyframes hideSummarySubtitle {
   to {
-      margin-bottom: 0;
-    font-size: 0;
-    opacity: 0;
+   margin-bottom: 0;
+   font-size: 0;
+   opacity: 0;
   }
 }
 
@@ -326,11 +330,15 @@
    .permalink {
       color: #646464;
       padding: 12px 20px;
+      padding-right: 0;
+      grid-column: 1 / -1;
+      width: fit-content;
       &:where(:hover, :focus) {
          color: black!important;
       }
       @media screen and (width >= 640px) {
          padding: 0;
+         grid-column: unset;
       }
    }
 
@@ -355,13 +363,21 @@
    p {
       margin: 0px;
       font-size: 1rem; /* ~16px */
-      text-align: justify;
    }
 
    .getPostInteractions {
       appearance: none;
       background-color: transparent;
       padding-block: 12px;
+      margin-left: auto;
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      color: black;
+
+      @media screen and (width >= 640px) {
+        grid-row: unset;
+        grid-column: unset;
+      }
 
       &:where(:hover, :focus) {
          color: var(--link-color);
@@ -371,6 +387,7 @@
    &:where(.articlePost) {
       .contentWrapper {
          padding: 12px;
+         text-align: justify;
       }
    }
 
@@ -386,7 +403,6 @@
 
 
    .content {
-      line-clamp: 10;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 10;
@@ -415,28 +431,19 @@
    margin-left: -1rem;
 }
 
-.postBlockText a {
-   text-decoration: none;
-   color: #3475e5;
-}
-
-.postBlockText a:hover {
-   color: blue;
-}
-
 /* Top of the text part of a post (with dates, like/dislike buttons, etc.) */
 
 .postBlockTextTop {
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   width: auto;
+   display: grid;
+   align-items: center;
+   grid-template-rows: auto auto;
+   grid-template-columns: 1fr auto;
    border-radius: 5px 5px 0px 0px;
    background-color: #e9e9e9;
-   align-items: start;
 
    @media screen and (width >= 640px) {
-      align-items: center;
+      grid-template-columns: auto auto 1fr;
+      column-gap: 0.625rem;
    }
 
    p {
@@ -445,7 +452,7 @@
    }
 
    i {
-      color: black;
+      color: currentColor;
       font-size: 1.25rem; /* ~20px */
       vertical-align: -3px;
       margin: 0px 2px;
@@ -464,46 +471,26 @@
    /* padding: 12px 0; */
 }
 
-.postBlockTextTopLeftSide {
-   color: #646464;
-   display: flex;
-   column-gap: 10px;
-   flex-direction: column;
+.postAuthor {
+   border-radius: 5px 0px 0px 0px;
+   background-color: black;
+   color: white;
+   margin: 0px;
+   padding: 12px 20px;
    width: 100%;
 
-   @media screen and (width >= 640px) {
-      align-items: center;
-      flex-direction: row;
-      width: auto;
-   }
+   a {
+      color: currentColor;
 
-   .postAuthor {
-      border-radius: 5px 0px 0px 0px;
-      background-color: black;
-      color: white;
-      margin: 0px;
-      padding: 12px 20px;
-      width: 100%;
-
-      @media screen and (width >= 640px) {
-         width: fit-content;
+      &:is(:hover, :focus) {
+         color: #36c4ff;
+         text-decoration: none;
       }
    }
 
-   .postInfos {
-
+   @media screen and (width >= 640px) {
+      width: fit-content;
    }
-}
-
-/* Link on author's pseudo (link to history of posts) */
-
-.postBlockTextTopLeftSide .postAuthor a {
-   text-decoration: none;
-   color: white;
-}
-
-.postBlockTextTopLeftSide .postAuthor a:hover {
-   color: #36c4ff; /* Lighter than the usual light blue */
 }
 
 /* Helps to make some underlying divs take the whole space */

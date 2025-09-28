@@ -84,9 +84,11 @@
    }
 }
 
-/* body:not(.logged) .userPseudo {
-   display: initial!important;
-} */
+body:not(.logged) .userPseudo {
+   @media screen and (width >= 640px) {
+      display: initial!important;
+   }
+}
 
 .mainMenuItemsContainer {
    display: flex;

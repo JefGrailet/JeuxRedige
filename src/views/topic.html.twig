@@ -5,7 +5,7 @@
    <div class="wrapper">
       <a href="/Forum.php" title="Retourner à la liste des sujets"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg></a>
       <div class="infos">
-         <p class="subtitle">Sujet :</p>
+         <p class="extraInfos">Sujet :</p>
          <h1 class="title">{{ topic.title }}</h1>
          <p class="extraInfos">
             Crée par <a href="/User.php?user={{ topic.author }}">{{ topic.author }}</a>,
@@ -26,8 +26,7 @@
 					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
 					<div class="postBlockText">
 						<header class="postBlockTextTop">
-							<div class="postBlockTextTopLeftSide">
-								<p class="postAuthor">
+                  <p class="postAuthor">
 									<a href="{{ post.author.profileUrl }}" title="Accéder au profil de {{ post.author.pseudo }}">
 										{{ post.author.pseudo }}
 									</a>
@@ -40,12 +39,9 @@
 										<i class="icon-general_hyperlink" title="Lien permanent"></i>
 									</p>
 								</a>
-							</div>
-							<div class="postBlockTextTopRightCorner">
-								<button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
+                        <button class="getPostInteractions" data-id-post="{{ post.ID }}" data-get-post-interactions-btn data-likes="{{ post.nb_likes }}" data-dislikes="{{ post.nb_dislikes }}" title="{{ post.nb_likes }} J'aime, {{ post.nb_dislikes }} Je n'aime pas">
 									<i class="postInteractions icon-general_info"></i>
 								</button>
-							</div>
 						</header>
 						<div class="contentWrapper">
 							<p class="content">

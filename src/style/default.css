@@ -73,6 +73,16 @@ body
    font-family: "Roboto", "Arial", sans-serif;
 }
 
+a {
+   color: var(--link-color);
+   text-decoration: none;
+
+   &:hover, &:focus {
+      text-decoration: underline;
+      color: oklch(from var(--link-color) calc(l * .75) c h);
+   }
+}
+
 .smallContainer
 {
    padding-inline: var(--root-side-margin);
@@ -84,24 +94,39 @@ body
    width: fit-content;
 }
 
-/* a:is(:hover, :focus) {
-   color: oklch(from currentColor calc(l * 1.95) c h)!important;
-} */
+.mobile-only {
+   @media screen and (width >= 640px) {
+      display: none;
+   }
+}
 
+.not-mobile-only {
+   @media screen and (width <= 640px) {
+      display: none;
+   }
+}
 /* Main block, i.e., part below the upper menu */
 
 #main
 {
-   max-width: var(--content-max-width);
-   margin: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    width: 100%;
    padding-top: 1.25rem;
 
    .wrapper {
+      max-width: var(--content-max-width);
       margin-inline: var(--root-side-margin);
+      width: calc(100% - var(--root-side-margin));
+   }
+
+   & > .fullBanner {
+      align-self: stretch;
+      display: flex;
+      justify-content: center;
    }
 }
-
 
 /* Sub-classes to remove colored border for the first elements of the top menu */
 
@@ -2273,6 +2298,16 @@ textarea
          fill: black;
       }
    }
+}
+
+.mainFooter {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   /* align-items: center; */
+   margin-top: 3rem;
+   margin-inline: var(--root-side-margin);
+   gap: 1.75rem;
 }
 
 .filterLink {

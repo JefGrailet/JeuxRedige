@@ -19,24 +19,91 @@
    }
 }
 
+
 .topicSummary {
-   margin-bottom: 2rem;
+   background-color: rgb(255, 255, 255);
+   position: sticky;
+   top: 116px;
+   @media screen and (width >= 768px) {
+      top: 56px;
+   }
+
+   @supports not (animation-timeline: scroll()) {
+      padding-block: 10px;
+   }
+
+   @supports (animation-timeline: scroll()) {
+      padding-block: 0;
+      animation-name: summary;
+      animation-timeline: scroll();
+      animation-range: 0 200px;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+   }
+
+   .wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+   }
 
    .title {
       font-size: 2rem;
       font-weight: bold;
       margin: 0;
+
+      @supports (animation-timeline: scroll()) {
+         animation-name: summaryTitle;
+         animation-timeline: scroll();
+         animation-range: 0 200px;
+         animation-timing-function: linear;
+         animation-fill-mode: both;
+      }
    }
 
    .subtitle {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 1rem;
+      margin-bottom: -0.85rem;
+      @supports (animation-timeline: scroll()) {
+         animation-name: hideSummarySubtitle;
+         animation-timeline: scroll();
+         animation-range: 0 200px;
+         animation-timing-function: linear;
+         animation-fill-mode: both;
+      }
    }
 
    .extraInfos {
       margin: 0;
+      font-size: 0.85rem;
    }
 }
+
+@keyframes summary {
+  to {
+    padding-block: 10px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .26);
+  }
+}
+
+@keyframes summaryTitle {
+  to {
+    font-size: 1.5rem;
+  }
+}
+
+@keyframes hideSummarySubtitle {
+  to {
+      margin-bottom: 0;
+    font-size: 0;
+    opacity: 0;
+  }
+}
+
+
+
 
 /**
 * This style sheet defines the style used to render a topic. This sheet is also responsive to the
@@ -227,6 +294,8 @@
    height: 90px;
    border-radius: 5px;
    box-shadow: 0px 0px 3px 0px #646464;
+   /* position: sticky;
+   top: 0; */
 
    @media screen and (width >= 640px) {
       width: 125px;
@@ -285,6 +354,7 @@
    .getPostInteractions {
       appearance: none;
       background-color: transparent;
+      padding-block: 12px;
 
       &:where(:hover, :focus) {
          color: var(--link-color);
@@ -387,18 +457,20 @@
 .postBlockTextTopRightCorner {
    display: flex;
    align-items: center;
-   padding: 12px 0;
+   /* padding: 12px 0; */
 }
 
 .postBlockTextTopLeftSide {
    color: #646464;
    display: flex;
    column-gap: 10px;
-   align-items: center;
    flex-direction: column;
+   width: 100%;
 
    @media screen and (width >= 640px) {
+      align-items: center;
       flex-direction: row;
+      width: auto;
    }
 
    .postAuthor {

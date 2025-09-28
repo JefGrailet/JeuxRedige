@@ -15,12 +15,12 @@ class TopicHeaderIR
    private static function stringToColour($input)
    {
       $hash = sha1($input);
-      
+
       $rgb = array(0, 0, 0);
       $rgb[0] = abs(hexdec(substr($hash, 0, 5))) % 128;
       $rgb[1] = abs(hexdec(substr($hash, 5, 5))) % 128;
       $rgb[2] = abs(hexdec(substr($hash, 10, 5))) % 128;
-      
+
       // Dominant component is reinforced
       $dominant = 0;
       $index = 0;
@@ -37,8 +37,8 @@ class TopicHeaderIR
    }
 
    /*
-   * Converts the array modelizing a topic (and related data) into an intermediate representation, 
-   * ready to be used in an actual template for a topic header. The intermediate representation is 
+   * Converts the array modelizing a topic (and related data) into an intermediate representation,
+   * ready to be used in an actual template for a topic header. The intermediate representation is
    * a new array containing (in order of "call" in the template):
    *
    * -Absolute path to the thumbnail (picture) of the topic
@@ -51,7 +51,7 @@ class TopicHeaderIR
    * -Keywords of that topic (HTML)
    * -Game entries matching the keywords, if any (HTML)
    *
-   * For some fields, the function requires metadata from the topic. When this metada is not 
+   * For some fields, the function requires metadata from the topic. When this metada is not
    * available, default values will be used.
    *
    * @param Topic $topic      The topic object
@@ -67,18 +67,18 @@ class TopicHeaderIR
       $featuredPosts = $topic->getBufferedFeaturedPosts();
       $userView = $topic->getBufferedView();
       $withPins = $topic->getNbPins() > 0;
-      
+
       $favorited = false;
       if($userView != NULL && Utils::check($userView['favorite']))
          $favorited = true;
-      
+
       // Intermediate representation array
-      $output = array('menu' => '', 
+      $output = array('menu' => '',
       'link' => PathHandler::topicURL($data),
       'title' => $data['title'],
       'contentIcons' => '',
       'thumbnail' => PathHandler::getTopicThumbnail($data['thumbnail'], $data['id_topic']),
-      'keywords' => '', 
+      'keywords' => '',
       'games' => '');
 
       // Checks that the user is able to edit the topic itself (title, keywords, etc.)
@@ -92,7 +92,7 @@ class TopicHeaderIR
             $editionButton = '<a href="EditTopic.php?id_topic='.$data['id_topic'].'">Editer ce sujet</a>'."\n";
          }
       }
-      
+
       // Topic menu
       $menuItems = array();
       $menuItemsLabels = array('edition', 'uploads', 'popular', 'unpopular', 'pins', 'lastMessage');
@@ -110,7 +110,7 @@ class TopicHeaderIR
             $menuItems['edition'] = '<a href="EditTopic.php?id_topic='.$data['id_topic'].'"><i class="icon-general_edit" alt="Editer"></i>Editer ce sujet</a>';
       }
       $menuItems['lastMessage'] = '<a href="LastPost.php?id_topic='.$data['id_topic'].'"><i class="icon-general_leave" alt="Dernier message"></i>Aller au dernier message</a>';
-      
+
       $output['menu'] = '';
       $addIndent = false;
       for($i = 0; $i < count($menuItemsLabels); $i++)
@@ -130,12 +130,12 @@ class TopicHeaderIR
             $minusLink = substr($minusLink, $tagEnd + 2);
             $output['menu'] .= '<span class="highlighted">'.$minusLink.'</span>'."\n";
          }
-         else 
+         else
          {
             $output['menu'] .= $menuItems[$menuItemsLabels[$i]]."\n";
          }
       }
-      
+
       // Content and moderation icons
       $anonPostingIcon = '';
       $favoriteButton = '';
@@ -147,10 +147,10 @@ class TopicHeaderIR
             $favoriteButton = '<i id="buttonFavourite" class="icon-general_star" alt="Enlever" data-id-topic="'.$data['id_topic'].'" title="Enlever des favoris"></i>'."\n";
          else
             $favoriteButton = '<i id="buttonFavourite" class="icon-general_star_empty" alt="Ajouter" data-id-topic="'.$data['id_topic'].'" title="Ajouter aux favoris"></i>'."\n";
-      
+
          if(Utils::check(LoggedUser::$data['can_delete']))
             $deletionButton = '<i id="buttonDelete" class="icon-general_trash" alt="Supprimer" title="Supprimer ce sujet"></i>'."\n";
-      
+
          if(Utils::check($data['is_locked']))
          {
             if(Utils::check(LoggedUser::$data['can_lock']))
@@ -166,7 +166,7 @@ class TopicHeaderIR
          $lockingLink = '<i class="icon-topic_locked" alt="Verrouillé" title="Ce sujet est verrouillé"></i>'."\n";
       }
       $output['contentIcons'] = $anonPostingIcon.$favoriteButton.$lockingButton.$deletionButton;
-      
+
       // Keywords and associated games
       if(!empty($keywords))
       {
@@ -179,20 +179,57 @@ class TopicHeaderIR
             $ownColor = self::stringToColour($keywords[$i]['tag']);
             $style = 'style="background-color: rgb('.$ownColor.');" data-rgb="'.$ownColor.'"';
             $listKeywords .= '<a href="'.$link.'" target="blank" '.$style.'>'.$keywords[$i]['tag'].'</a>';
-            
+
             if($keywords[$i]['genre'] !== NULL)
             {
                $curGame = $keywords[$i];
                $gameIR = GameIR::process($curGame);
                $gameTpl = TemplateEngine::parse('view/content/Game.ctpl', $gameIR);
-            
+
                if(!TemplateEngine::hasFailed($gameTpl))
                   $output['games'] .= $gameTpl;
             }
          }
          $output['keywords'] = $listKeywords;
       }
-      
+
+      return $output;
+   }
+
+   public static function compute($topic, $location = '')
+   {
+      $data = $topic->getAll();
+      $keywords = $topic->getBufferedKeywords();
+      $featuredPosts = $topic->getBufferedFeaturedPosts();
+      $userView = $topic->getBufferedView();
+      $withPins = $topic->getNbPins() > 0;
+
+      $favorited = false;
+      if($userView != NULL && Utils::check($userView['favorite']))
+         $favorited = true;
+
+      $output = array(
+         'menu' => '',
+         'link' => PathHandler::topicURL($data),
+         'title' => $data['title'],
+         'contentIcons' => '',
+         'thumbnail' => PathHandler::getTopicThumbnail($data['thumbnail'], $data['id_topic']),
+         'keywords' => '',
+         'games' => ''
+      );
+
+      $canEdit = false;
+      if(LoggedUser::isLoggedIn())
+      {
+         if(!Utils::check($data['is_locked']) && Utils::check(LoggedUser::$data['can_edit_all_posts']) || (Utils::check(LoggedUser::$data['can_create_topics']) &&
+            ($data['author'] === LoggedUser::$data['pseudo'] || $data['author'] === LoggedUser::$data['used_pseudo'])))
+         {
+            $canEdit = true;
+            $output["editionLink"] = "EditTopic.php?id_topic={$data['id_topic']}";
+         }
+      }
+
+
       return $output;
    }
 }

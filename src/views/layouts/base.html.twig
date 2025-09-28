@@ -69,8 +69,9 @@
 <body{{ is_user_logged ? ' class="logged"'}}>
    {% include 'includes/header.html.twig' %}
    <main id="main">
+      {% block fullWidthBanner %}{% endblock %}
       <div class="wrapper">
-      {% block content %}{% endblock %}
+         {% block content %}{% endblock %}
       </div>
       </main>
       {% include 'includes/footer.html.twig' %}

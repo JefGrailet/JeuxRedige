@@ -15,6 +15,8 @@ require './view/intermediate/ArticleThumbnail.ir.php';
 
 require_once './libraries/core/Twig.config.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // Obtains game title and retrieves the corresponding entry

@@ -173,7 +173,6 @@ WebpageHandler::noContainer();
 // }
 
 echo $twig->render("search-articles.html.twig", [
-   "list_articles" => $listArticlesComputed,
    "list_css_files" => ["pool", "select2.min", "form_search"],
    "list_js_files" => ["select2.min", "select2.fr.min", "search_articles"],
    "page_title" => "Rechercher des articles",

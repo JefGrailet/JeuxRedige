@@ -37,7 +37,7 @@ services:
          - "3307:3306"
       volumes:
          # - mysql-data:/var/lib/mysql
-         - ./Dump20250925.sql:/docker-entrypoint-initdb.d/dump.sql
+         - ./Dump.sql:/docker-entrypoint-initdb.d/dump.sql
    phpmyadmin:
       image: phpmyadmin:latest
       restart: always

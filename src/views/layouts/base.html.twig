@@ -72,8 +72,10 @@
    {% include 'includes/header.html.twig' %}
    <main id="main">
       {% block fullWidthBanner %}{% endblock %}
-      <div class="wrapper">
-         {% block content %}{% endblock %}
+      <div class="centered">
+         <div class="wrapper">
+            {% block content %}{% endblock %}
+         </div>
       </div>
       </main>
       {% include 'includes/footer.html.twig' %}

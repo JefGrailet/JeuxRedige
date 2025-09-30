@@ -2,16 +2,18 @@
 
 {% block fullWidthBanner %}
 <header class="fullBanner topicSummary">
-   <div class="wrapper">
-      <a href="/Forum.php" title="Retourner à la liste des sujets"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg></a>
-      <div class="infos">
-         <p class="extraInfos">Sujet :</p>
-         <h1 class="title">{{ topic.title }}</h1>
-         <p class="extraInfos">
-            Crée par <a href="/User.php?user={{ topic.author }}">{{ topic.author }}</a>,
-            <span>le {{ topic.date|date("d/m/Y \\à H\\:i\\:s") }}</span><br class="mobile-only">
-            <span class="not-mobile-only">-</span> Dernier message le {{ last_post|date("d/m/Y \\à H\\:i\\:s") }}
-         </p>
+   <div class="centered">
+      <div class="wrapper">
+         <a href="/Forum.php" title="Retourner à la liste des sujets"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg></a>
+         <div class="infos">
+            <p class="extraInfos">Sujet :</p>
+            <h1 class="title">{{ topic.title }}</h1>
+            <p class="extraInfos">
+               Crée par <a href="/User.php?user={{ topic.author }}">{{ topic.author }}</a>,
+               <span>le {{ topic.date|date("d/m/Y \\à H\\:i\\:s") }}</span><br class="mobile-only">
+               <span class="not-mobile-only">-</span> Dernier message le {{ last_post|date("d/m/Y \\à H\\:i\\:s") }}
+            </p>
+         </div>
       </div>
    </div>
 </header>

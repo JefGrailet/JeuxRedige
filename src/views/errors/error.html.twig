@@ -1,0 +1,15 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<div class="sectionBlock myAccount">
+		<p class="title" role="alert">Erreur {{ response_code }}</p>
+		<div class="content">
+			<p>
+				Une erreur est survenue
+			</p>
+         <p>
+            <a href="{{ webRoot }}">Retourner à l'accueil</a>
+         </p>
+		</div>
+	</div>
+{% endblock %}

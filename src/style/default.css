@@ -39,6 +39,7 @@
    --articles-grid-gap: 1.5rem;
    --border-radius: 0.85rem;
    --box-shadow: 0px 0px 3px 0px #646464;
+   --main-padding-top: 1.25rem;
 
    --article-chronicle-color: #99368b;
    --article-guide-color: #dd9302;
@@ -46,6 +47,8 @@
    --article-opinion-color: #91c148;
    --article-preview-color: #34b1e5;
    --article-review-color: #cd301e;
+
+   interpolate-size: allow-keywords;
 }
 
 *,
@@ -114,7 +117,7 @@ a {
 #main
 {
    width: 100%;
-   padding-top: 1.25rem;
+   padding-top: var(--main-padding-top);
 
    .wrapper {
       max-width: var(--content-max-width);
@@ -1537,7 +1540,7 @@ textarea
       margin: 0px;
       padding: 0.65rem 1rem;
       text-align: start;
-      font-size: 0.675rem; /* ~11px */
+      font-size: 0.95rem; /* ~11px */
       line-height: 130%;
       color: white;
    }

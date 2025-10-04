@@ -9,12 +9,43 @@
    box-shadow: 0px 0px 2px 0px grey;
 }
 
-.segmentHeader
+.segmentHeader, .articleHeader
 {
    position: relative;
-   min-height: 100px;
-   border-radius: 5px 5px 0px 0px;
-   background-color: black;
+   min-height: 95px;
+
+   .infos {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding-top: 10px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-top-right-radius: var(--border-radius);
+      color: white;
+   }
+
+   .title {
+      font-size: 1.5rem; /* ~30px */
+      @media screen and (width >= 1024px) {
+         font-size: 1.875rem;
+      }
+      font-weight: 200;
+      background: none;
+      padding: 0px;
+      margin: 0px 20px 10px 20px;
+   }
+
+   .subtitle {
+      font-size: 1.05rem; /* ~24px */
+      @media screen and (width >= 1024px) {
+         font-size: 1.25rem;
+      }
+      font-weight: 200;
+      text-align: justify;
+      background: none;
+      padding: 0px;
+      margin: -5px 20px 10px 20px;
+   }
 }
 
 .segmentHeaderPlain
@@ -344,45 +375,38 @@
 
 /* Article footer. */
 
-#articleFooter
+#articleFooter, .authorContainer
 {
    background: none;
    margin: 20px var(--root-side-margin);
    padding-bottom: 5px;
+   display: flex;
+   justify-content: flex-end;
 }
 
-#articleFooterRight
+.articleContainer
 {
    min-width: 300px;
    min-height: 110px;
-   float: right;
    background-color: white;
    border-radius: 60px 10px 10px 60px;
    color: black;
    box-shadow: 0px 0px 2px 0px grey;
-}
-
-#footerDetails
-{
-   display: block;
-   float: left;
+   display: flex;
+   gap: 0.25rem;
+   padding: 0.3125rem;
 }
 
 #footerAuthor
 {
-   display: block;
-   float: left;
    width: 100px;
-   height: 100px;
-   border-radius: 50px;
-   margin: 5px;
+   aspect-ratio: 1 / 1;
+   border-radius: 50%;
 }
 
 #footerDetails p
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
-   text-align: justify;
    padding: 0px;
    margin: 10px;
    line-height: 150%;
@@ -390,7 +414,6 @@
 
 #footerDetails p a, #footerDetails p .editSegment
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    text-decoration: none;
@@ -764,4 +787,82 @@
 #footer
 {
    margin-bottom: 75px;
+}
+
+.extensibleHeaderWrapper {
+   position: fixed;
+   left: 0;
+   right: 0;
+   animation-name: extensibleHeaderWrapper;
+
+   /* &::after {
+      background-color: rgba(255, 255, 255, 0.11);
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 0;
+   } */
+}
+
+.extensibleHeaderWrapper, .extensibleHeader {
+   @supports (animation-timeline: scroll()) {
+      animation-timeline: scroll();
+      animation-range: 0 200px;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+   }
+}
+
+.extensibleHeader {
+   border-radius: var(--border-radius) var(--border-radius) 0px 0px;
+   background-color: rgb(255, 255, 255);
+
+   max-width: var(--content-max-width);
+   top: 116px;
+   margin: 0 auto;
+   /* height: 19rem; */
+   padding-top: 12%;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   box-shadow: 0px 0px 2px 0px grey;
+   /* z-index: 100; */
+
+   @media screen and (width >= 768px) {
+      top: 56px;
+   }
+
+   @supports not (animation-timeline: scroll()) {
+      padding-block: 10px;
+   }
+
+   @supports (animation-timeline: scroll()) {
+      animation-name: extensibleHeader;
+   }
+
+   .centered {
+      @supports (animation-timeline: scroll()) {
+         /* animation-name: extensibleHeaderCentered; */
+         animation-timeline: scroll();
+         animation-range: 0 200px;
+         animation-timing-function: linear;
+         animation-fill-mode: both;
+      }
+   }
+}
+
+@keyframes extensibleHeader {
+  to {
+      border-radius: 0;
+      padding-top: 0%;
+      max-width: 100%;
+      box-shadow: 0 2px 3px 0px #646464a9;
+  }
+}
+
+@keyframes extensibleHeaderWrapper {
+  to {
+      margin-top: calc(var(--main-padding-top) * -1);
+      margin-inline: 0;
+  }
 }

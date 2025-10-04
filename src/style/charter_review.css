@@ -1,21 +1,19 @@
 /**
-* This style sheet overrides some properties of article.css to make it comply with the color 
+* This style sheet overrides some properties of article.css to make it comply with the color
 * associated to a review (2021 graphical charter).
 */
 
-.mainMenuLogo.review 
+.mainMenuLogo.review
 {
    background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_review.svg');
 }
 
-.segmentHeader .segmentHeaderBottom
-{
-   background-color: rgba(205, 48, 30, 0.75);
-}
-
-.segmentHeader .segmentHeaderBottom:hover
-{
-   background-color: rgba(205, 48, 30, 0.85);
+.articleHeader .infos {
+   background-color: rgb(from var(--article-review-color) r g b / 75%);
+   &:hover
+   {
+      background-color: rgb(from var(--article-review-color) r g b / 85%);
+   }
 }
 
 .segmentBody p a

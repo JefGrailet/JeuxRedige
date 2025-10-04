@@ -1,9 +1,9 @@
 /**
-* This style sheet overrides some properties of article.css to make it comply with the color 
+* This style sheet overrides some properties of article.css to make it comply with the color
 * associated to a misceallenous article ("Hors Jeu", added in September 2023).
 *
-* Important remark: though the original charter anticipated the shades of grey #646464 (100 
-* everywhere) and #c8c8c8 (200 everywhere), the first shade was too dark to be easily 
+* Important remark: though the original charter anticipated the shades of grey #646464 (100
+* everywhere) and #c8c8c8 (200 everywhere), the first shade was too dark to be easily
 * distinguishable  and the second too light, so the average of both was picked instead.
 */
 
@@ -12,14 +12,12 @@
    background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_misc.svg');
 }
 
-.segmentHeader .segmentHeaderBottom
-{
-   background-color: rgba(150, 150, 150, 0.75); /* 200,200,200 is a bit too clear */
-}
-
-.segmentHeader .segmentHeaderBottom:hover
-{
-   background-color: rgba(150, 150, 150, 0.85);
+.articleHeader .infos {
+   background-color: rgba(150, 150, 150, 0.75);
+   &:hover
+   {
+      background-color: rgba(150, 150, 150, 0.85);
+   }
 }
 
 .segmentBody p a

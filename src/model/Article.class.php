@@ -261,8 +261,7 @@ class Article
 
       $sql = "SELECT topics.*, (SELECT COUNT(*) FROM posts WHERE id_topic=topics.id_topic) AS nb FROM topics WHERE id_topic=?";
       $res = Database::secureRead($sql, array($this->_data['related_topic']), true);
-      print_r("fefefefe");
-      print_r($res);
+
       if($res !== NULL && count($res) == 3)
          throw new Exception('Cannot get the related topic: '. $res[2]);
       else if($res == NULL)

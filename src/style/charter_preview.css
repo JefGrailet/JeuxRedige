@@ -1,5 +1,5 @@
 /**
-* This style sheet overrides some properties of article.css to make it comply with the color 
+* This style sheet overrides some properties of article.css to make it comply with the color
 * associated to an opinion (2021 graphical charter).
 */
 
@@ -8,14 +8,12 @@
    background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_preview.svg');
 }
 
-.segmentHeader .segmentHeaderBottom
-{
+.articleHeader .infos {
    background-color: rgba(52, 177, 229, 0.75);
-}
-
-.segmentHeader .segmentHeaderBottom:hover
-{
-   background-color: rgba(52, 177, 229, 0.85);
+   &:hover
+   {
+      background-color: rgba(52, 177, 229, 0.85);
+   }
 }
 
 .segmentBody p a

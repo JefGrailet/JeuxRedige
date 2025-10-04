@@ -59,7 +59,7 @@
       margin: 0;
 
       @media screen and (width >= 1024px) {
-         font-size: 2rem;
+         font-size: 1.875rem;
       }
 
       @supports (animation-timeline: scroll()) {

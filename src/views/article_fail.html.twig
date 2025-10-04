@@ -2,7 +2,8 @@
 
 {% block content %}
 	<div class="sectionBlock myAccount">
-		<p class="title" role="alert">Erreur {{ error_title }}</p>
+		<p class="title" role="alert">Erreur
+			{{ error_title }}</p>
 		<div class="content">
 			<p>
 				{% if error_key == "noSegment" %}
@@ -13,8 +14,10 @@
 					Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus tard ou contactez l'administrateur.
 				{% elseif error_key == "nonexistingArticle" %}
 					L'article recherché n'existe pas ou plus.
-            {% elseif error_key == "restrictedAccess" %}
+				{% elseif error_key == "restrictedAccess" %}
 					Cet article n'a pas encore été publié et n'est visible que par son auteur.
+				{% elseif error_key == "missingID" %}
+					Article introuvable.
 				{% else %}
 					Une erreur est survenue. Veuillez réessayer.
 				{% endif %}

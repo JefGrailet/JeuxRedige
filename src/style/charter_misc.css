@@ -12,14 +12,6 @@
    background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_misc.svg');
 }
 
-.articleHeader .infos {
-   background-color: rgba(150, 150, 150, 0.75);
-   &:hover
-   {
-      background-color: rgba(150, 150, 150, 0.85);
-   }
-}
-
 .segmentBody p a
 {
    color: #969696;

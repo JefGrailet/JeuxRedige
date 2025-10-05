@@ -8,13 +8,6 @@
    background-image: url('https://www.jeuxredige.com/logos/JeuxRedige_logo_h_white_review.svg');
 }
 
-.articleHeader .infos {
-   background-color: rgb(from var(--article-review-color) r g b / 75%);
-   &:hover
-   {
-      background-color: rgb(from var(--article-review-color) r g b / 85%);
-   }
-}
 
 .segmentBody p a
 {

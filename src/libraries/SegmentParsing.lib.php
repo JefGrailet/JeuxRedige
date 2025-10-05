@@ -77,7 +77,7 @@ class SegmentParsing
                {
                   $videos[1][$i] = substr($videos[1][$i], 0, $posTimestamp);
                }
-               
+
                $posID = strpos($videos[1][$i], '?v=');
                if($posID !== FALSE)
                {
@@ -165,7 +165,7 @@ class SegmentParsing
 
          if($isAnURL && strlen($relativeLink) == 0)
          {
-            $imageHTML = '<img src="'.$link.'" alt="Image externe" />';
+            $imageHTML = '<img src="'.$link.'" alt="" />';
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
          else
@@ -416,8 +416,8 @@ class SegmentParsing
          $title = $emphasisBis[1][$i];
          $content = $emphasisBis[2][$i];
 
-         $emphasisHTML = "</p>\n<div class=\"emphasisText\">\n";
-         $emphasisHTML .= "<h3>".$title."</h3>\n";
+         $emphasisHTML = "</p>\n<div class=\"conclusion\">\n";
+         $emphasisHTML .= "<h3 class=\"title\">".$title."</h3>\n";
          $emphasisHTML .= "<p>".$content;
          $emphasisHTML .= "</p>\n</div>\n<p>";
 
@@ -485,7 +485,7 @@ class SegmentParsing
 
          $parsed = str_replace($summaries[0][$i], $summaryHTML, $parsed);
       }
-      
+
       // Final step: cleans-up the HTML code from useless tags (rough; IR classes provide better)
       $parsed = str_replace("<p><br />\r\n</p>", '', $parsed);
       $parsed = str_replace("<p><br />\n</p>", '', $parsed);

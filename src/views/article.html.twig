@@ -25,8 +25,11 @@
 					Critique rédigée par
 					<a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
 					Publié le
-					<time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time><br>
-					Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+					<time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+               {% if article.last_update_time %}
+                  <br>
+                  Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+               {% endif %}
 				</p>
 			</div>
 		</div>

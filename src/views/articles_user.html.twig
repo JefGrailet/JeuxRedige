@@ -1,0 +1,16 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./MyArticles.php"
+   } %}
+   <ul id="articlesPool">
+      {% for article in list_articles %}
+         {% include "includes/article-thumbnail.html.twig" with article %}
+      {% else %}
+         <li>Vous avez écrit aucun article.</li>
+      {% endfor %}
+   </ul>
+   {% include "includes/pagination.html.twig" with {
+      "base_url": "./MyArticles.php"
+   } %}
+{% endblock %}

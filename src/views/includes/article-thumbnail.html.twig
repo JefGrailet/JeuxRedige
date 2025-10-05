@@ -9,9 +9,19 @@
 		</p>
 	</div>
 	{% if article.is_highlighted == false %}
-		<div class="articleThumbnailExtra">
-			<p>Par
-				{{ article.pseudo }}</p>
+      {% set statusClass = "" %}
+      {% if article.status == "wip" %}
+         {% set statusClass = 'wip' %}
+      {% elseif article.status == "published" %}
+         {% set statusClass = 'published' %}
+      {% endif %}
+
+		<div class="articleThumbnailExtra {{ statusClass }}">
+         {% if article.status %}
+            <p>{{ article.status == "wip" ? "En cours" : "Publié" }}</p>
+         {% else %}
+            <p>Par {{ article.pseudo }}</p>
+         {% endif %}
 		</div>
 	{% endif %}
 	<div class="articleTitles">

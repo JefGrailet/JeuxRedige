@@ -107,7 +107,7 @@ class ArticleThumbnailIR
    }
 
    public static function getLink($article, $edition = false) {
-      if($edition) // $edition
+      if($edition)
       {
          return PathHandler::HTTP_PATH().'EditArticle.php?id_article='.$article['id_article'];
       }
@@ -117,6 +117,15 @@ class ArticleThumbnailIR
 
    public static function getDateTime($article) {
       return date('d/m/Y \à H\hi', Utils::toTimestamp($article['date_publication']));
+   }
+
+   public static function getStatus($article) {
+      $status = "wip";
+      if($article['date_publication'] !== '1970-01-01 00:00:00') {
+         $status = "published";
+      }
+
+      return $status;
    }
 }
 

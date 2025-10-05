@@ -8,6 +8,8 @@ require './libraries/Header.lib.php';
 require './model/Article.class.php';
 require './view/intermediate/ArticleThumbnail.ir.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // User must be logged in
@@ -34,7 +36,7 @@ try
       $tpl = TemplateEngine::parse('view/user/MyArticles.fail.ctpl', $errorTplInput);
       WebpageHandler::wrap($tpl, 'Mes articles');
    }
-   
+
    $currentPage = 1;
    $nbPages = ceil($nbArticles / WebpageHandler::$miscParams['articles_per_page']);
    $firstArticle = 0;
@@ -89,6 +91,32 @@ $finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails)
 $content = TemplateEngine::parse('view/user/MyArticles.ctpl', $finalTplInput);
 
 // Displays the produced page
-WebpageHandler::wrap($content, 'Mes articles');
+
+$listArticlesComputed = array_map(function ($article) {
+   return array(
+      ...$article,
+      "link" => ArticleThumbnailIR::getLink($article, true),
+      "date_time" => ArticleThumbnailIR::getDateTime($article),
+      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+      "status" => ArticleThumbnailIR::getStatus($article),
+   );
+}, $articles, array_keys($articles));
+
+
+// WebpageHandler::wrap($content, 'Mes articles');
+
+echo $twig->render("articles_user.html.twig", [
+   "page_title" => "Mes articles",
+   "list_css_files" => ["pool"],
+   "list_articles" => $listArticlesComputed,
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "Mes articles",
+      "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+      "full_title" => "",
+   ]
+]);
 
 ?>

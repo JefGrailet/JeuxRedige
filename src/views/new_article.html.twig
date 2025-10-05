@@ -7,6 +7,11 @@
 	</style>
 	<div class="smallContainer">
 		<h1>Créer un article</h1>
+      {% set array = {} %}
+      {% for key, category in list_categories %}
+         {% set array = array|merge({ (key): category.name.singular }) %}
+      {% endfor %}
+
 		<section class="sectionBlock myAccount" id="password">
 			<h2 class="title">Créer un article</h2>
 			<form action="" class="content" autocomplete="off" method="POST" data-form-schema-validation="new_article">
@@ -69,14 +74,14 @@
 								<li>Vous ne pourrez pas changer de type</li>
 							</ul>
 						</div>
-						<select name="type" id="type">
+						<select name="type" id="type" data-article-type="{{ array|json_encode() }}">
 							<option value="">Choisir un type</option>
 							<option value="review">Critique</option>
 							<option value="preview">Aperçu</option>
 							<option value="opinion">Humeur</option>
 							<option value="chronicle">Chronique</option>
 							<option value="guide">Guide</option>
-							<option value="misc">Hors Jeu</option>
+							<option value="misc">Hors-Jeu</option>
 						</select>
 					</div>
                <div class="inputContainer">
@@ -90,7 +95,9 @@
 						<select data-dropdown-keywords='{"tags": true, "maximumSelectionLength": 10}' id="keywords" name="keywords[]" multiple="multiple"></select>
 					</div>
 					<div class="inputContainer">
-						<input type="submit" class="fit primaryButton" name="sent" value="Créer article">
+                  <button type="submit" class="fit primaryButton">
+                     Créer <span data-dynamic-label>article</span>
+                  </button>
 					</div>
 				</div>
 			</form>

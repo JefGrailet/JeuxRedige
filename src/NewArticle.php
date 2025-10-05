@@ -212,7 +212,7 @@ if(!empty($_POST))
 echo $twig->render("new_article.html.twig", [
    "page_title" => "Créer un nouvel article",
    "list_css_files" => [ "select2.min", "input_file"],
-   "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "search_articles"],
+   "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "search_articles", "dynamic_article_button_label"],
    "form_error_messages" => $formErrorMessages,
    "form_error_messages_triggered" => $formErrorMessagesTriggered,
    "thumbnail_requirements" => [

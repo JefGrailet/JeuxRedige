@@ -744,8 +744,8 @@ dialog, [popover] {
    }
 }
 
-input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select {
-   padding: 0.5rem 0.35rem;
+input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select, [type="submit"] {
+   padding: 0.5rem 0.35rem!important;
 }
 
 input[type="submit"] {

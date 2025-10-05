@@ -18,31 +18,37 @@ WebpageHandler::redirectionAtLoggingIn();
 
 $thumbnailMaxSize = 1048576;
 $thumbnailRequirements = [
-   "mimeTypes" => ["image/jpeg", "image/jpg", "image/png"],
+   "mimeTypes" => ["image/jpeg", "image/jpg"],
    "maxSize" => $thumbnailMaxSize,
 ];
 
 $formErrorMessages = [
    "thumbnail" => [
       "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
-      "invalidFormat" => "Pour générer une image d'en-tête, vous devez utiliser une image au format .jp(e)g, ou .png",
+      "invalidFormat" => "Pour générer une image d'en-tête, vous devez utiliser une image au format .jp(e)g",
       "tooSmall" => "Vous devez sélectionner une image",
       "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
       "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
       "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
    ],
-   "preferences" => [
-      "incorrectInput" => "Les valeurs entrées ne sont pas valides. Veuillez les modifier conformément à ce que le formulaire stipule",
+   "title" => [
+      "tooLong" => "Le titre ne peut pas excéder 100 caractères, veuillez le réduire",
    ],
-   "email" => [
-      "wrongCurrentPwd" => "Le mot de passe que vous avez entré est incorrect",
-      "emailTooLong" => "La nouvelle adresse est anormalement longue (maximum 60 caractères)",
-      "alreadyUsed" => "Vous utilisez déjà l'adresse que vous venez d'entrer",
-      "usedBySomeoneElse" => "Cette nouvelle adresse est déjà utilisée pour un autre compte",
+   "subtitle" => [
+      "tooLong" => "Le sous-titre ne peut pas excéder 100 caractères, veuillez le réduire",
+   ],
+   "type" => [
+      "unknown" => "Le type d'article choisi est invalide. Choisissez un des types proposés",
+   ],
+   "keywords" => [
+      "empty" => "Vous devez préciser au moins un mot-clef",
+      "limitReached" => "Vous ne pouvez pas mettre plus de 10 mots-clefs",
    ],
    "emptyFields" => "Vous devez remplir tous les champs",
    "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
 ];
+
+$formErrorMessagesTriggered = [];
 
 // Errors where the user is either not logged in, either not granted advanced features
 if(!LoggedUser::isLoggedIn())
@@ -97,7 +103,7 @@ $formInput = array('thumbnail' => $currentThumbnail,
 'keywords' => '');
 
 // Form treatment starts here
-if(!empty($_POST['sent']))
+if(!empty($_POST))
 {
    $inputList = array_keys($formInput);
    $fullyCompleted = true;
@@ -118,15 +124,18 @@ if(!empty($_POST['sent']))
 
    // Various errors (empty fields, etc.)
    if(!$fullyCompleted)
-      $formComp['errors'] .= 'emptyFields|';
+      array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
+      // $formComp['errors'] .= 'emptyFields|';
    if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
-      $formComp['errors'] .= 'invalidType|';
-   if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
-      $formComp['errors'] .= 'tooLongData|';
-   if($formInput['thumbnail'] === './default_article_thumbnail.jpg' || !file_exists(PathHandler::WWW_PATH().$formInput['thumbnail']))
-      $formComp['errors'] .= 'invalidThumbnail|';
+      array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
+   if(strlen($formInput['title']) > 100)
+      array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
+   if(strlen($formInput['subtitle']) > 100)
+      array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
+   // if($formInput['thumbnail'] === './default_article_thumbnail.jpg' || !file_exists(PathHandler::WWW_PATH().$formInput['thumbnail']))
+   //    $formComp['errors'] .= 'invalidThumbnail|';
    if(count($keywordsArr) == 1 && strlen($keywordsArr[0]) == 0)
-      $formComp['errors'] .= 'noKeywords|';
+      array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
 
    if(strlen($formComp['errors']) == 0)
    {
@@ -198,29 +207,27 @@ if(!empty($_POST['sent']))
       WebpageHandler::wrap($formTpl, 'Créer un nouvel article', $dialogs);
    }
 }
-else
-{
-   // $formTpl = TemplateEngine::parse('view/user/NewArticle.form.ctpl', $formComp);
-   // WebpageHandler::wrap($formTpl, 'Créer un nouvel article', $dialogs);
 
-   echo $twig->render("new_article.html.twig", [
-      "page_title" => "Créer un nouvel article",
-      "list_css_files" => ["input_file"],
-      "list_js_files" => [["file" => "form_validation"], "upload"],
-      "form_error_messages" => $formErrorMessages,
-      "thumbnail_requirements" => [
-         ...$thumbnailRequirements,
-         "mimeTypes" => join(",", $thumbnailRequirements["mimeTypes"])
-      ],
-      "meta" => [
-         ...$twig->getGlobals()["meta"],
-         "title" => "Créer un nouvel article",
-         "description" => "Créer un nouvel article",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
-         "full_title" => "",
-      ]
-   ]);
-}
+
+echo $twig->render("new_article.html.twig", [
+   "page_title" => "Créer un nouvel article",
+   "list_css_files" => [ "select2.min", "input_file"],
+   "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "search_articles"],
+   "form_error_messages" => $formErrorMessages,
+   "form_error_messages_triggered" => $formErrorMessagesTriggered,
+   "thumbnail_requirements" => [
+      ...$thumbnailRequirements,
+      "mimeTypes" => join(",", $thumbnailRequirements["mimeTypes"])
+   ],
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "Créer un nouvel article",
+      "description" => "Créer un nouvel article",
+      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+      "full_title" => "",
+   ]
+]);
+
 
 ?>

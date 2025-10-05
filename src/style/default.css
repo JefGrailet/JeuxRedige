@@ -740,11 +740,11 @@ dialog, [popover] {
    }
 
    &:last-of-type:has([type="submit"]) {
-      margin-top: 2rem;
+      margin-top: 1.35rem;
    }
 }
 
-input:is(:not([type="checkbox"], [type="radio"], [type="submit"])) {
+input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select {
    padding: 0.5rem 0.35rem;
 }
 
@@ -2285,7 +2285,9 @@ textarea
       grid-template-columns: max-content 1fr;
 
       .inputContainer {
-         display: contents;
+         &:has(:not([type="submit"])) {
+            display: contents;
+         }
       }
    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
-* Script to edit an article, or rather its main structure. As long as the current user is the 
+* Script to edit an article, or rather its main structure. As long as the current user is the
 * author of the article, (s)he can edit it, no matter what are its current permissions.
 */
 
@@ -10,6 +10,8 @@ require './libraries/Keywords.lib.php';
 require './libraries/Buffer.lib.php';
 require './model/Article.class.php';
 require './model/Tag.class.php';
+
+require_once './libraries/core/Twig.config.php';
 
 WebpageHandler::redirectionAtLoggingIn();
 
@@ -51,7 +53,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
       WebpageHandler::wrap($tpl, 'Article introuvable');
    }
-   
+
    // Forbidden access if the user's neither the author, neither an admin
    if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
@@ -59,24 +61,24 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
       WebpageHandler::wrap($tpl, 'Cet article n\'est pas le vôtre');
    }
-   
+
    // Webpage settings
    WebpageHandler::addCSS('article_edition');
    WebpageHandler::addJS('article_editor');
    WebpageHandler::addJS('keywords');
    WebpageHandler::changeContainer('blockSequence');
-   
+
    // Edition form components (with current values)
-   $formComp = array('success' => '', 
+   $formComp = array('success' => '',
    'errors' => '',
    'ID' => $article->get('id_article'),
    'thumbnail' => '',
-   'title' => $article->get('title'), 
-   'subtitle' => $article->get('subtitle'), 
+   'title' => $article->get('title'),
+   'subtitle' => $article->get('subtitle'),
    'type' => $article->get('type').'||'.$typeChoices,
    'keywords' => '',
    'keywordsList' => '');
-   
+
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
    if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
@@ -85,35 +87,35 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
    else
       $formComp['thumbnail'] = './default_article_thumbnail.jpg';
-   
+
    // Puts the keywords back into a single string
    $parsedKeywords = implode('|', $keywords);
    $formComp['keywords'] = $parsedKeywords;
    $formComp['keywordsList'] = Keywords::display($keywords);
-   
+
    // Full template
-   $finalTplInput = array('articleID' => $article->get('id_article'), 
-   'editionForm' => '', 
-   'segmentsList' => '', 
-   'newSegmentButton' => !$article->isPublished() ? $article->get('id_article') : '', 
-   'truePreviewButton' => '', 
-   'publication' => '', 
+   $finalTplInput = array('articleID' => $article->get('id_article'),
+   'editionForm' => '',
+   'segmentsList' => '',
+   'newSegmentButton' => !$article->isPublished() ? $article->get('id_article') : '',
+   'truePreviewButton' => '',
+   'publication' => '',
    'highlighting' => '');
-   
+
    $highlightFormInput = null;
    if($article->isPublished())
    {
       $finalTplInput['publication'] = 'published||'.$article->get('id_article').'|'.$article->get('views');
-      
+
       // Highlighting form
       if(Utils::check(LoggedUser::$data['can_edit_all_posts']))
       {
-         $highlightFormInput = array('success' => '', 
-         'errors' => '', 
-         'ID' => $article->get('id_article'), 
-         'highlight' => '', 
+         $highlightFormInput = array('success' => '',
+         'errors' => '',
+         'ID' => $article->get('id_article'),
+         'highlight' => '',
          'featured' => Utils::check($article->get('featured')) ? 'checked' : '');
-         
+
          $highlightImg = $article->getHighlight();
          $bufferedHighlight = Buffer::getHighlight();
          if(strlen($highlightImg) > 0)
@@ -122,9 +124,9 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             $highlightFormInput['highlight'] = './'.substr($bufferedHighlight, strlen(PathHandler::HTTP_PATH()));
          else
             $highlightFormInput['highlight'] = './default_article_highlight.jpg';
-         
+
          $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-         
+
          // Highlight creation dialog
          $highlightTpl = TemplateEngine::parse('view/dialog/CustomHighlight.dialog.ctpl');
          if(!TemplateEngine::hasFailed($highlightTpl))
@@ -139,12 +141,12 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    {
       $finalTplInput['publication'] = 'empty||'.$article->get('id_article');
    }
-   
+
    // Lists segments
    if(count($segments) > 0)
    {
       require './view/intermediate/SegmentListItem.ir.php';
-   
+
       $segmentsInput = array();
       for($i = 0; $i < count($segments); $i++)
       {
@@ -154,12 +156,12 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          array_push($segmentsInput, $segmentIR);
       }
       $segmentsOutput = TemplateEngine::parseMultiple('view/user/SegmentListItem.item.ctpl', $segmentsInput);
-      
+
       $segmentsTpl = "<table id=\"segmentsList\">\n";
       for($i = 0; $i < count($segmentsOutput); $i++)
          $segmentsTpl .= $segmentsOutput[$i]."\n";
       $segmentsTpl .= "</table>\n";
-      
+
       $finalTplInput['segmentsList'] = $segmentsTpl;
       if(!TemplateEngine::hasFailed($segmentsTpl))
          $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
@@ -167,11 +169,11 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // New input only
    $formInput = array('thumbnail' => '',
-   'title' => '', 
-   'subtitle' => '', 
-   'type' => '', 
+   'title' => '',
+   'subtitle' => '',
+   'type' => '',
    'keywords' => '');
-   
+
    // Form treatment is similar to that of NewArticle.php
    if(!empty($_POST['sent']))
    {
@@ -183,10 +185,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
             $fullyCompleted = false;
       }
-      
+
       // Keywords
       $newKeywords = explode('|', $formInput['keywords']);
-      
+
       // Various errors (title already used for alias, wrong genre, etc.)
       if(!$fullyCompleted)
          $formComp['errors'] .= 'emptyFields|';
@@ -198,7 +200,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $formComp['errors'] .= 'invalidThumbnail|';
       if(count($newKeywords) == 1 && strlen($newKeywords[0]) == 0)
          $formComp['errors'] .= 'noKeywords|';
-      
+
       if(strlen($formComp['errors']) == 0)
       {
          // Finally updates the article
@@ -215,31 +217,31 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             $formComp['type'] = $formInput['type'].'||'.$typeChoices;
             $formComp['keywords'] = $formInput['keywords'];
             $formComp['keywordsList'] = Keywords::display($newKeywords);
-         
+
             $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
             $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
             WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
          }
-         
+
          // Updates the thumbnail if edited
          if($formInput['thumbnail'] !== $formComp['thumbnail'] || (strlen($article->getThumbnail()) == 0 && $formComp['thumbnail'] !== './default_article_thumbnail.jpg'))
          {
             $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
             Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
          }
-         
+
          // Updates the keywords
          $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
          $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
          $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
-         
+
          // Deletes the keywords absent from the new string
          try
          {
             Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
          }
          catch(Exception $e) { } // No dedicated error printed for now
-         
+
          // Adds the new keywords (maximum 10 - $nbCommonKeywords)
          for($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++)
          {
@@ -253,10 +255,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
                continue;
             }
          }
-         
+
          // Cleans the DB from tags that are no longer mapped to anything
          Tag::cleanOrphanTags();
-         
+
          // Reloads page and notifies the user everything was updated
          $formComp['success'] = 'yes';
          if($formInput['thumbnail'] !== './default_article_thumbnail.jpg')
@@ -282,7 +284,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $formComp['type'] = $formInput['type'].'||'.$typeChoices;
          $formComp['keywords'] = $formInput['keywords'];
          $formComp['keywordsList'] = Keywords::display($newKeywords);
-         
+
          $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
          $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
          WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
@@ -291,10 +293,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    else if(!empty($_POST['highlightThis']))
    {
       $picture = Utils::secure($_POST['highlight']);
-      
+
       if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH().substr($picture, 2)))
          $highlightFormInput['errors'] = 'invalidHighlight';
-      
+
       if(strlen($highlightFormInput['errors']) == 0)
       {
          if((isset($_POST['featured']) && !Utils::check($article->get('featured'))) || (!isset($_POST['featured']) && Utils::check($article->get('featured'))))
@@ -315,7 +317,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
                WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
             }
          }
-         
+
          // Updates the highlight picture if edited
          if($highlightFormInput['highlight'] !== $picture || (strlen($article->getHighlight()) == 0 && $picture !== './default_article_highlight.jpg'))
          {
@@ -323,7 +325,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             $highlightFormInput['highlight'] = './upload/articles/'.$article->get('id_article').'/highlight.jpg';
             Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'highlight');
          }
-         
+
          $highlightFormInput['success'] = 'yes';
          $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
          $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);

@@ -37,13 +37,6 @@ $user = new User(LoggedUser::$fullData);
  * preferences, access to advanced features and sentence history).
  */
 
-// $display1 = '';
-// $display2 = '';
-// $display3 = '';
-// $display4 = '';
-// $display5 = '';
-// $display6 = '';
-
 $avatarMaxSize = 1048576;
 $avatarRequirements = [
    "mimeTypes" => ["image/jpeg", "image/jpg"],
@@ -392,7 +385,7 @@ else if (!empty($_POST) && $_POST['dataToEdit'] === 'email') {
 // // Preferences edition
 
 
-$formUpdated = $_POST['dataToEdit'];
+$formUpdated = isset($_POST['dataToEdit']) ? $_POST['dataToEdit'] : "";
 
 // // Sentences history
 // try

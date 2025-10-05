@@ -1,0 +1,81 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<style>
+		.alert.error {
+			white-space: break-spaces;
+		}
+	</style>
+	<div class="smallContainer">
+		<h1>Créer un article</h1>
+		<section class="sectionBlock myAccount" id="password">
+			<h2 class="title">Créer un article</h2>
+			<form action="" class="content" autocomplete="off" method="POST" data-form-schema-validation="new_article">
+				<script type="text/schema" data-form-schema="new_article">
+					return z.object({
+                  title: z.string().min(1, {error: "Vous devez entrer un titre" }),
+                  subtitle: z.string().min(1, {error: "Vous devez entrer un sous-titre" }),
+                  type: z.string().min(1, {error: "Vous devez choisir un type d'article" }),
+                  thumbnail: z.file()
+                        .min(1, { error: "{{ form_error_messages.thumbnail.tooSmall }}" })
+                        .max({{ thumbnail_requirements.maxSize }})
+                        .mime("{{ thumbnail_requirements.mimeTypes }}".split(","),
+                           { error: "{{ form_error_messages.thumbnail.invalidFormat }}" }
+                        )
+               })
+				</script>
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered.password %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				{# {% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
+													<p class="alert success">Mise à jour réussie</p>
+												{% endif %} #}
+				<p class="alert info">Tous les champs sont requis</p>
+				<div>
+					<div class="inputContainer">
+						<label for="title">Titre</label>
+						<input type="text" name="title" id="title">
+					</div>
+					<div class="inputContainer">
+						<label for="subtitle">Sous-titre</label>
+						<input type="text" name="subtitle" id="subtitle">
+					</div>
+
+					<div class="inputContainer">
+						<p class="label">Bannière</p>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>L'image doit être au format .jp(e)g ou .png</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+								<li>L'image est celle qui s'affiche dans l'en-tête de l'article</li>
+							</ul>
+						</div>
+						{% include "includes/input-file.html.twig" with {
+                     "options": {
+                        "label": "Sélectionner image",
+                        "input_name": "thumbnail",
+                        "default_image": "./default_article_thumbnail.jpg",
+                        "mimeTypes": thumbnail_requirements.mimeTypes
+                     }
+                  }
+               %}
+					</div>
+					<div class="inputContainer">
+						<label for="type">Type</label>
+						<p class="alert info">Vous ne pourrez pas changer de type</p>
+						<select name="type" id="type">
+							<option value="">Choisir un type</option>
+							<option value="review">Critique</option>
+							<option value="preview">Aperçu</option>
+							<option value="opinion">Humeur</option>
+							<option value="chronicle">Chronique</option>
+							<option value="guide">Guide</option>
+							<option value="misc">Hors Jeu</option>
+						</select>
+					</div>
+					<div class="inputContainer">
+						<input type="submit" class="fit primaryButton" name="sent" value="Créer article">
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+{% endblock %}

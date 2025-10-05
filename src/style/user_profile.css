@@ -53,8 +53,9 @@
    }
 
    .userAvatar {
-      border-radius: 5px;
+      border-radius: var(--border-radius);
       align-self: center;
+      max-width: 150px;
    }
 }
 

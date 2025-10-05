@@ -1,7 +1,6 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block content %}
-{# {{ dump(user)}} #}
 	{% if user != null %}
 	   {% if user.banned %}
          <div class="bannedStatus">
@@ -9,11 +8,11 @@
          </div>
       {% endif %}
       <div class="userProfile userProfileSection">
-         <p class="centeredTitle">A propos de {{ user.pseudo }}</p>
+         <p class="pageTitle centeredTitle">A propos de {{ user.pseudo }}</p>
          {% include "includes/user-card.html.twig" with user %}
       </div>
       <div class="userProfileSection">
-         <p class="centeredTitle">Les articles publiés par {{ user.pseudo }}</p>
+         <p class="pageTitle centeredTitle">Les articles publiés par {{ user.pseudo }}</p>
          <ul id="articlesPool">
             {% for article in user.list_articles %}
                {% include "includes/article-thumbnail.html.twig" with article %}
@@ -24,7 +23,7 @@
          </ul>
       </div>
       <div class="userProfileSection">
-         <p class="centeredTitle">Les 5 derniers messages de {{ user.pseudo }}</p>
+         <p class="pageTitle centeredTitle">Les 5 derniers messages de {{ user.pseudo }}</p>
 
          <p class="morePosts">
             <a class="link" href="">Voir tous les messages de {{ user.pseudo }}</a>

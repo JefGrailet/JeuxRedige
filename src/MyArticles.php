@@ -102,13 +102,13 @@ $listArticlesComputed = array_map(function ($article) {
    );
 }, $articles, array_keys($articles));
 
-
 // WebpageHandler::wrap($content, 'Mes articles');
 
 echo $twig->render("articles_user.html.twig", [
    "page_title" => "Mes articles",
    "list_css_files" => ["pool"],
    "list_articles" => $listArticlesComputed,
+   "nb_articles" => $nbArticles,
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "Mes articles",

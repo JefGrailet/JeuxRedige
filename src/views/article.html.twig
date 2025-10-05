@@ -1,30 +1,22 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block fullWidthBanner %}
-<div class="centered extensibleHeaderWrapper">
-	<header class="extensibleHeader" style="background-image: url('https://www.jeuxredige.com/upload/articles/150/201/header.jpg');">
-		{# <div class="centered"> #}
-         <div class="wrapper">
-            <header class="articleHeader">
-               <div class="infos">
-                  <h1 class="title">{{ article.title }}</h1>
-                  <h2 class="subtitle">{{ article.subtitle }}</h2>
-               </div>
-            </header>
-         </div>
-      {# </div> #}
-	</header>
-      </div>
+	<div class="centered extensibleHeaderWrapper" data-article-header>
+		<header class="extensibleHeader" style="background-image: url('{{ article.header_img }}');">
+			<div class="wrapper">
+				<header class="articleHeader">
+					<div class="infos">
+						<h1 class="title">{{ article.title }}</h1>
+						<h2 class="subtitle">{{ article.subtitle }}</h2>
+					</div>
+				</header>
+			</div>
+		</header>
+	</div>
 {% endblock %}
 
 {% block content %}
-	{# <header class="articleHeader" style="background: url('https://www.jeuxredige.com/upload/articles/150/201/header.jpg') no-repeat center; padding-top: 16%; background-size: cover;">
-				<div class="infos">
-					<h1 class="title">{{ article.title }}</h1>
-					<h2 class="subtitle">{{ article.subtitle }}</h2>
-				</div>
-			</header> #}
-	<div style="height: 3500px"></div>
+	<div class="articleContent" data-article-content>{{ article.content|raw }}</div>
 	<footer class="authorContainer">
 		<div class="articleContainer">
 			<div id="footerAuthor" style="background: url({{ article.author.avatar }}) no-repeat top center;"></div>
@@ -34,7 +26,7 @@
 					<a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
 					Publié le
 					<time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time><br>
-					{# Dernière modification le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time> #}
+					Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
 				</p>
 			</div>
 		</div>

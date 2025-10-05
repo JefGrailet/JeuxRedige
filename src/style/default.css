@@ -41,12 +41,7 @@
    --box-shadow: 0px 0px 3px 0px #646464;
    --main-padding-top: 1.25rem;
 
-   --article-chronicle-color: #99368b;
-   --article-guide-color: #dd9302;
-   --article-misc-color: #969696;
-   --article-opinion-color: #91c148;
-   --article-preview-color: #34b1e5;
-   --article-review-color: #cd301e;
+   --article-type-color: transparent;
 
    interpolate-size: allow-keywords;
 }
@@ -2264,7 +2259,13 @@ textarea
    }
 }
 
-.login-form {
+.labelCheckboxContainer {
+   display: flex;
+   flex-direction: row;
+   gap: 0.25rem;
+}
+
+.loginForm {
    max-width: 25rem; /* 400px */
 }
 

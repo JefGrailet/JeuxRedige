@@ -12,7 +12,7 @@
 .segmentHeader, .articleHeader
 {
    position: relative;
-   min-height: 95px;
+   min-height: 85px;
 
    .infos {
       position: absolute;
@@ -22,10 +22,18 @@
       background-color: rgba(0, 0, 0, 0.75);
       border-top-right-radius: var(--border-radius);
       color: white;
+      z-index: 1;
+      background-color: rgb(from var(--article-type-color) r g b / 75%);
+
+      &:hover
+      {
+         background-color: rgb(from var(--article-type-color) r g b / 85%);
+      }
    }
 
    .title {
       font-size: 1.5rem; /* ~30px */
+      animation-name: extensibleHeaderTitle;
       @media screen and (width >= 1024px) {
          font-size: 1.875rem;
       }
@@ -37,6 +45,7 @@
 
    .subtitle {
       font-size: 1.05rem; /* ~24px */
+      animation-name: extensibleHeaderSubtitle;
       @media screen and (width >= 1024px) {
          font-size: 1.25rem;
       }
@@ -125,7 +134,6 @@
 
 .segmentBody p
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    text-align: justify;
    padding:  7px;
@@ -265,76 +273,72 @@
    color: #c8c8c8;
 }
 
-/* Summary style */
+/* Summary style #cd1e1e1f */
 
 .summary
 {
+   display: flex;
+   flex-direction: column;
+   gap: 0.75rem;
+   justify-content: space-between;
+   margin-top: 1rem;
+
+   @media screen and (width >= 1024px) {
+      flex-direction: row;
+   }
+}
+
+:is(.summaryGood, .summaryBad) {
+   ul {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 20px;
+   }
+
+   h3 {
+      display: inline-block;
+      margin-top: 0px;
+      margin-right: 15px;
+      padding: 10px 100px 10px 10px;
+      border-radius: 5px;
+      background-color: black;
+      color: white;
+      font-size: 1rem; /* ~16px */
+      border: 2px solid var(--article-type-color);
+   }
+
+   li:before
+   {
+      font-size: 1rem; /* ~16px */
+      list-style: none;
+      padding-bottom: 5px;
+
+      &::before {
+         content: "▶";
+         font-variant-emoji: text;
+         display: inline-block;
+         width: 1rem;
+         margin-left: -1rem;
+         margin-right: 0.25rem;
+         color: var(--article-type-color);
+      }
+   }
+}
+
+.conclusion {
    clear: both;
-}
-
-.summaryGood
-{
-   width: 50%;
-   float: left;
-}
-
-.summaryBad
-{
-   width: 50%;
-   float: right;
-}
-
-.summaryGood h3, .summaryBad h3
-{
-   display: inline-block;
-   margin-top: 0px;
-   margin-left: 15px;
-   margin-right: 15px;
-   padding: 10px 100px 10px 10px;
-   border-radius: 5px;
    background-color: black;
    color: white;
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", sans-serif;
-}
-
-.summaryGood ul, .summaryBad ul
-{
-   margin-top: 0px;
-   margin-bottom: 10px;
-   margin-left: 20px;
-   padding-left: 20px;
-}
-
-.summaryGood li, .summaryBad li
-{
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", sans-serif;
-   list-style: none;
+   border-radius: 5px;
    padding-bottom: 5px;
-}
+   border: 2px solid var(--article-type-color);
+   padding: 10px 17px;
+   margin-bottom: 1rem;
 
-.summaryGood li:before, .summaryBad li:before
-{
-   content: "\0025B6";
-   display: inline-block;
-   width: 1rem;
-   margin-left: -1rem;
-   margin-right: 0.25rem;
-}
-
-/* Style for bottom of segment (previous and next section) */
-
-.segmentBottomLeft
-{
-   float: left;
-   width: 50%;
-}
-
-.segmentBottomRight
-{
-   float:right;
-   width: 50%;
+   .title {
+      margin-top: 0;
+      margin-inline: 0;
+   }
 }
 
 /* Container for keywords. */
@@ -343,7 +347,6 @@
 {
    position: relative;
    text-align: center;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    background: none;
    margin-top: 20px;
@@ -378,7 +381,7 @@
 #articleFooter, .authorContainer
 {
    background: none;
-   margin: 20px var(--root-side-margin);
+   margin-block: 20px;
    padding-bottom: 5px;
    display: flex;
    justify-content: flex-end;
@@ -475,7 +478,6 @@
    background-color: rgba(0, 0, 0, 0.7);
    color: white;
    border-radius: 0px 0px 0px 5px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.25rem; /* ~20px */
    cursor: pointer;
    transition: transform 250ms ease-in-out;
@@ -601,14 +603,12 @@
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
 .commentText p
 {
    margin: 0px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    padding: 10px 6px;
    text-align: justify;
@@ -620,7 +620,6 @@
    border-radius: 5px 0px 0px 5px;
    background-color: black;
    color: white;
-   font-family: "Roboto", "Arial", sans-serif;
    margin: 0px;
    padding: 5px 10px;
 }
@@ -629,7 +628,6 @@
 {
    text-decoration: none;
    color: white;
-   font-family: "Roboto", "Arial", sans-serif;
 }
 
 .commentText .commentTextTop .commentAuthor a:hover
@@ -657,7 +655,6 @@
    margin: 5px 0px;
    padding: 0px;
    color: white;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
 }
 
@@ -670,7 +667,6 @@
 
 .commentText li
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 0.875rem; /* ~14px */
    text-align: justify;
    margin-top: 10px;
@@ -734,7 +730,6 @@
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
    border-radius: 5px;
-   font-family: "Roboto", "Arial", sans-serif;
    margin-left: 15px;
    margin-right: 15px;
    margin-bottom: 15px;
@@ -789,22 +784,24 @@
    margin-bottom: 75px;
 }
 
+.articleContent {
+   padding-bottom: 5px;
+   padding-inline: 1.25rem;
+   box-shadow: 0px 0px 2px 0px grey;
+   margin-top: 258px;
+   background-color: white;
+   border-bottom-left-radius: var(--border-radius);
+   border-bottom-right-radius: var(--border-radius);
+}
+
 .extensibleHeaderWrapper {
    position: fixed;
    left: 0;
    right: 0;
    animation-name: extensibleHeaderWrapper;
-
-   /* &::after {
-      background-color: rgba(255, 255, 255, 0.11);
-      content: "";
-      display: block;
-      position: absolute;
-      inset: 0;
-   } */
 }
 
-.extensibleHeaderWrapper, .extensibleHeader {
+.extensibleHeaderWrapper, .extensibleHeader, .extensibleHeader::before, .articleHeader .title, .articleHeader .subtitle {
    @supports (animation-timeline: scroll()) {
       animation-timeline: scroll();
       animation-range: 0 200px;
@@ -816,17 +813,25 @@
 .extensibleHeader {
    border-radius: var(--border-radius) var(--border-radius) 0px 0px;
    background-color: rgb(255, 255, 255);
-
    max-width: var(--content-max-width);
    top: 116px;
    margin: 0 auto;
-   /* height: 19rem; */
-   padding-top: 12%;
+   padding-top: 10%;
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
    box-shadow: 0px 0px 2px 0px grey;
-   /* z-index: 100; */
+   overflow: hidden;
+
+   &::before {
+      content: "";
+      display: block;
+      background-color: rgb(26, 26, 26);
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      animation-name: extensibleHeaderBefore;
+   }
 
    @media screen and (width >= 768px) {
       top: 56px;
@@ -839,16 +844,6 @@
    @supports (animation-timeline: scroll()) {
       animation-name: extensibleHeader;
    }
-
-   .centered {
-      @supports (animation-timeline: scroll()) {
-         /* animation-name: extensibleHeaderCentered; */
-         animation-timeline: scroll();
-         animation-range: 0 200px;
-         animation-timing-function: linear;
-         animation-fill-mode: both;
-      }
-   }
 }
 
 @keyframes extensibleHeader {
@@ -857,6 +852,7 @@
       padding-top: 0%;
       max-width: 100%;
       box-shadow: 0 2px 3px 0px #646464a9;
+      /* margin-top: 0; */
   }
 }
 
@@ -864,5 +860,31 @@
   to {
       margin-top: calc(var(--main-padding-top) * -1);
       margin-inline: 0;
+  }
+}
+
+@keyframes extensibleHeaderBefore {
+  to {
+      opacity: 0.2;
+  }
+}
+
+@keyframes extensibleHeaderTitle {
+  to {
+      margin-bottom: 0;
+      font-size: 1.25rem;
+      @media screen and (width >= 1024px) {
+         font-size: 1.5rem;
+         margin-bottom: 0;
+      }
+  }
+}
+
+@keyframes extensibleHeaderSubtitle {
+  to {
+      font-size: 0.95rem;
+      @media screen and (width >= 1024px) {
+         font-size: 1rem;
+      }
   }
 }

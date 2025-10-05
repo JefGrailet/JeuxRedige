@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" style="--article-type-color: {{ articleColor }}">
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +51,6 @@
          <link rel="stylesheet" href="{{ webRoot ~ "/style/" ~ css_file ~ ".css" }}">
       {% endfor %}
 
-
       <script text="text/javascript">
          const ConfigurationValues = {};
          ConfigurationValues.HTTP_PATH = "{{ webRoot }}/";
@@ -73,6 +72,9 @@
       {
          --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
          --scrollbar-menu-color: {{ list_categories[current_category].color is defined ? "var(--current-page-color)" : "auto"}};
+         {% for key, article_category in list_categories %}
+         --article-{{ key }}-color: {{ article_category.color }};
+         {% endfor %}
       }
    </style>
 </head>

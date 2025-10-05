@@ -12,18 +12,21 @@
 			<form action="" class="content" autocomplete="off" method="POST" data-form-schema-validation="new_article">
 				<script type="text/schema" data-form-schema="new_article">
 					return z.object({
-                  title: z.string().min(1, {error: "Vous devez entrer un titre" }),
-                  subtitle: z.string().min(1, {error: "Vous devez entrer un sous-titre" }),
+                  title: z.string().min(1, {error: "Vous devez entrer un titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
+                  subtitle: z.string().min(1, {error: "Vous devez entrer un sous-titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
                   type: z.string().min(1, {error: "Vous devez choisir un type d'article" }),
                   thumbnail: z.file()
                         .min(1, { error: "{{ form_error_messages.thumbnail.tooSmall }}" })
                         .max({{ thumbnail_requirements.maxSize }})
                         .mime("{{ thumbnail_requirements.mimeTypes }}".split(","),
                            { error: "{{ form_error_messages.thumbnail.invalidFormat }}" }
-                        )
+                        ),
+                  "keywords[]": z.string().min(1, {error: "Vous devez choisir au moins un mot-clef" })
+                     .max(10, {error: "Vous ne pouvez pas mettre plus de 10 mots-clefs" })
+                  ,
                })
 				</script>
-				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered.password %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				{# {% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
 													<p class="alert success">Mise à jour réussie</p>
 												{% endif %} #}
@@ -43,7 +46,7 @@
 						<div class="notes">
 							<p class="title">Remarques :</p>
 							<ul>
-								<li>L'image doit être au format .jp(e)g ou .png</li>
+								<li>L'image doit être au format .jp(e)g</li>
 								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
 								<li>L'image est celle qui s'affiche dans l'en-tête de l'article</li>
 							</ul>
@@ -60,7 +63,12 @@
 					</div>
 					<div class="inputContainer">
 						<label for="type">Type</label>
-						<p class="alert info">Vous ne pourrez pas changer de type</p>
+                  <div class="notes">
+							<p class="title">Remarque :</p>
+							<ul>
+								<li>Vous ne pourrez pas changer de type</li>
+							</ul>
+						</div>
 						<select name="type" id="type">
 							<option value="">Choisir un type</option>
 							<option value="review">Critique</option>
@@ -70,6 +78,16 @@
 							<option value="guide">Guide</option>
 							<option value="misc">Hors Jeu</option>
 						</select>
+					</div>
+               <div class="inputContainer">
+						<label for="keywords">Mots-clefs (10 maximum)</label>
+                  <div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>Vous pouvez créer vos propres mots-clefs en appuyant sur la touche "entrée" ou en sélectionnant la nouvelle entrée</li>
+							</ul>
+						</div>
+						<select data-dropdown-keywords='{"tags": true, "maximumSelectionLength": 10}' id="keywords" name="keywords[]" multiple="multiple"></select>
 					</div>
 					<div class="inputContainer">
 						<input type="submit" class="fit primaryButton" name="sent" value="Créer article">

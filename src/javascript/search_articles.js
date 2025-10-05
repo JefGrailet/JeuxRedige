@@ -12,32 +12,42 @@ function formatState(state) {
    return $tpl;
 }
 
-$("[data-dropdown-keywords]").select2({
-   placeholder: "Entrez un mot-clef",
-   minimumInputLength: 2,
-   minimumResultsForSearch: 2,
-   language: "fr",
-   cache: true,
-   width: '100%',
-   ajax: {
-      delay: 250,
-      url: "./ajax/FindKeywordsJSON.php",
-      dataType: "json",
-      data: function (params) {
-         const query = {
-            keyword: params.term,
-         };
+console.log($("[data-dropdown-keywords]"))
 
-         return query;
+$("[data-dropdown-keywords]").each((_, el) => {
+   let customOptions = {};
+   if (el.dataset.dropdownKeywords) {
+      customOptions = JSON.parse(el.dataset.dropdownKeywords);
+   }
+
+   $(el).select2({
+      placeholder: "Entrez un mot-clef",
+      minimumInputLength: 2,
+      minimumResultsForSearch: 2,
+      language: "fr",
+      cache: true,
+      width: '100%',
+      ...customOptions,
+      ajax: {
+         delay: 250,
+         url: "./ajax/FindKeywordsJSON.php",
+         dataType: "json",
+         data: function (params) {
+            const query = {
+               keyword: params.term,
+            };
+
+            return query;
+         },
+         processResults: function (data) {
+            return {
+               results: data.map((item) => ({ text: item, id: item })),
+            };
+         },
       },
-      processResults: function (data) {
-         return {
-            results: data.map((item) => ({ text: item, id: item })),
-         };
-      },
-   },
-   // templateResult: formatState,
+   });
 });
+
 
 const urlParams = new URLSearchParams(window.location.search);
 const listKeywords = urlParams.getAll('keywords[]');

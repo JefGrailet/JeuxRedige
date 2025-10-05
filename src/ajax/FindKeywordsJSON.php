@@ -40,5 +40,3 @@ if(isset($_GET['keyword']) && !empty($_GET['keyword']))
       echo json_encode([]);
    }
 }
-
-?>

@@ -80,7 +80,15 @@ pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
 					</ul>
 				</div>
 
-            {% include "includes/input-file.html.twig" with user %}
+            {% include "includes/input-file.html.twig" with {
+                  "options": {
+                     "label": "Sélectionner avatar",
+                     "input_name": "avatar",
+                     "default_image": user.avatar,
+                     "mimeTypes": avatar_requirements.mimeTypes
+                  }
+               }
+            %}
 
             <div class="inputContainer">
 					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">

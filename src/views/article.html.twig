@@ -9,6 +9,13 @@
 						<h1 class="title">{{ article.title }}</h1>
 						<h2 class="subtitle">{{ article.subtitle }}</h2>
 					</div>
+               {% if article.edit_link %}
+                  <div class="toolbar">
+                     {% if article.edit_link %}
+                        <a href="{{ article.edit_link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">Éditer mon article</span></a>
+                     {% endif %}
+                  </div>
+               {% endif %}
 				</header>
 			</div>
 		</header>

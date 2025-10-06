@@ -31,6 +31,18 @@
       }
    }
 
+   .toolbar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 10px 20px 10px 20px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-top-left-radius: var(--border-radius);
+      a {
+         color: white;
+      }
+   }
+
    .title {
       font-size: 1.5rem; /* ~30px */
       animation-name: extensibleHeaderTitle;

@@ -6,14 +6,13 @@
 		}
 	</style>
 	<div class="smallContainer">
-		<h1>Créer un article</h1>
       {% set array = {} %}
       {% for key, category in list_categories %}
          {% set array = array|merge({ (key): category.name.singular }) %}
       {% endfor %}
 
 		<section class="sectionBlock myAccount" id="password">
-			<h2 class="title">Créer un article</h2>
+			<h1 class="title">Créer un article</h1>
 			<form action="" class="content" autocomplete="off" method="POST" data-form-schema-validation="new_article">
 				<script type="text/schema" data-form-schema="new_article">
 					return z.object({
@@ -35,7 +34,7 @@
 				{# {% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
 													<p class="alert success">Mise à jour réussie</p>
 												{% endif %} #}
-				<p class="alert info">Tous les champs sont requis</p>
+				<p class="alert warning">Tous les champs sont requis</p>
 				<div>
 					<div class="inputContainer">
 						<label for="title">Titre</label>
@@ -68,12 +67,6 @@
 					</div>
 					<div class="inputContainer">
 						<label for="type">Type</label>
-                  <div class="notes">
-							<p class="title">Remarque :</p>
-							<ul>
-								<li>Vous ne pourrez pas changer de type</li>
-							</ul>
-						</div>
 						<select name="type" id="type" data-article-type="{{ array|json_encode() }}">
 							<option value="">Choisir un type</option>
 							<option value="review">Critique</option>

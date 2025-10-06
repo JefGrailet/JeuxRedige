@@ -85,37 +85,31 @@ if(is_null($currentThumbnail))
 else
    $currentThumbnailValue = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
 
-// Form components
-$formComp = array('errors' => '',
-'thumbnailPath' => $currentThumbnail,
-'title' => '',
-'subtitle' => '',
-'type' => 'review||'.$typeChoices, // Default
-'keywords' => '',
-'thumbnail' => '',
-'keywordsList' => '');
 
 // Input only (distinct from above, as items in select fields are not present)
-$formInput = array('thumbnail' => $currentThumbnail,
-'title' => '',
-'subtitle' => '',
-'type' => '',
-'keywords' => '');
+$formInput = [
+   'thumbnail' => $currentThumbnail,
+   'title' => '',
+   'subtitle' => '',
+   'type' => '',
+   'keywords' => '',
+];
 
 // Form treatment starts here
 if(!empty($_POST))
 {
    $inputList = array_keys($formInput);
+
    $fullyCompleted = true;
    for($i = 0; $i < count($inputList); $i++)
    {
-      $formInput[$inputList[$i]] = Utils::secure($_POST[$inputList[$i]]);
+      $formInput[$inputList[$i]] = is_string($_POST[$inputList[$i]]) ? Utils::secure($_POST[$inputList[$i]]) : $_POST[$inputList[$i]];
       if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
          $fullyCompleted = false;
    }
 
    // Keywords
-   $keywordsArr = explode('|', $formInput['keywords']);
+   $listKeywords = $formInput['keywords'];
 
    if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
       $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
@@ -132,12 +126,10 @@ if(!empty($_POST))
       array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
    if(strlen($formInput['subtitle']) > 100)
       array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
-   // if($formInput['thumbnail'] === './default_article_thumbnail.jpg' || !file_exists(PathHandler::WWW_PATH().$formInput['thumbnail']))
-   //    $formComp['errors'] .= 'invalidThumbnail|';
-   if(count($keywordsArr) == 1 && strlen($keywordsArr[0]) == 0)
+   if(count($listKeywords) == 1 && strlen($listKeywords[0]) == 0)
       array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
 
-   if(strlen($formComp['errors']) == 0)
+   if(count($formErrorMessagesTriggered) == 0)
    {
       // Finally inserts the article (new error display in case of DB problem)
       $newArticle = null;
@@ -146,52 +138,55 @@ if(!empty($_POST))
          $newArticle = Article::insert($formInput['title'],
                                        $formInput['subtitle'],
                                        $formInput['type']);
+         // Saves the thumbnail
+         $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
+         Buffer::save('upload/articles/'.$newArticle->get('id_article'), $fileName, 'thumbnail');
+
+         // Inserts keywords; we move to the next if an exception occurs while mapping the keywords
+         for($i = 0; $i < count($listKeywords) && $i < 10; $i++)
+         {
+            if(strlen($listKeywords[$i]) == 0)
+               continue;
+
+            try
+            {
+               $tag = new Tag($listKeywords[$i]);
+               $tag->mapToArticle($newArticle->get('id_article'));
+            }
+            catch(Exception $e)
+            {
+               continue;
+            }
+         }
+
+         $newArticleURL = './EditArticle.php?id_article='.$newArticle->get('id_article');
+         setcookie("flash_message", "article_created", time() + 1);
+         exit(header('Location:'.$newArticleURL));
       }
       catch(Exception $e)
       {
-         $formComp['errors'] = 'dbError';
-         $formComp['thumbnailPath'] = PathHandler::HTTP_PATH().$formInput['thumbnail'];
-         $formComp['thumbnail'] = $formInput['thumbnail'];
-         $formComp['title'] = $formInput['title'];
-         $formComp['subtitle'] = $formInput['subtitle'];
-         $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-         $formComp['keywords'] = $formInput['keywords'];
-         $formComp['keywordsList'] = Keywords::display($keywordsArr);
+         array_push($formErrorMessagesTriggered, $formErrorMessages["dbError"]);
+         // $formComp['errors'] = 'dbError';
+         // $formComp['thumbnailPath'] = PathHandler::HTTP_PATH().$formInput['thumbnail'];
+         // $formComp['thumbnail'] = $formInput['thumbnail'];
+         // $formComp['title'] = $formInput['title'];
+         // $formComp['subtitle'] = $formInput['subtitle'];
+         // $formComp['type'] = $formInput['type'].'||'.$typeChoices;
+         // $formComp['keywords'] = $formInput['keywords'];
+         // $formComp['keywordsList'] = Keywords::display($keywordsArr);
 
-         $formTpl = TemplateEngine::parse('view/content/NewArticle.form.ctpl', $formComp);
-         WebpageHandler::wrap($formTpl, 'Ajouter un jeu dans la base de données', $dialogs);
-      }
-
-      // Saves the thumbnail
-      $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
-      Buffer::save('upload/articles/'.$newArticle->get('id_article'), $fileName, 'thumbnail');
-
-      // Inserts keywords; we move to the next if an exception occurs while mapping the keywords
-      for($i = 0; $i < count($keywordsArr) && $i < 10; $i++)
-      {
-         if(strlen($keywordsArr[$i]) == 0)
-            continue;
-
-         try
-         {
-            $tag = new Tag($keywordsArr[$i]);
-            $tag->mapToArticle($newArticle->get('id_article'));
-         }
-         catch(Exception $e)
-         {
-            continue;
-         }
+         // $formTpl = TemplateEngine::parse('view/content/NewArticle.form.ctpl', $formComp);
+         // WebpageHandler::wrap($formTpl, 'Ajouter un jeu dans la base de données', $dialogs);
       }
 
       // URL of the edition page of the new article + redirection to it
-      $newArticleURL = './EditArticle.php?id_article='.$newArticle->get('id_article');
-      header('Location:'.$newArticleURL);
+
 
       // Success page
-      $tplInput = array('title' => $newArticle->get('title'), 'target' => $newArticleURL);
-      $successPage = TemplateEngine::parse('view/user/NewArticle.success.ctpl', $tplInput);
-      WebpageHandler::resetDisplay();
-      WebpageHandler::wrap($successPage, 'Créer un nouvel article');
+      // $tplInput = array('title' => $newArticle->get('title'), 'target' => $newArticleURL);
+      // $successPage = TemplateEngine::parse('view/user/NewArticle.success.ctpl', $tplInput);
+      // WebpageHandler::resetDisplay();
+      // WebpageHandler::wrap($successPage, 'Créer un nouvel article');
    }
    else
    {
@@ -207,7 +202,6 @@ if(!empty($_POST))
       WebpageHandler::wrap($formTpl, 'Créer un nouvel article', $dialogs);
    }
 }
-
 
 echo $twig->render("new_article.html.twig", [
    "page_title" => "Créer un nouvel article",
@@ -229,5 +223,3 @@ echo $twig->render("new_article.html.twig", [
    ]
 ]);
 
-
-?>

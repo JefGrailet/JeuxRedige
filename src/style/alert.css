@@ -23,11 +23,6 @@
          border: 1px solid #991b1b;
          color: #991b1b;
       }
-
-      &:empty {
-         margin: 0;
-         padding: 0;
-      }
    }
 
    &.neutral {
@@ -40,5 +35,16 @@
       background-color: #ecfdf5;
       border: 1px solid #065f46;
       color: #065f46;
+   }
+
+   &.warning {
+      background-color: oklch(0.99 0.02 95.15);
+      border: 1px solid oklch(0.47 0.12 46.2);
+      color: oklch(0.47 0.12 46.2);
+   }
+
+   &:empty {
+      margin: 0;
+      padding: 0;
    }
 }

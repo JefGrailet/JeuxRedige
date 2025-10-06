@@ -60,7 +60,7 @@ if(!empty($_POST))
          }
          else if(!password_verify($hashPwd, $user->get('password'))) // bcrypt verification
          {
-            array_push($formErrorMessagesTriggered, "Le mot de passe est erroné");
+            array_push($formErrorMessagesTriggered, "Les identifiants sont incorrects");
          }
          else if($banExpiration > Utils::SQLServerTime())
          {

@@ -744,7 +744,7 @@ dialog, [popover] {
    }
 }
 
-input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select, [type="submit"] {
+input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select {
    padding: 0.5rem 0.35rem!important;
 }
 
@@ -770,9 +770,12 @@ input[type="submit"] {
 .primaryButton {
    background-color: #0c960c;
    color: white;
-   padding: 0.25rem 1.25rem;
+   padding: 0.5rem 1.25rem;
    border-radius: 4px;
    font-family: "Roboto", "Arial", sans-serif;
+   display: inline-flex;
+   flex-direction: row;
+   gap: 0.5rem;
    font-size: 1rem;
    border: none;
    transition: background-color var(--transition-time);
@@ -1739,7 +1742,6 @@ textarea
       padding: 5px;
       font-size: 1.625rem; /* ~26px */
       font-weight: bold;
-      font-family: "Roboto", "Arial", sans-serif;
    }
 
    /* Titles in highlight */

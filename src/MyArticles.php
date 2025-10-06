@@ -20,10 +20,6 @@ if(!LoggedUser::isLoggedIn())
    WebpageHandler::wrap($tpl, 'Vous devez être connecté pour éditer vos articles');
 }
 
-// Webpage settings
-WebpageHandler::addCSS('pool');
-WebpageHandler::noContainer();
-
 // Gets the articles
 $nbArticles = 0;
 $articles = null;
@@ -70,28 +66,7 @@ for($i = 0; $i < count($articles); $i++)
    array_push($fullInput, $intermediate);
 }
 
-if(count($fullInput) > 0)
-{
-   $fullOutput = TemplateEngine::parseMultiple('view/content/ArticleThumbnail.ctpl', $fullInput);
-   if(TemplateEngine::hasFailed($fullOutput))
-   {
-      $errorTplInput = array('error' => 'wrongTemplating');
-      $tpl = TemplateEngine::parse('view/user/MyArticles.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Impossible d\'atteindre vos articles');
-   }
-
-   for($i = 0; $i < count($fullOutput); $i++)
-      $thumbnails .= $fullOutput[$i];
-}
-
-// Final HTML code (with page configuration)
-$pageConfig = WebpageHandler::$miscParams['articles_per_page'].'|'.$nbArticles.'|'.$currentPage;
-$pageConfig .= '|./MyArticles.php?page=[]';
-$finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails);
-$content = TemplateEngine::parse('view/user/MyArticles.ctpl', $finalTplInput);
-
 // Displays the produced page
-
 $listArticlesComputed = array_map(function ($article) {
    return array(
       ...$article,
@@ -109,6 +84,7 @@ echo $twig->render("articles_user.html.twig", [
    "list_css_files" => ["pool"],
    "list_articles" => $listArticlesComputed,
    "nb_articles" => $nbArticles,
+   "nb_pages" => $nbPages,
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "Mes articles",

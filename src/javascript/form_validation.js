@@ -13,52 +13,58 @@ const formValidation = (e) => {
    let schema = new Function(
       document.querySelector(`[data-form-schema=${schemaName}]`)?.textContent
    )();
-   if (schema) {
-      const formData = new FormData(form);
-      if (!formData.has("keywords[]")) {
-         formData.append("keywords[]", "");
-      }
 
-      const validator = schema.safeParse(Object.fromEntries(formData));
+   if (!schema) {
+      return true;
+   }
 
-      form.querySelectorAll(":not(.alert):is(.error)").forEach((item) => {
-         item.classList.remove("error");
-         item.removeAttribute("aria-invalid");
-         item.removeAttribute("aria-errormessage");
-      });
+   const formData = new FormData(form);
+   if (!formData.has("keywords[]")) {
+      formData.append("keywords[]", "");
+   }
 
-      if (!validator.success) {
-         const bannerError = form.querySelector(
-            `[data-form-error=${schemaName}]`
-         );
-         bannerError.innerHTML = "";
-         validator.error.issues.forEach((item) => {
-            const li = document.createElement("li");
-            li.textContent = item.message;
+   const validator = schema.safeParse(Object.fromEntries(formData));
 
-            item.path.forEach((path) => {
-               const inputRelated = form.querySelector(
-                  `[name="${String(path)}"]`
-               );
+   form.querySelectorAll(":not(.alert):is(.error)").forEach((item) => {
+      item.classList.remove("error");
+      item.removeAttribute("aria-invalid");
+      item.removeAttribute("aria-errormessage");
+   });
 
-               if (inputRelated) {
-                  inputRelated.classList.add("error");
-                  inputRelated.ariaInvalid = "true";
-               }
-            });
+   if (!validator.success) {
+      const bannerError = form.querySelector(
+         `[data-form-error=${schemaName}]`
+      );
+      bannerError.innerHTML = "";
+      validator.error.issues.forEach((item) => {
+         const li = document.createElement("li");
+         li.textContent = item.message;
 
-            bannerError?.appendChild(li);
+         item.path.forEach((path) => {
+            const inputRelated = form.querySelector(
+               `[name="${String(path)}"]`
+            );
+
+            if (inputRelated) {
+               inputRelated.classList.add("error");
+               inputRelated.ariaInvalid = "true";
+            }
          });
 
-         return;
-      }
+         bannerError?.appendChild(li);
+      });
+
+      return false;
    }
+
+   return true;
 };
 
 const formSubmission = (e) => {
    const form = e.currentTarget;
    form.dataset.isDirty = "";
 
+   console.log(formValidation(e))
    if (!formValidation(e)) {
       return;
    }

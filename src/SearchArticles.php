@@ -174,7 +174,7 @@ WebpageHandler::noContainer();
 
 echo $twig->render("search-articles.html.twig", [
    "list_css_files" => ["pool", "select2.min", "form_search"],
-   "list_js_files" => ["select2.min", "select2.fr.min", "search_articles"],
+   "list_js_files" => ["select2.min", "select2.fr.min", "keywords_v2"],
    "page_title" => "Rechercher des articles",
    "no_custom_logo" => true,
    "selectedLogo" => $twig->getGlobals()["current_category"],

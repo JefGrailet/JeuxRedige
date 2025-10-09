@@ -2,6 +2,8 @@ import * as z from "./zod.module.js";
 
 window.z = z;
 
+window.z.config(z.locales.fr());
+
 const formValidation = (e) => {
    const form = e.currentTarget;
    if (!("isDirty" in form.dataset)) {
@@ -64,7 +66,6 @@ const formSubmission = (e) => {
    const form = e.currentTarget;
    form.dataset.isDirty = "";
 
-   console.log(formValidation(e))
    if (!formValidation(e)) {
       return;
    }

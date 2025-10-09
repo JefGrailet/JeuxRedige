@@ -12,8 +12,6 @@ function formatState(state) {
    return $tpl;
 }
 
-console.log($("[data-dropdown-keywords]"))
-
 $("[data-dropdown-keywords]").each((_, el) => {
    let customOptions = {};
    if (el.dataset.dropdownKeywords) {
@@ -45,7 +43,12 @@ $("[data-dropdown-keywords]").each((_, el) => {
             };
          },
       },
-   });
+   }).on("select2:select select2:unselect", (e) => {
+      const form = e.target.closest("form[data-is-dirty]")
+      if (form) {
+         form.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+   })
 });
 
 

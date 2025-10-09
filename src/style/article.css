@@ -811,6 +811,21 @@
    background-color: white;
    border-bottom-left-radius: var(--border-radius);
    border-bottom-right-radius: var(--border-radius);
+
+   h2 {
+      font-size: 1.25rem;
+      padding: 10px;
+      padding-left: 0;
+      padding-bottom: 0;
+      text-align: justify;
+      margin-top: 1.25rem;
+      margin-bottom: 0;
+      color: var(--article-type-color, black);
+
+      &::before {
+         content: "\0025B6\00a0";
+      }
+   }
 }
 
 .extensibleHeaderWrapper {

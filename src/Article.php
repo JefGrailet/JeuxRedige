@@ -15,8 +15,6 @@ require './view/intermediate/ArticleThumbnail.ir.php';
 
 require_once './libraries/core/Twig.config.php';
 
-require_once './libraries/core/Twig.config.php';
-
 WebpageHandler::redirectionAtLoggingIn();
 
 // Obtains game title and retrieves the corresponding entry
@@ -176,6 +174,11 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    $currentThumbnail = Buffer::getArticleThumbnail();
    // print_r(file_exists(PathHandler::HTTP_PATH().'upload/articles/'.$article->get('id_article').'/'. $article->getBufferedSegments()[0]["id_segment"] .'/header.jpg') ? "true" : "false");
    // print_r(PathHandler::HTTP_PATH().'upload/articles/'.$article->get('id_article').'/'. $article->getBufferedSegments()[0]["id_segment"] .'/header.jpg');
+
+   $isAuthorIsCurrentUser = false;
+   if (LoggedUser::isLoggedIn()) {
+      $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
+   }
 
    echo $twig->render("article.html.twig", [
       "page_title" => $title,

@@ -17,4 +17,9 @@
 
 form .error {
    border-color: oklch(44.4% 0.177 26.899) !important;
+   border-style: solid;
+   border-width: 1px;
+   ~ .select2-container .select2-selection {
+      border-color: oklch(44.4% 0.177 26.899) !important;
+   }
 }

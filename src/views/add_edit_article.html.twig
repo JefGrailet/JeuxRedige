@@ -1,0 +1,145 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<div>
+		{% set array = {} %}
+		{% for key, category in list_categories %}
+			{% set array = array|merge({ (key): category.name.singular }) %}
+		{% endfor %}
+
+		<section class="sectionBlock">
+			<h1 class="title">{{ type == "add" ? "Créer un article" : "Éditer l'article" }}</h1>
+			<form action="" class="content" autocomplete="off" method="POST" data-form-schema-validation="new_article">
+				<script type="text/schema" data-form-schema="new_article">
+					return z.object({
+                  title: z.string().min(1, {error: "Vous devez entrer un titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
+                  subtitle: z.string().min(1, {error: "Vous devez entrer un sous-titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
+                  type: z.string().min(1, {error: "Vous devez choisir un type d'article" }),
+                  thumbnail: z.file()
+                     .nullable()
+                     .transform((file) => (file && file.size > 0 ? file : null))
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return "{{ thumbnail_requirements.mimeTypes }}".split(",").includes(file?.type);
+                           },
+                           "{{ form_error_messages.thumbnail.invalidFormat|e('js')|raw }}"
+                     )
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return file?.type < {{ thumbnail_requirements.maxSize }};
+                           },
+                           "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
+                     ),
+                  "keywords[]": z.string().min(1, {error: "Vous devez choisir au moins un mot-clef" })
+                     .max(10, {error: "Vous ne pouvez pas mettre plus de 10 mots-clefs" })
+                  ,
+               })
+				</script>
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<p class="alert warning">Les champs avec <span class="danger">*</span> sont requis</p>
+            {% if flash_message == "article_created" %}
+				<p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+            {% endif %}
+				<div>
+					<div class="inputContainer">
+						<label for="title">Titre*</label>
+						<input type="text" name="title" id="title" value="{{ article.title }}">
+					</div>
+					<div class="inputContainer">
+						<label for="subtitle">Sous-titre*</label>
+						<input type="text" name="subtitle" id="subtitle" value="{{ article.subtitle }}">
+					</div>
+
+					<div class="inputContainer">
+						<p class="label">Bannière</p>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>L'image doit être au format .jp(e)g</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+								<li>L'image est celle qui s'affiche dans l'en-tête de l'article</li>
+							</ul>
+						</div>
+						{% include "includes/input-file.html.twig" with {
+                     "options": {
+                        "label": "Sélectionner image",
+                        "input_name": "thumbnail",
+                        "default_image": "./default_article_thumbnail.jpg",
+                        "mimeTypes": thumbnail_requirements.mimeTypes
+                     }
+                  }
+               %}
+					</div>
+					<div class="inputContainer">
+						<label for="type">Type*</label>
+						<select name="type" id="type" data-article-type="{{ array|json_encode() }}">
+							<option value="">Choisir un type</option>
+							{% for key, category in list_categories %}
+								<option {{ article.type == key ? 'selected' : '' }} value="{{ key }}">{{ category.name.singular }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="inputContainer">
+						<label for="keywords">Mots-clefs (10 maximum)*</label>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>Vous pouvez créer vos propres mots-clefs en appuyant sur la touche "entrée" ou en sélectionnant la nouvelle entrée</li>
+								<li>Vous devez mettre au minimum un mot-clé et dix au maximum</li>
+							</ul>
+						</div>
+						<select data-dropdown-keywords='{"tags": true, "maximumSelectionLength": 10}' id="keywords" name="keywords[]" multiple="multiple"></select>
+					</div>
+					<div class="inputContainer">
+						<button type="submit" class="fit primaryButton">
+							{{ type == "add" ? "Créer" : "Éditer" }}
+							<span data-dynamic-label style="display: contents">article</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</section>
+		{% if type == "edit" %}
+			<section class="sectionBlock">
+				<p class="title">Structure de l'article</p>
+            <div class="content">
+               <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+            </div>
+			</section>
+			<section class="sectionBlock danger">
+				<p class="title">Danger zone</p>
+				<div class="content">
+					<button data-trigger-modal="delete-article" class="danger" type="button"><i class="icon-general_trash"></i> Supprimer l'article</button>
+				</div>
+			</section>
+		{% endif %}
+	</div>
+
+	<dialog class="modal" data-modal="delete-article">
+      <header class="header danger">
+         <p class="title">Supprimer l'article</p>
+         <button class="closeModal" data-close-modal="">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <div class="content">
+         <form method="post" action="./DeleteArticle.php?id_article={{ article.id_article }}">
+            <div class="notes alert error">
+               Cette action est irréversible
+            </div>
+            <div>
+               <input type="submit" class="danger"  name="delete" class="articleDelete" value="{{ "Je souhaite supprimer l'article \"" ~ article.title ~ "\"" }}">
+            </div>
+         </form>
+      </div>
+	</dialog>
+{% endblock %}

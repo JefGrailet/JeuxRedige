@@ -31,6 +31,40 @@ if(!TemplateEngine::hasFailed($dialogTpl))
 
 $typeChoices = Utils::makeCategoryChoice(); // Types of articles formatted for <select>
 
+$thumbnailMaxSize = 1048576;
+$thumbnailRequirements = [
+   "mimeTypes" => ["image/jpeg", "image/jpg"],
+   "maxSize" => $thumbnailMaxSize,
+];
+
+$formErrorMessages = [
+   "thumbnail" => [
+      "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
+      "invalidFormat" => "Pour générer une image d'en-tête, vous devez utiliser une image au format .jp(e)g",
+      "tooSmall" => "Vous devez sélectionner une image",
+      "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
+      "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
+      "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
+   ],
+   "title" => [
+      "tooLong" => "Le titre ne peut pas excéder 100 caractères, veuillez le réduire",
+   ],
+   "subtitle" => [
+      "tooLong" => "Le sous-titre ne peut pas excéder 100 caractères, veuillez le réduire",
+   ],
+   "type" => [
+      "unknown" => "Le type d'article choisi est invalide. Choisissez un des types proposés",
+   ],
+   "keywords" => [
+      "empty" => "Vous devez préciser au moins un mot-clef",
+      "limitReached" => "Vous ne pouvez pas mettre plus de 10 mots-clefs",
+   ],
+   "emptyFields" => "Vous devez remplir tous les champs",
+   "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
+];
+
+$formErrorMessagesTriggered = [];
+
 // Obtains article ID and retrieves the corresponding entry
 if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']))
 {
@@ -81,6 +115,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
+   print($currentThumbnail);
    if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
       $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
    else if(strlen($currentThumbnail) > 0)
@@ -174,178 +209,201 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    'type' => '',
    'keywords' => '');
 
+   echo $twig->render("add_edit_article.html.twig", [
+      "page_title" => "Éditer \"{$article->get("title")}\"",
+      "type" => "edit",
+      "article" => $article->getAll(),
+      "list_css_files" => [ "select2.min", "input_file"],
+      "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "search_articles", "dynamic_article_button_label"],
+      "form_error_messages" => $formErrorMessages,
+      "form_error_messages_triggered" => $formErrorMessagesTriggered,
+      "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
+      "thumbnail_requirements" => [
+         ...$thumbnailRequirements,
+         "mimeTypes" => join(",", $thumbnailRequirements["mimeTypes"])
+      ],
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Éditer \"{$article->get("title")}\"",
+         "description" => "Éditer \"{$article->get("title")}\"",
+         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
+
    // Form treatment is similar to that of NewArticle.php
-   if(!empty($_POST['sent']))
-   {
-      $inputList = array_keys($formInput);
-      $fullyCompleted = true;
-      for($i = 0; $i < count($inputList); $i++)
-      {
-         $formInput[$inputList[$i]] = Utils::secure($_POST[$inputList[$i]]);
-         if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
-            $fullyCompleted = false;
-      }
+   // if(!empty($_POST['sent']))
+   // {
+   //    $inputList = array_keys($formInput);
+   //    $fullyCompleted = true;
+   //    for($i = 0; $i < count($inputList); $i++)
+   //    {
+   //       $formInput[$inputList[$i]] = Utils::secure($_POST[$inputList[$i]]);
+   //       if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
+   //          $fullyCompleted = false;
+   //    }
 
-      // Keywords
-      $newKeywords = explode('|', $formInput['keywords']);
+   //    // Keywords
+   //    $newKeywords = explode('|', $formInput['keywords']);
 
-      // Various errors (title already used for alias, wrong genre, etc.)
-      if(!$fullyCompleted)
-         $formComp['errors'] .= 'emptyFields|';
-      if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
-         $formComp['errors'] .= 'invalidType|';
-      if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
-         $formComp['errors'] .= 'tooLongData|';
-      if($formInput['thumbnail'] !== './default_article_thumbnail.jpg' && !file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
-         $formComp['errors'] .= 'invalidThumbnail|';
-      if(count($newKeywords) == 1 && strlen($newKeywords[0]) == 0)
-         $formComp['errors'] .= 'noKeywords|';
+   //    // Various errors (title already used for alias, wrong genre, etc.)
+   //    if(!$fullyCompleted)
+   //       $formComp['errors'] .= 'emptyFields|';
+   //    if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
+   //       $formComp['errors'] .= 'invalidType|';
+   //    if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
+   //       $formComp['errors'] .= 'tooLongData|';
+   //    if($formInput['thumbnail'] !== './default_article_thumbnail.jpg' && !file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
+   //       $formComp['errors'] .= 'invalidThumbnail|';
+   //    if(count($newKeywords) == 1 && strlen($newKeywords[0]) == 0)
+   //       $formComp['errors'] .= 'noKeywords|';
 
-      if(strlen($formComp['errors']) == 0)
-      {
-         // Finally updates the article
-         try
-         {
-            $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
-         }
-         catch(Exception $e)
-         {
-            $formComp['errors'] = 'dbError';
-            $formComp['thumbnail'] = $formInput['thumbnail'];
-            $formComp['title'] = $formInput['title'];
-            $formComp['subtitle'] = $formInput['subtitle'];
-            $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-            $formComp['keywords'] = $formInput['keywords'];
-            $formComp['keywordsList'] = Keywords::display($newKeywords);
+   //    if(strlen($formComp['errors']) == 0)
+   //    {
+   //       // Finally updates the article
+   //       try
+   //       {
+   //          $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
+   //       }
+   //       catch(Exception $e)
+   //       {
+   //          $formComp['errors'] = 'dbError';
+   //          $formComp['thumbnail'] = $formInput['thumbnail'];
+   //          $formComp['title'] = $formInput['title'];
+   //          $formComp['subtitle'] = $formInput['subtitle'];
+   //          $formComp['type'] = $formInput['type'].'||'.$typeChoices;
+   //          $formComp['keywords'] = $formInput['keywords'];
+   //          $formComp['keywordsList'] = Keywords::display($newKeywords);
 
-            $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-            $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-            WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-         }
+   //          $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //          $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //          WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //       }
 
-         // Updates the thumbnail if edited
-         if($formInput['thumbnail'] !== $formComp['thumbnail'] || (strlen($article->getThumbnail()) == 0 && $formComp['thumbnail'] !== './default_article_thumbnail.jpg'))
-         {
-            $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
-            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
-         }
+   //       // Updates the thumbnail if edited
+   //       if($formInput['thumbnail'] !== $formComp['thumbnail'] || (strlen($article->getThumbnail()) == 0 && $formComp['thumbnail'] !== './default_article_thumbnail.jpg'))
+   //       {
+   //          $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
+   //          Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
+   //       }
 
-         // Updates the keywords
-         $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
-         $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
-         $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
+   //       // Updates the keywords
+   //       $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
+   //       $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
+   //       $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
 
-         // Deletes the keywords absent from the new string
-         try
-         {
-            Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
-         }
-         catch(Exception $e) { } // No dedicated error printed for now
+   //       // Deletes the keywords absent from the new string
+   //       try
+   //       {
+   //          Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
+   //       }
+   //       catch(Exception $e) { } // No dedicated error printed for now
 
-         // Adds the new keywords (maximum 10 - $nbCommonKeywords)
-         for($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++)
-         {
-            try
-            {
-               $tag = new Tag($keywordsToAdd[$j]);
-               $tag->mapToArticle($article->get('id_article'));
-            }
-            catch(Exception $e)
-            {
-               continue;
-            }
-         }
+   //       // Adds the new keywords (maximum 10 - $nbCommonKeywords)
+   //       for($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++)
+   //       {
+   //          try
+   //          {
+   //             $tag = new Tag($keywordsToAdd[$j]);
+   //             $tag->mapToArticle($article->get('id_article'));
+   //          }
+   //          catch(Exception $e)
+   //          {
+   //             continue;
+   //          }
+   //       }
 
-         // Cleans the DB from tags that are no longer mapped to anything
-         Tag::cleanOrphanTags();
+   //       // Cleans the DB from tags that are no longer mapped to anything
+   //       Tag::cleanOrphanTags();
 
-         // Reloads page and notifies the user everything was updated
-         $formComp['success'] = 'yes';
-         if($formInput['thumbnail'] !== './default_article_thumbnail.jpg')
-            $formComp['thumbnail'] = './upload/articles/'.$article->get('id_article').'/thumbnail.jpg';
-         else
-            $formComp['thumbnail'] = './default_article_thumbnail.jpg';
-         $formComp['title'] = $formInput['title'];
-         $formComp['subtitle'] = $formInput['subtitle'];
-         $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-         $formComp['keywords'] = $formInput['keywords'];
-         $formComp['keywordsList'] = Keywords::display($newKeywords);
+   //       // Reloads page and notifies the user everything was updated
+   //       $formComp['success'] = 'yes';
+   //       if($formInput['thumbnail'] !== './default_article_thumbnail.jpg')
+   //          $formComp['thumbnail'] = './upload/articles/'.$article->get('id_article').'/thumbnail.jpg';
+   //       else
+   //          $formComp['thumbnail'] = './default_article_thumbnail.jpg';
+   //       $formComp['title'] = $formInput['title'];
+   //       $formComp['subtitle'] = $formInput['subtitle'];
+   //       $formComp['type'] = $formInput['type'].'||'.$typeChoices;
+   //       $formComp['keywords'] = $formInput['keywords'];
+   //       $formComp['keywordsList'] = Keywords::display($newKeywords);
 
-         $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-         $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-         WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-      }
-      else
-      {
-         $formComp['errors'] = substr($formComp['errors'], 0, -1);
-         $formComp['thumbnail'] = $formInput['thumbnail'];
-         $formComp['title'] = $formInput['title'];
-         $formComp['subtitle'] = $formInput['subtitle'];
-         $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-         $formComp['keywords'] = $formInput['keywords'];
-         $formComp['keywordsList'] = Keywords::display($newKeywords);
+   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //    }
+   //    else
+   //    {
+   //       $formComp['errors'] = substr($formComp['errors'], 0, -1);
+   //       $formComp['thumbnail'] = $formInput['thumbnail'];
+   //       $formComp['title'] = $formInput['title'];
+   //       $formComp['subtitle'] = $formInput['subtitle'];
+   //       $formComp['type'] = $formInput['type'].'||'.$typeChoices;
+   //       $formComp['keywords'] = $formInput['keywords'];
+   //       $formComp['keywordsList'] = Keywords::display($newKeywords);
 
-         $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-         $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-         WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-      }
-   }
-   else if(!empty($_POST['highlightThis']))
-   {
-      $picture = Utils::secure($_POST['highlight']);
+   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //    }
+   // }
+   // else if(!empty($_POST['highlightThis']))
+   // {
+   //    $picture = Utils::secure($_POST['highlight']);
 
-      if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH().substr($picture, 2)))
-         $highlightFormInput['errors'] = 'invalidHighlight';
+   //    if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH().substr($picture, 2)))
+   //       $highlightFormInput['errors'] = 'invalidHighlight';
 
-      if(strlen($highlightFormInput['errors']) == 0)
-      {
-         if((isset($_POST['featured']) && !Utils::check($article->get('featured'))) || (!isset($_POST['featured']) && Utils::check($article->get('featured'))))
-         {
-            try
-            {
-               $res = $article->feature();
-               if($res)
-                  $highlightFormInput['featured'] = 'checked';
-               else
-                  $highlightFormInput['featured'] = '';
-            }
-            catch(Exception $e)
-            {
-               $highlightFormInput['errors'] = 'dbError';
-               $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-               $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-               WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-            }
-         }
+   //    if(strlen($highlightFormInput['errors']) == 0)
+   //    {
+   //       if((isset($_POST['featured']) && !Utils::check($article->get('featured'))) || (!isset($_POST['featured']) && Utils::check($article->get('featured'))))
+   //       {
+   //          try
+   //          {
+   //             $res = $article->feature();
+   //             if($res)
+   //                $highlightFormInput['featured'] = 'checked';
+   //             else
+   //                $highlightFormInput['featured'] = '';
+   //          }
+   //          catch(Exception $e)
+   //          {
+   //             $highlightFormInput['errors'] = 'dbError';
+   //             $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
+   //             $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //             WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //          }
+   //       }
 
-         // Updates the highlight picture if edited
-         if($highlightFormInput['highlight'] !== $picture || (strlen($article->getHighlight()) == 0 && $picture !== './default_article_highlight.jpg'))
-         {
-            $fileName = substr(strrchr($picture, '/'), 1);
-            $highlightFormInput['highlight'] = './upload/articles/'.$article->get('id_article').'/highlight.jpg';
-            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'highlight');
-         }
+   //       // Updates the highlight picture if edited
+   //       if($highlightFormInput['highlight'] !== $picture || (strlen($article->getHighlight()) == 0 && $picture !== './default_article_highlight.jpg'))
+   //       {
+   //          $fileName = substr(strrchr($picture, '/'), 1);
+   //          $highlightFormInput['highlight'] = './upload/articles/'.$article->get('id_article').'/highlight.jpg';
+   //          Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'highlight');
+   //       }
 
-         $highlightFormInput['success'] = 'yes';
-         $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-         $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-         $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-         WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-      }
-      else
-      {
-         $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-         $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-         $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-         WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-      }
-   }
-   else
-   {
-      $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-      $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-      WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   }
+   //       $highlightFormInput['success'] = 'yes';
+   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //       $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
+   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //    }
+   //    else
+   //    {
+   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //       $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
+   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   //    }
+   // }
+   // else
+   // {
+   //    $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
+   //    $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
+   //    WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
+   // }
 }
 else
 {
@@ -353,5 +411,3 @@ else
    $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
    WebpageHandler::wrap($tpl, 'Une erreur est survenue');
 }
-
-?>

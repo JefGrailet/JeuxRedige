@@ -203,8 +203,9 @@ if(!empty($_POST))
    }
 }
 
-echo $twig->render("new_article.html.twig", [
+echo $twig->render("add_edit_article.html.twig", [
    "page_title" => "Créer un nouvel article",
+   "type" => "add",
    "list_css_files" => [ "select2.min", "input_file"],
    "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "search_articles", "dynamic_article_button_label"],
    "form_error_messages" => $formErrorMessages,

@@ -85,6 +85,7 @@ echo $twig->render("articles_user.html.twig", [
    "list_articles" => $listArticlesComputed,
    "nb_articles" => $nbArticles,
    "nb_pages" => $nbPages,
+   "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "Mes articles",
@@ -94,5 +95,3 @@ echo $twig->render("articles_user.html.twig", [
       "full_title" => "",
    ]
 ]);
-
-?>

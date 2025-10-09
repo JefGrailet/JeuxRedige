@@ -445,7 +445,6 @@ $userComputed = [
    'list_sentences' => $listSentences,
 ];
 
-
 echo $twig->render("my-account.html.twig", [
    "list_css_files" => ["my_account", "user_profile", "input_file"],
    "list_js_files" => ["toggle_input_visibility", ["file" => "form_validation"], "upload", "toggle_user_prefs"],

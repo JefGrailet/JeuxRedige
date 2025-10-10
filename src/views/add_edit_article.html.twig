@@ -52,7 +52,6 @@
                      ,
                })
 				</script>
-            {# z.string() #}
 				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				<p class="alert warning">Les champs avec * sont requis</p>
             {% if flash_message == "article_created" %}
@@ -125,8 +124,46 @@
 		{% if type == "edit" %}
 			<section class="sectionBlock">
 				<p class="title">Structure de l'article</p>
+
             <div class="content">
-               <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+               <table class="table-segments">
+               <thead>
+                  <th style="min-width: 50px;">#</th>
+                  <th>Nom du segment</th>
+                  <th style="min-width: 220px;"></th>
+               </thead>
+               <tbody>
+                  {% for segment in article.segments %}
+                     <tr>
+                        <td style="vertical-align: top;">{{ loop.index	}}</td>
+                        <td>
+                           <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
+                              {{ segment.content }}
+                           </a>
+                        </td>
+                        <td style="text-align: right;">
+                           <button data-trigger-modal="delete-segment" class="danger" type="button">Supprimer le segment</button>
+                        </td>
+                     </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+               <a class="secondaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+               <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">Aperçu de l'article complet</a>
+            </div>
+			</section>
+         <section class="sectionBlock">
+				<p class="title">Options de l'article</p>
+            <div class="content">
+               <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
+                  <div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>Cette action est irréversible</li>
+							</ul>
+						</div>
+                  <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
+               </form>
             </div>
 			</section>
 			<section class="sectionBlock danger">
@@ -160,4 +197,28 @@
          </form>
       </div>
 	</dialog>
+
+   <dialog class="modal" data-modal="delete-segment">
+      <header class="header danger">
+         <p class="title">Supprimer le segment</p>
+         <button class="closeModal" data-close-modal="">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <div class="content">
+         <form method="post" action="./DeleteArticle.php?id_article={{ article.id_article }}">
+            <div class="notes alert error">
+               Cette action est irréversible
+            </div>
+            <div>
+               <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer l'article \"" ~ article.title ~ "\"" }}">
+            </div>
+         </form>
+      </div>
+	</dialog>
+
 {% endblock %}

@@ -18,18 +18,21 @@ WebpageHandler::redirectionAtLoggingIn();
 // Error if the user is not logged in
 if(!LoggedUser::isLoggedIn())
 {
-   $tplInput = array('error' => 'notConnected');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté');
+   echo $twig->render("error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => "notConnected",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
+
+   die();
 }
-
-// Thumbnail creation dialog
-$dialogTpl = TemplateEngine::parse('view/dialog/CustomThumbnail.dialog.ctpl');
-$dialogs = '';
-if(!TemplateEngine::hasFailed($dialogTpl))
-   $dialogs = $dialogTpl;
-
-$typeChoices = Utils::makeCategoryChoice(); // Types of articles formatted for <select>
 
 $thumbnailMaxSize = 1048576;
 $thumbnailRequirements = [
@@ -81,40 +84,48 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
    catch(Exception $e)
    {
-      $tplInput = array('error' => 'dbError');
+      $errorKey = 'dbError';
       if(strstr($e->getMessage(), 'does not exist') != FALSE)
-         $tplInput['error'] = 'nonexistingArticle';
-      $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Article introuvable');
+         $errorKey = 'nonexistingArticle';
+
+      echo $twig->render("error.html.twig", [
+         "page_title" => "Erreur",
+         "error_key" => $errorKey,
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur",
+            "description" => "Erreur",
+            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+            "full_title" => "",
+         ]
+      ]);
+
+      die();
    }
 
    // Forbidden access if the user's neither the author, neither an admin
    if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
-      $tplInput = array('error' => 'notYours');
-      $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Cet article n\'est pas le vôtre');
+      echo $twig->render("error.html.twig", [
+         "page_title" => "Erreur",
+         "error_key" => "notYours",
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur",
+            "description" => "Erreur",
+            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+            "full_title" => "",
+         ]
+      ]);
+
+      die();
    }
-
-   // Webpage settings
-   WebpageHandler::addCSS('article_edition');
-   WebpageHandler::addJS('article_editor');
-   WebpageHandler::addJS('keywords');
-   WebpageHandler::changeContainer('blockSequence');
-
-   // Edition form components (with current values)
-   $formComp = array('success' => '',
-   'errors' => '',
-   'ID' => $article->get('id_article'),
-   'thumbnail' => '',
-   'title' => $article->get('title'),
-   'subtitle' => $article->get('subtitle'),
-   'type' => $article->get('type').'||'.$typeChoices,
-   'keywords' => '',
-   'keywordsList' => '');
 
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
+   print_r($currentThumbnail);
 
    // if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
    //    $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
@@ -123,10 +134,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // else
    //    $formComp['thumbnail'] = './default_article_thumbnail.jpg';
 
-   // Puts the keywords back into a single string
-   $parsedKeywords = implode('|', $keywords);
-   $formComp['keywords'] = $parsedKeywords;
-   $formComp['keywordsList'] = Keywords::display($keywords);
 
    // Full template
    $finalTplInput = array('articleID' => $article->get('id_article'),
@@ -178,29 +185,29 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
 
    // Lists segments
-   if(count($segments) > 0)
-   {
-      require './view/intermediate/SegmentListItem.ir.php';
+   // if(count($segments) > 0)
+   // {
+   //    require './view/intermediate/SegmentListItem.ir.php';
 
-      $segmentsInput = array();
-      for($i = 0; $i < count($segments); $i++)
-      {
-         $segmentIR = SegmentListItemIR::process($segments[$i], $article->isPublished());
-         if($i == count($segments) - 1)
-            $segmentIR['moveDown'] = '';
-         array_push($segmentsInput, $segmentIR);
-      }
-      $segmentsOutput = TemplateEngine::parseMultiple('view/user/SegmentListItem.item.ctpl', $segmentsInput);
+   //    $segmentsInput = array();
+   //    for($i = 0; $i < count($segments); $i++)
+   //    {
+   //       $segmentIR = SegmentListItemIR::process($segments[$i], $article->isPublished());
+   //       if($i == count($segments) - 1)
+   //          $segmentIR['moveDown'] = '';
+   //       array_push($segmentsInput, $segmentIR);
+   //    }
+   //    $segmentsOutput = TemplateEngine::parseMultiple('view/user/SegmentListItem.item.ctpl', $segmentsInput);
 
-      $segmentsTpl = "<table id=\"segmentsList\">\n";
-      for($i = 0; $i < count($segmentsOutput); $i++)
-         $segmentsTpl .= $segmentsOutput[$i]."\n";
-      $segmentsTpl .= "</table>\n";
+   //    $segmentsTpl = "<table id=\"segmentsList\">\n";
+   //    for($i = 0; $i < count($segmentsOutput); $i++)
+   //       $segmentsTpl .= $segmentsOutput[$i]."\n";
+   //    $segmentsTpl .= "</table>\n";
 
-      $finalTplInput['segmentsList'] = $segmentsTpl;
-      if(!TemplateEngine::hasFailed($segmentsTpl))
-         $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
-   }
+   //    $finalTplInput['segmentsList'] = $segmentsTpl;
+   //    if(!TemplateEngine::hasFailed($segmentsTpl))
+   //       $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
+   // }
 
    // New input only
    $formInput = array('thumbnail' => '',
@@ -218,8 +225,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "keywords" => $keywords,
          "segments" => $segments,
          "thumbnail" => $currentThumbnail,
+         "preview_url" => PathHandler::articleURL($article->getAll()),
+         "segments" => $segments,
       ],
-      "list_css_files" => [ "select2.min", "input_file", "badge"],
+      "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition"],
       "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "keywords_v2", "dynamic_article_button_label"],
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,

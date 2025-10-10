@@ -149,9 +149,10 @@ if(!empty($_POST))
          $fullyCompleted = false;
    }
 
-   $curlResult = $curlUpload($_FILES["thumbnail"]);
-
-   // die();
+   $curlResult = null;
+   if ($_FILES["thumbnail"]["size"] > 0) {
+      $curlResult = $curlUpload($_FILES["thumbnail"]);
+   }
 
    // if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
    //    $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
@@ -167,7 +168,7 @@ if(!empty($_POST))
       array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
    if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
       array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
-   if (is_array($listKeywords) || (count($listKeywords) == 1 && strlen($listKeywords[0]) == 0))
+   if (!is_array($listKeywords) || (count($listKeywords) == 1 && strlen($listKeywords[0]) == 0))
       array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
    if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
       array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
@@ -183,9 +184,12 @@ if(!empty($_POST))
             $formInput['subtitle'],
             $formInput['type']
          );
+
          // Saves the thumbnail
-         $fileName = substr(strrchr($curlResult, '/'), 1);
-         Buffer::save('upload/articles/'.$newArticle->get('id_article'), $fileName, 'thumbnail');
+         if ($_FILES["thumbnail"]["size"] > 0) {
+            $fileName = substr(strrchr($curlResult, '/'), 1);
+            Buffer::save('upload/articles/'.$newArticle->get('id_article'), $fileName, 'thumbnail');
+         }
 
          // Inserts keywords; we move to the next if an exception occurs while mapping the keywords
          for ($i = 0; $i < count($listKeywords) && $i < 10; $i++)
@@ -211,47 +215,15 @@ if(!empty($_POST))
       catch(Exception $e)
       {
          array_push($formErrorMessagesTriggered, $formErrorMessages["dbError"]);
-         // $formComp['errors'] = 'dbError';
-         // $formComp['thumbnailPath'] = PathHandler::HTTP_PATH().$formInput['thumbnail'];
-         // $formComp['thumbnail'] = $formInput['thumbnail'];
-         // $formComp['title'] = $formInput['title'];
-         // $formComp['subtitle'] = $formInput['subtitle'];
-         // $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-         // $formComp['keywords'] = $formInput['keywords'];
-         // $formComp['keywordsList'] = Keywords::display($keywordsArr);
-
-         // $formTpl = TemplateEngine::parse('view/content/NewArticle.form.ctpl', $formComp);
-         // WebpageHandler::wrap($formTpl, 'Ajouter un jeu dans la base de données', $dialogs);
       }
-
-      // URL of the edition page of the new article + redirection to it
-
-
-      // Success page
-      // $tplInput = array('title' => $newArticle->get('title'), 'target' => $newArticleURL);
-      // $successPage = TemplateEngine::parse('view/user/NewArticle.success.ctpl', $tplInput);
-      // WebpageHandler::resetDisplay();
-      // WebpageHandler::wrap($successPage, 'Créer un nouvel article');
-   }
-   else
-   {
-      $formComp['errors'] = substr($formComp['errors'], 0, -1);
-      $formComp['thumbnail'] = $formInput['thumbnail'];
-      $formComp['title'] = $formInput['title'];
-      $formComp['subtitle'] = $formInput['subtitle'];
-      $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-      $formComp['keywords'] = $formInput['keywords'];
-      $formComp['keywordsList'] = Keywords::display($keywordsArr);
-
-      $formTpl = TemplateEngine::parse('view/user/NewArticle.form.ctpl', $formComp);
-      WebpageHandler::wrap($formTpl, 'Créer un nouvel article', $dialogs);
    }
 }
 
 echo $twig->render("add_edit_article.html.twig", [
    "page_title" => "Créer un nouvel article",
    "type" => "add",
-   "list_css_files" => [ "select2.min", "input_file"],
+   "article" => $_POST,
+   "list_css_files" => [ "select2.min", "input_file", "badge"],
    "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "keywords_v2", "dynamic_article_button_label"],
    "form_error_messages" => $formErrorMessages,
    "form_error_messages_triggered" => $formErrorMessagesTriggered,

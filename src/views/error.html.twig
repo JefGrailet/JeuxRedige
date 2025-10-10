@@ -22,7 +22,9 @@
 					Article introuvable.
             {% elseif error_key == "notConnected" %}
 					Vous devez être connecté(e) pour accéder à cette page. <a href="./LogIn.php">Se connecter.</a>
-				{% else %}
+				{% elseif error_key == "notYours" %}
+				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
+            {% else %}
 					Une erreur est survenue. Veuillez réessayer.
 				{% endif %}
 			</p>

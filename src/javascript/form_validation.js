@@ -21,11 +21,26 @@ const formValidation = (e) => {
    }
 
    const formData = new FormData(form);
+
    if (!formData.has("keywords[]")) {
-      formData.append("keywords[]", "");
+      formData.append("keywords[]", []);
    }
 
-   const validator = schema.safeParse(Object.fromEntries(formData));
+   const payload = {}
+   formData.entries().forEach((item) => {
+      const [key, value] = item;
+
+      if (key in payload || key.includes("[]")) {
+         payload[key] = [
+            ...(payload?.[key] ? payload[key] : []),
+            value
+         ].filter(Boolean);
+      } else {
+         payload[key] = value;
+      }
+   })
+
+   const validator = schema.safeParse(payload);
 
    form.querySelectorAll(":not(.alert):is(.error)").forEach((item) => {
       item.classList.remove("error");

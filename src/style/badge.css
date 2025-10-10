@@ -1,12 +1,8 @@
-.alert {
+.badge {
    border-radius: var(--border-radius);
-   padding: 0.5rem 1rem;
-   margin-block: 0.75rem;
-   scroll-margin: var(--main-nav-height);
-
-   &:is(ul, ol) {
-      list-style-position: inside;
-   }
+   padding: 0.0625rem 0.35rem;
+   font-size: 0.625rem;
+   vertical-align: super;
 
    & > * {
       margin: 0;

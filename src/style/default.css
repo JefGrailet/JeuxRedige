@@ -45,6 +45,12 @@
    --article-type-color: transparent;
 
    interpolate-size: allow-keywords;
+
+   --main-nav-height: 120px;
+
+   @media screen and (width >= 768px) {
+      --main-nav-height: 80px;
+   }
 }
 
 *,
@@ -2277,12 +2283,6 @@ textarea
       display: none;
    }
 }
-
-.keyword-result {
-   margin: 0;
-}
-
-
 
 .link {
    color: var(--link-color);

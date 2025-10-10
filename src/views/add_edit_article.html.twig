@@ -46,13 +46,13 @@
                            },
                            "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
                      ),
-                     "keywords[]": z.string()
+                     "keywords[]": z.array(z.string())
                         .min(1, {error: "Vous devez choisir au moins un mot-clef" })
                         .max(10, {error: "Vous ne pouvez pas mettre plus de 10 mots-clefs" })
                      ,
                })
-                                 {#  #}
 				</script>
+            {# z.string() #}
 				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				<p class="alert warning">Les champs avec * sont requis</p>
             {% if flash_message == "article_created" %}

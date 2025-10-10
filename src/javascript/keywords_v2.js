@@ -1,15 +1,15 @@
-function formatState(state) {
+const formatResult = (state) => {
    if (state.loading) {
       return "Chargement...";
    }
 
-   const $tpl = $(`
-      <div class="keyword-result">
-         ${state}
-      </div>
-   `);
+   const $state = $(
+      `<span>${state.text}
+      ${state.alreadyExist ? "" : `<span class="badge info">nouveau</span>`}
+      </span>`
+   );
 
-   return $tpl;
+   return $state;
 }
 
 $("[data-dropdown-keywords]").each((_, el) => {
@@ -25,7 +25,6 @@ $("[data-dropdown-keywords]").each((_, el) => {
       language: "fr",
       cache: true,
       width: '100%',
-      ...customOptions,
       ajax: {
          delay: 250,
          url: "./ajax/FindKeywordsJSON.php",
@@ -39,10 +38,12 @@ $("[data-dropdown-keywords]").each((_, el) => {
          },
          processResults: function (data) {
             return {
-               results: data.map((item) => ({ text: item, id: item })),
+               results: data.map((item) => ({ text: item, id: item, alreadyExist: true })),
             };
          },
       },
+      templateResult: formatResult,
+      ...customOptions,
    })
    .on("select2:select select2:unselect", (e) => {
       const form = e.target.closest("form[data-is-dirty]")

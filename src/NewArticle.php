@@ -51,17 +51,25 @@ $formErrorMessages = [
 $formErrorMessagesTriggered = [];
 
 // Errors where the user is either not logged in, either not granted advanced features
-if(!LoggedUser::isLoggedIn())
+if(!LoggedUser::isLoggedIn() || !Utils::check(LoggedUser::$fullData['advanced_features']))
 {
-   $tplInput = array('error' => 'notConnected');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté');
-}
-if(!Utils::check(LoggedUser::$fullData['advanced_features']))
-{
-   $tplInput = array('error' => 'forbiddenAccess');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Vous n\'êtes pas autorisé à utiliser cette page');
+   http_response_code(401);
+   $errorKey = !LoggedUser::isLoggedIn() ? "notConnected" : "forbiddenAccess";
+
+   echo $twig->render("error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => $errorKey,
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
+
+   die();
 }
 
 // Webpage settings
@@ -73,10 +81,7 @@ WebpageHandler::changeContainer('blockSequence');
 // Thumbnail creation dialog (re-used; no need for a specific dialog for article thumbnails)
 // $dialogTpl = TemplateEngine::parse('view/dialog/CustomThumbnail.dialog.ctpl');
 $dialogs = '';
-// if(!TemplateEngine::hasFailed($dialogTpl))
-//    $dialogs = $dialogTpl;
 
-$typeChoices = Utils::makeCategoryChoice(); // Types of articles formatted for <select>
 
 $currentThumbnail = Buffer::getArticleThumbnail();
 $currentThumbnailValue = '';
@@ -88,62 +93,102 @@ else
 
 // Input only (distinct from above, as items in select fields are not present)
 $formInput = [
-   'thumbnail' => $currentThumbnail,
    'title' => '',
    'subtitle' => '',
    'type' => '',
    'keywords' => '',
 ];
 
+$MAX_INPUT_CHARS = 100;
+
+$curlUpload = function ($file) use ($twig) {
+   $useragent = $_SERVER['HTTP_USER_AGENT'];
+   $strCookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
+
+   session_write_close();
+
+   $curl = curl_init();
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateArticleThumbnail.php?mode=no_path');
+   curl_setopt($curl, CURLOPT_VERBOSE, 1);
+
+   curl_setopt($curl, CURLOPT_POST, true);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+   curl_setopt(
+      $curl,
+      CURLOPT_POSTFIELDS,
+      [
+         'image' => new CurlFile(
+            $file["tmp_name"],
+            $file["type"],
+            $file["name"],
+         ),
+      ]);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+   curl_setopt($curl,CURLOPT_USERAGENT, $useragent);
+   curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
+
+   $result = curl_exec($curl);
+   curl_close($curl);
+
+   return $result;
+};
+
 // Form treatment starts here
 if(!empty($_POST))
 {
-   $inputList = array_keys($formInput);
+   $listInputsKey = array_keys($formInput);
+   // Keywords
+   $listKeywords = $_POST['keywords'];
 
    $fullyCompleted = true;
-   for($i = 0; $i < count($inputList); $i++)
+   for($i = 0; $i < count($listInputsKey); $i++)
    {
-      $formInput[$inputList[$i]] = is_string($_POST[$inputList[$i]]) ? Utils::secure($_POST[$inputList[$i]]) : $_POST[$inputList[$i]];
-      if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
+      $formInput[$listInputsKey[$i]] = is_string($_POST[$listInputsKey[$i]]) ? Utils::secure($_POST[$listInputsKey[$i]]) : $_POST[$listInputsKey[$i]];
+      if($formInput[$listInputsKey[$i]] === '' && $listInputsKey[$i] !== 'keywords')
          $fullyCompleted = false;
    }
 
-   // Keywords
-   $listKeywords = $formInput['keywords'];
+   $curlResult = $curlUpload($_FILES["thumbnail"]);
 
-   if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
-      $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
-   else if(substr($formInput['thumbnail'], 0, 2) === './')
-      $formInput['thumbnail'] = substr($formInput['thumbnail'], 2);
+   // die();
+
+   // if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
+   //    $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
+   // else if(substr($formInput['thumbnail'], 0, 2) === './')
+   //    $formInput['thumbnail'] = substr($formInput['thumbnail'], 2);
 
    // Various errors (empty fields, etc.)
-   if(!$fullyCompleted)
+   if (!$fullyCompleted)
       array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
-      // $formComp['errors'] .= 'emptyFields|';
-   if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
+   if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
       array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
-   if(strlen($formInput['title']) > 100)
+   if (strlen($formInput['title']) > $MAX_INPUT_CHARS)
       array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
-   if(strlen($formInput['subtitle']) > 100)
+   if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
       array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
-   if(count($listKeywords) == 1 && strlen($listKeywords[0]) == 0)
+   if (is_array($listKeywords) || (count($listKeywords) == 1 && strlen($listKeywords[0]) == 0))
       array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
+   if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
+      array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
 
-   if(count($formErrorMessagesTriggered) == 0)
+   if (count($formErrorMessagesTriggered) == 0)
    {
       // Finally inserts the article (new error display in case of DB problem)
       $newArticle = null;
       try
       {
-         $newArticle = Article::insert($formInput['title'],
-                                       $formInput['subtitle'],
-                                       $formInput['type']);
+         $newArticle = Article::insert(
+            $formInput['title'],
+            $formInput['subtitle'],
+            $formInput['type']
+         );
          // Saves the thumbnail
-         $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
+         $fileName = substr(strrchr($curlResult, '/'), 1);
          Buffer::save('upload/articles/'.$newArticle->get('id_article'), $fileName, 'thumbnail');
 
          // Inserts keywords; we move to the next if an exception occurs while mapping the keywords
-         for($i = 0; $i < count($listKeywords) && $i < 10; $i++)
+         for ($i = 0; $i < count($listKeywords) && $i < 10; $i++)
          {
             if(strlen($listKeywords[$i]) == 0)
                continue;

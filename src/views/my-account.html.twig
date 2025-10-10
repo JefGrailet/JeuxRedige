@@ -69,7 +69,7 @@
             <ul class="alert error" role="alert" data-form-error="avatar">{% for error_message in form_error_messages_triggered.avatar %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				{% if form_id_updated == "avatar" and form_error_messages_triggered.avatar|length == 0 %}
 					<p class="alert success">Mise à jour réussie. Si le changement n'est
-pas visible instantanément, appuyez sur F5 pour mettre à jour votre avatar</p>
+pas visible instantanément, videz le cache du navigateur pour voir la modification.</p>
 				{% endif %}
             <div class="notes">
 					<p class="title">Remarques :</p>

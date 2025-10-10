@@ -70,8 +70,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 {
    $articleID = intval(Utils::secure($_GET['id_article']));
    $article = null;
-   $keywords = null;
-   $segments = null;
+   $keywords = [];
+   $segments = [];
    try
    {
       $article = new Article($articleID);
@@ -115,13 +115,13 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
-   print($currentThumbnail);
-   if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
-      $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
-   else if(strlen($currentThumbnail) > 0)
-      $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
-   else
-      $formComp['thumbnail'] = './default_article_thumbnail.jpg';
+
+   // if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
+   //    $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
+   // else if(strlen($currentThumbnail) > 0)
+   //    $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
+   // else
+   //    $formComp['thumbnail'] = './default_article_thumbnail.jpg';
 
    // Puts the keywords back into a single string
    $parsedKeywords = implode('|', $keywords);
@@ -212,8 +212,14 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    echo $twig->render("add_edit_article.html.twig", [
       "page_title" => "Éditer \"{$article->get("title")}\"",
       "type" => "edit",
-      "article" => $article->getAll(),
-      "list_css_files" => [ "select2.min", "input_file"],
+      "article" => [
+         ...$article->getAll(),
+         "is_published" => $article->isPublished(),
+         "keywords" => $keywords,
+         "segments" => $segments,
+         "thumbnail" => $currentThumbnail,
+      ],
+      "list_css_files" => [ "select2.min", "input_file", "badge"],
       "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "keywords_v2", "dynamic_article_button_label"],
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,
@@ -407,7 +413,16 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 }
 else
 {
-   $tplInput = array('error' => 'missingID');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Une erreur est survenue');
+   echo $twig->render("error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => "missingID",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
 }

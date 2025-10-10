@@ -11,7 +11,7 @@ const formValidation = (e) => {
    }
 
    e.preventDefault();
-   const schemaName = e.currentTarget.dataset.formSchemaValidation;
+   const schemaName = form.dataset.formSchemaValidation;
    let schema = new Function(
       document.querySelector(`[data-form-schema=${schemaName}]`)?.textContent
    )();
@@ -67,6 +67,13 @@ const formSubmission = (e) => {
    form.dataset.isDirty = "";
 
    if (!formValidation(e)) {
+      const schemaName = form.dataset.formSchemaValidation;
+      const bannerError = form.querySelector(
+         `[data-form-error=${schemaName}]`
+      );
+      if (bannerError) {
+         bannerError.scrollIntoView();
+      }
       return;
    }
 

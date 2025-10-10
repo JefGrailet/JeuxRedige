@@ -777,53 +777,7 @@ input[type="submit"] {
    }
 }
 
-.primaryButton {
-   background-color: #0c960c;
-   color: white;
-   padding: 0.5rem 1.25rem;
-   border-radius: 4px;
-   font-family: "Roboto", "Arial", sans-serif;
-   display: inline-flex;
-   align-items: center;
-   flex-direction: row;
-   gap: 0.5rem;
-   font-size: 1rem;
-   border: none;
-   transition: background-color var(--transition-time);
 
-   &:is(:focus, :hover, :focus-within) {
-      background: oklch(from #0c960c calc(l * .75) c h);
-   }
-
-   &:is(a) {
-      text-decoration: none!important;
-      display: inline-flex;
-      align-items: center;
-      &:is(:focus, :hover, :focus-within) {
-         color: white;
-      }
-   }
-}
-
-:is(button, input[type="submit"], a).danger {
-   background-color: var(--danger-color);
-   color: white;
-   padding: 0.5rem 1.25rem;
-   border-radius: 4px;
-   font-family: "Roboto", "Arial", sans-serif;
-   display: inline-flex;
-   align-items: center;
-   flex-direction: row;
-   gap: 0.5rem;
-   font-size: 1rem;
-   border: none;
-   transition: background-color var(--transition-time);
-
-   &:is(:focus, :hover, :focus-within) {
-      background: oklch(from var(--danger-color) calc(l * .75) c h);
-      color: white;
-   }
-}
 
 /* Log in (connection) form. */
 

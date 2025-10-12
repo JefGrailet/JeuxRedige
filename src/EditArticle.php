@@ -208,7 +208,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    //    if(!TemplateEngine::hasFailed($segmentsTpl))
    //       $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
    // }
-
    echo $twig->render("add_edit_article.html.twig", [
       "page_title" => "Éditer \"{$article->get("title")}\"",
       "type" => "edit",
@@ -230,6 +229,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "dynamic_article_button_label",
          "sortable.min",
          "sortable_list",
+         ["file" => "modal_segment"],
       ],
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,

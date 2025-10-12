@@ -57,6 +57,10 @@
             {% if flash_message == "article_created" %}
 				<p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
             {% endif %}
+
+            {% if flash_message == "segment_deleted" %}
+				<p class="alert success">Segment supprimé.</p>
+            {% endif %}
 				<div>
 					<div class="inputContainer">
 						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
@@ -161,7 +165,7 @@
                            </a>
                         </td>
                         <td style="text-align: right;">
-                           <button data-trigger-modal="delete-segment" class="danger" type="button">Supprimer le segment</button>
+                           <button data-trigger-modal="delete-segment" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer le segment</button>
                         </td>
                      </tr>
                   {% else %}
@@ -241,12 +245,14 @@
       </header>
 
       <div class="content">
-         <form method="post" action="./DeleteArticle.php?id_article={{ article.id_article }}">
+         <form method="post" action="./ajax/DeleteSegment.php?id_article={{ article.id_article }}">
             <div class="notes alert error">
                Cette action est irréversible
             </div>
+            <input type="hidden" value="{{ article.id_article }}" name="id_article">
+            <input type="hidden" value="" name="id_segment">
             <div>
-               <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer l'article \"" ~ article.title ~ "\"" }}">
+               <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer le segment" }}">
             </div>
          </form>
       </div>

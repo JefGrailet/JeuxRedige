@@ -2412,3 +2412,11 @@ textarea
       }
    }
 }
+
+.dragHandle {
+   width: 1.5rem;
+   aspect-ratio: 1 / 1;
+   rotate: z 45deg;
+   display: inline-block;
+   cursor: drag;
+}

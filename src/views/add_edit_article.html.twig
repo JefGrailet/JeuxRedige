@@ -126,16 +126,35 @@
 				<p class="title">Structure</p>
 
             <div class="content">
+               <div class="notes">
+                  <p class="title">Remarque :</p>
+                  <ul>
+                     <li>Une fois publié, vous ne pourrez plus réordonner les segments de l'article</li>
+                  </ul>
+               </div>
                <table class="table-segments">
                <thead>
+                  {% if article.is_published == false %}
+                  <th style="min-width: 40px;"></th>
+                  {% endif %}
                   <th style="min-width: 50px;">#</th>
                   <th>Contenu du segment</th>
                   <th style="min-width: 220px;"></th>
                </thead>
-               <tbody>
+               <tbody {{ article.is_published ? "" : "data-sortable-list='{}'" }}>
                   {% for segment in article.segments %}
-                     <tr>
-                        <td style="vertical-align: top;">{{ loop.index	}}</td>
+                     <tr data-segment-id="{{ segment.id_segment }}" data-article-id="{{ segment.id_article }}">
+                        {% if article.is_published == false %}
+                           <td style="vertical-align: top">
+                              <span class="dragHandle">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                 </svg>
+                              </span>
+                           </td>
+                        {% endif %}
+                        <td style="vertical-align: top;">{{ segment.id_segment }}</td>
+                        {# <td style="vertical-align: top;">{{ loop.index }}</td> #}
                         <td>
                            <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
                               {{ segment.content }}
@@ -152,7 +171,9 @@
                   {% endfor %}
                </tbody>
             </table>
-               <a class="secondaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+               {% if article.is_published == false %}
+                  <a class="secondaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+               {% endif %}
                <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">Aperçu de l'article complet</a>
             </div>
 			</section>
@@ -165,7 +186,7 @@
                   {% else %}
                      <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
                         <div class="notes">
-                           <p class="title">Remarques :</p>
+                           <p class="title">Remarque :</p>
                            <ul>
                               <li>Cette action est irréversible.</li>
                            </ul>

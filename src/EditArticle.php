@@ -209,13 +209,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    //       $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
    // }
 
-   // New input only
-   $formInput = array('thumbnail' => '',
-   'title' => '',
-   'subtitle' => '',
-   'type' => '',
-   'keywords' => '');
-
    echo $twig->render("add_edit_article.html.twig", [
       "page_title" => "Éditer \"{$article->get("title")}\"",
       "type" => "edit",
@@ -223,13 +216,21 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          ...$article->getAll(),
          "is_published" => $article->isPublished(),
          "keywords" => $keywords,
-         "segments" => $segments,
          "thumbnail" => $currentThumbnail,
          "preview_url" => PathHandler::articleURL($article->getAll()),
          "segments" => $segments,
       ],
       "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition"],
-      "list_js_files" => [["file" => "form_validation"], "upload", "select2.min", "select2.fr.min", "keywords_v2", "dynamic_article_button_label"],
+      "list_js_files" => [
+         ["file" => "form_validation"],
+         "upload",
+         "select2.min",
+         "select2.fr.min",
+         "keywords_v2",
+         "dynamic_article_button_label",
+         "sortable.min",
+         "sortable_list",
+      ],
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,
       "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",

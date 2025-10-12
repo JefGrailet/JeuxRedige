@@ -142,7 +142,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $fullInput[0]['mainSubtitle'] = 'yes||'.$article->get('subtitle');
    }
 
-   // print_r($article->getAll());
    $segmentsTpl = TemplateEngine::parseMultiple('view/content/Segment.ctpl', $fullInput);
    $segmentsStr = '';
    if(!TemplateEngine::hasFailed($segmentsTpl))

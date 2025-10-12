@@ -6,7 +6,17 @@
 			<div class="wrapper">
 				<header class="articleHeader">
 					<div class="infos">
-						<h1 class="title">{{ article.title }}</h1>
+						<h1 class="title">
+                     {{ article.title }}
+
+                     {% if article.is_my_article %}
+                         {% if article.is_published %}
+                           <span class="badge success">Publié</span>
+                        {% else %}
+                           <span class="badge info">Non</span>
+                        {% endif %}
+                     {% endif %}
+                  </h1>
 						<h2 class="subtitle">{{ article.subtitle }}</h2>
 					</div>
                {% if article.edit_link %}

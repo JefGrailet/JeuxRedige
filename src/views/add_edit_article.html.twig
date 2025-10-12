@@ -11,7 +11,7 @@
             {% if type == "add" %}
                Créer un article
             {% else %}
-               Éditer l'article
+               Éditer l'article - Informations principales
                {% if article.is_published %}
                <span class="badge success">Publié</span>
                {% else %}
@@ -123,13 +123,13 @@
 		</section>
 		{% if type == "edit" %}
 			<section class="sectionBlock">
-				<p class="title">Structure de l'article</p>
+				<p class="title">Structure</p>
 
             <div class="content">
                <table class="table-segments">
                <thead>
                   <th style="min-width: 50px;">#</th>
-                  <th>Nom du segment</th>
+                  <th>Contenu du segment</th>
                   <th style="min-width: 220px;"></th>
                </thead>
                <tbody>
@@ -145,6 +145,10 @@
                            <button data-trigger-modal="delete-segment" class="danger" type="button">Supprimer le segment</button>
                         </td>
                      </tr>
+                  {% else %}
+                     <tr>
+                        <td colspan="3">Il n'y a pas de segment pour le moment.</td>
+                     </tr>
                   {% endfor %}
                </tbody>
             </table>
@@ -153,17 +157,23 @@
             </div>
 			</section>
          <section class="sectionBlock">
-				<p class="title">Options de l'article</p>
+				<p class="title">Publication</p>
             <div class="content">
-               <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
-                  <div class="notes">
-							<p class="title">Remarques :</p>
-							<ul>
-								<li>Cette action est irréversible</li>
-							</ul>
-						</div>
-                  <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
-               </form>
+               {% if article.segments|length > 0 %}
+                  {% if article.is_published %}
+                     <p>Cet article a été publié. <a href="{{ article.preview_url }}" target="_blank" rel="noopener noreferrer">Accéder à l'article.</a></p>
+                  {% else %}
+                     <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
+                        <div class="notes">
+                           <p class="title">Remarques :</p>
+                           <ul>
+                              <li>Cette action est irréversible.</li>
+                           </ul>
+                        </div>
+                        <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
+                     </form>
+                  {% endif %}
+               {% endif %}
             </div>
 			</section>
 			<section class="sectionBlock danger">

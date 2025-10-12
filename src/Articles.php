@@ -19,7 +19,7 @@ if(!empty($_GET['article_category']) && in_array($_GET['article_category'], arra
 
 // Gets the articles
 $nbArticles = 0;
-$articles = null;
+$articles = [];
 try
 {
    $nbArticles = Article::countArticles($articlesCategory, true);
@@ -40,39 +40,11 @@ try
 }
 catch(Exception $e)
 {
-   echo $twig->render("articles_fail.html.twig", [
+   echo $twig->render("error.html.twig", [
       "error_key" => "dbError",
-      "wholeList" => "viewed",
-      "research" => "link",
    ]);
+   die();
 }
-
-// // Final HTML code (with page configuration)
-// $pageConfig = WebpageHandler::$miscParams['articles_per_page'].'|'.$nbArticles.'|'.$currentPage;
-// $pageConfig .= '|./Articles.php?page=[]';
-// $catLinks = '';
-// if(strlen($articlesCategory) > 0)
-// {
-//    $pageConfig .= '&article_category='.$articlesCategory;
-//    $catLinks = Utils::makeCategoryLinks('Articles.php', $articlesCategory);
-// }
-// else
-//    $catLinks = Utils::makeCategoryLinks('Articles.php');
-// $finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails,
-//                        'categoriesLinks' => $catLinks, 'research' => 'link');
-// $content = TemplateEngine::parse('view/content/ArticlesList.ctpl', $finalTplInput);
-
-/*
- * Extra space for the thumbnails pool when there is not enough articles (in the selected
- * category) to have several pages.
- */
-
-// if ($nbPages == 1)
-// {
-//    $initialDiv = '<div id="articlesPool">';
-//    $withExtraSpace = '<div id="articlesPool" style="margin-top: 20px;">';
-//    $content = str_replace($initialDiv, $withExtraSpace, $content);
-// }
 
 $listArticlesComputed = array_map(function ($article) {
    return array(

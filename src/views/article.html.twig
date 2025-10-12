@@ -13,7 +13,7 @@
                          {% if article.is_published %}
                            <span class="badge success">Publié</span>
                         {% else %}
-                           <span class="badge info">Non</span>
+                           <span class="badge info">Non publié</span>
                         {% endif %}
                      {% endif %}
                   </h1>
@@ -33,7 +33,35 @@
 {% endblock %}
 
 {% block content %}
-	<div class="articleContent" data-article-content>{{ article.content|raw }}</div>
+	<div class="articleContent" data-article-content>
+      <div>{{ article.content|raw }}</div>
+      <nav class="navigationPage">
+         <ul>
+               <li>
+                  {% if article.segments.prev %}
+                     <a href="{{ article.segments.prev.url }}page/{{ article.segments.prev.segment_index }}" class="navigationLink">
+                        <i class="icon-general_previous" title="Page précédente"></i>
+                        <span>
+                           {{ article.segments.prev.title }} <br>
+                           <span style="font-size: 0.85rem">Page précédente</span>
+                        </span>
+                     </a>
+                  {% endif %}
+               </li>
+               <li>
+            {% if article.segments.next %}
+                  <a href="{{ article.segments.next.url }}page/{{ article.segments.next.segment_index }}" class="navigationLink">
+                     <span>
+                        {{ article.segments.next.title }} <br>
+                        <span style="font-size: 0.85rem">Page suivante</span>
+                     </span>
+                     <i class="icon-general_next" title="Page suivante"></i>
+                  </a>
+            {% endif %}
+               </li>
+         </ul>
+      </nav>
+   </div>
 	<footer class="authorContainer">
 		<div class="articleContainer">
 			<div id="footerAuthor" style="background: url({{ article.author.avatar }}) no-repeat top center;"></div>

@@ -142,7 +142,7 @@
                   <th style="min-width: 40px;"></th>
                   {% endif %}
                   <th style="min-width: 50px;">#</th>
-                  <th>Contenu du segment</th>
+                  <th>Contenu des pages</th>
                   <th style="min-width: 220px;"></th>
                </thead>
                <tbody {{ article.is_published ? "" : "data-sortable-list='{}'" }}>
@@ -157,8 +157,11 @@
                               </span>
                            </td>
                         {% endif %}
-                        <td style="vertical-align: top;">{{ segment.id_segment }}</td>
-                        {# <td style="vertical-align: top;">{{ loop.index }}</td> #}
+                        <td style="vertical-align: top;">
+                           <span data-segment-index>
+                              {{ loop.index }}
+                           </span>
+                        </td>
                         <td>
                            <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
                               {{ segment.content }}

@@ -19,7 +19,15 @@ const sortableList = (list) => {
       // handle: ".handle",
       // ghostClass: "blue-background-class",
       onUpdate: async (e) => {
-         const listChildrenUpdated = getItemsChanged(e.oldIndex, e.newIndex);
+         const listChildrenUpdated = getItemsChanged(
+            Math.min(e.oldIndex, e.newIndex),
+            Math.max(e.oldIndex, e.newIndex)
+         );
+
+         listChildrenUpdated.forEach((item, idx) => {
+            const articleIndexContainer = item.querySelector("[data-segment-index]")
+            articleIndexContainer.textContent = idx + Math.min(e.oldIndex, e.newIndex) + 1;
+         });
 
          for (let index = 0; index < listChildrenUpdated.length - 1; index++) {
             const firstElement = listChildrenUpdated[index];

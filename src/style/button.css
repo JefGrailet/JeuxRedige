@@ -45,6 +45,7 @@
    &:is(:focus, :hover, :focus-within) {
       background: oklch(from var(--link-color) calc(l * .75) c h);
       border-color: oklch(from var(--link-color) calc(l * 1.5) c h);
+      color: white;
    }
 
    &:is(a) {

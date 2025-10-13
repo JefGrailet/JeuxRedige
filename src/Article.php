@@ -179,6 +179,17 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
    }
 
+   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected)  {
+      $url = PathHandler::articleURL($article->getAll());
+      $pageIndex = $index + 1;
+
+      return array(
+         ...$page,
+         "url" => "{$url}page/{$pageIndex}",
+         "is_active" => ($pageSelected + 1) === $pageIndex,
+      );
+   }, $fullInput, array_keys($fullInput));
+
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
       "current_category" => $article->get('type'),

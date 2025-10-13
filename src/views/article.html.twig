@@ -1,6 +1,23 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block fullWidthBanner %}
+   {% if article.segments|length > 1 %}
+      <div popover="manual" id="chapitrage">
+         <header class="header">
+            <p>Sommaire</p>
+            <button aria-label="Fermer" type="button" class="close" popovertarget="chapitrage" popovertargetaction="hidden">
+               ✖
+            </button>
+         </header>
+         <ol>
+         {% for segment in article.segments %}
+            <li class="{{ segment.is_active ? "active" : "" }}">
+               <a href="{{ segment.url }}">{{ segment.title }}</a>
+            </li>
+         {% endfor %}
+         </ol>
+      </div>
+   {% endif %}
 	<div class="centered extensibleHeaderWrapper" data-article-header>
    {% if article.is_published == false and article.is_my_article %}
       <p class="alert info" style="position: fixed; left: 9rem; right: 9rem; z-index: 99;">
@@ -10,14 +27,19 @@
 		<header class="extensibleHeader" style="background-image: url('{{ article.header_img }}');">
 			<div class="wrapper">
 				<header class="articleHeader">
+               {% if article.segments|length > 1 %}
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">
+                     Sommaire
+                  </button>
+               {% endif %}
 					<div class="infos">
 						<h1 class="title">
                      {{ article.title }}
                      {% if article.is_my_article %}
-                         {% if article.is_published %}
-                           <span class="badge success">Publié</span>
+                        {% if article.is_published %}
+                           <span class="badge success" title="N'est visible que par vous">Publié</span>
                         {% else %}
-                           <span class="badge info">Non publié</span>
+                           <span class="badge info" title="N'est visible que par vous">Non publié</span>
                         {% endif %}
                      {% endif %}
                   </h1>
@@ -39,32 +61,39 @@
 {% block content %}
 <div class="articleContent" data-article-content>
    <div>{{ article.content|raw }}</div>
-   <nav class="navigationPage">
-      <ul>
-            <li>
-               {% if article.segments.prev %}
-                  <a href="{{ article.segments.prev.url }}page/{{ article.segments.prev.segment_index }}" class="navigationLink">
-                     <i class="icon-general_previous" title="Page précédente"></i>
-                     <span>
-                        {{ article.segments.prev.title }} <br>
-                        <span style="font-size: 0.85rem">Page précédente</span>
-                     </span>
-                  </a>
-               {% endif %}
-            </li>
-            <li>
-         {% if article.segments.next %}
-               <a href="{{ article.segments.next.url }}page/{{ article.segments.next.segment_index }}" class="navigationLink">
-                  <span>
-                     {{ article.segments.next.title }} <br>
-                     <span style="font-size: 0.85rem">Page suivante</span>
-                  </span>
-                  <i class="icon-general_next" title="Page suivante"></i>
-               </a>
-         {% endif %}
-            </li>
-      </ul>
-   </nav>
+   {% if article.segments|length > 1 %}
+      <nav class="navigationPage">
+         <ul>
+               <li>
+                  {% if article.segments[article.current_page - 1] %}
+                     <a href="{{ article.segments[article.current_page - 1].url }}" class="navigationLink">
+                        <i class="icon-general_previous" title="Page précédente"></i>
+                        <span>
+                           {{ article.segments[article.current_page - 1].title }} <br>
+                           <span style="font-size: 0.85rem">Page précédente</span>
+                        </span>
+                     </a>
+                  {% endif %}
+               </li>
+               <li>
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage">
+                     Sommaire
+                  </button>
+               </li>
+               <li>
+                  {% if article.segments[article.current_page + 1] %}
+                        <a href="{{ article.segments[article.current_page + 1].url }}" class="navigationLink">
+                           <span>
+                              {{ article.segments[article.current_page + 1].title }} <br>
+                              <span style="font-size: 0.85rem">Page suivante</span>
+                           </span>
+                           <i class="icon-general_next" title="Page suivante"></i>
+                        </a>
+                  {% endif %}
+               </li>
+         </ul>
+      </nav>
+   {% endif %}
 </div>
 <footer class="authorContainer">
    <div class="articleContainer">

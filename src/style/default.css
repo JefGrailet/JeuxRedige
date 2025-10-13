@@ -655,6 +655,10 @@ dialog, [popover] {
       translate: 0 0;
    }
 
+   &:not([open], :popover-open) {
+      display: none;
+   }
+
    @starting-style {
       &[open], &:popover-open {
          opacity: 0;

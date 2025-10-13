@@ -2,13 +2,17 @@
 
 {% block fullWidthBanner %}
 	<div class="centered extensibleHeaderWrapper" data-article-header>
+   {% if article.is_published == false and article.is_my_article %}
+      <p class="alert info" style="position: fixed; left: 9rem; right: 9rem; z-index: 99;">
+         Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
+      </p>
+   {% endif %}
 		<header class="extensibleHeader" style="background-image: url('{{ article.header_img }}');">
 			<div class="wrapper">
 				<header class="articleHeader">
 					<div class="infos">
 						<h1 class="title">
                      {{ article.title }}
-
                      {% if article.is_my_article %}
                          {% if article.is_published %}
                            <span class="badge success">Publié</span>
@@ -33,50 +37,50 @@
 {% endblock %}
 
 {% block content %}
-	<div class="articleContent" data-article-content>
-      <div>{{ article.content|raw }}</div>
-      <nav class="navigationPage">
-         <ul>
-               <li>
-                  {% if article.segments.prev %}
-                     <a href="{{ article.segments.prev.url }}page/{{ article.segments.prev.segment_index }}" class="navigationLink">
-                        <i class="icon-general_previous" title="Page précédente"></i>
-                        <span>
-                           {{ article.segments.prev.title }} <br>
-                           <span style="font-size: 0.85rem">Page précédente</span>
-                        </span>
-                     </a>
-                  {% endif %}
-               </li>
-               <li>
-            {% if article.segments.next %}
-                  <a href="{{ article.segments.next.url }}page/{{ article.segments.next.segment_index }}" class="navigationLink">
+<div class="articleContent" data-article-content>
+   <div>{{ article.content|raw }}</div>
+   <nav class="navigationPage">
+      <ul>
+            <li>
+               {% if article.segments.prev %}
+                  <a href="{{ article.segments.prev.url }}page/{{ article.segments.prev.segment_index }}" class="navigationLink">
+                     <i class="icon-general_previous" title="Page précédente"></i>
                      <span>
-                        {{ article.segments.next.title }} <br>
-                        <span style="font-size: 0.85rem">Page suivante</span>
+                        {{ article.segments.prev.title }} <br>
+                        <span style="font-size: 0.85rem">Page précédente</span>
                      </span>
-                     <i class="icon-general_next" title="Page suivante"></i>
                   </a>
-            {% endif %}
-               </li>
-         </ul>
-      </nav>
-   </div>
-	<footer class="authorContainer">
-		<div class="articleContainer">
-			<div id="footerAuthor" style="background: url({{ article.author.avatar }}) no-repeat top center;"></div>
-			<div id="footerDetails">
-				<p>
-					Critique rédigée par
-					<a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
-					Publié le
-					<time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
-               {% if article.last_update_time %}
-                  <br>
-                  Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
                {% endif %}
-				</p>
-			</div>
-		</div>
-	</footer>
+            </li>
+            <li>
+         {% if article.segments.next %}
+               <a href="{{ article.segments.next.url }}page/{{ article.segments.next.segment_index }}" class="navigationLink">
+                  <span>
+                     {{ article.segments.next.title }} <br>
+                     <span style="font-size: 0.85rem">Page suivante</span>
+                  </span>
+                  <i class="icon-general_next" title="Page suivante"></i>
+               </a>
+         {% endif %}
+            </li>
+      </ul>
+   </nav>
+</div>
+<footer class="authorContainer">
+   <div class="articleContainer">
+      <div id="footerAuthor" style="background: url({{ article.author.avatar }}) no-repeat top center;"></div>
+      <div id="footerDetails">
+         <p>
+            Critique rédigée par
+            <a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
+            Publié le
+            <time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+            {% if article.last_update_time %}
+               <br>
+               Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+            {% endif %}
+         </p>
+      </div>
+   </div>
+</footer>
 {% endblock %}

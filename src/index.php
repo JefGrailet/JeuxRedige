@@ -16,12 +16,12 @@ $articles = null;
 try {
    $articles = Article::getFeaturedArticles(8);
 } catch (Exception $e) {
-   echo $twig->render("index_fail.html.twig", ["error_key" => "dbError"]);
+   echo $twig->render("error.html.twig", ["error_key" => "dbError"]);
    return;
 }
 
 if ($articles == NULL) {
-   echo $twig->render("index_fail.html.twig", ["error_key" => "noContent"]);
+   echo $twig->render("error.html.twig", ["error_key" => "noContent"]);
 
    return;
 }

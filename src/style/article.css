@@ -47,7 +47,7 @@
       font-size: 1.5rem; /* ~30px */
       animation-name: extensibleHeaderTitle;
       @media screen and (width >= 1024px) {
-         font-size: 1.875rem;
+         font-size: 1.75rem;
       }
       font-weight: 200;
       background: none;
@@ -59,7 +59,7 @@
       font-size: 1.05rem; /* ~24px */
       animation-name: extensibleHeaderSubtitle;
       @media screen and (width >= 1024px) {
-         font-size: 1.25rem;
+         font-size: 1.15rem;
       }
       font-weight: 200;
       text-align: justify;
@@ -417,13 +417,22 @@
    display: flex;
    gap: 0.25rem;
    padding: 0.3125rem;
-}
 
-#footerAuthor
-{
-   width: 100px;
-   aspect-ratio: 1 / 1;
-   border-radius: 50%;
+   .authorPicture
+   {
+      width: 100px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 2px solid var(--article-type-color);
+      transition: background-size 350ms;
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: 100%;
+
+      &:hover {
+         background-size: 110%;
+      }
+   }
 }
 
 #footerDetails p

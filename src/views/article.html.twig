@@ -1,6 +1,8 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block fullWidthBanner %}
+<div id="pixel-to-watch" style="position: absolute; width: 1px; height: 1px; top: 0; left: 0; background-color: transparent;"></div>
+
    {% if article.segments|length > 1 %}
       <div popover="manual" id="chapitrage">
          <header class="header">
@@ -97,7 +99,7 @@
 </div>
 <footer class="authorContainer">
    <div class="articleContainer">
-      <div id="footerAuthor" style="background: url({{ article.author.avatar }}) no-repeat top center;"></div>
+      <div class="authorPicture" style="background-image: url({{ article.author.avatar }});"></div>
       <div id="footerDetails">
          <p>
             Critique rédigée par

@@ -127,13 +127,13 @@
 		</section>
 		{% if type == "edit" %}
 			<section class="sectionBlock">
-				<p class="title">Structure</p>
+				<p class="title">Pages</p>
 
             <div class="content">
                <div class="notes">
                   <p class="title">Remarque :</p>
                   <ul>
-                     <li>Une fois publié, vous ne pourrez plus réordonner les segments de l'article</li>
+                     <li>Une fois publié, vous ne pourrez plus réordonner les pages de l'article</li>
                   </ul>
                </div>
                <table class="table-segments">
@@ -145,7 +145,7 @@
                   <th>Contenu des pages</th>
                   <th style="min-width: 220px;"></th>
                </thead>
-               <tbody {{ article.is_published ? "" : "data-sortable-list='{}'" }}>
+               <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
                   {% for segment in article.segments %}
                      <tr data-segment-id="{{ segment.id_segment }}" data-article-id="{{ segment.id_article }}">
                         {% if article.is_published == false %}
@@ -173,7 +173,7 @@
                      </tr>
                   {% else %}
                      <tr>
-                        <td colspan="3">Il n'y a pas de segment pour le moment.</td>
+                        <td colspan="3">Cet article n'a pas de pages.</td>
                      </tr>
                   {% endfor %}
                </tbody>
@@ -201,6 +201,8 @@
                         <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
                      </form>
                   {% endif %}
+               {% else %}
+                  <p class="alert info">Cet article ne possède aucune page, il ne peut pas être publié.</p>
                {% endif %}
             </div>
 			</section>

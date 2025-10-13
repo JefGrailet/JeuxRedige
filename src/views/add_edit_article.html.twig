@@ -22,9 +22,9 @@
 			<form action="" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
 				<script type="text/schema" data-form-schema="new_article">
 					return z.object({
-                  title: z.string().min(1, {error: "Vous devez entrer un titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
-                  subtitle: z.string().min(1, {error: "Vous devez entrer un sous-titre" }).max(100, "Le titre ne peut pas excéder 100 caractères"),
-                  type: z.string().min(1, {error: "Vous devez choisir un type d'article" }),
+                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty }}" }).max(100, "{{ form_error_messages.title.tooLong }}"),
+                  subtitle: z.string().min(1, {error: "{{ form_error_messages.subtitle.empty }}" }).max(100, "{{ form_error_messages.subtitle.tooLong }}"),
+                  type: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
                   thumbnail: z.file()
                      .nullable()
                      .transform((file) => (file && file.size > 0 ? file : null))
@@ -47,19 +47,24 @@
                            "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
                      ),
                      "keywords[]": z.array(z.string())
-                        .min(1, {error: "Vous devez choisir au moins un mot-clef" })
-                        .max(10, {error: "Vous ne pouvez pas mettre plus de 10 mots-clefs" })
+                        .min(1, {error: "{{ form_error_messages.keywords.empty }}" })
+                        .max(10, {error: "{{ form_error_messages.keywords.limitReached }}" })
                      ,
                })
 				</script>
 				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				<p class="alert warning">Les champs avec * sont requis</p>
+
             {% if flash_message == "article_created" %}
-				<p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+            {% endif %}
+
+            {% if flash_message == "article_updated" %}
+				   <p class="alert success">Article mis à jour.</p>
             {% endif %}
 
             {% if flash_message == "segment_deleted" %}
-				<p class="alert success">Segment supprimé.</p>
+				   <p class="alert success">Segment supprimé.</p>
             {% endif %}
 				<div>
 					<div class="inputContainer">
@@ -94,7 +99,7 @@
 					</div>
 					<div class="inputContainer">
 						<label for="type">Type<span style="color: var(--danger-color);">*</span></label>
-						<select name="type" id="type" data-article-type="{{ array|json_encode() }}">
+						<select {% if article.is_published %}inert{% endif %} name="type" id="type" data-article-type="{{ array|json_encode() }}">
 							<option value="">Choisir un type</option>
 							{% for key, category in list_categories %}
 								<option {{ article.type == key ? 'selected' : '' }} value="{{ key }}">{{ category.name.singular }}</option>
@@ -173,7 +178,9 @@
                      </tr>
                   {% else %}
                      <tr>
-                        <td colspan="3">Cet article n'a pas de pages.</td>
+                        <td colspan="4">
+                           <p class="alert info">Cet article n'a pas de pages.</p>
+                        </td>
                      </tr>
                   {% endfor %}
                </tbody>

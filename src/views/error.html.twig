@@ -7,7 +7,7 @@
 		<div class="content">
 			<p>
 				{% if error_key == "noSegment" %}
-					Cet article est vide, il ne comporte aucune page. <a href="">Retourner à l'article.</a>
+					Cet article est vide, il ne comporte aucune page. <a href="{{ edit_link }}">Retourner à l'édition de l'article.</a>
 				{% elseif error_key == "missingID" %}
 					L'ID de l'article n'est pas précisé.
 				{% elseif error_key == "dbError" %}
@@ -30,6 +30,8 @@
                Aucun article publié n'a été trouvé.
             {% elseif error_key == "noArticleCat" %}
                Aucun article publié dans cette catégorie n'a été trouvé.
+            {% elseif error_key == "noContent" %}
+               Il n'y a actuellement aucun contenu.
             {# {% elseif error_key == "notYours" %}
 				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
             #}{% else %}

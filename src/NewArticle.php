@@ -72,16 +72,6 @@ if(!LoggedUser::isLoggedIn() || !Utils::check(LoggedUser::$fullData['advanced_fe
    die();
 }
 
-// Webpage settings
-WebpageHandler::addCSS('article_edition');
-WebpageHandler::addJS('article_editor');
-WebpageHandler::addJS('keywords');
-WebpageHandler::changeContainer('blockSequence');
-
-// Thumbnail creation dialog (re-used; no need for a specific dialog for article thumbnails)
-// $dialogTpl = TemplateEngine::parse('view/dialog/CustomThumbnail.dialog.ctpl');
-$dialogs = '';
-
 
 $currentThumbnail = Buffer::getArticleThumbnail();
 $currentThumbnailValue = '';
@@ -154,12 +144,9 @@ if(!empty($_POST))
       $curlResult = $curlUpload($_FILES["thumbnail"]);
    }
 
-   // if(substr($formInput['thumbnail'], 0, strlen(PathHandler::HTTP_PATH())) === PathHandler::HTTP_PATH())
-   //    $formInput['thumbnail'] = substr($formInput['thumbnail'], strlen(PathHandler::HTTP_PATH()));
-   // else if(substr($formInput['thumbnail'], 0, 2) === './')
-   //    $formInput['thumbnail'] = substr($formInput['thumbnail'], 2);
-
    // Various errors (empty fields, etc.)
+   $formErrorMessages = $twig->getGlobals()["errors_message"]["article"];
+
    if (!$fullyCompleted)
       array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
    if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
@@ -209,7 +196,7 @@ if(!empty($_POST))
          }
 
          $newArticleURL = './EditArticle.php?id_article='.$newArticle->get('id_article');
-         setcookie("flash_message", "article_created", time() + 1);
+         setcookie("flash_message", "article_created", time() + 1, "/");
          exit(header('Location:'.$newArticleURL));
       }
       catch(Exception $e)

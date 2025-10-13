@@ -40,31 +40,38 @@ $thumbnailRequirements = [
    "maxSize" => $thumbnailMaxSize,
 ];
 
-$formErrorMessages = [
-   "thumbnail" => [
-      "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
-      "invalidFormat" => "Pour générer une image d'en-tête, vous devez utiliser une image au format .jp(e)g",
-      "tooSmall" => "Vous devez sélectionner une image",
-      "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
-      "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
-      "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
-   ],
-   "title" => [
-      "tooLong" => "Le titre ne peut pas excéder 100 caractères, veuillez le réduire",
-   ],
-   "subtitle" => [
-      "tooLong" => "Le sous-titre ne peut pas excéder 100 caractères, veuillez le réduire",
-   ],
-   "type" => [
-      "unknown" => "Le type d'article choisi est invalide. Choisissez un des types proposés",
-   ],
-   "keywords" => [
-      "empty" => "Vous devez préciser au moins un mot-clef",
-      "limitReached" => "Vous ne pouvez pas mettre plus de 10 mots-clefs",
-   ],
-   "emptyFields" => "Vous devez remplir tous les champs",
-   "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
-];
+$curlUpload = function ($file) use ($twig) {
+   $useragent = $_SERVER['HTTP_USER_AGENT'];
+   $strCookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
+
+   session_write_close();
+
+   $curl = curl_init();
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateArticleThumbnail.php?mode=no_path');
+   curl_setopt($curl, CURLOPT_VERBOSE, 1);
+
+   curl_setopt($curl, CURLOPT_POST, true);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+   curl_setopt(
+      $curl,
+      CURLOPT_POSTFIELDS,
+      [
+         'image' => new CurlFile(
+            $file["tmp_name"],
+            $file["type"],
+            $file["name"],
+         ),
+      ]);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+   curl_setopt($curl,CURLOPT_USERAGENT, $useragent);
+   curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
+
+   $result = curl_exec($curl);
+   curl_close($curl);
+
+   return $result;
+};
 
 $formErrorMessagesTriggered = [];
 
@@ -80,14 +87,14 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $article = new Article($articleID);
       $article->loadRelatedData();
       $keywords = $article->getKeywordsSimple();
-      $segments = $article->getBufferedSegments();
+      $segments = $article->getBufferedSegments() ?? [];
    }
    catch(Exception $e)
    {
       $errorKey = 'dbError';
       if(strstr($e->getMessage(), 'does not exist') != FALSE)
          $errorKey = 'nonexistingArticle';
-
+      http_response_code(404);
       echo $twig->render("error.html.twig", [
          "page_title" => "Erreur",
          "error_key" => $errorKey,
@@ -107,6 +114,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // Forbidden access if the user's neither the author, neither an admin
    if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
+      http_response_code(401);
       echo $twig->render("error.html.twig", [
          "page_title" => "Erreur",
          "error_key" => "notYours",
@@ -184,30 +192,86 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $finalTplInput['publication'] = 'empty||'.$article->get('id_article');
    }
 
-   // Lists segments
-   // if(count($segments) > 0)
-   // {
-   //    require './view/intermediate/SegmentListItem.ir.php';
+   $formErrorMessages = $twig->getGlobals()["errors_message"]["article"];
+   if(!empty($_POST)) {
+      $formErrorMessagesTriggered = [];
 
-   //    $segmentsInput = array();
-   //    for($i = 0; $i < count($segments); $i++)
-   //    {
-   //       $segmentIR = SegmentListItemIR::process($segments[$i], $article->isPublished());
-   //       if($i == count($segments) - 1)
-   //          $segmentIR['moveDown'] = '';
-   //       array_push($segmentsInput, $segmentIR);
-   //    }
-   //    $segmentsOutput = TemplateEngine::parseMultiple('view/user/SegmentListItem.item.ctpl', $segmentsInput);
+      $formInput = [
+         'title' => '',
+         'subtitle' => '',
+         'type' => '',
+         'keywords' => '',
+      ];
+      $listInputsKey = array_keys($formInput);
 
-   //    $segmentsTpl = "<table id=\"segmentsList\">\n";
-   //    for($i = 0; $i < count($segmentsOutput); $i++)
-   //       $segmentsTpl .= $segmentsOutput[$i]."\n";
-   //    $segmentsTpl .= "</table>\n";
+      $isFormValid = true;
+      for($i = 0; $i < count($listInputsKey); $i++)
+      {
+         $formInput[$listInputsKey[$i]] = is_string($_POST[$listInputsKey[$i]]) ? Utils::secure($_POST[$listInputsKey[$i]]) : $_POST[$listInputsKey[$i]];
+         if($formInput[$listInputsKey[$i]] === '' && $listInputsKey[$i] !== 'keywords')
+            $fullyCompleted = false;
+      }
 
-   //    $finalTplInput['segmentsList'] = $segmentsTpl;
-   //    if(!TemplateEngine::hasFailed($segmentsTpl))
-   //       $finalTplInput['truePreviewButton'] = PathHandler::articleURL($article->getAll());
-   // }
+      $curlResult = null;
+      if ($_FILES["thumbnail"]["size"] > 0) {
+         $curlResult = $curlUpload($_FILES["thumbnail"]);
+      }
+
+      $MAX_INPUT_CHARS = 100;
+      $newKeywords = $_POST['keywords'];
+
+      if (!$isFormValid)
+         array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
+      if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
+      if (strlen($formInput['title']) > $MAX_INPUT_CHARS)
+         array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
+      if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
+         array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
+      if (!is_array($newKeywords) || (count($newKeywords) == 1 && strlen($newKeywords[0]) == 0))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
+      if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
+
+      if (count($formErrorMessagesTriggered) == 0)
+      {
+         try
+         {
+            $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
+         }
+         catch(Exception $e)
+         {
+            setcookie("flash_message", "article_error", time() + 1, "/");
+         }
+
+         $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
+         $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
+         $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
+
+         try
+         {
+            Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
+         } catch(Exception $e) {}
+
+         for ($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++) {
+            try
+            {
+               $tag = new Tag($keywordsToAdd[$j]);
+               $tag->mapToArticle($article->get('id_article'));
+            }
+            catch(Exception $e)
+            {
+               continue;
+            }
+         }
+
+         Tag::cleanOrphanTags();
+         $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
+         setcookie("flash_message", "article_updated", time() + 1, "/");
+         exit(header('Location:' . $currentURL));
+      }
+   }
+
    echo $twig->render("add_edit_article.html.twig", [
       "page_title" => "Éditer \"{$article->get("title")}\"",
       "type" => "edit",
@@ -247,123 +311,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "full_title" => "",
       ]
    ]);
+   die();
 
-   // Form treatment is similar to that of NewArticle.php
-   // if(!empty($_POST['sent']))
-   // {
-   //    $inputList = array_keys($formInput);
-   //    $fullyCompleted = true;
-   //    for($i = 0; $i < count($inputList); $i++)
-   //    {
-   //       $formInput[$inputList[$i]] = Utils::secure($_POST[$inputList[$i]]);
-   //       if($formInput[$inputList[$i]] === '' && $inputList[$i] !== 'keywords')
-   //          $fullyCompleted = false;
-   //    }
-
-   //    // Keywords
-   //    $newKeywords = explode('|', $formInput['keywords']);
-
-   //    // Various errors (title already used for alias, wrong genre, etc.)
-   //    if(!$fullyCompleted)
-   //       $formComp['errors'] .= 'emptyFields|';
-   //    if(!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
-   //       $formComp['errors'] .= 'invalidType|';
-   //    if(strlen($formInput['title']) > 100 || strlen($formInput['subtitle']) > 100)
-   //       $formComp['errors'] .= 'tooLongData|';
-   //    if($formInput['thumbnail'] !== './default_article_thumbnail.jpg' && !file_exists(PathHandler::WWW_PATH().substr($formInput['thumbnail'], 2)))
-   //       $formComp['errors'] .= 'invalidThumbnail|';
-   //    if(count($newKeywords) == 1 && strlen($newKeywords[0]) == 0)
-   //       $formComp['errors'] .= 'noKeywords|';
-
-   //    if(strlen($formComp['errors']) == 0)
-   //    {
-   //       // Finally updates the article
-   //       try
-   //       {
-   //          $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
-   //       }
-   //       catch(Exception $e)
-   //       {
-   //          $formComp['errors'] = 'dbError';
-   //          $formComp['thumbnail'] = $formInput['thumbnail'];
-   //          $formComp['title'] = $formInput['title'];
-   //          $formComp['subtitle'] = $formInput['subtitle'];
-   //          $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-   //          $formComp['keywords'] = $formInput['keywords'];
-   //          $formComp['keywordsList'] = Keywords::display($newKeywords);
-
-   //          $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //          $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //          WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //       }
-
-   //       // Updates the thumbnail if edited
-   //       if($formInput['thumbnail'] !== $formComp['thumbnail'] || (strlen($article->getThumbnail()) == 0 && $formComp['thumbnail'] !== './default_article_thumbnail.jpg'))
-   //       {
-   //          $fileName = substr(strrchr($formInput['thumbnail'], '/'), 1);
-   //          Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
-   //       }
-
-   //       // Updates the keywords
-   //       $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
-   //       $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
-   //       $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
-
-   //       // Deletes the keywords absent from the new string
-   //       try
-   //       {
-   //          Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
-   //       }
-   //       catch(Exception $e) { } // No dedicated error printed for now
-
-   //       // Adds the new keywords (maximum 10 - $nbCommonKeywords)
-   //       for($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++)
-   //       {
-   //          try
-   //          {
-   //             $tag = new Tag($keywordsToAdd[$j]);
-   //             $tag->mapToArticle($article->get('id_article'));
-   //          }
-   //          catch(Exception $e)
-   //          {
-   //             continue;
-   //          }
-   //       }
-
-   //       // Cleans the DB from tags that are no longer mapped to anything
-   //       Tag::cleanOrphanTags();
-
-   //       // Reloads page and notifies the user everything was updated
-   //       $formComp['success'] = 'yes';
-   //       if($formInput['thumbnail'] !== './default_article_thumbnail.jpg')
-   //          $formComp['thumbnail'] = './upload/articles/'.$article->get('id_article').'/thumbnail.jpg';
-   //       else
-   //          $formComp['thumbnail'] = './default_article_thumbnail.jpg';
-   //       $formComp['title'] = $formInput['title'];
-   //       $formComp['subtitle'] = $formInput['subtitle'];
-   //       $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-   //       $formComp['keywords'] = $formInput['keywords'];
-   //       $formComp['keywordsList'] = Keywords::display($newKeywords);
-
-   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //    }
-   //    else
-   //    {
-   //       $formComp['errors'] = substr($formComp['errors'], 0, -1);
-   //       $formComp['thumbnail'] = $formInput['thumbnail'];
-   //       $formComp['title'] = $formInput['title'];
-   //       $formComp['subtitle'] = $formInput['subtitle'];
-   //       $formComp['type'] = $formInput['type'].'||'.$typeChoices;
-   //       $formComp['keywords'] = $formInput['keywords'];
-   //       $formComp['keywordsList'] = Keywords::display($newKeywords);
-
-   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //    }
-   // }
    // else if(!empty($_POST['highlightThis']))
    // {
    //    $picture = Utils::secure($_POST['highlight']);
@@ -421,18 +370,17 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    //    WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
    // }
 }
-else
-{
-   echo $twig->render("error.html.twig", [
-      "page_title" => "Erreur",
-      "error_key" => "missingID",
-      "meta" => [
-         ...$twig->getGlobals()["meta"],
-         "title" => "Erreur",
-         "description" => "Erreur",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
-         "full_title" => "",
-      ]
-   ]);
-}
+
+echo $twig->render("error.html.twig", [
+   "page_title" => "Erreur",
+   "error_key" => "missingID",
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "Erreur",
+      "description" => "Erreur",
+      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+      "full_title" => "",
+   ]
+]);
+

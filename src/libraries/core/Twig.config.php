@@ -90,6 +90,36 @@ $twig->addGlobal("query_string", $queryString);
 $twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");
 $twig->addGlobal("selectedLogo", empty($twig->getGlobals()["current_category"]) ? "default" : $twig->getGlobals()["current_category"]);
 $twig->addGlobal("base_js_files", ["toggle_input_visibility", ["file" => "form_validation"]]);
+$twig->addGlobal("errors_message", [
+   "article" => [
+      "thumbnail" => [
+         "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
+         "invalidFormat" => "Pour générer une image d'en-tête, vous devez utiliser une image au format .jp(e)g",
+         "tooSmall" => "Vous devez sélectionner une image",
+         "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
+         "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
+         "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
+      ],
+      "title" => [
+         "tooLong" => "Le titre ne peut pas excéder 100 caractères, veuillez le réduire",
+         "empty" => "Vous devez entrer un titre",
+      ],
+      "subtitle" => [
+         "tooLong" => "Le sous-titre ne peut pas excéder 100 caractères, veuillez le réduire",
+         "empty" => "Vous devez entrer un sous-titre",
+      ],
+      "type" => [
+         "unknown" => "Le type d'article choisi est invalide. Choisissez un des types proposés",
+         "empty" => "Vous devez choisir un type d'article",
+      ],
+      "keywords" => [
+         "empty" => "Vous devez préciser au moins un mot-clef",
+         "limitReached" => "Vous ne pouvez pas mettre plus de 10 mots-clefs",
+      ],
+      "emptyFields" => "Vous devez remplir tous les champs",
+      "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
+   ],
+]);
 
 
 $filter = new \Twig\TwigFilter('since_days', function ($charset) {

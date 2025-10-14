@@ -18,7 +18,7 @@
 
 		<div class="articleThumbnailExtra {{ statusClass }}">
          {% if article.status %}
-            <p>{{ article.status == "wip" ? "En cours" : "Publié" }}</p>
+            <p>{{ article.status == "wip" ? "Non publié" : "Publié" }}</p>
          {% else %}
             <p>Par {{ article.pseudo }}</p>
          {% endif %}

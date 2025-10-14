@@ -170,9 +170,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       );
    }, $fullInput, array_keys($fullInput));
 
-   $currentThumbnail = Buffer::getArticleThumbnail();
-   // print_r(file_exists(PathHandler::HTTP_PATH().'upload/articles/'.$article->get('id_article').'/'. $article->getBufferedSegments()[0]["id_segment"] .'/header.jpg') ? "true" : "false");
-   // print_r(PathHandler::HTTP_PATH().'upload/articles/'.$article->get('id_article').'/'. $article->getBufferedSegments()[0]["id_segment"] .'/header.jpg');
 
    $isAuthorIsCurrentUser = false;
    if (LoggedUser::isLoggedIn()) {

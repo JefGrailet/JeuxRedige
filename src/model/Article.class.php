@@ -636,7 +636,7 @@ class Article
       else
          $res = Database::hardRead($sql);
 
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be listed: '. $res[2]);
 
       return $res;

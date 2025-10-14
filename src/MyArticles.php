@@ -26,12 +26,6 @@ $articles = null;
 try
 {
    $nbArticles = Article::countMyArticles();
-   if($nbArticles == 0)
-   {
-      $errorTplInput = array('error' => 'noArticle');
-      $tpl = TemplateEngine::parse('view/user/MyArticles.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Mes articles');
-   }
 
    $currentPage = 1;
    $nbPages = ceil($nbArticles / WebpageHandler::$miscParams['articles_per_page']);
@@ -49,9 +43,16 @@ try
 }
 catch(Exception $e)
 {
-   $errorTplInput = array('error' => 'dbError');
-   $tpl = TemplateEngine::parse('view/user/MyArticles.fail.ctpl', $errorTplInput);
-   WebpageHandler::wrap($tpl, 'Impossible d\'atteindre vos articles');
+   echo $twig->render("error.html.twig", [
+      "error_title" => "Impossible d'atteindre vos articles",
+      "error_key" => "MyArticles",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur - Serveur erreur",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
 }
 
 /* From this point, all the content has been extracted from the DB. All what is left to do is
@@ -76,8 +77,6 @@ $listArticlesComputed = array_map(function ($article) {
       "status" => ArticleThumbnailIR::getStatus($article),
    );
 }, $articles, array_keys($articles));
-
-// WebpageHandler::wrap($content, 'Mes articles');
 
 echo $twig->render("articles_user.html.twig", [
    "page_title" => "Mes articles",

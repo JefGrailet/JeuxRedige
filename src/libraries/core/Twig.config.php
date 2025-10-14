@@ -119,6 +119,27 @@ $twig->addGlobal("errors_message", [
       "emptyFields" => "Vous devez remplir tous les champs",
       "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
    ],
+   "user_account" => [
+         "avatar" => [
+            "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
+            "notJPEG" => "Pour générer un avatar, vous devez utiliser une image au format JPEG/JPG",
+            "tooSmall" => "Vous devez sélectionner une image",
+            "resizeError" => "Une erreur est survenue lors de la génération de l'avatar. Veuillez réessayer plus tard ou prévenir l'administrateur",
+            "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
+            "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
+         ],
+         "preferences" => [
+            "incorrectInput" => "Les valeurs entrées ne sont pas valides. Veuillez les modifier conformément à ce que le formulaire stipule",
+         ],
+         "email" => [
+            "wrongCurrentPwd" => "Le mot de passe que vous avez entré est incorrect",
+            "emailTooLong" => "La nouvelle adresse est anormalement longue (maximum 60 caractères)",
+            "alreadyUsed" => "Vous utilisez déjà l'adresse que vous venez d'entrer",
+            "usedBySomeoneElse" => "Cette nouvelle adresse est déjà utilisée pour un autre compte",
+         ],
+         "emptyFields" => "Vous devez remplir tous les champs",
+         "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard",
+   ]
 ]);
 
 

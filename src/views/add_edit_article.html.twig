@@ -200,9 +200,10 @@
                   {% else %}
                      <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
                         <div class="notes">
-                           <p class="title">Remarque :</p>
+                           <p class="title">Remarques :</p>
                            <ul>
-                              <li>Cette action est irréversible.</li>
+                              <li>Cette action est irréversible</li>
+                              <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
                            </ul>
                         </div>
                         <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>

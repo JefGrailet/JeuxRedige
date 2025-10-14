@@ -32,6 +32,8 @@
                Aucun article publié dans cette catégorie n'a été trouvé.
             {% elseif error_key == "noContent" %}
                Il n'y a actuellement aucun contenu.
+            {% elseif error_key == "notLogged" %}
+               Pour utiliser cette page, vous devez être enregistré et connecté. <a class="link" href="./LogIn.php">Se connecter</a>
             {# {% elseif error_key == "notYours" %}
 				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
             #}{% else %}

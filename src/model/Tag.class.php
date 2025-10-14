@@ -25,8 +25,9 @@ class Tag
       
       $res = Database::secureWrite("INSERT INTO tags VALUES(:tag)", array('tag' => $arg));
       
-      if($res != NULL && strstr($res[2], '\'PRIMARY\'') == FALSE)
-         throw new Exception('Could not verify the existence of the tag "'.$arg.'": '. $res[2]);
+      if($res != NULL)
+         if(strpos($res[2], '\'PRIMARY\'') == false && strpos($res[2], 'Duplicate entry') == false)
+            throw new Exception('Could not verify the existence of the tag "'.$arg.'": '. $res[2]);
       
       $this->_tag = $arg;
    }
@@ -44,7 +45,7 @@ class Tag
       $res = Database::secureWrite("INSERT INTO map_tags VALUES(:tag, :id_topic)",
                          array('tag' => $this->_tag, 'id_topic' => $id));
       
-      if($res != NULL && strstr($res[2], 'Duplicate entry') == FALSE)
+      if($res != NULL && strpos($res[2], 'Duplicate entry') == false)
          throw new Exception('Could not map topic '.$id.' with tag "'.addslashes($this->_tag).'": '. $res[2]);
       else if($res != NULL)
          return false;
@@ -65,7 +66,7 @@ class Tag
       $res = Database::secureWrite("INSERT INTO map_tags_articles VALUES(:tag, :id_article)",
                          array('tag' => $this->_tag, 'id_article' => $id));
       
-      if($res != NULL && strstr($res[2], 'Duplicate entry') == FALSE)
+      if($res != NULL && strpos($res[2], 'Duplicate entry') == FALSE)
          throw new Exception('Could not map article '.$id.' with tag "'.addslashes($this->_tag).'": '. $res[2]);
       else if($res != NULL)
          return false;
@@ -141,7 +142,7 @@ class Tag
       
       if($res1 != NULL)
       {
-         if(strstr($res1[2], 'Duplicate entry') != FALSE)
+         if(strpos($res1[2], 'Duplicate entry') != FALSE)
             return false;
          else
             throw new Exception('Could not create alias '.addslashes($this->_tag).','.addslashes($aliasedTag).': '. $res1[2]);

@@ -636,7 +636,7 @@ class Article
       else
          $res = Database::hardRead($sql);
       
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be listed: '. $res[2]);
       
       return $res;
@@ -660,7 +660,7 @@ class Article
       LIMIT '.$first.','.$nb;
       $res = Database::hardRead($sql);
       
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be listed: '. $res[2]);
       
       return $res;
@@ -711,7 +711,7 @@ class Article
       LIMIT '.$first.','.$nb;
       $res = Database::secureRead($sql, array(LoggedUser::$data['pseudo']));
       
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be listed: '. $res[2]);
       
       return $res;
@@ -736,7 +736,7 @@ class Article
       ORDER BY title';
       $res = Database::secureRead($sql, array(LoggedUser::$data['pseudo']));
       
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be listed: '. $res[2]);
       
       return $res;
@@ -865,7 +865,7 @@ class Article
       
       $res = Database::secureRead($sql, $sqlInput);
       
-      if(!is_array($res[0]) && count($res) == 3)
+      if($res != NULL && !is_array($res[0]) && count($res) == 3)
          throw new Exception('Articles could not be found: '. $res[2]);
       else if($res == NULL)
          throw new Exception('No article has been found.');

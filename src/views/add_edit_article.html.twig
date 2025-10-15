@@ -139,6 +139,7 @@
                   <p class="title">Remarque :</p>
                   <ul>
                      <li>Une fois publié, vous ne pourrez plus réordonner les pages de l'article</li>
+                     <li>Une fois publié, vous ne pourrez pas supprimer les pages</li>
                   </ul>
                </div>
                <table class="table-segments">
@@ -148,7 +149,9 @@
                   {% endif %}
                   <th style="min-width: 50px;">#</th>
                   <th>Contenu des pages</th>
+                  {% if article.is_published == false %}
                   <th style="min-width: 220px;"></th>
+                  {% endif %}
                </thead>
                <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
                   {% for segment in article.segments %}
@@ -169,12 +172,18 @@
                         </td>
                         <td>
                            <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
-                              {{ segment.content }}
+                              {% if segment.content %}
+                                 {{ segment.content }}
+                              {% else %}
+                                 <em>Vide</em>
+                              {% endif %}
                            </a>
                         </td>
-                        <td style="text-align: right;">
-                           <button data-trigger-modal="delete-segment" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer le segment</button>
-                        </td>
+                        {% if article.is_published == false %}
+                           <td style="text-align: right;">
+                              <button data-trigger-modal="delete-segment" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer le segment</button>
+                           </td>
+                        {% endif %}
                      </tr>
                   {% else %}
                      <tr>
@@ -204,6 +213,7 @@
                            <ul>
                               <li>Cette action est irréversible</li>
                               <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
+                              <li>Une fois publié, vous ne pourrez pas supprimer les pages</li>
                            </ul>
                         </div>
                         <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
@@ -246,29 +256,31 @@
       </div>
 	</dialog>
 
-   <dialog class="modal" data-modal="delete-segment">
-      <header class="header danger">
-         <p class="title">Supprimer le segment</p>
-         <button class="closeModal" data-close-modal="">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
+   {% if article.is_published == false %}
+      <dialog class="modal" data-modal="delete-segment">
+         <header class="header danger">
+            <p class="title">Supprimer la page</p>
+            <button class="closeModal" data-close-modal="">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+               </svg>
+               Fermer
+            </button>
+         </header>
 
-      <div class="content">
-         <form method="post" action="./ajax/DeleteSegment.php?id_article={{ article.id_article }}">
-            <div class="notes alert error">
-               Cette action est irréversible
-            </div>
-            <input type="hidden" value="{{ article.id_article }}" name="id_article">
-            <input type="hidden" value="" name="id_segment">
-            <div>
-               <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer le segment" }}">
-            </div>
-         </form>
-      </div>
-	</dialog>
+         <div class="content">
+            <form method="post" action="./ajax/DeleteSegment.php?id_article={{ article.id_article }}">
+               <div class="notes alert error">
+                  Cette action est irréversible
+               </div>
+               <input type="hidden" value="{{ article.id_article }}" name="id_article">
+               <input type="hidden" value="" name="id_segment">
+               <div>
+                  <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer le segment" }}">
+               </div>
+            </form>
+         </div>
+      </dialog>
+   {% endif %}
 
 {% endblock %}

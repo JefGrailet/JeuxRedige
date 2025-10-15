@@ -26,7 +26,7 @@ if (!LoggedUser::isLoggedIn()) {
       ]
    ]);
 
-   return;
+   die();
 }
 
 WebpageHandler::changeContainer('contentMultiple');

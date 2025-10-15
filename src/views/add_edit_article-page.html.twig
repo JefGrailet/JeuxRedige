@@ -1,0 +1,121 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<div>
+		{% set array = {} %}
+		{% for key, category in list_categories %}
+			{% set array = array|merge({ (key): category.name.singular }) %}
+		{% endfor %}
+
+		<section class="sectionBlock">
+			<h1 class="title">
+
+            {% if type == "add" %}
+               Ajouter une page
+            {% else %}
+               Éditer la page ""
+            {% endif %}
+         </h1>
+			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
+				<script type="text/schema" data-form-schema="new_article">
+					return z.object({
+                  title: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
+                  content: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
+                  header: z.file()
+                     .nullable()
+                     .transform((file) => (file && file.size > 0 ? file : null))
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
+                           },
+                           "{{ form_error_messages.header.invalidFormat|e('js')|raw }}"
+                     )
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return file?.size < {{ image_header_requirements.maxSize }};
+                           },
+                           "{{ form_error_messages.header.tooBig|e('js')|raw }}"
+                     )
+                     .refine((file) => {
+                        if (file === null) {
+                           return Promise.resolve(true);
+                        }
+                        return new Promise((resolve) => {
+                              const reader = new FileReader();
+                              reader.onload = (e) => {
+                              const img = new Image();
+                              img.onload = () => {
+                                 const heightRatio = (img.height * 100) / 1920;
+                                 const meetsDimensions =
+                                    img.width >= 1920 &&
+                                    heightRatio >= 30;
+
+                                 resolve(meetsDimensions);
+                              };
+                              img.src = e.target?.result;
+                              };
+                              reader.readAsDataURL(file);
+                           })
+                     }, "{{ form_error_messages.header.badDimensions|e('js')|raw }}")
+               })
+				</script>
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<p class="alert warning">Les champs avec * sont requis</p>
+
+            {% if flash_message == "page_created" %}
+				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+            {% endif %}
+
+            {% if flash_message == "page_updated" %}
+				   <p class="alert success">Article mis à jour.</p>
+            {% endif %}
+            <p>Article : <a href="http://" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></p>
+
+				<div>
+               <div class="inputContainer">
+						<p class="label">Image d'en-tête</p>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>L'image doit être au format .jp(e)g</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#media">médias</a></li>
+								<li>L'image fournie doit aussi être supérieure ou égale à 1920 pixels de large, avec une hauteur d'au moins 30% la largeur</li>
+							</ul>
+						</div>
+                  {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
+						{% include "includes/input-file.html.twig" with {
+                        "options": {
+                           "label": "Sélectionner image",
+                           "input_name": "header",
+                           "default_image": page_header,
+                           "mimeTypes": header_image_requirements.mimeTypes
+                        }
+                     }
+                  %}
+					</div>
+
+					<div class="inputContainer">
+						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
+						<input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
+					</div>
+
+               <div class="inputContainer">
+						<label for="content">Contenu<span style="color: var(--danger-color);">*</span></label>
+                  <textarea name="content" id="content">{{ page.content }}</textarea>
+					</div>
+				</div>
+			</form>
+		</section>
+		<div class="inputContainer">
+         <button type="submit" form="form" class="fit primaryButton">
+            {{ type == "add" ? "Créer" : "Éditer" }} page
+         </button>
+      </div>
+	</div>
+{% endblock %}

@@ -4,7 +4,7 @@ window.z = z;
 
 window.z.config(z.locales.fr());
 
-const formValidation = (e) => {
+const formValidation = async (e) => {
    const form = e.currentTarget;
    if (!("isDirty" in form.dataset)) {
       return;
@@ -22,9 +22,9 @@ const formValidation = (e) => {
 
    const formData = new FormData(form);
 
-   if (!formData.has("keywords[]")) {
-      formData.append("keywords[]", []);
-   }
+   // if (!formData.has("keywords[]")) {
+   //    formData.append("keywords[]", []);
+   // }
 
    const payload = {}
    formData.entries().forEach((item) => {
@@ -40,7 +40,7 @@ const formValidation = (e) => {
       }
    })
 
-   const validator = schema.safeParse(payload);
+   const validator = await schema.safeParseAsync(payload);
 
    form.querySelectorAll(":not(.alert):is(.error)").forEach((item) => {
       item.classList.remove("error");
@@ -77,11 +77,13 @@ const formValidation = (e) => {
    return true;
 };
 
-const formSubmission = (e) => {
+const formSubmission = async (e) => {
    const form = e.currentTarget;
    form.dataset.isDirty = "";
 
-   if (!formValidation(e)) {
+   const isFormValid = await formValidation(e);
+
+   if (!isFormValid) {
       const schemaName = form.dataset.formSchemaValidation;
       const bannerError = form.querySelector(
          `[data-form-error=${schemaName}]`

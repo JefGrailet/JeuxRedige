@@ -23,3 +23,8 @@ form .error {
       border-color: oklch(44.4% 0.177 26.899) !important;
    }
 }
+
+.inputContainer:has(input.error) .uploadedImage {
+   border-color: oklch(44.4% 0.177 26.899) !important;
+   background-color: rgba(159, 7, 18, 0.08) !important;
+}

@@ -7,6 +7,11 @@
       border-bottom: 1px solid oklch(86.9% 0.022 252.894);
    }
 
+   tbody td {
+      padding: 0.35rem;
+      border: 1px solid transparent;
+   }
+
    img {
       margin: 0 auto;
       display: block;

@@ -12,15 +12,65 @@ require './libraries/Buffer.lib.php';
 require './model/Article.class.php';
 require './model/Segment.class.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // Errors where the user is either not logged in, either not allowed to edit games
-if(!LoggedUser::isLoggedIn())
-{
-   $tplInput = array('error' => 'notConnected');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté');
+if (!LoggedUser::isLoggedIn()) {
+   http_response_code(401);
+   echo $twig->render("error.html.twig", [
+      "error_title" => "Page inaccessible",
+      "error_key" => "notLogged",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur - Page inaccessible",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
+
+   die();
 }
+
+$curlUpload = function ($file) use ($twig) {
+   $useragent = $_SERVER['HTTP_USER_AGENT'];
+   $strCookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
+
+   session_write_close();
+
+   $curl = curl_init();
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateSegmentHeader.php?mode=no_path');
+   curl_setopt($curl, CURLOPT_VERBOSE, 1);
+
+   curl_setopt($curl, CURLOPT_POST, true);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+   curl_setopt(
+      $curl,
+      CURLOPT_POSTFIELDS,
+      [
+         'image' => new CurlFile(
+            $file["tmp_name"],
+            $file["type"],
+            $file["name"],
+         ),
+      ]);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+   curl_setopt($curl,CURLOPT_USERAGENT, $useragent);
+   curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
+
+   $result = curl_exec($curl);
+   curl_close($curl);
+
+   return $result;
+};
+
+$imageHeaderMaxSize = 1048576;
+$imageHeaderRequirements = [
+   "mimeTypes" => ["image/jpeg", "image/jpg"],
+   "maxSize" => $imageHeaderMaxSize,
+];
 
 // Obtains article ID and retrieves the corresponding entry
 if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']))
@@ -35,19 +85,37 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
    catch(Exception $e)
    {
-      $tplInput = array('error' => 'dbError');
-      if(strstr($e->getMessage(), 'does not exist') != FALSE)
-         $tplInput['error'] = 'nonexistingArticle';
-      $tpl = TemplateEngine::parse('view/user/EditSegment.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Article introuvable');
+      http_response_code(404);
+      echo $twig->render("error.html.twig", [
+         "error_title" => "Page inaccessible",
+         "error_key" => "nonexistingArticle",
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur - Page inaccessible",
+            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+            "full_title" => "",
+         ]
+      ]);
+
+      die();
    }
 
    // Can only create a new segment for one's own articles
    if(!$article->isMine())
    {
-      $tplInput = array('error' => 'notYours');
-      $tpl = TemplateEngine::parse('view/user/EditSegment.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Cet article n\'est pas le vôtre');
+      http_response_code(401);
+      echo $twig->render("error.html.twig", [
+         "error_title" => "Page inaccessible",
+         "error_key" => "notYours",
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur - Page inaccessible",
+            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+            "full_title" => "",
+         ]
+      ]);
+
+      die();
    }
 
    // Webpage settings
@@ -60,21 +128,21 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Dialogs
    $dialogs = '';
-   if(Utils::check(LoggedUser::$data['can_upload']))
-   {
-      $headerDialogTpl = TemplateEngine::parse('view/dialog/CreateSegmentHeader.dialog.ctpl');
-      if(!TemplateEngine::hasFailed($headerDialogTpl))
-         $dialogs .= $headerDialogTpl;
-      $fileUploadDialogTpl = TemplateEngine::parse('view/dialog/UploadFile.dialog.ctpl');
-      if(!TemplateEngine::hasFailed($fileUploadDialogTpl))
-         $dialogs .= $fileUploadDialogTpl;
-   }
-   $formattingDialogsTpl = TemplateEngine::parse('view/dialog/Formatting.multiple.ctpl');
-   if(!TemplateEngine::hasFailed($formattingDialogsTpl))
-      $dialogs .= $formattingDialogsTpl;
-   $eFormattingDialogsTpl = TemplateEngine::parse('view/dialog/ExtendedFormatting.multiple.ctpl');
-   if(!TemplateEngine::hasFailed($eFormattingDialogsTpl))
-      $dialogs .= $eFormattingDialogsTpl;
+   // if(Utils::check(LoggedUser::$data['can_upload']))
+   // {
+   //    $headerDialogTpl = TemplateEngine::parse('view/dialog/CreateSegmentHeader.dialog.ctpl');
+   //    if(!TemplateEngine::hasFailed($headerDialogTpl))
+   //       $dialogs .= $headerDialogTpl;
+   //    $fileUploadDialogTpl = TemplateEngine::parse('view/dialog/UploadFile.dialog.ctpl');
+   //    if(!TemplateEngine::hasFailed($fileUploadDialogTpl))
+   //       $dialogs .= $fileUploadDialogTpl;
+   // }
+   // $formattingDialogsTpl = TemplateEngine::parse('view/dialog/Formatting.multiple.ctpl');
+   // if(!TemplateEngine::hasFailed($formattingDialogsTpl))
+   //    $dialogs .= $formattingDialogsTpl;
+   // $eFormattingDialogsTpl = TemplateEngine::parse('view/dialog/ExtendedFormatting.multiple.ctpl');
+   // if(!TemplateEngine::hasFailed($eFormattingDialogsTpl))
+   //    $dialogs .= $eFormattingDialogsTpl;
 
    // Header details (default image or buffered image)
    $currentSegmentHeader = Buffer::getSegmentHeader();
@@ -84,130 +152,72 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    else
       $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));
 
-   $formData = array('errors' => '',
-   'articleID' => $article->get('id_article'),
-   'fullArticleTitle' => $article->get('title').' - '.$article->get('subtitle'),
-   'headerPath' => $currentSegmentHeader,
-   'title' => '',
-   'noteFirstSegment' => ($nextPosition == 1) ? 'yes' : '',
-   'content' => '',
-   'header' => $currentHeaderValue,
-   'mediaMenu' => '');
+   // $formData = array('errors' => '',
+   // 'articleID' => $article->get('id_article'),
+   // 'fullArticleTitle' => $article->get('title').' - '.$article->get('subtitle'),
+   // 'headerPath' => $currentSegmentHeader,
+   // 'title' => '',
+   // 'noteFirstSegment' => ($nextPosition == 1) ? 'yes' : '',
+   // 'content' => '',
+   // 'header' => $currentHeaderValue,
+   // 'mediaMenu' => '');
 
    // Generates upload window view
    $nbUploads = 0; // Useful later
-   if(Utils::check(LoggedUser::$data['can_upload']))
-   {
-      $uploadsList = Buffer::listContent();
-      $nbUploads = count($uploadsList[0]);
+   // if(Utils::check(LoggedUser::$data['can_upload']))
+   // {
+   //    $uploadsList = Buffer::listContent();
+   //    $nbUploads = count($uploadsList[0]);
 
-      $uploadTplInput = array('uploadMessage' => 'newUpload', 'uploadsView' => Buffer::renderForSegment($uploadsList));
-      $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
+   //    $uploadTplInput = array('uploadMessage' => 'newUpload', 'uploadsView' => Buffer::renderForSegment($uploadsList));
+   //    $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
 
-      if(!TemplateEngine::hasFailed($uploadTpl))
-         $formData['mediaMenu'] = $uploadTpl;
-   }
-   else
-   {
-      $uploadTplInput = array('uploadMessage' => 'uploadRefused', 'uploadsView' => '');
-      $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
+   //    if(!TemplateEngine::hasFailed($uploadTpl))
+   //       $formData['mediaMenu'] = $uploadTpl;
+   // }
+   // else
+   // {
+   //    $uploadTplInput = array('uploadMessage' => 'uploadRefused', 'uploadsView' => '');
+   //    $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
 
-      if(!TemplateEngine::hasFailed($uploadTpl))
-         $formData['mediaMenu'] = $uploadTpl;
-   }
+   //    if(!TemplateEngine::hasFailed($uploadTpl))
+   //       $formData['mediaMenu'] = $uploadTpl;
+   // }
 
+   $formErrorMessages = $twig->getGlobals()["errors_message"]["page"];
+   $formErrorMessagesTriggered = [];
    // Form treatment starts here
-   if(!empty($_POST['sent']) || !empty($_POST['sentBis']))
-   {
+   if(!empty($_POST)) {
       $formData['title'] = Utils::secure($_POST['title']);
-      $formData['content'] = Utils::secure($_POST['message']);
+      $formData['content'] = Utils::secure($_POST['content']);
       $formData['header'] = Utils::secure($_POST['header']);
-
-      // Various possible errors
-      if(strlen($formData['title']) == 0 && $nextPosition > 1)
-         $formData['errors'] .= 'titleNeeded'; // No | because for now there can be only one error at once
-      else if(strlen($formData['title']) > 100)
-         $formData['errors'] .= 'titleTooLong';
-
-      if(strlen($formData['errors']) == 0)
-      {
-         $newSeg = null;
-         try
-         {
-            $newSeg = Segment::insert($article->get('id_article'),
-                                      $formData['title'],
-                                      $nextPosition,
-                                      FormParsing::parse($formData['content']));
-         }
-         catch(Exception $e)
-         {
-            $formData['errors'] = 'dbError';
-            $formTpl = TemplateEngine::parse('view/user/NewSegment.form.ctpl', $formData);
-            WebpageHandler::wrap($formTpl, 'Créer une nouvelle page pour l\'article "'.$article->get('title').'"', $dialogs);
-         }
-
-         // Takes care of upload if allowed (and if using full form)
-         $uploads = Buffer::listContent();
-         if(count($uploads[0]) > 0)
-         {
-            $uploadsString = Buffer::saveInSegment($uploads,
-                                               $article->get('id_article'),
-                                               $newSeg->get('id_segment'));
-
-            if(strlen($uploadsString) > 0)
-            {
-               try
-               {
-                  $modifiedContent = FormParsing::relocateInSegment($newSeg->get('content'),
-                                                                    $article->get('id_article'),
-                                                                    $newSeg->get('id_segment'));
-
-                  $newSeg->finalize('uploads:'.$uploadsString, $modifiedContent);
-               }
-               catch(Exception $e) {}
-            }
-         }
-
-         // Saves new header
-         if($formData['header'] !== '' && file_exists(PathHandler::WWW_PATH().substr($formData['header'], 2)))
-         {
-            $fileName = substr(strrchr($formData['header'], '/'), 1);
-            Buffer::save('upload/articles/'.$article->get('id_article').'/'.$newSeg->get('id_segment'), $fileName, 'header');
-         }
-
-         // Specific redirection (if asked)
-         $redirectURL = '';
-         if(!empty($_POST['sentBis']))
-         {
-            $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
-         }
-         // Default redirection
-         else
-         {
-            $redirectURL = './EditArticle.php?id_article='.$article->get('id_article');
-         }
-         header('Location:'.$redirectURL);
-
-         // Success page
-         $tplInput = array('title' => $formData['title'] != NULL ? $formData['title'] : 'Sommaire',
-                           'target' => $redirectURL,
-                           'articleTitle' => $article->get('title'));
-         $successPage = TemplateEngine::parse('view/user/NewSegment.success.ctpl', $tplInput);
-         WebpageHandler::resetDisplay();
-         WebpageHandler::wrap($successPage, 'Nouvelle page créée pour l\'article "'.$article->get('title').'"');
-      }
-      else
-      {
-         // $formData['errors'] = substr($formData['errors'], 0, -1);
-         $formTpl = TemplateEngine::parse('view/user/NewSegment.form.ctpl', $formData);
-         WebpageHandler::wrap($formTpl, 'Créer un nouvelle page pour l\'article "'.$article->get('title').'"', $dialogs);
-      }
    }
-   else
-   {
-      $formTpl = TemplateEngine::parse('view/user/NewSegment.form.ctpl', $formData);
-      WebpageHandler::wrap($formTpl, 'Créer un nouvelle page pour l\'article "'.$article->get('title').'"', $dialogs);
-   }
+
+   print_r($article);
+   print_r($article->get("type"));
+
+   echo $twig->render("add_edit_article-page.html.twig", [
+      "page_title" => "\"{$article->get("title")}\" - Ajouter une nouvelle page",
+      "list_css_files" => [ "input_file", "badge", "drag_and_drop_upload"],
+      "type" => "add",
+      "list_js_files" => [
+         ["file" => "form_validation"],
+         "upload",
+      ],
+      "article" => [
+         ...$article->getAll(),
+      ],
+      "currentCategory" => $article->get("type"),
+      "page" => [],
+      "image_header_requirements" => [
+         ...$imageHeaderRequirements,
+         "mimeTypes" => join(",", $imageHeaderRequirements["mimeTypes"])
+      ],
+      "form_error_messages" => $formErrorMessages,
+      "form_error_messages_triggered" => $formErrorMessagesTriggered,
+      "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
+
+   ]);
 }
 else
 {

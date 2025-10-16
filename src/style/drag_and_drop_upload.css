@@ -33,20 +33,29 @@
     }
 
     .dropzone {
-        padding: 0.5rem;
-        border: 1px dashed black;
+        padding: 0.85rem;
+        /* border: 1px dashed black; */
         border-radius: var(--border-radius);
 
         display: flex;
         align-items: center;
         flex-direction: column;
         gap: 0.5rem;
+        position: relative;
 
-        &:is(::before, ::after) {
+        > * {
+            z-index: 10;
+        }
+
+        .text {
+         margin: 0;
+        }
+
+        &::before, &::after {
             content: "";
             position: absolute;
             border: 2px dashed #fff;
-            background: linear-gradient(#fff 0 0) padding-box, linear-gradient(to bottom, oklch(from var(--article-type-color) calc(l * 1.25) c h), oklch(from var(--article-type-color) calc(l * .75) c h));
+            background: linear-gradient(#fff 0 0) padding-box, linear-gradient(to bottom, oklch(from var(--current-page-color) calc(l * 1.25) c h), oklch(from var(--current-page-color) calc(l * .75) c h));
             animation: clippath 350ms infinite ease-in;
             border-radius: var(--border-radius);
             inset: 0;
@@ -54,7 +63,7 @@
         }
 
         &.paused {
-            &:is(::before, ::after) {
+            &::before, &::after {
                 animation-name: none;
             }
         }

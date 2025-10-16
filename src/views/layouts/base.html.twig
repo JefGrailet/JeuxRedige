@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" style="--article-type-color: {{ articleColor }}">
+<html lang="fr">
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,14 +71,15 @@
       <style>
       :root
       {
-         --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
-         --scrollbar-menu-color: {{ list_categories[current_category].color is defined ? "var(--current-page-color)" : "auto"}};
+         --current-page-color: {{ list_categories[currentCategory].color|default("transparent") }};
+         --scrollbar-menu-color: {{ list_categories[currentCategory].color is defined ? "var(--current-page-color)" : "auto"}};
          {% for key, article_category in list_categories %}
          --article-{{ key }}-color: {{ article_category.color }};
          {% endfor %}
       }
    </style>
 </head>
+
 <body{{ is_user_logged ? ' class="logged"'}}>
    {% include 'includes/header.html.twig' %}
    <main id="main">

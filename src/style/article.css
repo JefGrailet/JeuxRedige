@@ -23,11 +23,11 @@
       border-top-right-radius: var(--border-radius);
       color: white;
       z-index: 1;
-      background-color: rgb(from var(--article-type-color) r g b / 75%);
+      background-color: rgb(from var(--current-page-color) r g b / 75%);
 
       &:hover
       {
-         background-color: rgb(from var(--article-type-color) r g b / 85%);
+         background-color: rgb(from var(--current-page-color) r g b / 85%);
       }
    }
 
@@ -171,7 +171,7 @@
    font-size: 1.25rem; /* ~20px */
    padding: 10px;
    text-align: justify;
-   color: var(--article-type-color);
+   color: var(--current-page-color);
 
    &::before {
       content: "\0025B6\00a0";
@@ -317,7 +317,7 @@
       background-color: black;
       color: white;
       font-size: 1rem; /* ~16px */
-      border: 2px solid var(--article-type-color);
+      border: 2px solid var(--current-page-color);
    }
 
    li:before
@@ -333,18 +333,18 @@
          width: 1rem;
          margin-left: -1rem;
          margin-right: 0.25rem;
-         color: var(--article-type-color);
+         color: var(--current-page-color);
       }
    }
 }
 
 .conclusion {
    clear: both;
-   background-color: rgb(from var(--article-type-color) r g b / 10%);
+   background-color: rgb(from var(--current-page-color) r g b / 10%);
    color: rgb(19, 19, 19);
    border-radius: 5px;
    padding-bottom: 5px;
-   border: 2px solid var(--article-type-color);
+   border: 2px solid var(--current-page-color);
    padding: 10px 17px;
    margin-bottom: 1rem;
 
@@ -423,7 +423,7 @@
       width: 100px;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
-      border: 2px solid var(--article-type-color);
+      border: 2px solid var(--current-page-color);
       transition: background-size 350ms;
       background-repeat: no-repeat;
       background-position: top center;
@@ -829,7 +829,7 @@
       text-align: justify;
       margin-top: 1.25rem;
       margin-bottom: 0;
-      color: var(--article-type-color, black);
+      color: var(--current-page-color, black);
 
       &::before {
          content: "\0025B6\00a0";
@@ -873,7 +873,7 @@
    #chapitrage {
       padding: 0;
       padding-bottom: 0.85rem;
-      border-color: var(--article-type-color);
+      border-color: var(--current-page-color);
       border-radius: var(--border-radius);
       background-color: white;
 
@@ -890,7 +890,7 @@
       li.active {
          font-weight: bold;
          &::marker {
-            color: oklch(from var(--article-type-color) calc(l * .75) c h);
+            color: oklch(from var(--current-page-color) calc(l * .75) c h);
             font-weight: bold;
          }
 
@@ -904,7 +904,7 @@
          flex-direction: row;
          align-items: center;
          padding: 0.5rem 1.25rem;
-         background-color: rgb(from var(--article-type-color) r g b / 50%);
+         background-color: rgb(from var(--current-page-color) r g b / 50%);
          margin-bottom: 0.75rem;
          color: black;
          p {

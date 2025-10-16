@@ -58,6 +58,10 @@
    }
 }
 
+:is(.secondaryButton, .primaryButton, .danger).small {
+   padding: 0.5rem!important;
+}
+
 :is(button, input[type="submit"], a).danger {
    background-color: var(--danger-color);
    color: white;

@@ -65,7 +65,7 @@
 .icon-formatting_quotation:before {
   content: "\e90a";
 }
-.icon-formatting_quote:before, .icon-general_quote:before {
+.icon-formatting_quote:before {
   content: "\e90b";
 }
 .icon-formatting_right-aligned:before {
@@ -119,7 +119,7 @@
 .icon-general_home:before {
   content: "\e91c";
 }
-.icon-general_hyperlink:before, .icon-formatting_link:before {
+.icon-general_hyperlink:before {
   content: "\e91d";
 }
 .icon-general_info:before {
@@ -253,4 +253,10 @@
 }
 .icon-topic_uploads:before {
   content: "\e949";
+}
+.icon-image:before {
+  content: "\e94a";
+}
+.icon-cog:before {
+  content: "\e994";
 }

@@ -1,4 +1,4 @@
-<button class="loginButton" data-trigger-modal="form-login">
+<button class="loginButton" command="show-modal" commandfor="form-login">
    <img
       src="{{ webRoot }}/defaultavatar-small.jpg"
       class="avatarMini"
@@ -7,7 +7,7 @@
    <span class="userPseudo" style="text-wrap: nowrap;"> Se connecter </span>
 </button>
 
-<dialog class="modal" data-modal="form-login">
+<dialog class="modal" id="form-login">
    <header class="header">
       <p class="title">Connexion</p>
       <button class="closeModal" data-close-modal="">

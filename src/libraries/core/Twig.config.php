@@ -142,8 +142,8 @@ $twig->addGlobal("errors_message", [
    ],
    "page" => [
       "header" => [
-         "badDimensions" => "L'image fournie doit aussi être supérieure ou égale à 1920 pixels de large, avec une hauteur d'au moins 30% la largeur",
-         "invalidFormat" => "Vous devez utiliser une image au format .jp(e)g",
+         "badDimensions" => "L'image d'en-tête doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur",
+         "invalidFormat" => "L'image d'en-tête doit être au format .jp(e)g",
          "uploadError" => "Le téléchargement de l'image a échoué. Réessayez plus tard ou contactez l'administrateur",
          "notEnoughSpace" => "Nous sommes dans l'incapacité de télécharger l'intégralité de votre image pour le moment. Veuillez réessayer plus tard ou prévenez l'administrateur",
          "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",

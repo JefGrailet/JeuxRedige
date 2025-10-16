@@ -73,7 +73,7 @@
             {% if flash_message == "page_updated" %}
 				   <p class="alert success">Article mis à jour.</p>
             {% endif %}
-            <p>Article : <a href="http://" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></p>
+            <p>Article : <a href="./EditArticle.php?id_article={{ article.id_article }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></p>
 
 				<div>
                <div class="inputContainer">
@@ -84,7 +84,7 @@
 								<li>L'image doit être au format .jp(e)g</li>
 								<li>L'image doit avoir une taille inférieure à 1 Mo. Vous pouvez utiliser le site <a href="https://squoosh.app/" target="_blank" rel="noopener noreferrer">https://squoosh.app/</a> pour réduire la taille de l'image</li>
 								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#media">médias</a></li>
-								<li>L'image fournie doit aussi être supérieure ou égale à 1920 pixels de large, avec une hauteur d'au moins 30% la largeur</li>
+								<li>L'image fournie doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur. Soit un ratio de 10 / 3</li>
 							</ul>
 						</div>
                   {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
@@ -133,7 +133,7 @@
                <div class="dropzone">
                   <p>Glissez-déposez vos médias</p>
                   <p>ou</p>
-                  
+
                </div>
             </div>
 
@@ -142,7 +142,7 @@
             </button> #}
          </div>
       </section>
-		<div class="inputContainer">
+		<div class="inputContainer row">
          <button type="submit" form="form" class="fit primaryButton">
             {{ type == "add" ? "Créer" : "Éditer" }} page
          </button>
@@ -186,7 +186,7 @@
       </header>
 
       <div class="content">
-         
+
       </div>
 	</dialog>
 {% endblock %}

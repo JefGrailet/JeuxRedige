@@ -147,7 +147,7 @@
                   {% if article.is_published == false %}
                   <th style="min-width: 40px;"></th>
                   {% endif %}
-                  <th style="min-width: 50px;">#</th>
+                  <th style="min-width: 50px;">Page n°</th>
                   <th>Contenu des pages</th>
                   {% if article.is_published == false %}
                   <th style="min-width: 220px;"></th>
@@ -181,7 +181,7 @@
                         </td>
                         {% if article.is_published == false %}
                            <td style="text-align: right;">
-                              <button data-trigger-modal="delete-segment" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer le segment</button>
+                              <button command="show-modal" commandfor="delete-page" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer la page</button>
                            </td>
                         {% endif %}
                      </tr>
@@ -227,13 +227,13 @@
 			<section class="sectionBlock danger">
 				<p class="title" style="font-style: italic;">Danger zone</p>
 				<div class="content">
-					<button data-trigger-modal="delete-article" class="danger" type="button"><i class="icon-general_trash"></i> Supprimer l'article</button>
+					<button command="show-modal" commandfor="delete-article" class="danger" type="button"><i class="icon-general_trash"></i> Supprimer l'article</button>
 				</div>
 			</section>
 		{% endif %}
 	</div>
 
-	<dialog class="modal" data-modal="delete-article">
+	<dialog class="modal" id="delete-article">
       <header class="header danger">
          <p class="title">Supprimer l'article</p>
          <button class="closeModal" data-close-modal="">
@@ -257,7 +257,7 @@
 	</dialog>
 
    {% if article.is_published == false %}
-      <dialog class="modal" data-modal="delete-segment">
+      <dialog class="modal" id="delete-page">
          <header class="header danger">
             <p class="title">Supprimer la page</p>
             <button class="closeModal" data-close-modal="">

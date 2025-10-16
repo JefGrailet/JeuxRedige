@@ -1,9 +1,9 @@
 <?php
 
 /**
-* This script creates a new segment header given a $_FILES array containing a picture that will be 
-* resized in order to create the header. If everything goes well, the header is stored in the 
-* folder upload/tmp and the absolute path is printed as a response. Otherwise, a message giving 
+* This script creates a new segment header given a $_FILES array containing a picture that will be
+* resized in order to create the header. If everything goes well, the header is stored in the
+* folder upload/tmp and the absolute path is printed as a response. Otherwise, a message giving
 * the reason of failure is printed. Also, this script is only available for logged users.
 */
 
@@ -25,15 +25,17 @@ else if(!(array_key_exists('pseudo', LoggedUser::$data) && strlen(LoggedUser::$d
    exit();
 }
 
+header('Content-Type: text/html; charset=UTF-8');
+
 if(!empty($_FILES['image']))
 {
    $uploaded = $_FILES['image'];
-   
+
    $res = '';
    if($uploaded['size'] > 5 * (1024 * 1024) || $uploaded['size'] == 0)
-      $res = 'file too big';
+      $res = 'tooBig';
    elseif(($uploaded['size'] + Upload::directorySize('upload')) > (4 * 1024 * 1024 * 1024))
-      $res = 'no more space';
+      $res = 'notEnoughSpace';
    else
    {
       $extension = strtolower(substr(strrchr($uploaded['name'], '.'), 1));
@@ -44,41 +46,37 @@ if(!empty($_FILES['image']))
          $dimensions = getimagesize($uploaded['tmp_name']);
          if($dimensions[0] < 1920 || $dimensions[1] < 576)
          {
-            $res = 'bad dimensions';
+            $res = 'badDimensions';
          }
          else
          {
             // Creates user's temporary directory if it does not exist yet
             Buffer::create();
-            
+
             // Cleans away previous thumbnails/headers
             Buffer::cleanSegmentHeaders();
-            
+
             $destDir = './upload/tmp/'.LoggedUser::$data['pseudo'];
-            
+
             // Stores and resize the picture
             $res = Upload::storeResizedPicture($uploaded, $destDir, 1920, 576, $filename);
-            
+
             // In case of success: no error message, hence the ""; response is the path to the image
             if($res !== "")
                $res = './upload/tmp/'.LoggedUser::$data['pseudo'].'/'.substr(strrchr($res, '/'), 1);
             else
-               $res = 'fail';
+               $res = 'uploadError';
          }
       }
       else
       {
-         $res = 'not a JPEG';
+         $res = 'invalidFormat';
       }
    }
-   
-   header('Content-Type: text/html; charset=UTF-8');
+
    echo $res;
 }
 else
 {
-   header('Content-Type: text/html; charset=UTF-8');
-   echo 'file not loaded';
+   echo 'uploadError';
 }
-
-?>

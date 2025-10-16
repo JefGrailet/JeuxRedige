@@ -1,71 +1,108 @@
 :root {
-    --percentage: 98%;
+   --percentage: 98%;
 }
 
 @keyframes clippath {
-    0%,
-    100% {
-        clip-path: inset(0 0 var(--percentage) 0);
-    }
-    25% {
-        clip-path: inset(0 var(--percentage) 0 0);
-    }
-    50% {
-        clip-path: inset(var(--percentage) 0 0 0);
-    }
-    75% {
-        clip-path: inset(0 0 0 var(--percentage));
-    }
+   0%,
+   100% {
+      clip-path: inset(0 0 var(--percentage) 0);
+   }
+   25% {
+      clip-path: inset(0 var(--percentage) 0 0);
+   }
+   50% {
+      clip-path: inset(var(--percentage) 0 0 0);
+   }
+   75% {
+      clip-path: inset(0 0 0 var(--percentage));
+   }
 }
 
 .dragAndDropUpload {
-    padding: 0.5rem;
+   padding: 0.5rem;
 
-    .listUploads {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
+   .listUploads {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
 
-        img, video {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-    }
+      .droppedMedia {
+         aspect-ratio: 16 / 9;
+         position: relative;
 
-    .dropzone {
-        padding: 0.85rem;
-        /* border: 1px dashed black; */
-        border-radius: var(--border-radius);
-
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 0.5rem;
-        position: relative;
-
-        > * {
-            z-index: 10;
-        }
-
-        .text {
-         margin: 0;
-        }
-
-        &::before, &::after {
-            content: "";
+         button {
             position: absolute;
-            border: 2px dashed #fff;
-            background: linear-gradient(#fff 0 0) padding-box, linear-gradient(to bottom, oklch(from var(--current-page-color) calc(l * 1.25) c h), oklch(from var(--current-page-color) calc(l * .75) c h));
-            animation: clippath 350ms infinite ease-in;
-            border-radius: var(--border-radius);
-            inset: 0;
-            z-index: 0;
-        }
+            right: 0.25rem;
+            top: 0.25rem;
+         }
+      }
 
-        &.paused {
-            &::before, &::after {
-                animation-name: none;
-            }
-        }
-    }
+      img,
+      video {
+         height: 100%;
+         width: 100%;
+         object-fit: cover;
+      }
+   }
+
+   .dropzone {
+      --animation-speed: 2.25s;
+      padding: 0.85rem;
+      /* border: 1px dashed black; */
+      border-radius: var(--border-radius);
+
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+
+      > * {
+         z-index: 10;
+      }
+
+      .text {
+         margin: 0;
+      }
+
+      .buttons {
+         display: flex;
+         flex-direction: row;
+         gap: 1rem;
+      }
+
+      input[type="file"] {
+         width: 0;
+         height: 0;
+         display: none;
+         position: absolute;
+         z-index: -50;
+      }
+
+      &::before,
+      &::after {
+         content: "";
+         position: absolute;
+         border: 2px dashed #fff;
+         background: linear-gradient(#fff 0 0) padding-box,
+            linear-gradient(
+               to bottom,
+               oklch(from var(--current-page-color) calc(l * 1.25) c h),
+               oklch(from var(--current-page-color) calc(l * 0.75) c h)
+            );
+         animation: clippath var(--animation-speed) infinite ease-in;
+         border-radius: var(--border-radius);
+         inset: 0;
+         z-index: 0;
+      }
+
+      &.paused {
+         &::before,
+         &::after {
+            animation-name: none;
+         }
+      }
+   }
 }

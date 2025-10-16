@@ -203,6 +203,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       "list_js_files" => [
          ["file" => "form_validation"],
          "upload",
+         "drag_n_drop_upload",
+         "paste_clipboard_media",
       ],
       "article" => [
          ...$article->getAll(),
@@ -216,7 +218,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,
       "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
-
    ]);
 }
 else

@@ -124,23 +124,38 @@
                </ul>
             </div>
             <div class="dragAndDropUpload">
-               <ul class="listUploads">
-                  <li>
+               <ul class="listUploads" data-preview-dropzone="page-medias">
+                  {# <li>
                      <button command="show-modal" commandfor="customize-media">
 
                      </button>
-                  </li>
+                  </li> #}
                </ul>
-               <div class="dropzone paused">
+               <div class="dropzone paused" data-upload-dropzone="page-medias">
                   <p class="text">Glissez-déposez vos médias</p>
                   <p class="text">ou</p>
-
+                  <div class="buttons">
+                     <label class="primaryButton">
+                        {# <i class="icon-file-empty"></i> #}
+                        Uploader une image ou un clip vidéo
+                        <input
+                           type="file"
+                           accept=".jpg, .gif, .png, .mp4, .webm"
+                           name="{{ name }}"
+                           multiple
+                           data-upload-input-dropzone="page-medias"
+                        />
+                     </label>
+                     <button
+                        type="button"
+                        class="secondaryButton"
+                        data-clipboard-upload="{{ name }}"
+                     >
+                        Coller depuis le presse-papier
+                     </button>
+                  </div>
                </div>
             </div>
-
-            {# <button class="secondaryButton" data-trigger-modal="upload-media">
-               Uploader une image ou un clip vidéo
-            </button> #}
          </div>
       </section>
 		<div class="inputContainer row">
@@ -190,4 +205,13 @@
 
       </div>
 	</dialog>
+
+   <template data-template-id="page-media-item">
+      <li class="droppedMedia">
+         <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger" type="button">
+            <i class="icon-general_trash"></i>
+         </button>
+         <img src="" alt="">
+      </li>
+   </template>
 {% endblock %}

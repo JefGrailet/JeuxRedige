@@ -149,10 +149,13 @@ $twig->addGlobal("errors_message", [
          "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
       ],
       "content" => [
+         "empty" => "Vous devez mettre du contenu pour votre page",
       ],
       "title" => [
+         "empty" => "Cette page, n'étant pas la première page de votre article, vous devez mettre un titre",
       ],
    ],
+   "emptyFields" => "Vous devez remplir tous les champs",
 ]);
 
 

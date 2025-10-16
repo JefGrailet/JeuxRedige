@@ -8,7 +8,6 @@
 
 		<section class="sectionBlock">
 			<h1 class="title">
-
             {% if type == "add" %}
                Ajouter une page
             {% else %}
@@ -18,8 +17,10 @@
 			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
 				<script type="text/schema" data-form-schema="new_article">
 					return z.object({
+                  {% if page_index > 0 %}
                   title: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
-                  content: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
+                  {% endif %}
+                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty }}" }),
                   header: z.file()
                      .nullable()
                      .transform((file) => (file && file.size > 0 ? file : null))
@@ -48,16 +49,14 @@
                         return new Promise((resolve) => {
                               const reader = new FileReader();
                               reader.onload = (e) => {
-                              const img = new Image();
-                              img.onload = () => {
-                                 const heightRatio = (img.height * 100) / 1920;
-                                 const meetsDimensions =
-                                    img.width >= 1920 &&
-                                    heightRatio >= 30;
+                                 const img = new Image();
+                                 img.onload = () => {
+                                    const heightRatio = (img.height * 100) / 1920;
+                                    const meetsDimensions = img.width >= 1920 && heightRatio >= 30;
 
-                                 resolve(meetsDimensions);
-                              };
-                              img.src = e.target?.result;
+                                    resolve(meetsDimensions);
+                                 };
+                                 img.src = e.target?.result;
                               };
                               reader.readAsDataURL(file);
                            })
@@ -83,7 +82,7 @@
 							<p class="title">Remarques :</p>
 							<ul>
 								<li>L'image doit être au format .jp(e)g</li>
-								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo. Vous pouvez utiliser le site <a href="https://squoosh.app/" target="_blank" rel="noopener noreferrer">https://squoosh.app/</a> pour réduire la taille de l'image</li>
 								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#media">médias</a></li>
 								<li>L'image fournie doit aussi être supérieure ou égale à 1920 pixels de large, avec une hauteur d'au moins 30% la largeur</li>
 							</ul>
@@ -101,7 +100,7 @@
 					</div>
 
 					<div class="inputContainer">
-						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
+						<label for="title">Titre{% if page_index > 0 %}<span style="color: var(--danger-color);">*</span>{% endif %}</label>
 						<input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
 					</div>
 
@@ -112,10 +111,82 @@
 				</div>
 			</form>
 		</section>
+      <section class="sectionBlock">
+         <h2 class="title">Médias</h2>
+         <div class="content">
+            <div class="notes">
+               <p class="title">Remarques :</p>
+               <ul>
+                  <li>Les médias joints à une page d'article ne sont jamais affichés automatiquement. <b>Vous devez les intégrer à votre texte</b></li>
+                  <li>Seuls les premiers médias (par ordre lexicographique) seront conservés si le total excède 13 uploads</li>
+                  <li>Seuls les médias au format .jp(e)g, .gif, .png, .mp4, .webm et d'une taille inférieure à 5Mo sont autorisés</li>
+               </ul>
+            </div>
+            <div class="dragAndDropUpload">
+               <ul class="listUploads">
+                  <li>
+                     <button command="show-modal" commandfor="customize-media">
+
+                     </button>
+                  </li>
+               </ul>
+               <div class="dropzone">
+                  <p>Glissez-déposez vos médias</p>
+                  <p>ou</p>
+                  
+               </div>
+            </div>
+
+            {# <button class="secondaryButton" data-trigger-modal="upload-media">
+               Uploader une image ou un clip vidéo
+            </button> #}
+         </div>
+      </section>
 		<div class="inputContainer">
          <button type="submit" form="form" class="fit primaryButton">
             {{ type == "add" ? "Créer" : "Éditer" }} page
          </button>
+         <button type="submit" form="form" class="fit secondaryButton">
+            {{ type == "add" ? "Créer" : "Éditer" }} page et prévisualiser
+         </button>
       </div>
 	</div>
+
+   <dialog class="modal" id="upload-media">
+      <header class="header danger">
+         <p class="title">Uploader des médias</p>
+         <button class="closeModal" data-close-modal="">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <div class="content">
+         <div class="notes">
+            <p class="title">Remarques :</p>
+            <ul>
+               <li>Les médias joints à une page d'article ne sont jamais affichés automatiquement. <b>Vous devez les intégrer à votre texte</b></li>
+               <li>Seuls les premiers médias (par ordre lexicographique) seront conservés si le total excède 13 uploads</li>
+            </ul>
+         </div>
+      </div>
+	</dialog>
+
+   <dialog class="modal" id="customize-media">
+      <header class="header danger">
+         <p class="title">Personnaliser le média</p>
+         <button class="closeModal" data-close-modal="">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <div class="content">
+         
+      </div>
+	</dialog>
 {% endblock %}

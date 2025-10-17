@@ -1,10 +1,10 @@
-const listModalTriggers = document.querySelectorAll('[data-trigger-modal="delete-segment"]');
-const listModals = document.querySelectorAll('dialog[data-modal]');
+const deletePageModal = document.getElementById("delete-page");
 
-const setSegment = (e) => {
-   document.querySelector("[data-modal=delete-segment] [name=id_segment]").value = e.target.dataset.segmentId;
-}
+deletePageModal.addEventListener("toggle", (e) => {
+   if (e.newState === "open") {
+      const pageData = JSON.parse(e.source.dataset.pageData);
 
-listModalTriggers.forEach((item) => {
-   item.addEventListener("click", setSegment);
+      e.target.querySelector("[name=id_segment]").value = pageData.id;
+      e.target.querySelector(".title span").textContent = pageData.title || "Sommaire";
+   }
 });

@@ -12,6 +12,7 @@
    font-size: 1rem;
    border: none;
    transition: background-color var(--transition-time);
+   cursor: pointer;
 
    &:is(:focus, :hover, :focus-within) {
       background: oklch(from #0c960c calc(l * .75) c h);
@@ -41,6 +42,7 @@
    gap: 0.5rem;
    font-size: 1rem;
    transition: background-color var(--transition-time);
+   cursor: pointer;
 
    &:is(:focus, :hover, :focus-within) {
       background: oklch(from var(--link-color) calc(l * .75) c h);

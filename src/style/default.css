@@ -81,6 +81,7 @@ body
 a {
    color: var(--link-color);
    text-decoration: none;
+   cursor: pointer;
 
    &:has(svg) {
       display: inline-flex;

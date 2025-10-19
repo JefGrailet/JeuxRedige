@@ -37,6 +37,8 @@ const generatePreviewsUploads = (e) => {
 
    const errorsContainer = document.querySelector(`[data-errors-dropzone="${element.dataset.uploadInputDropzone}"]`);
    const listErrorsContainer = errorsContainer.querySelector("ul");
+   const listErrorsCounter = errorsContainer.querySelector("[data-nb-file-errors]");
+
    listErrorsContainer.innerHTML = "";
    errorsContainer.hidden = true;
 
@@ -54,16 +56,33 @@ const generatePreviewsUploads = (e) => {
       "size": "Le fichier est trop lourd"
    }
 
-   Array.from(element.files).forEach((file) => {
+   Array.from(element.files).forEach(async (file) => {
       const listFileErrors = getFileErrors(file);
 
       if (Object.values(listFileErrors).every((item) => item === false)) {
-         const tpl = previewUploadTemplateRaw.content.cloneNode(true);
+         const data = new FormData()
+         data.append('newFile', file)
 
-         const img = tpl.querySelector("img");
-         img.src = URL.createObjectURL(file);
+         const req = await fetch(DefaultLib.httpPath + "/ajax/UploadFileJSON.php", {
+               method: "POST",
+               body: data,
+            })
+         const res = await req.json();
 
-         previewContainer.append(tpl)
+         if ("success" in res) {
+            const { success: imageData } = res;
+            const tpl = previewUploadTemplateRaw.content.cloneNode(true);
+            tpl.querySelectorAll("[data-media-data]").forEach((item) => {
+               item.dataset.mediaData = JSON.stringify(imageData);
+            })
+
+            const img = tpl.querySelector("img");
+            img.src = imageData.mini.src;
+            img.height = imageData.mini.height;
+            img.width = imageData.mini.width;
+
+            previewContainer.append(tpl)
+         }
       } else {
          errorsContainer.hidden = false;
 
@@ -73,8 +92,10 @@ const generatePreviewsUploads = (e) => {
          const li = document.createElement("li")
          li.textContent = `${file.name} : ${listFileErrorsMessage.join(", ")}`;
          listErrorsContainer.append(li)
+         listErrorsCounter.textContent = `(${listErrorsContainer.childElementCount})`
       }
    })
+
 }
 
 const dropImageObserver = new MutationObserver((mutationList) => {

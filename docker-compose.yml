@@ -5,8 +5,8 @@ services:
          dockerfile: php.Dockerfile
       volumes:
          - ./src/:/var/www/html
+         - ./php.ini:/usr/local/etc/php/conf.d/php.ini
          - vendor:/var/www/html/vendor
-         # - /home/node/app/node_modules
       ports:
          - "80:80"
       depends_on:
@@ -14,8 +14,6 @@ services:
          - mysql
       stdin_open: true
       tty: true
-      # links:
-      #    - composer
    composer:
       image: composer:latest
       command: sh -c "composer install"

@@ -69,7 +69,6 @@ $twig->addGlobal("meta", [
    "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
    "full_title" => "",
 ]);
-$twig->addGlobal("dialogs", "");
 $twig->addGlobal("page_title", "Site de critiques de jeux vidéo");
 $twig->addGlobal("userSide", "default");
 $twig->addGlobal("no_custom_logo", false);
@@ -157,7 +156,6 @@ $twig->addGlobal("errors_message", [
    ],
    "emptyFields" => "Vous devez remplir tous les champs",
 ]);
-
 
 $filter = new \Twig\TwigFilter('since_days', function ($charset) {
    $today = new DateTime(date('Y-m-d'));

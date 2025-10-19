@@ -1,19 +1,18 @@
-@import "./error.css";
 /* Roboto font */
 @font-face
 {
-    font-family: 'Roboto';
-    src: url('./fonts/Roboto-Regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+   font-family: 'Roboto';
+   src: url('./fonts/Roboto-Regular-webfont.woff') format('woff');
+   font-weight: normal;
+   font-style: normal;
 }
 
 @font-face
 {
-    font-family: 'Roboto';
-    src: url('./fonts/Roboto-Bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
+   font-family: 'Roboto';
+   src: url('./fonts/Roboto-Bold-webfont.woff') format('woff');
+   font-weight: bold;
+   font-style: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -102,6 +101,10 @@ a {
 
 .fit {
    width: fit-content;
+}
+
+.bold {
+   font-weight: bold;
 }
 
 .mobile-only {
@@ -407,7 +410,7 @@ input[type=submit]:active, button:active, .customButton:active
 
 #blackScreen
 {
-   display: none;
+   display: none !important;
    width: 100%;
    height: 100%;
    position: fixed;
@@ -644,8 +647,8 @@ input[type=submit]:active, button:active, .customButton:active
 
 dialog, [popover] {
    --start-position-y: 50vh;
-   opacity: 0;
-   translate: 0 var(--start-position-y);
+   /* opacity: 0;
+   translate: 0 var(--start-position-y); */
    transition: opacity var(--transition-time) ease-out,
       translate var(--transition-time) ease-out,
       overlay var(--transition-time) ease-out allow-discrete,
@@ -677,13 +680,23 @@ dialog, [popover] {
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
    position: fixed;
    max-width: 90%;
-   @media screen and (width > 640px) {
+   @media screen and (width >= 640px) {
       max-width: 500px;
    }
    width: 100%;
    border-width: 1px;
    border-radius: 0.5rem;
    padding: 0;
+
+   &.large {
+      @media screen and (width >= 768px) {
+         max-width: min(
+            calc(100% - var(--root-side-margin)),
+            var(--content-max-width)
+         );
+         /* max-width: calc(var(--content-max-width) - var(--root-side-margin)); */
+      }
+   }
 
    input {
       margin-left: 0;
@@ -755,7 +768,7 @@ dialog, [popover] {
    }
 
    &:last-of-type:has([type="submit"]) {
-      margin-top: 1.35rem;
+      margin-top: 0.85rem;
    }
 }
 
@@ -1237,22 +1250,21 @@ input[type="submit"] {
    .content, > .title {
       padding: 0.5rem 1.25rem;
    }
+}
 
-   .notes {
-      font-size: 0.85rem;
-      color: #5e5e5e;
+.notes {
+   font-size: 0.85rem;
+   color: #5e5e5e;
+   margin-bottom: 1rem;
 
-      .title {
-         margin: 0px;
-      }
+   .title {
+      margin: 0px;
+   }
 
-      ul {
-         margin: 0px;
-         padding: 0;
-         list-style-position: inside;
-      }
-
-      padding-bottom: 1rem;
+   ul {
+      margin: 0px;
+      padding: 0;
+      list-style-position: inside;
    }
 }
 
@@ -2423,9 +2435,27 @@ textarea
    aspect-ratio: 1 / 1;
    rotate: z 45deg;
    display: inline-block;
-   cursor: drag;
+   cursor: grab;
+
+   &:active {
+      cursor: grabbing!important;
+   }
 }
 
 [inert] {
    opacity: 0.5;
+}
+
+.lightboxImg {
+   max-width: 80vw;
+   max-height: calc(80vh - var(--main-nav-height));
+   object-fit: cover;
+   display: block;
+   margin: auto;
+}
+
+.imageLegend {
+   font-size: 0.75rem;
+   text-align: center;
+   margin: 5px 0px 10px 0px;
 }

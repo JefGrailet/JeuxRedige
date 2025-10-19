@@ -124,13 +124,7 @@
                </ul>
             </div>
             <div class="dragAndDropUpload">
-               <ul class="listUploads" data-preview-dropzone="page-medias">
-                  {# <li>
-                     <button command="show-modal" commandfor="customize-media">
-
-                     </button>
-                  </li> #}
-               </ul>
+               <ul class="listUploads" data-preview-dropzone="page-medias"></ul>
                <div class="dropzone paused" data-upload-dropzone="page-medias">
                   <p class="text">Glissez-déposez vos médias</p>
                   <p class="text">ou</p>
@@ -140,7 +134,7 @@
                         Uploader une image ou un clip vidéo
                         <input
                            type="file"
-                           accept=".jpg, .gif, .png, .mp4, .webm"
+                           accept="video/webm, image/jpeg, image/gif, video/mp4"
                            name="{{ name }}"
                            multiple
                            data-upload-input-dropzone="page-medias"
@@ -155,6 +149,10 @@
                      </button>
                   </div>
                </div>
+               <details class="listErrors" data-errors-dropzone="page-medias" hidden>
+                  <summary>Liste erreurs <span data-nb-file-errors></span></summary>
+                  <ul></ul>
+               </details>
             </div>
          </div>
       </section>
@@ -168,10 +166,61 @@
       </div>
 	</div>
 
-   <dialog class="modal" id="upload-media">
+   <dialog class="modal" id="integrate-media">
+      <header class="header">
+         <p class="title">Personnaliser le média</p>
+         <button class="closeModal" command="close" commandfor="integrate-media">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <form class="content gridForm" method="dialog">
+         <img src="" alt="" class="full">
+         <div class="inputContainer row">
+            <label for="url">URL</label>
+            <input type="text" readonly name="url_img" />
+         </div>
+         <div class="inputContainer row">
+            <label for="format">Format</label>
+            <select name="format_img">
+               <option value="mini">Miniature</option>
+               <option value="1.0">Dimensions originales</option>
+               <option value="0.5">Dimensions x0.5 (images seulement)</option>
+               <option value="1.5">Dimensions x1.5 (images seulement)</option>
+               <option value="2.0">Dimensions x2 (images seulement)</option>
+               <option value="3.0">Dimensions x3 (images seulement)</option>
+               <option value="5.0">Dimensions x5 (images seulement)</option>
+            </select>
+         </div>
+
+         <div class="inputContainer row">
+            <label for="format">Flottement</label>
+            <select name="floating_img">
+               <option value="normal">Aucun</option>
+               <option value="left">A gauche</option>
+               <option value="right">A droite</option>
+            </select>
+         </div>
+
+         <div class="inputContainer row">
+            <label for="note">Note</label>
+            <input type="text" readonly name="comment_img" maxlength="250" placeholder="Maximum 250 caractères" />
+            <p class="notes full">Le champ est limité à 250 caractères</p>
+         </div>
+
+         <div class="inputContainer">
+            <input type="submit" class="fit primaryButton" value="Insérer à la page">
+         </div>
+      </form>
+	</dialog>
+
+   <dialog class="modal" id="delete-media" data-modal="delete-media">
       <header class="header danger">
-         <p class="title">Uploader des médias</p>
-         <button class="closeModal" data-close-modal="">
+         <p class="title">Supprimer le média</p>
+         <button class="closeModal" command="close" commandfor="delete-media">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
             </svg>
@@ -180,20 +229,16 @@
       </header>
 
       <div class="content">
-         <div class="notes">
-            <p class="title">Remarques :</p>
-            <ul>
-               <li>Les médias joints à une page d'article ne sont jamais affichés automatiquement. <b>Vous devez les intégrer à votre texte</b></li>
-               <li>Seuls les premiers médias (par ordre lexicographique) seront conservés si le total excède 13 uploads</li>
-            </ul>
+         <div class="alert error">
+            Cette action est irréversible
          </div>
       </div>
 	</dialog>
 
-   <dialog class="modal" id="customize-media">
-      <header class="header danger">
-         <p class="title">Personnaliser le média</p>
-         <button class="closeModal" data-close-modal="">
+   <dialog class="modal large" id="preview-media" data-modal="preview-media">
+      <header class="header">
+         <p class="title">Prévisualisation</p>
+         <button class="closeModal" command="close" commandfor="preview-media">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
             </svg>
@@ -201,17 +246,30 @@
          </button>
       </header>
 
-      <div class="content">
-
-      </div>
+      <figure class="content">
+         <img src="" alt="" class="lightboxImg">
+         <figcaption class="imageLegend">
+            Uploadé le 17/10/2025 à 23:09:31
+            (<a href="http://" target="_blank" rel="noopener noreferrer">Voir image en grand</a>)
+         </figcaption>
+      </figure>
 	</dialog>
 
    <template data-template-id="page-media-item">
       <li class="droppedMedia">
-         <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger" type="button">
-            <i class="icon-general_trash"></i>
+         <div class="menuBar">
+            <button title="Ajouter à la page" data-media-data type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
+               <i class="icon-general_plus" ></i>
+               <span>Ajouter à la page</span>
+            </button>
+            <button title="supprimer média" data-delete-btn command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+               <i class="icon-general_trash"></i>
+               <span>Supprimer image</span>
+            </button>
+         </div>
+         <button class="media" type="button" command="show-modal" data-media-data commandfor="preview-media">
+            <img src="" alt="">
          </button>
-         <img src="" alt="">
       </li>
    </template>
 {% endblock %}

@@ -21,7 +21,10 @@
 .dragAndDropUpload {
    .listUploads {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      @media screen and (width >= 640px) {
+         grid-template-columns: repeat(4, 1fr);
+      }
       gap: 0.5rem;
       list-style: none;
       padding: 0;
@@ -33,6 +36,22 @@
          aspect-ratio: 16 / 9;
          position: relative;
 
+         .media {
+            padding: 0;
+            width: 100%;
+            position: relative;
+
+            &:is(:hover, :focus) {
+               &::after {
+                   content: "";
+               position: absolute;
+               inset: 0;
+               background-color: rgba(0, 0, 0, 0.281);
+               z-index: 2;
+               }
+            }
+         }
+
          .menuBar {
             position: absolute;
             right: 0.25rem;
@@ -40,6 +59,7 @@
             display: flex;
             flex-direction: row;
             gap: 0.5rem;
+            z-index: 9;
 
             > *:last-child {
                margin-left: 0.75rem;
@@ -77,8 +97,12 @@
 
       .buttons {
          display: flex;
-         flex-direction: row;
+         flex-direction: column;
          gap: 1rem;
+
+         @media screen and (width >= 640px) {
+            flex-direction: row;
+         }
       }
 
       input[type="file"] {
@@ -97,8 +121,8 @@
          background: linear-gradient(#fff 0 0) padding-box,
             linear-gradient(
                to bottom,
-               oklch(from var(--current-page-color) calc(l * 1.25) c h),
-               oklch(from var(--current-page-color) calc(l * 0.75) c h)
+               oklch(from blue calc(l * 1.25) c h),
+               oklch(from blue calc(l * 0.75) c h)
             );
          animation: clippath var(--animation-speed) infinite ease-in;
          border-radius: var(--border-radius);

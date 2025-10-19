@@ -907,6 +907,8 @@
          background-color: rgb(from var(--current-page-color) r g b / 50%);
          margin-bottom: 0.75rem;
          color: black;
+         gap: 2rem;
+
          p {
             margin: 0;
          }
@@ -918,6 +920,10 @@
          background-color: transparent;
          margin-left: auto;
          color: black;
+
+         &:is(:focus, &:hover) {
+            color: oklch(from var(--current-page-color) calc(l * .5) c h);
+         }
       }
    }
 

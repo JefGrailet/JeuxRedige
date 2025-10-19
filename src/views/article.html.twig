@@ -30,7 +30,7 @@
 			<div class="wrapper">
 				<header class="articleHeader">
                {% if article.segments|length > 1 %}
-                  <button class="secondaryButton" type="button" popovertarget="chapitrage" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage"  popovertargetaction="show" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">
                      Sommaire
                   </button>
                {% endif %}
@@ -78,7 +78,7 @@
                   {% endif %}
                </li>
                <li>
-                  <button class="secondaryButton" type="button" popovertarget="chapitrage">
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage" popovertargetaction="show">
                      Sommaire
                   </button>
                </li>
@@ -104,11 +104,15 @@
          <p>
             Critique rédigée par
             <a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
+            {% if article.is_published %}
             Publié le
             <time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
             {% if article.last_update_time %}
                <br>
                Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+            {% endif %}
+            {% else %}
+               En cours de rédaction
             {% endif %}
          </p>
       </div>

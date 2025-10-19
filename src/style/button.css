@@ -92,8 +92,8 @@
    display: grid!important;
    grid-template-columns: 1.05rem auto;
    justify-content: flex-start;
-   align-items: center;
-   aspect-ratio: 1 / 1;
+   height: 2.1rem;
+   align-content: center;
 
    &:has(span) {
       &:hover,

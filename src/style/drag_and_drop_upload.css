@@ -19,23 +19,31 @@
 }
 
 .dragAndDropUpload {
-   padding: 0.5rem;
-
    .listUploads {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0.5rem;
       list-style: none;
       padding: 0;
+      &:empty {
+         margin: 0;
+      }
 
       .droppedMedia {
          aspect-ratio: 16 / 9;
          position: relative;
 
-         button {
+         .menuBar {
             position: absolute;
             right: 0.25rem;
             top: 0.25rem;
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+
+            > *:last-child {
+               margin-left: 0.75rem;
+            }
          }
       }
 
@@ -98,11 +106,20 @@
          z-index: 0;
       }
 
+      &::after {
+        animation: clippath var(--animation-speed) infinite
+            calc(var(--animation-speed) * -0.5) linear;
+      }
+
       &.paused {
          &::before,
          &::after {
             animation-name: none;
          }
       }
+   }
+
+   .listErrors {
+      margin-top: 0.85rem;
    }
 }

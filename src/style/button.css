@@ -83,3 +83,23 @@
       color: white;
    }
 }
+
+.extensibleButton {
+   overflow-x: clip;
+   width: 2.1rem;
+   transition: width 0.35s ease;
+   white-space: nowrap;
+   display: grid!important;
+   grid-template-columns: 1.05rem auto;
+   justify-content: flex-start;
+   align-items: center;
+   aspect-ratio: 1 / 1;
+
+   &:has(span) {
+      &:hover,
+      &:focus-visible {
+         aspect-ratio: auto;
+         width: max-content;
+      }
+	}
+}

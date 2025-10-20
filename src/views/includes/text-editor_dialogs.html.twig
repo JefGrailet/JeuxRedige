@@ -1,0 +1,37 @@
+<dialog class="modal" id="hyperlink-media" data-modal="hyperlink-media">
+	<header class="header">
+		<p class="title">Ajouter un hyperlien</p>
+		<button class="closeModal" command="close" commandfor="hyperlink-media">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content" data-form-schema-validation="add_hyperlink">
+		<ul class="alert error" role="alert" data-form-error="add_hyperlink"></ul>
+		<p class="alert warning">Les champs avec * sont requis</p>
+
+		<script type="text/schema" data-form-schema="add_hyperlink">
+			return z.object({
+			            hyperlink: z.url(),
+			            hyperlink_title: z.string().optional().or(z.literal('')),
+			         })
+		</script>
+
+		<div class="gridForm">
+			<div class="inputContainer row">
+				<label for="hyperlink">URL<span style="color: var(--danger-color);">*</span></label>
+				<input type="url" id="hyperlink" name="hyperlink" placeholder="https://www.jeuxredige.com">
+			</div>
+			<div class="inputContainer row">
+				<label for="hyperlink_title">Titre</label>
+				<input type="url" name="hyperlink_title_title" id="hyperlink_title">
+			</div>
+         <div class="inputContainer">
+            <button type="submit" class="primaryButton">Insérer</button>
+			</div>
+		</div>
+	</form>
+</dialog>

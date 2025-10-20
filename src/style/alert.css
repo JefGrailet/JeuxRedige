@@ -1,7 +1,7 @@
 .alert {
    border-radius: var(--border-radius);
    padding: 0.5rem 1rem;
-   margin-block: 0.75rem;
+   margin-block: 0 0.75rem;
    scroll-margin: var(--main-nav-height);
 
    &:is(ul, ol) {

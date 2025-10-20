@@ -1,0 +1,36 @@
+.textEditorToolbar {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   margin-block: 0 0.25rem;
+   grid-gap: 0.35rem;
+   padding-left: 0;
+   list-style: none;
+
+   li {
+      border-radius: 3px;
+      overflow: hidden;
+
+      button {
+         font-size: 1.25rem;
+         padding: 0.45rem;
+         background-color: black;
+         color: white;
+         height: 100%;
+         outline-offset: -5px;
+
+         &.article {
+            background-color: #00B53C;
+            color: black;
+         }
+
+         &:is(:hover, :focus) {
+            background-color: #557083;
+
+            &:is(.article) {
+               color: white;
+            }
+         }
+      }
+   }
+}

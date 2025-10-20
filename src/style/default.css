@@ -92,6 +92,10 @@ a {
    }
 }
 
+form {
+   margin: 0;
+}
+
 .smallContainer
 {
    padding-inline: var(--root-side-margin);
@@ -704,6 +708,10 @@ dialog, [popover] {
 
    .content {
       padding: 0 1rem 1rem;
+
+      > .footer {
+         margin-top: 1.5rem;
+      }
    }
 
    .header {
@@ -760,7 +768,7 @@ dialog, [popover] {
    }
 
    &:not(:last-of-type) {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
    }
 
    .label {

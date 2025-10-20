@@ -5,11 +5,11 @@
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
 			</svg>
-			Fermer
+			Annuler
 		</button>
 	</header>
 
-	<form class="content" data-form-schema-validation="add_hyperlink">
+	<form method="dialog" class="content" data-form-schema-validation="add_hyperlink">
 		<ul class="alert error" role="alert" data-form-error="add_hyperlink"></ul>
 		<p class="alert warning">Les champs avec * sont requis</p>
 
@@ -31,6 +31,30 @@
 			</div>
          <div class="inputContainer">
             <button type="submit" class="primaryButton">Insérer</button>
+			</div>
+		</div>
+	</form>
+</dialog>
+
+<dialog class="modal" id="select-color" data-modal="select-color">
+	<header class="header">
+		<p class="title">Changer la couleur du texte</p>
+		<button class="closeModal" command="close" commandfor="select-color">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Annuler
+		</button>
+	</header>
+
+	<form method="dialog" class="content">
+		<div class="gridForm">
+			<div class="inputContainer row">
+				<label for="hyperlink_title">Couleur</label>
+				<input style="width: 100%" type="color" id="head" name="head" value="#fff" />
+			</div>
+         <div class="inputContainer">
+            <button type="submit" class="primaryButton">Utiliser cette couleur</button>
 			</div>
 		</div>
 	</form>

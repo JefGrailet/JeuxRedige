@@ -43,11 +43,16 @@
 
             &:is(:hover, :focus) {
                &::after {
-                   content: "";
-               position: absolute;
-               inset: 0;
-               background-color: rgba(0, 0, 0, 0.281);
-               z-index: 2;
+                  /* content: ""; */
+                  /* content: "\e914"; */
+                  content: "\e909";
+                  font-family: 'icomoon';
+                  position: absolute;
+                  inset: 0;
+                  background-color: rgba(0, 0, 0, 0.281);
+                  z-index: 2;
+                  align-content: center;
+                  font-size: 5rem;
                }
             }
          }

@@ -1,4 +1,4 @@
-const textarea = document.getElementById("content");
+const textarea = document.getElementById("page-content");
 
 const insertTags = (openingTag, closingTag) => {
    const content = textarea.value;
@@ -7,6 +7,9 @@ const insertTags = (openingTag, closingTag) => {
    const selection = content.substring(textarea.selectionStart, textarea.selectionEnd);
    const after = content.substring(textarea.selectionEnd, content.length);
    textarea.value = before + openingTag + selection + closingTag + after;
+
+   const evt = new Event("inserttags");
+   document.dispatchEvent(evt);
 }
 
 const editorAction = (e) => {
@@ -31,35 +34,31 @@ const editorAction = (e) => {
       case "formatting_list":
          insertTags('* ', '\n');
          break;
-      case "formatting_colorpick":
-         insertTags('* ', '\n');
-         break;
       case "formatting_center-aligned":
-         insertTags('* ', '\n');
+         insertTags('[centre]', '[/centre]');
          break;
       case "formatting_right-aligned":
-         insertTags('* ', '\n');
+         insertTags('[/droite]', '[/droite]');
          break;
       case "formatting_spoiler":
-         insertTags('* ', '\n');
+         insertTags('[cacher]', '[/cacher]');
          break;
       case "formatting_spoiler_bis":
-         insertTags('* ', '\n');
+         insertTags('[spoiler]', '[/spoiler]');
          break;
-      case "formatting_picture":
-         insertTags('* ', '\n');
-         break;
-      case "formatting_video":
-         insertTags('* ', '\n');
-         break;
-      case "formatting_smilies":
-         insertTags('* ', '\n');
-         break;
+      // case "formatting_picture":
+      //    insertTags('* ', '\n');
+      //    break;
+      // case "formatting_video":
+      //    insertTags('* ', '\n');
+      //    break;
+      // case "formatting_smilies":
+      //    insertTags('* ', '\n');
+      //    break;
       default:
          break;
    }
 }
-
 
 document.querySelectorAll("button[data-editor-tool]").forEach((item) => {
    item.addEventListener("click", editorAction);

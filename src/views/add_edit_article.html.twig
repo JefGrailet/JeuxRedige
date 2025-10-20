@@ -77,13 +77,12 @@
 					</div>
 
 					<div class="inputContainer">
-						<p class="label">Bannière</p>
+						<p class="label">Miniature</p>
 						<div class="notes">
 							<p class="title">Remarques :</p>
 							<ul>
 								<li>L'image doit être au format .jp(e)g</li>
 								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
-								<li>L'image est celle qui s'affiche dans l'en-tête de l'article</li>
 							</ul>
 						</div>
                   {% set article_thumbnail = article.thumbnail ? article.thumbnail : "./default_article_thumbnail.jpg" %}
@@ -136,10 +135,10 @@
 
             <div class="content">
                <div class="notes">
-                  <p class="title">Remarque :</p>
+                  <p class="title">Remarques :</p>
                   <ul>
                      <li>Une fois publié, vous ne pourrez plus réordonner les pages de l'article</li>
-                     <li>Une fois publié, vous ne pourrez pas supprimer les pages</li>
+                     <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
                   </ul>
                </div>
                <table class="table-segments">
@@ -147,10 +146,11 @@
                   {% if article.is_published == false %}
                   <th style="min-width: 40px;"></th>
                   {% endif %}
-                  <th style="min-width: 50px;">Page n°</th>
-                  <th>Contenu des pages</th>
+                  <th style="min-width: 50px;">Ordre</th>
+                  <th style="min-width: 150px;">Nom</th>
+                  <th>Contenu</th>
                   {% if article.is_published == false %}
-                  <th style="min-width: 220px;"></th>
+                  <th style="min-width: 150px;"></th>
                   {% endif %}
                </thead>
                <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
@@ -170,7 +170,12 @@
                               {{ loop.index }}
                            </span>
                         </td>
-                        <td>
+                        <td style="vertical-align: top;">
+                           <span data-segment-index>
+                              {{ segment.title }}
+                           </span>
+                        </td>
+                        <td style="vertical-align: top;">
                            <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
                               {% if segment.content %}
                                  {{ segment.content }}
@@ -181,7 +186,7 @@
                         </td>
                         {% if article.is_published == false %}
                            <td style="text-align: right;">
-                              <button command="show-modal" commandfor="delete-page" data-segment-id="{{ segment.id_segment }}" class="danger" type="button">Supprimer la page</button>
+                              <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
                            </td>
                         {% endif %}
                      </tr>
@@ -195,7 +200,7 @@
                </tbody>
             </table>
                {% if article.is_published == false %}
-                  <a class="secondaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
+                  <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
                {% endif %}
                <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">Aperçu de l'article complet</a>
             </div>
@@ -207,17 +212,15 @@
                   {% if article.is_published %}
                      <p>Cet article a été publié. <a href="{{ article.preview_url }}" target="_blank" rel="noopener noreferrer">Accéder à l'article.</a></p>
                   {% else %}
-                     <form id="publishForm" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
-                        <div class="notes">
-                           <p class="title">Remarques :</p>
-                           <ul>
-                              <li>Cette action est irréversible</li>
-                              <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
-                              <li>Une fois publié, vous ne pourrez pas supprimer les pages</li>
-                           </ul>
-                        </div>
-                        <input type="submit" name="publish" class="primaryButton" value="Je publie définitivement cet article"/>
-                     </form>
+                     <div class="notes">
+                        <p class="title">Remarques :</p>
+                        <ul>
+                           <li>Cette action est irréversible</li>
+                           <li>Une fois publié, vous ne pourrez pas éditer les pages de l'article</li>
+                           <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+                        </ul>
+                     </div>
+                     <button type="button" commandfor="publish-article" command="show-modal" class="primaryButton">Je publie définitivement cet article</button>
                   {% endif %}
                {% else %}
                   <p class="alert info">Cet article ne possède aucune page, il ne peut pas être publié.</p>
@@ -233,10 +236,33 @@
 		{% endif %}
 	</div>
 
+   <dialog class="modal" id="publish-article">
+      <header class="header">
+         <p class="title">Publier l'article "{{ article.title }}"</p>
+         <button class="closeModal" data-close-modal="" command="close" commandfor="publish-article">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+      <form id="publishForm" class="content" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
+         <div class="notes">
+            <p class="title">Remarques :</p>
+            <ul>
+               <li>Cette action est irréversible</li>
+               <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
+               <li>Une fois publié, vous ne pourrez pas supprimer les pages de votre article</li>
+            </ul>
+         </div>
+         <input type="submit" name="publish" class="primaryButton" value="{{ "Publier l'article \"" ~ article.title ~ "\"" }}"/>
+      </form>
+   </dialog>
+
 	<dialog class="modal" id="delete-article">
       <header class="header danger">
          <p class="title">Supprimer l'article</p>
-         <button class="closeModal" data-close-modal="">
+         <button class="closeModal" data-close-modal="" command="close" commandfor="delete-article">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
             </svg>
@@ -259,8 +285,8 @@
    {% if article.is_published == false %}
       <dialog class="modal" id="delete-page">
          <header class="header danger">
-            <p class="title">Supprimer la page</p>
-            <button class="closeModal" data-close-modal="">
+            <p class="title">Supprimer la page "<span></span>"</p>
+            <button class="closeModal" data-close-modal="" command="close" commandfor="delete-page">
                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
                </svg>
@@ -276,7 +302,7 @@
                <input type="hidden" value="{{ article.id_article }}" name="id_article">
                <input type="hidden" value="" name="id_segment">
                <div>
-                  <input type="submit" class="danger" name="delete" class="articleDelete" value="{{ "Je souhaite supprimer le segment" }}">
+                  <input type="submit" class="danger" name="delete" class="articleDelete" value="Je souhaite supprimer la page">
                </div>
             </form>
          </div>

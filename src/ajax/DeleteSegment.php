@@ -36,7 +36,7 @@ if(!empty($_POST['id_article']) && preg_match('#^([0-9]+)$#', $_POST['id_article
    catch(Exception $e)
    {
       echo 'DB error';
-      setcookie("flash_message", "segment_deleted", time() + 1, "/");
+      setcookie("flash_message", "page_deleted", time() + 1, "/");
    }
 
    if(!$article->isPublished() && $article->isMine() && $segment->get('id_article') == $article->get('id_article'))
@@ -48,15 +48,15 @@ if(!empty($_POST['id_article']) && preg_match('#^([0-9]+)$#', $_POST['id_article
       catch(Exception $e)
       {
          echo 'DB error';
-         setcookie("flash_message", "segment_deleted", time() + 1, "/");
+         setcookie("flash_message", "page_deleted", time() + 1, "/");
       }
 
-      setcookie("flash_message", "segment_deleted", time() + 1, "/");
+      setcookie("flash_message", "page_deleted", time() + 1, "/");
    }
    else
    {
       echo 'Wrong segment';
-      setcookie("flash_message", "segment_deleted", time() + 1, "/");
+      setcookie("flash_message", "page_deleted", time() + 1, "/");
    }
 
    $webRoot = substr(PathHandler::HTTP_PATH(), 0, -1);

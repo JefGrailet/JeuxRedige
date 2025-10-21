@@ -1,6 +1,7 @@
 .shortcutMenu {
    z-index: 9;
    margin-inline: auto;
+   margin-bottom: 1.5rem;
    position: sticky;
    top: 130px;
    @media screen and (width >= 768px) {
@@ -11,8 +12,6 @@
       width: fit-content;
    }
 
-   /* max-width: min(fit-content, 100%); */
-
    ul {
       padding: 0;
       list-style: none;
@@ -22,7 +21,7 @@
       justify-content: start;
       @media screen and (width >= 640px) {
          justify-content: center;
-   }
+      }
       gap: 1rem;
       overflow: auto;
       white-space: nowrap;

@@ -98,7 +98,7 @@ $curlUpload = function ($file) use ($twig) {
    session_write_close();
 
    $curl = curl_init();
-   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateArticleThumbnail.php?mode=no_path');
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateArticleThumbnail.php');
    curl_setopt($curl, CURLOPT_VERBOSE, 1);
 
    curl_setopt($curl, CURLOPT_POST, true);

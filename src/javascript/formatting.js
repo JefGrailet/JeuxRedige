@@ -26,7 +26,7 @@ const editorAction = (e) => {
          insertTags('[u]', '[/u]');
          break;
       case "strikethrough":
-         insertTags('[i]', '[/i]');
+         insertTags('[s]', '[/s]');
          break;
       case "title":
          insertTags('[t]', '[/t]');
@@ -38,7 +38,7 @@ const editorAction = (e) => {
          insertTags('[centre]', '[/centre]');
          break;
       case "formatting_right-aligned":
-         insertTags('[/droite]', '[/droite]');
+         insertTags('[droite]', '[/droite]');
          break;
       case "formatting_spoiler":
          insertTags('[cacher]', '[/cacher]');

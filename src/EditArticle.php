@@ -133,15 +133,12 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Thumbnail
    $currentThumbnail = Buffer::getArticleThumbnail();
-   print_r($currentThumbnail);
-
-   // if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
-   //    $formComp['thumbnail'] = './upload/articles/'.$articleID.'/thumbnail.jpg';
-   // else if(strlen($currentThumbnail) > 0)
-   //    $formComp['thumbnail'] = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
-   // else
-   //    $formComp['thumbnail'] = './default_article_thumbnail.jpg';
-
+   if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
+      $articleThumbnail = './upload/articles/'.$articleID.'/thumbnail.jpg';
+   else if(strlen($currentThumbnail) > 0)
+      $articleThumbnail = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
+   else
+      $articleThumbnail = './default_article_thumbnail.jpg';
 
    // Full template
    $finalTplInput = array('articleID' => $article->get('id_article'),
@@ -279,7 +276,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          ...$article->getAll(),
          "is_published" => $article->isPublished(),
          "keywords" => $keywords,
-         "thumbnail" => $currentThumbnail,
+         "thumbnail" => $articleThumbnail,
          "preview_url" => PathHandler::articleURL($article->getAll()),
          "segments" => $segments,
       ],
@@ -293,7 +290,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "dynamic_article_button_label",
          "sortable.min",
          "sortable_list",
-         ["file" => "modal_segment"],
+         ["file" => "modals_page"],
       ],
       "form_error_messages" => $formErrorMessages,
       "form_error_messages_triggered" => $formErrorMessagesTriggered,

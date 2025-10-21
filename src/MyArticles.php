@@ -80,7 +80,7 @@ $listArticlesComputed = array_map(function ($article) {
 
 echo $twig->render("articles_user.html.twig", [
    "page_title" => "Mes articles",
-   "list_css_files" => ["pool"],
+   "list_css_files" => ["pool", "pagination"],
    "list_articles" => $listArticlesComputed,
    "nb_articles" => $nbArticles,
    "nb_pages" => $nbPages,

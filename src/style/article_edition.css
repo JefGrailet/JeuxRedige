@@ -245,7 +245,7 @@
    cursor: pointer;
 }
 
-.table-segments {
+.tableSegments {
    width: 100%;
    margin-bottom: 1.5rem;
 
@@ -266,5 +266,11 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
       padding: 0;
+   }
+
+   .pageOptions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: end;
    }
 }

@@ -40,7 +40,7 @@ $curlUpload = function ($file) use ($twig) {
    session_write_close();
 
    $curl = curl_init();
-   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateSegmentHeader.php?mode=no_path');
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateSegmentHeader.php');
    curl_setopt($curl, CURLOPT_VERBOSE, 1);
 
    curl_setopt($curl, CURLOPT_POST, true);
@@ -118,14 +118,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       die();
    }
 
-   // Webpage settings
-   WebpageHandler::addCSS('preview');
-   WebpageHandler::addCSS('article_edition'); // Put here to override some values of preview.css
-   WebpageHandler::addJS('preview');
-   WebpageHandler::addJS('formatting');
-   WebpageHandler::addJS('segment_editor');
-   WebpageHandler::changeContainer('fullWidthSequence');
-
    // Dialogs
    $dialogs = '';
    // if(Utils::check(LoggedUser::$data['can_upload']))
@@ -188,29 +180,53 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    $formErrorMessagesTriggered = [];
    // Form treatment starts here
    if(!empty($_POST)) {
+      $formData = [];
       $formData['title'] = Utils::secure($_POST['title']);
       $formData['content'] = Utils::secure($_POST['content']);
-      $formData['header'] = Utils::secure($_POST['header']);
-   }
+      // $formData['header'] = Utils::secure($_POST['header']);
 
-   print_r($article);
-   print_r($article->get("type"));
+      $curlResult = null;
+      if ($_FILES["header"]["size"] > 0) {
+         $curlResult = $curlUpload($_FILES["header"]);
+      }
+
+      try {
+         $newSeg = Segment::insert(
+            $article->get('id_article'),
+            $formData['title'],
+            $nextPosition,
+            FormParsing::parse($formData['content'])
+         );
+
+         $pageArticleURL = './EditArticle.php?id_article=' . $newArticle->get('id_article');
+         setcookie("flash_message", "page_created", time() + 1, "/");
+         exit(header('Location:' . $pageArticleURL));
+      } catch(Exception $e) {
+
+      }
+   }
 
    echo $twig->render("add_edit_article-page.html.twig", [
       "page_title" => "\"{$article->get("title")}\" - Ajouter une nouvelle page",
-      "list_css_files" => [ "input_file", "badge", "drag_and_drop_upload"],
+      "list_css_files" => [ "input_file", "badge", "drag_and_drop_upload", "text_editor_toolbar" ],
       "type" => "add",
       "list_js_files" => [
+         "segment_editor",
+         "formatting",
          ["file" => "form_validation"],
          "upload",
          "drag_n_drop_upload",
          "paste_clipboard_media",
+         "modals_page",
+         "preview2",
       ],
       "article" => [
-         ...$article->getAll(),
+         ...$article->getAll()
       ],
       "currentCategory" => $article->get("type"),
-      "page" => [],
+      "page" => [
+         "index" => $nextPosition,
+      ],
       "image_header_requirements" => [
          ...$imageHeaderRequirements,
          "mimeTypes" => join(",", $imageHeaderRequirements["mimeTypes"])
@@ -222,9 +238,15 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 }
 else
 {
-   $tplInput = array('error' => 'missingArticleID');
-   $tpl = TemplateEngine::parse('view/user/EditSegment.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Une erreur est survenue');
+   echo $twig->render("error.html.twig", [
+      "error_title" => "Une erreur est survenue",
+      "error_key" => "missingArticleID",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
 }
 
-?>

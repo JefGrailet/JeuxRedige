@@ -33,6 +33,8 @@
 
 .userProfile {
    margin-inline: auto;
+   margin-bottom: 1.5rem;
+
    .userCard {
       width: fit-content;
       margin: auto;

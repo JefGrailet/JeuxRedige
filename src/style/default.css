@@ -768,11 +768,15 @@ dialog, [popover] {
    }
 
    &:not(:last-of-type) {
-      margin-bottom: 0.85rem;
+      margin-bottom: 1rem;
    }
 
-   .label {
+   label {
       margin-block: 0;
+
+      + .notes {
+         margin-top: 0;
+      }
    }
 
    &:last-of-type:has([type="submit"]) {
@@ -1263,7 +1267,7 @@ input[type="submit"] {
 .notes {
    font-size: 0.85rem;
    color: #5e5e5e;
-   margin-bottom: 1rem;
+   margin-bottom: 0.45rem;
 
    .title {
       margin: 0px;

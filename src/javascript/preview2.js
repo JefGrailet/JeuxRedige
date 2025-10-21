@@ -5,7 +5,12 @@ const previewZone = document.getElementById("previewZone");
 const content = document.getElementById("page-content");
 
 const preview = async () => {
-   if (content.value.trim().length === 0 || !content.checkVisibility()) {
+   if (!content.checkVisibility()) {
+      return;
+   }
+
+   if (content.value.trim().length === 0) {
+      previewZone.innerHTML = "";
       return;
    }
 
@@ -42,7 +47,6 @@ content?.addEventListener("input", () => {
 
 const observer = new MutationObserver((mutationsList) => {
    for (const mutation of mutationsList) {
-      console.log(mutation.type)
       if (mutation.type == "attributes") {
          previewZone.style.height = mutation.target.style.height;
       }

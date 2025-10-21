@@ -44,10 +44,11 @@ const generatePreviewsUploads = (e) => {
 
    const getFileErrors = (file) => {
       const fileSizeMb = file.size / 1024 / 1024;
+      const isImage = file.type.split("/")[0] === "image";
 
       return {
          type: !listMimeTypeAuthorized.includes(file.type),
-         size: fileSizeMb > 5,
+         size: isImage ? fileSizeMb > 1 : fileSizeMb > 5,
       }
    }
 

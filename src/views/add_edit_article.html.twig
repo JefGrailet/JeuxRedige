@@ -52,20 +52,23 @@
                      ,
                })
 				</script>
-				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
-				<p class="alert warning">Les champs avec * sont requis</p>
-
             {% if flash_message == "article_created" %}
 				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
             {% endif %}
 
             {% if flash_message == "article_updated" %}
-				   <p class="alert success">Article mis à jour.</p>
+				   <p class="alert success">Article mis à jour</p>
             {% endif %}
 
-            {% if flash_message == "segment_deleted" %}
-				   <p class="alert success">Segment supprimé.</p>
+            {% if flash_message == "page_deleted" %}
+				   <p class="alert success">Page supprimée avec succès</p>
             {% endif %}
+
+            {% if flash_message == "page_created" %}
+				   <p class="alert success">Page crée avec succès</p>
+            {% endif %}
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<p class="alert warning">Les champs avec * sont requis</p>
 				<div>
 					<div class="inputContainer">
 						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
@@ -98,7 +101,17 @@
 					</div>
 					<div class="inputContainer">
 						<label for="type">Type<span style="color: var(--danger-color);">*</span></label>
-						<select {% if article.is_published %}inert{% endif %} name="type" id="type" data-article-type="{{ array|json_encode() }}">
+                  <div class="notes">
+                     <p class="title">Remarque :</p>
+                     <ul>
+                        {% if article.is_published %}
+                        <li>L'article ayant été publié, vous ne pouvez plus changer le type</li>
+                        {% else %}
+                        <li>Une fois publié, vous ne pourrez pas changer le type d'article</li>
+                        {% endif %}
+                     </ul>
+                  </div>
+                  <select {% if article.is_published %}inert{% endif %} name="type" id="type" data-article-type="{{ array|json_encode() }}">
 							<option value="">Choisir un type</option>
 							{% for key, category in list_categories %}
 								<option {{ article.type == key ? 'selected' : '' }} value="{{ key }}">{{ category.name.singular }}</option>
@@ -141,12 +154,12 @@
                      <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
                   </ul>
                </div>
-               <table class="table-segments">
+               <table class="tableSegments">
                <thead>
                   {% if article.is_published == false %}
-                  <th style="min-width: 40px;"></th>
+                  <th style="width: 40px;"></th>
                   {% endif %}
-                  <th style="min-width: 50px;">Ordre</th>
+                  <th style="width: 50px;">Ordre</th>
                   <th style="min-width: 150px;">Nom</th>
                   <th>Contenu</th>
                   {% if article.is_published == false %}
@@ -176,17 +189,18 @@
                            </span>
                         </td>
                         <td style="vertical-align: top;">
-                           <a class="content" href="./EditSegment.php?id_segment={{ segment.id_segment }}">
-                              {% if segment.content %}
-                                 {{ segment.content }}
-                              {% else %}
-                                 <em>Vide</em>
-                              {% endif %}
-                           </a>
+                           {% if segment.content %}
+                              {{ segment.content }}
+                           {% else %}
+                              <em>Vide</em>
+                           {% endif %}
                         </td>
                         {% if article.is_published == false %}
                            <td style="text-align: right;">
-                              <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
+                              <div class="pageOptions">
+                                 <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
+                                 <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
+                              </div>
                            </td>
                         {% endif %}
                      </tr>

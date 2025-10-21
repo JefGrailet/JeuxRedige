@@ -15,7 +15,7 @@ const preview = async () => {
    }
 
    const payload = new FormData();
-   payload.append("what", "article");
+   payload.append("what", "segment");
    payload.append("message", content.value);
 
    const req = await fetch(DefaultLib.httpPath + "ajax/Preview.php", {

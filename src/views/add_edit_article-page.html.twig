@@ -6,6 +6,8 @@
 			{% set array = array|merge({ (key): category.name.singular }) %}
 		{% endfor %}
 
+      {% set needs_page_title = page.index > 1 %}
+
 		<section class="sectionBlock">
 			<h1 class="title">
             {% if type == "add" %}
@@ -17,10 +19,10 @@
 			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
 				<script type="text/schema" data-form-schema="new_article">
 					return z.object({
-                  {% if page_index > 0 %}
-                  title: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
+                  {% if needs_page_title %}
+                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty|e('js')|raw }}" }),
                   {% endif %}
-                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty }}" }),
+                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty|e('js')|raw }}" }),
                   header: z.file()
                      .nullable()
                      .transform((file) => (file && file.size > 0 ? file : null))
@@ -83,7 +85,7 @@
 							<ul>
 								<li>L'image doit être au format .jp(e)g</li>
 								<li>L'image doit avoir une taille inférieure à 1 Mo. Vous pouvez utiliser le site <a href="https://squoosh.app/" target="_blank" rel="noopener noreferrer">https://squoosh.app/</a> pour réduire la taille de l'image</li>
-								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#media">médias</a></li>
+								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#medias">médias</a></li>
 								<li>L'image fournie doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur. Soit un ratio de 10 / 3</li>
 							</ul>
 						</div>
@@ -100,19 +102,33 @@
 					</div>
 
 					<div class="inputContainer">
-						<label for="title">Titre{% if page_index > 0 %}<span style="color: var(--danger-color);">*</span>{% endif %}</label>
-						<input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
+						<label for="title">Titre{% if needs_page_title %}<span style="color: var(--danger-color);">*</span>{% endif %}</label>
+                  {% if needs_page_title %}
+						<p class="notes">Vous pouvez laisser ce champ vide pour la première page. Les titre et sous-titre de l'article seront repris à la place</p>
+                  {% endif %}
+                  <input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
 					</div>
 
                <div class="inputContainer">
-						<label for="content">Contenu<span style="color: var(--danger-color);">*</span></label>
-                  <textarea name="content" id="content">{{ page.content }}</textarea>
+						<label for="page-content">Contenu<span style="color: var(--danger-color);">*</span></label>
+                  {% include "includes/text-editor_toolbar.html.twig" %}
+                  <div class="articleContentPreviewWrapper" id="articleContentPreviewWrapper">
+                     <textarea name="content" id="page-content" rows="15">{{ page.content }}</textarea>
+                     <div id="previewZone" class="articleContentPreview"></div>
+                  </div>
+
+                  <div class="switchContainer">
+                     <label class="switch">
+                        <input type="checkbox" id="auto_preview" />
+                     </label>
+                     <label for="auto_preview">Aperçu automatique</label>
+                  </div>
 					</div>
 				</div>
 			</form>
 		</section>
 
-      <section class="sectionBlock">
+      <section class="sectionBlock" id="medias">
          <h2 class="title">Médias</h2>
          <div class="content">
             <div class="notes">
@@ -120,7 +136,7 @@
                <ul>
                   <li>Les médias joints à une page d'article ne sont jamais affichés automatiquement. <b>Vous devez les intégrer à votre texte</b></li>
                   <li>Seuls les premiers médias (par ordre lexicographique) seront conservés si le total excède 13 uploads</li>
-                  <li>Seuls les médias au format .jp(e)g, .gif, .png, .mp4, .webm et d'une taille inférieure à 5Mo sont autorisés</li>
+                  <li>Seuls les images au format .jp(e)g, .gif, .png d'une taille inférieure à 1 Mo sont autorisés. Et les vidéos au format .mp4, .webm d'une taille inférieure à 5 Mo</li>
                </ul>
             </div>
             <div class="dragAndDropUpload">
@@ -232,6 +248,10 @@
          <div class="alert error">
             Cette action est irréversible
          </div>
+         <img src="" alt="">
+         <footer class="footer">
+            <button type="button" class="danger" id="delete-media-btn">Supprimer le média</button>
+         </footer>
       </div>
 	</dialog>
 
@@ -247,9 +267,9 @@
       </header>
 
       <figure class="content">
-         <img src="" alt="" class="lightboxImg">
+         <img src="" alt="" class="lightboxImg" loading="lazy">
          <figcaption class="imageLegend">
-            Uploadé le 17/10/2025 à 23:09:31
+            Uploadé le <span data-date></span>
             (<a href="http://" target="_blank" rel="noopener noreferrer">Voir image en grand</a>)
          </figcaption>
       </figure>
@@ -262,7 +282,7 @@
                <i class="icon-general_plus" ></i>
                <span>Ajouter à la page</span>
             </button>
-            <button title="supprimer média" data-delete-btn command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+            <button title="supprimer média" data-media-data command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
                <i class="icon-general_trash"></i>
                <span>Supprimer image</span>
             </button>
@@ -272,4 +292,6 @@
          </button>
       </li>
    </template>
+
+   {% include "includes/text-editor_dialogs.html.twig" %}
 {% endblock %}

@@ -26,12 +26,34 @@
 
          &:is(:hover, :focus) {
             background-color: #557083;
+            anchor-name: --my-anchor;
 
             &:is(.article) {
                color: white;
             }
          }
       }
+   }
+}
+
+.target {
+   position: absolute;
+   position-anchor: --my-anchor;
+   padding: 0.25rem 0.5rem;
+   background-color: white;
+   border-radius: var(--border-radius);
+   border: 1px solid black;
+   position-area: center top;
+   margin-bottom: 0.5rem;
+   z-index: 999;
+   font-size: 0.85rem;
+   min-width: 200px;
+   height: 100px;
+   p {
+      margin: 0;
+      white-space: nowrap;
+      font-weight: bold;
+
    }
 }
 

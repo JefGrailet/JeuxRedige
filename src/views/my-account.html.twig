@@ -39,11 +39,11 @@
 				{% endif %}
 				<div class="gridForm">
 					<div class="inputContainer row">
-						<label for="newPassword">Nouveau mot de passe</label>
+						<label for="newPassword">Nouveau mot de passe :</label>
 						<input type="password" autocomplete="new-password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="newPassword">
 					</div>
 					<div class="inputContainer row">
-						<label for="passwordConfirmation">Confirmer mot de passe</label>
+						<label for="passwordConfirmation">Confirmer mot de passe :</label>
 						<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="passwordConfirmation" id="passwordConfirmation">
 					</div>
                <div class="inputContainer">
@@ -111,27 +111,26 @@ pas visible instantanément, videz le cache du navigateur pour voir la modificat
 					<p class="alert success">Mise à jour réussie. Veuillez vérifier vos e-mails pour confirmer le changement</p>
 				{% endif %}
             <div class="gridForm">
+               <div class="notes full" style="margin-top: 0.75rem">
+                  <p class="title">Remarques :</p>
+                  <ul>
+                     <li>Si vous changez votre adresse, un e-mail de confirmation sera envoyé sur votre nouvelle adresse pour vérifier sa validité</li>
+                     <li>Vous serez également automatiquement déconnecté et votre compte temporairement désactivé jusqu'à
+                        ce que la procédure soit complétée</li>
+                     <li>
+                        Le changement sera annulé si vous n'utilisez pas le lien de confirmation dans les 24 heures
+                        qui suivent
+                     </li>
+                  </ul>
+               </div>
                <div class="inputContainer row">
-                  <label for="newEmail">Adresse e-mail</label>
+                  <label for="newEmail">Adresse e-mail :</label>
                   <input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail">
                </div>
                <div class="inputContainer row">
-                     <label for="passwordEmail">Confirmez votre mot de passe</label>
+                     <label for="passwordEmail">Confirmez votre mot de passe :</label>
                      <input type="password" autocomplete="new-password" style="flex-grow: 1" data-input-toggle-visibility name="pwd" id="passwordEmail">
                </div>
-				</div>
-
-				<div class="notes" style="margin-top: 0.75rem">
-					<p class="title">Remarques :</p>
-					<ul>
-						<li>Si vous changez votre adresse, un e-mail de confirmation sera envoyé sur votre nouvelle adresse pour vérifier sa validité</li>
-						<li>Vous serez également automatiquement déconnecté et votre compte temporairement désactivé jusqu'à
-							ce que la procédure soit complétée</li>
-						<li>
-							Le changement sera annulé si vous n'utilisez pas le lien de confirmation dans les 24 heures
-							qui suivent
-						</li>
-					</ul>
 				</div>
 				<div class="inputContainer">
 					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">

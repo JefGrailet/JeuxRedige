@@ -48,11 +48,12 @@ const formValidation = async (e) => {
       item.removeAttribute("aria-errormessage");
    });
 
+   const bannerError = form.querySelector(
+      `[data-form-error=${schemaName}]`
+   );
+   bannerError.innerHTML = "";
+
    if (!validator.success) {
-      const bannerError = form.querySelector(
-         `[data-form-error=${schemaName}]`
-      );
-      bannerError.innerHTML = "";
       validator.error.issues.forEach((item) => {
          const li = document.createElement("li");
          li.textContent = item.message;
@@ -74,12 +75,15 @@ const formValidation = async (e) => {
       return false;
    }
 
+   form.dataset.isValid = "true";
+
    return true;
 };
 
 const formSubmission = async (e) => {
    const form = e.currentTarget;
    form.dataset.isDirty = "";
+   form.dataset.isValid = "";
 
    const isFormValid = await formValidation(e);
 

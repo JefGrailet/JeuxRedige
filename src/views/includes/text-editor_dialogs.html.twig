@@ -64,7 +64,7 @@
 </dialog>
 
 {# Sélectionner une image externe #}
-<dialog class="modal" id="integrate-external-img" data-modal="integrate-external-img">
+<dialog class="modal medium" id="integrate-external-img" data-modal="integrate-external-img">
 	<header class="header">
 		<p class="title">Importer une image externe</p>
 		<button class="closeModal" command="close" commandfor="integrate-external-img">
@@ -99,9 +99,9 @@
 			<input type="url" name="url_img" id="url"/>
 		</div>
       <div class="inputContainer row">
-			<label for="alt">Note</label>
+			<label for="alt">Texte alternatif</label>
 			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
-			<p class="notes full">Le champ est limité à 250 caractères</p>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Préférez un titre clair à un texte banal comme "image 1"</p>
 		</div>
 
 		<div class="inputContainer">
@@ -111,7 +111,7 @@
 </dialog>
 
 {# Sélectionner une vidéo Youtube #}
-<dialog class="modal" id="integrate-yt-video" data-modal="integrate-yt-video">
+<dialog class="modal medium" id="integrate-yt-video" data-modal="integrate-yt-video">
 	<header class="header">
 		<p class="title">Importer une vidéo Youtube</p>
 		<button class="closeModal" command="close" commandfor="integrate-yt-video">
@@ -129,11 +129,19 @@
 		<script type="text/schema" data-form-schema="youtube_video">
 			return z.object({
             yt_video: z.httpUrl()
+               .refine((value) => {
+                  if (!value) {
+                     return true;
+                  }
+                  const youtubeRegex = /http(?:s?):\/\/www.youtube(?:\.com\/watch\?v=)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+                  return youtubeRegex.test(value ?? "");
+               }, 'Ceci n\'est pas une URL valide de vidéo Youtube, veuillez vous référer à l\'exemple plus bas')
          })
 		</script>
 		<div class="inputContainer row">
-			<label for="yt_video">URL<span style="color: var(--danger-color);">*</span></label>
+			<label for="yt_video">Lien YouTube<span style="color: var(--danger-color);">*</span></label>
 			<input type="url" name="yt_video" id="yt_video"/>
+         <p class="notes full">Vous devez mettez l'URL intégrale de la vidéo YouTube. Ex : <a href="https://www.youtube.com/watch?v=E4WlUXrJgy4" target="_blank">https://www.youtube.com/watch?v=E4WlUXrJgy4</a></p>
 		</div>
       <div class="inputContainer row">
 			<label for="ratio_video">Taille</label>

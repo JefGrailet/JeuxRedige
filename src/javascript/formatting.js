@@ -75,8 +75,14 @@ const hexToRGB = (color) => {
   return {r, g, b}
 }
 
-const submitForm = (e) => {
-   const formData = new FormData(e.currentTarget);
+const onSubmitFormSuccessfully = (e) => {
+   const form = e.currentTarget.querySelector("form");
+
+   if (form.dataset.isValid !== "true") {
+      return;
+   }
+
+   const formData = new FormData(form);
    const formDataJSON = Object.fromEntries(formData);
 
    switch (e.currentTarget.closest("dialog").dataset.modal) {
@@ -94,10 +100,10 @@ const submitForm = (e) => {
       break;
 
       case "integrate-media": {
-         const URLImage = e.currentTarget.querySelector("input[name='url_img']");
-         const ratioImg = e.currentTarget.querySelector("select[name='format_img']")
-         const floatingImg = e.currentTarget.querySelector("select[name='floating_img']")
-         const commentImg = e.currentTarget.querySelector("select[name='comment_img']")
+         const URLImage = formDataJSON.url_img;
+         const ratioImg = formDataJSON.format_img;
+         const floatingImg = formDataJSON.floating_img;
+         const commentImg = formDataJSON.comment_img;
 
          let tagName = ratioImg === "mini" ? "mini" : "img";
          let imgNote = commentImg.trim().length > 0 ? `[${commentImg}]` : null;
@@ -119,7 +125,7 @@ const submitForm = (e) => {
       break;
 
       case "integrate-yt-video": {
-         const URLYoutube = e.currentTarget.querySelector("input[name='yt_video']").value;
+         const URLYoutube = formDataJSON.yt_video;
          const selectSize = e.currentTarget.querySelector("select[name='ratio_video']");
          let size = selectSize.value;
          const listValidSizes = Array.from(selectSize.options).map((item) => item.value);
@@ -134,8 +140,11 @@ const submitForm = (e) => {
       default:
          break;
    }
+
+   form.removeAttribute("data-is-dirty");
+   form.reset();
 }
 
-document.querySelectorAll("dialog form").forEach((item) => {
-   item.addEventListener("submit", submitForm);
+document.querySelectorAll("dialog").forEach((item) => {
+   item.addEventListener("close", onSubmitFormSuccessfully);
 });

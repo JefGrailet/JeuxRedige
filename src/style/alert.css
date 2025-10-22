@@ -4,6 +4,14 @@
    margin-block: 0 0.75rem;
    scroll-margin: var(--main-nav-height);
 
+   &:last-child {
+      margin-bottom: 0;
+   }
+
+   &:first-child {
+      margin-top: 0;
+   }
+
    &:is(ul, ol) {
       list-style-position: inside;
    }

@@ -67,6 +67,10 @@
             {% if flash_message == "page_created" %}
 				   <p class="alert success">Page crée avec succès</p>
             {% endif %}
+
+            {% if flash_message == "page_edited" %}
+				   <p class="alert success">Page éditée avec succès</p>
+            {% endif %}
 				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				<p class="alert warning">Les champs avec * sont requis</p>
 				<div>
@@ -206,7 +210,7 @@
                      </tr>
                   {% else %}
                      <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                            <p class="alert info">Cet article n'a pas de pages.</p>
                         </td>
                      </tr>

@@ -63,8 +63,24 @@ const editorAction = (e) => {
    }
 }
 
+const showTooltip = (e) => {
+   const popoverTargetEl = document.getElementById("tooltip-editor-tool");
+   popoverTargetEl.showPopover({ source: e.target });
+}
+
+const hideTooltip = (e) => {
+   const popoverTargetEl = document.getElementById("tooltip-editor-tool");
+   popoverTargetEl.hidePopover();
+}
+
 document.querySelectorAll("button[data-editor-tool]").forEach((item) => {
    item.addEventListener("click", editorAction);
+
+   // item.addEventListener("mouseover", showTooltip);
+   // item.addEventListener("focus", showTooltip);
+
+   // item.addEventListener("mouseout", hideTooltip);
+   // item.addEventListener("blur", hideTooltip);
 });
 
 const hexToRGB = (color) => {
@@ -142,6 +158,7 @@ const onSubmitFormSuccessfully = (e) => {
    }
 
    form.removeAttribute("data-is-dirty");
+   form.removeAttribute("data-is-valid");
    form.reset();
 }
 

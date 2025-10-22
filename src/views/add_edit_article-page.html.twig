@@ -16,8 +16,8 @@
                Éditer la page ""
             {% endif %}
          </h1>
-			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
-				<script type="text/schema" data-form-schema="new_article">
+			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_page">
+				<script type="text/schema" data-form-schema="article_page">
 					return z.object({
                   {% if needs_page_title %}
                   title: z.string().min(1, {error: "{{ form_error_messages.title.empty|e('js')|raw }}" }),
@@ -65,15 +65,11 @@
                      }, "{{ form_error_messages.header.badDimensions|e('js')|raw }}")
                })
 				</script>
-				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<ul class="alert error" role="alert" data-form-error="article_page">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 				<p class="alert warning">Les champs avec * sont requis</p>
 
-            {% if flash_message == "page_created" %}
-				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
-            {% endif %}
-
             {% if flash_message == "page_updated" %}
-				   <p class="alert success">Article mis à jour.</p>
+				   <p class="alert success">Page mise à jour.</p>
             {% endif %}
             <p>Article : <a href="./EditArticle.php?id_article={{ article.id_article }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></p>
 
@@ -117,6 +113,7 @@
                      <div id="previewZone" class="articleContentPreview"></div>
                   </div>
 
+                  <p class="notes">L'aperçu automatique du formatage propre aux articles est simplifié. Pensez à visualiser un aperçu complet d'un article pour mieux évaluer sa mise en page</p>
                   <div class="switchContainer">
                      <label class="switch">
                         <input type="checkbox" id="auto_preview" />
@@ -176,62 +173,11 @@
          <button type="submit" form="form" class="fit primaryButton">
             {{ type == "add" ? "Créer" : "Éditer" }} page
          </button>
-         <button type="submit" form="form" class="fit secondaryButton">
+         <button type="submit" form="form" class="fit secondaryButton" value="preview" name="preview">
             {{ type == "add" ? "Créer" : "Éditer" }} page et prévisualiser
          </button>
       </div>
 	</div>
-
-   <dialog class="modal" id="integrate-media">
-      <header class="header">
-         <p class="title">Personnaliser le média</p>
-         <button class="closeModal" command="close" commandfor="integrate-media">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
-
-      <form class="content gridForm" method="dialog">
-         <img src="" alt="" class="full">
-         <div class="inputContainer row">
-            <label for="url">URL</label>
-            <input type="text" readonly name="url_img" />
-         </div>
-         <div class="inputContainer row">
-            <label for="format">Format</label>
-            <select name="format_img">
-               <option value="mini">Miniature</option>
-               <option value="1.0">Dimensions originales</option>
-               <option value="0.5">Dimensions x0.5 (images seulement)</option>
-               <option value="1.5">Dimensions x1.5 (images seulement)</option>
-               <option value="2.0">Dimensions x2 (images seulement)</option>
-               <option value="3.0">Dimensions x3 (images seulement)</option>
-               <option value="5.0">Dimensions x5 (images seulement)</option>
-            </select>
-         </div>
-
-         <div class="inputContainer row">
-            <label for="format">Flottement</label>
-            <select name="floating_img">
-               <option value="normal">Aucun</option>
-               <option value="left">A gauche</option>
-               <option value="right">A droite</option>
-            </select>
-         </div>
-
-         <div class="inputContainer row">
-            <label for="note">Note</label>
-            <input type="text" readonly name="comment_img" maxlength="250" placeholder="Maximum 250 caractères" />
-            <p class="notes full">Le champ est limité à 250 caractères</p>
-         </div>
-
-         <div class="inputContainer">
-            <input type="submit" class="fit primaryButton" value="Insérer à la page">
-         </div>
-      </form>
-	</dialog>
 
    <dialog class="modal" id="delete-media" data-modal="delete-media">
       <header class="header danger">

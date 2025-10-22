@@ -1,6 +1,14 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block fullWidthBanner %}
+{% if flash_message == "page_created" or flash_message == "page_edited" %}
+   <div class="centered">
+      <div class="wrapper">
+         <p class="alert success">Page crée avec succès</p>
+      </div>
+   </div>
+{% endif %}
+
 <div id="pixel-to-watch" style="position: absolute; width: 1px; height: 1px; top: 0; left: 0; background-color: transparent;"></div>
 
    {% if article.segments|length > 1 %}

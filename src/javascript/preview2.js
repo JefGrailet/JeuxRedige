@@ -5,7 +5,7 @@ const previewZone = document.getElementById("previewZone");
 const content = document.getElementById("page-content");
 
 const preview = async () => {
-   if (!content.checkVisibility()) {
+   if (!previewZone.checkVisibility()) {
       return;
    }
 

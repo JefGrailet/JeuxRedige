@@ -118,23 +118,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       die();
    }
 
-   // Dialogs
-   $dialogs = '';
-   // if(Utils::check(LoggedUser::$data['can_upload']))
-   // {
-   //    $headerDialogTpl = TemplateEngine::parse('view/dialog/CreateSegmentHeader.dialog.ctpl');
-   //    if(!TemplateEngine::hasFailed($headerDialogTpl))
-   //       $dialogs .= $headerDialogTpl;
-   //    $fileUploadDialogTpl = TemplateEngine::parse('view/dialog/UploadFile.dialog.ctpl');
-   //    if(!TemplateEngine::hasFailed($fileUploadDialogTpl))
-   //       $dialogs .= $fileUploadDialogTpl;
-   // }
-   // $formattingDialogsTpl = TemplateEngine::parse('view/dialog/Formatting.multiple.ctpl');
-   // if(!TemplateEngine::hasFailed($formattingDialogsTpl))
-   //    $dialogs .= $formattingDialogsTpl;
-   // $eFormattingDialogsTpl = TemplateEngine::parse('view/dialog/ExtendedFormatting.multiple.ctpl');
-   // if(!TemplateEngine::hasFailed($eFormattingDialogsTpl))
-   //    $dialogs .= $eFormattingDialogsTpl;
+   // LoggedUser::$data['can_upload']
 
    // Header details (default image or buffered image)
    $currentSegmentHeader = Buffer::getSegmentHeader();
@@ -190,6 +174,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $curlResult = $curlUpload($_FILES["header"]);
       }
 
+      $uploads = Buffer::listContent();
+
       try {
          $newSeg = Segment::insert(
             $article->get('id_article'),
@@ -198,9 +184,33 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             FormParsing::parse($formData['content'])
          );
 
-         $pageArticleURL = './EditArticle.php?id_article=' . $newArticle->get('id_article');
+         $uploads = Buffer::listContent();
+         if (count($uploads[0]) > 0) {
+            $uploadsString = Buffer::saveInSegment(
+               $uploads,
+               $article->get('id_article'),
+               $newSeg->get('id_segment')
+            );
+
+            if (strlen($uploadsString) > 0) {
+               $modifiedContent = FormParsing::relocateInSegment(
+                  $newSeg->get('content'),
+                  $article->get('id_article'),
+                  $newSeg->get('id_segment')
+               );
+
+               $newSeg->finalize('uploads:' . $uploadsString, $modifiedContent);
+            }
+         }
+
+         if (isset($_POST["action"]) && $_POST["action"] === "preview") {
+            $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
+         } else {
+            $redirectURL = './EditArticle.php?id_article=' . $article->get('id_article');
+         }
+
          setcookie("flash_message", "page_created", time() + 1, "/");
-         exit(header('Location:' . $pageArticleURL));
+         exit(header('Location:' . $redirectURL));
       } catch(Exception $e) {
 
       }
@@ -208,7 +218,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    echo $twig->render("add_edit_article-page.html.twig", [
       "page_title" => "\"{$article->get("title")}\" - Ajouter une nouvelle page",
-      "list_css_files" => [ "input_file", "badge", "drag_and_drop_upload", "text_editor_toolbar" ],
+      "list_css_files" => [ "article", "input_file", "badge", "drag_and_drop_upload", "text_editor_toolbar" ],
       "type" => "add",
       "list_js_files" => [
          "segment_editor",

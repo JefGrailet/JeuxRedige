@@ -26,7 +26,7 @@
 
          &:is(:hover, :focus) {
             background-color: #557083;
-            anchor-name: --my-anchor;
+            anchor-name: --editor-tool;
 
             &:is(.article) {
                color: white;
@@ -36,24 +36,34 @@
    }
 }
 
-.target {
+.tooltip-tool {
    position: absolute;
-   position-anchor: --my-anchor;
+   position-anchor: --editor-tool;
    padding: 0.25rem 0.5rem;
    background-color: white;
    border-radius: var(--border-radius);
+   /* justify-self: anchor-center; */
    border: 1px solid black;
-   position-area: center top;
+   /* position-area: center top; */
    margin-bottom: 0.5rem;
    z-index: 999;
    font-size: 0.85rem;
    min-width: 200px;
+   max-width: 400px;
    height: 100px;
+   display: none;
+   position-area: top;
+   margin: unset;
+   margin-bottom: 0.5rem;
+
+   /* @supports (bottom: anchor(top)) {
+      display: none;
+   } */
+
    p {
       margin: 0;
       white-space: nowrap;
       font-weight: bold;
-
    }
 }
 

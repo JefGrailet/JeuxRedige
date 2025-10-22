@@ -16,22 +16,23 @@
 
 		<script type="text/schema" data-form-schema="add_hyperlink">
 			return z.object({
-			            hyperlink: z.url(),
-			            hyperlink_title: z.string().optional().or(z.literal('')),
-			         })
+            hyperlink: z.httpUrl(),
+            hyperlink_title: z.string().optional().or(z.literal('')),
+         })
 		</script>
 
 		<div class="gridForm">
 			<div class="inputContainer row">
-				<label for="hyperlink">URL<span style="color: var(--danger-color);">*</span></label>
+				<label for="hyperlink">URL<span style="color: var(--danger-color);">*</span>
+				</label>
 				<input type="url" id="hyperlink" name="hyperlink" placeholder="https://www.jeuxredige.com">
 			</div>
 			<div class="inputContainer row">
 				<label for="hyperlink_title">Libellé</label>
 				<input type="text" name="hyperlink_title" id="hyperlink_title" placeholder="Accéder à jeuxredige.com">
 			</div>
-         <div class="inputContainer">
-            <button type="submit" class="primaryButton">Insérer</button>
+			<div class="inputContainer">
+				<button type="submit" class="primaryButton">Insérer</button>
 			</div>
 		</div>
 	</form>
@@ -53,11 +54,151 @@
 		<div class="gridForm">
 			<div class="inputContainer row">
 				<label for="text-color">Couleur</label>
-				<input style="width: 100%" type="color" id="text-color" name="text_color" value="#fff" />
+				<input style="width: 100%" type="color" id="text-color" name="text_color" value="#fff"/>
 			</div>
-         <div class="inputContainer">
-            <button type="submit" class="primaryButton">Utiliser cette couleur</button>
+			<div class="inputContainer">
+				<button type="submit" class="primaryButton">Utiliser cette couleur</button>
 			</div>
 		</div>
 	</form>
 </dialog>
+
+{# Sélectionner une image externe #}
+<dialog class="modal" id="integrate-external-img" data-modal="integrate-external-img">
+	<header class="header">
+		<p class="title">Importer une image externe</p>
+		<button class="closeModal" command="close" commandfor="integrate-external-img">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" data-form-schema-validation="external_img">
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="external_img"></ul>
+
+		<script type="text/schema" data-form-schema="external_img">
+			return z.object({
+            url_img: z.httpUrl().refine(
+               (url) => {
+                  console.log(url)
+                  return true;
+                  if (url === null) {
+                     return true;
+                  }
+                  return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
+               }
+            ),
+            alt_img: z.string().max(250)
+         })
+		</script>
+		<div class="inputContainer row">
+			<label for="url">URL<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="url_img" id="url"/>
+		</div>
+      <div class="inputContainer row">
+			<label for="alt">Note</label>
+			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
+			<p class="notes full">Le champ est limité à 250 caractères</p>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer à la page">
+		</div>
+	</form>
+</dialog>
+
+{# Sélectionner une vidéo Youtube #}
+<dialog class="modal" id="integrate-yt-video" data-modal="integrate-yt-video">
+	<header class="header">
+		<p class="title">Importer une vidéo Youtube</p>
+		<button class="closeModal" command="close" commandfor="integrate-yt-video">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" data-form-schema-validation="youtube_video">
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="youtube_video"></ul>
+
+		<script type="text/schema" data-form-schema="youtube_video">
+			return z.object({
+            yt_video: z.httpUrl()
+         })
+		</script>
+		<div class="inputContainer row">
+			<label for="yt_video">URL<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="yt_video" id="yt_video"/>
+		</div>
+      <div class="inputContainer row">
+			<label for="ratio_video">Taille</label>
+			<select name="ratio_video" id="ratio_video">
+            <option value="default">Par défaut (480 x 270 pixels)</option>
+            <option value="0.25">Ajustée à 25% de la largeur</option>
+            <option value="0.5">Ajustée à 50% de la largeur</option>
+            <option value="0.75">Ajustée à 75% de la largeur</option>
+            <option value="1.0">Ajustée à 100% de la largeur</option>
+         </select>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer à la page">
+		</div>
+	</form>
+</dialog>
+
+{# <dialog class="modal" id="integrate-external-img" data-modal="integrate-external-img">
+	<header class="header">
+		<p class="title">Personnaliser le média</p>
+		<button class="closeModal" command="close" commandfor="integrate-external-img">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog">
+		<img src="" alt="" class="full">
+		<div class="inputContainer row">
+			<label for="url">URL</label>
+			<input type="text" readonly name="url_img"/>
+		</div>
+		<div class="inputContainer row">
+			<label for="format">Format</label>
+			<select name="format_img">
+				<option value="mini">Miniature</option>
+				<option value="1.0">Dimensions originales</option>
+				<option value="0.5">Dimensions x0.5 (images seulement)</option>
+				<option value="1.5">Dimensions x1.5 (images seulement)</option>
+				<option value="2.0">Dimensions x2 (images seulement)</option>
+				<option value="3.0">Dimensions x3 (images seulement)</option>
+				<option value="5.0">Dimensions x5 (images seulement)</option>
+			</select>
+		</div>
+
+		<div class="inputContainer row">
+			<label for="format">Flottement</label>
+			<select name="floating_img">
+				<option value="normal">Aucun</option>
+				<option value="left">A gauche</option>
+				<option value="right">A droite</option>
+			</select>
+		</div>
+
+		<div class="inputContainer row">
+			<label for="note">Note</label>
+			<input type="text" name="comment_img" maxlength="250" placeholder="Maximum 250 caractères"/>
+			<p class="notes full">Le champ est limité à 250 caractères</p>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer à la page">
+		</div>
+	</form>
+</dialog> #}

@@ -1,6 +1,6 @@
 const textarea = document.getElementById("page-content");
 
-const insertTags = (openingTag, closingTag) => {
+const insertTags = (openingTag, closingTag = "") => {
    const content = textarea.value;
 
    const before = content.substring(0, textarea.selectionStart);
@@ -49,10 +49,9 @@ const editorAction = (e) => {
       case "formatting_summary":
          insertTags('!resume[Point fort 1;\nPoint fort 2;\nSéparez avec des point-virgules]', '[\nPoint faible 1;\nPoint faible 2;\nSéparez avec des point-virgules]');
          break;
-
-      // case "formatting_picture":
-      //    insertTags('* ', '\n');
-      //    break;
+      case "formatting_block":
+         insertTags('!bloc[Titre du bloc]', '[Contenu\nNote : La couleur d\'arrière-plan s\'adapte en fonction du type d\'article]');
+         break;
       // case "formatting_video":
       //    insertTags('* ', '\n');
       //    break;
@@ -94,7 +93,43 @@ const submitForm = (e) => {
          insertTags(`[rgb=${r},${g},${b}]`, '[/rgb]');
       break;
 
-      // FormattingLib.insertImg
+      case "integrate-media": {
+         const URLImage = e.currentTarget.querySelector("input[name='url_img']");
+         const ratioImg = e.currentTarget.querySelector("select[name='format_img']")
+         const floatingImg = e.currentTarget.querySelector("select[name='floating_img']")
+         const commentImg = e.currentTarget.querySelector("select[name='comment_img']")
+
+         let tagName = ratioImg === "mini" ? "mini" : "img";
+         let imgNote = commentImg.trim().length > 0 ? `[${commentImg}]` : null;
+         let imgSize = ratioImg === "mini" ? "" : ratioImg;
+
+         let imgOptions = []
+         // !mini[tagNameeefefefe][efefe]
+
+         insertTags(`!${tagName}[${URLImage}]`, imgNote);
+      }
+      break;
+
+      case "integrate-external-img": {
+         const URLImage = e.currentTarget.querySelector("input[name='url_img']").value;
+         const altTextImage = e.currentTarget.querySelector("input[name='alt_img']").value
+
+         insertTags(`!img[${URLImage}]`, altTextImage ? `[${altTextImage}]` : "");
+      }
+      break;
+
+      case "integrate-yt-video": {
+         const URLYoutube = e.currentTarget.querySelector("input[name='yt_video']").value;
+         const selectSize = e.currentTarget.querySelector("select[name='ratio_video']");
+         let size = selectSize.value;
+         const listValidSizes = Array.from(selectSize.options).map((item) => item.value);
+         if (!listValidSizes.includes(size) || size === "default") {
+            size = "";
+         }
+
+         insertTags(`!video[${URLYoutube};${size}]`);
+      }
+      break;
 
       default:
          break;

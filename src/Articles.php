@@ -66,7 +66,7 @@ $currentPage = $twig->getGlobals()["query_string"]["page"] ?? "1";
 
 echo $twig->render("articles.html.twig", [
    "list_articles" => $listArticlesComputed,
-   "list_css_files" => array_filter(["pool", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
+   "list_css_files" => array_filter(["pool", "pagination", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
    "list_js_files" => ["dropdown_redirect"],
    "page_title" => "{$currentCategory} Page {$currentPage}",
    "nb_pages" => $nbPages,

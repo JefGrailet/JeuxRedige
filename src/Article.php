@@ -18,22 +18,17 @@ require_once './libraries/core/Twig.config.php';
 WebpageHandler::redirectionAtLoggingIn();
 
 // Obtains game title and retrieves the corresponding entry
-if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']))
-{
+if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'])) {
    $articleID = intval(Utils::secure($_GET['id_article']));
    $article = null;
-   try
-   {
+   try {
       $article = new Article($articleID);
       $article->loadRelatedData();
-      if($article->isPublished())
-      {
+      if ($article->isPublished()) {
          $article->getTopic();
          $article->incViews();
       }
-   }
-   catch(Exception $e)
-   {
+   } catch (Exception $e) {
       echo $twig->render("error.html.twig", [
          "error_title" => "Article non trouvé",
          "error_key" => "nonexistingArticle",
@@ -51,11 +46,10 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Redirects to right URL if $_GET['title'] does not match
 
-   if(!empty($_GET['title']))
-   {
+   if (!empty($_GET['title'])) {
       $titleURL = Utils::secure($_GET['title']);
-      if(PathHandler::formatForURL($article->get('title').' '.$article->get('subtitle')) !== $titleURL)
-         header('Location:'.PathHandler::articleURL($article->getAll()));
+      if (PathHandler::formatForURL($article->get('title') . ' ' . $article->get('subtitle')) !== $titleURL)
+         header('Location:' . PathHandler::articleURL($article->getAll()));
 
       WebpageHandler::usingURLRewriting();
    }
@@ -68,8 +62,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
    }
 
-   if(count($segments) == 0)
-   {
+   if (count($segments) == 0) {
       echo $twig->render("error.html.twig", [
          "error_title" => "Article vide",
          "error_key" => "noSegment",
@@ -88,9 +81,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
 
    // Restricted view
-   if(!$article->isPublished())
-   {
-      if((!LoggedUser::isLoggedIn())) // || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
+   if (!$article->isPublished()) {
+      if ((!LoggedUser::isLoggedIn())) // || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
       {
          echo $twig->render("error.html.twig", [
             "error_title" => "Erreur : Article vide",
@@ -112,14 +104,13 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // Pre-selected segment
    $selectedSegment = 1;
    $pageSelected = 0;
-   if(!empty($_GET['section']))
-   {
+   if (!empty($_GET['section'])) {
       $pageSelected = intval($_GET['section']) - 1;
       $getSection = intval(Utils::secure($_GET['section']));
-      if($getSection > 0 && $getSection <= count($segments))
+      if ($getSection > 0 && $getSection <= count($segments))
          $selectedSegment = $getSection;
       else
-         header('Location:'.PathHandler::articleURL($article->getAll()));
+         header('Location:' . PathHandler::articleURL($article->getAll()));
    }
 
    // Generates all useful data for article display
@@ -128,28 +119,24 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // Renders segments
    $fullInput = array();
 
-   for($i = 0; $i < count($segments); $i++)
-   {
+   for ($i = 0; $i < count($segments); $i++) {
       $segments[$i]['content'] = SegmentParsing::parse($segments[$i]['content'], $i + 1);
       $segmentIR = SegmentIR::process($segments[$i], (($i + 1) == $selectedSegment));
       array_push($fullInput, $segmentIR);
    }
 
    // Fixes title/subtitle on first segment
-   if($segments[0]['title'] == NULL)
-   {
+   if ($segments[0]['title'] == NULL) {
       $fullInput[0]['title'] = $article->get('title');
-      $fullInput[0]['mainSubtitle'] = 'yes||'.$article->get('subtitle');
+      $fullInput[0]['mainSubtitle'] = 'yes||' . $article->get('subtitle');
    }
 
    $segmentsTpl = TemplateEngine::parseMultiple('view/content/Segment.ctpl', $fullInput);
    $segmentsStr = '';
-   if(!TemplateEngine::hasFailed($segmentsTpl))
-   {
-      for($i = 0; $i < count($segmentsTpl); $i++)
+   if (!TemplateEngine::hasFailed($segmentsTpl)) {
+      for ($i = 0; $i < count($segmentsTpl); $i++)
          $segmentsStr .= $segmentsTpl[$i];
-   }
-   else
+   } else
       WebpageHandler::wrap($segmentsTpl, 'Une erreur est survenue lors de la lecture des pages');
 
    // Display
@@ -159,7 +146,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $title .= " - Page {$pageSelected}";
    }
 
-   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected)  {
+   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
       $url = PathHandler::articleURL($article->getAll());
       $pageIndex = $index + 1;
 
@@ -176,7 +163,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
    }
 
-   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected)  {
+   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
       $url = PathHandler::articleURL($article->getAll());
       $pageIndex = $index + 1;
 
@@ -187,6 +174,19 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       );
    }, $fullInput, array_keys($fullInput));
 
+   $editLinks = array_filter([
+      "article" => [
+         "link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
+         "label" => "Éditer l'article"
+      ],
+      "page" => [
+         "link" => $isAuthorIsCurrentUser ? PathHandler::HTTP_PATH() . "EditSegment.php?id_segment={$fullInput[$pageSelected]["ID"]}" : "",
+         "label" => "Éditer la page"
+      ],
+   ], function ($value) {
+      return $value["link"] !== '';
+   });
+
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
       "current_category" => $article->get('type'),
@@ -194,7 +194,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       "article" => [
          "id" => $article->get('id_article'),
          // "header_img" => $currentThumbnail,
-         "header_img" => PathHandler::HTTP_PATH().'upload/articles/'.$article->get('id_article').'/'. $article->getBufferedSegments()[0]["id_segment"] .'/thumbnail.jpg',
+         "header_img" => PathHandler::HTTP_PATH() . 'upload/articles/' . $article->get('id_article') . '/' . $article->getBufferedSegments()[0]["id_segment"] . '/thumbnail.jpg',
          "title" => $fullInput[0]['title'],
          "subtitle" => $article->get('subtitle'),
          "content" => $fullInput[$pageSelected]['content'],
@@ -203,15 +203,16 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "published_time" => $article->get('date_creation'),
          "is_published" => $article->isPublished(),
          "last_update_time" => $article->get('date_last_modifications') > $article->get('date_creation') ? $article->get('date_last_modifications') : "",
-         "edit_link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
+         "edit_links" => $editLinks,
          "is_my_article" => $isAuthorIsCurrentUser,
          "author" => [
             "pseudo" => $article->get('pseudo'),
             "avatar" => PathHandler::getAvatar($article->get('pseudo')),
          ],
       ],
-      "list_css_files" => ["article", 'charter_'.$article->get('type'), "badge"],
-      "list_js_files" => ["article", "article_content_margin"],
+      "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
+      "list_css_files" => ["article", 'charter_' . $article->get('type'), "badge"],
+      "list_js_files" => ["article", "article_v2"],
       "selectedLogo" => $article->get('type'),
       "currentCategory" => $article->get('type'),
       "meta" => [
@@ -226,20 +227,17 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "tags" => Utils::ARTICLES_CATEGORIES[$article->get('type')][2],
       ]
    ]);
-}
-else
-{
+} else {
    echo $twig->render("article_fail.html.twig", [
-         "page_title" => "Article vide",
-         "error_key" => "missingID",
-         "meta" => [
-            ...$twig->getGlobals()["meta"],
-            "title" => "Article vide",
-            "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
-            "full_title" => "",
-         ]
+      "page_title" => "Article vide",
+      "error_key" => "missingID",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Article vide",
+         "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
    ]);
 }
-?>

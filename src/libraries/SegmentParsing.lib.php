@@ -119,9 +119,13 @@ class SegmentParsing
 
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\]/", $parsed, $images);
+      preg_match_all(
+         "/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/",
+         $parsed,
+         $images
+      );
 
-      for($i = 0; $i < count($images[1]); $i++)
+      for ($i = 0; $i < count($images[1]); $i++)
       {
          $link = '';
          $ratio = 1.0;
@@ -165,7 +169,9 @@ class SegmentParsing
 
          if($isAnURL && strlen($relativeLink) == 0)
          {
-            $imageHTML = '<img src="'.$link.'" alt="" />';
+            $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
+
+            $imageHTML = "<img src='{$link}' alt='{$altText}' />";
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
          else
@@ -182,7 +188,7 @@ class SegmentParsing
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
-                  $imageHTML = '<img src="'.$displayPath.'" alt="Upload" ';
+                  $imageHTML = '<img src="'.$displayPath.'" alt="Upload 1" ';
                   if($floating !== '')
                   {
                      $imageHTML .= 'style="float: '.$floating.'; ';
@@ -326,7 +332,9 @@ class SegmentParsing
                   if(strpos($filePath, 'full_') !== FALSE)
                   {
                      $miniPath = str_replace('full_', 'mini_', $displayPath);
-                     $miniHTML = '<img src="'.$miniPath.'" class="miniature" alt="Miniature" ';
+                     $altText = strlen($comment) > 0 ? $comment : "";
+
+                     $miniHTML = "<img src=\"{$miniPath}\" class='miniature' alt='{$altText}'";
                      if($floating !== '')
                      {
                         $miniHTML .= 'style="float: '.$floating.'; ';

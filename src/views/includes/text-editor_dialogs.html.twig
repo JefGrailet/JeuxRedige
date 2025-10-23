@@ -99,20 +99,9 @@
 			<input type="url" name="url_img" id="url"/>
 		</div>
       <div class="inputContainer row">
-			<label for="format">Format</label>
-			<select name="format_img">
-				<option value="1.0">Dimensions originales</option>
-				<option value="0.5">Dimensions x0.5 (images seulement)</option>
-				<option value="1.5">Dimensions x1.5 (images seulement)</option>
-				<option value="2.0">Dimensions x2 (images seulement)</option>
-				<option value="3.0">Dimensions x3 (images seulement)</option>
-				<option value="5.0">Dimensions x5 (images seulement)</option>
-			</select>
-		</div>
-      <div class="inputContainer row">
 			<label for="alt">Texte alternatif</label>
 			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
-			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Préférez un titre clair à un texte banal comme "image 1"</p>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte banal comme "image 1"</p>
 		</div>
 
 		<div class="inputContainer">
@@ -171,10 +160,11 @@
 	</form>
 </dialog>
 
-{# <dialog class="modal" id="integrate-external-img" data-modal="integrate-external-img">
+{# Intégrer média depuis la bibliothèque #}
+<dialog class="modal medium" id="integrate-media" data-modal="integrate-media">
 	<header class="header">
 		<p class="title">Personnaliser le média</p>
-		<button class="closeModal" command="close" commandfor="integrate-external-img">
+		<button class="closeModal" command="close" commandfor="integrate-media">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
 			</svg>
@@ -183,6 +173,7 @@
 	</header>
 
 	<form class="content gridForm" method="dialog">
+      <p class="alert warning full">Les champs avec * sont requis</p>
 		<img src="" alt="" class="full">
 		<div class="inputContainer row">
 			<label for="url">URL</label>
@@ -211,13 +202,13 @@
 		</div>
 
 		<div class="inputContainer row">
-			<label for="note">Note</label>
-			<input type="text" name="comment_img" maxlength="250" placeholder="Maximum 250 caractères"/>
-			<p class="notes full">Le champ est limité à 250 caractères</p>
+         <label for="alt">Texte alternatif</label>
+			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte banal comme "image 1"</p>
 		</div>
 
 		<div class="inputContainer">
 			<input type="submit" class="fit primaryButton" value="Insérer à la page">
 		</div>
 	</form>
-</dialog> #}
+</dialog>

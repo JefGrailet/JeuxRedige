@@ -6,7 +6,7 @@
 			{% set array = array|merge({ (key): category.name.singular }) %}
 		{% endfor %}
 
-      {% set needs_page_title = page.index > 1 %}
+      {% set needs_page_title = page.position > 1 %}
 
 		<section class="sectionBlock">
 			<h1 class="title">
@@ -137,7 +137,25 @@
                </ul>
             </div>
             <div class="dragAndDropUpload">
-               <ul class="listUploads" data-preview-dropzone="page-medias"></ul>
+               <ul class="listUploads" data-preview-dropzone="page-medias">
+                  {% for attachment in page.list_attachments %}
+                     <li class="droppedMedia" data-media-data="{{ attachment | json_encode() }}">
+                        <div class="menuBar">
+                           <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
+                              <i class="icon-general_plus" ></i>
+                              <span>Ajouter à la page</span>
+                           </button>
+                           <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+                              <i class="icon-general_trash"></i>
+                              <span>Supprimer image</span>
+                           </button>
+                        </div>
+                        <button class="media" type="button" command="show-modal" commandfor="preview-media">
+                           <img src="{{ attachment.mini.src }}" width="{{ attachment.mini.size.width }}" height="{{ attachment.mini.size.height }}" loading="lazy" alt="">
+                        </button>
+                     </li>
+                  {% endfor %}
+               </ul>
                <div class="dropzone paused" data-upload-dropzone="page-medias">
                   <p class="text">Glissez-déposez vos médias</p>
                   <p class="text">ou</p>
@@ -162,7 +180,7 @@
                      </button>
                   </div>
                </div>
-               <details class="listErrors" data-errors-dropzone="page-medias" hidden>
+               <details class="listErrors" data-errors-dropzone="page-medias" open hidden>
                   <summary>Liste erreurs <span data-nb-file-errors></span></summary>
                   <ul></ul>
                </details>
@@ -201,7 +219,7 @@
       </div>
 	</dialog>
 
-   <dialog class="modal large" id="preview-media" data-modal="preview-media">
+   <dialog class="modal medium" id="preview-media" data-modal="preview-media">
       <header class="header">
          <p class="title">Prévisualisation</p>
          <button class="closeModal" command="close" commandfor="preview-media">
@@ -222,19 +240,19 @@
 	</dialog>
 
    <template data-template-id="page-media-item">
-      <li class="droppedMedia">
+      <li class="droppedMedia" data-media-data>
          <div class="menuBar">
-            <button title="Ajouter à la page" data-media-data type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
+            <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
                <i class="icon-general_plus" ></i>
                <span>Ajouter à la page</span>
             </button>
-            <button title="supprimer média" data-media-data command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+            <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
                <i class="icon-general_trash"></i>
                <span>Supprimer image</span>
             </button>
          </div>
-         <button class="media" type="button" command="show-modal" data-media-data commandfor="preview-media">
-            <img src="" alt="">
+         <button class="media" type="button" command="show-modal" commandfor="preview-media">
+            <img src="" alt="" loading="lazy">
          </button>
       </li>
    </template>

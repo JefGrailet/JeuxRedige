@@ -14,6 +14,8 @@
 					Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus tard ou contactez l'administrateur.
 				{% elseif error_key == "nonexistingArticle" %}
 					L'article recherché n'existe pas ou plus.
+            {% elseif error_key == "nonexistingSegment" %}
+					Page introuvable.
 				{% elseif error_key == "restrictedAccess" %}
 					Cet article n'a pas encore été publié et n'est visible que par son auteur.
             {% elseif error_key == "forbiddenAccess" %}

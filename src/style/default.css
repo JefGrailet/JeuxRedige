@@ -2467,8 +2467,10 @@ textarea
 }
 
 .lightboxImg {
+   height: fit-content;
    max-width: 100%;
-   object-fit: cover;
+   max-height: 80vh;
+   object-fit: contain;
    display: block;
    margin: auto;
 }
@@ -2476,7 +2478,7 @@ textarea
 .imageLegend {
    font-size: 0.75rem;
    text-align: center;
-   margin: 5px 0px 10px 0px;
+   margin: 5px 0 0 0;
 }
 
 .switchContainer {

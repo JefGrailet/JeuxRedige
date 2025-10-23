@@ -68,7 +68,7 @@
 				   <p class="alert success">Page crée avec succès</p>
             {% endif %}
 
-            {% if flash_message == "page_edited" %}
+            {% if flash_message == "page_updated" %}
 				   <p class="alert success">Page éditée avec succès</p>
             {% endif %}
 				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
@@ -189,7 +189,7 @@
                         </td>
                         <td style="vertical-align: top;">
                            <span data-segment-index>
-                              {{ segment.title }}
+                              {{ segment.title ? segment.title : "Sommaire" }}
                            </span>
                         </td>
                         <td style="vertical-align: top;">

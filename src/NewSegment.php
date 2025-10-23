@@ -101,7 +101,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
 
    // Can only create a new segment for one's own articles
-   if(!$article->isMine())
+   if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
       http_response_code(401);
       echo $twig->render("error.html.twig", [
@@ -128,37 +128,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    else
       $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));
 
-   // $formData = array('errors' => '',
-   // 'articleID' => $article->get('id_article'),
-   // 'fullArticleTitle' => $article->get('title').' - '.$article->get('subtitle'),
-   // 'headerPath' => $currentSegmentHeader,
-   // 'title' => '',
-   // 'noteFirstSegment' => ($nextPosition == 1) ? 'yes' : '',
-   // 'content' => '',
-   // 'header' => $currentHeaderValue,
-   // 'mediaMenu' => '');
-
-   // Generates upload window view
-   $nbUploads = 0; // Useful later
-   // if(Utils::check(LoggedUser::$data['can_upload']))
-   // {
-   //    $uploadsList = Buffer::listContent();
-   //    $nbUploads = count($uploadsList[0]);
-
-   //    $uploadTplInput = array('uploadMessage' => 'newUpload', 'uploadsView' => Buffer::renderForSegment($uploadsList));
-   //    $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
-
-   //    if(!TemplateEngine::hasFailed($uploadTpl))
-   //       $formData['mediaMenu'] = $uploadTpl;
-   // }
-   // else
-   // {
-   //    $uploadTplInput = array('uploadMessage' => 'uploadRefused', 'uploadsView' => '');
-   //    $uploadTpl = TemplateEngine::parse('view/user/NewSegment.upload.ctpl', $uploadTplInput);
-
-   //    if(!TemplateEngine::hasFailed($uploadTpl))
-   //       $formData['mediaMenu'] = $uploadTpl;
-   // }
 
    $formErrorMessages = $twig->getGlobals()["errors_message"]["page"];
    $formErrorMessagesTriggered = [];
@@ -167,14 +136,11 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $formData = [];
       $formData['title'] = Utils::secure($_POST['title']);
       $formData['content'] = Utils::secure($_POST['content']);
-      // $formData['header'] = Utils::secure($_POST['header']);
 
       $curlResult = null;
       if ($_FILES["header"]["size"] > 0) {
          $curlResult = $curlUpload($_FILES["header"]);
       }
-
-      $uploads = Buffer::listContent();
 
       try {
          $newSeg = Segment::insert(
@@ -235,7 +201,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       ],
       "currentCategory" => $article->get("type"),
       "page" => [
-         "index" => $nextPosition,
+         "position" => $nextPosition,
       ],
       "image_header_requirements" => [
          ...$imageHeaderRequirements,
@@ -250,7 +216,7 @@ else
 {
    echo $twig->render("error.html.twig", [
       "error_title" => "Une erreur est survenue",
-      "error_key" => "missingArticleID",
+      "error_key" => "",
       "meta" => [
          ...$twig->getGlobals()["meta"],
          "title" => "Erreur",

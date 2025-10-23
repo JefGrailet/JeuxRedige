@@ -334,7 +334,7 @@ class SegmentParsing
                      $miniPath = str_replace('full_', 'mini_', $displayPath);
                      $altText = strlen($comment) > 0 ? $comment : "";
 
-                     $miniHTML = "<img src=\"{$miniPath}\" class='miniature' alt='{$altText}'";
+                     $miniHTML = "<img src=\"{$miniPath}\" class=\"miniature\" alt=\"{$altText}\"";
                      if($floating !== '')
                      {
                         $miniHTML .= 'style="float: '.$floating.'; ';
@@ -344,12 +344,30 @@ class SegmentParsing
                            $miniHTML .= 'margin: 0px 0px 0px 10px;';
                         $miniHTML .= ' padding-top: 2px;" ';
                      }
-                     $miniHTML .= 'data-file="'.$displayPath.'" data-width="'.$dimensions[0].'" ';
-                     if(strlen($comment) > 0)
-                        $miniHTML .= 'data-height="'.$dimensions[1].'" data-comment="'.$comment.'"/>';
-                     else
-                        $miniHTML .= 'data-height="'.$dimensions[1].'"/>';
-                     $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
+                     $miniAttributes = json_encode([
+                        "mini" => [
+                           "src" => "",
+                           "size" => [
+                              "width" => "",
+                              "height" => "",
+                           ]
+                        ],
+                        "full" => [
+                           "src" => $displayPath,
+                           "size" => [
+                              "width" => $dimensions[0],
+                              "height" => $dimensions[1],
+                           ],
+                           "srcRelative" => "",
+                        ],
+                        "uploadDate" => "",
+                        "comment" => $comment ?? "",
+                     ]);
+
+                     $miniHTML .= '/>';
+
+                     $finalHTML = "<button class=\"miniaturePopover\" popovertarget=\"miniature-popover\" data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
+                     $parsed = str_replace($miniatures[0][$i], $finalHTML, $parsed);
                   }
                }
             }

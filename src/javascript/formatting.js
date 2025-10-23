@@ -94,7 +94,7 @@ const hexToRGB = (color) => {
 const onSubmitFormSuccessfully = (e) => {
    const form = e.currentTarget.querySelector("form");
 
-   if (form.dataset.isValid !== "true") {
+   if (form?.dataset.isValid !== "true" && "formSchemaValidation" in form.dataset) {
       return;
    }
 
@@ -117,24 +117,27 @@ const onSubmitFormSuccessfully = (e) => {
 
       case "integrate-media": {
          const URLImage = formDataJSON.url_img;
-         const ratioImg = formDataJSON.format_img;
+         const formatImg = formDataJSON.format_img;
          const floatingImg = formDataJSON.floating_img;
-         const commentImg = formDataJSON.comment_img;
+         const altText = formDataJSON.alt_img;
 
-         let tagName = ratioImg === "mini" ? "mini" : "img";
-         let imgNote = commentImg.trim().length > 0 ? `[${commentImg}]` : null;
-         let imgSize = ratioImg === "mini" ? "" : ratioImg;
+         let tagName = formatImg === "mini" ? "mini" : "img";
+         let imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
+         let imgSize = formatImg === "mini" ? null : formatImg;
+         let imgPosition = floatingImg === "normal" ? null : floatingImg;
 
-         let imgOptions = []
-         // !mini[tagNameeefefefe][efefe]
+         let imgOptions = [imgSize, imgPosition].filter(Boolean).join(";");
+         if (imgOptions.length > 0) {
+            imgOptions = `;${imgOptions}`;
+         }
 
-         insertTags(`!${tagName}[${URLImage}]`, imgNote);
+         insertTags(`!${tagName}[${URLImage}${imgOptions}]`, imgNote);
       }
       break;
 
       case "integrate-external-img": {
          const URLImage = e.currentTarget.querySelector("input[name='url_img']").value;
-         const altTextImage = e.currentTarget.querySelector("input[name='alt_img']").value
+         const altTextImage = e.currentTarget.querySelector("input[name='alt_img']").value;
 
          insertTags(`!img[${URLImage}]`, altTextImage ? `[${altTextImage}]` : "");
       }

@@ -17,11 +17,12 @@ const formValidation = async (e) => {
    )();
 
    if (!schema) {
+      form.dataset.isValid = "true";
       return true;
    }
 
    const formData = new FormData(form);
-   if (e?.submitter.hasAttribute("value")) {
+   if (e?.submitter?.hasAttribute("value")) {
       const inputActionType = document.createElement("input");
       inputActionType.setAttribute("type", "hidden")
       inputActionType.setAttribute("value", e.submitter.getAttribute("value"))

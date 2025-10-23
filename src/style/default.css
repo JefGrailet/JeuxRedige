@@ -651,20 +651,25 @@ input[type=submit]:active, button:active, .customButton:active
 
 dialog, [popover] {
    --start-position-y: 50vh;
-   /* opacity: 0;
-   translate: 0 var(--start-position-y); */
+
    transition: opacity var(--transition-time) ease-out,
       translate var(--transition-time) ease-out,
       overlay var(--transition-time) ease-out allow-discrete,
       display var(--transition-time) ease-out allow-discrete;
 
+   &:not([open], :popover-open) {
+      display: none;
+   }
+}
+
+dialog {
+   &::backdrop {
+      background-color: rgba(33, 33, 33, 0.786);
+   }
+
    &[open] {
       opacity: 1;
       translate: 0 0;
-   }
-
-   &:not([open], :popover-open) {
-      display: none;
    }
 
    @starting-style {
@@ -673,10 +678,6 @@ dialog, [popover] {
          translate: 0 var(--start-position-y);
       }
    }
-}
-
-dialog::backdrop {
-   background-color: rgba(33, 33, 33, 0.786);
 }
 
 .modal {
@@ -2478,7 +2479,8 @@ textarea
 .imageLegend {
    font-size: 0.75rem;
    text-align: center;
-   margin: 5px 0 0 0;
+   padding: 5px 0px 10px 0px;
+   margin: 0;
 }
 
 .switchContainer {

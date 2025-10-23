@@ -13,16 +13,10 @@ const integrateMediaPageModal = document.getElementById("integrate-media");
 
 integrateMediaPageModal?.addEventListener("toggle", (e) => {
    if (e.newState === "open") {
-      const mediaData = JSON.parse(e.source.dataset.mediaData);
+      const mediaData = JSON.parse(e.source.closest("[data-media-data]").dataset.mediaData);
 
       e.target.querySelector("img").src = mediaData.mini.src;
       e.target.querySelector("[name=url_img]").value = mediaData.full.srcRelative;
-      e.target.querySelector(".title span").textContent = pageData.title || "Sommaire";
-   } else {
-      // const imgSize = e.target.querySelector("[name=format_img]").value;
-      // const imgPosition = e.target.querySelector("[name=floating_img]").value;
-      // const imgPath = e.target.querySelector("[name=url_img]").value;
-      // const imgNote = e.target.querySelector("[name=comment_img]").value;
    }
 });
 
@@ -30,9 +24,13 @@ const previewMediaModal = document.getElementById("preview-media");
 
 previewMediaModal?.addEventListener("toggle", (e) => {
    if (e.newState === "open") {
-      const mediaData = JSON.parse(e.source.dataset.mediaData);
+      const mediaData = JSON.parse(e.source.closest("[data-media-data]").dataset.mediaData);
 
-      e.target.querySelector(".content img").src = mediaData.full.src;
+      const img = e.target.querySelector(".content img");
+      img.src = mediaData.full.src;
+      img.width = mediaData.full.size.width;
+      img.height = mediaData.full.size.height;
+
       e.target.querySelector("[data-date]").textContent = mediaData.uploadDate;
       e.target.querySelector("a").href = mediaData.full.src;
    }
@@ -42,10 +40,11 @@ const deleteMediaModal = document.getElementById("delete-media");
 
 deleteMediaModal?.addEventListener("toggle", (e) => {
    if (e.newState === "open") {
-      const mediaData = JSON.parse(e.source.dataset.mediaData);
+      const mediaDataRaw = e.source.closest("[data-media-data]").dataset.mediaData;
+      const mediaData = JSON.parse(mediaDataRaw);
 
       e.target.querySelector(".content img").src = mediaData.mini.src;
-      document.getElementById("delete-media-btn").dataset.mediaData = e.source.dataset.mediaData;
+      document.getElementById("delete-media-btn").dataset.mediaData = mediaDataRaw;
    }
 });
 

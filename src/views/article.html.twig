@@ -9,6 +9,26 @@
    </div>
 {% endif %}
 
+{% if article.is_published == false %}
+<style>
+   .toolbar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 10px 20px 10px 20px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-top-left-radius: var(--border-radius);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      a {
+         color: white;
+      }
+   }
+</style>
+{% endif %}
+
 <div id="pixel-to-watch" style="position: absolute; width: 1px; height: 1px; top: 0; left: 0; background-color: transparent;"></div>
 
    {% if article.segments|length > 1 %}
@@ -55,11 +75,11 @@
                   </h1>
 						<h2 class="subtitle">{{ article.subtitle }}</h2>
 					</div>
-               {% if article.edit_link %}
+               {% if article.edit_links|length > 0 %}
                   <div class="toolbar">
-                     {% if article.edit_link %}
-                        <a href="{{ article.edit_link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">Éditer mon article</span></a>
-                     {% endif %}
+                     {% for item in article.edit_links %}
+                        <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
+                     {% endfor %}
                   </div>
                {% endif %}
 				</header>
@@ -126,4 +146,13 @@
       </div>
    </div>
 </footer>
+
+<div popover class="miniaturePopover" id="miniature-popover">
+   <img src="" alt="" class="lightboxImg" id="miniature-popover-img" />
+   <p class="imageLegend">
+    <span data-comment=""></span>
+      (<a href="" target="_blank" rel="noopener noreferrer">Voir image en grand</a>)
+   </p>
+</div>
+
 {% endblock %}

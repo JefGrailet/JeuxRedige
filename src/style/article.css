@@ -31,18 +31,6 @@
       }
    }
 
-   .toolbar {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      padding: 10px 20px 10px 20px;
-      background-color: rgba(0, 0, 0, 0.75);
-      border-top-left-radius: var(--border-radius);
-      a {
-         color: white;
-      }
-   }
-
    .title {
       font-size: 1.5rem; /* ~30px */
       animation-name: extensibleHeaderTitle;
@@ -982,7 +970,6 @@
       padding-top: 0%;
       max-width: 100%;
       box-shadow: 0 2px 3px 0px #646464a9;
-      /* margin-top: 0; */
   }
 }
 
@@ -1017,4 +1004,31 @@
          font-size: 1rem;
       }
   }
+}
+
+.miniaturePopover {
+   background: white;
+   border-radius: 4px;
+   border: none;
+   padding: 0.3125rem;
+   transition-delay: 0.15s;
+
+   @starting-style {
+      &:popover-open {
+         opacity: 0;
+      }
+   }
+
+   &::backdrop {
+      background-color: rgba(0,0,0,0.4);
+      opacity: 1;
+      transition: opacity var(--transition-time) ease-out,
+         translate var(--transition-time) ease-out,
+         overlay var(--transition-time) ease-out allow-discrete,
+         display var(--transition-time) ease-out allow-discrete;
+
+      @starting-style {
+         opacity: 0;
+      }
+   }
 }

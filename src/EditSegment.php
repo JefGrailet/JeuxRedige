@@ -237,7 +237,6 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
                      if (substr($listPageAttachements[$i], 0, 7) === 'uploads') {
                         $listPageAttachements[$i] .= ',' . $newUploadsString;
                         $newUploadsFull = explode(',', substr($listPageAttachements[$i], 8));
-                        print($newUploadsFull);
                         break;
                      }
                   }

@@ -100,11 +100,6 @@ const generatePreviewsUploads = (e) => {
                default:
                   break;
             }
-            if (mediaData.mediaType) {
-
-            }
-
-
 
             previewContainer.append(tpl)
          }

@@ -718,6 +718,10 @@ dialog {
       > .footer {
          margin-top: 1.5rem;
       }
+
+      video {
+         max-width: 100%;
+      }
    }
 
    .header {
@@ -2476,7 +2480,7 @@ textarea
    margin: auto;
 }
 
-.imageLegend {
+.mediaLegend {
    font-size: 0.75rem;
    text-align: center;
    padding: 5px 0px 10px 0px;

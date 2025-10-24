@@ -71,16 +71,40 @@ const generatePreviewsUploads = (e) => {
          const res = await req.json();
 
          if ("success" in res) {
-            const { success: imageData } = res;
+            const { success: mediaData } = res;
             const tpl = previewUploadTemplateRaw.content.cloneNode(true);
-            tpl.querySelectorAll("[data-media-data]").forEach((item) => {
-               item.dataset.mediaData = JSON.stringify(imageData);
-            })
 
-            const img = tpl.querySelector("img");
-            img.src = imageData.mini.src;
-            img.height = imageData.mini.height;
-            img.width = imageData.mini.width;
+            tpl.querySelector("li").dataset.media = mediaData.mediaType;
+            tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
+
+
+            switch (mediaData.mediaType) {
+               case "image": {
+                  const img = tpl.querySelector("img");
+                  img.src = mediaData.mini.src;
+                  img.height = mediaData.mini.height;
+                  img.width = mediaData.mini.width;
+
+                  tpl.querySelector("video").remove();
+               }
+               break;
+               case "video": {
+                  const videoSource = tpl.querySelector("source");
+                  videoSource.src = mediaData.full.src;
+                  videoSource.type = mediaData.mimeType;
+
+                  tpl.querySelector("img").remove();
+               }
+                  break;
+
+               default:
+                  break;
+            }
+            if (mediaData.mediaType) {
+
+            }
+
+
 
             previewContainer.append(tpl)
          }

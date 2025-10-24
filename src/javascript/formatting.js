@@ -94,6 +94,10 @@ const hexToRGB = (color) => {
 const onSubmitFormSuccessfully = (e) => {
    const form = e.currentTarget.querySelector("form");
 
+   if (!form) {
+      return;
+   }
+
    if (form?.dataset.isValid !== "true" && "formSchemaValidation" in form.dataset) {
       return;
    }
@@ -116,22 +120,46 @@ const onSubmitFormSuccessfully = (e) => {
       break;
 
       case "integrate-media": {
-         const URLImage = formDataJSON.url_img;
-         const formatImg = formDataJSON.format_img;
-         const floatingImg = formDataJSON.floating_img;
-         const altText = formDataJSON.alt_img;
+         const URLMedia = formDataJSON.media_url;
 
-         let tagName = formatImg === "mini" ? "mini" : "img";
-         let imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
-         let imgSize = formatImg === "mini" ? null : formatImg;
-         let imgPosition = floatingImg === "normal" ? null : floatingImg;
+         const mediaFloating = formDataJSON.media_floating;
+         const mediaFormat = formDataJSON.media_format;
+         const mediaPosition = mediaFloating === "normal" ? null : mediaFloating;
 
-         let imgOptions = [imgSize, imgPosition].filter(Boolean).join(";");
-         if (imgOptions.length > 0) {
-            imgOptions = `;${imgOptions}`;
+         const imgAltText = document.getElementById("altText").parentNode;
+
+         switch (formDataJSON.media_type) {
+            case "image": {
+               const altText = formDataJSON.img_alt;
+
+               imgAltText.style.display = "none!";
+
+               const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
+               const tagName = mediaFormat === "mini" ? "mini" : "img";
+               const imgSize = formatImg === "mini" ? null : formatImg;
+               let imgOptions = [imgSize, mediaPosition].filter(Boolean).join(";");
+
+               if (imgOptions.length > 0) {
+                  imgOptions = `;${imgOptions}`;
+               }
+
+               insertTags(`!${tagName}[${URLMedia}${imgOptions}]`, imgNote);
+            }
+
+               break;
+
+            case "video": {
+               const tagName = mediaFormat === "mini" ? "mini" : "clip";
+               imgAltText.style.removeProperty("display");
+
+               insertTags(`!${tagName}[${URLMedia}]`, "");
+            }
+
+               break;
+
+            default:
+               break;
          }
-
-         insertTags(`!${tagName}[${URLImage}${imgOptions}]`, imgNote);
       }
       break;
 

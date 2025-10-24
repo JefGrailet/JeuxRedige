@@ -77,7 +77,6 @@ const generatePreviewsUploads = (e) => {
             tpl.querySelector("li").dataset.media = mediaData.mediaType;
             tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
 
-
             switch (mediaData.mediaType) {
                case "image": {
                   const img = tpl.querySelector("img");
@@ -102,6 +101,12 @@ const generatePreviewsUploads = (e) => {
             }
 
             previewContainer.append(tpl)
+         } else {
+            errorsContainer.hidden = false;
+            const li = document.createElement("li");
+            li.textContent = res.error;
+            listErrorsContainer.append(li)
+            listErrorsCounter.textContent = "(1)";
          }
       } else {
          errorsContainer.hidden = false;

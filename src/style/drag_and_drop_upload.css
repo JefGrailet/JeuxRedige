@@ -157,5 +157,15 @@
 
    .listErrors {
       margin-top: 0.85rem;
+      border: 1px var(--danger-color) solid;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+
+      summary {
+         background-color: var(--danger-color);
+         padding-block: 0.35rem;
+         padding-inline: 0.85rem;
+         color: white;
+      }
    }
 }

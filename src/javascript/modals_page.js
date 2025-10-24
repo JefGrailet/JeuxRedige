@@ -18,9 +18,46 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
          e.source.closest("[data-media-data]").dataset.mediaData
       );
 
-      e.target.querySelector("img").src = mediaData.mini.src;
-      e.target.querySelector("[name=url_img]").value =
-         mediaData.full.srcRelative;
+      const img = e.target.querySelector("img");
+      const videoSource = e.target.querySelector("video");
+
+      e.target.querySelector("input[name='media_type']").value = mediaData.mediaType;
+      e.target.querySelector("[name=media_url]").value = mediaData.full.srcRelative;
+
+      const listMediaFormat = e.target.querySelector("select[name='media_format']");
+      const listValueNotAllowedVideo = ["0.5", "1.5", "2.0", "3.0", "5.0"];
+
+      Array.from(listMediaFormat.options).forEach((item) => {
+         if (listValueNotAllowedVideo.includes(item.value) && mediaData.mediaType === "video") {
+            item.hidden = true;
+         } else {
+            item.hidden = false;
+         }
+      })
+
+      switch (mediaData.mediaType) {
+         case "image":
+            {
+               img.src = mediaData.mini.src;
+               videoSource.hidden = true;
+
+               img.hidden = false;
+            }
+            break;
+         case "video":
+            {
+
+               videoSource.src = mediaData.full.src;
+               videoSource.type = mediaData.mimeType;
+               videoSource.hidden = false;
+
+               img.hidden = true;
+            }
+            break;
+
+         default:
+            break;
+      }
    }
 });
 
@@ -32,26 +69,27 @@ previewMediaModal?.addEventListener("toggle", (e) => {
          e.source.closest("[data-media-data]").dataset.mediaData
       );
 
+      const img = e.target.querySelector(".content img");
+      const videoSource = e.target.querySelector(".content video");
+
       switch (mediaData.mediaType) {
          case "image":
             {
-               const img = e.target.querySelector(".content img");
                img.hidden = false;
                img.src = mediaData.full.src;
                img.width = mediaData.full.size.width;
                img.height = mediaData.full.size.height;
 
-               e.target.querySelector(".content video").hidden = true;
+               videoSource.hidden = true;
             }
             break;
          case "video":
             {
-               const videoSource = e.target.querySelector(".content video");
                videoSource.hidden = false;
                videoSource.src = mediaData.full.src;
                videoSource.type = mediaData.mimeType;
 
-               e.target.querySelector(".content img").hidden = true;
+               img.hidden = true;
             }
             break;
 
@@ -72,7 +110,31 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
          e.source.closest("[data-media-data]").dataset.mediaData;
       const mediaData = JSON.parse(mediaDataRaw);
 
-      e.target.querySelector(".content img").src = mediaData.mini.src;
+      const img = e.target.querySelector(".content img");
+      const videoSource = e.target.querySelector(".content img");
+
+      switch (mediaData.mediaType) {
+         case "image":
+            {
+               img.src = mediaData.mini.src;
+               img.hidden = false;
+
+               videoSource.hidden = true;
+            }
+            break;
+         case "video":
+            {
+               videoSource.hidden = false;
+               videoSource.src = mediaData.full.src;
+
+               img.hidden = true;
+            }
+            break;
+
+         default:
+            break;
+      }
+
       document.getElementById("delete-media-btn").dataset.mediaData =
          mediaDataRaw;
    }

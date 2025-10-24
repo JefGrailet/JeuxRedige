@@ -176,26 +176,30 @@
 	<form class="content gridForm" method="dialog">
       <p class="alert warning full">Les champs avec * sont requis</p>
 		<img src="" alt="" class="full">
+      <input type="hidden" name="media_type">
+      <video disablepictureinpicture controls class="full">
+         <source src="" type="" />
+      </video>
 		<div class="inputContainer row">
 			<label for="url">URL</label>
-			<input type="text" readonly name="url_img"/>
+			<input type="text" readonly name="media_url"/>
 		</div>
 		<div class="inputContainer row">
-			<label for="format">Format</label>
-			<select name="format_img">
-				<option value="mini">Miniature - Il sera possible d'agrandir l'image en cliquant dessus</option>
+			<label for="mediaFormat">Format</label>
+			<select name="media_format" id="mediaFormat">
+				<option value="mini">Miniature - Il sera possible d'agrandir le media en cliquant dessus</option>
 				<option value="1.0">Dimensions originales</option>
-				<option value="0.5">Dimensions x0.5 (images seulement)</option>
-				<option value="1.5">Dimensions x1.5 (images seulement)</option>
-				<option value="2.0">Dimensions x2 (images seulement)</option>
-				<option value="3.0">Dimensions x3 (images seulement)</option>
-				<option value="5.0">Dimensions x5 (images seulement)</option>
+				<option value="0.5">Dimensions x0.5</option>
+				<option value="1.5">Dimensions x1.5</option>
+				<option value="2.0">Dimensions x2</option>
+				<option value="3.0">Dimensions x3</option>
+				<option value="5.0">Dimensions x5</option>
 			</select>
 		</div>
 
 		<div class="inputContainer row">
-			<label for="format">Flottement</label>
-			<select name="floating_img">
+			<label for="mediaFloating">Flottement</label>
+			<select name="media_floating" id="mediaFloating">
 				<option value="normal">Aucun</option>
 				<option value="left">A gauche</option>
 				<option value="right">A droite</option>
@@ -203,8 +207,8 @@
 		</div>
 
 		<div class="inputContainer row">
-         <label for="alt">Texte alternatif</label>
-			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
+         <label for="altText">Texte alternatif</label>
+			<input type="text" name="img_alt" id="altText" maxlength="250" placeholder="Maximum 250 caractères"/>
 			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte banal comme "image 1"</p>
 		</div>
 

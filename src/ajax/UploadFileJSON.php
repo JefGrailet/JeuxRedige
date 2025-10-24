@@ -117,50 +117,42 @@ if(!empty($_FILES['newFile']))
                            "height" => $heightFull,
                         ]
                      ],
+                     "mediaType" => "image",
                      "uploadDate" => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
                   ]];
                }
             }
          }
-         // else
-         // {
-         //    /*
-         //     * Any other extension (currently, videos): no miniature, the <video> tag will display
-         //     * the first frame by itself.
-         //     */
+         else
+         {
+            /*
+             * Any other extension (currently, videos): no miniature, the <video> tag will display
+             * the first frame by itself.
+             */
 
-         //    $res2 = Upload::storeFile($uploaded, $destDir);
-         //    if($res2 === "")
-         //    {
-         //       $res = 'fail';
-         //    }
-         //    else
-         //    {
-         //       // In case of success: path to the video is given
-         //       $relative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.substr(strrchr($res2, '/'), 1);
-         //       $full = PathHandler::HTTP_PATH().$relative;
-         //       $res = 'video,'.$full;
+            $res2 = Upload::storeFile($uploaded, $destDir);
+            if($res2 === "")
+            {
+               $res = ["error" => 'fail'];
+            }
+            else
+            {
+               // In case of success: path to the video is given
+               $relative = 'upload/tmp/'.LoggedUser::$data['pseudo'].'/'.substr(strrchr($res2, '/'), 1);
+               $full = PathHandler::HTTP_PATH().$relative;
 
-         //       $deleteButton = Utils::check(LoggedUser::$data['can_upload']) ? 'yes' : '';
-         //       $tplInput = array('fullSize' => $full,
-         //       'dimensions' => '',
-         //       'uploader' => 'yes||'.LoggedUser::$data['used_pseudo'],
-         //       'uploadDate' => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$relative)),
-         //       'fullSizeRelative' => $full,
-         //       'delete' => $deleteButton,
-         //       'isVideo' => 'yes',
-         //       'content' => 'video||'.$full.'|'.$ext);
-
-         //       $tplOutput = TemplateEngine::parse('view/content/Upload.item.edition.ctpl', $tplInput);
-         //       if(!TemplateEngine::hasFailed($tplOutput))
-         //       {
-         //          $res .= ',';
-         //          $res .= $tplOutput;
-         //       }
-         //       else
-         //          $res = 'fail';
-         //    }
-         // }
+               $res = ["success" => [
+                  "full" => [
+                     "src" => $full,
+                     "srcRelative" => $relative,
+                     "size" =>  []
+                  ],
+                  "mediaType" => "video",
+                  "mimeType" => $uploaded["type"],
+                  "uploadDate" => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$relative)),
+               ]];
+            }
+         }
       }
       else
       {

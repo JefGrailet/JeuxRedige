@@ -11,6 +11,7 @@ require './libraries/FormParsing.lib.php';
 require './libraries/Buffer.lib.php';
 require './model/Article.class.php';
 require './model/Segment.class.php';
+require './view/intermediate/ArticleThumbnail.ir.php';
 
 require_once './libraries/core/Twig.config.php';
 
@@ -96,6 +97,23 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       echo $twig->render("error.html.twig", [
          "error_title" => "Page inaccessible",
          "error_key" => $errorKey,
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur - Page inaccessible",
+            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+            "full_title" => "",
+         ]
+      ]);
+
+      die();
+   }
+
+   if ($article->isPublished()) {
+      http_response_code(401);
+      echo $twig->render("error.html.twig", [
+         "error_title" => "Article publié - Pages non éditables",
+         "error_key" => "notAvailable",
+         "article_link" => ArticleThumbnailIR::getLink($article->getAll(), true),
          "meta" => [
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur - Page inaccessible",
@@ -203,7 +221,6 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
             $doNotRecordDateUpdate = false;
             if (Utils::check(LoggedUser::$data['can_edit_all_posts']) && isset($_POST['do_not_record'])) {
                $doNotRecordDateUpdate = true;
-               $formData['adminEdit'] = 'yes|| checked';
             }
 
             $segment->update(
@@ -285,6 +302,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       ],
       "page" => [
          ...$segment->getAll(),
+         "content" => FormParsing::unparse($segment->get('content')),
          "list_attachments" => $listPageAttachementsFormatted,
       ],
       "foo" => $listPageAttachementsFormatted,

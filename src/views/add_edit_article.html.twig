@@ -165,7 +165,6 @@
                   {% endif %}
                   <th style="width: 50px;">Ordre</th>
                   <th style="min-width: 150px;">Nom</th>
-                  <th>Contenu</th>
                   {% if article.is_published == false %}
                   <th style="min-width: 150px;"></th>
                   {% endif %}
@@ -191,13 +190,6 @@
                            <span data-segment-index>
                               {{ segment.title ? segment.title : "Sommaire" }}
                            </span>
-                        </td>
-                        <td style="vertical-align: top;">
-                           {% if segment.content %}
-                              {{ segment.content }}
-                           {% else %}
-                              <em>Vide</em>
-                           {% endif %}
                         </td>
                         {% if article.is_published == false %}
                            <td style="text-align: right;">

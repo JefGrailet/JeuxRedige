@@ -174,15 +174,19 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       );
    }, $fullInput, array_keys($fullInput));
 
+   $editPageLinkDict = $article->isPublished() ? [] : [
+      "page" => [
+         "link" => $isAuthorIsCurrentUser ? PathHandler::HTTP_PATH() . "EditSegment.php?id_segment={$fullInput[$pageSelected]["ID"]}" : "",
+         "label" => "Éditer la page"
+      ]
+   ];
+
    $editLinks = array_filter([
       "article" => [
          "link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
          "label" => "Éditer l'article"
       ],
-      "page" => [
-         "link" => $isAuthorIsCurrentUser ? PathHandler::HTTP_PATH() . "EditSegment.php?id_segment={$fullInput[$pageSelected]["ID"]}" : "",
-         "label" => "Éditer la page"
-      ],
+      ...$editPageLinkDict,
    ], function ($value) {
       return $value["link"] !== '';
    });

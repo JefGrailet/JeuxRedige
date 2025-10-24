@@ -9,7 +9,7 @@
    </div>
 {% endif %}
 
-{% if article.is_published == false %}
+{% if article.is_my_article and article.edit_links|length > 0 %}
 <style>
    .toolbar {
       position: absolute;
@@ -75,7 +75,7 @@
                   </h1>
 						<h2 class="subtitle">{{ article.subtitle }}</h2>
 					</div>
-               {% if article.edit_links|length > 0 %}
+               {% if article.is_my_article and article.edit_links|length > 0 %}
                   <div class="toolbar">
                      {% for item in article.edit_links %}
                         <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>

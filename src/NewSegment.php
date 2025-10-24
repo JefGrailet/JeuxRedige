@@ -129,7 +129,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));
 
 
-   $formErrorMessages = $twig->getGlobals()["errors_message"]["page"];
+   $formErrorMessages = $twig->getGlobals()["errors_message"];
    $formErrorMessagesTriggered = [];
    // Form treatment starts here
    if(!empty($_POST)) {
@@ -142,43 +142,50 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $curlResult = $curlUpload($_FILES["header"]);
       }
 
-      try {
-         $newSeg = Segment::insert(
-            $article->get('id_article'),
-            $formData['title'],
-            $nextPosition,
-            FormParsing::parse($formData['content'])
-         );
+      if (($nextPosition > 1 && empty($formData['title'])) || empty($formData['content']))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
+      if (in_array($curlResult, array_keys($formErrorMessages["page"]["header"])))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["page"]["header"][$curlResult]);
 
-         $uploads = Buffer::listContent();
-         if (count($uploads[0]) > 0) {
-            $uploadsString = Buffer::saveInSegment(
-               $uploads,
+      if (count($formErrorMessagesTriggered) == 0) {
+         try {
+            $newSeg = Segment::insert(
                $article->get('id_article'),
-               $newSeg->get('id_segment')
+               $formData['title'],
+               $nextPosition,
+               FormParsing::parse($formData['content'])
             );
 
-            if (strlen($uploadsString) > 0) {
-               $modifiedContent = FormParsing::relocateInSegment(
-                  $newSeg->get('content'),
+            $uploads = Buffer::listContent();
+            if (count($uploads[0]) > 0) {
+               $uploadsString = Buffer::saveInSegment(
+                  $uploads,
                   $article->get('id_article'),
                   $newSeg->get('id_segment')
                );
 
-               $newSeg->finalize('uploads:' . $uploadsString, $modifiedContent);
+               if (strlen($uploadsString) > 0) {
+                  $modifiedContent = FormParsing::relocateInSegment(
+                     $newSeg->get('content'),
+                     $article->get('id_article'),
+                     $newSeg->get('id_segment')
+                  );
+
+                  $newSeg->finalize('uploads:' . $uploadsString, $modifiedContent);
+               }
             }
+
+            if (isset($_POST["action"]) && $_POST["action"] === "preview") {
+               $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
+            } else {
+               $redirectURL = './EditArticle.php?id_article=' . $article->get('id_article');
+            }
+
+            setcookie("flash_message", "page_created", time() + 1, "/");
+            exit(header('Location:' . $redirectURL));
+         } catch(Exception $e) {
+
          }
-
-         if (isset($_POST["action"]) && $_POST["action"] === "preview") {
-            $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
-         } else {
-            $redirectURL = './EditArticle.php?id_article=' . $article->get('id_article');
-         }
-
-         setcookie("flash_message", "page_created", time() + 1, "/");
-         exit(header('Location:' . $redirectURL));
-      } catch(Exception $e) {
-
       }
    }
 

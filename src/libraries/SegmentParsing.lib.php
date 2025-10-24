@@ -366,7 +366,7 @@ class SegmentParsing
 
                      $miniHTML .= '/>';
 
-                     $finalHTML = "<button class=\"miniaturePopover\" popovertarget=\"miniature-popover\" data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
+                     $finalHTML = "<button class=\"miniaturePopover\" popovertarget=\"miniature-popover\" type='button' data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
                      $parsed = str_replace($miniatures[0][$i], $finalHTML, $parsed);
                   }
                }

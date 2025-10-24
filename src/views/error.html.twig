@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="sectionBlock">
-		<p class="title" role="alert">Erreur -
+		<p class="title" role="alert">Erreur —
 			{{ error_title }}</p>
 		<div class="content">
 			<p>
@@ -22,6 +22,8 @@
 					Vous n'êtes pas autorisé(e) à utiliser cette page.
 				{% elseif error_key == "missingID" %}
 					Article introuvable.
+            {% elseif error_key == "notAvailable" %}
+               Cet article a été publié, vous ne pouvez pas accéder à ses pages. <a href="{{ article_link }}">Éditer l'article.</a>
             {% elseif error_key == "notConnected" %}
 					Vous devez être connecté(e) pour accéder à cette page. <a href="./LogIn.php">Se connecter.</a>
 				{% elseif error_key == "notYours" %}

@@ -920,6 +920,7 @@
    left: 0;
    right: 0;
    animation-name: extensibleHeaderWrapper;
+   z-index: 99;
 }
 
 .extensibleHeaderWrapper, .extensibleHeader, .extensibleHeader::before, .articleHeader .title, .articleHeader .subtitle {
@@ -1004,4 +1005,22 @@
          font-size: 1rem;
       }
   }
+}
+
+
+.listKeywords {
+   display: flex;
+   justify-content: center;
+   gap: 0.5rem;
+   padding: 0;
+   list-style: none;
+
+   .keyword {
+      box-shadow: 0px 0px 3px 0px #646464;
+      padding: 2px 12px;
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 8px;
+      /* color: white; */
+   }
 }

@@ -191,6 +191,14 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       return $value["link"] !== '';
    });
 
+   $listKeywords = array_map(function ($keyword) {
+      $tag = trim($keyword["tag"]);
+      return [
+         "name" => $tag,
+         "link" => PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords=' . urlencode($keyword["tag"]),
+      ];
+   }, $article->getKeywords());
+
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
       "current_category" => $article->get('type'),
@@ -209,6 +217,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          "last_update_time" => $article->get('date_last_modifications') > $article->get('date_creation') ? $article->get('date_last_modifications') : "",
          "edit_links" => $editLinks,
          "is_my_article" => $isAuthorIsCurrentUser,
+         "list_keywords" => $listKeywords,
          "author" => [
             "pseudo" => $article->get('pseudo'),
             "avatar" => PathHandler::getAvatar($article->get('pseudo')),

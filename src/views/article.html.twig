@@ -125,6 +125,17 @@
       </nav>
    {% endif %}
 </div>
+
+<ul class="listKeywords">
+   {% for keyword in article.list_keywords %}
+      <li >
+         <a href="{{ keyword.link }}" class="keyword">
+            {{ keyword.name }}
+         </a>
+      </li>
+   {% endfor %}
+</ul>
+
 <footer class="authorContainer">
    <div class="articleContainer">
       <div class="authorPicture" style="background-image: url({{ article.author.avatar }});"></div>

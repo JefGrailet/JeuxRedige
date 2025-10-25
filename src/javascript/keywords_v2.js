@@ -4,8 +4,8 @@ const formatResult = (state) => {
    }
 
    const $state = $(
-      `<span>${state.text}
-      ${state.alreadyExist ? "" : `<span class="badge info">nouveau</span>`}
+      `<span>
+         ${state.text} ${state.alreadyExist ? "" : `<span class="badge info">nouveau</span>`}
       </span>`
    );
 
@@ -55,7 +55,10 @@ $("[data-dropdown-keywords]").each((_, el) => {
 
 
 const urlParams = new URLSearchParams(window.location.search);
-const listKeywords = urlParams.getAll('keywords[]');
+let listKeywords = urlParams.getAll('keywords[]');
+if (listKeywords.length === 0) {
+   listKeywords = urlParams.getAll('keywords');
+}
 
 listKeywords.forEach((keyword) => {
    const option = new Option(keyword, keyword, true, true);

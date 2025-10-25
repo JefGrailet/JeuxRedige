@@ -23,10 +23,11 @@ const miniaturePopover = document.getElementById("miniature-popover");
 
 miniaturePopover.addEventListener("beforetoggle", (evt) => {
    const comment = evt.currentTarget.querySelector("[data-comment]");
+   const videoSource = evt.currentTarget.querySelector("video");
+
    if (evt.newState === "open") {
       const mediaData = JSON.parse(evt.source.dataset.mediaData);
       const img = evt.currentTarget.querySelector("img");
-      const videoSource = evt.currentTarget.querySelector("video");
       const mediaLink = evt.currentTarget.querySelector("a");
 
       switch (mediaData.mediaType) {
@@ -62,5 +63,7 @@ miniaturePopover.addEventListener("beforetoggle", (evt) => {
 
    } else {
       comment.textContent = "";
+      videoSource.pause();
+      videoSource.currentTime = 0;
    }
 });

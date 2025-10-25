@@ -41,40 +41,43 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
          case "image":
             {
                img.src = mediaData.mini.src;
-               videoSource.hidden = true;
-               imgAltText.style.display = "contents";
 
-               img.hidden = false;
+               videoSource.style.display = "none";
+               img.style.removeProperty("display");
             }
             break;
          case "video":
             {
-
                videoSource.src = mediaData.full.src;
                videoSource.type = mediaData.mimeType;
-               videoSource.hidden = false;
-               imgAltText.style.display = "none";
+               videoSource.style.removeProperty("display");
 
-               img.hidden = true;
+               imgAltText.style.display = "none";
+               img.style.display = "none";
             }
             break;
 
          default:
             break;
       }
+   } else {
+      videoSource.pause();
+      videoSource.currentTime = 0;
    }
 });
 
 const previewMediaModal = document.getElementById("preview-media");
 
 previewMediaModal?.addEventListener("toggle", (e) => {
+   const videoSource = e.target.querySelector(".content video");
+
    if (e.newState === "open") {
       const mediaData = JSON.parse(
          e.source.closest("[data-media-data]").dataset.mediaData
       );
 
       const img = e.target.querySelector(".content img");
-      const videoSource = e.target.querySelector(".content video");
+
 
       switch (mediaData.mediaType) {
          case "image":
@@ -103,6 +106,9 @@ previewMediaModal?.addEventListener("toggle", (e) => {
 
       e.target.querySelector("[data-date]").textContent = mediaData.uploadDate;
       e.target.querySelector("a").href = mediaData.full.src;
+   } else {
+      videoSource.pause();
+      videoSource.currentTime = 0;
    }
 });
 
@@ -115,23 +121,23 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
       const mediaData = JSON.parse(mediaDataRaw);
 
       const img = e.target.querySelector(".content img");
-      const videoSource = e.target.querySelector(".content img");
+      const videoSource = e.target.querySelector(".content video");
 
       switch (mediaData.mediaType) {
          case "image":
             {
                img.src = mediaData.mini.src;
-               img.hidden = false;
+               img.style.removeProperty("display");
 
-               videoSource.hidden = true;
+               videoSource.style.display = "none";
             }
             break;
-         case "video":
-            {
-               videoSource.hidden = false;
+            case "video":
+               {
+               videoSource.style.removeProperty("display");
                videoSource.src = mediaData.full.src;
 
-               img.hidden = true;
+               img.style.display = "none";
             }
             break;
 
@@ -141,6 +147,9 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
 
       document.getElementById("delete-media-btn").dataset.mediaData =
          mediaDataRaw;
+   } else {
+      videoSource.pause();
+      videoSource.currentTime = 0;
    }
 });
 

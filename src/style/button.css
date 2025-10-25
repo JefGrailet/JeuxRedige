@@ -94,6 +94,7 @@
    justify-content: flex-start;
    height: 2.1rem;
    align-content: center;
+   pointer-events: auto;
 
    &:has(span) {
       &:hover,

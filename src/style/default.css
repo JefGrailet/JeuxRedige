@@ -1895,7 +1895,43 @@ textarea
 {
    border: none;
    cursor: pointer;
+   display: block;
 }
+
+.miniaturePopoverButton {
+   background: white;
+   border-radius: 4px;
+   border: none;
+   padding: 0.3125rem;
+   transition-delay: 0.15s;
+   border: 1px solid transparent;
+
+   @starting-style {
+      &:popover-open {
+         opacity: 0;
+      }
+   }
+
+   &:is(:hover, :focus) {
+      background-color: transparent;
+      border-color: var(--current-page-color);
+   }
+
+   &::backdrop {
+      background-color: rgba(0,0,0,0.4);
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity var(--transition-time) ease-out,
+         translate var(--transition-time) ease-out,
+         overlay var(--transition-time) ease-out allow-discrete,
+         display var(--transition-time) ease-out allow-discrete;
+
+      @starting-style {
+         opacity: 0;
+      }
+   }
+}
+
 
 /* Emoticon (vertical centering) */
 
@@ -2458,7 +2494,6 @@ textarea
 .dragHandle {
    width: 1.5rem;
    aspect-ratio: 1 / 1;
-   rotate: z 45deg;
    display: inline-block;
    cursor: grab;
 
@@ -2476,7 +2511,7 @@ textarea
    max-width: 100%;
    max-height: 80vh;
    object-fit: contain;
-   /* display: block; */
+   display: block;
    margin: auto;
 }
 

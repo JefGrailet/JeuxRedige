@@ -74,7 +74,7 @@ const generatePreviewsUploads = (e) => {
             const { success: mediaData } = res;
             const tpl = previewUploadTemplateRaw.content.cloneNode(true);
 
-            tpl.querySelector("li").dataset.media = mediaData.mediaType;
+            tpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
             tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
 
             switch (mediaData.mediaType) {
@@ -120,7 +120,6 @@ const generatePreviewsUploads = (e) => {
          listErrorsCounter.textContent = `(${listErrorsContainer.childElementCount})`
       }
    })
-
 }
 
 const dropImageObserver = new MutationObserver((mutationList) => {

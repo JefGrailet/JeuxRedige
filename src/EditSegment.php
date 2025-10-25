@@ -171,32 +171,53 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       $httpPathPrefix = PathHandler::HTTP_PATH() . 'upload';
       $wwwPathPrefix = PathHandler::WWW_PATH() . 'upload';
 
-      $realFilename = explode("full_", $filename)[1];
-
       $segmentID = $segment->get('id_segment');
       $articleID = $article->get('id_article');
 
-      $sizeFull = getimagesize($wwwPathPrefix . "/articles/$articleID/$segmentID/full_{$realFilename}");
-      $sizeMini = getimagesize($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/mini_{$realFilename}");
+      $ext = pathinfo($filename, PATHINFO_EXTENSION);
+      $mimeType = mime_content_type($wwwPathPrefix . "/articles/$articleID/$segmentID/{$filename}");
+
+      if(in_array($ext, Utils::UPLOAD_OPTIONS['miniExtensions']))
+      {
+         $realFilename = explode("full_", $filename)[1];
+
+         $sizeFull = getimagesize($wwwPathPrefix . "/articles/$articleID/$segmentID/full_{$realFilename}");
+         $sizeMini = getimagesize($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/mini_{$realFilename}");
+
+         return [
+            "mini" => [
+               "src" => "{$httpPathPrefix}/articles/$articleID/$segmentID/mini_{$realFilename}",
+               "size" => [
+                  "width" => $sizeMini[0],
+                  "height" => $sizeMini[1],
+               ]
+            ],
+            "full" => [
+               "src" => "{$httpPathPrefix}/articles/{$articleID}/{$segmentID}/full_{$realFilename}",
+               "size" => [
+                  "width" => $sizeFull[0],
+                  "height" => $sizeFull[1],
+               ],
+               "srcRelative" => "upload/articles/{$articleID}/{$segmentID}/full_{$realFilename}"
+            ],
+            "mediaType" => "image",
+            "mimeType" => $mimeType,
+            "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/full_{$realFilename}"))
+         ];
+      }
 
       return [
-         "mini" => [
-            "src" => "{$httpPathPrefix}/articles/$articleID/$segmentID/mini_{$realFilename}",
-            "size" => [
-               "width" => $sizeMini[0],
-               "height" => $sizeMini[1],
-            ]
-         ],
          "full" => [
-            "src" => "{$httpPathPrefix}/articles/{$articleID}/{$segmentID}/full_{$realFilename}",
-            "size" => [
-               "width" => $sizeFull[0],
-               "height" => $sizeFull[1],
-            ],
-            "srcRelative" => "upload/articles/{$articleID}/{$segmentID}/full_{$realFilename}"
+            "src" => "{$httpPathPrefix}/articles/{$articleID}/{$segmentID}/{$filename}",
+            "srcRelative" => "upload/articles/{$articleID}/{$segmentID}/{$filename}",
+            "size" =>  []
          ],
-         "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/full_{$realFilename}"))
+         "mediaType" => "video",
+         "mimeType" => $mimeType,
+         "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/{$filename}")),
       ];
+
+
    }, $listPageAttachementsFormatted);
 
    if (!empty($_POST)) {

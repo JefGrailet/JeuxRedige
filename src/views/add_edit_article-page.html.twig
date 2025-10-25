@@ -139,7 +139,7 @@
             <div class="dragAndDropUpload">
                <ul class="listUploads" data-preview-dropzone="page-medias">
                   {% for attachment in page.list_attachments %}
-                     <li class="droppedMedia" data-media-data="{{ attachment | json_encode() }}">
+                     <li class="droppedMedia" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
                         <div class="menuBar">
                            <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
                               <i class="icon-general_plus" ></i>
@@ -151,7 +151,13 @@
                            </button>
                         </div>
                         <button class="media" type="button" command="show-modal" commandfor="preview-media">
+                           {% if attachment.mediaType == "image" %}
                            <img src="{{ attachment.mini.src }}" width="{{ attachment.mini.size.width }}" height="{{ attachment.mini.size.height }}" loading="lazy" alt="">
+                           {% else %}
+                           <video disablepictureinpicture>
+                              <source src="{{ attachment.full.src }}" type="{{ attachment.mimeType }}" />
+                           </video>
+                           {% endif %}
                         </button>
                      </li>
                   {% endfor %}
@@ -246,7 +252,7 @@
 	</dialog>
 
    <template data-template-id="page-media-item">
-      <li class="droppedMedia" data-media-data>
+      <li class="droppedMedia" data-media-data data-media-type>
          <div class="menuBar">
             <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
                <i class="icon-general_plus" ></i>

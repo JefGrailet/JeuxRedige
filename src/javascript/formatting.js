@@ -136,7 +136,7 @@ const onSubmitFormSuccessfully = (e) => {
 
                const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
                const tagName = mediaFormat === "mini" ? "mini" : "img";
-               const imgSize = formatImg === "mini" ? null : formatImg;
+               const imgSize = mediaFormat === "mini" ? null : mediaFormat;
                let imgOptions = [imgSize, mediaPosition].filter(Boolean).join(";");
 
                if (imgOptions.length > 0) {

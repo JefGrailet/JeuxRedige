@@ -217,3 +217,51 @@
 		</div>
 	</form>
 </dialog>
+
+<dialog class="modal" id="delete-media" data-modal="delete-media">
+   <header class="header danger">
+      <p class="title">Supprimer le média</p>
+      <button class="closeModal" command="close" commandfor="delete-media">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+         </svg>
+         Fermer
+      </button>
+   </header>
+
+   <div class="content">
+      <div class="alert error">
+         Cette action est irréversible
+      </div>
+      <video disablepictureinpicture controls class="full">
+         <source src="" type="" />
+      </video>
+      <img src="" alt="">
+      <footer class="footer">
+         <button type="button" class="danger" id="delete-media-btn">Supprimer le média</button>
+      </footer>
+   </div>
+</dialog>
+
+<dialog class="modal medium" id="preview-media" data-modal="preview-media">
+   <header class="header">
+      <p class="title">Prévisualisation</p>
+      <button class="closeModal" command="close" commandfor="preview-media">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+         </svg>
+         Fermer
+      </button>
+   </header>
+
+   <div class="content">
+      <img src="" alt="" class="lightboxImg" loading="lazy">
+      <video disablepictureinpicture controls autoplay muted>
+         <source src="" type="" />
+      </video>
+      <p class="mediaLegend">
+         Uploadé le <span data-date></span>
+         (<a href="http://" target="_blank" rel="noopener noreferrer">Voir en grand</a>)
+      </p>
+   </div>
+</dialog>

@@ -1,5 +1,30 @@
 {% extends "layouts/base.html.twig" %}
 {% block content %}
+   <style>
+      .layoutMode {
+
+         flex-direction: row;
+         gap: 1rem;
+         margin-top: 0.25rem;
+         display: none;
+      }
+
+      .layout {
+         &:has(#auto_preview:checked) .layoutMode {
+            display: flex;
+         }
+
+         &:has([name="prevLayoutMode"][value="vertical_layout"]:checked) .preview {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: none;
+         }
+
+         &:has([name="prevLayoutMode"][value="horizontal_layout"]:checked) .preview {
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: none;
+         }
+      }
+   </style>
 	<div>
 		{% set array = {} %}
 		{% for key, category in list_categories %}
@@ -105,7 +130,7 @@
                   <input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
 					</div>
 
-               <div class="inputContainer">
+               <div class="inputContainer layout">
 						<label for="page-content">Contenu<span style="color: var(--danger-color);">*</span></label>
                   {% include "includes/text-editor_toolbar.html.twig" %}
                   <div class="articleContentPreviewWrapper" id="articleContentPreviewWrapper">
@@ -113,6 +138,14 @@
                      <div id="previewZone" class="articleContentPreview"></div>
                   </div>
 
+                  <div class="layoutMode">
+                     <div>
+                        <input type="radio" name="prevLayoutMode" value="vertical_layout" id="prevModeLeftRight" checked=""> <label for="prevModeLeftRight">Comparaison gauche/droite</label>
+                     </div>
+                     <div>
+                        <input type="radio" name="prevLayoutMode" value="horizontal_layout" id="prevModeTopBottom"> <label for="prevModeTopBottom">Comparaison haut/bas</label>
+                     </div>
+                  </div>
                   <p class="notes">L'aperçu automatique du formatage propre aux articles est simplifié. Pensez à visualiser un aperçu complet d'un article pour mieux évaluer sa mise en page</p>
                   <div class="switchContainer">
                      <label class="switch">
@@ -127,6 +160,7 @@
 
       <section class="sectionBlock" id="medias">
          <h2 class="title">Médias</h2>
+         {# (<span data-nb-medias>{{ page.list_attachments | length }}</span>/13) #}
          <div class="content">
             <div class="notes">
                <p class="title">Remarques :</p>
@@ -154,7 +188,7 @@
                            {% if attachment.mediaType == "image" %}
                            <img src="{{ attachment.mini.src }}" width="{{ attachment.mini.size.width }}" height="{{ attachment.mini.size.height }}" loading="lazy" alt="">
                            {% else %}
-                           <video disablepictureinpicture>
+                           <video disablepictureinpicture tabindex="-1">
                               <source src="{{ attachment.full.src }}" type="{{ attachment.mimeType }}" />
                            </video>
                            {% endif %}
@@ -163,11 +197,10 @@
                   {% endfor %}
                </ul>
                <div class="dropzone paused" data-upload-dropzone="page-medias">
-                  <p class="text">Glissez-déposez vos médias</p>
+                  <p class="text">Glissez-déposez vos médias (.jp(e)g, .gif, .png, .mp4, .webm)</p>
                   <p class="text">ou</p>
                   <div class="buttons">
                      <label class="primaryButton">
-                        {# <i class="icon-file-empty"></i> #}
                         Uploader une image ou un clip vidéo
                         <input
                            type="file"
@@ -203,54 +236,6 @@
       </div>
 	</div>
 
-   <dialog class="modal" id="delete-media" data-modal="delete-media">
-      <header class="header danger">
-         <p class="title">Supprimer le média</p>
-         <button class="closeModal" command="close" commandfor="delete-media">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
-
-      <div class="content">
-         <div class="alert error">
-            Cette action est irréversible
-         </div>
-         <video disablepictureinpicture controls class="full">
-            <source src="" type="" />
-         </video>
-         <img src="" alt="">
-         <footer class="footer">
-            <button type="button" class="danger" id="delete-media-btn">Supprimer le média</button>
-         </footer>
-      </div>
-	</dialog>
-
-   <dialog class="modal medium" id="preview-media" data-modal="preview-media">
-      <header class="header">
-         <p class="title">Prévisualisation</p>
-         <button class="closeModal" command="close" commandfor="preview-media">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
-
-      <div class="content">
-         <img src="" alt="" class="lightboxImg" loading="lazy">
-         <video disablepictureinpicture controls>
-            <source src="" type="" />
-         </video>
-         <p class="mediaLegend">
-            Uploadé le <span data-date></span>
-            (<a href="http://" target="_blank" rel="noopener noreferrer">Voir en grand</a>)
-         </p>
-      </div>
-	</dialog>
-
    <template data-template-id="page-media-item">
       <li class="droppedMedia" data-media-data data-media-type>
          <div class="menuBar">
@@ -265,7 +250,7 @@
          </div>
          <button class="media" type="button" command="show-modal" commandfor="preview-media">
             <img src="" alt="" loading="lazy">
-            <video disablepictureinpicture>
+            <video disablepictureinpicture tabindex="-1">
                <source src="" type="" />
             </video>
          </button>

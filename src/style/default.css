@@ -92,6 +92,10 @@ a {
    }
 }
 
+video {
+   max-width: 100%;
+}
+
 form {
    margin: 0;
 }
@@ -721,6 +725,8 @@ dialog {
 
       video {
          max-width: 100%;
+         margin: auto;
+         display: block;
       }
    }
 

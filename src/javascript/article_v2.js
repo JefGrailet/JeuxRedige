@@ -26,16 +26,40 @@ miniaturePopover.addEventListener("beforetoggle", (evt) => {
    if (evt.newState === "open") {
       const mediaData = JSON.parse(evt.source.dataset.mediaData);
       const img = evt.currentTarget.querySelector("img");
-      const imgLink = evt.currentTarget.querySelector("a");
+      const videoSource = evt.currentTarget.querySelector("video");
+      const mediaLink = evt.currentTarget.querySelector("a");
 
-      img.src = mediaData.full.src;
-      img.width = mediaData.full.size.width;
-      img.height = mediaData.full.size.height;
-      img.alt = mediaData.comment;
+      switch (mediaData.mediaType) {
+         case "image": {
+            videoSource.style.display = "none";
+            img.style.removeProperty("display");
 
-      imgLink.href = mediaData.full.src;
+            img.src = mediaData.full.src;
+            img.width = mediaData.full.size.width;
+            img.height = mediaData.full.size.height;
+            img.alt = mediaData.comment;
 
-      comment.textContent = mediaData.comment;
+            mediaLink.href = mediaData.full.src;
+
+            comment.textContent = mediaData.comment;
+         }
+         break;
+
+         case "video": {
+            img.style.display = "none";
+            videoSource.style.removeProperty("display");
+
+            videoSource.src = mediaData.full.src;
+            videoSource.type = mediaData.mimeType;
+            mediaLink.href = mediaData.full.src;
+         }
+            break;
+
+         default:
+            break;
+      }
+
+
    } else {
       comment.textContent = "";
    }

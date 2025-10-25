@@ -1906,15 +1906,19 @@ textarea
    transition-delay: 0.15s;
    border: 1px solid transparent;
 
+   &:is(:hover, :focus) {
+      background-color: transparent;
+      border-color: var(--current-page-color);
+   }
+}
+
+.miniaturePopover {
+   border-color: var(--current-page-color);
+   border-radius: 4px;
    @starting-style {
       &:popover-open {
          opacity: 0;
       }
-   }
-
-   &:is(:hover, :focus) {
-      background-color: transparent;
-      border-color: var(--current-page-color);
    }
 
    &::backdrop {

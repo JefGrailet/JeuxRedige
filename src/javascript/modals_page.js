@@ -35,11 +35,14 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
          }
       })
 
+      const imgAltText = document.getElementById("altText").parentNode;
+
       switch (mediaData.mediaType) {
          case "image":
             {
                img.src = mediaData.mini.src;
                videoSource.hidden = true;
+               imgAltText.style.display = "contents";
 
                img.hidden = false;
             }
@@ -50,6 +53,7 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
                videoSource.src = mediaData.full.src;
                videoSource.type = mediaData.mimeType;
                videoSource.hidden = false;
+               imgAltText.style.display = "none";
 
                img.hidden = true;
             }
@@ -75,21 +79,21 @@ previewMediaModal?.addEventListener("toggle", (e) => {
       switch (mediaData.mediaType) {
          case "image":
             {
-               img.hidden = false;
+               img.style.removeProperty("display");
                img.src = mediaData.full.src;
                img.width = mediaData.full.size.width;
                img.height = mediaData.full.size.height;
 
-               videoSource.hidden = true;
+               videoSource.style.display = "none";
             }
             break;
-         case "video":
-            {
-               videoSource.hidden = false;
+            case "video":
+               {
+               videoSource.style.removeProperty("display");
                videoSource.src = mediaData.full.src;
                videoSource.type = mediaData.mimeType;
 
-               img.hidden = true;
+               img.style.display = "none";
             }
             break;
 

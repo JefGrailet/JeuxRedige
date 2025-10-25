@@ -126,13 +126,10 @@ const onSubmitFormSuccessfully = (e) => {
          const mediaFormat = formDataJSON.media_format;
          const mediaPosition = mediaFloating === "normal" ? null : mediaFloating;
 
-         const imgAltText = document.getElementById("altText").parentNode;
 
          switch (formDataJSON.media_type) {
             case "image": {
                const altText = formDataJSON.img_alt;
-
-               imgAltText.style.display = "none!";
 
                const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
                const tagName = mediaFormat === "mini" ? "mini" : "img";
@@ -150,7 +147,6 @@ const onSubmitFormSuccessfully = (e) => {
 
             case "video": {
                const tagName = mediaFormat === "mini" ? "mini" : "clip";
-               imgAltText.style.removeProperty("display");
 
                insertTags(`!${tagName}[${URLMedia}]`, "");
             }

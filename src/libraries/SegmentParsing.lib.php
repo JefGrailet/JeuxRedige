@@ -360,6 +360,7 @@ class SegmentParsing
                            ],
                            "srcRelative" => "",
                         ],
+                        "mediaType" => "image",
                         "uploadDate" => "",
                         "comment" => $comment ?? "",
                      ]);
@@ -395,7 +396,20 @@ class SegmentParsing
                $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
                $miniHTML .= '</span>'."\n";
 
-               $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
+               $miniAttributes = json_encode([
+                  "full" => [
+                     "src" => $displayPath,
+                     "size" => [],
+                     "srcRelative" => "",
+                  ],
+                  "mediaType" => "video",
+                  "mimeType" => "video/" . $ext,
+                  "uploadDate" => "",
+               ]);
+
+               $finalHTML = "<button class=\"miniaturePopoverButton\" popovertarget=\"miniature-popover\" type='button' data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
+
+               $parsed = str_replace($miniatures[0][$i], $finalHTML, $parsed);
             }
          }
       }

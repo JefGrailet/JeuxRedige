@@ -673,13 +673,13 @@ dialog {
 
    &[open] {
       opacity: 1;
-      translate: 0 0;
+      /* translate: 0 0; */
    }
 
    @starting-style {
       &[open] {
          opacity: 0;
-         translate: 0 var(--start-position-y);
+         /* translate: 0 var(--start-position-y); */
       }
    }
 }
@@ -1922,7 +1922,7 @@ textarea
    border-color: var(--current-page-color);
    border-radius: 4px;
    @starting-style {
-      &:popover-open {
+      &[open] {
          opacity: 0;
       }
    }

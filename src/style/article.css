@@ -308,21 +308,15 @@
       border: 2px solid var(--current-page-color);
    }
 
-   li:before
+   li::before
    {
-      font-size: 1rem; /* ~16px */
-      list-style: none;
-      padding-bottom: 5px;
-
-      &::before {
-         content: "▶";
-         font-variant-emoji: text;
-         display: inline-block;
-         width: 1rem;
-         margin-left: -1rem;
-         margin-right: 0.25rem;
-         color: var(--current-page-color);
-      }
+      content: "\0025B6";
+      font-variant-emoji: text;
+      display: inline-block;
+      width: 1rem;
+      margin-left: -1rem;
+      margin-right: 0.25rem;
+      color: var(--current-page-color);
    }
 }
 

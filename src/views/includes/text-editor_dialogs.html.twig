@@ -83,7 +83,7 @@
 			return z.object({
             url_img: z.httpUrl().refine(
                (url) => {
-                  console.log(url)
+                  // @TODO : check url
                   return true;
                   if (url === null) {
                      return true;
@@ -165,7 +165,7 @@
 <dialog class="modal medium" id="integrate-media" data-modal="integrate-media">
 	<header class="header">
 		<p class="title">Personnaliser le média</p>
-		<button class="closeModal" command="close" commandfor="integrate-media">
+		<button class="closeModal" type="button" command="close" commandfor="integrate-media">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
 			</svg>

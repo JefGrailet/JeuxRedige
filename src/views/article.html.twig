@@ -49,11 +49,11 @@
       </div>
    {% endif %}
 	<div class="centered extensibleHeaderWrapper" data-article-header>
-   {% if article.is_published == false and article.is_my_article %}
-      <p class="alert info" style="position: fixed; left: 9rem; right: 9rem; z-index: 99;">
-         Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
-      </p>
-   {% endif %}
+      {% if article.is_published == false and article.is_my_article %}
+         <p class="alert info" style="max-width: 900px; margin-inline: auto; margin-top: 0.5rem; position: fixed; left: 1rem; right: 1rem; z-index: 99;">
+            Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
+         </p>
+      {% endif %}
 		<header class="extensibleHeader" style="background-image: url('{{ article.header_img }}');">
 			<div class="wrapper">
 				<header class="articleHeader">

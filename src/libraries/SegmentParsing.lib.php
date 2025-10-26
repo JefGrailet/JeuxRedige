@@ -108,9 +108,9 @@ class SegmentParsing
                      "custom_width" => $customWidth,
                   ]);
 
-                  $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
-               }
                   $parsed = str_replace($videos[0][$i], $HTMLIframeFragment, $parsed);
+               }
+            }
 
             // TODO (for later): DailyMotion, Vimeo, etc.
          }
@@ -173,7 +173,7 @@ class SegmentParsing
          {
             $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
 
-            $imageHTML = "<img src='{$link}' alt='{$altText}' />";
+            $imageHTML = "<img src='{$link}' alt='{$altText}' style='max-width: 100%;' />";
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
          else
@@ -221,12 +221,41 @@ class SegmentParsing
 
                      // Adds the attributes to view full size upload in lightbox
                      $imageHTML .= 'class="miniature" data-file="'.$displayPath.'" ';
-                     $imageHTML .= 'data-width="'.$dimensions[0].'" ';
+                     $imageHTML .= 'data-widteh="'.$dimensions[0].'" ';
                      $imageHTML .= 'data-height="'.$dimensions[1].'" ';
                   }
                   $imageHTML .= '/>';
 
-                  $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
+                  $mediaData = [
+                     "mini" => [
+                        "src" => $displayPath,
+                        "size" => [
+                           "width" => "",
+                           "height" => "",
+                        ]
+                     ],
+                     "full" => [
+                        "src" => $displayPath,
+                        "size" => [
+                           "width" => $dimensions[0],
+                           "height" => $dimensions[1],
+                        ],
+                        "srcRelative" => "",
+                     ],
+                     "mediaType" => "image",
+                     "uploadDate" => "",
+                     "comment" => $comment ?? "",
+                  ];
+
+                  $HTMLImageFragment = $twig->render("segments/image.html.twig", [
+                     "is_miniature" => false,
+                     "media_data" => $mediaData,
+                     "floating" => $floating,
+                     "comment" => "",
+                     "ratio" => floatval($ratio),
+                  ]);
+
+                  $parsed = str_replace($images[0][$i], $HTMLImageFragment, $parsed);
                }
             }
          }
@@ -327,21 +356,10 @@ class SegmentParsing
                   if(strpos($filePath, 'full_') !== FALSE)
                   {
                      $miniPath = str_replace('full_', 'mini_', $displayPath);
-                     $altText = strlen($comment) > 0 ? $comment : "";
 
-                     $miniHTML = "<img src=\"{$miniPath}\" class=\"miniature\" alt=\"{$altText}\"";
-                     if($floating !== '')
-                     {
-                        $miniHTML .= 'style="float: '.$floating.'; ';
-                        if($floating === 'left')
-                           $miniHTML .= 'margin: 0px 10px 0px 0px;';
-                        else
-                           $miniHTML .= 'margin: 0px 0px 0px 10px;';
-                        $miniHTML .= ' padding-top: 2px;" ';
-                     }
-                     $miniAttributes = json_encode([
+                     $mediaData = json_encode([
                         "mini" => [
-                           "src" => "",
+                           "src" => $miniPath,
                            "size" => [
                               "width" => "",
                               "height" => "",
@@ -360,17 +378,22 @@ class SegmentParsing
                         "comment" => $comment ?? "",
                      ]);
 
-                     $miniHTML .= '/>';
+                     $HTMLImageFragment = $twig->render("segments/image.html.twig", [
+                        "src" => $miniPath,
+                        "is_miniature" => true,
+                        "media_data" => $mediaData,
+                        "floating" => $floating,
+                        "comment" => $comment,
+                     ]);
 
-                     $finalHTML = "<button class=\"miniaturePopoverButton\" popovertarget=\"miniature-popover\" type='button' data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
-                     $parsed = str_replace($miniatures[0][$i], $finalHTML, $parsed);
+                     $parsed = str_replace($miniatures[0][$i], $HTMLImageFragment, $parsed);
                   }
                }
             }
             // Short video (WebM or MP4)
             else
             {
-               $miniAttributes = json_encode([
+               $mediaData = [
                   "full" => [
                      "src" => $displayPath,
                      "size" => [],
@@ -381,15 +404,12 @@ class SegmentParsing
                   "uploadDate" => "",
                   "size" => [],
                   "comment" => $comment,
-               ]);
+               ];
 
                $HTMLVideoFragment = $twig->render("segments/video.html.twig", [
-                  "mimeType" => "video/{$extension}",
-                  "src" => $displayPath,
                   "is_miniature" => true,
-                  "media_data" => $miniAttributes,
+                  "media_data" => $mediaData,
                   "floating" => $floating,
-                  "comment" => $comment,
                ]);
 
                $parsed = str_replace($miniatures[0][$i], $HTMLVideoFragment, $parsed);

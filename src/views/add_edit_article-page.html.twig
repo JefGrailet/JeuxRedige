@@ -38,16 +38,16 @@
             {% if type == "add" %}
                Ajouter une page
             {% else %}
-               Éditer la page ""
+               Éditer la page "{{ page.title }}"
             {% endif %}
          </h1>
 			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_page">
 				<script type="text/schema" data-form-schema="article_page">
 					return z.object({
                   {% if needs_page_title %}
-                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty|e('js')|raw }}" }),
+                  title: z.string().min(1, {error: "{{ form_error_messages.page.title.empty|e('js')|raw }}" }),
                   {% endif %}
-                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty|e('js')|raw }}" }),
+                  content: z.string().min(1, {error: "{{ form_error_messages.page.content.empty|e('js')|raw }}" }),
                   header: z.file()
                      .nullable()
                      .transform((file) => (file && file.size > 0 ? file : null))
@@ -58,7 +58,7 @@
                               }
                               return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
                            },
-                           "{{ form_error_messages.header.invalidFormat|e('js')|raw }}"
+                           "{{ form_error_messages.page.header.invalidFormat|e('js')|raw }}"
                      )
                      .refine(
                            (file) => {
@@ -67,7 +67,7 @@
                               }
                               return file?.size < {{ image_header_requirements.maxSize }};
                            },
-                           "{{ form_error_messages.header.tooBig|e('js')|raw }}"
+                           "{{ form_error_messages.page.header.tooBig|e('js')|raw }}"
                      )
                      .refine((file) => {
                         if (file === null) {
@@ -87,7 +87,7 @@
                               };
                               reader.readAsDataURL(file);
                            })
-                     }, "{{ form_error_messages.header.badDimensions|e('js')|raw }}")
+                     }, "{{ form_error_messages.page.header.badDimensions|e('js')|raw }}")
                })
 				</script>
 				<ul class="alert error" role="alert" data-form-error="article_page">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>

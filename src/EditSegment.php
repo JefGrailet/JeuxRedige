@@ -216,8 +216,6 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
          "mimeType" => $mimeType,
          "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/{$filename}")),
       ];
-
-
    }, $listPageAttachementsFormatted);
 
    if (!empty($_POST)) {
@@ -281,10 +279,10 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
 
                   $segment->finalize(implode('|', $listPageAttachements), $modifiedContent);
                } else if (strlen($newUploadsString) > 0) {
-                  array_push($attachArr, 'uploads:' . $newUploadsString);
+                  array_push($listPageAttachements, 'uploads:' . $newUploadsString);
                   $newUploadsFull = explode(',', $newUploadsString);
 
-                  $segment->finalize(implode('|', $attachArr), $modifiedContent);
+                  $segment->finalize(implode('|', $listPageAttachements), $modifiedContent);
                }
             }
             Database::commit();

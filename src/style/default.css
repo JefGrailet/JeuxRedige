@@ -684,6 +684,10 @@ dialog {
    }
 }
 
+select {
+   width: 100%;
+}
+
 .modal {
    overscroll-behavior-y: contain;
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
@@ -797,6 +801,10 @@ dialog {
 
    &:last-of-type:has([type="submit"]) {
       margin-top: 0.85rem;
+   }
+
+   &:has(button + button) {
+      gap: 0.75rem;
    }
 }
 

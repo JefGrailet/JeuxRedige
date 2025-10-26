@@ -52,17 +52,20 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
 
             videoSource.src = mediaData.full.src;
             videoSource.type = mediaData.mimeType;
+
             mediaLink.href = mediaData.full.src;
+
+            comment.textContent = mediaData.comment;
          }
             break;
 
          default:
             break;
       }
-
-
    } else {
       comment.textContent = "";
+      img.src = "";
+      img.alt = "";
       if (videoSource) {
          videoSource.pause();
          videoSource.currentTime = 0;

@@ -255,10 +255,13 @@
          </button>
       </header>
       <form id="publishForm" class="content" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
+         <div class="notes alert error">
+            Cette action est irréversible
+         </div>
          <div class="notes">
             <p class="title">Remarques :</p>
             <ul>
-               <li>Cette action est irréversible</li>
+               <li>Une fois publié, vous ne pourrez pas changer le type de votre article</li>
                <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
                <li>Une fois publié, vous ne pourrez pas supprimer les pages de votre article</li>
             </ul>

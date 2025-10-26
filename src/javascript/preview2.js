@@ -4,8 +4,26 @@ const articlePreviewContainer = document.getElementById(
 const previewZone = document.getElementById("previewZone");
 const content = document.getElementById("page-content");
 
+let ignoreScrollEvents = false
+const syncScroll = (master, slave) => {
+   master.addEventListener("scroll", () => {
+      const ignore = ignoreScrollEvents;
+      ignoreScrollEvents = false;
+      if (ignore) return
+
+      ignoreScrollEvents = true;
+
+      const percentageMaster = master.scrollTop / (master.scrollHeight - master.offsetHeight) * 100;
+      slave.scrollTop = (percentageMaster / 100) * (slave.scrollHeight - slave.offsetHeight);
+   })
+}
+
+syncScroll(previewZone, content);
+syncScroll(content, previewZone);
+
 const preview = async () => {
    if (!previewZone.checkVisibility()) {
+      observer.disconnect()
       return;
    }
 
@@ -23,7 +41,12 @@ const preview = async () => {
       body: payload,
    });
 
+   previewZone.style.height = `${content.offsetHeight}px`;
    previewZone.innerHTML = await req.text();
+   observer.observe(content, { attributes: true });
+
+   const percentageMaster = content.scrollTop / (content.scrollHeight - content.offsetHeight) * 100;
+   previewZone.scrollTop = (percentageMaster / 100) * (previewZone.scrollHeight - previewZone.offsetHeight);
 };
 
 document
@@ -47,9 +70,9 @@ content?.addEventListener("input", () => {
 
 const observer = new MutationObserver((mutationsList) => {
    for (const mutation of mutationsList) {
-      if (mutation.type == "attributes") {
+      if (mutation.type === "attributes") {
          previewZone.style.height = mutation.target.style.height;
       }
    }
 });
-observer.observe(content, { attributes: true });
+

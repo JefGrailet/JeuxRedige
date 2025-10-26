@@ -13,13 +13,13 @@ deletePageModal?.addEventListener("toggle", (e) => {
 const integrateMediaPageModal = document.getElementById("integrate-media");
 
 integrateMediaPageModal?.addEventListener("toggle", (e) => {
+   const videoSource = e.target.querySelector("video");
    if (e.newState === "open") {
       const mediaData = JSON.parse(
          e.source.closest("[data-media-data]").dataset.mediaData
       );
 
       const img = e.target.querySelector("img");
-      const videoSource = e.target.querySelector("video");
 
       e.target.querySelector("input[name='media_type']").value = mediaData.mediaType;
       e.target.querySelector("[name=media_url]").value = mediaData.full.srcRelative;

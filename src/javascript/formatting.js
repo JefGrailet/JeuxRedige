@@ -92,103 +92,108 @@ const hexToRGB = (color) => {
 }
 
 const onSubmitFormSuccessfully = (e) => {
-   const form = e.currentTarget.querySelector("form");
+   if (e.newState === "closed" && e.source === null) {
+      const form = e.currentTarget.querySelector("form");
 
-   if (!form) {
-      return;
-   }
+      if (!form) {
+         return;
+      }
 
-   if (form?.dataset.isValid !== "true" && "formSchemaValidation" in form.dataset) {
-      return;
-   }
+      if (form?.dataset.isValid !== "true" && "formSchemaValidation" in form.dataset) {
+         return;
+      }
 
-   const formData = new FormData(form);
-   const formDataJSON = Object.fromEntries(formData);
+      const formData = new FormData(form);
+      const formDataJSON = Object.fromEntries(formData);
 
-   switch (e.currentTarget.closest("dialog").dataset.modal) {
-      case "hyperlink-media":
-         if (formDataJSON.hyperlink_title.trim() === "") {
-            insertTags(`[url]${formDataJSON.hyperlink}`, '[/url]');
-         } else {
-            insertTags(`[url=${formDataJSON.hyperlink}]${formDataJSON.hyperlink_title}`, '[/url]');
-         }
-      break;
-
-      case "select-color":
-         const {r, g, b} = hexToRGB(formDataJSON.text_color);
-         insertTags(`[rgb=${r},${g},${b}]`, '[/rgb]');
-      break;
-
-      case "integrate-media": {
-         const URLMedia = formDataJSON.media_url;
-
-         const mediaFloating = formDataJSON.media_floating;
-         const mediaFormat = formDataJSON.media_format;
-         const mediaPosition = mediaFloating === "normal" ? null : mediaFloating;
-
-
-         switch (formDataJSON.media_type) {
-            case "image": {
-               const altText = formDataJSON.img_alt;
-
-               const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
-               const tagName = mediaFormat === "mini" ? "mini" : "img";
-               const imgSize = mediaFormat === "mini" ? null : mediaFormat;
-               let imgOptions = [imgSize, mediaPosition].filter(Boolean).join(";");
-
-               if (imgOptions.length > 0) {
-                  imgOptions = `;${imgOptions}`;
-               }
-
-               insertTags(`!${tagName}[${URLMedia}${imgOptions}]`, imgNote);
+      switch (e.currentTarget.closest("dialog").dataset.modal) {
+         case "hyperlink-media":
+            if (formDataJSON.hyperlink_title.trim() === "") {
+               insertTags(`[url]${formDataJSON.hyperlink}`, '[/url]');
+            } else {
+               insertTags(`[url=${formDataJSON.hyperlink}]${formDataJSON.hyperlink_title}`, '[/url]');
             }
-
-               break;
-
-            case "video": {
-               const tagName = mediaFormat === "mini" ? "mini" : "clip";
-
-               insertTags(`!${tagName}[${URLMedia}]`, "");
-            }
-
-               break;
-
-            default:
-               break;
-         }
-      }
-      break;
-
-      case "integrate-external-img": {
-         const URLImage = e.currentTarget.querySelector("input[name='url_img']").value;
-         const altTextImage = e.currentTarget.querySelector("input[name='alt_img']").value;
-
-         insertTags(`!img[${URLImage}]`, altTextImage ? `[${altTextImage}]` : "");
-      }
-      break;
-
-      case "integrate-yt-video": {
-         const URLYoutube = formDataJSON.yt_video;
-         const selectSize = e.currentTarget.querySelector("select[name='ratio_video']");
-         let size = selectSize.value;
-         const listValidSizes = Array.from(selectSize.options).map((item) => item.value);
-         if (!listValidSizes.includes(size) || size === "default") {
-            size = "";
-         }
-
-         insertTags(`!video[${URLYoutube};${size}]`);
-      }
-      break;
-
-      default:
          break;
+
+         case "select-color":
+            const {r, g, b} = hexToRGB(formDataJSON.text_color);
+            insertTags(`[rgb=${r},${g},${b}]`, '[/rgb]');
+         break;
+
+         case "integrate-media": {
+            const URLMedia = formDataJSON.media_url;
+
+            const mediaFloating = formDataJSON.media_floating;
+            const mediaFormat = formDataJSON.media_format;
+            const mediaPosition = mediaFloating === "normal" ? null : mediaFloating;
+            const altText = formDataJSON.img_alt;
+
+            switch (formDataJSON.media_type) {
+               case "image": {
+                  const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
+                  const tagName = mediaFormat === "mini" ? "mini" : "img";
+                  const imgSize = mediaFormat === "mini" ? null : mediaFormat;
+                  let imgOptions = [imgSize, mediaPosition].filter(Boolean).join(";");
+
+                  if (imgOptions.length > 0) {
+                     imgOptions = `;${imgOptions}`;
+                  }
+
+                  insertTags(`!${tagName}[${URLMedia}${imgOptions}]`, imgNote);
+               }
+                  break;
+
+               case "video": {
+                  const tagName = mediaFormat === "mini" ? "mini" : "clip";
+                  const imgNote = altText.trim().length > 0 ? `[${altText}]` : "";
+
+                  let mediaOptions = [mediaPosition].filter(Boolean).join(";");
+                  if (mediaOptions.length > 0) {
+                     mediaOptions = `;${mediaOptions}`;
+                  }
+
+                  insertTags(`!${tagName}[${URLMedia}${mediaOptions}]`, imgNote);
+               }
+                  break;
+
+               default:
+                  break;
+            }
+         }
+         break;
+
+         case "integrate-external-img": {
+            const URLImage = e.currentTarget.querySelector("input[name='url_img']").value;
+            const altTextImage = e.currentTarget.querySelector("input[name='alt_img']").value;
+
+            insertTags(`!img[${URLImage}]`, altTextImage ? `[${altTextImage}]` : "");
+         }
+         break;
+
+         case "integrate-yt-video": {
+            const URLYoutube = formDataJSON.yt_video;
+            const selectSize = e.currentTarget.querySelector("select[name='ratio_video']");
+            let size = selectSize.value;
+            const listValidSizes = Array.from(selectSize.options).map((item) => item.value);
+            if (!listValidSizes.includes(size) || size === "default") {
+               size = "";
+            }
+
+            insertTags(`!video[${URLYoutube};${size}]`);
+         }
+         break;
+
+         default:
+            break;
+      }
+
+      form.removeAttribute("data-is-dirty");
+      form.removeAttribute("data-is-valid");
+      form.reset();
    }
 
-   form.removeAttribute("data-is-dirty");
-   form.removeAttribute("data-is-valid");
-   form.reset();
 }
 
 document.querySelectorAll("dialog").forEach((item) => {
-   item.addEventListener("close", onSubmitFormSuccessfully);
+   item.addEventListener("toggle", onSubmitFormSuccessfully);
 });

@@ -1,7 +1,8 @@
 <?php
-require_once './vendor/autoload.php';
 
-$loader = new \Twig\Loader\FilesystemLoader('./views');
+require_once getenv("DOCUMENT_ROOT") . '/vendor/autoload.php';
+
+$loader = new \Twig\Loader\FilesystemLoader(getenv("DOCUMENT_ROOT") . '/views');
 
 $twig = new \Twig\Environment($loader, [
    'debug' => true,
@@ -71,6 +72,7 @@ $twig->addGlobal("meta", [
 ]);
 $twig->addGlobal("page_title", "Site de critiques de jeux vidéo");
 $twig->addGlobal("userSide", "default");
+$twig->addGlobal("logo_chargement", PathHandler::HTTP_PATH() . "logos/JeuxRedige_chargement.png");
 $twig->addGlobal("no_custom_logo", false);
 $twig->addGlobal("is_user_logged", LoggedUser::isLoggedIn());
 if (LoggedUser::isLoggedIn()) {

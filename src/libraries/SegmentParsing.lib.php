@@ -8,6 +8,8 @@
 * (due to being designed for articles).
 */
 
+require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
+
 class SegmentParsing
 {
    /*
@@ -386,7 +388,7 @@ class SegmentParsing
                   $miniHTML .= '" ';
                }
                $miniHTML .= ">\n";
-               $miniHTML .= '<video class="miniature" width="250" min-height="10" ';
+               $miniHTML .= '<video class="miniature" disablepictureinpicture width="250" min-height="10" ';
                if(strlen($comment) > 0)
                   $miniHTML .= "data-file=\"".$displayPath."\" data-comment=\"".$comment."\">\n";
                else
@@ -535,5 +537,3 @@ class SegmentParsing
       return $parsed;
    }
 }
-
-?>

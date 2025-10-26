@@ -55,8 +55,10 @@ class SegmentParsing
    * @return string          The same segment, fully formatted in HTML
    */
 
-   public static function parse($content, $index = 0)
+   public static function parse($content)
    {
+      global $twig;
+
       $parsed = $content;
 
       // Accents that can be used in: names of uploaded files, miniature comments, emphasized quotes
@@ -263,21 +265,14 @@ class SegmentParsing
 
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
          {
-            $clipHTML = '<video ';
-            if($floating !== '')
-            {
-               $clipHTML .= 'style="float: '.$floating.'; ';
-               if($floating === 'left')
-                  $clipHTML .= 'margin: 0px 10px 3px 0px;';
-               else
-                  $clipHTML .= 'margin: 0px 0px 3px 10px;';
-               $clipHTML .= '" ';
-            }
-            $clipHTML .= ' controls>'."\n";
-            $clipHTML .= '<source src="'.$displayPath.'" format="video/'.$extension.'">'."\n";
-            $clipHTML .= '</video>';
+            $HTMLVideoFragment = $twig->render("segments/video.html.twig", [
+               "mimeType" => "video/{$extension}",
+               "src" => $displayPath,
+               "floating" => $floating,
+               "is_miniature" => false,
+            ]);
 
-            $parsed = str_replace($clips[0][$i], $clipHTML, $parsed);
+            $parsed = str_replace($clips[0][$i], $HTMLVideoFragment, $parsed);
          }
       }
 
@@ -377,27 +372,6 @@ class SegmentParsing
             // Short video (WebM or MP4)
             else
             {
-               $miniHTML = '<span class="clipThumbnail"';
-               if($floating !== '')
-               {
-                  $miniHTML .= 'style="float: '.$floating.'; ';
-                  if($floating === 'left')
-                     $miniHTML .= 'margin: 0px 10px 10px 0px;';
-                  else
-                     $miniHTML .= 'margin: 0px 0px 10px 10px;';
-                  $miniHTML .= '" ';
-               }
-               $miniHTML .= ">\n";
-               $miniHTML .= '<video class="miniature" disablepictureinpicture width="250" min-height="10" ';
-               if(strlen($comment) > 0)
-                  $miniHTML .= "data-file=\"".$displayPath."\" data-comment=\"".$comment."\">\n";
-               else
-                  $miniHTML .= "data-file=\"".$displayPath."\">\n";
-               $miniHTML .= "<source src=\"".$displayPath."\" type=\"video/".$ext."\">\n";
-               $miniHTML .= '</video>'."\n";
-               $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
-               $miniHTML .= '</span>'."\n";
-
                $miniAttributes = json_encode([
                   "full" => [
                      "src" => $displayPath,
@@ -407,11 +381,20 @@ class SegmentParsing
                   "mediaType" => "video",
                   "mimeType" => "video/" . $ext,
                   "uploadDate" => "",
+                  "size" => [],
+                  "comment" => $comment,
                ]);
 
-               $finalHTML = "<button class=\"miniaturePopoverButton\" popovertarget=\"miniature-popover\" type='button' data-media-data='{$miniAttributes}'>{$miniHTML}</button>";
+               $HTMLVideoFragment = $twig->render("segments/video.html.twig", [
+                  "mimeType" => "video/{$extension}",
+                  "src" => $displayPath,
+                  "is_miniature" => true,
+                  "media_data" => $miniAttributes,
+                  "floating" => $floating,
+                  "comment" => $comment,
+               ]);
 
-               $parsed = str_replace($miniatures[0][$i], $finalHTML, $parsed);
+               $parsed = str_replace($miniatures[0][$i], $HTMLVideoFragment, $parsed);
             }
          }
       }

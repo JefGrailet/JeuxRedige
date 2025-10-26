@@ -63,7 +63,9 @@ miniaturePopover.addEventListener("beforetoggle", (evt) => {
 
    } else {
       comment.textContent = "";
-      videoSource.pause();
-      videoSource.currentTime = 0;
+      if (videoSource) {
+         videoSource.pause();
+         videoSource.currentTime = 0;
+      }
    }
 });

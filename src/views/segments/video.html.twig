@@ -1,0 +1,31 @@
+{% set style = "" %}
+
+{% if is_miniature %}
+
+{% if floating == "left" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 10px 10px 0px;" %}
+{% elseif floating == "right" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 0px 10px 10px;" %}
+{% endif %}
+
+<button class="miniaturePopoverButton" style="{{ style }}" popovertarget="miniature-popover" type="button" data-media-data="{{ media_data }}">
+   <span class="clipThumbnail">
+      <video class="miniature" width="250" disablepictureinpicture>
+         <source src="{{ src }}" type="{{ mimeType }}" />
+      </video>
+      <span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>
+   </span>
+</button>
+{% else %}
+
+{% if floating == "left" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 10px 3px 0px;" %}
+{% elseif floating == "right" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 0px 3px 10px;" %}
+{% endif %}
+
+<video disablepictureinpicture controls style="{{ style }}">
+   <source src="{{ src }}" type="{{ mimeType }}" />
+</video>
+
+{% endif  %}

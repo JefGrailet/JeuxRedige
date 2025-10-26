@@ -13,7 +13,7 @@ require './view/intermediate/Article.ir.php';
 require './view/intermediate/Segment.ir.php';
 require './view/intermediate/ArticleThumbnail.ir.php';
 
-require_once './libraries/core/Twig.config.php';
+require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
 
 WebpageHandler::redirectionAtLoggingIn();
 

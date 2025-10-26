@@ -52,7 +52,6 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
                videoSource.type = mediaData.mimeType;
                videoSource.style.removeProperty("display");
 
-               imgAltText.style.display = "none";
                img.style.display = "none";
             }
             break;
@@ -61,8 +60,10 @@ integrateMediaPageModal?.addEventListener("toggle", (e) => {
             break;
       }
    } else {
-      videoSource.pause();
-      videoSource.currentTime = 0;
+      if (videoSource) {
+         videoSource.pause();
+         videoSource.currentTime = 0;
+      }
    }
 });
 
@@ -77,7 +78,6 @@ previewMediaModal?.addEventListener("toggle", (e) => {
       );
 
       const img = e.target.querySelector(".content img");
-
 
       switch (mediaData.mediaType) {
          case "image":
@@ -107,8 +107,10 @@ previewMediaModal?.addEventListener("toggle", (e) => {
       e.target.querySelector("[data-date]").textContent = mediaData.uploadDate;
       e.target.querySelector("a").href = mediaData.full.src;
    } else {
-      videoSource.pause();
-      videoSource.currentTime = 0;
+      if (videoSource) {
+         videoSource.pause();
+         videoSource.currentTime = 0;
+      }
    }
 });
 
@@ -148,8 +150,10 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
       document.getElementById("delete-media-btn").dataset.mediaData =
          mediaDataRaw;
    } else {
-      videoSource.pause();
-      videoSource.currentTime = 0;
+      if (videoSource) {
+         videoSource.pause();
+         videoSource.currentTime = 0;
+      }
    }
 });
 

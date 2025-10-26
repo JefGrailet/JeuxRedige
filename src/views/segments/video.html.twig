@@ -8,7 +8,16 @@
    {% set style = "float:" ~ floating ~ "; margin: 0px 0px 10px 10px;" %}
 {% endif %}
 
-<button class="miniaturePopoverButton" style="{{ style }}" popovertarget="miniature-popover" type="button" data-media-data="{{ media_data }}">
+{# <span class="clipThumbnail" style="{{ style }}" >
+   <button class="miniaturePopoverButton miniature" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data }}">
+         <video width="250" disablepictureinpicture>
+            <source src="{{ src }}" type="{{ mimeType }}" />
+         </video>
+   </button>
+   <span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>
+</span> #}
+
+<button class="miniaturePopoverButton" style="{{ style }}" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data }}">
    <span class="clipThumbnail">
       <video class="miniature" width="250" disablepictureinpicture>
          <source src="{{ src }}" type="{{ mimeType }}" />

@@ -1,0 +1,16 @@
+{% if is_miniature %}
+   {% set style = "padding-top: 2px;" %}
+   {% if floating == "left" %}
+      {% set style = "float:" ~ floating ~ "; margin: 0px 10px 0px 0px;" %}
+   {% elseif floating == "right" %}
+      {% set style = "float:" ~ floating ~ "; margin: 0px 0px 0px 10px;" %}
+   {% endif %}
+
+   <button class="miniaturePopoverButton" style="{{ style }}" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data }}">
+      <img src="{{ src }}" alt="{{ comment }}" class="miniature">
+   </button>
+{% else %}
+   {% set style = "" %}
+
+
+{% endif  %}

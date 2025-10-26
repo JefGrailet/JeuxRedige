@@ -419,14 +419,12 @@ class SegmentParsing
          $displayPath = PathHandler::HTTP_PATH().$background;
          if(file_exists($filePath))
          {
-            $backgroundStyle = 'background: url(\''.$displayPath.'\') no-repeat center; background-size: 100%';
+             $HTMLQuoteFragment = $twig->render("segments/quote.html.twig", [
+               "quote" => $quote,
+               "background_image" => $displayPath,
+            ]);
 
-            $emphasisHTML = "</p>\n<div class=\"emphasis\" style=\"".$backgroundStyle."\">\n";
-            $emphasisHTML .= "<div class=\"emphasisWithin\">\n";
-            $emphasisHTML .= "<p>\n« ".$quote." »\n</p>\n";
-            $emphasisHTML .= "</div>\n</div>\n<p>";
-
-            $parsed = str_replace($emphasis[0][$i], $emphasisHTML, $parsed);
+            $parsed = str_replace($emphasis[0][$i], $HTMLQuoteFragment, $parsed);
          }
       }
 
@@ -439,10 +437,10 @@ class SegmentParsing
          $title = $emphasisBis[1][$i];
          $content = $emphasisBis[2][$i];
 
-         $emphasisHTML = "</p>\n<div class=\"conclusion\">\n";
-         $emphasisHTML .= "<h3 class=\"title\">".$title."</h3>\n";
-         $emphasisHTML .= "<p>".$content;
-         $emphasisHTML .= "</p>\n</div>\n<p>";
+         $HTMLEmphasisFragment = $twig->render("segments/emphasis.html.twig", [
+            "title" => $title,
+            "content" => $content,
+         ]);
 
          $parsed = str_replace($emphasisBis[0][$i], $HTMLEmphasisFragment, $parsed);
       }

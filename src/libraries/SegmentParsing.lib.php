@@ -493,22 +493,12 @@ class SegmentParsing
          if(count($goodPoints) == 0 || count($badPoints) == 0)
             continue;
 
-         $summaryHTML = "</p>\n<div class=\"summary\">\n";
-         $summaryHTML .= "<div class=\"summaryGood\">\n";
-         $summaryHTML .= "<h3>Points forts</h3>\n";
-         $summaryHTML .= "<ul>\n";
-         for($j = 0; $j < count($goodPoints); $j++)
-            $summaryHTML .= "<li>".$goodPoints[$j]."</li>\n";
-         $summaryHTML .= "</ul>\n</div>\n";
-         $summaryHTML .= "<div class=\"summaryBad\">\n";
-         $summaryHTML .= "<h3>Points faibles</h3>\n";
-         $summaryHTML .= "<ul>\n";
-         for($j = 0; $j < count($badPoints); $j++)
-            $summaryHTML .= "<li>".$badPoints[$j]."</li>\n";
-         $summaryHTML .= "</ul>\n</div>\n";
-         $summaryHTML .= "<div style=\"clear: both;\"></div>\n</div>\n<p>";
+         $HTMLSummaryFragment = $twig->render("segments/summary.html.twig", [
+            "list_good_points" => $goodPoints,
+            "list_bad_points" => $badPoints,
+         ]);
 
-         $parsed = str_replace($summaries[0][$i], $summaryHTML, $parsed);
+         $parsed = str_replace($summaries[0][$i], $HTMLSummaryFragment, $parsed);
       }
 
       // Final step: cleans-up the HTML code from useless tags (rough; IR classes provide better)

@@ -1,0 +1,23 @@
+<div class="summary">
+   <div class="summaryGood">
+      <h3>Points forts</h3>
+      <ul>
+         {% for strong_point in list_good_points %}
+            <li>
+               {{ strong_point }}
+            </li>
+         {% endfor %}
+      </ul>
+   </div>
+   <div class="summaryBad">
+      <h3>Points faibles</h3>
+      <ul>
+         {% for bad_point in list_bad_points %}
+            <li>
+               {{ bad_point }}
+            </li>
+         {% endfor %}
+      </ul>
+   </div>
+   <div style="clear: both;"></div>
+</div>

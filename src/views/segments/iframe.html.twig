@@ -1,0 +1,10 @@
+
+{% if type == "youtube" %}
+   {% set iframe_attributes = "width=480 height=270" %}
+   {% if use_custom_size %}
+      {% set iframe_attributes2 = "width:#{custom_width}%; height: auto;" %}
+      {% set iframe_attributes = "style=\"" ~ "width:#{custom_width}%; height: auto; aspect-ratio: 16/9;" ~ "\"" %}
+   {% endif %}
+<iframe src="{{ link }}" frameborder="0" allowfullscreen {{ iframe_attributes|raw }}></iframe>
+{% else %}
+{% endif %}

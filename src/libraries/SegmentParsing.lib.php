@@ -101,18 +101,16 @@ class SegmentParsing
                       }
                   }
 
-                  // In articles, videos are always embedded.
-                  $videoHTML = "<iframe ";
-                  if($customRatio)
-                     $videoHTML .= "style=\"width: ".$customWidth."%; height: auto; aspect-ratio: 16/9;\" ";
-                  else
-                     $videoHTML .= "width=\"480\" height=\"270\" ";
-                  $videoHTML .= "src=\"https://www.youtube.com/embed/".$IDStr."\" ";
-                  $videoHTML .= "frameborder=\"0\" allowfullscreen></iframe>\n";
+                  $HTMLIframeFragment = $twig->render("segments/iframe.html.twig", [
+                     "link" => "https://www.youtube.com/embed/$IDStr",
+                     "type" => "youtube",
+                     "use_custom_size" => $customRatio,
+                     "custom_width" => $customWidth,
+                  ]);
 
                   $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
                }
-            }
+                  $parsed = str_replace($videos[0][$i], $HTMLIframeFragment, $parsed);
 
             // TODO (for later): DailyMotion, Vimeo, etc.
          }

@@ -19,9 +19,9 @@ const observer = new IntersectionObserver((entries) => {
 
 observer.observe(document.querySelector("#pixel-to-watch"));
 
-const miniaturePopover = document.getElementById("miniature-popover");
+const miniatureLightbox = document.getElementById("miniature-lightbox");
 
-miniaturePopover.addEventListener("beforetoggle", (evt) => {
+miniatureLightbox.addEventListener("toggle", (evt) => {
    const comment = evt.currentTarget.querySelector("[data-comment]");
    const videoSource = evt.currentTarget.querySelector("video");
 

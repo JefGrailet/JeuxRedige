@@ -446,7 +446,7 @@ class SegmentParsing
          $emphasisHTML .= "<p>".$content;
          $emphasisHTML .= "</p>\n</div>\n<p>";
 
-         $parsed = str_replace($emphasisBis[0][$i], $emphasisHTML, $parsed);
+         $parsed = str_replace($emphasisBis[0][$i], $HTMLEmphasisFragment, $parsed);
       }
 
       // Summary listing strong/weak points of the discussed subject.

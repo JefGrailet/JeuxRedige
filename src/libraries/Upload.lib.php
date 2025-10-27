@@ -54,7 +54,7 @@ class Upload
 
       $chains = explode(".", $arr['name']);
 
-      $fileName = preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $chains[0])));
+      $fileName = self::getSanitizeFileName($chains[0]);
       $extension = strtolower($chains[1]);
 
       if(!in_array($extension, Utils::UPLOAD_OPTIONS['extensions']))
@@ -75,7 +75,7 @@ class Upload
       }
       else
       {
-         $name = preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $name)));
+         $name = self::getSanitizeFileName($name);
       }
 
       $filePath = $dirPath .'/'. $name .'.'. $extension;
@@ -112,7 +112,7 @@ class Upload
          return "";
 
       $chains = explode(".", $arr['name']);
-      $fileName = preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $chains[0])));
+      $fileName = self::getSanitizeFileName($chains[0]);
       $extension = strtolower($chains[1]);
 
       $validExtensions = array('jpg', 'jpeg', 'gif', 'png');
@@ -134,7 +134,7 @@ class Upload
       }
       else
       {
-         $name = preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $name)));
+         $name = self::getSanitizeFileName($name);
       }
 
       // Computing the new dimensions of the picture
@@ -237,6 +237,21 @@ class Upload
 
       return $finalFilePath;
    }
-}
 
-?>
+   private static function getSanitizeFileName(string $filename) {
+      $isStartingWithMini = str_starts_with($filename, 'mini_');
+      $isStartingWithFull = str_starts_with($filename, 'full_');
+
+      if ($isStartingWithMini) {
+         $filenameSuffix = explode("mini_", $filename, 2)[1];
+
+         return "mini_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      } elseif ($isStartingWithFull) {
+         $filenameSuffix = explode("full_", $filename, 2)[1];
+
+         return "full_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      }
+
+      return preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filename)));
+   }
+}

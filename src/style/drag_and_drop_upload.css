@@ -28,7 +28,7 @@
       @media screen and (width >= 1024px) {
          grid-template-columns: repeat(4, 1fr);
       }
-      gap: 0.5rem;
+      gap: 0.65rem;
       list-style: none;
       padding: 0;
       &:empty {
@@ -53,6 +53,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
+            display: block;
             position: relative;
 
             &:is(:hover, :focus)::after {

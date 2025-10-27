@@ -217,22 +217,24 @@
 {
    margin-top: 20px;
    clear: both;
-}
 
-.emphasis .emphasisWithin
-{
-   background-color: rgba(0, 0, 0, 0.3);
-   color: white;
-}
+   .emphasisWithin
+   {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
+      margin: 0;
+   }
 
-.emphasis .emphasisWithin p
-{
-   padding: 50px;
-   display: block;
-   text-align: center;
-   font-family: "RobotoBold", "Arial", sans-serif;
-   font-size: 1.625rem; /* ~26px */
-   font-weight: bold;
+   p
+   {
+      padding: 50px;
+      display: block;
+      text-align: center;
+      font-size: 1.625rem; /* ~26px */
+      font-weight: bold;
+      text-shadow: 1px 1px 2px black;
+      margin: 0;
+   }
 }
 
 /* Emphasis (block) style */
@@ -259,7 +261,7 @@
    padding-top: 10px;
 }
 
-.emphasisText h3:before
+.emphasisText h3::before
 {
    content: "\0025B6\00a0";
 }
@@ -334,10 +336,15 @@
       margin-top: 0;
       margin-inline: 0;
       font-size: 1.25rem;
+
+      &::before {
+         content: "\0025B6\00a0";
+         color: var(--current-page-color);
+      }
    }
 
    p {
-      /* text-align: justify; */
+      text-align: justify;
       margin-block: 0.5rem;
    }
 }

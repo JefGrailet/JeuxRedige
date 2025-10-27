@@ -24,10 +24,10 @@ const miniatureLightbox = document.getElementById("miniature-lightbox");
 miniatureLightbox.addEventListener("toggle", (evt) => {
    const comment = evt.currentTarget.querySelector("[data-comment]");
    const videoSource = evt.currentTarget.querySelector("video");
+   const img = evt.currentTarget.querySelector("img");
 
    if (evt.newState === "open") {
       const mediaData = JSON.parse(evt.source.dataset.mediaData);
-      const img = evt.currentTarget.querySelector("img");
       const mediaLink = evt.currentTarget.querySelector("a");
 
       switch (mediaData.mediaType) {
@@ -49,9 +49,9 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
          case "video": {
             img.style.display = "none";
             videoSource.style.removeProperty("display");
-
-            videoSource.src = mediaData.full.src;
-            videoSource.type = mediaData.mimeType;
+            videoSource.querySelector("source").src = mediaData.full.src;
+            videoSource.querySelector("source").type = mediaData.mimeType;
+            videoSource.load();
 
             mediaLink.href = mediaData.full.src;
 

@@ -76,7 +76,7 @@ if(!empty($_FILES['newFile']))
             else
             {
                // Stores the full image
-               $fullSizeName = 'full_'.substr(strrchr($res1, '/'), 6);
+               $fullSizeName = 'full_'.basename($res1);
                $fullSizeName = substr($fullSizeName, 0, (strlen($fullSizeName) - strlen($ext) - 1));
                $res2 = Upload::storeFile($uploaded, $destDir, $fullSizeName);
 
@@ -101,25 +101,28 @@ if(!empty($_FILES['newFile']))
                   list($widthMini, $heightMini) = getimagesize($miniOnDisk);
                   list($widthFull, $heightFull) = getimagesize($fullOnDisk);
 
-                  $res = ["success" => [
-                     "mini" => [
-                        "src" => $mini,
-                        "size" =>  [
-                           "width" => $widthMini,
-                           "height" => $heightMini,
-                        ]
-                     ],
-                     "full" => [
-                        "src" => $full,
-                        "srcRelative" => $fullRelative,
-                        "size" =>  [
-                           "width" => $widthFull,
-                           "height" => $heightFull,
-                        ]
-                     ],
-                     "mediaType" => "image",
-                     "uploadDate" => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
-                  ]];
+                  $res = ["success" =>
+                     [
+                        "mini" => [
+                           "src" => $mini,
+                           "size" =>  [
+                              "width" => $widthMini,
+                              "height" => $heightMini,
+                           ]
+                        ],
+                        "full" => [
+                           "src" => $full,
+                           "srcRelative" => $fullRelative,
+                           "size" =>  [
+                              "width" => $widthFull,
+                              "height" => $heightFull,
+                           ]
+                        ],
+                        "mediaType" => "image",
+                        "filename" => basename($res1),
+                        "uploadDate" => date('d/m/Y à H:i:s', filemtime(PathHandler::WWW_PATH().$fullRelative)),
+                     ]
+                  ];
                }
             }
          }

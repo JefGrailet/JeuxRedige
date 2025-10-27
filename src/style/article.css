@@ -330,7 +330,7 @@
    padding-bottom: 5px;
    border: 2px solid var(--current-page-color);
    padding: 10px 17px;
-   margin-bottom: 1rem;
+   margin-block: 1rem;
 
    .title {
       margin-top: 0;

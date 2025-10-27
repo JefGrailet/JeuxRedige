@@ -227,7 +227,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       "list_css_files" => ["article", 'charter_' . $article->get('type'), "badge"],
       "list_js_files" => ["article", "article_v2"],
       "selectedLogo" => $article->get('type'),
-      "currentCategory" => $article->get('type'),
+      "current_category" => $article->get('type'),
       "meta" => [
          ...$twig->getGlobals()["meta"],
          "title" => $title,

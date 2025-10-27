@@ -71,8 +71,8 @@
       <style>
       :root
       {
-         --current-page-color: {{ list_categories[currentCategory].color|default("transparent") }};
-         --scrollbar-menu-color: {{ list_categories[currentCategory].color is defined ? "var(--current-page-color)" : "auto"}};
+         --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
+         --scrollbar-menu-color: {{ list_categories[current_category].color is defined ? "var(--current-page-color)" : "auto"}};
          {% for key, article_category in list_categories %}
          --article-{{ key }}-color: {{ article_category.color }};
          {% endfor %}

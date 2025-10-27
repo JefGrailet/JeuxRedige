@@ -132,6 +132,8 @@ form {
 {
    width: 100%;
    padding-top: var(--main-padding-top);
+   position: relative;
+   z-index: 0;
 
    .wrapper {
       max-width: var(--content-max-width);

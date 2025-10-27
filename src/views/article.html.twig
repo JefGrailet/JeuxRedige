@@ -54,7 +54,7 @@
             Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
          </p>
       {% endif %}
-		<header class="extensibleHeader" style="background-image: url('{{ article.header_img }}');">
+		<header class="extensibleHeader" style="background-image: url('{{ article.page.headerURL }}');">
 			<div class="wrapper">
 				<header class="articleHeader">
                {% if article.segments|length > 1 %}
@@ -90,7 +90,7 @@
 
 {% block content %}
 <div class="articleContent" data-article-content>
-   <div>{{ article.content|raw }}</div>
+   <div>{{ article.page.content|raw }}</div>
    {% if article.segments|length > 1 %}
       <nav class="navigationPage">
          <ul>
@@ -160,7 +160,7 @@
 
 <dialog closedby="any" class="miniaturePopover" id="miniature-lightbox">
    <img src="" alt="" class="lightboxImg" />
-   <video disablepictureinpicture controls>
+   <video disablepictureinpicture controls autoplay poster="{{ logo_chargement }}">
       <source src="" type="">
    </video>
    <p class="mediaLegend">

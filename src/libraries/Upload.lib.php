@@ -241,6 +241,7 @@ class Upload
    private static function getSanitizeFileName(string $filename) {
       $isStartingWithMini = str_starts_with($filename, 'mini_');
       $isStartingWithFull = str_starts_with($filename, 'full_');
+      $isStartingWithHeader = str_starts_with($filename, 'header_');
 
       if ($isStartingWithMini) {
          $filenameSuffix = explode("mini_", $filename, 2)[1];
@@ -250,6 +251,11 @@ class Upload
          $filenameSuffix = explode("full_", $filename, 2)[1];
 
          return "full_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      }
+      elseif ($isStartingWithHeader) {
+         $filenameSuffix = explode("header_", $filename, 2)[1];
+
+         return "header_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
       }
 
       return preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filename)));

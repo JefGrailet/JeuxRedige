@@ -291,6 +291,12 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
             }
             Database::commit();
 
+            if (is_null($curlResult) === false)
+            {
+               $fileName = basename($curlResult);
+               Buffer::save('upload/articles/'.$article->get('id_article').'/'.$segment->get('id_segment'), $fileName, 'header');
+            }
+
             if (isset($_POST["action"]) && $_POST["action"] === "preview") {
                $redirectURL = PathHandler::articleURL($article->getAll(), $segment->get('position'));
             } else {
@@ -303,6 +309,12 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
             array_push($formErrorMessagesTriggered, $formErrorMessages["dbError"]);
          }
       }
+   }
+
+   $pageHeader = $segment->getHeader();
+
+   if (empty($pageHeader)) {
+      $pageHeader = './default_article_header.jpg';
    }
 
    echo $twig->render("add_edit_article-page.html.twig", [
@@ -327,8 +339,8 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
          ...$segment->getAll(),
          "content" => FormParsing::unparse($segment->get('content')),
          "list_attachments" => $listPageAttachementsFormatted,
+         "header" => $pageHeader,
       ],
-      "foo" => $listPageAttachementsFormatted,
       "currentCategory" => $article->get("type"),
       "image_header_requirements" => [
          ...$imageHeaderRequirements,

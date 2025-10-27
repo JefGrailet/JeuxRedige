@@ -175,6 +175,12 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
                }
             }
 
+            if (is_null($curlResult) === false)
+            {
+               $fileName = basename($curlResult);
+               Buffer::save('upload/articles/'.$article->get('id_article').'/'.$newSeg->get('id_segment'), $fileName, 'header');
+            }
+
             if (isset($_POST["action"]) && $_POST["action"] === "preview") {
                $redirectURL = PathHandler::articleURL($article->getAll(), $newSeg->get('position'));
             } else {

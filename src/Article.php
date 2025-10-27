@@ -205,11 +205,9 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       "is_article" => true,
       "article" => [
          "id" => $article->get('id_article'),
-         // "header_img" => $currentThumbnail,
-         "header_img" => PathHandler::HTTP_PATH() . 'upload/articles/' . $article->get('id_article') . '/' . $article->getBufferedSegments()[0]["id_segment"] . '/thumbnail.jpg',
          "title" => $fullInput[0]['title'],
          "subtitle" => $article->get('subtitle'),
-         "content" => $fullInput[$pageSelected]['content'],
+         "page" => $fullInput[$pageSelected],
          "current_page" => $pageSelected,
          "segments" => $listPagesComputed,
          "published_time" => $article->get('date_creation'),

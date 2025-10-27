@@ -173,7 +173,7 @@
             <div class="dragAndDropUpload">
                <ul class="listUploads" data-preview-dropzone="page-medias">
                   {% for attachment in page.list_attachments %}
-                     <li class="droppedMedia" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
+                     <li class="droppedMedia" id="{{attachment.id }}" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
                         <div class="menuBar">
                            <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
                               <i class="icon-general_plus" ></i>
@@ -204,7 +204,7 @@
                         Uploader une image ou un clip vidéo
                         <input
                            type="file"
-                           accept="video/webm, image/jpeg, image/gif, video/mp4"
+                           accept="image/jpeg, image/gif, image/png, video/webm, video/mp4"
                            name="{{ name }}"
                            multiple
                            data-upload-input-dropzone="page-medias"

@@ -2,11 +2,11 @@ const listUploadDropzone = document.querySelectorAll("[data-upload-dropzone]");
 const previewUploadTemplateRaw = document.querySelector("template[data-template-id=\"page-media-item\"]");
 
 const toggleDragAndDropIndicator = (element, show = true) => {
-    if (show) {
-        element.classList.remove("paused");
-    } else {
-        element.classList.add("paused");
-    }
+   if (show) {
+      element.classList.remove("paused");
+   } else {
+      element.classList.add("paused");
+   }
 };
 
 listUploadDropzone.forEach((item) => {
@@ -71,11 +71,14 @@ const generatePreviewsUploads = (e) => {
          const res = await req.json();
 
          if ("success" in res) {
+            const id = Math.random().toString(16).slice(2);
             const { success: mediaData } = res;
+            mediaData.id = id;
             const tpl = previewUploadTemplateRaw.content.cloneNode(true);
 
             tpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
             tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
+            tpl.querySelector("li").id = id;
 
             switch (mediaData.mediaType) {
                case "image": {

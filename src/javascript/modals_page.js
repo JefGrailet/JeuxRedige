@@ -117,13 +117,13 @@ previewMediaModal?.addEventListener("toggle", (e) => {
 const deleteMediaModal = document.getElementById("delete-media");
 
 deleteMediaModal?.addEventListener("toggle", (e) => {
+   const img = e.target.querySelector(".content img");
+   const videoSource = e.target.querySelector(".content video");
+
    if (e.newState === "open") {
       const mediaDataRaw =
          e.source.closest("[data-media-data]").dataset.mediaData;
       const mediaData = JSON.parse(mediaDataRaw);
-
-      const img = e.target.querySelector(".content img");
-      const videoSource = e.target.querySelector(".content video");
 
       switch (mediaData.mediaType) {
          case "image":
@@ -175,11 +175,9 @@ deleteMediaBtn?.addEventListener("click", async (e) => {
 
    const res = await req.text();
    if (res === "ok") {
-      document
-         .querySelector(`[data-media-data='${e.target.dataset.mediaData}']`)
-         ?.closest("li")
-         .remove();
+      document.getElementById(mediaData.id)?.remove();
       deleteMediaModal?.close();
    } else {
+      alert("Une erreur est survenue");
    }
 });

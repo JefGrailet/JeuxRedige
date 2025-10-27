@@ -202,7 +202,8 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
             ],
             "mediaType" => "image",
             "mimeType" => $mimeType,
-            "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/full_{$realFilename}"))
+            "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/full_{$realFilename}")),
+            "id" => uniqid(),
          ];
       }
 
@@ -215,6 +216,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
          "mediaType" => "video",
          "mimeType" => $mimeType,
          "uploadDate" => date('d/m/Y à H:i:s', filemtime($wwwPathPrefix . "/articles/{$articleID}/{$segmentID}/{$filename}")),
+         "id" => uniqid(),
       ];
    }, $listPageAttachementsFormatted);
 

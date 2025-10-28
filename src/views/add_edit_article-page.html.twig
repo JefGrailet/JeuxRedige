@@ -38,7 +38,7 @@
             {% if type == "add" %}
                Ajouter une page
             {% else %}
-               Éditer la page "{{ page.title }}"
+               Éditer la page "{{ page.title ? page.title : "Sommaire" }}"
             {% endif %}
          </h1>
 			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_page">

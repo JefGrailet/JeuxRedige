@@ -76,7 +76,7 @@ if(!empty($_FILES['newFile']))
             else
             {
                // Stores the full image
-               $fullSizeName = 'full_'.basename($res1);
+               $fullSizeName = 'full_'.substr(strrchr($res1, '/'), 6);
                $fullSizeName = substr($fullSizeName, 0, (strlen($fullSizeName) - strlen($ext) - 1));
                $res2 = Upload::storeFile($uploaded, $destDir, $fullSizeName);
 

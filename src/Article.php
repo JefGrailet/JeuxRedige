@@ -207,7 +207,10 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          "id" => $article->get('id_article'),
          "title" => $fullInput[0]['title'],
          "subtitle" => $article->get('subtitle'),
-         "page" => $fullInput[$pageSelected],
+         "page" => [
+            ...$fullInput[$pageSelected],
+            "headerURL" => empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "/default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"],
+         ],
          "current_page" => $pageSelected,
          "segments" => $listPagesComputed,
          "published_time" => $article->get('date_creation'),

@@ -13,6 +13,7 @@
 	<form method="dialog" class="content" data-form-schema-validation="add_hyperlink">
 		<ul class="alert error" role="alert" data-form-error="add_hyperlink"></ul>
 		<p class="alert warning">Les champs avec * sont requis</p>
+		<p class="alert info">Le lien s'ouvrira dans un nouvel onglet</p>
 
 		<script type="text/schema" data-form-schema="add_hyperlink">
 			return z.object({
@@ -187,7 +188,7 @@
 		<div class="inputContainer row">
 			<label for="mediaFormat">Format</label>
 			<select name="media_format" id="mediaFormat">
-				<option value="mini">Miniature - Il sera possible d'agrandir le media en cliquant dessus</option>
+				<option value="mini">Miniature</option>
 				<option value="1.0">Dimensions originales</option>
 				<option value="0.5">Dimensions x0.5</option>
 				<option value="1.5">Dimensions x1.5</option>

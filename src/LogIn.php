@@ -11,9 +11,10 @@ require_once './libraries/core/Twig.config.php';
 // Script is useless if user is already connected. A special message is displayed.
 if(LoggedUser::isLoggedIn())
 {
-   $tplInput = array('pseudo' => LoggedUser::$data['pseudo'], 'operation' => 'logIn');
-   $tplRes = TemplateEngine::parse('view/user/UnnecessaryOperation.ctpl', $tplInput);
-   WebpageHandler::wrap($tplRes, 'Cette opération n\'est plus nécessaire');
+   $userPseudo = $twig->getGlobals()["userInfos"]["pseudo"];
+   setcookie("flash_message_extra_data", json_encode(["pseudo" => $userPseudo]), time() + 1);
+   setcookie("flash_message", "user_already_logged", time() + 1);
+   header('Location: ./index.php');
 }
 
 require './model/User.class.php';

@@ -92,6 +92,9 @@
                {% if flash_message == "user_disconnected" %}
                   <p class="alert success">Déconnexion réussie. Au revoir {{ flash_message_extra_data.pseudo }}.</p>
                {% endif %}
+               {% if flash_message == "user_already_logged" %}
+                  <p class="alert success">{{ flash_message_extra_data.pseudo }}, vous êtes déjà connecté(e), il n'est pas utile de réitérer l'opération.</p>
+               {% endif %}
             {% block content %}{% endblock %}
          </div>
       </div>

@@ -210,7 +210,13 @@
                {% if article.is_published == false %}
                   <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter un nouvelle page</a>
                {% endif %}
-               <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">Aperçu de l'article complet</a>
+               <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">
+                  {% if article.is_published %}
+                     Accéder à l'article
+                  {% else %}
+                     Aperçu de l'article complet
+                  {% endif %}
+               </a>
             </div>
 			</section>
          <section class="sectionBlock">

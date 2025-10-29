@@ -30,7 +30,6 @@
 {% endif %}
 
 <div id="pixel-to-watch" style="position: absolute; width: 1px; height: 1px; top: 0; left: 0; background-color: transparent;"></div>
-
    {% if article.segments|length > 1 %}
       <div popover="manual" id="chapitrage">
          <header class="header">
@@ -73,7 +72,7 @@
                         {% endif %}
                      {% endif %}
                   </h1>
-						<h2 class="subtitle">{{ article.subtitle }}</h2>
+						<h2 class="subtitle">{{ article.page.title }}</h2>
 					</div>
                {% if article.is_my_article and article.edit_links|length > 0 %}
                   <div class="toolbar">
@@ -89,6 +88,7 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="articleContent" data-article-content>
    <div>{{ article.page.content|raw }}</div>
    {% if article.segments|length > 1 %}

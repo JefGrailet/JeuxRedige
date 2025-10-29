@@ -5,6 +5,7 @@
 */
 
 require './libraries/Header.lib.php';
+require_once './libraries/core/Twig.config.php';
 
 $display = '';
 
@@ -25,6 +26,7 @@ if(!LoggedUser::isLoggedIn())
 }
 else
 {
+   $userPseudo = $twig->getGlobals()["userInfos"]["pseudo"];
    // Destroys all connection variables
    if(!empty($_COOKIE['pseudonym']) && !empty($_COOKIE['password']))
    {
@@ -32,12 +34,12 @@ else
       setcookie('pseudonym', '', $expire);
       setcookie('password', '', $expire);
    }
+
    session_destroy();
-   
-   $tplInput = array('type' => 'logged', 'redirection' => $redirection);
-   $display = TemplateEngine::parse('view/user/LogOut.ctpl', $tplInput);
+   if (isset($userPseudo)) {
+      setcookie("flash_message_extra_data", json_encode(["pseudo" => $userPseudo]), time() + 1);
+   }
 }
 
-header('Location:'.$redirection);
-WebpageHandler::wrap($display, 'Déconnexion');
-?>
+setcookie("flash_message", "user_disconnected", time() + 1);
+header('Location:' . $redirection);

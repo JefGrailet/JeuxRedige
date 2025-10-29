@@ -118,6 +118,7 @@ if(!empty($_POST))
 
             // Redirection and success message
             $redirect = './index.php';
+            setcookie("flash_message", "user_logged", time() + 1);
             if(strlen($data['redirection']) > 0 && (substr($data['redirection'], 0, 7) === 'http://' || substr($data['redirection'], 0, 8) === 'https://'))
                $redirect = str_replace('&amp;', '&', $data['redirection']);
             header('Location:'.$redirect);
@@ -143,6 +144,7 @@ echo $twig->render("log-in.html.twig", [
    "form_error_messages_triggered" => $formErrorMessagesTriggered,
    "list_sentences" => [],
    "logInRedirection" => $twig->getGlobals()["webRoot"],
+   "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    "meta" => [
       ...$twig->getGlobals()["meta"],
       "title" => "Connexion - JeuxRédige",

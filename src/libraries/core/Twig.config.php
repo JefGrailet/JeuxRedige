@@ -82,7 +82,7 @@ if (LoggedUser::isLoggedIn()) {
       "is_admin" => LoggedUser::$data['function_pseudo'] !== NULL && strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus',
       "is_using_admin_account" => LoggedUser::$data['function_pseudo'] === LoggedUser::$data['used_pseudo'],
       "alt_pseudo" => LoggedUser::$data['function_pseudo'],
-      "test" => LoggedUser::$data['function_name'] === 'administrator',
+      "is_admin" => LoggedUser::$data['function_name'] === 'administrator',
    ));
 }
 $twig->addGlobal("renderTime", number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 5, '.', ""));

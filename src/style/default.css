@@ -1549,12 +1549,10 @@ textarea
    left: 0;
    right: 0;
    min-height: 30px;
-   border-radius: 0px 0px 5px 5px;
    background-color: rgba(0, 0, 0, 0.6);
    color: white;
    opacity: 0.8;
    z-index: 1;
-
 
    &:is(:hover, :focus)
    {
@@ -2483,7 +2481,7 @@ textarea
     }
 }
 
-.scrollTextContainer {
+/* .scrollTextContainer {
    overflow: hidden;
 
    .scrollText {
@@ -2510,7 +2508,7 @@ textarea
          animation-direction: normal;
       }
    }
-}
+} */
 
 .dragHandle {
    width: 1.5rem;

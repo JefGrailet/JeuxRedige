@@ -239,6 +239,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          catch(Exception $e)
          {
             setcookie("flash_message", "article_error", time() + 1, "/");
+            $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
+            exit(header('Location:' . $currentURL));
          }
 
          $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));

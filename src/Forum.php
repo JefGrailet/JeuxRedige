@@ -105,7 +105,8 @@ for ($i = 0; $i < count($listTopics); $i++) {
 
 echo $twig->render("topics-list.html.twig", [
    "list_topics" => $listTopicsComputed,
-   "list_css_files" => ["pool", "topic"],
+   "list_css_files" => ["pool", "topic", "pagination", "ellipse_scrolling_text"],
+   "list_js_files" => ["ellipse_scrolling_text"],
    "selectedLogo" => "default",
    "nb_pages" => $nbPages,
    "meta" => [

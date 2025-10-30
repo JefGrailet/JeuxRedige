@@ -1,0 +1,22 @@
+.ellipseScrollingTextOuter {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 100%;
+   color: inherit;
+
+   &:is(:hover, :hover) {
+      text-overflow: clip;
+
+      .ellipseScrollingTextInner {
+         text-overflow: clip;
+      }
+   }
+
+   .ellipseScrollingTextInner {
+      left: 0;
+      position: relative;
+      transition-property: left;
+      transition-timing-function: linear;
+   }
+}

@@ -8,21 +8,28 @@
 	<ul id="articlesPoolIndex" class="large">
 		{% for topic in list_topics %}
 			{% set titleAttr = topic.title ~ " par " ~ topic.author %}
-			<li class="topicItem articleThumbnail scrollTextContainer" style="background-image: url('{{ topic.thumbnail }}');">
+			<li class="topicItem articleThumbnail" data-ellipse-scrolling-text-wrapper style="background-image: url('{{ topic.thumbnail }}');">
 				<div class="thumbnailTime">
 					<p>
 						<i class="icon-general_time" alt="Date du dernier message"></i>
 						<time title="Dernier message posté par {{ topic.lastAuthor }} à {{ topic.lastPostDate|date(" d/m/y h\\hi") }}" datetime="{{ topic.lastPostDate }}">{{ topic.lastPostDate|date("d/m/Y \\à\\ H\\hi") }}</time>
 					</p>
 				</div>
-				<div class="captionThumbnail ">
+				<div class="captionThumbnail">
 					<p>
-						<a tabindex="-1" href="{{ topic.linkTopic }}" class="scrollText" title="{{ titleAttr }}">{{ topic.title }}</a>
+						<a tabindex="-1" href="{{ topic.linkTopic }}" class="ellipseScrollingTextOuter" data-ellipse-scrolling-text-outer title="{{ titleAttr }}">
+                     <span
+                        data-ellipse-scrolling-text-inner=""
+                        class="ellipseScrollingTextInner"
+                     >
+                        {{ topic.title }}
+                     </span>
+                  </a>
 						<a tabindex="-1" href="{{ topic.linkTopic }}" class="small">Par
 							{{ topic.author }}</a>
 					</p>
 				</div>
-				<a href="{{ topic.linkTopic }}" class="thumbnailClick" title="{{ titleAttr }}"></a>
+				<a href="{{ topic.linkTopic }}"  data-ellipse-scrolling-text-wrapper class="thumbnailClick" title="{{ titleAttr }}"></a>
 			</li>
 		{% else %}
 			<li>Aucun sujet de discussion n'a été trouvé</li>

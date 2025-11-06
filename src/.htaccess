@@ -4,6 +4,10 @@ RewriteRule ^articles/([0-9]+)/([a-zA-Z0-9-]+)/([0-9]+)/?$ Article.php?id_articl
 RewriteRule ^articles/([0-9]+)/([a-zA-Z0-9-]+)/?$ Article.php?id_article=$1&title=$2 [L,QSA]
 RewriteRule ^trivia/([0-9]+)/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ Trivia.php?id_trivia=$1&game=$2&title=$3 [L,QSA]
 RewriteRule ^lists/([0-9]+)/([a-zA-Z0-9-]+)/?$ List.php?id_list=$1&title=$2 [L,QSA]
+RewriteRule ^user/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
+RewriteRule ^utilisateur/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
+RewriteRule ^moi/?$ MyAccount.php [L,QSA]
+RewriteRule ^me/?$ MyAccount.php [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]

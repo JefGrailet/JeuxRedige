@@ -142,7 +142,7 @@
       <div id="footerDetails">
          <p>
             Critique rédigée par
-            <a href="https://www.jeuxredige.com/User.php?user={{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
+            <a href="{{ webRoot }}/user/{{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
             {% if article.is_published %}
             Publié le
             <time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>

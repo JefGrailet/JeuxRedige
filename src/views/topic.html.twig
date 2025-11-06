@@ -9,7 +9,7 @@
             <p class="extraInfos">Sujet :</p>
             <h1 class="title">{{ topic.title }}</h1>
             <p class="extraInfos">
-               Crée par <a href="/User.php?user={{ topic.author }}">{{ topic.author }}</a>,
+               Crée par <a href="{{ webRoot }}/user/{{ topic.author }}">{{ topic.author }}</a>,
                <span>le {{ topic.date|date("d/m/Y \\à H\\:i\\:s") }}</span><br class="mobile-only">
                <span class="not-mobile-only">-</span> Dernier message le {{ last_post|date("d/m/Y \\à H\\:i\\:s") }}
             </p>

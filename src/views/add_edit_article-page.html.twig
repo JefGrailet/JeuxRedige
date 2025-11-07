@@ -170,7 +170,7 @@
                </ul>
             </div>
             <div class="dragAndDropUpload">
-               <ul class="listUploads" data-preview-dropzone="page-medias">
+               <ul class="listUploads" data-list-uploads-dnd="page-medias">
                   {% for attachment in page.list_attachments %}
                      <li class="droppedMedia" id="{{attachment.id }}" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
                         <div class="menuBar">
@@ -196,6 +196,44 @@
                   {% endfor %}
                </ul>
                <div class="dropzone paused" data-upload-dropzone="page-medias">
+               <script type="text/schema" data-upload-callback-success="page-medias">
+                  const id = Math.random().toString(16).slice(2);
+                  const { success: mediaData } = res;
+                  mediaData.id = id;
+
+                  const previewContainer = document.querySelector(`[data-list-uploads-dnd="page-medias"]`);
+                  const itemUploadedTplRaw = document.getElementById("page-media-item");
+                  const tpitemUploadedTpl = itemUploadedTplRaw.content.cloneNode(true);
+
+                  tpitemUploadedTpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
+                  tpitemUploadedTpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
+                  tpitemUploadedTpl.querySelector("li").id = id;
+
+                  switch (mediaData.mediaType) {
+                     case "image": {
+                        const img = tpitemUploadedTpl.querySelector("img");
+                        img.src = mediaData.mini.src;
+                        img.height = mediaData.mini.height;
+                        img.width = mediaData.mini.width;
+
+                        tpitemUploadedTpl.querySelector("video").remove();
+                     }
+                     break;
+                     case "video": {
+                        const videoSource = tpitemUploadedTpl.querySelector("source");
+                        videoSource.src = mediaData.full.src;
+                        videoSource.type = mediaData.mimeType;
+
+                        tpitemUploadedTpl.querySelector("img").remove();
+                     }
+                        break;
+
+                     default:
+                        break;
+                  }
+
+                  previewContainer.append(tpitemUploadedTpl)
+               </script>
                   <p class="text">Glissez-déposez vos médias (.jp(e)g, .gif, .png, .mp4, .webm)</p>
                   <p class="text">ou</p>
                   <div class="buttons">
@@ -206,6 +244,7 @@
                            accept="image/jpeg, image/gif, image/png, video/webm, video/mp4"
                            name="{{ name }}"
                            multiple
+                           data-config-drag-n-drop='{"name": "page-medias", "limitSize": {"image": 1, "video": 5}, "request": {"url": "/ajax/UploadFileJSON.php", "name": "newFile"}, "uploadItemTplId": "page-media-item"}'
                            data-upload-input-dropzone="page-medias"
                         />
                      </label>
@@ -235,7 +274,7 @@
       </div>
 	</div>
 
-   <template data-template-id="page-media-item">
+   <template id="page-media-item">
       <li class="droppedMedia" data-media-data data-media-type>
          <div class="menuBar">
             <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">

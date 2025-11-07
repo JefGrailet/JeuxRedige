@@ -1,5 +1,4 @@
 const listUploadDropzone = document.querySelectorAll("[data-upload-dropzone]");
-const previewUploadTemplateRaw = document.querySelector("template[data-template-id=\"page-media-item\"]");
 
 const toggleDragAndDropIndicator = (element, show = true) => {
    if (show) {
@@ -29,13 +28,27 @@ listUploadDropzone.forEach((item) => {
     });
 });
 
+
+const generateUploadItem = (id) => {
+   const template = document.getElementById(id);
+   const firstChild = template.querySelector(":scope > *");
+
+   tpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
+   tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
+   tpl.querySelector("li").id = id;
+}
+
 const generatePreviewsUploads = (e) => {
    const element = e.target;
-   const previewContainer = document.querySelector(`[data-preview-dropzone="${element.dataset.uploadInputDropzone}"]`);
+   const {
+      name,
+      limitSize: { image: imageLimitSize, video: videoLimitSize },
+      request: { url: urlRequest, name: inputName }
+   } = JSON.parse(element.dataset.configDragNDrop);
 
    const listMimeTypeAuthorized = element.getAttribute("accept").split(",").map((item) => item.trim());
 
-   const errorsContainer = document.querySelector(`[data-errors-dropzone="${element.dataset.uploadInputDropzone}"]`);
+   const errorsContainer = document.querySelector(`[data-errors-dropzone="${name}"]`);
    const listErrorsContainer = errorsContainer.querySelector("ul");
    const listErrorsCounter = errorsContainer.querySelector("[data-nb-file-errors]");
 
@@ -48,7 +61,7 @@ const generatePreviewsUploads = (e) => {
 
       return {
          type: !listMimeTypeAuthorized.includes(file.type),
-         size: isImage ? fileSizeMb > 1 : fileSizeMb > 5,
+         size: isImage ? fileSizeMb > Number(imageLimitSize) : fileSizeMb > Number(videoLimitSize),
       }
    }
 
@@ -61,56 +74,34 @@ const generatePreviewsUploads = (e) => {
       const listFileErrors = getFileErrors(file);
 
       if (Object.values(listFileErrors).every((item) => item === false)) {
-         const data = new FormData()
-         data.append('newFile', file)
+         if (urlRequest && inputName) {
+            const data = new FormData()
+            data.append(inputName, file)
 
-         const req = await fetch(DefaultLib.httpPath + "/ajax/UploadFileJSON.php", {
-               method: "POST",
-               body: data,
-            })
-         const res = await req.json();
+            const req = await fetch(DefaultLib.httpPath + urlRequest, {
+                  method: "POST",
+                  body: data,
+               })
+            const res = await req.json();
 
-         if ("success" in res) {
-            const id = Math.random().toString(16).slice(2);
-            const { success: mediaData } = res;
-            mediaData.id = id;
-            const tpl = previewUploadTemplateRaw.content.cloneNode(true);
-
-            tpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
-            tpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
-            tpl.querySelector("li").id = id;
-
-            switch (mediaData.mediaType) {
-               case "image": {
-                  const img = tpl.querySelector("img");
-                  img.src = mediaData.mini.src;
-                  img.height = mediaData.mini.height;
-                  img.width = mediaData.mini.width;
-
-                  tpl.querySelector("video").remove();
-               }
-               break;
-               case "video": {
-                  const videoSource = tpl.querySelector("source");
-                  videoSource.src = mediaData.full.src;
-                  videoSource.type = mediaData.mimeType;
-
-                  tpl.querySelector("img").remove();
-               }
-                  break;
-
-               default:
-                  break;
+            if ("success" in res) {
+               new Function(
+                  "res",
+                  document.querySelector(`[data-upload-callback-success=${name}]`)?.textContent
+               )(res)
+            } else {
+               // errorsContainer.hidden = false;
+               // const li = document.createElement("li");
+               // li.textContent = res.error;
+               // listErrorsContainer.append(li)
+               // listErrorsCounter.textContent = "(1)";
             }
-
-            previewContainer.append(tpl)
          } else {
-            errorsContainer.hidden = false;
-            const li = document.createElement("li");
-            li.textContent = res.error;
-            listErrorsContainer.append(li)
-            listErrorsCounter.textContent = "(1)";
+            new Function(
+               document.querySelector(`[data-form-schema=${schemaName}]`)?.textContent
+            )()
          }
+
       } else {
          errorsContainer.hidden = false;
 

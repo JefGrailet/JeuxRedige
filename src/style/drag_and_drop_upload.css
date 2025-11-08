@@ -19,6 +19,10 @@
 }
 
 .dragAndDropUpload {
+   &:has(+ *) {
+      margin-bottom: 1rem;
+   }
+
    .listUploads {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -67,23 +71,6 @@
                font-size: 5rem;
             }
          }
-
-         .menuBar {
-            position: absolute;
-            right: 0.25rem;
-            top: 0.25rem;
-            display: flex;
-            flex-direction: column;
-            align-items: end;
-            pointer-events: none;
-
-            gap: 0.5rem;
-            z-index: 9;
-
-            > *:last-child {
-               margin-top: 0.75rem;
-            }
-         }
       }
 
       img,
@@ -91,6 +78,23 @@
          height: 100%;
          width: 100%;
          object-fit: cover;
+      }
+   }
+
+   .mediaMenuBar {
+      position: absolute;
+      right: 0.25rem;
+      top: 0.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      pointer-events: none;
+
+      gap: 0.5rem;
+      z-index: 9;
+
+      > *:not(:first-child):last-child {
+         margin-top: 0.75rem;
       }
    }
 
@@ -152,6 +156,11 @@
       &::after {
          animation: clippath var(--animation-speed) infinite
             calc(var(--animation-speed) * -0.5) linear;
+      }
+
+      img, video {
+         max-height: 200px;
+         max-width: 100%;
       }
 
       &.paused {

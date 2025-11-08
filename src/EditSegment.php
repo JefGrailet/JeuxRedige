@@ -325,7 +325,6 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
          "segment_editor",
          "formatting",
          ["file" => "form_validation"],
-         "upload",
          "drag_n_drop_upload",
          "paste_clipboard_media",
          "modals_page",

@@ -1,4 +1,6 @@
 {% extends "layouts/base.html.twig" %}
+{% import "includes/_macros.html.twig" as macros %}
+
 {% block content %}
    <style>
       .layoutMode {
@@ -110,15 +112,51 @@
 							</ul>
 						</div>
                   {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
-						{% include "includes/input-file.html.twig" with {
-                        "options": {
-                           "label": "Sélectionner image",
-                           "input_name": "header",
-                           "default_image": page_header,
-                           "mimeTypes": header_image_requirements.mimeTypes
-                        }
-                     }
-                  %}
+                  <div class="dragAndDropUpload">
+                     <div class="dropzone paused" data-upload-dropzone="page-header">
+                        <script type="text/schema" data-upload-callback-success="page-header">
+                           const deleteBtn = document.getElementById("delete-image-page-header");
+                           deleteBtn.inert = false;
+                           const deleteBtnPayload = JSON.parse(deleteBtn.dataset.media)
+                           deleteBtnPayload.new = URL.createObjectURL(res);
+                           deleteBtn.dataset.media = JSON.stringify(deleteBtnPayload);
+
+                           const image = document.getElementById("page-header-img");
+                           image.src = URL.createObjectURL(res);
+                        </script>
+
+                        <div style="position: relative">
+                           <div class="mediaMenuBar">
+                              <button title="supprimer média" data-media='{"original": "{{ page_header }}", "deleteButtonId": "delete-image-page-header", "linkedMedia": { "id": "page-header-img", "type": "image", "inputName": "header" }}' id="delete-image-page-header" command="show-modal" inert commandfor="delete-image" class="danger extensibleButton small" type="button">
+                                 <i class="icon-general_trash"></i>
+                                 <span>Supprimer</span>
+                              </button>
+                           </div>
+                           <img src="{{ page_header }}" alt="" id="page-header-img">
+                        </div>
+                        <p class="text">Glissez-déposez votre image (.jp(e)g)</p>
+                        <p class="text">ou</p>
+                        <div class="buttons">
+                           <label class="primaryButton">
+                              Sélectionner une image d'en-tête
+                              <input
+                                 type="file"
+                                 accept="{{ image_header_requirements.mimeTypes }}"
+                                 name="header"
+                                 data-config-drag-n-drop='{"name": "page-header", "limitSize": {"image": 1}}'
+                                 data-upload-input-dropzone="page-header"
+                              />
+                           </label>
+                           <button
+                              type="button"
+                              class="secondaryButton"
+                              data-clipboard-upload="page-header"
+                           >
+                              Coller depuis le presse-papier
+                           </button>
+                        </div>
+                     </div>
+                     {{ macros.dragAndDropErrorContainer("page-header") }}
 					</div>
 
 					<div class="inputContainer">
@@ -173,7 +211,7 @@
                <ul class="listUploads" data-list-uploads-dnd="page-medias">
                   {% for attachment in page.list_attachments %}
                      <li class="droppedMedia" id="{{attachment.id }}" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
-                        <div class="menuBar">
+                        <div class="mediaMenuBar">
                            <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
                               <i class="icon-general_plus" ></i>
                               <span>Ajouter à la page</span>
@@ -238,29 +276,26 @@
                   <p class="text">ou</p>
                   <div class="buttons">
                      <label class="primaryButton">
-                        Uploader une image ou un clip vidéo
+                        Sélectionner une image ou un clip vidéo
                         <input
                            type="file"
                            accept="image/jpeg, image/gif, image/png, video/webm, video/mp4"
-                           name="{{ name }}"
+                           name="page-medias"
                            multiple
-                           data-config-drag-n-drop='{"name": "page-medias", "limitSize": {"image": 1, "video": 5}, "request": {"url": "/ajax/UploadFileJSON.php", "name": "newFile"}, "uploadItemTplId": "page-media-item"}'
+                           data-config-drag-n-drop='{"name": "page-medias", "limitSize": {"image": 1, "video": 5}, "request": {"url": "/ajax/UploadFileJSON.php", "name": "newFile"}}'
                            data-upload-input-dropzone="page-medias"
                         />
                      </label>
                      <button
                         type="button"
                         class="secondaryButton"
-                        data-clipboard-upload="{{ name }}"
+                        data-clipboard-upload="page-medias"
                      >
                         Coller depuis le presse-papier
                      </button>
                   </div>
                </div>
-               <details class="listErrors" data-errors-dropzone="page-medias" open hidden>
-                  <summary>Liste erreurs <span data-nb-file-errors></span></summary>
-                  <ul></ul>
-               </details>
+               {{ macros.dragAndDropErrorContainer("page-medias") }}
             </div>
          </div>
       </section>
@@ -274,11 +309,34 @@
       </div>
 	</div>
 
+   <dialog class="modal small" id="delete-image" data-modal="delete-image">
+      <header class="header danger">
+         <p class="title">Supprimer le média</p>
+         <button class="closeModal" command="close" commandfor="delete-image">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+      <div class="content">
+         <div class="alert error">
+            Cette action est irréversible. Une fois supprimée l'image par défaut sera utilisée.
+         </div>
+         <form action="" method="dialog">
+         <img src="" alt="" style="max-width: 100%">
+         <footer class="footer">
+            <button type="submit" class="danger">Supprimer l'image</button>
+         </footer>
+         </form>
+      </div>
+   </dialog>
+
    <template id="page-media-item">
       <li class="droppedMedia" data-media-data data-media-type>
-         <div class="menuBar">
+         <div class="mediaMenuBar">
             <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
-               <i class="icon-general_plus" ></i>
+               <i class="icon-general_plus"></i>
                <span>Ajouter à la page</span>
             </button>
             <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
@@ -294,6 +352,33 @@
          </button>
       </li>
    </template>
+
+   <script>
+      const deleteImageModal = document.getElementById("delete-image");
+
+      deleteImageModal.addEventListener("toggle", (evt) => {
+         const img = evt.currentTarget.querySelector("img");
+         if (evt.newState === "open") {
+            const deleteBtnPayload = JSON.parse(evt.source.dataset.media)
+            evt.currentTarget.dataset.media = evt.source.dataset.media;
+
+            img.src = deleteBtnPayload.new;
+         } else {
+            if(evt.source === null) {
+               const payload = JSON.parse(evt.currentTarget.dataset.media);
+
+               const inputFile = document.querySelector(`input[name="${payload.linkedMedia.inputName}"]`);
+               inputFile.value = null;
+               img.src = "";
+               const linkedMedia = document.getElementById(payload.linkedMedia.id)
+               linkedMedia.src = payload.original;
+
+               const deleteBtn = document.getElementById(payload.deleteButtonId);
+               deleteBtn.inert = true;
+            }
+         }
+      })
+   </script>
 
    {% include "includes/text-editor_dialogs.html.twig" %}
 {% endblock %}

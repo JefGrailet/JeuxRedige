@@ -42,8 +42,8 @@ const generatePreviewsUploads = (e) => {
    const element = e.target;
    const {
       name,
-      limitSize: { image: imageLimitSize, video: videoLimitSize },
-      request: { url: urlRequest, name: inputName }
+      limitSize: { image: imageLimitSize, video: videoLimitSize } = {},
+      request: { url: urlRequest, name: inputName } = {}
    } = JSON.parse(element.dataset.configDragNDrop);
 
    const listMimeTypeAuthorized = element.getAttribute("accept").split(",").map((item) => item.trim());
@@ -61,7 +61,9 @@ const generatePreviewsUploads = (e) => {
 
       return {
          type: !listMimeTypeAuthorized.includes(file.type),
-         size: isImage ? fileSizeMb > Number(imageLimitSize) : fileSizeMb > Number(videoLimitSize),
+         ...(imageLimitSize || videoLimitSize ? {
+            size: isImage ? fileSizeMb > Number(imageLimitSize) : fileSizeMb > Number(videoLimitSize),
+         } : {})
       }
    }
 
@@ -72,7 +74,6 @@ const generatePreviewsUploads = (e) => {
 
    Array.from(element.files).forEach(async (file) => {
       const listFileErrors = getFileErrors(file);
-
       if (Object.values(listFileErrors).every((item) => item === false)) {
          if (urlRequest && inputName) {
             const data = new FormData()
@@ -90,18 +91,18 @@ const generatePreviewsUploads = (e) => {
                   document.querySelector(`[data-upload-callback-success=${name}]`)?.textContent
                )(res)
             } else {
-               // errorsContainer.hidden = false;
-               // const li = document.createElement("li");
-               // li.textContent = res.error;
-               // listErrorsContainer.append(li)
-               // listErrorsCounter.textContent = "(1)";
+               errorsContainer.hidden = false;
+               const li = document.createElement("li");
+               li.textContent = res.error;
+               listErrorsContainer.append(li)
+               listErrorsCounter.textContent = "(1)";
             }
          } else {
             new Function(
-               document.querySelector(`[data-form-schema=${schemaName}]`)?.textContent
-            )()
+               "res",
+               document.querySelector(`[data-upload-callback-success=${name}]`)?.textContent
+            )(file)
          }
-
       } else {
          errorsContainer.hidden = false;
 

@@ -26,6 +26,5 @@
 
    listModalCloseButtons.forEach((item) => {
       item.addEventListener("click", closeModal);
-   })
-
-})()
+   });
+})();

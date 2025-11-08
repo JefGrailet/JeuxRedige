@@ -127,7 +127,7 @@
 
                         <div style="position: relative">
                            <div class="mediaMenuBar">
-                              <button title="supprimer média" data-media='{"original": "{{ page_header }}", "deleteButtonId": "delete-image-page-header", "linkedMedia": { "id": "page-header-img", "type": "image", "inputName": "header" }}' id="delete-image-page-header" command="show-modal" inert commandfor="delete-image" class="danger extensibleButton small" type="button">
+                              <button title="supprimer média" data-media='{"original": "{{ page_header }}", "deleteButtonId": "delete-image-page-header", "linkedMedia": { "id": "page-header-img", "type": "image", "inputName": "header" }}' id="delete-image-page-header" command="show-modal" inert commandfor="delete-media" class="danger extensibleButton small" type="button">
                                  <i class="icon-general_trash"></i>
                                  <span>Supprimer</span>
                               </button>
@@ -309,29 +309,6 @@
       </div>
 	</div>
 
-   <dialog class="modal small" id="delete-image" data-modal="delete-image">
-      <header class="header danger">
-         <p class="title">Supprimer le média</p>
-         <button class="closeModal" command="close" commandfor="delete-image">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
-      <div class="content">
-         <div class="alert error">
-            Cette action est irréversible. Une fois supprimée l'image par défaut sera utilisée.
-         </div>
-         <form action="" method="dialog">
-         <img src="" alt="" style="max-width: 100%">
-         <footer class="footer">
-            <button type="submit" class="danger">Supprimer l'image</button>
-         </footer>
-         </form>
-      </div>
-   </dialog>
-
    <template id="page-media-item">
       <li class="droppedMedia" data-media-data data-media-type>
          <div class="mediaMenuBar">
@@ -353,32 +330,6 @@
       </li>
    </template>
 
-   <script>
-      const deleteImageModal = document.getElementById("delete-image");
-
-      deleteImageModal.addEventListener("toggle", (evt) => {
-         const img = evt.currentTarget.querySelector("img");
-         if (evt.newState === "open") {
-            const deleteBtnPayload = JSON.parse(evt.source.dataset.media)
-            evt.currentTarget.dataset.media = evt.source.dataset.media;
-
-            img.src = deleteBtnPayload.new;
-         } else {
-            if(evt.source === null) {
-               const payload = JSON.parse(evt.currentTarget.dataset.media);
-
-               const inputFile = document.querySelector(`input[name="${payload.linkedMedia.inputName}"]`);
-               inputFile.value = null;
-               img.src = "";
-               const linkedMedia = document.getElementById(payload.linkedMedia.id)
-               linkedMedia.src = payload.original;
-
-               const deleteBtn = document.getElementById(payload.deleteButtonId);
-               deleteBtn.inert = true;
-            }
-         }
-      })
-   </script>
-
+   {% include "includes/delete-media_dialog.html.twig" %}
    {% include "includes/text-editor_dialogs.html.twig" %}
 {% endblock %}

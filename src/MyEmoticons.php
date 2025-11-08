@@ -9,20 +9,27 @@ require './model/Emoticon.class.php';
 require './model/User.class.php';
 require './view/intermediate/EmoticonThumbnail.ir.php';
 
+require_once './libraries/core/Twig.config.php';
+// require_once './libraries/core/Utils.class.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // User must be logged in
-if(!LoggedUser::isLoggedIn())
-{
-   $errorTplInput = array('error' => 'login');
-   $tpl = TemplateEngine::parse('view/user/Pings.fail.ctpl', $errorTplInput); // Can be safely re-used, no ambiguity
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté');
-}
+if (!LoggedUser::isLoggedIn()) {
+   http_response_code(401);
+   echo $twig->render("error.html.twig", [
+      "error_title" => "Page inaccessible",
+      "error_key" => "notLogged",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur - Page inaccessible",
+         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+         "full_title" => "",
+      ]
+   ]);
 
-// Webpage settings
-WebpageHandler::addCSS('pool');
-WebpageHandler::addJS('emoticons');
-WebpageHandler::noContainer();
+   die();
+}
 
 // Filter
 $filter = 'myEmoticons';
@@ -56,15 +63,11 @@ if($filter === 'library')
    $pageTitle = 'Librairie d\'émoticônes';
 }
 
-// Dialogs for creating emoticons or handling those already displayed (useful in any case)
-$dialogs = '';
-$dialogsTpl = TemplateEngine::parse('view/dialog/Emoticons.multiple.ctpl');
-if(!TemplateEngine::hasFailed($dialogsTpl))
-   $dialogs = $dialogsTpl;
 
 // Gets the emoticons according to the current page and filter (also deals with possible errors)
 $nbEmoticons = 0;
 $emoticons = null;
+$listEmoticons = [];
 try
 {
    if($filter === 'myEmoticons')
@@ -72,16 +75,10 @@ try
    else
       $nbEmoticons = Emoticon::countEmoticons();
 
-   if($nbEmoticons == 0)
-   {
-      if($filter === 'myEmoticons')
-         $errorTplInput = array_merge(array('error' => 'noEmoticon1'), $commonTplInput);
-      else
-         $errorTplInput = array_merge(array('error' => 'noEmoticon2'), $commonTplInput);
-      $tpl = TemplateEngine::parse('view/user/EmoticonsList.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, $pageTitle, $dialogs);
+   if($nbEmoticons == 0) {
+      goto skip_emoticons_loading;
    }
-   
+
    $currentPage = 1;
    $nbPages = ceil($nbEmoticons / WebpageHandler::$miscParams['emoticons_per_page']);
    $firstEmoticon = 0;
@@ -94,55 +91,34 @@ try
          $firstEmoticon = ($getPage - 1) * WebpageHandler::$miscParams['emoticons_per_page'];
       }
    }
+
    if($filter === 'myEmoticons')
-      $emoticons = Emoticon::getMyEmoticons($firstEmoticon, WebpageHandler::$miscParams['emoticons_per_page']);
+      $listEmoticons = Emoticon::getMyEmoticons($firstEmoticon, WebpageHandler::$miscParams['emoticons_per_page']);
    else
-      $emoticons = Emoticon::getEmoticons($firstEmoticon, WebpageHandler::$miscParams['emoticons_per_page']);
+      $listEmoticons = Emoticon::getEmoticons($firstEmoticon, WebpageHandler::$miscParams['emoticons_per_page']);
 }
 catch(Exception $e)
 {
    $errorTplInput = array_merge(array('error' => 'dbError'), $commonTplInput);
    $tpl = TemplateEngine::parse('view/user/EmoticonsList.fail.ctpl', $errorTplInput);
-   WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les émoticônes', $dialogs);
 }
 
-/* From this point, all the content has been extracted from the DB. All what is left to do is
-* to render it as a pool of thumbnails. */
+skip_emoticons_loading:
 
-// Rendered thumbnails
-$thumbnails = '';
-$fullInput = array();
-for($i = 0; $i < count($emoticons); $i++)
-{
-   $intermediate = EmoticonThumbnailIR::process($emoticons[$i]);
-   array_push($fullInput, $intermediate);
-}
-
-if(count($fullInput) > 0)
-{
-   $fullOutput = TemplateEngine::parseMultiple('view/user/Emoticon.item.ctpl', $fullInput);
-   if(TemplateEngine::hasFailed($fullOutput))
-   {
-      $errorTplInput = array_merge(array('error' => 'wrongTemplating'), $commonTplInput);
-      $tpl = TemplateEngine::parse('view/user/EmoticonsList.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les émoticônes');
-   }
-
-   for($i = 0; $i < count($fullOutput); $i++)
-      $thumbnails .= $fullOutput[$i];
-}
-
-// Final HTML code (with page configuration)
-$pageConfig = WebpageHandler::$miscParams['emoticons_per_page'].'|'.$nbEmoticons.'|'.$currentPage;
-$pageConfig .= '|./MyEmoticons.php?';
-if($filter === 'library')
-   $pageConfig .= 'filter=library&';
-$pageConfig .= 'page=[]';
-$finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails);
-$finalTplInput = array_merge($finalTplInput, $commonTplInput);
-$content = TemplateEngine::parse('view/user/EmoticonsList.ctpl', $finalTplInput);
-
-// Displays the produced page
-WebpageHandler::wrap($content, $pageTitle, $dialogs);
-
-?>
+echo $twig->render("my-emoticons.html.twig", [
+   "list_css_files" => ["pool", "emoticons", "tab_system", "drag_and_drop_upload"],
+   "list_js_files" => [["file" => "form_validation"], "drag_n_drop_upload", "paste_clipboard_media"],
+   "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
+   "flash_message_extra_data" => isset($_COOKIE['flash_message_extra_data']) ? json_decode($_COOKIE['flash_message_extra_data']) : "",
+   "selectedLogo" => "default",
+   "page_title" => "Mes émoticônes",
+   "list_emojis" => $listEmoticons,
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "Mes émoticônes",
+      "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+      "full_title" => "",
+   ]
+]);

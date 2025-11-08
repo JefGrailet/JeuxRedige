@@ -9,7 +9,7 @@
       <select class="dropdownPagination" data-dropdown-redirect>
          {% for i in 1..nb_pages %}
             {% set page = i %}
-            <option value="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
+            <option title="Aller à la page {{ page }}" value="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
          {% endfor %}
       </select>
 	</div>

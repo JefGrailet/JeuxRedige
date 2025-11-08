@@ -275,7 +275,7 @@ body:not(.logged) .userPseudo {
    font-weight: normal;
    color: white;
    padding: 0px;
-   margin-right: max(env(safe-area-inset-right), 10px);
+   margin-right: max(env(safe-area-inset-right), var(--root-side-margin));
    @media screen and (width >= 1280px) {
       margin-right: 0;
    }

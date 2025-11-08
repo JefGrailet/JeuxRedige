@@ -12,12 +12,13 @@
 .segmentHeader, .articleHeader
 {
    position: relative;
-   min-height: 85px;
+   height: 100%;
+   display: flex;
+       flex-direction: column;
+    justify-content: flex-end;
 
    .infos {
-      position: absolute;
-      bottom: 0;
-      left: 0;
+      width: fit-content;
       padding-top: 10px;
       background-color: rgba(0, 0, 0, 0.75);
       border-top-right-radius: var(--border-radius);
@@ -296,6 +297,8 @@
       margin-top: 0;
       margin-bottom: 0;
       padding-left: 20px;
+      font-size: 1rem;
+      list-style: none;
    }
 
    h3 {
@@ -310,15 +313,18 @@
       border: 2px solid var(--current-page-color);
    }
 
-   li::before
-   {
-      content: "\0025B6";
-      font-variant-emoji: text;
-      display: inline-block;
-      width: 1rem;
-      margin-left: -1rem;
-      margin-right: 0.25rem;
-      color: var(--current-page-color);
+   li {
+      padding-bottom: 5px;
+      &::before
+      {
+         content: "\0025B6";
+         font-variant-emoji: text;
+         display: inline-block;
+         width: 1rem;
+         margin-left: -1rem;
+         margin-right: 0.25rem;
+         color: var(--current-page-color);
+      }
    }
 }
 
@@ -805,7 +811,10 @@
    padding-block: 1px 5px;
    padding-inline: 1.25rem;
    box-shadow: 0px 0px 2px 0px grey;
-   margin-top: 258px;
+   margin-top: 200px;
+   @media screen and (width >= 640px) {
+      margin-top: 300px;
+   }
    background-color: white;
    border-bottom-left-radius: var(--border-radius);
    border-bottom-right-radius: var(--border-radius);
@@ -939,7 +948,11 @@
    max-width: var(--content-max-width);
    top: 0;
    margin: 0 auto;
-   padding-top: 10%;
+   height: 200px;
+   @media screen and (width >= 640px) {
+      height: 300px;
+   }
+
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
@@ -969,7 +982,7 @@
 @keyframes extensibleHeader {
   to {
       border-radius: 0;
-      padding-top: 0%;
+      height: 5.25rem;
       max-width: 100%;
       box-shadow: 0 2px 3px 0px #646464a9;
   }

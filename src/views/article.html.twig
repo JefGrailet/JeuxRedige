@@ -47,14 +47,14 @@
          </ol>
       </div>
    {% endif %}
-	<div class="centered extensibleHeaderWrapper" data-article-header>
+	<div class="centered extensibleHeaderWrapper">
       {% if article.is_published == false and article.is_my_article %}
          <p class="alert info" style="max-width: 900px; margin-inline: auto; margin-top: 0.5rem; position: fixed; left: 1rem; right: 1rem; z-index: 99;">
             Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
          </p>
       {% endif %}
 		<header class="extensibleHeader" style="background-image: url('{{ article.page.headerURL }}');">
-			<div class="wrapper">
+			<div class="wrapper" style="height: 100%;">
 				<header class="articleHeader">
                {% if article.segments|length > 1 %}
                   <button class="secondaryButton" type="button" popovertarget="chapitrage"  popovertargetaction="show" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">

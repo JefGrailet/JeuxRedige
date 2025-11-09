@@ -2327,6 +2327,7 @@ textarea
 
 .dropdownPagination {
    display: revert;
+   width: auto;
    @media screen and (width >= 768px) {
       display: none;
    }

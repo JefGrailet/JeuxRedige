@@ -28,13 +28,10 @@ services:
       container_name: mysql
       environment:
          MYSQL_ROOT_PASSWORD: root
-         # MYSQL_DATABASE: jeux_redige
-         # MYSQL_USER: root
          MYSQL_PASSWORD: root
       ports:
          - "3307:3306"
       volumes:
-         # - mysql-data:/var/lib/mysql
          - ./Dump.sql:/docker-entrypoint-initdb.d/dump.sql
    phpmyadmin:
       image: phpmyadmin:latest

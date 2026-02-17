@@ -1,5 +1,6 @@
 services:
    php:
+      container_name: jr-php
       build:
          context: .
          dockerfile: php.Dockerfile
@@ -38,10 +39,12 @@ services:
       restart: always
       depends_on:
          - mysql
-      # container_name: phpmyadmin
+      container_name: jr-phpmyadmin
       environment:
-         PMA_HOST: mysql
          MYSQL_ROOT_PASSWORD: root
+         MYSQL_DATABASE: jeux_redige
+         MYSQL_USER: root
+         PMA_HOST: mysql
          PMA_ARBITRARY: 1
       ports:
          - 8080:80

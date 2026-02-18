@@ -123,7 +123,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // Header details (default image or buffered image)
    $currentSegmentHeader = Buffer::getSegmentHeader();
    $currentHeaderValue = '';
-   if(strlen($currentSegmentHeader) == 0)
+   if(strlen($currentSegmentHeader || "") == 0)
       $currentSegmentHeader = './default_article_header.jpg';
    else
       $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));

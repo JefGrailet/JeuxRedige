@@ -135,7 +135,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    $currentThumbnail = Buffer::getArticleThumbnail();
    if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/thumbnail.jpg'))
       $articleThumbnail = './upload/articles/'.$articleID.'/thumbnail.jpg';
-   else if(strlen($currentThumbnail) > 0)
+   else if(strlen($currentThumbnail || "") > 0)
       $articleThumbnail = './'.substr($currentThumbnail, strlen(PathHandler::HTTP_PATH()));
    else
       $articleThumbnail = './default_article_thumbnail.jpg';

@@ -20,6 +20,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Critiques",
       ],
       "color" => "#cd301e",
+      "is_female" => true,
       "empty_message" => "aucune critique",
    ],
    "preview" => [
@@ -28,6 +29,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Aperçus",
       ],
       "color" => "#34b1e5",
+      "is_female" => false,
       "empty_message" => "aucun aperçu",
    ],
    "opinion" => [
@@ -36,6 +38,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Humeurs",
       ],
       "color" => "#91c148",
+      "is_female" => false,
       "empty_message" => "aucune humeur",
    ],
    "chronicle" => [
@@ -44,6 +47,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Chroniques",
       ],
       "color" => "#99368b",
+      "is_female" => true,
       "empty_message" => "aucune chronique",
    ],
    "guide" => [
@@ -52,6 +56,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Guides",
       ],
       "color" => "#dd9302",
+      "is_female" => false,
       "empty_message" => "aucun guide",
    ],
    "misc" => [
@@ -60,6 +65,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Hors-jeu",
       ],
       "color" => "#969696",
+      "is_female" => false,
       "empty_message" => "aucun hors-jeu",
    ],
 ]);

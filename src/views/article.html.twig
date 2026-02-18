@@ -2,9 +2,13 @@
 
 {% block fullWidthBanner %}
 {% if flash_message == "page_created" or flash_message == "page_edited" %}
+   {% set verb = "crée" %}
+   {% if flash_message == "page_edited" %}
+      {% set verb = "éditée" %}
+   {% endif %}
    <div class="centered">
       <div class="wrapper">
-         <p class="alert success">Page crée avec succès</p>
+         <p class="alert success">Page {{ verb }} avec succès</p>
       </div>
    </div>
 {% endif %}
@@ -12,19 +16,7 @@
 {% if article.is_my_article and article.edit_links|length > 0 %}
 <style>
    .toolbar {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      padding: 10px 20px 10px 20px;
       background-color: rgba(0, 0, 0, 0.75);
-      border-top-left-radius: var(--border-radius);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      a {
-         color: white;
-      }
    }
 </style>
 {% endif %}
@@ -74,13 +66,23 @@
                   </h1>
 						<h2 class="subtitle">{{ article.page.title }}</h2>
 					</div>
-               {% if article.is_my_article and article.edit_links|length > 0 %}
+               
                   <div class="toolbar">
+               {% if article.is_my_article and article.edit_links|length > 0 %}
                      {% for item in article.edit_links %}
                         <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
                      {% endfor %}
-                  </div>
                {% endif %}
+                  {% if article.is_published %}
+                     {% set share_data = {
+                        'title': article.title ~ " • " ~ list_categories[current_category].name.singular ~ " - Jeux rédige",
+                        'text': article.page.title
+                     } %}
+                     <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
+                        Partager l'article
+                     </button>
+                  {% endif %}
+                  </div>
 				</header>
 			</div>
 		</header>
@@ -141,7 +143,11 @@
       <div class="authorPicture" style="background-image: url({{ article.author.avatar }});"></div>
       <div id="footerDetails">
          <p>
-            Critique rédigée par
+            {% set verb = "rédigé" %}
+            {% if list_categories[current_category].is_female %}
+               {% set verb = "rédigée" %}
+            {% endif %}
+            {{ list_categories[current_category].name.singular }} {{ verb }} par
             <a href="{{ webRoot }}/user/{{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
             {% if article.is_published %}
             Publié le

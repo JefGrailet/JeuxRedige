@@ -23,7 +23,7 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
 
             comment.textContent = mediaData.comment;
          }
-         break;
+            break;
 
          case "video": {
             img.style.display = "none";
@@ -51,3 +51,24 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
       }
    }
 });
+
+
+const btnShare = document.querySelector('[data-share]');
+
+if (navigator.share) {
+   btnShare.style.display = 'initial';
+   btnShare.addEventListener('click', async (e) => {
+      try {
+         const shareData = JSON.parse(e.currentTarget.dataset?.share || '{}')
+         await navigator.share({
+            title: shareData.title,
+            text: shareData.text,
+            url: window.location.href
+         });
+         console.log('Contenu partagé avec succès !');
+      } catch (err) {
+         // L'utilisateur a annulé ou le partage a échoué
+         console.log(`Erreur ou annulation : ${err}`);
+      }
+   });
+} 

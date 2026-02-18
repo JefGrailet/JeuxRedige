@@ -11,10 +11,12 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+# RUN docker-php-ext-disable opcache
+
 RUN { \
     echo 'opcache.enable=0'; \
     echo 'opcache.enable_cli=0'; \
-    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+    } > /usr/local/etc/php/conf.d/opcache.ini
 
 RUN a2enmod rewrite
 

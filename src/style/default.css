@@ -2386,6 +2386,13 @@ textarea
    max-width: 25rem; /* 400px */
 }
 
+.loginFormModal {
+   .options {
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
 :is([disabled], [inert]) * {
    opacity: 0.5;
 }

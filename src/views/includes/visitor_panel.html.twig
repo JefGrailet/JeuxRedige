@@ -7,7 +7,7 @@
    <span class="userPseudo" style="text-wrap: nowrap;"> Se connecter </span>
 </button>
 
-<dialog class="modal" id="form-login">
+<dialog class="modal loginFormModal" id="form-login">
    <header class="header">
       <p class="title">Connexion</p>
       <button class="closeModal" data-close-modal="" command="close" commandfor="form-login">
@@ -69,10 +69,10 @@
          </div>
 
          <footer>
-            <p>
+            <p class="options">
                <a href="{{ webRoot }}/Registration.php" class="link"
             >Créer un compte</a
-               ><br />
+               >
                <a href="{{ webRoot }}/PasswordReset.php" class="link"
                   >Mot de passe perdu ?</a
                >

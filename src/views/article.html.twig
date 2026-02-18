@@ -75,7 +75,7 @@
                {% endif %}
                   {% if article.is_published %}
                      {% set share_data = {
-                        'title': article.title ~ " • " ~ list_categories[current_category].name.singular ~ " - Jeux rédige",
+                        'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
                         'text': article.page.title
                      } %}
                      <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">

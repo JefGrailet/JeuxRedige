@@ -71,4 +71,6 @@ if (navigator.share) {
          console.log(`Erreur ou annulation : ${err}`);
       }
    });
-} 
+} else {
+   btnShare.remove();
+}

@@ -16,7 +16,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN { \
     echo 'opcache.enable=0'; \
     echo 'opcache.enable_cli=0'; \
-    } > /usr/local/etc/php/conf.d/opcache.ini
+    } > /usr/local/etc/php/conf.d/zzz-opcache.ini
 
 RUN a2enmod rewrite
 

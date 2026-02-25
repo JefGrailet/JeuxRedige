@@ -2054,7 +2054,7 @@ textarea
 
 .clipThumbnailOverlay i
 {
-   font-size: 18px;
+   font-size: 1.125rem;
    padding-left: 8px;
    padding-top: 7px;
    padding-right: 7px;
@@ -2435,7 +2435,6 @@ textarea
    display: flex;
    flex-direction: row;
    justify-content: center;
-   /* align-items: center; */
    margin-top: 3rem;
    margin-inline: var(--root-side-margin);
    gap: 1.75rem;
@@ -2490,35 +2489,6 @@ textarea
       transform: translateX(0%);
     }
 }
-
-/* .scrollTextContainer {
-   overflow: hidden;
-
-   .scrollText {
-      display: inline-block!important;
-      white-space: nowrap;
-      overflow: hidden;
-      margin-bottom: -0.35rem;
-   }
-
-   &:not(:hover) .scrollText{
-      text-overflow: ellipsis;
-   }
-
-   &:hover,
-   &:focus {
-      .scrollText {
-         display: inline-block!important;
-         width: auto;
-         animation-name: scroll-text;
-         animation-duration: 10s;
-         animation-timing-function: linear;
-         animation-delay: 0s;
-         animation-iteration-count: infinite;
-         animation-direction: normal;
-      }
-   }
-} */
 
 .dragHandle {
    width: 1.5rem;
@@ -2600,4 +2570,21 @@ textarea
          }
       }
    }
+}
+
+/* body:has(#role:target) nav a[href="#role"],
+body:has(#password:target) nav a[href="#password"],
+body:has(#email:target) nav a[href="#email"],
+body:has(#avatar:target) nav a[href="#avatar"],
+body:has(#preferences:target) nav a[href="#preferences"],
+body:has(#sanctions:target) nav a[href="#sanctions"] {
+  text-decoration: underline;
+  font-weight: bold;
+  color: oklch(from currentColor calc(l * .75) c h);
+} */
+
+nav a.active {
+   text-decoration: underline;
+  font-weight: bold;
+  color: oklch(from currentColor calc(l * .75) c h);
 }

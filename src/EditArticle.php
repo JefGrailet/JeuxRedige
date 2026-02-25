@@ -246,7 +246,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
          $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
          $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
-
+         
          try
          {
             Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);

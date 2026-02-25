@@ -8,8 +8,6 @@ services:
          - ./src/:/var/www/html
          - ./php.ini:/usr/local/etc/php/conf.d/php.ini
          - vendor:/var/www/html/vendor
-      ports:
-         - "80:80"
       depends_on:
          - composer
          - mysql
@@ -30,8 +28,6 @@ services:
       environment:
          MYSQL_ROOT_PASSWORD: root
          MYSQL_PASSWORD: root
-      ports:
-         - "3307:3306"
       volumes:
          - ./Dump.sql:/docker-entrypoint-initdb.d/dump.sql
    phpmyadmin:
@@ -46,8 +42,6 @@ services:
          MYSQL_USER: root
          PMA_HOST: mysql
          PMA_ARBITRARY: 1
-      ports:
-         - 8080:80
 
 volumes:
    vendor:

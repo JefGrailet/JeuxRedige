@@ -7,3 +7,5 @@ src/avatars/**
 
 Dump*
 dump*
+
+*.override.*

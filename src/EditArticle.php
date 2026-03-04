@@ -25,8 +25,6 @@ if(!LoggedUser::isLoggedIn())
          ...$twig->getGlobals()["meta"],
          "title" => "Erreur",
          "description" => "Erreur",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
          "full_title" => "",
       ]
    ]);
@@ -102,8 +100,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur",
             "description" => "Erreur",
-            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
             "full_title" => "",
          ]
       ]);
@@ -122,8 +118,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur",
             "description" => "Erreur",
-            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
             "full_title" => "",
          ]
       ]);
@@ -305,8 +299,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          ...$twig->getGlobals()["meta"],
          "title" => "Éditer \"{$article->get("title")}\"",
          "description" => "Éditer \"{$article->get("title")}\"",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
          "full_title" => "",
       ]
    ]);
@@ -377,8 +369,6 @@ echo $twig->render("error.html.twig", [
       ...$twig->getGlobals()["meta"],
       "title" => "Erreur",
       "description" => "Erreur",
-      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
       "full_title" => "",
    ]
 ]);

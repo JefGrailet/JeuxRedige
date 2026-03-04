@@ -73,10 +73,8 @@ echo $twig->render("articles.html.twig", [
    "nb_pages" => $nbPages,
    "meta" => [
       ...$twig->getGlobals()["meta"],
-      "title" => "JeuxRédige",
+      "title" => "{$currentCategory} Page {$currentPage}",
       "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
       "full_title" => "",
    ]
 ]);

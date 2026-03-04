@@ -63,8 +63,6 @@ if(!LoggedUser::isLoggedIn() || !Utils::check(LoggedUser::$fullData['advanced_fe
          ...$twig->getGlobals()["meta"],
          "title" => "Erreur",
          "description" => "Erreur",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
          "full_title" => "",
       ]
    ]);
@@ -222,8 +220,6 @@ echo $twig->render("add_edit_article.html.twig", [
       ...$twig->getGlobals()["meta"],
       "title" => "Créer un nouvel article",
       "description" => "Créer un nouvel article",
-      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
       "full_title" => "",
    ]
 ]);

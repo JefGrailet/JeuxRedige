@@ -36,8 +36,6 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
             ...$twig->getGlobals()["meta"],
             "title" => "Article vide",
             "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
             "full_title" => "",
          ]
       ]);
@@ -72,8 +70,6 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur : Article vide",
             "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-            "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
             "full_title" => "",
          ]
       ]);
@@ -92,8 +88,6 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
                ...$twig->getGlobals()["meta"],
                "title" => "Erreur : Article vide",
                "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-               "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-               "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
                "full_title" => "",
             ]
          ]);
@@ -199,6 +193,8 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       ];
    }, $article->getKeywords());
 
+   $articleHeaderImageURL = empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"];
+   print($article->getThumbnail());
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
       "current_category" => $article->get('type'),
@@ -209,7 +205,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          "subtitle" => $article->get('subtitle'),
          "page" => [
             ...$fullInput[$pageSelected],
-            "headerURL" => empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "/default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"],
+            "headerURL" => $articleHeaderImageURL,
          ],
          "current_page" => $pageSelected,
          "segments" => $listPagesComputed,
@@ -234,7 +230,6 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          "title" => $title,
          "description" => $article->get('subtitle'),
          "image" => $article->getThumbnail(),
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
          "full_title" => "",
          "author" => $article->get('pseudo'),
          "published_time" => $article->get('date_creation'),
@@ -247,10 +242,8 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       "error_key" => "missingID",
       "meta" => [
          ...$twig->getGlobals()["meta"],
-         "title" => "Article vide",
+         "title" => "Erreur - Article vide",
          "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-         "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-         "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
          "full_title" => "",
       ]
    ]);

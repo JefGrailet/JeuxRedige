@@ -117,8 +117,6 @@ echo $twig->render("my-emoticons.html.twig", [
       ...$twig->getGlobals()["meta"],
       "title" => "Mes émoticônes",
       "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-      "image" => "https://" . $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
-      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
       "full_title" => "",
    ]
 ]);

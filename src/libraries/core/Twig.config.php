@@ -72,8 +72,8 @@ $twig->addGlobal("list_categories", [
 $twig->addGlobal("meta", [
    "title" => "JeuxRédige",
    "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
-   "image" => "https://" . $_SERVER["HTTP_HOST"] . "/logos/default_meta_logo.jpg",
-   "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+   "image" => $_SERVER["HTTP_HOST"] . "/default_meta_logo.jpg",
+   "url" => $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
    "full_title" => "",
 ]);
 $twig->addGlobal("page_title", "Site de critiques de jeux vidéo");

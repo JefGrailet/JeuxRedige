@@ -7,7 +7,7 @@
 		</li>
 		{% for key, value in list_categories %}
 			<li>
-				<a href="?article_category={{ key }}" class="prettyLink {{ current_category == key ? " active" }} {{key}}" style="color: var(--article-{{ key }}-color)">
+				<a href="/articles/{{ key }}" class="prettyLink {{ current_category == key ? " active" }} {{key}}" style="color: var(--article-{{ key }}-color)">
 					<span>{{ value.name.plural }}</span>
 				</a>
 			</li>

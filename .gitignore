@@ -5,6 +5,8 @@ src/config/Config.inc.php
 
 src/avatars/**
 
+src/upload/**
+
 Dump*
 dump*
 

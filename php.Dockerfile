@@ -4,14 +4,13 @@ RUN apt-get update && apt-get install -y \
  libfreetype6-dev \
  libjpeg62-turbo-dev \
  libpng-dev \
- libwebp-dev
+ libwebp-dev \
+ msmtp
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
  && docker-php-ext-install -j$(nproc) gd
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
-
-# RUN docker-php-ext-disable opcache
 
 RUN { \
     echo 'opcache.enable=0'; \

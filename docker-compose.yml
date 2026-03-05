@@ -43,6 +43,16 @@ services:
          PMA_HOST: mysql
          PMA_ARBITRARY: 1
 
+   mailer:
+      image: axllent/mailpit
+      container_name: mailpit
+      ports:
+         - 1025:1025
+         - 8025:8025
+      environment:
+         MP_SMTP_AUTH_ACCEPT_ANY: 1
+         MP_SMTP_AUTH_ALLOW_INSECURE: 1
+         MAILPIT_RELAY: 127.0.0.1:25
+
 volumes:
    vendor:
-   # mysql-data:

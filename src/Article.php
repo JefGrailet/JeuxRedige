@@ -194,7 +194,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
    }, $article->getKeywords());
 
    $articleHeaderImageURL = empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"];
-   print($article->getThumbnail());
+
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
       "current_category" => $article->get('type'),

@@ -2,12 +2,12 @@
 
 {% block content %}
 	<section class="sectionBlock">
-		<h1 class="title">Connexion</h2>
+		<h1 class="title">Connexion</h1>
 		<div class="content">
 			<form action="" class="loginForm" novalidate method="POST" data-form-schema-validation="login">
 				<script type="text/schema" data-form-schema="login">
 					return z.object({
-                  pseudo: z.string().min(1, {error: "Vous devez entrer le mot de passe de votre compte" }),
+                  pseudo: z.string().min(1, {error: "Vous devez entrer le pseudo de votre compte" }),
                   password: z.string().min(1, {error: "Vous devez entrer le mot de passe de votre compte" }),
                })
 				</script>
@@ -33,10 +33,10 @@
 
             <footer>
                <p>
-                  <a href="{{ webRoot }}Registration.php" class="link"
+                  <a href="{{ webRoot }}/Registration.php" class="link"
                >Créer un compte</a
                   ><br />
-                  <a href="{{ webRoot }}PasswordReset.php" class="link"
+                  <a href="{{ webRoot }}/PasswordReset.php" class="link"
                      >Mot de passe perdu ?</a
                   >
                </p>

@@ -16,6 +16,7 @@ d'invitation (minimum une heure après cette tentative).
 			</p>
 			{% endif %}
 			<form autocomplete="off" action="" class="loginForm" novalidate method="POST" data-form-schema-validation="sponsorship">
+				<p class="alert warning full">Les champs avec * sont requis</p>
 				<script type="text/schema" data-form-schema="sponsorship">
 					return z.object({
                   		email: z.email({ error: "Vous devez entrer une adresse e-mail valide"})
@@ -25,7 +26,7 @@ d'invitation (minimum une heure après cette tentative).
 				<input autocomplete="false" name="hidden" type="text" style="display:none;">
 
 				<div class="inputContainer">
-					<label for="email">Email</label>
+					<label for="email">Email<span style="color: var(--danger-color);">*</span></label>
 					<input type="email" autocomplete="off" style="flex-grow: 1" name="email" id="email" value="{{ friend_email }}">
 				</div>
 

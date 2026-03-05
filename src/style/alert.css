@@ -24,6 +24,14 @@
       background-color: #eff6ff;
       border: 1px solid #1e40af;
       color: #1e40af;
+
+      a {
+         text-decoration: revert;
+
+         &:is(:hover, :focus) {
+            text-decoration: none;
+         }
+      }
    }
 
    &.error {

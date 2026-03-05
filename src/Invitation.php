@@ -22,119 +22,99 @@ require './model/Invitation.class.php';
 require './libraries/Mailing.lib.php';
 
 $errorKey = null;
+$formErrorMessagesTriggered = [];
 
 do {
-if (!empty($_GET['key'])) {
-   $invitationKey = Utils::secure($_GET['key']);
+   if (!empty($_GET['key'])) {
+      $invitationKey = Utils::secure($_GET['key']);
 
-   // Getting the invitation and checking there is no error.
-   $invitation = null;
+      // Getting the invitation and checking there is no error.
+      $invitation = null;
 
-   try {
-      $invitation = new Invitation($invitationKey);
-   } catch (Exception $e) {
-      if (strstr($e->getMessage(), 'does not exist') !== FALSE)
-         $errorKey = 'noInvitation';
-      else
-         $errorKey = 'dbError';
-
-      break;
-   }
-
-   // Now checking an account for that e-mail address does not exist already
-   try {
-      $accountExists = User::isEmailUsed($invitation->get('guest_email'));
-      if ($accountExists) {
-         $errorKey = "alreadyRegistered";
-      }
-   } catch (Exception $e) {
-      $errorKey = "dbError";
-
-      break;
-   }
-
-   $formTplInput = array(
-      'errors' => '',
-      'invitationKey' => $invitationKey,
-      'pseudo' => '',
-      'newPwd' => ''
-   );
-
-   if (!empty($_POST['sent'])) {
-      $data = array(
-         'pseudo' => Utils::secure($_POST['pseudo']),
-         'newPwd' => Utils::secure($_POST['newPwd'])
-      );
-
-      // Copying in formTplInput
-      $formTplInput['pseudo'] = $data['pseudo'];
-      $formTplInput['newPwd'] = $data['newPwd'];
-
-      // Testing several possible errors (labels are self-explanatory)
-      $errors = '';
-      if (strlen($data['pseudo']) == 0 || strlen($data['newPwd']) == 0)
-         $errors .= 'emptyFields|';
-      if (strlen($data['pseudo']) > 20 || strlen($data['newPwd']) > 20)
-         $errors .= 'dataTooBig|';
-      if (!preg_match('!^[a-zA-Z0-9_-]{3,20}$!', $data['pseudo']))
-         $errors .= 'badPseudo|';
-
-      // Also checking that the pseudo is available
       try {
-         $pseudoExists = User::isPseudoUsed($data['pseudo']);
-         if ($pseudoExists)
-            $errors .= 'pseudoAlreadyUsed|';
+         $invitation = new Invitation($invitationKey);
       } catch (Exception $e) {
-         $formTplInput['errors'] = 'dbError';
-         // $tplRes = TemplateEngine::parse('view/user/Invitation.form.ctpl', $formTplInput);
-         // WebpageHandler::wrap($tplRes, 'Erreur lors de l\'inscription (sur invitation)');
+         if (strstr($e->getMessage(), 'does not exist') !== FALSE)
+            $errorKey = 'noInvitation';
+         else
+            $errorKey = 'dbError';
+         break;
       }
 
-      if ($errors !== '') {
-         $formTplInput['errors'] = substr($errors, 0, -1);
-         $display = TemplateEngine::parse('view/user/Invitation.form.ctpl', $formTplInput);
-         WebpageHandler::wrap($display, 'Inscription sur invitation');
+      // Now checking an account for that e-mail address does not exist already
+      try {
+         $accountExists = User::isEmailUsed($invitation->get('guest_email'));
+         if ($accountExists) {
+            $errorKey = "alreadyRegistered";
+         }
+      } catch (Exception $e) {
+         $errorKey = "dbError";
+ 
+         break;
       }
-      // At this point, the provided data is considered to be valid
-      else {
-         Database::beginTransaction();
+
+      if (!empty($_POST)) {
+         $formErrorMessages = $twig->getGlobals()["error_messages"]["user_account"];
+
+         $data = array(
+            'pseudo' => Utils::secure($_POST['pseudo']),
+            'newPwd' => Utils::secure($_POST['newPwd'])
+         );
+
+         // Testing several possible errors (labels are self-explanatory)
+         $errors = '';
+         if (strlen($data['pseudo']) == 0 || strlen($data['newPwd']) == 0)
+            array_push($formErrorMessagesTriggered, $formErrorMessages['emptyFields']);
+         if (strlen($data['newPwd']) < 6 || strlen($data['newPwd']) > 20)
+            array_push($formErrorMessagesTriggered, "Votre mot de passe n'est pas compris entre 6 et 20 caractères");
+         if (!preg_match('!^[a-zA-Z0-9_-]{3,20}$!', $data['pseudo']))
+            array_push($formErrorMessagesTriggered, "Le pseudo \"{$data['pseudo']}\" n'est pas compris entre 3 et 20 caractères ou possède des caractères interdits");
+
+         // Also checking that the pseudo is available
          try {
-            $user = User::insert($data['pseudo'], $invitation->get('guest_email'), $data['newPwd']);
-            $user->confirm();
-            $user->updateAdvancedFeatures();
-            Database::commit();
+            $pseudoExists = User::isPseudoUsed($data['pseudo']);
+            if ($pseudoExists)
+               array_push($formErrorMessagesTriggered, "Ce pseudonyme est déjà utilisé par un autre internaute inscrit.");
+         } catch (Exception $e) {
+            array_push($formErrorMessagesTriggered, $formErrorMessages['dbError']);
 
-            // Small e-mail to inform the new user his/her account has been created
-            $inputEmail = array('pseudo' => $data['pseudo']);
-            $emailContent = TemplateEngine::parse('view/user/Invitation.mail.ctpl', $inputEmail);
-            if (!TemplateEngine::hasFailed($emailContent))
-               Mailing::send($user->get('email'), 'Bienvenue sur JeuxRédige', $emailContent);
-
-            $display = TemplateEngine::parse('view/user/Invitation.success.ctpl');
-            WebpageHandler::wrap($display, 'Bienvenue sur JeuxRédige !');
+            break;
          }
-         // Fail while creating new account : check the error provided by SQL
-         catch (Exception $e) {
-            Database::rollback();
-            if (strstr($e->getMessage(), 'for key \'PRIMARY\'') != FALSE)
-               $formTplInput['errors'] = 'pseudoAlreadyUsed';
-            else
-               $formTplInput['errors'] = 'dbError';
-            $display = TemplateEngine::parse('view/user/Invitation.form.ctpl', $formTplInput);
-            WebpageHandler::wrap($display, 'Inscription sur invitation');
+
+         if (count($formErrorMessagesTriggered) === 0) {
+            // At this point, the provided data is considered to be valid
+            Database::beginTransaction();
+            try {
+               $user = User::insert($data['pseudo'], $invitation->get('guest_email'), $data['newPwd']);
+               $user->confirm();
+               $user->updateAdvancedFeatures();
+               Database::commit();
+
+               // Small e-mail to inform the new user his/her account has been created
+               $inputEmail = array('pseudo' => $data['pseudo']);
+               $emailContent = TemplateEngine::parse('view/user/Invitation.mail.ctpl', $inputEmail);
+               if (!TemplateEngine::hasFailed($emailContent))
+                  Mailing::send($user->get('email'), 'Bienvenue sur JeuxRédige', $emailContent);
+
+               $display = TemplateEngine::parse('view/user/Invitation.success.ctpl');
+               WebpageHandler::wrap($display, 'Bienvenue sur JeuxRédige !');
+
+               break;
+            }
+            // Fail while creating new account : check the error provided by SQL
+            catch (Exception $e) {
+               Database::rollback();
+               if (strstr($e->getMessage(), 'for key \'PRIMARY\'') != FALSE)
+                  array_push($formErrorMessagesTriggered, "Ce pseudonyme est déjà utilisé par un autre internaute inscrit.");
+               else
+                  array_push($formErrorMessagesTriggered, $formErrorMessages['dbError']);
+               
+               break;
+            }
          }
       }
-   } 
-   else {
-      // $tplRes = TemplateEngine::parse('view/user/Invitation.form.ctpl', $formTplInput);
-      // WebpageHandler::wrap($tplRes, 'Inscription sur invitation');
    }
-}
 } while (0);
-
-      // $tplRes = TemplateEngine::parse('view/user/Invitation.form.ctpl', $formTplInput);
-      // WebpageHandler::wrap($tplRes, 'Inscription sur invitation');
-
 
 if ($errorKey) {
    echo $twig->render("error.html.twig", [
@@ -148,13 +128,18 @@ if ($errorKey) {
       ]
    ]);
 } else {
-   echo $twig->render("invitation.html.twig", [
+   echo $twig->render("registration-invitation.html.twig", [
       "page_title" => "Inscription sur invitation",
+      "is_invitation" => true,
+      "form_payload" => [
+         "presentation" => "",
+         "pseudo" => "",
+         "newPwd" => "",
+      ],
+      "form_error_messages_triggered" => $formErrorMessagesTriggered,
       "meta" => [
          ...$twig->getGlobals()["meta"],
-         "title" => "Inscription sur invitatione",
+         "title" => "Inscription sur invitation",
       ]
    ]);
 }
-
-

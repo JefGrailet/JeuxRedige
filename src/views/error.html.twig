@@ -2,8 +2,11 @@
 
 {% block content %}
 	<div class="sectionBlock">
-		<p class="title" role="alert">Erreur —
-			{{ error_title }}</p>
+		<p class="title" role="alert">Erreur 
+			{% if error_title %}
+			{{ "—" ~ error_title }}
+			{% endif %}
+		</p>
 		<div class="content">
 			<p>
 				{% if error_key == "noSegment" %}
@@ -39,8 +42,12 @@
 			{% elseif error_key == "notPermitted" %}
                Vous n'avez pas les droits requis pour inviter de nouveaux utilisateurs.
             {% elseif error_key == "notLogged" %}
-               Pour utiliser cette page, vous devez être enregistré et connecté. <a class="link" href="./LogIn.php">Se connecter</a>
-            {# {% elseif error_key == "notYours" %}
+               Pour utiliser cette page, vous devez être enregistré(e) et connecté(e). <a class="link" href="./LogIn.php">Se connecter</a>
+			{% elseif error_key == "alreadyRegistered" %}
+               Cette invitation n'est plus valide. La personne invitée a déjà activé son compte. <a class="link" href="./LogIn.php">Se connecter</a>.
+			{% elseif error_key == "noInvitation" %}
+               Cette invitation n'existe pas.
+			{# {% elseif error_key == "notYours" %}
 				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
             #}{% else %}
 					Une erreur est survenue. Veuillez réessayer.

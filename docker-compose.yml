@@ -13,6 +13,8 @@ services:
          - mysql
       stdin_open: true
       tty: true
+      ports:
+         - 80:80
    composer:
       image: composer:latest
       command: sh -c "composer install"

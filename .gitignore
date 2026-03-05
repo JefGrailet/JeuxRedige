@@ -10,4 +10,6 @@ src/upload/**
 Dump*
 dump*
 
+*.local
+
 *.override.*

@@ -183,7 +183,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $finalTplInput['publication'] = 'empty||'.$article->get('id_article');
    }
 
-   $formErrorMessages = $twig->getGlobals()["errors_message"]["article"];
+   $formErrorMessages = $twig->getGlobals()["error_messages"]["article"];
    if(!empty($_POST)) {
       $formErrorMessagesTriggered = [];
 

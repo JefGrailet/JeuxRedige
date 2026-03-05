@@ -143,7 +143,7 @@ if(!empty($_POST))
    }
 
    // Various errors (empty fields, etc.)
-   $formErrorMessages = $twig->getGlobals()["errors_message"]["article"];
+   $formErrorMessages = $twig->getGlobals()["error_messages"]["article"];
 
    if (!$fullyCompleted)
       array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);

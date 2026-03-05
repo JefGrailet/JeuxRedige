@@ -129,7 +129,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       $currentHeaderValue = './'.substr($currentSegmentHeader, strlen(PathHandler::HTTP_PATH()));
 
 
-   $formErrorMessages = $twig->getGlobals()["errors_message"];
+   $formErrorMessages = $twig->getGlobals()["error_messages"];
    $formErrorMessagesTriggered = [];
    // Form treatment starts here
    if(!empty($_POST)) {

@@ -1,0 +1,39 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<section class="sectionBlock">
+		<h1 class="title">Inviter un ami</h2>
+		<div class="content">
+			<p>
+				Vous pouvez inviter un ami à rejoindre la communauté en indiquant simplement son adresse e-mail 
+				dans le formulaire ci-contre, après quoi il recevra un e-mail d'invitation. Grâce à votre invitation, votre ami pourra bénéficier, dès son enregistrement, de toutes les fonctionnalités du site.
+			</p>
+			{% if is_email_sent_success %}
+			<p class="alert success">
+				Un nouvel e-mail d'invitation a été envoyé à <b>{{ friend_email }}</b>. En cas 
+de non-réception de cet e-mail, vous pouvez ré-utiliser ce formulaire pour re-expédier l'e-mail 
+d'invitation (minimum une heure après cette tentative).
+			</p>
+			{% endif %}
+			<form autocomplete="off" action="" class="loginForm" novalidate method="POST" data-form-schema-validation="sponsorship">
+				<script type="text/schema" data-form-schema="sponsorship">
+					return z.object({
+                  		email: z.email({ error: "Vous devez entrer une adresse e-mail valide"})
+               		})
+				</script>
+            <ul class="alert error" data-form-error="sponsorship">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+				<div class="inputContainer">
+					<label for="email">Email</label>
+					<input type="email" autocomplete="off" style="flex-grow: 1" name="email" id="email" value="{{ friend_email }}">
+				</div>
+
+				<div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Inviter">
+				</div>
+			</form>
+		</div>
+
+	</section>
+{% endblock %}

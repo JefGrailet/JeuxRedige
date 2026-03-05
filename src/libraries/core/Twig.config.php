@@ -98,7 +98,7 @@ $twig->addGlobal("query_string", $queryString);
 $twig->addGlobal("current_category", $twig->getGlobals()["query_string"]["article_category"] ?? "default");
 $twig->addGlobal("selectedLogo", empty($twig->getGlobals()["current_category"]) ? "default" : $twig->getGlobals()["current_category"]);
 $twig->addGlobal("base_js_files", ["toggle_input_visibility", ["file" => "form_validation"]]);
-$twig->addGlobal("errors_message", [
+$twig->addGlobal("error_messages", [
    "article" => [
       "thumbnail" => [
          "tooBig" => "La taille de l'image uploadée ne peut excéder un mégaoctet. Veuillez réduire l'image ou utiliser une autre",
@@ -164,6 +164,7 @@ $twig->addGlobal("errors_message", [
       ],
    ],
    "emptyFields" => "Vous devez remplir tous les champs",
+   "dbError" => "Une erreur inconnue est survenue. Contactez l'administrateur ou réessayez plus tard",
 ]);
 
 $filter = new \Twig\TwigFilter('since_days', function ($charset) {

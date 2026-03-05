@@ -142,7 +142,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       die();
    }
 
-   $formErrorMessages = $twig->getGlobals()["errors_message"];
+   $formErrorMessages = $twig->getGlobals()["error_messages"];
    $formErrorMessagesTriggered = [];
 
    $listPageAttachements = [];

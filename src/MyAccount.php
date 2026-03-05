@@ -51,7 +51,7 @@ $formErrorMessagesTriggered = [
    "preferences" => [],
 ];
 
-$formErrorMessages = $twig->getGlobals()["errors_message"]["user_account"];
+$formErrorMessages = $twig->getGlobals()["error_messages"]["user_account"];
 
 
 // // Input for the avatar form template (avatar path must be provided)

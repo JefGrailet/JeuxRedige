@@ -10,6 +10,7 @@
       <link rel="stylesheet" href="{{webRoot}}/style/default.css"/>
       <link rel="stylesheet" href="{{webRoot}}/style/error.css"/>
       <link rel="stylesheet" href="{{webRoot}}/style/main_menu.css"/>
+      <link rel="stylesheet" href="{{webRoot}}/style/lateral_menus.css"/>
       <link rel="stylesheet" href="{{webRoot}}/style/icons.css"/>
       <link rel="stylesheet" href="{{webRoot}}/style/alert.css"/>
       <link rel="stylesheet" href="{{webRoot}}/style/button.css"/>
@@ -71,7 +72,7 @@
       <style>
       :root
       {
-         --current-page-color: {{ list_categories[current_category].color|default("transparent") }};
+         --current-page-color: {{ list_categories[current_category].color|default("white") }};
          --scrollbar-menu-color: {{ list_categories[current_category].color is defined ? "var(--current-page-color)" : "auto"}};
          {% for key, article_category in list_categories %}
          --article-{{ key }}-color: {{ article_category.color }};

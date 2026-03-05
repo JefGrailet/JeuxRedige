@@ -31,29 +31,27 @@
    </ul>
 </div>
 <div class="userMenu">
+
    <ul>
-      {% if userInfos.test %}
-         <li>
-            <div class="headerSlider">
-               <i class="icon-menu_switch"></i>
-               <a href="{{webRoot}}SwitchAccount.php?pos=">
-                  Changer pour
-                  {{ userInfos.alt_pseudo }}
-               </a>
-               <label for="userMenu" style="margin-left: auto;">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-                  </svg>
-               </label>
-            </div>
-         </li>
-      {% endif %}
-      <li style="text-align: end;">
+      <li style="text-align: end;" class="separator">
          <label for="userMenu" style="font-size: 0.8rem; cursor: pointer;">
             Fermer
             <i class="icon-general_close" style="font-size: 0.8rem"></i>
          </label>
       </li>
+      {% if userInfos.is_admin %}
+         <li class="separator">
+            <a href="{{webRoot}}/SwitchAccount.php?pos=">
+               <i class="icon-menu_switch"></i>
+                  Changer pour
+                  {% if userInfos.is_using_admin_account %}
+                     {{ userInfos.pseudo }}
+                  {% else %}
+                     {{ userInfos.alt_pseudo }}
+                  {% endif %}
+               </a>
+         </li>
+      {% endif %}
       <li>
          <a href="{{ webRoot }}/MyAccount.php">
             <i class="icon-general_edit"></i>
@@ -105,8 +103,10 @@
             Inviter un ami
          </a>
       </li>
-      {% if is_using_admin_account %}
+      {% if userInfos.is_using_admin_account %}
          <li>
+            <ul class="adminTools">
+               <li>
             <a href="[0]UnpublishedArticles.php" class="adminLink">
                <i class="icon-menu_articles"></i>
                Articles en cours
@@ -124,6 +124,9 @@
                Alertes
             </a>
          </li>
+            </ul>
+         </li>
+         
       {% endif %}
       <li>
          <a href="{{ webRoot }}/LogOut.php">

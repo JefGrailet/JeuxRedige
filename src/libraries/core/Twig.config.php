@@ -82,13 +82,14 @@ $twig->addGlobal("logo_chargement", PathHandler::HTTP_PATH() . "logos/JeuxRedige
 $twig->addGlobal("no_custom_logo", false);
 $twig->addGlobal("is_user_logged", LoggedUser::isLoggedIn());
 if (LoggedUser::isLoggedIn()) {
+   $hasAdminAccount = LoggedUser::$data['function_pseudo'] !== NULL && strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus';
+
    $twig->addGlobal("userInfos", array(
       "avatar" => PathHandler::getAvatarMedium(LoggedUser::$data['used_pseudo']),
       "pseudo" => LoggedUser::$data['pseudo'],
-      "is_admin" => LoggedUser::$data['function_pseudo'] !== NULL && strlen(LoggedUser::$data['function_pseudo']) > 0 && LoggedUser::$data['function_name'] !== 'alumnus',
+      "is_admin" => $hasAdminAccount,
       "is_using_admin_account" => LoggedUser::$data['function_pseudo'] === LoggedUser::$data['used_pseudo'],
       "alt_pseudo" => LoggedUser::$data['function_pseudo'],
-      "is_admin" => LoggedUser::$data['function_name'] === 'administrator',
    ));
 }
 $twig->addGlobal("renderTime", number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 5, '.', ""));

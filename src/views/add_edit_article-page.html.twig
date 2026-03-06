@@ -59,7 +59,7 @@
                               }
                               return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
                            },
-                           "{{ form_error_messages.page.header.invalidFormat|e('js')|raw }}"
+                           "{{ form_error_messages.segment.header.invalidFormat|e('js')|raw }}"
                      )
                      .refine(
                            (file) => {
@@ -68,7 +68,7 @@
                               }
                               return file?.size < {{ image_header_requirements.maxSize }};
                            },
-                           "{{ form_error_messages.page.header.tooBig|e('js')|raw }}"
+                           "{{ form_error_messages.segment.header.tooBig|e('js')|raw }}"
                      )
                      .refine((file) => {
                         if (file === null) {
@@ -88,7 +88,7 @@
                               };
                               reader.readAsDataURL(file);
                            })
-                     }, "{{ form_error_messages.page.header.badDimensions|e('js')|raw }}")
+                     }, "{{ form_error_messages.segment.header.badDimensions|e('js')|raw }}")
                })
 				</script>
 				<ul class="alert error" role="alert" data-form-error="article_page">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
@@ -112,51 +112,16 @@
 							</ul>
 						</div>
                   {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
-                  <div class="dragAndDropUpload">
-                     <div class="dropzone paused" data-upload-dropzone="page-header">
-                        <script type="text/schema" data-upload-callback-success="page-header">
-                           const deleteBtn = document.getElementById("delete-image-page-header");
-                           deleteBtn.inert = false;
-                           const deleteBtnPayload = JSON.parse(deleteBtn.dataset.media)
-                           deleteBtnPayload.new = URL.createObjectURL(res);
-                           deleteBtn.dataset.media = JSON.stringify(deleteBtnPayload);
+                  {% include "includes/image-drag-n-drop.html.twig" with {
+                        "options": {
+                           "name": "header",
+                           "label": "Sélectionner image",
+                           "default_image": page_header,
+                           "mimeTypes": image_header_requirements.mimeTypes,
+                        }
+                     }
+                  %}
 
-                           const image = document.getElementById("page-header-img");
-                           image.src = URL.createObjectURL(res);
-                        </script>
-
-                        <div style="position: relative">
-                           <div class="mediaMenuBar">
-                              <button title="supprimer média" data-media='{"original": "{{ page_header }}", "deleteButtonId": "delete-image-page-header", "linkedMedia": { "id": "page-header-img", "type": "image", "inputName": "header" }}' id="delete-image-page-header" command="show-modal" inert commandfor="delete-media" class="danger extensibleButton small" type="button">
-                                 <i class="icon-general_trash"></i>
-                                 <span>Supprimer</span>
-                              </button>
-                           </div>
-                           <img src="{{ page_header }}" alt="" id="page-header-img">
-                        </div>
-                        <p class="text">Glissez-déposez votre image (.jp(e)g)</p>
-                        <p class="text">ou</p>
-                        <div class="buttons">
-                           <label class="primaryButton">
-                              Sélectionner une image d'en-tête
-                              <input
-                                 type="file"
-                                 accept="{{ image_header_requirements.mimeTypes }}"
-                                 name="header"
-                                 data-config-drag-n-drop='{"name": "page-header", "limitSize": {"image": 1}}'
-                                 data-upload-input-dropzone="page-header"
-                              />
-                           </label>
-                           <button
-                              type="button"
-                              class="secondaryButton"
-                              data-clipboard-upload="page-header"
-                           >
-                              Coller depuis le presse-papier
-                           </button>
-                        </div>
-                     </div>
-                     {{ macros.dragAndDropErrorContainer("page-header") }}
 					</div>
 
 					<div class="inputContainer">

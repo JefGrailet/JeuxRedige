@@ -1,4 +1,6 @@
 {% extends "layouts/base.html.twig" %}
+{% import "includes/_macros.html.twig" as macros %}
+
 {% block content %}
 	<div>
 		{% set array = {} %}
@@ -94,16 +96,18 @@
 							</ul>
 						</div>
                   {% set article_thumbnail = article.thumbnail ? article.thumbnail : "./default_article_thumbnail.jpg" %}
-						{% include "includes/input-file.html.twig" with {
-                     "options": {
-                        "label": "Sélectionner image",
-                        "input_name": "thumbnail",
-                        "default_image": article_thumbnail,
-                        "mimeTypes": thumbnail_requirements.mimeTypes
+
+                  {% include "includes/image-drag-n-drop.html.twig" with {
+                        "options": {
+                           "name": "thumbnail",
+                           "label": "Sélectionner image",
+                           "default_image": article_thumbnail,
+                           "mimeTypes": thumbnail_requirements.mimeTypes,
+                        }
                      }
-                  }
-               %}
+                  %}
 					</div>
+
 					<div class="inputContainer">
 						<label for="type">Type<span style="color: var(--danger-color);">*</span></label>
                   <div class="notes">

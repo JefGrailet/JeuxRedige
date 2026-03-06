@@ -282,7 +282,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "preview_url" => PathHandler::articleURL($article->getAll()),
          "segments" => $segments,
       ],
-      "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition"],
+      "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition", "drag_and_drop_upload"],
       "list_js_files" => [
          ["file" => "form_validation"],
          "upload",
@@ -292,6 +292,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "dynamic_article_button_label",
          "sortable.min",
          "sortable_list",
+         "drag_n_drop_upload",
+         "paste_clipboard_media",
          ["file" => "modals_page"],
       ],
       "form_error_messages" => $formErrorMessages,

@@ -190,41 +190,7 @@ class SegmentParsing
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
-                  $imageHTML = '<img src="'.$displayPath.'" alt="Upload 1" ';
-                  if($floating !== '')
-                  {
-                     $imageHTML .= 'style="float: '.$floating.'; ';
-                     if($floating === 'left')
-                        $imageHTML .= 'margin: 0px 10px 3px 0px;';
-                     else
-                        $imageHTML .= 'margin: 0px 0px 3px 10px;';
-                     // Additionnal adjustement: padding to align with paragraph, depending on width
-                     if($ratio != 1.0)
-                     {
-                        $newWidth = $dimensions[0] * $ratio;
-                        if($newWidth > 200)
-                        {
-                           if($newWidth < 250)
-                              $imageHTML .= ' padding-top: 5px;';
-                           // else if($newWidth < 350)
-                           //   $imageHTML .= ' padding-top: 10px;';
-                           else
-                              $imageHTML .= ' padding-top: 10px;'; // 25px in older versions
-                        }
-                     }
-                     $imageHTML .= '" ';
-                  }
-                  if($ratio != 1.0)
-                  {
-                     $newWidth = $dimensions[0] * $ratio;
-                     $imageHTML .= 'width="'.$newWidth.'" ';
-
-                     // Adds the attributes to view full size upload in lightbox
-                     $imageHTML .= 'class="miniature" data-file="'.$displayPath.'" ';
-                     $imageHTML .= 'data-widteh="'.$dimensions[0].'" ';
-                     $imageHTML .= 'data-height="'.$dimensions[1].'" ';
-                  }
-                  $imageHTML .= '/>';
+                  $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
 
                   $mediaData = [
                      "mini" => [
@@ -244,7 +210,7 @@ class SegmentParsing
                      ],
                      "mediaType" => "image",
                      "uploadDate" => "",
-                     "comment" => $comment ?? "",
+                     "comment" => $altText ?? "",
                   ];
 
                   $HTMLImageFragment = $twig->render("segments/image.html.twig", [

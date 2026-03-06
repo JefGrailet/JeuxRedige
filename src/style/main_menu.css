@@ -193,7 +193,7 @@ body:not(.logged) .userPseudo {
    right: 0;
    background-color: black;
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-   border-bottom: var(--current-page-color, transparent) 2px solid;
+   border-bottom: var(--current-page-color, transparent) 3px solid;
    transition-property: border-bottom-color;
    transition-duration: var(--transition-time);
 

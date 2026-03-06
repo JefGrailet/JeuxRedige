@@ -228,14 +228,18 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          try
          {
             $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
-            $fileName = substr(strrchr($curlResult, '/'), 1);
-            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
+
+            if ($curlResult) {
+               $fileName = substr(strrchr($curlResult, '/'), 1);
+               Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
+            }
          }
          catch(Exception $e)
          {
             setcookie("flash_message", "article_error", time() + 1, "/");
             $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
-            exit(header('Location:' . $currentURL));
+            header('Location:' . $currentURL);
+            exit;
          }
 
          $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
@@ -262,7 +266,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          Tag::cleanOrphanTags();
          $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
          setcookie("flash_message", "article_updated", time() + 1, "/");
-         exit(header('Location:' . $currentURL));
+         header('Location: ' . $currentURL, true, 302);
+         exit;
       }
    }
 

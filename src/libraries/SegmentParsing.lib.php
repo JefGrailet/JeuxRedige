@@ -382,7 +382,7 @@ class SegmentParsing
 
       // Podcasts
       $podcasts = array();
-      preg_match_all("/\!podcast\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $podcasts);
+      preg_match_all("/\!podcast\[([_a-zA-Z0-9".$accents."\.\\/;:'\%\?\=\-\(\)]*?)\]/", $parsed, $podcasts);
 
       for($i = 0; $i < count($podcasts[1]); $i++)
       {

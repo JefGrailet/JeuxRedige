@@ -255,36 +255,71 @@
 		</button>
 	</header>
 
-	<form class="content gridForm" method="dialog" data-form-schema-validation="podcast">
+	<form class="content gridForm" method="dialog" novalidate data-form-schema-validation="podcast">
+   <style>
+      [data-form-schema-validation="podcast"]:has(option[value="apple"]:checked) {
+         [data-url-podcast="acast"] {
+            display: none;
+         }
+
+         [data-url-podcast="apple"] {
+            display: block;
+         }
+      }
+
+      [data-form-schema-validation="podcast"]:has(option[value="acast"]:checked) {
+         [data-url-podcast="acast"] {
+            display: block;
+         }
+
+         [data-url-podcast="apple"] {
+            display: none;
+         }
+      }
+   </style>
 		<p class="alert warning full">Les champs avec * sont requis</p>
       <ul class="alert error full" role="alert" data-form-error="podcast"></ul>
 
 		<script type="text/schema" data-form-schema="podcast">
 			return z.object({
-            podcast_platform: z.enum(["acast"], { message: "Valeur inconnue" }),
+            podcast_platform: z.enum(["acast", "apple"], { message: "Valeur inconnue" }),
             podcast_url: z.httpUrl(),
-         }).refine((value) => {
+         }).superRefine((value, ctx) => {
             if (value.podcast_platform === "acast") {
                const acastRegex = /^http(?:s?):\/\/embed.acast.com\/([\w\-\_]*)\/([\w\-\_]*)\/?$/;
-               return acastRegex.test(value.podcast_url ?? "");
+               if(!acastRegex.test(value.podcast_url ?? "")) {
+                  ctx.addIssue({
+                     code: z.ZodIssueCode.custom,
+                     path: ["podcast_url"],
+                     message: `L'url "${value.podcast_url}" n'est pas une url valide de podcast Acast audio`
+                  });
+               };
             }
 
-            return false
-         }, {
-            message: "Cette url n'est pas valide",
-            path: ["podcast_url"],
+            if (value.podcast_platform === "apple") {
+               const itunesPodcastRegex = /^http(?:s?):\/\/embed.podcasts.apple.com\/[a-z]{2}\/podcast\/[^/]+\/id\d+\?i=\d+(?:&theme=[a-z]+)?$/;
+               if(!itunesPodcastRegex.test(value.podcast_url ?? "")) {
+                  ctx.addIssue({
+                     code: z.ZodIssueCode.custom,
+                     path: ["podcast_url"],
+                     message: `L'url "${value.podcast_url}" n'est pas une url valide de podcast Apple`
+                  });
+               }
+            }
          })
 		</script>
       <div class="inputContainer row">
 			<label for="podcast_platform">Plateforme</label>
 			<select name="podcast_platform" id="podcast_platform">
             <option value="acast">Acast</option>
+            <option value="apple">Apple Podcast</option>
          </select>
 		</div>
 		<div class="inputContainer row">
 			<label for="podcast_url">Lien du podcast<span style="color: var(--danger-color);">*</span></label>
 			<input type="url" name="podcast_url" id="podcast_url"/>
-         {# <p class="notes full">Vous devez mettez l'URL intégrale de la vidéo YouTube. Ex : <a href="https://www.youtube.com/watch?v=E4WlUXrJgy4" target="_blank">https://www.youtube.com/watch?v=E4WlUXrJgy4</a></p> #}
+         <p class="notes full" data-url-podcast="acast">Une url Acast possède la forme suivante : https://embed.acast.com/identifiant-1/identifiant-2</p>
+         <p class="notes full" data-url-podcast="apple">Une url Apple Podcast possède la forme suivante : https://embed.podcasts.apple.com/...</p>
 		</div>
 		<div class="inputContainer">
 			<input type="submit" class="fit primaryButton" value="Insérer">

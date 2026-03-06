@@ -1,3 +1,6 @@
 {% if type == "acast" %}
 <iframe title="Embed Player" width="100%" height="188px" src="{{ link }}" scrolling="no" frameBorder="0" style="border:none;overflow:hidden;"></iframe>
+{% elseif type == "apple" %}
+   <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="175" style="width:100%;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="{{ link }}"></iframe>
 {% endif %}
+

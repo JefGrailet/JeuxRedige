@@ -179,11 +179,11 @@ const onSubmitFormSuccessfully = (e) => {
                size = "";
             }
 
-            insertTags(`!video[${urlYoutube};${size}]`);
+            insertTags(`!video[${urlYoutube}${size ? `;${size}` : ""}]`);
          }
          break;
 
-          case "integrate-podcast": {
+         case "integrate-podcast": {
             const urlPodcast = formDataJSON.podcast_url;
             const platform = e.currentTarget.querySelector("select[name='podcast_platform']")?.value || 'acast';
 

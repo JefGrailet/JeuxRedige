@@ -62,11 +62,10 @@ $curlUpload = function ($file) use ($twig) {
          ),
       ]);
    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-   curl_setopt($curl,CURLOPT_USERAGENT, $useragent);
+   curl_setopt($curl, CURLOPT_USERAGENT, $useragent);
    curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
 
    $result = curl_exec($curl);
-   curl_close($curl);
 
    return $result;
 };
@@ -229,6 +228,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          try
          {
             $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
+            $fileName = substr(strrchr($curlResult, '/'), 1);
+            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
          }
          catch(Exception $e)
          {
@@ -240,7 +241,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
          $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
          $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
-         
+
          try
          {
             Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);

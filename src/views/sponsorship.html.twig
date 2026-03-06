@@ -5,13 +5,13 @@
 		<h1 class="title">Inviter un ami</h1>
 		<div class="content">
 			<p>
-				Vous pouvez inviter un ami à rejoindre la communauté en indiquant simplement son adresse e-mail 
-				dans le formulaire ci-contre, après quoi il recevra un e-mail d'invitation. Grâce à votre invitation, votre ami pourra bénéficier, dès son enregistrement, de toutes les fonctionnalités du site.
+				Vous pouvez inviter un ami à rejoindre la communauté JeuxRedige en indiquant simplement son adresse e-mail
+				dans le formulaire ci-dessous, après quoi il recevra un e-mail d'invitation. Grâce à votre invitation, votre ami pourra bénéficier, dès son enregistrement, de toutes les fonctionnalités du site.
 			</p>
 			{% if is_email_sent_success %}
 			<p class="alert success">
-				Un nouvel e-mail d'invitation a été envoyé à <b>{{ friend_email }}</b>. En cas 
-de non-réception de cet e-mail, vous pouvez ré-utiliser ce formulaire pour re-expédier l'e-mail 
+				Un nouvel e-mail d'invitation a été envoyé à <b>{{ friend_email }}</b>. En cas
+de non-réception de cet e-mail, vous pouvez ré-utiliser ce formulaire pour re-expédier l'e-mail
 d'invitation (minimum une heure après cette tentative).
 			</p>
 			{% endif %}

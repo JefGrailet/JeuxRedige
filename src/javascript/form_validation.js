@@ -30,11 +30,6 @@ const formValidation = async (e) => {
       form.appendChild(inputActionType);
    }
 
-
-   // if (!formData.has("keywords[]")) {
-   //    formData.append("keywords[]", []);
-   // }
-
    const payload = {}
    formData.entries().forEach((item) => {
       const [key, value] = item;

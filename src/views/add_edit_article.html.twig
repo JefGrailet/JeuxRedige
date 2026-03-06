@@ -48,10 +48,12 @@
                            },
                            "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
                      ),
-                     "keywords[]": z.array(z.string())
+                  "keywords[]":  z.preprocess(
+                     (value) => value ?? [],
+                     z.array(z.string())
                         .min(1, {error: "{{ form_error_messages.keywords.empty }}" })
                         .max(10, {error: "{{ form_error_messages.keywords.limitReached }}" })
-                     ,
+                  )
                })
 				</script>
             {% if flash_message == "article_created" %}

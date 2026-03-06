@@ -161,7 +161,8 @@ if (!empty($_POST)) {
 
          $newArticleURL = './EditArticle.php?id_article=' . $newArticle->get('id_article');
          setcookie("flash_message", "article_created", time() + 1, "/");
-         exit(header('Location:' . $newArticleURL));
+         header('Location:' . $newArticleURL);
+         exit;
       } catch (Exception $e) {
          array_push($formErrorMessagesTriggered, $formErrorMessages["dbError"]);
       }

@@ -171,7 +171,7 @@ const onSubmitFormSuccessfully = (e) => {
          break;
 
          case "integrate-yt-video": {
-            const URLYoutube = formDataJSON.yt_video;
+            const urlYoutube = formDataJSON.yt_video;
             const selectSize = e.currentTarget.querySelector("select[name='ratio_video']");
             let size = selectSize.value;
             const listValidSizes = Array.from(selectSize.options).map((item) => item.value);
@@ -179,7 +179,15 @@ const onSubmitFormSuccessfully = (e) => {
                size = "";
             }
 
-            insertTags(`!video[${URLYoutube};${size}]`);
+            insertTags(`!video[${urlYoutube};${size}]`);
+         }
+         break;
+
+          case "integrate-podcast": {
+            const urlPodcast = formDataJSON.podcast_url;
+            const platform = e.currentTarget.querySelector("select[name='podcast_platform']")?.value || 'acast';
+
+            insertTags(`!podcast[${urlPodcast};${platform}]`);
          }
          break;
 

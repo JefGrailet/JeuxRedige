@@ -267,3 +267,52 @@
       </p>
    </div>
 </dialog>
+
+{# Intégrer podcast #}
+<dialog class="modal medium" id="integrate-podcast" data-modal="integrate-podcast">
+	<header class="header">
+		<p class="title">Intégrer un podcast</p>
+		<button class="closeModal" command="close" commandfor="integrate-podcast" data-close-modal>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" data-form-schema-validation="podcast">
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="podcast"></ul>
+
+		<script type="text/schema" data-form-schema="podcast">
+			return z.object({
+            podcast_platform: z.enum(["acast"], { message: "Valeur inconnue" }),
+            podcast_url: z.httpUrl(),
+         }).refine((value) => {
+            if (value.podcast_platform === "acast") {
+               const acastRegex = /^http(?:s?):\/\/embed.acast.com\/([\w\-\_]*)\/([\w\-\_]*)\/?$/;
+               return acastRegex.test(value.podcast_url ?? "");
+            }
+
+            return false
+         }, {
+            message: "Cette url n'est pas valide",
+            path: ["podcast_url"],
+         })
+		</script>
+      <div class="inputContainer row">
+			<label for="podcast_platform">Plateforme</label>
+			<select name="podcast_platform" id="podcast_platform">
+            <option value="acast">Acast</option>
+         </select>
+		</div>
+		<div class="inputContainer row">
+			<label for="podcast_url">Lien du podcast<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="podcast_url" id="podcast_url"/>
+         {# <p class="notes full">Vous devez mettez l'URL intégrale de la vidéo YouTube. Ex : <a href="https://www.youtube.com/watch?v=E4WlUXrJgy4" target="_blank">https://www.youtube.com/watch?v=E4WlUXrJgy4</a></p> #}
+		</div>
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer">
+		</div>
+	</form>
+</dialog>

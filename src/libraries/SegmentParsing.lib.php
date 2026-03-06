@@ -168,11 +168,10 @@ class SegmentParsing
 
          $isAnURL = self::isURL($link);
          $relativeLink = self::relativize($link);
+         $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
 
          if($isAnURL && strlen($relativeLink) == 0)
          {
-            $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
-
             $imageHTML = "<img src='{$link}' alt='{$altText}' style='max-width: 100%;' />";
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
@@ -190,8 +189,6 @@ class SegmentParsing
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
-                  $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
-
                   $mediaData = [
                      "mini" => [
                         "src" => $displayPath,
@@ -379,6 +376,27 @@ class SegmentParsing
                ]);
 
                $parsed = str_replace($miniatures[0][$i], $HTMLVideoFragment, $parsed);
+            }
+         }
+      }
+
+      // Podcasts
+      $podcasts = array();
+      preg_match_all("/\!podcast\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/", $parsed, $podcasts);
+
+      for($i = 0; $i < count($podcasts[1]); $i++)
+      {
+         if(self::isURL($podcasts[1][$i]))
+         {
+            $podcastData = explode(';', $podcasts[1][$i]);
+
+            if (count($podcastData) === 2) {
+               $htmlPodcastFragment = $twig->render("segments/podcast.html.twig", [
+                  "link" => $podcastData[0],
+                  "type" => $podcastData[1],
+               ]);
+
+               $parsed = str_replace($podcasts[0][$i], $htmlPodcastFragment, $parsed);
             }
          }
       }

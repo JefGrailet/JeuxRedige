@@ -38,7 +38,7 @@ $twig->addGlobal("list_categories", [
          "plural" => "Humeurs",
       ],
       "color" => "#91c148",
-      "is_female" => false,
+      "is_female" => true,
       "empty_message" => "aucune humeur",
    ],
    "chronicle" => [

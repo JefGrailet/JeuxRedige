@@ -44,12 +44,12 @@
          position: relative;
 
          &[data-media-type="image"] .media::after {
-            content: "\e909";
+            content: "\f001";
             display: none;
          }
 
          &[data-media-type="video"] .media::after {
-            content: "\e914";
+            content: "\f035";
             display: none;
          }
 

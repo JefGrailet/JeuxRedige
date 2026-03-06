@@ -46,9 +46,9 @@
 				<script type="text/schema" data-form-schema="article_page">
 					return z.object({
                   {% if needs_page_title %}
-                  title: z.string().min(1, {error: "{{ form_error_messages.page.title.empty|e('js')|raw }}" }),
+                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty|e('js')|raw }}" }),
                   {% endif %}
-                  content: z.string().min(1, {error: "{{ form_error_messages.page.content.empty|e('js')|raw }}" }),
+                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty|e('js')|raw }}" }),
                   header: z.file()
                      .nullable()
                      .transform((file) => (file && file.size > 0 ? file : null))

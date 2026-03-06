@@ -234,8 +234,8 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
 
       if (($segment->get('position') > 1 && empty($formData['title'])) || empty($formData['content']))
          array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
-      if (in_array($curlResult, array_keys($formErrorMessages["page"]["header"])))
-         array_push($formErrorMessagesTriggered, $formErrorMessages["page"]["header"][$curlResult]);
+      if (in_array($curlResult, array_keys($formErrorMessages["segment"]["header"])))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["segment"]["header"][$curlResult]);
 
       if (count($formErrorMessagesTriggered) == 0) {
          Database::beginTransaction();

@@ -118,7 +118,7 @@ $twig->addGlobal("error_messages", [
       ],
       "type" => [
          "unknown" => "Le type d'article choisi est invalide. Choisissez un des types proposés",
-         "empty" => "Vous devez choisir un type d'article",
+         "empty" => "Vous devez choisir un type d’article",
       ],
       "keywords" => [
          "empty" => "Vous devez préciser au moins un mot-clef",
@@ -148,7 +148,7 @@ $twig->addGlobal("error_messages", [
          "emptyFields" => "Vous devez remplir tous les champs",
          "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard",
    ],
-   "page" => [
+   "segment" => [
       "header" => [
          "badDimensions" => "L'image d'en-tête doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur",
          "invalidFormat" => "L'image d'en-tête doit être au format .jp(e)g",

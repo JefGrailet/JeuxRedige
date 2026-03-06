@@ -61,7 +61,6 @@ $curlUpload = function ($file) use ($twig) {
    curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
 
    $result = curl_exec($curl);
-   curl_close($curl);
 
    return $result;
 };
@@ -144,8 +143,8 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
       if (($nextPosition > 1 && empty($formData['title'])) || empty($formData['content']))
          array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
-      if (in_array($curlResult, array_keys($formErrorMessages["page"]["header"])))
-         array_push($formErrorMessagesTriggered, $formErrorMessages["page"]["header"][$curlResult]);
+      if (in_array($curlResult, array_keys($formErrorMessages["segment"]["header"])))
+         array_push($formErrorMessagesTriggered, $formErrorMessages["segment"]["header"][$curlResult]);
 
       if (count($formErrorMessagesTriggered) == 0) {
          try {

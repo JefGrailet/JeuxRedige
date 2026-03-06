@@ -29,6 +29,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.icon-menu_articles:before {
+    content: "\f04d";
+}
 .icon-formatting_spoiler:before {
     content: "\f04c";
 }

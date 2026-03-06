@@ -174,16 +174,13 @@ button, .customButton
    color: white;
    padding: 5px 15px;
    border-radius: 4px;
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1rem; /* ~16px */
    border: none;
-}
-
-
-button:hover, .customButton:hover
-{
-   background-color: #c8c8c8;
    cursor: pointer;
+
+   &:is(:hover, :focus) {
+      background-color: oklch(from #c8c8c8 calc(l * .5) c h);
+   }
 }
 
 input[type=submit]:active, button:active, .customButton:active
@@ -1706,7 +1703,10 @@ textarea
 
 .miniaturePopover {
    border-color: var(--current-page-color);
-   border-radius: 4px;
+   border-radius: calc(var(--border-radius) / 2);
+   border-width: 3px;
+   position: relative;
+
    @starting-style {
       &[open] {
          opacity: 0;
@@ -1742,13 +1742,14 @@ textarea
 {
    background-color: black;
    color: black;
+
+   &:hover
+   {
+      background-color: white;
+      color: black;
+   }
 }
 
-.hiddenText:hover
-{
-   background-color: white;
-   color: black;
-}
 
 /* Spoilers and quotations (N.B.: some properties are occasionally overriden in other CSS files) */
 

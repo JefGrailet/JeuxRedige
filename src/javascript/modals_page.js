@@ -116,6 +116,7 @@ previewMediaModal?.addEventListener("toggle", (e) => {
 });
 
 const deleteMediaModal = document.getElementById("delete-media");
+const deleteMediaBtn = document.getElementById("delete-media-btn");
 
 deleteMediaModal?.addEventListener("toggle", (e) => {
    const img = e.target.querySelector(".content img");
@@ -150,8 +151,7 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
             break;
       }
 
-      document.getElementById("delete-media-btn").dataset.mediaData =
-         mediaDataRaw;
+      deleteMediaBtn.dataset.mediaData = mediaDataRaw;
    } else {
       if (videoSource) {
          videoSource.pause();
@@ -160,7 +160,6 @@ deleteMediaModal?.addEventListener("toggle", (e) => {
    }
 });
 
-const deleteMediaBtn = document.getElementById("delete-media-btn");
 deleteMediaBtn?.addEventListener("click", async (e) => {
    const mediaData = JSON.parse(e.target.dataset.mediaData);
    const filePath = mediaData.full.src;

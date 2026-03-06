@@ -12,11 +12,14 @@
 		<div class="alert error">
 			Cette action est irréversible. Une fois supprimé, le media par défaut sera utilisé.
 		</div>
-		<form action="" method="dialog">
+		<form action="" id="delete-media-form" method="dialog">
 			<img src="" alt="" style="max-width: 100%">
-			<footer class="footer">
-				<button type="submit" class="danger">Supprimer</button>
-			</footer>
+         <video disablepictureinpicture controls muted>
+            <source src="" type="" />
+         </video>
 		</form>
+      <footer class="footer">
+         <button type="submit" form="delete-media-form" id="delete-media-btn" class="danger">Supprimer</button>
+      </footer>
 	</div>
 </dialog>

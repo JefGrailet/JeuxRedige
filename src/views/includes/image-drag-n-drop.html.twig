@@ -2,17 +2,20 @@
 
 <div class="dragAndDropUpload">
 	<div class="dropzone paused" data-upload-dropzone="{{ options.name }}">
-		<script type="text/schema" data-upload-callback-success="{{ options.name }}">
-			const deleteBtn = document.getElementById("delete-image-{{ options.name }}");
-         deleteBtn.inert = false;
-         const deleteBtnPayload = JSON.parse(deleteBtn.dataset.media)
-         deleteBtnPayload.new = URL.createObjectURL(res);
-         deleteBtn.dataset.media = JSON.stringify(deleteBtnPayload);
+      {% if options.is_multiple is not defined %}
+         <script type="text/schema" data-upload-callback-success="{{ options.name }}">
+            const deleteBtn = document.getElementById("delete-image-{{ options.name }}");
+            deleteBtn.inert = false;
+            const deleteBtnPayload = JSON.parse(deleteBtn.dataset.media)
+            deleteBtnPayload.new = URL.createObjectURL(res);
+            deleteBtn.dataset.media = JSON.stringify(deleteBtnPayload);
 
-         const image = document.getElementById("{{ options.name }}-img");
-         image.src = URL.createObjectURL(res);
-		</script>
+            const image = document.getElementById("{{ options.name }}-img");
+            image.src = URL.createObjectURL(res);
+         </script>
+      {% endif %}
 
+      {% if options.is_multiple is not defined %}
 		<div style="position: relative">
 			<div class="mediaMenuBar">
 				<button title="supprimer média" data-media='{"original": "{{ options.default_image }}", "deleteButtonId": "delete-image-{{ options.name }}", "linkedMedia": { "id": "{{ options.name }}-img", "type": "image", "inputName": "{{ options.name }}" }}' id="delete-image-{{ options.name }}" command="show-modal" inert commandfor="delete-media" class="danger extensibleButton small" type="button">
@@ -22,12 +25,13 @@
 			</div>
 			<img src="{{ options.default_image }}" alt="" id="{{ options.name }}-img">
 		</div>
-		<p class="text">Glissez-déposez votre image (.jp(e)g)</p>
+      {% endif %}
+		<p class="text">{{ options.drag_drop_label ?: "Glissez-déposez votre média" }}</p>
 		<p class="text">ou</p>
 		<div class="buttons">
 			<label class="primaryButton">
 				{{ options.label }}
-				<input type="file" accept="{{ options.mimeTypes }}" name="{{ options.name }}" data-config-drag-n-drop='{"name": "{{ options.name }}", "limitSize": {"image": 1}}' data-upload-input-dropzone="{{ options.name }}"/>
+				<input type="file" accept="{{ options.mimeTypes }}" {{ options.is_multiple ? "multiple" : "" }} name="{{ options.name }}" data-config-drag-n-drop='{"name": "{{ options.name }}", "limitSize": {"image": 1}}' data-upload-input-dropzone="{{ options.name }}"/>
 			</label>
 			<button type="button" class="secondaryButton" data-clipboard-upload="{{ options.name }}">
 				Coller depuis le presse-papier

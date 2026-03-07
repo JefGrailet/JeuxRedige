@@ -111,17 +111,18 @@
 								<li>L'image fournie doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur. Soit un ratio de 10 / 3</li>
 							</ul>
 						</div>
+
                   {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
                   {% include "includes/image-drag-n-drop.html.twig" with {
                         "options": {
                            "name": "header",
                            "label": "Sélectionner image",
+                           "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
                            "default_image": page_header,
                            "mimeTypes": image_header_requirements.mimeTypes,
                         }
                      }
                   %}
-
 					</div>
 
 					<div class="inputContainer">

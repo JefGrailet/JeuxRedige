@@ -55,7 +55,14 @@
 		<div class="gridForm">
 			<div class="inputContainer row">
 				<label for="text-color">Couleur</label>
-				<input style="width: 100%" type="color" id="text-color" name="text_color" value="#fff"/>
+				<input style="width: 100%" type="color" list="couleursRouges" id="text-color" name="text_color" value="#000000"/>
+            {# <datalist id="couleursRouges">
+               <option value="#001780"></option>
+               <option value="#d69d00"></option>
+               <option value="#2aa586"></option>
+               <option value="#DC143C"></option>
+               <option value="#027402"></option>
+            </datalist> #}
 			</div>
 			<div class="inputContainer">
 				<button type="submit" class="primaryButton">Utiliser cette couleur</button>
@@ -103,7 +110,7 @@
       <div class="inputContainer row">
 			<label for="alt">Texte alternatif</label>
 			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
-			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet, pour les images, un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
 		</div>
 
 		<div class="inputContainer">
@@ -210,7 +217,7 @@
 		<div class="inputContainer row">
          <label for="altText">Texte alternatif</label>
 			<input type="text" name="img_alt" id="altText" maxlength="250" placeholder="Maximum 250 caractères"/>
-			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet, pour les images, un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
 		</div>
 
 		<div class="inputContainer">

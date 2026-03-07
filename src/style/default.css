@@ -589,7 +589,7 @@ select {
    }
 }
 
-input:is(:not([type="checkbox"], [type="radio"], [type="submit"])), select {
+input:is(:not([type="checkbox"], [type="radio"], [type="submit"], [type="color"])), select {
    padding: 0.5rem 0.35rem!important;
 }
 

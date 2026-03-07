@@ -1,34 +1,53 @@
-<div popover="hint" class="tooltip-tool" id="tooltip-editor-tool">
-   <p>Jeuxredige.com</p>
-</div>
 <menu class="textEditorToolbar">
    <li>
-      <button type="button" data-editor-tool="bold" title="Mettre en gras">
+      {# <p id="bold-tooltip" class="toolTooltip" popover="hint" style="font-weight: bold">
+         Mettre en gras
+      </p> #}
+      <button type="button" data-editor-tool="bold" title="Mettre en gras" interestfor="bold-tooltip">
          <i class="icon-formatting_bold"></i>
       </button>
    </li>
    <li>
-      <button type="button" data-editor-tool="italic" title="Mettre en italique">
+      {# <p id="italic-tooltip" class="toolTooltip" popover="hint" style="font-style: italic">
+         Mettre en italique
+      </p> #}
+      <button type="button" data-editor-tool="italic" title="Mettre en italique" interestfor="italic-tooltip">
          <i class="icon-formatting_italic"></i>
       </button>
    </li>
    <li>
-      <button type="button" data-editor-tool="underlined" title="Souligner">
+      {# <p id="underline-tooltip" class="toolTooltip" popover="hint" style="text-decoration: underline">
+         Souligner
+      </p> #}
+      <button type="button" data-editor-tool="underlined" title="Souligner" interestfor="underline-tooltip">
          <i class="icon-formatting_underlined"></i>
       </button>
    </li>
    <li>
-      <button type="button" data-editor-tool="strikethrough" title="Barrer">
+      {# <p id="strikethrough-tooltip" class="toolTooltip" popover="hint" style="text-decoration: underline">
+         Barrer
+      </p> #}
+      <button type="button" data-editor-tool="strikethrough" title="Barrer" interestfor="strikethrough-tooltip">
          <i class="icon-formatting_strikethrough"></i>
       </button>
    </li>
    <li>
-      <button type="button" data-editor-tool="title" title="Insérer un titre">
+      {# <p id="title-tooltip" class="toolTooltip" popover="hint" style="font-size: 1.5rem">
+         Titre
+      </p> #}
+      <button type="button" data-editor-tool="title" title="Insérer un titre" interestfor="title-tooltip">
          <i class="icon-formatting_title"></i>
       </button>
    </li>
    <li>
-      <button type="button" data-editor-tool="formatting_list" title="Insérer une liste à puces">
+      {# <div id="list-tooltip" class="toolTooltip" popover="hint">
+         <p>Liste non ordonnée</p>
+         <ul style="font-size: 0.75em; list-style: disc inside; padding: 0;">
+            <li>Élément 1</li>
+            <li>Élément 2</li>
+         </ul>
+      </div> #}
+      <button type="button" data-editor-tool="formatting_list" title="Insérer une liste à puces" interestfor="list-tooltip">
          <i class="icon-formatting_list"></i>
       </button>
    </li>

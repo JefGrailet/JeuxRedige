@@ -9,6 +9,7 @@
 
       try {
          const clipboardContents = await navigator.clipboard.read();
+
          const img = clipboardContents.filter((item) =>
             item.types.includes("image/png")
          )[0];
@@ -16,15 +17,17 @@
          if (img) {
             const blob = await img.getType("image/png");
 
+
             const file = new File([blob], "img.png", {
                type: blob.type,
                lastModified: new Date().getTime(),
             });
+
             const container = new DataTransfer();
             container.items.add(file);
 
             const inputFile = document.querySelector(
-               `[data-upload-file="${name}"]`
+               `[name="${name}"]`
             );
 
             inputFile.files = container.files;
@@ -55,6 +58,9 @@
    try {
       await navigator.permissions.query({
          name: "clipboard-read",
+      });
+      listClipboardUploadButton.forEach((item) => {
+         item.style.display = 'revert';
       });
    } catch (_error) {
       listClipboardUploadButton.forEach((item) => {

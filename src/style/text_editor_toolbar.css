@@ -18,6 +18,7 @@
          color: white;
          height: 100%;
          outline-offset: -5px;
+         interest-delay: 0;
 
          &.article {
             background-color: #00b53c;
@@ -26,7 +27,6 @@
 
          &:is(:hover, :focus) {
             background-color: #557083;
-            anchor-name: --editor-tool;
 
             &:is(.article) {
                color: white;
@@ -36,34 +36,22 @@
    }
 }
 
-.tooltip-tool {
-   position: absolute;
-   position-anchor: --editor-tool;
+.toolTooltip {
+   position-area: top;
    padding: 0.25rem 0.5rem;
    background-color: white;
-   border-radius: var(--border-radius);
-   /* justify-self: anchor-center; */
+   border-radius: calc(var(--border-radius) / 2);
    border: 1px solid black;
-   /* position-area: center top; */
    margin-bottom: 0.5rem;
    z-index: 999;
    font-size: 0.85rem;
-   min-width: 200px;
    max-width: 400px;
-   height: 100px;
-   display: none;
-   position-area: top;
    margin: unset;
    margin-bottom: 0.5rem;
-
-   /* @supports (bottom: anchor(top)) {
-      display: none;
-   } */
 
    p {
       margin: 0;
       white-space: nowrap;
-      font-weight: bold;
    }
 }
 

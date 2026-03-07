@@ -18,6 +18,10 @@
    }
 }
 
+[data-clipboard-upload] {
+   display: none;
+}
+
 .dragAndDropUpload {
    &:has(+ *) {
       margin-bottom: 1rem;

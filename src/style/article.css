@@ -1,4 +1,7 @@
 /* Style for articles */
+:root {
+   --animation-scroll-threshold-position: 500px;
+}
 
 .articleSegment
 {
@@ -817,7 +820,7 @@
          margin-top: 300px;
       }
    }
-   
+
    background-color: white;
    border-bottom-left-radius: var(--border-radius);
    border-bottom-right-radius: var(--border-radius);
@@ -941,7 +944,7 @@
 .extensibleHeaderWrapper, .extensibleHeader, .extensibleHeader::before, .articleHeader .title, .articleHeader .subtitle {
    @supports (animation-timeline: scroll()) {
       animation-timeline: scroll();
-      animation-range: 0 200px;
+      animation-range: 0 var(--animation-scroll-threshold-position);
       animation-timing-function: linear;
       animation-fill-mode: both;
    }
@@ -976,7 +979,9 @@
    }
 
    @supports (animation-timeline: scroll()) {
-      animation-name: extensibleHeader;
+      animation: extensibleHeader linear forwards;
+      animation-timeline: scroll();
+      animation-range: 0 var(--animation-scroll-threshold-position);
    }
 }
 
@@ -991,7 +996,7 @@
 
 @keyframes extensibleHeaderWrapper {
   to {
-      margin-top: calc(var(--main-padding-top) * -1);
+      margin-top: calc(var(--article-header-padding-top) * -1);
       margin-inline: 0;
   }
 }

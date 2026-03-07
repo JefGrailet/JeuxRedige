@@ -46,7 +46,6 @@ $curlUpload = function ($file) use ($twig) {
    curl_setopt($curl, CURLOPT_COOKIE, $strCookie);
 
    $result = curl_exec($curl);
-   curl_close($curl);
 
    return $result;
 };

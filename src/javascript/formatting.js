@@ -43,6 +43,9 @@ const editorAction = (e) => {
       case "formatting_spoiler":
          insertTags('[cacher]', '[/cacher]');
          break;
+      case "formatting_quote":
+         insertTags('[cite]', '[/cite]');
+         break;
       case "formatting_spoiler_bis":
          insertTags('[spoiler]', '[/spoiler]');
          break;

@@ -28,3 +28,11 @@
       item.addEventListener("click", closeModal);
    });
 })();
+
+const formLoginModal = document.getElementById("form-login");
+
+formLoginModal.addEventListener("toggle", (evt) => {
+   if (evt.newState === "open") {
+      document.cookie = `last_page=${location.href}; path=/;`;
+   }
+})

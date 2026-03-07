@@ -25,6 +25,7 @@ $data = array('banished' => '',
 'redirection' => '');
 
 $formErrorMessagesTriggered = [];
+$formErrorMessages = $twig->getGlobals()["error_messages"];
 
 if(!empty($_POST))
 {
@@ -35,7 +36,7 @@ if(!empty($_POST))
    // Error : password and/or pseudo field is/are empty
    if(strlen($data['pseudo']) == 0 OR strlen($data['pwd']) == 0)
    {
-      array_push($formErrorMessagesTriggered, "Vous devez remplir tous les champs");
+      array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
    }
    else
    {
@@ -118,7 +119,8 @@ if(!empty($_POST))
             }
 
             // Redirection and success message
-            $redirect = './index.php';
+            $pageAfterConnexion = isset($_COOKIE["last_page"]) ? $_COOKIE["last_page"] : './index.php';
+            $redirect = $pageAfterConnexion;
             setcookie("flash_message", "user_logged", time() + 1);
             if(strlen($data['redirection']) > 0 && (substr($data['redirection'], 0, 7) === 'http://' || substr($data['redirection'], 0, 8) === 'https://'))
                $redirect = str_replace('&amp;', '&', $data['redirection']);

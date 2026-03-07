@@ -49,16 +49,22 @@ const preview = async () => {
    previewZone.scrollTop = (percentageMaster / 100) * (previewZone.scrollHeight - previewZone.offsetHeight);
 };
 
-document
-   .getElementById("auto_preview")
-   ?.addEventListener("change", async (e) => {
-      articlePreviewContainer?.classList.toggle(
-         "preview",
-         e.currentTarget.checked
-      );
+const autoPreviewSwitch = document.getElementById("auto_preview");
+window.addEventListener("pageshow", () => {
+  articlePreviewContainer?.classList.toggle(
+      "preview",
+      autoPreviewSwitch.checked
+   );
+});
 
-      preview();
-   });
+autoPreviewSwitch?.addEventListener("change", async (e) => {
+   articlePreviewContainer?.classList.toggle(
+      "preview",
+      e.currentTarget.checked
+   );
+
+   preview();
+});
 
 document.addEventListener("inserttags", () => {
    preview();

@@ -55,7 +55,7 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
 
 const btnShare = document.querySelector('[data-share]');
 
-if (navigator.share) {
+if (navigator.share && btnShare) {
    btnShare.style.display = 'initial';
    btnShare.addEventListener('click', async (e) => {
       try {
@@ -72,5 +72,5 @@ if (navigator.share) {
       }
    });
 } else {
-   btnShare.remove();
+   btnShare?.remove();
 }

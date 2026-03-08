@@ -1,8 +1,8 @@
 <?php
 
 /**
-* Search engine for articles, based on keywords.
-*/
+ * Search engine for articles, based on keywords.
+ */
 
 require './libraries/Header.lib.php';
 require './libraries/Keywords.lib.php';
@@ -18,6 +18,8 @@ WebpageHandler::addCSS('pool');
 WebpageHandler::addJS('keywords');
 WebpageHandler::noContainer();
 
+$formErrorMessages = $twig->getGlobals()["error_messages"];
+$searchTriggered = false;
 // Input for the form
 // $formData = array('strict' => '',
 // 'article_category' => Utils::makeCategoryChoice(true),
@@ -39,6 +41,34 @@ WebpageHandler::noContainer();
 //       $getKeywords = urldecode($_GET['keywords']);
 // }
 
+if (!empty($_GET)) {
+   $artCategory = '';
+   if (!empty($_GET['article_category']))
+      $artCategory = Utils::secure($_GET['article_category']);
+   if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
+      $artCategory = '';
+
+   function cleanKeyword($keyword)
+   {
+      return Utils::secure($keyword);
+   }
+
+   $strict = !empty($_GET['strict']) ? true : false;
+   $listKeywords = array_map('cleanKeyword', $_GET['keywords']);
+
+   try {
+      $nbResults = Article::countArticlesWithKeywords($listKeywords, $artCategory, false);
+      $listResults = Article::getArticlesWithKeywords($listKeywords, 1, 1, $artCategory, $strict);
+
+      $currentPage = 1;
+      $perPage = WebpageHandler::$miscParams['topics_per_page'];
+      $nbPages = ceil($nbResults / $perPage);
+      $searchTriggered = true;
+   } catch (\Throwable $th) {
+      //throw $th;
+   }
+}
+
 // // Form sent, but no keyword
 // if(!empty($_POST['sent']) && strlen($getKeywords) == 0)
 // {
@@ -50,20 +80,20 @@ WebpageHandler::noContainer();
 // else if($gotInput)
 // {
 //    // Has a specific (and valid) category been selected ?
-   // $artCategory = ''; // Empty string -> all categories blended together
-   // if(!empty($_GET['article_category']) || !empty($_POST['article_category']))
-   // {
-   //    if (!empty($_GET['article_category']))
-   //       $artCategory = Utils::secure($_GET['article_category']);
-   //    else
-   //       $artCategory = Utils::secure($_POST['article_category']);
-   //    if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
-   //       $artCategory = '';
-   //    else
-   //       $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
-   // }
+// $artCategory = ''; // Empty string -> all categories blended together
+// if(!empty($_GET['article_category']) || !empty($_POST['article_category']))
+// {
+//    if (!empty($_GET['article_category']))
+//       $artCategory = Utils::secure($_GET['article_category']);
+//    else
+//       $artCategory = Utils::secure($_POST['article_category']);
+//    if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
+//       $artCategory = '';
+//    else
+//       $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
+// }
 
-   // echo $artCategory;
+// echo $artCategory;
 
 //    // Option for strict research (i.e. all keywords are found) which can be deactivated
 //    $strict = false;
@@ -88,14 +118,14 @@ WebpageHandler::noContainer();
 //    }
 //    $keywordsArr = $newArray;
 
-//    $formData['keywordsList'] = Keywords::display($keywordsArr);
+// $formData['keywordsList'] = Keywords::display($keywordsArr);
 //    $perPage = WebpageHandler::$miscParams['topics_per_page'];
 
 //    try
 //    {
-      // $nbResults = Article::countArticlesWithKeywords(["The Witness"], "", false);
-      // $results = Article::getArticlesWithKeywords(["The Witness"], 1, 1, "");
-      // print_r($nbResults);
+// $nbResults = Article::countArticlesWithKeywords(["The Witness"], "", false);
+// $results = Article::getArticlesWithKeywords(["The Witness"], 1, 1, "");
+// print_r($nbResults);
 //       if($nbResults == 0)
 //       {
 //          $formData['specialMessage'] = 'noResult';
@@ -177,6 +207,7 @@ echo $twig->render("search-articles.html.twig", [
    "list_js_files" => ["libs/select2.min", "libs/select2.fr.min", "keywords_v2"],
    "page_title" => "Rechercher des articles",
    "no_custom_logo" => true,
+   "form_error_messages" => $formErrorMessages["search"],
    "selectedLogo" => $twig->getGlobals()["current_category"],
    "meta" => [
       ...$twig->getGlobals()["meta"],
@@ -185,4 +216,3 @@ echo $twig->render("search-articles.html.twig", [
       "full_title" => "",
    ]
 ]);
-

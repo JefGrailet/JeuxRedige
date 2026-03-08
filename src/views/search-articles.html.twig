@@ -2,10 +2,23 @@
 {% block content %}
 	<div class="searchForm">
 		<form
-			action="./SearchArticles.php" method="get">
+			action="./SearchArticles.php" method="get" data-form-schema-validation="search">
          <h1>Recherche</h1>
+         <script type="text/schema" data-form-schema="search">
+					return z.object({
+                  "keywords[]":  z.preprocess(
+                     (value) => value ?? [],
+                     z.array(z.string())
+                        .min(1, {error: "{{ form_error_messages.keywords.empty }}" })
+                        .max(10, {error: "{{ form_error_messages.keywords.limitReached }}" })
+                     )
+                  })
+				</script>
+         <ul class="alert error" role="alert" data-form-error="search">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+			<p class="alert warning">Les champs avec * sont requis</p>
+
 			<div class="inputContainer row">
-				<label for="keyword">Mot-clefs</label>
+				<label for="keyword">Mot-clefs<span style="color: var(--danger-color);">*</span></label>
             <div style="flex-grow: 1">
 				   <select data-dropdown-keywords id="keyword" name="keywords[]" multiple="multiple"></select>
             </div>

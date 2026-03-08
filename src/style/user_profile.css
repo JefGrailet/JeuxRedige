@@ -1,32 +1,8 @@
 /* CSS for user profile */
 
-#userDetailsContainer
-{
-   margin: auto;
-   text-align: center;
-}
-
-#userDetailsContainer p
-{
-   font-size: 1rem; /* ~16px */
-   font-family: "Roboto", "Arial", sans-serif;
-}
-
-#articlesContainer
-{
-   margin-top: 30px;
-   margin-bottom: 30px;
-   margin-inline: var(--root-side-margin);
-   display: block;
-}
-
-#postsContainer
-{
-   display: block;
-}
-
-#articlesPool
-{
+#articlesPool {
+   padding: 0;
+   list-style: none;
    display: grid;
    grid-template-columns: repeat(1, 1fr);
 
@@ -42,3 +18,49 @@
    gap: var(--articles-grid-gap);
 }
 
+.userProfileSection {
+   margin-bottom: 3rem;
+}
+
+.bannedStatus {
+   background-color: crimson;
+   color: white;
+   padding: 0.5rem 1.5rem;
+   margin: auto;
+   width: fit-content;
+   border-radius: 0.75rem;
+}
+
+.userProfile {
+   margin-inline: auto;
+   margin-bottom: 1.5rem;
+
+   .userCard {
+      width: fit-content;
+      margin: auto;
+      display: grid;
+      grid-auto-rows: max-content;
+      grid-template-columns: max-content 1fr;
+      gap: 0.75rem;
+
+      p {
+         margin: 0;
+      }
+   }
+
+   .userPseudo {
+      margin: 0;
+      margin-bottom: 0.75rem;
+      font-size: 1.75rem;
+   }
+
+   .userAvatar {
+      border-radius: var(--border-radius);
+      align-self: center;
+      max-width: 150px;
+   }
+}
+
+.morePosts {
+   text-align: center;
+}

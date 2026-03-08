@@ -6,49 +6,41 @@
 
 require './libraries/Header.lib.php';
 
+require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // Script is useless if user is already connected. A special message is displayed.
-if(!LoggedUser::isLoggedIn())
+if(!LoggedUser::isLoggedIn() || !Utils::check(LoggedUser::$data['can_invite']))
 {
-   $tplInput = array('reason' => 'notConnected');
-   $tpl = TemplateEngine::parse('view/user/Sponsorship.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Opération non autorisée');
-}
-// Sames goes if the user has no access to the advanced features yet.
-else if(!Utils::check(LoggedUser::$data['can_invite']))
-{
-   $tplInput = array('reason' => 'notPermitted');
-   $tpl = TemplateEngine::parse('view/user/Sponsorship.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Opération non autorisée');
+   $errorKey = !LoggedUser::isLoggedIn() ? 'notConnected' : 'notPermitted';
+   http_response_code(401);
+   echo $twig->render("errors/error.html.twig", [
+      "error_title" => "Connexion requise",
+      "error_key" => $errorKey,
+      "meta" => $twig->getGlobals()["meta"]
+   ]);
+   die();
 }
 
 require './libraries/Mailing.lib.php';
 require './model/User.class.php';
 require './model/Invitation.class.php';
 
-$display = '';
+$formErrorMessagesTriggered = [];
+$sendEmailSuccess = false;
 
-$formTplInput = array('success' => '',
-'error' => '', 
-'email' => '');
-
-if(!empty($_POST['sent']))
+$errorAlreadyInvited = "Cette adresse e-mail a déjà été invitée par un autre utilisateur";
+$friendEmail = "";
+if(!empty($_POST))
 {
-   $inputEmail = Utils::secure($_POST['email']);
-   
+   $friendEmail = Utils::secure($_POST['email']);
+   $formErrorMessages = $twig->getGlobals()["error_messages"];
+
    // Basic errors
-   if(strlen($inputEmail) < 10)
+   if(strlen($friendEmail) === 0)
    {
-      $formTplInput['error'] = 'emptyField';
-      $formTplInput['email'] = $inputEmail;
-      $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
-   }
-   else if(strlen($inputEmail) > 60)
-   {
-      $formTplInput['error'] = 'tooLong';
-      $formTplInput['email'] = $inputEmail;
-      $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
+      array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
    }
    // At this point, the provided e-mail is considered to be OK
    else
@@ -56,54 +48,51 @@ if(!empty($_POST['sent']))
       try
       {
          // Checks e-mail availability
-         if(User::isEmailUsed($inputEmail))
+         if(User::isEmailUsed($friendEmail))
          {
-            $formTplInput['error'] = 'alreadyUsed';
-            $formTplInput['email'] = $inputEmail;
-            $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
+            array_push($formErrorMessagesTriggered, 'Cette adresse e-mail est déjà utilisée pour un compte confirmé');
          }
          else
          {
             /*
-             * Checks if this is a new invitation, a re-send or if the address has been invited 
+             * Checks if this is a new invitation, a re-send or if the address has been invited
              * by a third party.
              */
-            
-            $sponsor = Invitation::hasBeenInvited($inputEmail);
-            
+
+            $sponsor = Invitation::hasBeenInvited($friendEmail);
+            print(strlen($sponsor));
+            print_r( LoggedUser::$data['pseudo']);
             if(strlen($sponsor) == 0)
             {
-               $invitation = Invitation::insert($inputEmail);
+               $invitation = Invitation::insert($friendEmail);
                $invitationKey = $invitation->get('invitation_key');
                $invitationLink = PathHandler::HTTP_PATH().'Invitation.php?key='.$invitationKey;
                $mailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'invitationLink' => $invitationLink);
                $mailContent = TemplateEngine::parse('view/user/Sponsorship.mail.ctpl', $mailInput);
-               
-               // Success message display
-               $formTplInput['success'] = 'mailFail';
+
                if(!TemplateEngine::hasFailed($mailContent))
                {
-                  if(Mailing::send($inputEmail, 'Vous êtes invité sur JeuxRédige', $mailContent))
+                  if(Mailing::send($friendEmail, 'Vous êtes invité sur JeuxRédige', $mailContent))
                   {
-                     $formTplInput['success'] = 'newInvitation';
+                     $sendEmailSuccess = true;
                      $invitation->updateLastEmailDate();
+                  } else {
+                     array_push($formErrorMessagesTriggered, "Une erreur est survenue.");
                   }
+               } else {
+                  array_push($formErrorMessagesTriggered, "L'envoi de l'e-mail à {$friendEmail} a échoué. Ré-utilisez ce formulaire d'ici quelques instants pour re-tenter l'envoi, ou contactez l'administrateur.");
                }
-               $formTplInput['success'] .= '||'.$inputEmail;
-               $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
             }
             else if($sponsor === LoggedUser::$data['pseudo'])
             {
-               $invitation = Invitation::getByEmail($inputEmail);
-               
+               $invitation = Invitation::getByEmail($friendEmail);
+
                // Checks the last attempt at sending an invitation was more than an hour ago
                $delay = Utils::SQLServerTime() - Utils::toTimestamp($invitation->get('last_email'));
-               
+
                if($delay < 3600)
                {
-                  $formTplInput['error'] = 'recentAttempt';
-                  $formTplInput['email'] = $inputEmail;
-                  $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
+                  array_push($formErrorMessagesTriggered, "Vous avez déjà envoyé une invitation à l'adresse \"{$friendEmail}\" il y a moins d'une heure. Veuillez patienter ou vérifiez avec votre ami si l'email n'est pas dans ses spams");
                }
                else
                {
@@ -111,26 +100,21 @@ if(!empty($_POST['sent']))
                   $invitationLink = PathHandler::HTTP_PATH().'Invitation.php?key='.$invitationKey;
                   $mailInput = array('pseudo' => LoggedUser::$data['pseudo'], 'invitationLink' => $invitationLink);
                   $mailContent = TemplateEngine::parse('view/user/Sponsorship.mail.ctpl', $mailInput);
-                  
+
                   // Success message display
-                  $formTplInput['success'] = 'mailFail';
                   if(!TemplateEngine::hasFailed($mailContent))
                   {
-                     if(Mailing::send($inputEmail, 'Vous êtes invité sur JeuxRédige', $mailContent))
+                     if(Mailing::send($friendEmail, 'Vous êtes invité sur JeuxRédige', $mailContent))
                      {
-                        $formTplInput['success'] = 'newEmail';
+                        $sendEmailSuccess = true;
                         $invitation->updateLastEmailDate();
                      }
                   }
-                  $formTplInput['success'] .= '||'.$inputEmail;
-                  $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
                }
             }
             else
             {
-               $formTplInput['error'] = 'alreadyInvited';
-               $formTplInput['email'] = $inputEmail;
-               $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
+               array_push($formErrorMessagesTriggered, $errorAlreadyInvited);
             }
          }
       }
@@ -138,17 +122,16 @@ if(!empty($_POST['sent']))
       catch(Exception $e)
       {
          if(strstr($e->getMessage(), 'for key \'guest_email\'') != FALSE)
-            $formTplInput['error'] = 'alreadyInvited';
+            array_push($formErrorMessagesTriggered, $errorAlreadyInvited);
          else
-            $formTplInput['error'] = 'dbError';
-         $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl', $formTplInput);
+            array_push($formErrorMessagesTriggered, $formErrorMessages['dbError']);
       }
    }
 }
-else
-{
-   $display = TemplateEngine::parse('view/user/Sponsorship.form.ctpl');
-}
 
-WebpageHandler::wrap($display, 'Inviter un ami');
-?>
+echo $twig->render("sponsorship.html.twig", [
+   "meta" => $twig->getGlobals()["meta"],
+   "friend_email" => $friendEmail,
+   "is_email_sent_success" => $sendEmailSuccess,
+   "form_error_messages_triggered" => $formErrorMessagesTriggered,
+]);

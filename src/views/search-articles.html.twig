@@ -1,0 +1,41 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<div class="searchForm">
+		<form
+			action="./SearchArticles.php" method="get">
+         <h1>Recherche</h1>
+			<div class="inputContainer row">
+				<label for="keyword">Mot-clefs</label>
+            <div style="flex-grow: 1">
+				   <select data-dropdown-keywords id="keyword" name="keywords[]" multiple="multiple"></select>
+            </div>
+			</div>
+			<div class="inputContainer">
+				<div>
+					<label for="strict">Activer le mode "strict"</label>
+					<input type="checkbox" name="strict" id="strict">
+				</div>
+				<p class="inputInfo">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="size-6">
+						<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
+					</svg>
+					<span>
+						Cochez pour que les résultats contiennent tous les mots-clefs
+					</span>
+				</p>
+			</div>
+			<div class="inputContainer row">
+				<label for="category">Catégorie</label>
+            <select style="flex-grow: 1" name="article_category" id="category">
+               <option value="">Toutes</option>
+               {% for key, value in list_categories %}
+                  <option value="{{ key }}" {{ current_category == key ? " selected" }}>{{ value.name.plural }}</option>
+               {% endfor %}
+            </select>
+			</div>
+			<div class="inputContainer">
+				<button class="primaryButton" type="submit">Chercher</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}

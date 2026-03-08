@@ -1,0 +1,60 @@
+.inputFileContainer {
+   table-layout: fixed;
+   width: 100%;
+
+   th {
+      padding: 0.25rem;
+      border-bottom: 1px solid oklch(86.9% 0.022 252.894);
+   }
+
+   tbody td {
+      padding: 0.35rem;
+      border: 1px solid transparent;
+   }
+
+   img {
+      margin: 0 auto;
+      display: block;
+      max-width: 90%;
+      max-height: 300px;
+   }
+
+   input[type="file"] {
+      width: 0;
+      height: 0;
+      position: absolute;
+      opacity: 0;
+
+      &::file-selector-button {
+         display: none;
+      }
+   }
+
+   label {
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+   }
+
+   .labelWrapper {
+      padding: 1.25rem;
+      border-radius: var(--border-radius);
+   }
+
+   .arrowIcon {
+      padding: 0.25rem;
+      position: absolute;
+      left: 50%;
+      translate: -50% -50%;
+      color: rgb(10, 10, 10);
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      top: 50%;
+      background-color: white;
+   }
+
+   /* align-content: center;
+  display: block; */
+}

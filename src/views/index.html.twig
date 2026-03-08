@@ -1,0 +1,16 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<ul id="articlesPoolIndex">
+		{% for article in list_articles %}
+			{% include "includes/article-thumbnail.html.twig" with article %}
+		{% else %}
+        <li>Il n'y a actuellement aucun contenu.</li>
+    {% endfor %}
+	</ul>
+   {% if list_articles|length > 0 %}
+      <footer style="display: flex; justify-content: center;">
+         <a href="./Articles.php">Voir plus articles</a>
+      </footer>
+   {% endif %}
+{% endblock %}

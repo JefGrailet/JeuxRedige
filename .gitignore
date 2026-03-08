@@ -2,3 +2,14 @@ src/vendor/
 src/config/Config.inc.php
 
 /**/*.tmp.*
+
+src/avatars/**
+
+src/upload/**
+
+Dump*
+dump*
+
+*.local
+
+*.override.*

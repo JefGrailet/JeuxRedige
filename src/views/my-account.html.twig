@@ -1,0 +1,267 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+<style>
+   .alert.error {
+      white-space: break-spaces;
+   }
+</style>
+	<div class="smallContainer">
+		<h1>Mon compte</h1>
+		<div class="userProfile">
+			{% include "includes/user-card.html.twig" with user %}
+		</div>
+		<nav class="shortcutMenu alert neutral">
+			<ul>
+				<li><a class="link" href="#password">Mot de passe</a></li>
+				<li><a class="link" href="#avatar">Avatar</a></li>
+				<li><a class="link" href="#email">Adresse e-mail</a></li>
+				<li><a class="link" href="#preferences">Préférences</a></li>
+				<li><a class="link" href="#role">Accès</a></li>
+				<li><a class="link" href="#sanctions">Sanctions</a></li>
+			</ul>
+		</nav>
+
+		<section class="sectionBlock myAccount" id="password">
+			<h2 class="title">Modifier mon mot de passe</h2>
+			<form action="MyAccount.php" class="content" autocomplete="off" method="POST" data-form-schema-validation="password">
+				<script type="text/schema" data-form-schema="password">
+               return z.object({
+                  password: z.string().min(1, {error: "Vous devez entrer un mot de passe" }),
+                  passwordConfirmation: z.string().min(1, {error: "Vous devez confirmer votre mot de passe" }),
+               }).refine((data) => data.password === data.passwordConfirmation, {
+                  error: "Les mots de passe ne correspondent pas",
+                  path: ['password', 'passwordConfirmation']
+               })
+				</script>
+				<input type="hidden" name="dataToEdit" value="password"/>
+            <ul class="alert error" role="alert" data-form-error="password">{% for error_message in form_error_messages_triggered.password %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				{% if form_id_updated == "password" and form_error_messages_triggered.password|length == 0 %}
+					<p class="alert success">Mise à jour réussie</p>
+				{% endif %}
+				<div class="gridForm">
+					<div class="inputContainer row">
+						<label for="newPassword">Nouveau mot de passe :</label>
+						<input type="password" autocomplete="new-password" style="flex-grow: 1" data-input-toggle-visibility name="password" id="newPassword">
+					</div>
+					<div class="inputContainer row">
+						<label for="passwordConfirmation">Confirmer mot de passe :</label>
+						<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="passwordConfirmation" id="passwordConfirmation">
+					</div>
+               <div class="inputContainer">
+                  <input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+               </div>
+            </div>
+			</form>
+		</section>
+		<section class="sectionBlock myAccount" id="avatar">
+			<h2 class="title">Modifier l'avatar</h2>
+         <form action="./MyAccount.php" enctype="multipart/form-data" class="content" novalidate method="POST" data-form-schema-validation="avatar">
+            <script type="text/schema" data-form-schema="avatar">
+               return z.object({
+                  avatar: z.file()
+                        .min(1, { error: "{{ form_error_messages.avatar.tooSmall }}" })
+                        .max({{ avatar_requirements.maxSize }})
+                        .mime("{{ avatar_requirements.mimeTypes }}".split(","),
+                           { error: "{{ form_error_messages.avatar.notJPEG }}" }
+                        )
+               })
+				</script>
+				<input type="hidden" name="dataToEdit" value="avatar"/>
+            <ul class="alert error" role="alert" data-form-error="avatar">{% for error_message in form_error_messages_triggered.avatar %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				{% if form_id_updated == "avatar" and form_error_messages_triggered.avatar|length == 0 %}
+					<p class="alert success">Mise à jour réussie. Si le changement n'est
+pas visible instantanément, videz le cache du navigateur pour voir la modification.</p>
+				{% endif %}
+            <div class="notes">
+					<p class="title">Remarques :</p>
+					<ul>
+						<li>L'image étant rognée, préférez un format rectangulaire</li>
+						<li>L'image doit être au format .jpg / .jpeg</li>
+						<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+					</ul>
+				</div>
+
+            {% include "includes/input-file.html.twig" with {
+                  "options": {
+                     "label": "Sélectionner avatar",
+                     "input_name": "avatar",
+                     "default_image": user.avatar,
+                     "mimeTypes": avatar_requirements.mimeTypes
+                  }
+               }
+            %}
+
+            <div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+				</div>
+         </form>
+		</section>
+
+		<section class="sectionBlock myAccount" id="email">
+			<h2 class="title">Modifier mon adresse e-mail</h2>
+			<form action="MyAccount.php" class="content" novalidate method="POST" data-form-schema-validation="email">
+				<script type="text/schema" data-form-schema="email">
+               return z.object({
+                  newEmail: z.email({ error: "Vous devez mettre une adresse e-mail valide"}),
+                  pwd: z.string().min(1, {error: "Vous devez entrer le mot de passe de votre compte" }),
+               })
+				</script>
+				<input type="hidden" name="dataToEdit" value="email"/>
+				<ul class="alert error" role="alert" data-form-error="email">{% for error_message in form_error_messages_triggered.email %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				{% if form_id_updated == "email" and form_error_messages_triggered.email|length == 0 %}
+					<p class="alert success">Mise à jour réussie. Veuillez vérifier vos e-mails pour confirmer le changement</p>
+				{% endif %}
+            <div class="gridForm">
+               <div class="notes full" style="margin-top: 0.75rem">
+                  <p class="title">Remarques :</p>
+                  <ul>
+                     <li>Si vous changez votre adresse, un e-mail de confirmation sera envoyé sur votre nouvelle adresse pour vérifier sa validité</li>
+                     <li>Vous serez également automatiquement déconnecté(e) et votre compte temporairement désactivé jusqu'à
+                        ce que la procédure soit complétée</li>
+                     <li>
+                        Le changement sera annulé si vous n'utilisez pas le lien de confirmation dans les 24 heures
+                        qui suivent
+                     </li>
+                  </ul>
+               </div>
+               <div class="inputContainer row">
+                  <label for="newEmail">Adresse e-mail :</label>
+                  <input type="email" style="flex-grow: 1" value="{{ user.email }}" name="newEmail" id="newEmail">
+               </div>
+               <div class="inputContainer row">
+                     <label for="passwordEmail">Confirmez votre mot de passe :</label>
+                     <input type="password" autocomplete="new-password" style="flex-grow: 1" data-input-toggle-visibility name="pwd" id="passwordEmail">
+               </div>
+				</div>
+				<div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+				</div>
+			</form>
+		</section>
+		<section class="sectionBlock myAccount" id="preferences">
+			<h2 class="title">Mes préférences</h2>
+         <form action="MyAccount.php" class="content" autocomplete="off" method="POST">
+				<input type="hidden" name="dataToEdit" value="preferences"/>
+            <ul class="alert error" role="alert" data-form-error="preferences">{{ form_error_messages_triggered.preferences|map(p => "• #{p}")|join('\n') }}</ul>
+				{% if form_id_updated == "preferences" and form_error_messages_triggered.preferences|length == 0 %}
+					<p class="alert success">Mise à jour réussie</p>
+				{% endif %}
+				<div class="gridForm">
+					<div class="inputContainer row">
+						<label for="using_preferences">Activer les préférences personnelles ?</label>
+						<select name="using_preferences" id="using_preferences" data-select-user-prefs>
+                     <option value="yes" {{ user.using_preferences == "yes" ? 'selected="selected"' }}>Oui</option>
+                     <option value="no" {{ user.using_preferences == "no" ? 'selected="selected"' }}>Non</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Laissez sur "Non" si vous souhaitez garder les paramètres par défaut. Si vous choisissez "Oui", vous utilisez les paramètres ci-après.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="message_size">Taille des messages :</label>
+						<select name="message_size" id="message_size">
+<option value="default" {{ user.pref_message_size == "yes" ? 'selected="default"' }}>Taille par défaut</option>
+<option value="medium" selected="selected" {{ user.pref_message_size == "yes" ? 'selected="default"' }}>Taille "Medium"</option>
+</select>
+					</div>
+                  <p class="full notes">Choisir la taille "medium" réduit la taille des avatars et icônes pour laisser plus de place aux messages.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="posts_per_page">Nombre de messages par page d'un sujet :</label>
+						<select name="posts_per_page" id="posts_per_page">
+                     {% for i in 5..100 %}
+                        <option value="{{i}}" {{ user.pref_posts_per_page == i ? 'selected="default"' }}>{{i}}</option>
+                     {% endfor %}
+                  </select>
+					</div>
+                  <p class="full notes"> Vous pouvez afficher entre 5 et 100 messages par page d'un sujet.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="video_default_display">Affichage des vidéos : </label>
+						<select id="video_default_display" name="video_default_display">
+                     <option value="thumbnail" {{ user.pref_video_default_display == "thumbnail" ? 'selected="default"' }}>Vignette cliquable</option>
+                     <option value="embedded" {{ user.pref_video_default_display == "embedded" ? 'selected="default"' }}>Intégration directe</option>
+                  </select>
+					</div>
+                  <p class="full notes">Vous pouvez faire directement afficher les vidéos ou bien les remplacer par une vignette cliquable pour éviter de charger trop de vidéos à la fois.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="video_default_display">Affichage des vignettes (vidéo) : </label>
+						<select id="video_default_display" name="video_thumbnail_style">
+                     <option value="hq" {{ user.pref_video_thumbnail_style == "embedded" ? 'selected="default"' }}>Grande taille (480x360 pixels)</option>
+                     <option value="small" {{ user.pref_video_thumbnail_style == "embedded" ? 'selected="default"' }}>Petite taille (120x90 pixels)</option>
+                  </select>
+					</div>
+                  <p class="full notes">Si vous remplacez temporairement les vidéos par des vignettes, vous pouvez choisir entre des vignettes de grande taille (480x360 pixels) ou de petite taille (120x90 pixels).</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="newPassword">Navigation par défaut : </label>
+						<select id="default_nav_mode" name="default_nav_mode">
+                     <option value="classic" {{ user.pref_default_nav_mode == "classic" ? 'selected="default"' }}>Pagination classique</option>
+                     <option value="dynamic" {{ user.pref_default_nav_mode == "dynamic" ? 'selected="default"' }}>Pagination dynamique</option>
+                     <option value="flow" {{ user.pref_default_nav_mode == "flow" ? 'selected="default"' }}>Flot continu de messages</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Le mode choisi s'active au chargement d'un sujet ou d'une discussion privée. Vous pouvez le changer en cours de navigation.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="auto_preview">Aperçu automatique/rapide : </label>
+						<select name="auto_preview" id="auto_preview">
+                     <option value="yes" {{ user.pref_auto_preview == "yes" ? 'selected="default"' }}>Toujours actif</option>
+                     <option value="no" {{ user.pref_auto_preview == "no" ? 'selected="default"' }}>Sur demande</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Vous pouvez (dés)activer cette fonctionnalité en cours de navigation.</p>
+               <div class="inputContainer row" inert data-prefs-container>
+						<label for="auto_refresh">Rafraîchissement automatique : </label>
+						<select name="auto_refresh" id="auto_refresh">
+                     <option value="yes" {{ user.pref_auto_refresh == "yes" ? 'selected="default"' }}>Toujours actif</option>
+                     <option value="no" {{ user.pref_auto_refresh == "no" ? 'selected="default"' }}>Sur demande</option>
+                  </select>
+					</div>
+                  <p class="full notes"> Vous pouvez (dés)activer cette fonctionnalité en cours de navigation.</p>
+
+               <div class="inputContainer">
+                  <input type="submit" class="fit primaryButton" name="sent" value="Modifier">
+               </div>
+            </div>
+			</form>
+		</section>
+		<section class="sectionBlock myAccount" id="role">
+			<h2 class="title">Accès aux fonctionnalités avancées</h2>
+			<div class="content">
+				<div class="alert info">
+					{% if user.advanced_features == "yes" %}
+						<p>Vous avez accès aux fonctions avancées</p>
+					{% else %}
+						<p>Vous n'avez pas accès aux fonctions avancées</p>
+					{% endif %}
+				</div>
+				<p>
+					<strong>Pour rappel,
+					</strong>
+					les fonctionnalités avancées sont :</p>
+				<ul>
+					<li>La création de sujets</li>
+					<li>L'édition de ses propres sujets</li>
+					<li>L'intégration de n'importe quel média au sein des messages et l'accès aux
+																								fonctionnalités d'upload</li>
+				</ul>
+
+				<p>Ces fonctionnalités ne sont pas disponibles dès l'inscription (sauf
+																				parrainage) afin d'empêcher flood et affichage de contenu inapproprié par des individus
+																				malveillants. Vous pouvez toutefois demander accès à ces fonctionnalités à l'administration après
+																				avoir été actif durant un certain temps (les décisions se font au cas par cas).</p>
+			</div>
+		</section>
+		<section class="sectionBlock myAccount" id="sanctions">
+			<h2 class="title">Historique des sanctions</h2>
+			<div class="content">
+				{% if user.list_sentences %}
+					<ul>
+						{% for sentence in user.list_sentences %}
+							<li></li>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<div class="alert info">
+						<p>Vous n'avez jamais été sanctionné(e).</p>
+					</div>
+				{% endif %}
+			</div>
+		</section>
+	</div>
+{% endblock %}

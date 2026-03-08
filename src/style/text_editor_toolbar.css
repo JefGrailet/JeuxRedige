@@ -1,0 +1,83 @@
+.textEditorToolbar {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   margin-block: 0 0.25rem;
+   grid-gap: 0.35rem;
+   padding-left: 0;
+   list-style: none;
+
+   li {
+      border-radius: 3px;
+      overflow: hidden;
+
+      button {
+         font-size: 1.25rem;
+         padding: 0.45rem;
+         background-color: black;
+         color: white;
+         height: 100%;
+         outline-offset: -5px;
+         interest-delay: 0;
+
+         &.article {
+            background-color: #00b53c;
+            color: black;
+         }
+
+         &:is(:hover, :focus) {
+            background-color: #557083;
+
+            &:is(.article) {
+               color: white;
+            }
+         }
+      }
+   }
+}
+
+.toolTooltip {
+   position-area: top;
+   padding: 0.25rem 0.5rem;
+   background-color: white;
+   border-radius: calc(var(--border-radius) / 2);
+   border: 1px solid black;
+   margin-bottom: 0.5rem;
+   z-index: 999;
+   font-size: 0.85rem;
+   max-width: 400px;
+   margin: unset;
+   margin-bottom: 0.5rem;
+
+   p {
+      margin: 0;
+      white-space: nowrap;
+   }
+}
+
+.articleContentPreviewWrapper {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 0.25rem;
+
+   &.preview {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   &:not(.preview) .articleContentPreview {
+      display: none;
+   }
+
+   .articleContentPreview {
+      border: 1px solid black;
+      padding: 0.25rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+   }
+
+   #page-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+   }
+}
+

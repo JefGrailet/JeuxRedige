@@ -11,80 +11,100 @@ require './model/Article.class.php';
 require './model/Segment.class.php';
 require './view/intermediate/Article.ir.php';
 require './view/intermediate/Segment.ir.php';
+require './view/intermediate/ArticleThumbnail.ir.php';
+
+require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
 
 WebpageHandler::redirectionAtLoggingIn();
 
 // Obtains game title and retrieves the corresponding entry
-if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']))
-{
+if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'])) {
    $articleID = intval(Utils::secure($_GET['id_article']));
    $article = null;
-   try
-   {
+   try {
       $article = new Article($articleID);
       $article->loadRelatedData();
-      if($article->isPublished())
-      {
+      if ($article->isPublished()) {
          $article->getTopic();
          $article->incViews();
       }
-   }
-   catch(Exception $e)
-   {
-      $tplInput = array('error' => 'dbError');
-      if(strstr($e->getMessage(), 'does not exist') != FALSE)
-         $tplInput['error'] = 'nonexistingArticle';
-      $tpl = TemplateEngine::parse('view/content/Article.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Article introuvable');
+   } catch (Exception $e) {
+      echo $twig->render("errors/error.html.twig", [
+         "error_title" => "Article non trouvé",
+         "error_key" => "nonexistingArticle",
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Article vide",
+            "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+            "full_title" => "",
+         ]
+      ]);
+      die();
    }
 
    // Redirects to right URL if $_GET['title'] does not match
-   if(!empty($_GET['title']))
-   {
+
+   if (!empty($_GET['title'])) {
       $titleURL = Utils::secure($_GET['title']);
-      if(PathHandler::formatForURL($article->get('title').' '.$article->get('subtitle')) !== $titleURL)
-         header('Location:'.PathHandler::articleURL($article->getAll()));
+      if (PathHandler::formatForURL($article->get('title') . ' ' . $article->get('subtitle')) !== $titleURL)
+         header('Location:' . PathHandler::articleURL($article->getAll()));
 
       WebpageHandler::usingURLRewriting();
    }
 
    // No segment
-   $segments = $article->getBufferedSegments();
-   if(count($segments) == 0)
-   {
-      $tplInput = array('error' => 'noSegment');
-      $tpl = TemplateEngine::parse('view/content/Article.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Impossible d\'afficher l\'article');
+   $segments = $article->getBufferedSegments() ?? [];
+
+   $isAuthorIsCurrentUser = false;
+   if (LoggedUser::isLoggedIn()) {
+      $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
+   }
+
+   if (count($segments) == 0) {
+      echo $twig->render("errors/error.html.twig", [
+         "error_title" => "Article vide",
+         "error_key" => "noSegment",
+         "error_title" => "Impossible d'afficher l'article",
+         "edit_link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur : Article vide",
+            "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+            "full_title" => "",
+         ]
+      ]);
+      die();
    }
 
    // Restricted view
-   if(!$article->isPublished())
-   {
-      if((!LoggedUser::isLoggedIn())) // || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
+   if (!$article->isPublished()) {
+      if ((!LoggedUser::isLoggedIn())) // || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
       {
-         $tplInput = array('error' => 'restrictedAccess');
-         $tpl = TemplateEngine::parse('view/content/Article.fail.ctpl', $tplInput);
-         WebpageHandler::wrap($tpl, 'Article en accès restreint');
+         echo $twig->render("errors/error.html.twig", [
+            "error_title" => "Erreur : Article vide",
+            "error_key" => "restrictedAccess",
+            "error_title" => "Article en accès restreint",
+            "meta" => [
+               ...$twig->getGlobals()["meta"],
+               "title" => "Erreur : Article vide",
+               "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+               "full_title" => "",
+            ]
+         ]);
+         die();
       }
    }
 
-   // Webpage settings
-   WebpageHandler::$miscParams['webdesign_variant'] = $article->get('type'); // Changes the logo
-   WebpageHandler::addCSS('article');
-   WebpageHandler::addCSS('charter_'.$article->get('type')); // To comply with the charter colors
-   WebpageHandler::addCSS('media');
-   WebpageHandler::addJS('article');
-   WebpageHandler::noContainer();
-
    // Pre-selected segment
    $selectedSegment = 1;
-   if(!empty($_GET['section']))
-   {
+   $pageSelected = 0;
+   if (!empty($_GET['section'])) {
+      $pageSelected = intval($_GET['section']) - 1;
       $getSection = intval(Utils::secure($_GET['section']));
-      if($getSection > 0 && $getSection <= count($segments))
+      if ($getSection > 0 && $getSection <= count($segments))
          $selectedSegment = $getSection;
       else
-         header('Location:'.PathHandler::articleURL($article->getAll()));
+         header('Location:' . PathHandler::articleURL($article->getAll()));
    }
 
    // Generates all useful data for article display
@@ -92,55 +112,139 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 
    // Renders segments
    $fullInput = array();
-   for($i = 0; $i < count($segments); $i++)
-   {
+
+   for ($i = 0; $i < count($segments); $i++) {
       $segments[$i]['content'] = SegmentParsing::parse($segments[$i]['content'], $i + 1);
       $segmentIR = SegmentIR::process($segments[$i], (($i + 1) == $selectedSegment));
       array_push($fullInput, $segmentIR);
    }
 
    // Fixes title/subtitle on first segment
-   if($segments[0]['title'] == NULL)
-   {
+   if ($segments[0]['title'] == NULL) {
       $fullInput[0]['title'] = $article->get('title');
-      $fullInput[0]['mainSubtitle'] = 'yes||'.$article->get('subtitle');
+      $fullInput[0]['mainSubtitle'] = 'yes||' . $article->get('subtitle');
    }
 
    $segmentsTpl = TemplateEngine::parseMultiple('view/content/Segment.ctpl', $fullInput);
    $segmentsStr = '';
-   if(!TemplateEngine::hasFailed($segmentsTpl))
-   {
-      for($i = 0; $i < count($segmentsTpl); $i++)
+   if (!TemplateEngine::hasFailed($segmentsTpl)) {
+      for ($i = 0; $i < count($segmentsTpl); $i++)
          $segmentsStr .= $segmentsTpl[$i];
-   }
-   else
+   } else
       WebpageHandler::wrap($segmentsTpl, 'Une erreur est survenue lors de la lecture des pages');
 
-   // Default meta keywords (Warning: it's assumed the type of article exists in ARTICLES_CATEGORIES)
-   WebpageHandler::$miscParams['meta_keywords'] = Utils::ARTICLES_CATEGORIES[$article->get('type')][2];
-   
-   // Meta stuff for social media (cards)
-   WebpageHandler::$miscParams['meta_title'] = $article->get('title');
-   WebpageHandler::$miscParams['meta_author'] = $article->get('pseudo');
-   WebpageHandler::$miscParams['meta_description'] = $article->get('subtitle');
-   WebpageHandler::$miscParams['meta_image'] = $article->getThumbnail();
-   WebpageHandler::$miscParams['meta_url'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-   
-   // Meta keywords for the <meta> HTML tag (assumed to be first filled with default keywords, cf. above)
-   $keywords = $article->getBufferedKeywords();
-   for($i = 0; $i < count($keywords); $i++)
-      WebpageHandler::$miscParams['meta_keywords'] .= ', '.$keywords[$i]['tag'];
-
    // Display
-   $finalTplInput = array_merge(array('segments' => $segmentsStr), $articleIR);
-   $tpl = TemplateEngine::parse('view/content/Article.composite.ctpl', $finalTplInput);
-   $chosenSubtitle = $article->get('subtitle');
-   WebpageHandler::wrap($tpl, $article->get('title').' - '.$chosenSubtitle);
+   $articleType = $twig->getGlobals()["list_categories"][$article->get('type')]["name"]["singular"];
+   $title = "{$article->get('title')} ({$articleType})";
+   if (count($segments) > 1) {
+      $title .= " - Page {$pageSelected}";
+   }
+
+   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
+      $url = PathHandler::articleURL($article->getAll());
+      $pageIndex = $index + 1;
+
+      return array(
+         ...$page,
+         "url" => "{$url}page/{$pageIndex}",
+         "is_active" => ($pageSelected + 1) === $pageIndex,
+      );
+   }, $fullInput, array_keys($fullInput));
+
+
+   $isAuthorIsCurrentUser = false;
+   if (LoggedUser::isLoggedIn()) {
+      $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
+   }
+
+   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
+      $url = PathHandler::articleURL($article->getAll());
+      $pageIndex = $index + 1;
+
+      return array(
+         ...$page,
+         "url" => "{$url}page/{$pageIndex}",
+         "is_active" => ($pageSelected + 1) === $pageIndex,
+      );
+   }, $fullInput, array_keys($fullInput));
+
+   $editPageLinkDict = $article->isPublished() ? [] : [
+      "page" => [
+         "link" => $isAuthorIsCurrentUser ? PathHandler::HTTP_PATH() . "EditSegment.php?id_segment={$fullInput[$pageSelected]["ID"]}" : "",
+         "label" => "Éditer la page"
+      ]
+   ];
+
+   $editLinks = array_filter([
+      "article" => [
+         "link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
+         "label" => "Éditer l'article"
+      ],
+      ...$editPageLinkDict,
+   ], function ($value) {
+      return $value["link"] !== '';
+   });
+
+   $listKeywords = array_map(function ($keyword) {
+      $tag = trim($keyword["tag"]);
+      return [
+         "name" => $tag,
+         "link" => PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords=' . urlencode($keyword["tag"]),
+      ];
+   }, $article->getKeywords());
+
+   $articleHeaderImageURL = empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"];
+
+   echo $twig->render("article.html.twig", [
+      "page_title" => $title,
+      "current_category" => $article->get('type'),
+      "is_article" => true,
+      "article" => [
+         "id" => $article->get('id_article'),
+         "title" => $fullInput[0]['title'],
+         "subtitle" => $article->get('subtitle'),
+         "page" => [
+            ...$fullInput[$pageSelected],
+            "headerURL" => $articleHeaderImageURL,
+         ],
+         "current_page" => $pageSelected,
+         "segments" => $listPagesComputed,
+         "published_time" => $article->get('date_creation'),
+         "is_published" => $article->isPublished(),
+         "last_update_time" => $article->get('date_last_modifications') > $article->get('date_creation') ? $article->get('date_last_modifications') : "",
+         "edit_links" => $editLinks,
+         "is_my_article" => $isAuthorIsCurrentUser,
+         "list_keywords" => $listKeywords,
+         "author" => [
+            "pseudo" => $article->get('pseudo'),
+            "avatar" => PathHandler::getAvatar($article->get('pseudo')),
+         ],
+      ],
+      "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
+      "list_css_files" => ["article", 'charter_' . $article->get('type'), "badge"],
+      "list_js_files" => ["article", "article_v2"],
+      "selectedLogo" => $article->get('type'),
+      "current_category" => $article->get('type'),
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => $title,
+         "description" => $article->get('subtitle'),
+         "image" => $article->getThumbnail(),
+         "full_title" => "",
+         "author" => $article->get('pseudo'),
+         "published_time" => $article->get('date_creation'),
+         "tags" => Utils::ARTICLES_CATEGORIES[$article->get('type')][2],
+      ]
+   ]);
+} else {
+   echo $twig->render("article_fail.html.twig", [
+      "page_title" => "Article vide",
+      "error_key" => "missingID",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur - Article vide",
+         "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+         "full_title" => "",
+      ]
+   ]);
 }
-else
-{
-   $tplInput = array('error' => 'missingID');
-   $tpl = TemplateEngine::parse('view/content/Article.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Article introuvable');
-}
-?>

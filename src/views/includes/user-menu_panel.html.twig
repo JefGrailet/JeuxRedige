@@ -1,0 +1,138 @@
+<p class="userInfos">
+   <a class="userPseudoContainer" href="{{ webRoot }}/utilisateur/{{ userInfos.pseudo }}">
+      <img src="{{ userInfos.avatar }}" class="avatarMini" alt="Avatar de {{ userInfos.pseudo }}"/>
+      <span class="userPseudo">{{ userInfos.pseudo }}</span>
+   </a>
+</p>
+<input id="userMenu" class="userMenuToggle" title="Ouvrir le menu" type="checkbox">
+<input id="pingsMenu" class="pingsToggle" title="Mes pings" type="checkbox">
+<label for="userMenu">
+   <i class="icon-general_menu"></i>
+</label>
+<label for="pingsMenu">
+   <i class="icon-general_messages" style="color: {$pingsColor};" title="Mes pings"></i>
+</label>
+<div class="pingsSlider">
+   <ul id="pings">
+      {$pingsContent}
+      <li>
+         <div class="headerSlider">
+            <i class="icon-menu_lists" style="color: #25b6d2;"></i>
+            <a href="{{ webRoot }}/Pings.php">
+               Liste de mes pings {optional:morePings||([] nouveaux)}
+            </a>
+            <label for="pingsMenu" style="margin-left: auto;">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+               </svg>
+            </label>
+         </div>
+      </li>
+   </ul>
+</div>
+<div class="userMenu">
+
+   <ul>
+      <li style="text-align: end;" class="separator">
+         <label for="userMenu" style="font-size: 0.8rem; cursor: pointer;">
+            Fermer
+            <i class="icon-general_close" style="font-size: 0.8rem"></i>
+         </label>
+      </li>
+      {% if userInfos.is_admin %}
+         <li class="separator">
+            <a href="{{webRoot}}/SwitchAccount.php?pos=">
+               <i class="icon-menu_switch"></i>
+                  Changer pour
+                  {% if userInfos.is_using_admin_account %}
+                     {{ userInfos.pseudo }}
+                  {% else %}
+                     {{ userInfos.alt_pseudo }}
+                  {% endif %}
+               </a>
+         </li>
+      {% endif %}
+      <li>
+         <a href="{{ webRoot }}/MyAccount.php">
+            <i class="icon-general_edit"></i>
+            Mon compte
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/MyEmoticons.php">
+            <i class="icon-menu_smilies"></i>
+            Mes émoticônes
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/MyPins.php">
+            <i class="icon-general_pin"></i>
+            Mes messages favoris
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/MyArticles.php">
+            <i class="icon-menu_articles"></i>
+            Mes articles
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/MyLists.php">
+            <i class="icon-menu_lists"></i>
+            Mes listes
+            <sup>Beta</sup>
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/Games.php">
+            <i class="icon-menu_games"></i>
+            Jeux
+            <sup>Beta</sup>
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/RandomTrivia.php">
+            <i class="icon-menu_didyouknow"></i>
+            Le saviez-vous ?
+            <sup>Beta</sup>
+         </a>
+      </li>
+      <li>
+         <a href="{{ webRoot }}/inviter">
+            <i class="icon-menu_invite"></i>
+            Inviter un ami
+         </a>
+      </li>
+      {% if userInfos.is_using_admin_account %}
+         <li>
+            <ul class="adminTools">
+               <li>
+            <a href="{{webRoot}}/UnpublishedArticles.php" class="adminLink">
+               <i class="icon-menu_articles"></i>
+               Articles en cours
+            </a>
+         </li>
+         <li>
+            <a href="{{webRoot}}/Users.php" class="adminLink">
+               <i class="icon-menu_users"></i>
+               Utilisateurs
+            </a>
+         </li>
+         <li>
+            <a href="{{webRoot}}/Alerts.php" class="adminLink">
+               <i class="icon-general_alert"></i>
+               Alertes
+            </a>
+         </li>
+            </ul>
+         </li>
+
+      {% endif %}
+      <li>
+         <a href="{{ webRoot }}/LogOut.php">
+            <i class="icon-menu_logout"></i>
+            Déconnexion
+         </a>
+      </li>
+   </ul>
+</div>

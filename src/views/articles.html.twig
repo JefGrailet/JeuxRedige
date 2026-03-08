@@ -1,0 +1,23 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+
+   {% set url_pagination_pattern = "articles/_page_" %}
+   {% if query_string.article_category %}
+      {% set url_pagination_pattern = "articles/_page_/#{query_string.article_category}" %}
+   {% endif %}
+
+   {% include "includes/pagination.html.twig" with {
+      "url_rewrite_pattern": url_pagination_pattern,
+   } %}
+   <ul id="articlesPool">
+      {% for article in list_articles %}
+         {% include "includes/article-thumbnail.html.twig" with article %}
+      {% else %}
+         <li>Il n'y a actuellement {{ list_categories[current_category] is defined ? list_categories[current_category].empty_message : "aucun contenu" }}.</li>
+      {% endfor %}
+   </ul>
+   {% include "includes/pagination.html.twig" with {
+      "url_rewrite_pattern": url_pagination_pattern,
+   } %}
+   {% include "includes/category-links.html.twig" %}
+{% endblock %}

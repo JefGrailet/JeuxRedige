@@ -1,0 +1,78 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<section class="sectionBlock">
+		<h1 class="title">Inscription par invitation</h1>
+		<div class="content">
+		{% if is_invitation %}
+			<p>Créez votre compte JeuxRedige sans confirmation supplémentaire et en disposant de toutes les 
+fonctionnalités du forum grâce à votre invitation !</p>
+		{% endif %}
+			<form action="" {{ is_invitation ? "" : "style=\"max-width: 100%\""}} class="loginForm" novalidate method="POST" data-form-schema-validation="registration">
+				<p class="alert warning full">Les champs avec * sont requis</p>
+				<script type="text/schema" data-form-schema="registration">
+					return z.object({
+						pseudo: z.string().min(3, {error: "Votre pseudo est trop court. Trois caractères minimum" }).max(20, {error: "Votre pseudo ne doit pas excéder 20 caractères" })
+							.regex(/^[a-zA-Z0-9_-]{3,20}$/, {
+								message: "Votre mot de passe n'est pas conforme : caractères alphanumériques autorisés ainsi que \"-\" et \"_\"",
+							}),
+						email: z.email({ error: "Vous devez mettre une adresse e-mail valide"}){{ is_invitation ? ".optional()" : "" }},
+						newPwd: z.string()
+							.min(6, {error: "Votre mot de passe est trop court, 6 caractères minimum" })
+							.max(30, {error: "Votre mot de passe est trop long, 30 caractères maximum" })
+							.regex(/^[a-zA-Z0-9_-]{6,20}$/, {
+								message: "Votre mot de passe n'est pas conforme : caractères alphanumériques autorisés ainsi que \"-\" et \"_\"",
+							}),
+						captcha: z.string({ error: "Vous résoudre le calcul du captcha"}){{ is_invitation ? ".optional()" : "" }},
+					})
+				</script>
+            <ul class="alert error" data-form-error="registration">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+			<div class="gridForm">
+				<div class="inputContainer">
+					<label for="pseudo">Pseudo<span style="color: var(--danger-color);">*</span></label>
+					<input type="text" name="pseudo" id="pseudo">
+					<p class="notes full">Doit contenir entre 3 et 20 caractères. Espaces et caractères spéciaux interdits (sauf "-" et "_")</p>
+				</div>
+
+				{% if is_invitation == false %}
+					<div class="inputContainer">
+						<label for="email">E-mail<span style="color: var(--danger-color);">*</span></label>
+						<input type="email" name="email" id="email">
+					</div>
+				{% endif %}
+				<div class="inputContainer">
+					<label for="password">Mot de passe<span style="color: var(--danger-color);">*</span></label>
+					<input type="password" minlength="6" maxlength="30" data-input-toggle-visibility name="newPwd" id="password">
+					<p class="notes full">Caractères alphanumériques autorisés ainsi que "-" et "_". Minimum 6 caractères, maximum 30 caractères</p>
+				</div>
+
+				{% if is_invitation == false %}
+				<div class="inputContainer">
+					<div class="full">
+						<label class="full" for="presentation">Présentation</label>
+						<p class="full notes">L'inscription sans invitation vous permet d'accéder au forum, mais ne vous donne pas accès aux fonctionnalités avancées du site comme l'upload de fichiers ou la création d'articles. Cet accès n'est normalement donné par un administrateur qu'après un certain temps de présence. Vous pouvez toutefois laisser un mot ci-contre pour expliquer comment vous avez découvert ce site et ce qui vous motive à vous inscrire, ou encore mettre des liens vers des réalisations précédentes qui justifient un accès rapide à tous les outils de création de contenu.</p>
+						<textarea class="full" name="presentation" id="presentation" maxlength="500" rows="10" placeholder="Entrez une courte présentation (optionnel)"></textarea>
+					</div>
+				</div>
+				
+				<div class="inputContainer">
+					<label for="captcha">Captcha<span style="color: var(--danger-color);">*</span></label>
+					<div style="display: flex; align-items:center; gap: 0.35rem;" >
+						<img src="./Captcha.php" id="Captcha" alt="Captcha" style="border: 1px solid black"/> = 
+						<input type="text" name="captcha" size="20" maxlength="10" placeholder="Résultat du calcul"/>
+					</div>
+				</div>
+				{% endif %}
+
+				<div class="inputContainer full">
+					<input type="submit" class="fit primaryButton" name="sent" value="Créer mon compte">
+				</div>
+			</div>
+			</form>
+			<p class="alert info full" style="margin-block: 0.75rem;">
+				Remarque : si vous vous êtes déjà enregistré(e) mais que vous n'avez pas reçu l'e-mail de confirmation après dix minutes, <a href="ConfirmationMail.php">veuillez visiter cette page.</a>
+			</p>
+		</div>
+
+	</section>
+{% endblock %}

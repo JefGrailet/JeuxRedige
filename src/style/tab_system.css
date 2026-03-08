@@ -1,0 +1,79 @@
+.tabContainer {
+   margin-bottom: 1rem;
+   .tabsList {
+      list-style: none;
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: thin;
+      padding: 0;
+      margin-top: 0.7rem;
+      margin-bottom: 0;
+
+      li {
+         margin-bottom: 0;
+      }
+
+      .tab {
+         color: black;
+         display: block;
+         padding: 0.9rem 1rem;
+         appearance: none;
+         border: none;
+         background-color: transparent;
+         position: relative;
+         font-size: 1rem;
+         opacity: 0.8;
+         transition: opacity 350ms;
+
+         &:hover,
+         &:focus-visible {
+            opacity: 1;
+            text-decoration: none;
+
+            &::after {
+               transform: scaleX(0.1);
+            }
+         }
+
+         &::after {
+            content: "";
+            background-color: currentColor;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0.25rem;
+            transform: scaleX(0);
+            transition: transform 350ms;
+
+            @starting-style {
+               transform: scaleX(0);
+            }
+         }
+
+         &.active {
+            font-weight: bold;
+            opacity: 1;
+
+            &::after {
+               transform: scaleX(1);
+            }
+         }
+      }
+   }
+
+   > .tabContent {
+      display: none;
+
+      & > :first-child {
+         margin-top: 0 !important;
+      }
+   }
+
+   .listTabsContent {
+      padding: 0.5rem;
+      margin-top: 0;
+      list-style: none;
+   }
+}

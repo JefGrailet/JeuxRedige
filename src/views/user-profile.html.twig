@@ -1,0 +1,39 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	{% if user != null %}
+	   {% if user.banned %}
+         <div class="bannedStatus">
+            {{ user.pseudo }} est actuellement banni
+         </div>
+      {% endif %}
+      <div class="userProfile userProfileSection">
+         <p class="pageTitle centeredTitle">A propos de {{ user.pseudo }}</p>
+         {% include "includes/user-card.html.twig" with user %}
+      </div>
+      <div class="userProfileSection">
+         <p class="pageTitle centeredTitle">Les articles publiés par {{ user.pseudo }}</p>
+         <ul id="articlesPool">
+            {% for article in user.list_articles %}
+               {% include "includes/article-thumbnail.html.twig" with article %}
+            {% else %}
+
+               <li>{{ user.avatar }} n'a pas encore écrit d'articles</li>
+            {% endfor %}
+         </ul>
+      </div>
+      <div class="userProfileSection">
+         <p class="pageTitle centeredTitle">Les 5 derniers messages de {{ user.pseudo }}</p>
+
+         <p class="morePosts">
+            <a class="link" href="">Voir tous les messages de {{ user.pseudo }}</a>
+         </p>
+      </div>
+		{% else %}
+			<div class="errorContainer">
+				<h1 class="title">Erreur</h1>
+				<p>L'utilisateur dont vous souhaitez voir le profil n'existe pas.
+				</p>
+			</div>
+	{% endif %}
+{% endblock %}

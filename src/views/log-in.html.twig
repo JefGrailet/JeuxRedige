@@ -1,0 +1,48 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<section class="sectionBlock">
+		<h1 class="title">Connexion</h1>
+		<div class="content">
+			<form action="" class="loginForm" novalidate method="POST" data-form-schema-validation="login">
+				<script type="text/schema" data-form-schema="login">
+					return z.object({
+                  pseudo: z.string().min(1, {error: "Vous devez entrer le pseudo de votre compte" }),
+                  password: z.string().min(1, {error: "Vous devez entrer le mot de passe de votre compte" }),
+               })
+				</script>
+            <ul class="alert error" data-form-error="login">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+            <input type="hidden" name="redirection" value="{{ logInRedirection }}" />
+				<div class="inputContainer">
+					<label for="pseudo">Pseudo</label>
+					<input type="text" style="flex-grow: 1" name="pseudo" id="pseudo">
+				</div>
+				<div class="inputContainer">
+					<label for="password">Mot de passe</label>
+					<input type="password" style="flex-grow: 1" data-input-toggle-visibility name="pwd" id="password">
+				</div>
+
+            <div class="inputContainer row">
+					<input type="checkbox"  name="rememberMe" id="rememberMe">
+					<label for="rememberMe">Se souvenir de moi</label>
+				</div>
+
+				<div class="inputContainer">
+					<input type="submit" class="fit primaryButton" name="sent" value="Connexion">
+				</div>
+
+            <footer>
+               <p>
+                  <a href="{{ webRoot }}/Registration.php" class="link"
+               >Créer un compte</a
+                  ><br />
+                  <a href="{{ webRoot }}/PasswordReset.php" class="link"
+                     >Mot de passe perdu ?</a
+                  >
+               </p>
+            </footer>
+			</form>
+		</div>
+
+	</section>
+{% endblock %}

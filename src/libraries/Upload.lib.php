@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This library defines handles user uploads (pictures and short clips so far). Not to confuse 
- * with the "management" library, on the other side, which purpose is to handle the various 
+ * This library defines handles user uploads (pictures and short clips so far). Not to confuse
+ * with the "management" library, on the other side, which purpose is to handle the various
  * folders used to store uploads temporarily (user's buffer) or permanently.
  */
 
@@ -11,8 +11,8 @@ require realpath(dirname(__FILE__)."/external/GIFResizer.class.php");
 class Upload
 {
    /**
-    * Gives the size (in octets) of a given directory where files should be uploaded. Returns -1 
-    * if the path does not correspond to a directory. The given path should also be relative to 
+    * Gives the size (in octets) of a given directory where files should be uploaded. Returns -1
+    * if the path does not correspond to a directory. The given path should also be relative to
     * the root directory.
     *
     * @param string $dir  The path to a directory to evaluate
@@ -36,29 +36,30 @@ class Upload
    }
 
    /**
-    * Stores a file given as an array (assumed to be obtained from a global $_FILES) in given 
-    * directory, possibly with a new name. The function also checks that the file name is not 
-    * already taken (if yes, it will generate a slightly edited name until storage is possible) 
+    * Stores a file given as an array (assumed to be obtained from a global $_FILES) in given
+    * directory, possibly with a new name. The function also checks that the file name is not
+    * already taken (if yes, it will generate a slightly edited name until storage is possible)
     * and that the submitted file is in a supported format (for now, pictures and short clips).
     *
     * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
     * @param string $dir   The path to the directory where this picture must be stored
     * @param string $name  The new name of the uploaded file after storage (optional)
-    * @return string       The path to the stored picture (relative to the root directory) or an 
+    * @return string       The path to the stored picture (relative to the root directory) or an
     *                      empty string if the format of the file is not supported
     */
 
    public static function storeFile($arr, $dir, $name = "")
    {
       $dirPath = PathHandler::WWW_PATH().$dir;
-      
+
       $chains = explode(".", $arr['name']);
-      $fileName = $chains[0];
+
+      $fileName = self::getSanitizeFileName($chains[0]);
       $extension = strtolower($chains[1]);
 
       if(!in_array($extension, Utils::UPLOAD_OPTIONS['extensions']))
          return "";
-      
+
       if($extension === 'jpeg')
          $extension = 'jpg';
 
@@ -74,9 +75,9 @@ class Upload
       }
       else
       {
-         $name = str_replace(' ', '_', $name);
+         $name = self::getSanitizeFileName($name);
       }
-      
+
       $filePath = $dirPath .'/'. $name .'.'. $extension;
       if(move_uploaded_file($arr['tmp_name'], $filePath))
          return $filePath;
@@ -84,13 +85,13 @@ class Upload
    }
 
    /**
-    * Stores a picture in a similar fashion than that of storeFile(), but also resizes it. Two 
-    * additionnal parameters are required and determine the size of the miniature. The policy is 
+    * Stores a picture in a similar fashion than that of storeFile(), but also resizes it. Two
+    * additionnal parameters are required and determine the size of the miniature. The policy is
     * the following :
     *
-    * -If $h = 0, $w is the new size of the greatest dimension of the picture (the other dimension 
+    * -If $h = 0, $w is the new size of the greatest dimension of the picture (the other dimension
     *  is resized with respect to the original proportions of the picture)
-    * -If $h > 0, the function will select the greatest zone inside the image that respects the 
+    * -If $h > 0, the function will select the greatest zone inside the image that respects the
     *  proportions of an image of $w x $h pixels and resize it
     *
     * @param mixed $arr[]  The array containing the picture (previously a $_FILES global)
@@ -98,8 +99,8 @@ class Upload
     * @param number $w     The width of the miniature OR the new size of the greatest dimension
     * @param number $h     The height of the miniature (= 0 for the first case)
     * @param string $name  The new name of the uploaded file after storage (optional)
-    * @return string       The path to the stored picture (relative to the root directory) or an 
-    *                      empty string if: the file is not a JPEG/GIF/PNG, $w or $h are 
+    * @return string       The path to the stored picture (relative to the root directory) or an
+    *                      empty string if: the file is not a JPEG/GIF/PNG, $w or $h are
     *                      negative or imagecopyresampled() fails
     */
 
@@ -111,16 +112,16 @@ class Upload
          return "";
 
       $chains = explode(".", $arr['name']);
-      $fileName = $chains[0];
+      $fileName = self::getSanitizeFileName($chains[0]);
       $extension = strtolower($chains[1]);
 
       $validExtensions = array('jpg', 'jpeg', 'gif', 'png');
       if(!in_array($extension, $validExtensions))
          return "";
-      
+
       if($extension === 'jpeg')
          $extension = 'jpg';
-      
+
       if(strlen($name) == 0)
       {
          $name = $fileName;
@@ -133,9 +134,9 @@ class Upload
       }
       else
       {
-         $name = str_replace(' ', '_', $name);
+         $name = self::getSanitizeFileName($name);
       }
-      
+
       // Computing the new dimensions of the picture
       $dim = getimagesize($arr['tmp_name']);
       $newW = 0;
@@ -162,7 +163,7 @@ class Upload
       {
          $newW = $w;
          $newH = $h;
-         
+
          // Computes the zone that fits best the proportions of the miniature inside the original
          $ratioW = $dim[0] / $newW;
          $ratioH = $dim[1] / $newH;
@@ -180,22 +181,22 @@ class Upload
             $padding[1] = ceil(($dim[1] - $hBestFit) / 2);
          }
       }
-      
+
       // Conversion to integers for imagecopyresampled()
       $newW = ceil($newW);
       $newH = ceil($newH);
       $wBestFit = ceil($wBestFit);
       $hBestFit = ceil($hBestFit);
-      
+
       // The creation of the miniature starts here
       $finalFilePath = $dirPath .'/'. $name .'.'. $extension;
-      
+
       /*
-       * GIF pictures are a particular case, as they consist of several frames (usually, since 
-       * GIFs are most of the time animated). To handle this case, the class GIFResizer (obtained 
+       * GIF pictures are a particular case, as they consist of several frames (usually, since
+       * GIFs are most of the time animated). To handle this case, the class GIFResizer (obtained
        * from the website PHPClasses) is being used.
        */
-      
+
       if($extension === 'gif')
       {
          $gr = new GIFResizer;
@@ -208,16 +209,16 @@ class Upload
          $original = @imagecreatefrompng($arr['tmp_name']);
          if($original == FALSE)
             return "";
-         
+
          $resized = imagecreatetruecolor($newW, $newH);
          imagealphablending($resized, false);
          imagesavealpha($resized, true);
          $transparent = imagecolorallocatealpha($resized, 255, 255, 255, 127);
          imagefilledrectangle($resized, 0, 0, $newW, $newH, $transparent);
-         
+
          if(!imagecopyresampled($resized, $original, 0, 0, $padding[0], $padding[1], $newW, $newH, $wBestFit, $hBestFit))
             return "";
-         
+
          imagepng($resized, $finalFilePath);
       }
       // Regular JP(E)G resizing.
@@ -230,12 +231,33 @@ class Upload
          $resized = imagecreatetruecolor($newW, $newH);
          if(!imagecopyresampled($resized, $original, 0, 0, $padding[0], $padding[1], $newW, $newH, $wBestFit, $hBestFit))
             return "";
-      
+
          imagejpeg($resized, $finalFilePath, 100);
       }
-      
+
       return $finalFilePath;
    }
-}
 
-?>
+   private static function getSanitizeFileName(string $filename) {
+      $isStartingWithMini = str_starts_with($filename, 'mini_');
+      $isStartingWithFull = str_starts_with($filename, 'full_');
+      $isStartingWithHeader = str_starts_with($filename, 'header_');
+
+      if ($isStartingWithMini) {
+         $filenameSuffix = explode("mini_", $filename, 2)[1];
+
+         return "mini_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      } elseif ($isStartingWithFull) {
+         $filenameSuffix = explode("full_", $filename, 2)[1];
+
+         return "full_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      }
+      elseif ($isStartingWithHeader) {
+         $filenameSuffix = explode("header_", $filename, 2)[1];
+
+         return "header_" . preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filenameSuffix)));
+      }
+
+      return preg_replace( '/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8','ASCII//TRANSLIT', $filename)));
+   }
+}

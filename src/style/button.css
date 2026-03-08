@@ -1,0 +1,106 @@
+.primaryButton {
+   background-color: #0c960c;
+   color: white;
+   padding: 0.5rem 1.25rem;
+   border-radius: 4px;
+   font-family: "Roboto", "Arial", sans-serif;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: row;
+   gap: 0.5rem;
+   font-size: 1rem;
+   border: none;
+   transition: background-color var(--transition-time);
+   cursor: pointer;
+
+   &:is(:focus, :hover, :focus-within) {
+      background: oklch(from #0c960c calc(l * .75) c h);
+   }
+
+   &:is(a) {
+      text-decoration: none!important;
+      display: inline-flex;
+      align-items: center;
+      &:is(:focus, :hover, :focus-within) {
+         color: white;
+      }
+   }
+}
+
+.secondaryButton {
+   background-color: #f7f7f7;
+   color: var(--link-color);
+   border: 1px solid var(--link-color);
+   padding: 0.5rem 1.25rem;
+   border-radius: 4px;
+   font-family: "Roboto", "Arial", sans-serif;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: row;
+   gap: 0.5rem;
+   font-size: 1rem;
+   transition: background-color var(--transition-time);
+   cursor: pointer;
+
+   &:is(:focus, :hover, :focus-within) {
+      background: oklch(from var(--link-color) calc(l * .75) c h);
+      border-color: oklch(from var(--link-color) calc(l * 1.5) c h);
+      color: white;
+   }
+
+   &:is(a) {
+      text-decoration: none!important;
+      display: inline-flex;
+      align-items: center;
+      &:is(:focus, :hover, :focus-within) {
+         color: white;
+      }
+   }
+}
+
+:is(.secondaryButton, .primaryButton, .danger).small {
+   padding: 0.5rem!important;
+}
+
+:is(button, input[type="submit"], a).danger {
+   background-color: var(--danger-color);
+   color: white;
+   padding: 0.5rem 1.25rem;
+   border-radius: 4px;
+   font-family: "Roboto", "Arial", sans-serif;
+   display: inline-flex;
+   align-items: center;
+   flex-direction: row;
+   gap: 0.5rem;
+   font-size: 1rem;
+   border: none;
+   transition: background-color var(--transition-time);
+
+   &:is(:focus, :hover, :focus-within) {
+      background: oklch(from var(--danger-color) calc(l * .75) c h);
+      color: white;
+   }
+}
+
+.extensibleButton {
+   overflow-x: clip;
+   width: 2.1rem;
+   transition: width 0.35s ease!important;
+   white-space: nowrap;
+   display: grid!important;
+   grid-template-columns: 1.05rem auto;
+   justify-content: flex-start;
+   height: 2.1rem;
+   align-content: center;
+   pointer-events: auto;
+
+   &:has(span) {
+      &:hover,
+      &:focus-visible {
+         aspect-ratio: auto;
+         width: max-content;
+      }
+	}
+}

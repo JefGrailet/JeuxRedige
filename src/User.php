@@ -1,9 +1,9 @@
 <?php
 
 /**
-* This script displays the published articles and last messages of some user. It also provides 
-* some general information.
-*/
+ * This script displays the published articles and last messages of some user. It also provides
+ * some general information.
+ */
 
 require './libraries/Header.lib.php';
 require './libraries/MessageParsing.lib.php';
@@ -11,187 +11,82 @@ require './model/User.class.php';
 require './view/intermediate/ArticleThumbnail.ir.php';
 require './view/intermediate/Post.ir.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // Retrieves user's data if possible; stops and displays appropriate error message otherwise
 $user = null;
-if(!empty($_GET['user']))
-{
-   $getUserString = Utils::secure($_GET['user']);
-   
-   try
-   {
-      $user = new User($getUserString);
-   }
-   catch(Exception $e)
-   {
-      $tplInput = array('error' => 'dbError');
-      if(strstr($e->getMessage(), 'does not exist') != FALSE)
-         $tplInput['error'] = 'nonexistingUser';
-      $tpl = TemplateEngine::parse('view/user/User.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Impossible de retrouver l\'utilisateur');
-   }
-}
-else
-{
-   $tplInput = array('error' => 'missingUser');
-   $tpl = TemplateEngine::parse('view/user/User.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Impossible de retrouver l\'utilisateur');
-}
 
-// Webpage settings
-WebpageHandler::addCSS('user_profile');
-WebpageHandler::addCSS('topic');
-if(WebpageHandler::$miscParams['message_size'] === 'medium')
-   WebpageHandler::addCSS('topic_medium');
-WebpageHandler::addJS('topic_interaction');
-WebpageHandler::noContainer();
-
-// Gets main details and full-size avatar
-$prevMsgSize = WebpageHandler::$miscParams['message_size'];
-WebpageHandler::$miscParams['message_size'] = 'default';
-
-$finalTplInput = array('pseudo' => $user->get('pseudo'), 
-'avatar' => PathHandler::getAvatar($user->get('pseudo')), 
-'registrationDate' => date('d/m/Y \à H\hi', Utils::toTimestamp($user->get('registration_date'))), 
-'lastConnection' => date('d/m/Y \à H\hi', Utils::toTimestamp($user->get('last_connection'))), 
-'advFeatures' => Utils::check($user->get('advanced_features')) ? 'yes' : '', 
-'banned' => (Utils::toTimestamp($user->get('last_ban_expiration')) > Utils::SQLServerTime()) ? 'yes' : '', 
-'sentences' => '', 
-'articles' => '', 
-'userLastMessages' => '');
-
-WebpageHandler::$miscParams['message_size'] = $prevMsgSize;
 
 // Prepares the list of sentences for that user
-try
-{
-   $sentences = $user->listSentences();
-   
-   if(count($sentences) > 0)
-   {
-      $finalTplInput['sentences'] = "\n<br/>\n<strong>Historique des bannissements</strong><br/>\n<br/>\n";
-      for($i = 0; $i < count($sentences); $i++)
-      {
-         $durationDays = $sentences[$i]['duration'] / (60 * 60 * 24);
-         $dateStr = date('d/m/Y à H:i:s', Utils::toTimestamp($sentences[$i]['date']));
-         $expiration = Utils::toTimestamp($sentences[$i]['date']) + $sentences[$i]['duration'];
-         
-         $sentenceTplInput = array('active' => '',
-         'nbDays' => $durationDays,
-         'date' => $dateStr,
-         'banisher' => $sentences[$i]['judge'],
-         'timestamp' => Utils::toTimestamp($sentences[$i]['date']),
-         'motif' => $sentences[$i]['details']);
-         
-         if(Utils::check($sentences[$i]['relaxed']))
-            $sentenceTplInput['special'] = 'relaxed';
-         else if($expiration > Utils::SQLServerTime())
-            $sentenceTplInput['special'] = 'active';
-         
-         $sentenceTpl = TemplateEngine::parse('view/user/Sentence.item.ctpl', $sentenceTplInput);
-            
-         if(!TemplateEngine::hasFailed($sentenceTpl))
-            $finalTplInput['sentences'] .= $sentenceTpl;
-         else
-            WebpageHandler::wrap($sentenceTpl, 'Impossible de consulter l\'utilisateur');
-      }
+
+$getUserString = Utils::secure($_GET['user']);
+
+$isCurrentUser = false;
+
+try {
+   $user = new User($getUserString);
+
+   if (LoggedUser::isLoggedIn()) {
+      $currentUser = new User(LoggedUser::$fullData);
+      $isCurrentUser = $currentUser->get("pseudo") === $user->get("pseudo");
    }
-}
-catch(Exception $e)
-{
-   $tpl = TemplateEngine::parse('view/user/User.fail.ctpl', array('error' => 'dbError'));
-   WebpageHandler::wrap($tpl, 'Impossible de consulter l\'utilisateur');
+} catch (Exception $e) {
 }
 
-// Articles published by that user
-try
-{
-   $articles = $user->getArticles();
-   if($articles != NULL)
-   {
-      $articlesTplInput = array('user' => $user->get('pseudo'), 'articles' => '');
-      $fullInput = array();
-      for($i = 0; $i < count($articles); $i++)
-      {
-         $intermediate = ArticleThumbnailIR::process($articles[$i], false, false);
-         array_push($fullInput, $intermediate);
-      }
-      
-      if(count($fullInput) > 0)
-      {
-         $fullOutput = TemplateEngine::parseMultiple('view/content/ArticleThumbnail.ctpl', $fullInput);
-         if(!TemplateEngine::hasFailed($fullOutput))
-         {
-            for($i = 0; $i < count($fullOutput); $i++)
-               $articlesTplInput['articles'] .= $fullOutput[$i];
-         }
-      }
-      
-      if(strlen($articlesTplInput['articles']) > 0)
-      {
-         $artTplInput = TemplateEngine::parse('view/user/Articles.ctpl', $articlesTplInput);
-         $finalTplInput['articles'] = $artTplInput;
-      }
-   }
-}
-catch(Exception $e)
-{
-   if(strstr($e->getMessage(), 'No article has been found') == FALSE)
-   {
-      $tpl = TemplateEngine::parse('view/user/User.fail.ctpl', array('error' => 'dbError'));
-      WebpageHandler::wrap($tpl, 'Impossible de consulter l\'utilisateur');
-   }
+$userListArticles = $user->getArticles();
+
+$userListArticlesComputed = array_map(function ($article) {
+   return array(
+      ...$article,
+      "link" => ArticleThumbnailIR::getLink($article),
+      "date_time" => ArticleThumbnailIR::getDateTime($article),
+      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+   );
+}, $userListArticles);
+
+$userComputed = [
+   ...$user->getAll(),
+   // "last_connection" => Utils::toTimestamp($user->get('last_connection')),
+   // "registration_date" => Utils::toTimestamp($user->get('registration_date')),
+   "avatar" => PathHandler::getAvatar($user->get('pseudo')),
+   'banned' => (Utils::toTimestamp($user->get('last_ban_expiration')) > Utils::SQLServerTime()),
+   "list_articles" => $userListArticlesComputed,
+];
+
+$userListPosts = [];
+
+try {
+   $userListPosts = $user->getPosts(0, 5, true);
+
+   $userListPostsComputed = array_map(function ($post) {
+      $content = MessageParsing::parse($post['content']);
+      $content =  MessageParsing::removeReferences($content);
+
+      return array(
+         ...$post,
+         "content" => $content,
+      );
+   }, $userListPosts, array_keys($userListPosts));
+} catch (Exception $e) {
 }
 
-// 5 last messages from that user
-try
-{
-   $posts = $user->getPosts(0, 5, true);
-   
-   if($posts != NULL)
-   {
-      $lastMsgTplInput = array('user' => $user->get('pseudo'), 'posts' => '');
-      
-      for($i = 0; $i < count($posts); $i++)
-      {
-         $posts[$i]['content'] = MessageParsing::parse($posts[$i]['content'], ($i + 1));
-         $posts[$i]['content'] = MessageParsing::removeReferences($posts[$i]['content']);
+// print_r($userListPosts);
 
-         $postIR = PostIR::process($posts[$i], 0, false);
-         $postTpl = TemplateEngine::parse('view/content/Post.ctpl', $postIR);
-         
-         if(!TemplateEngine::hasFailed($postTpl))
-            $lastMsgTplInput['posts'] .= $postTpl;
-         else
-            WebpageHandler::wrap($postTpl, 'Une erreur est survenue lors de la lecture des messages');
-      }
-      
-      $msgTplInput = TemplateEngine::parse('view/user/LastMessages.ctpl', $lastMsgTplInput);
-      $finalTplInput['userLastMessages'] = $msgTplInput;
-   }
-   else
-   {
-      $lastMsgTplInput = array('user' => $user->get('pseudo'));
-      $msgTplInput = TemplateEngine::parse('view/user/LastMessages.empty.ctpl', $lastMsgTplInput);
-      $finalTplInput['userLastMessages'] = $msgTplInput;
-   }
-}
-catch(Exception $e)
-{
-   if(strstr($e->getMessage(), 'No message has been found') == FALSE)
-   {
-      $tpl = TemplateEngine::parse('view/user/User.fail.ctpl', array('error' => 'dbError'));
-      WebpageHandler::wrap($tpl, 'Impossible de consulter l\'utilisateur');
-   }
-}
 
-// Dialog for showing interactions with this user's last messages
-$dialogs = '';
-$interactionsTpl = TemplateEngine::parse('view/dialog/Interactions.multiple.ctpl');
-if(!TemplateEngine::hasFailed($interactionsTpl))
-   $dialogs .= $interactionsTpl;
-
-$finalPage = TemplateEngine::parse('view/user/User.composite.ctpl', $finalTplInput);
-WebpageHandler::wrap($finalPage, 'A propos de '.$user->get('pseudo'), $dialogs);
-?>
+echo $twig->render("user-profile.html.twig", [
+   "list_css_files" => ["user_profile", "topic"],
+   "list_js_files" => ["topic_interaction"],
+   "page_title" => "A propos de {$userComputed["pseudo"]}",
+   "user" => $userComputed,
+   "is_current_user" => $isCurrentUser,
+   "selectedLogo" => $twig->getGlobals()["current_category"],
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "À propos - JeuxRédige",
+      "description" => "JeuxRédige est, comme son nom l'indique, un site web qui a été conçu comme un support d'écriture pour parler de jeu vidéo de manière générale. Vous pourrez y trouver des critiques, des chroniques ou même des guides sur les jeux vidéo récents comme anciens, avec à l'occasion quelques billets d'humeur, toujours en rapport avec la culture des jeux.",
+      "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
+      "full_title" => "",
+   ]
+]);

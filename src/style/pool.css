@@ -60,6 +60,8 @@
 
 #articlesPool, #articlesPoolIndex
 {
+   list-style: none;
+   padding: 0;
    display: grid;
    gap: var(--articles-grid-gap);
    grid-template-columns: repeat(1, 1fr);
@@ -72,7 +74,28 @@
       grid-template-columns: repeat(3, 1fr);
    }
 
-   margin-inline: var(--root-side-margin);
+   &.large {
+      gap: calc(var(--articles-grid-gap) / 2);
+
+      @media screen and (width > 640px) {
+         grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media screen and (width > 768px) {
+         grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media screen and (width > 1024px) {
+         grid-template-columns: repeat(4, 1fr);
+      }
+   }
+
+   li:not(:has(a)):only-child
+   {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-size: 1.25rem;
+   }
 }
 
 #articlesPoolIndex
@@ -135,11 +158,17 @@
 
 
 /* Elements to centered elements such as page lists or specific buttons. */
+.categoriesLinks {
+   display: flex;
+   justify-content: center;
+   align-items: start;
+   gap: calc(var(--articles-grid-gap) / 4);
+   flex-wrap: wrap;
+}
 
 .centeredContent
 {
    width: 100%;
-   min-width: 800px;
    margin: 20px 0px;
    text-align: center;
 }

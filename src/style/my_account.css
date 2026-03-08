@@ -1,0 +1,39 @@
+.shortcutMenu {
+   z-index: 9;
+   margin-inline: auto;
+   margin-bottom: 1.5rem;
+   position: sticky;
+   top: 130px;
+   @media screen and (width >= 768px) {
+      top: 70px;
+   }
+
+   @media screen and (width >= 640px) {
+      width: fit-content;
+   }
+
+   ul {
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: start;
+      @media screen and (width >= 640px) {
+         justify-content: center;
+      }
+      gap: 1rem;
+      overflow: auto;
+      white-space: nowrap;
+      max-width: var(--content-max-width);
+      scrollbar-width: none;
+   }
+}
+
+.sectionBlock.myAccount {
+   scroll-margin: 180px;
+
+   @media screen and (width >= 768px) {
+      scroll-margin: 130px;
+   }
+}

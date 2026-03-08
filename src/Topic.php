@@ -15,19 +15,21 @@ require './model/User.class.php';
 require './libraries/Anonymous.lib.php';
 require './libraries/MessageParsing.lib.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
 {
    $getID = intval($_GET['id_topic']);
-   
+
    $dialogs = '';
-   
+
    // Prepares the input for the topic template
-   $finalTplInput = array('header' => '', 
-   'pagesConfig' => '', 
-   'replyLink' => '', 
-   'posts' => '', 
+   $finalTplInput = array('header' => '',
+   'pagesConfig' => '',
+   'replyLink' => '',
+   'posts' => '',
    'replyForm' => '');
 
    // Obtains topic, related data and posts
@@ -38,11 +40,13 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       $topic = new Topic($getID);
       $topic->loadMetadata();
       $nbPosts = $topic->countPosts();
-      
+
+
+
       // Anonymous posting can be deactivated if desired by the author of the topic
       if(!Utils::check($topic->get('is_anon_posting_enabled')))
          $anonymousPosting = false;
-      
+
       // Gets current page and computes the first index to retrieve the messages (or posts)
       $currentPage = 1;
       $nbPages = ceil($nbPosts / WebpageHandler::$miscParams['posts_per_page']);
@@ -56,32 +60,34 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
             $firstPost = ($getPage - 1) * WebpageHandler::$miscParams['posts_per_page'];
          }
       }
-      
+
       // Deals with user's view (if logged in)
       if(LoggedUser::isLoggedIn())
       {
          // Creates a view for this user if it doesn't exist yet.
          if($topic->getBufferedView() == NULL)
             $topic->createView();
-         
+
          /*
-          * Updates the count of seen messages; note that nothing (i.e. no SQL request) happens if 
-          * the total of messages covered up to this page is below the amount of covered messages 
+          * Updates the count of seen messages; note that nothing (i.e. no SQL request) happens if
+          * the total of messages covered up to this page is below the amount of covered messages
           * in the user's view.
           */
-         
+
          $seenMessages = $currentPage * WebpageHandler::$miscParams['posts_per_page'];
          if($seenMessages > $nbPosts)
             $seenMessages = $nbPosts;
          $topic->updateLastSeen($seenMessages);
       }
-      
+
+      // print_r($topic);
+
       $finalTplInput['pagesConfig'] = WebpageHandler::$miscParams['posts_per_page'].'|'.$nbPosts.'|'.$currentPage;
       $finalTplInput['pagesConfig'] .= '|'.PathHandler::topicURL($topic->getAll(), '[]');
       $finalTplInput['pagesConfig'] .= '|GetPosts.php?id_topic='.$topic->get('id_topic');
       $finalTplInput['pagesConfig'] .= '|RefreshTopic.php?id_topic='.$topic->get('id_topic');
       $finalTplInput['pagesConfig'] .= '|CheckTopic.php?id_topic='.$topic->get('id_topic');
-      
+
       if((LoggedUser::isLoggedIn()) || Utils::check($topic->get('is_anon_posting_enabled')))
          $finalTplInput['replyLink'] = 'yes||./PostMessage.php?id_topic='.$topic->get('id_topic');
       $posts = $topic->getPosts($firstPost, WebpageHandler::$miscParams['posts_per_page']);
@@ -96,7 +102,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       $tpl = TemplateEngine::parse('view/content/Topic.fail.ctpl', $tplInput);
       WebpageHandler::wrap($tpl, 'Sujet introuvable');
    }
-   
+
    // Webpage settings
    WebpageHandler::addCSS('topic');
    if(WebpageHandler::$miscParams['message_size'] === 'medium')
@@ -110,7 +116,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
    WebpageHandler::addJS('pages');
    WebpageHandler::addJS('refresh');
    WebpageHandler::changeContainer('topicContent');
-   
+
    // Dialog boxes for the moderator (lock, unlock and delete)
    $dialogs = '';
    if(LoggedUser::isLoggedIn())
@@ -131,12 +137,12 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
             $dialogs .= $dialogTpl;
       }
    }
-   
+
    // Dialogs for interactions (showing them, sending an alert, etc.)
    $interactionsTpl = TemplateEngine::parse('view/dialog/Interactions.multiple.ctpl');
    if(!TemplateEngine::hasFailed($interactionsTpl))
       $dialogs .= $interactionsTpl;
-   
+
    // Topic header
    $headerTplInput = TopicHeaderIR::process($topic);
    $headerTpl = TemplateEngine::parse('view/content/TopicHeader.ctpl', $headerTplInput);
@@ -161,9 +167,10 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       $online = User::checkOnlineStatus($listedUsers, $listedAdmins);
    }
    catch(Exception $e) {}
-   
+
    // Renders the posts
    $fullInput = array();
+   $postsComputed = [];
    for($i = 0; $i < count($posts); $i++)
    {
       if($posts[$i]['posted_as'] !== 'anonymous')
@@ -175,9 +182,13 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       }
       $postIR = PostIR::process($posts[$i], ($firstPost + $i + 1), !Utils::check($topic->get('is_locked')));
       array_push($fullInput, $postIR);
+
+      $postIR = PostIR::compute($posts[$i], ($firstPost + $i + 1), !Utils::check($topic->get('is_locked')));
+      array_push($postsComputed, $postIR);
    }
+
    $fullInput = Utils::removeSeconds($fullInput);
-   
+
    $postsTpl = TemplateEngine::parseMultiple('view/content/Post.ctpl', $fullInput);
    if(!TemplateEngine::hasFailed($postsTpl))
    {
@@ -186,18 +197,18 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
    }
    else
       WebpageHandler::wrap($postsTpl, 'Une erreur est survenue lors de la lecture du sujet');
-   
+
    // Reply form if anonymous are authorized or if user is logged AND if the topic is not locked
    if(!Utils::check($topic->get('is_locked')) && ($anonymousPosting || (LoggedUser::isLoggedIn())))
    {
-      $formTplInput = array('errors' => '', 
-      'topicID' => $getID, 
-      'anonPseudoStatus' => 'new', 
-      'showFormattingUI' => 'no', 
-      'content' => '', 
-      'uploadOptions' => '', 
+      $formTplInput = array('errors' => '',
+      'topicID' => $getID,
+      'anonPseudoStatus' => 'new',
+      'showFormattingUI' => 'no',
+      'content' => '',
+      'uploadOptions' => '',
       'formEnd' => 'anon');
-      
+
       if(LoggedUser::isLoggedIn())
       {
          $formTplInput['anonPseudoStatus'] = '';
@@ -206,7 +217,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
          WebpageHandler::addCSS('preview');
          WebpageHandler::addJS('formatting');
          WebpageHandler::addJS('preview');
-         
+
          // Dialogs for formatting
          $formattingDialogsTpl = TemplateEngine::parse('view/dialog/Formatting.multiple.ctpl');
          if(!TemplateEngine::hasFailed($formattingDialogsTpl))
@@ -221,17 +232,32 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
             $formTplInput['anonPseudoStatus'] .= $anonPseudo;
          }
       }
-      
+
       $formTpl = TemplateEngine::parse('view/content/PostMessage.form.ctpl', $formTplInput);
       if(!TemplateEngine::hasFailed($formTpl))
          $finalTplInput['replyForm'] = $formTpl;
       else
          WebpageHandler::wrap($formTpl, 'Une erreur est survenue lors de la lecture du sujet');
    }
-   
+
    // Generates the whole page
-   $display = TemplateEngine::parse('view/content/Topic.composite.ctpl', $finalTplInput);
-   WebpageHandler::wrap($display, 'Sujet: '.$topic->get('title').'', $dialogs);
+   // $display = TemplateEngine::parse('view/content/Topic.composite.ctpl', $finalTplInput);
+   // WebpageHandler::wrap($display, 'Sujet: '.$topic->get('title').'', $dialogs);
+   $topicObject = $topic->getAll();
+   echo $twig->render("topic.html.twig", [
+      "list_posts" => $postsComputed,
+      "topic" => $topic->getAll(),
+      "list_css_files" => ["topic"],
+      "list_js_files" => ["get_post_interactions", "post_interaction", "jquery.visible", "pages", "refresh"],
+      "page_title" => "Sujet {$topicObject["title"]}",
+      "nb_pages" => 2,
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "JeuxRédige",
+         "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+         "full_title" => "",
+      ]
+   ]);
 }
 else
 {
@@ -239,4 +265,3 @@ else
    WebpageHandler::wrap($tpl, 'Sujet introuvable');
 }
 
-?>

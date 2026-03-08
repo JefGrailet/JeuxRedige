@@ -3,7 +3,7 @@
 class TopicThumbnailIR
 {
    /*
-   * Converts the array modelizing a topic into an intermediate representation, ready to be used 
+   * Converts the array modelizing a topic into an intermediate representation, ready to be used
    * in a template. The intermediate representation contains (in order of "call" in the template):
    *
    * -Absolute path to the thumbnail (picture) of the topic
@@ -21,7 +21,7 @@ class TopicThumbnailIR
    public static function process($topic)
    {
       $webRootPath = PathHandler::HTTP_PATH();
-      
+
       $output = array('thumbnail' => PathHandler::getTopicThumbnail($topic['thumbnail'], $topic['id_topic']),
       'icons' => '',
       'lastAuthor' => $topic['last_author'],
@@ -31,14 +31,14 @@ class TopicThumbnailIR
       'fullTitle' => 'Sujet créé par '.$topic['author'],
       'title' => $topic['title'],
       'linkLastPage' => '');
-      
+
       // Shortens the title for display purpose (full title can be seen via tooltip)
       if(strlen($topic['title']) > 50)
       {
          $output['fullTitle'] = $topic['title'].' (par '.$topic['author'].')';
          $output['title'] = substr($topic['title'], 0, 47).'...';
       }
-      
+
       // Checks the topic is favorited
       $favorited = false;
       if(array_key_exists('favorite', $topic) && Utils::check($topic['favorite']))
@@ -53,7 +53,7 @@ class TopicThumbnailIR
          $output['icons'] .= '<i class="icon-topic_lock" alt="Sujet verrouillé" title="Sujet verrouillé"></i> ';
       if($favorited)
          $output['icons'] .= '<i class="icon-general_star" alt="Sujet favori" title="Sujet favori"></i> ';
-      
+
       // Wraps icons into the proper div
       if(strlen($output['icons']) > 0)
       {
@@ -62,16 +62,16 @@ class TopicThumbnailIR
             <p>'.$output['icons'].'</p>
          </div>';
       }
-      
+
       // Marking
       if(Utils::check($topic['is_marked']))
          $output['marked'] = 'Marked';
-      
+
       // Link to the last page
       $lastPage = ceil($topic['nb'] / WebpageHandler::$miscParams['posts_per_page']);
       if($lastPage > 1)
          $output['linkLastPage'] = '<a class="lastPage" href="'.PathHandler::topicURL($topic, $lastPage).'">[p. '.$lastPage.']</a>';
-      
+
       // If there's a view for this user, appends a count to the "linkLastPage" field
       if(array_key_exists('last_seen', $topic))
       {
@@ -79,8 +79,44 @@ class TopicThumbnailIR
          if($newMessages > 0)
             $output['linkLastPage'] .= ' <span style="color: rgb(0,255,0);">[+'.$newMessages.']</span>';
       }
-      
+
       return $output;
+   }
+
+   public static function compute($topic) {
+      $payload = [
+         'thumbnail' => PathHandler::getTopicThumbnail($topic['thumbnail'], $topic['id_topic']),
+         'lastAuthor' => $topic['last_author'],
+         'lastPostDate' => $topic['last_post'],
+         'marked' => '',
+         "author" => $topic['author'],
+         'linkTopic' => PathHandler::topicURL($topic),
+         'fullTitle' => 'Sujet créé par '.$topic['author'],
+         'title' => $topic['title'],
+         'linkLastPage' => '',
+      ];
+
+      $favorited = false;
+      if(array_key_exists('favorite', $topic) && Utils::check($topic['favorite']))
+         $favorited = true;
+
+      $payload["isFavorite"] = $favorited;
+
+      $icons = [];
+      if ($topic['created_as'] === 'author')
+         array_push($icons, ["class" => "icon-general_content", "alt" => "Réactions à un article", "title" => "Réactions à un article"]);
+      if (Utils::check($topic['is_anon_posting_enabled']))
+         array_push($icons, ["class" => "icon-general_anonymous", "alt" => "Posts anonymes autorisés", "title" => "Posts anonymes autorisés"]);
+      if (Utils::check($topic['is_locked']))
+         array_push($icons, ["class" => "icon-topic_lock", "alt" => "Sujet verrouillé", "title" => "Sujet verrouillé"]);
+      if ($favorited)
+         array_push($icons, ["class" => "icon-general_star", "alt" => "Sujet favori", "title" => "Sujet favori"]);
+      $payload["icons"] = $icons;
+
+      if (Utils::check($topic['is_marked']))
+         $payload['marked'] = 'Marked';
+
+      return $payload;
    }
 }
 

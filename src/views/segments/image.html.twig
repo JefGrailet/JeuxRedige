@@ -1,0 +1,41 @@
+{% if is_miniature %}
+   {% set style = "padding-top: 2px;" %}
+   {% if floating == "left" %}
+      {% set style = "float:" ~ floating ~ "; margin: 0px 10px 0px 0px;" %}
+   {% elseif floating == "right" %}
+      {% set style = "float:" ~ floating ~ "; margin: 0px 0px 0px 10px;" %}
+   {% endif %}
+
+   <button class="miniaturePopoverButton" style="{{ style }}" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data }}">
+      <img src="{{ src }}" alt="{{ comment }}" loading="lazy" class="miniature">
+   </button>
+{% else %}
+   {% set style = "" %}
+
+   {% if floating != "" %}
+      {% if floating == "left" %}
+         {% set style = "float:" ~ floating ~ "; margin: 0px 10px 3px 0px;" %}
+      {% elseif floating == "right" %}
+         {% set style = "float:" ~ floating ~ "; margin: 0px 0px 3px 10px;" %}
+      {% endif %}
+
+      {% if ratio != 1.0 %}
+         {% set width = media_data.full.size.width * ratio %}
+         {% if width > 200 %}
+            {% if width < 250 %}
+               {% set style = style ~ ' padding-top: 5px;' %}
+            {% else %}
+               {% set style = style ~ ' padding-top: 10px;' %}
+            {% endif %}
+         {% endif %}
+      {% endif %}
+   {% endif %}
+
+   {% if ratio != 1.0 %}
+      {% set width = media_data.full.size.width * ratio %}
+   {% endif %}
+
+   <button class="miniaturePopoverButton" style="{{ style }}" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data|json_encode() }}">
+      <img src="{{ media_data.mini.src }}" loading="lazy" alt="{{ media_data.comment }}" class="miniature" width="{{ width }}" >
+   </button>
+{% endif  %}

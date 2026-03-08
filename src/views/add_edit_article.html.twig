@@ -1,0 +1,337 @@
+{% extends "layouts/base.html.twig" %}
+{% import "includes/_macros.html.twig" as macros %}
+
+{% block content %}
+	<div>
+		{% set array = {} %}
+		{% for key, category in list_categories %}
+			{% set array = array|merge({ (key): category.name.singular }) %}
+		{% endfor %}
+
+		<section class="sectionBlock">
+			<h1 class="title">
+            {% if type == "add" %}
+               Créer un article
+            {% else %}
+               Éditer l'article - Informations principales
+               {% if article.is_published %}
+               <span class="badge success">Publié</span>
+               {% else %}
+               <span class="badge info">Non publié</span>
+               {% endif %}
+            {% endif %}
+         </h1>
+			<form action="" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
+				<script type="text/schema" data-form-schema="new_article">
+					return z.object({
+                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty }}" }).max(100, "{{ form_error_messages.title.tooLong }}"),
+                  subtitle: z.string().min(1, {error: "{{ form_error_messages.subtitle.empty }}" }).max(100, "{{ form_error_messages.subtitle.tooLong }}"),
+                  type: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
+                  thumbnail: z.file()
+                     .nullable()
+                     .transform((file) => (file && file.size > 0 ? file : null))
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return "{{ thumbnail_requirements.mimeTypes }}".split(",").includes(file?.type);
+                           },
+                           "{{ form_error_messages.thumbnail.invalidFormat|e('js')|raw }}"
+                     )
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return file?.size < {{ thumbnail_requirements.maxSize }};
+                           },
+                           "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
+                     ),
+                  "keywords[]":  z.preprocess(
+                     (value) => value ?? [],
+                     z.array(z.string())
+                        .min(1, {error: "{{ form_error_messages.keywords.empty }}" })
+                        .max(10, {error: "{{ form_error_messages.keywords.limitReached }}" })
+                  )
+               })
+				</script>
+            {% if flash_message == "article_created" %}
+				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+            {% endif %}
+
+            {% if flash_message == "article_updated" %}
+				   <p class="alert success">Article mis à jour</p>
+            {% endif %}
+
+            {% if flash_message == "page_deleted" %}
+				   <p class="alert success">Page supprimée avec succès</p>
+            {% endif %}
+
+            {% if flash_message == "page_created" %}
+				   <p class="alert success">Page crée avec succès</p>
+            {% endif %}
+
+            {% if flash_message == "page_updated" %}
+				   <p class="alert success">Page éditée avec succès</p>
+            {% endif %}
+				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<p class="alert warning">Les champs avec * sont requis</p>
+				<div>
+					<div class="inputContainer">
+						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
+						<input type="text" name="title" id="title" value="{{ article.title }}" maxlength="100">
+					</div>
+					<div class="inputContainer">
+						<label for="subtitle">Sous-titre<span style="color: var(--danger-color);">*</span></label>
+						<input type="text" name="subtitle" id="subtitle" value="{{ article.subtitle }}" maxlength="100">
+					</div>
+
+					<div class="inputContainer">
+						<p class="label">Miniature</p>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>L'image doit être au format .jp(e)g</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
+								<li>L'image sera rognée à partir du centre pour avoir à la fin un format rectangulaire</li>
+							</ul>
+						</div>
+                  {% set article_thumbnail = article.thumbnail ? article.thumbnail : "./default_article_thumbnail.jpg" %}
+
+                  {% include "includes/image-drag-n-drop.html.twig" with {
+                        "options": {
+                           "name": "thumbnail",
+                           "label": "Sélectionner image",
+                           "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
+                           "default_image": article_thumbnail,
+                           "mimeTypes": thumbnail_requirements.mimeTypes,
+                        }
+                     }
+                  %}
+					</div>
+
+					<div class="inputContainer">
+						<label for="type">Type<span style="color: var(--danger-color);">*</span></label>
+                  <div class="notes">
+                     <p class="title">Remarque :</p>
+                     <ul>
+                        {% if article.is_published %}
+                        <li>L'article ayant été publié, vous ne pouvez plus changer le type</li>
+                        {% else %}
+                        <li>Une fois publié, vous ne pourrez pas changer le type d'article</li>
+                        {% endif %}
+                     </ul>
+                  </div>
+                  <select {% if article.is_published %}inert{% endif %} name="type" id="type" data-article-type="{{ array|json_encode() }}">
+							<option value="">Choisir un type</option>
+							{% for key, category in list_categories %}
+								<option {{ article.type == key ? 'selected' : '' }} value="{{ key }}">{{ category.name.singular }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="inputContainer">
+						<label for="keywords">Mots-clefs (10 maximum)<span style="color: var(--danger-color);">*</span></label>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>Vous pouvez créer de nouveaux mots-clefs</li>
+								<li>Vous devez mettre au minimum un mot-clé et dix au maximum</li>
+							</ul>
+						</div>
+						<select data-dropdown-keywords='{"tags": true, "maximumSelectionLength": 10}' id="keywords" name="keywords[]" multiple="multiple">
+                     {% for keyword in article.keywords %}
+                        <option value="{{ keyword }}" selected="selected">{{ keyword }}</option>
+                     {% endfor %}
+                  </select>
+					</div>
+					<div class="inputContainer">
+						<button type="submit" class="fit primaryButton">
+							{{ type == "add" ? "Créer" : "Éditer" }}
+							<span data-dynamic-label style="display: contents">article</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</section>
+		{% if type == "edit" %}
+			<section class="sectionBlock">
+				<p class="title">Pages</p>
+
+            <div class="content">
+               <div class="notes">
+                  <p class="title">Remarques :</p>
+                  <ul>
+                     <li>Une fois publié, vous ne pourrez plus réordonner les pages de l'article</li>
+                     <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+                  </ul>
+               </div>
+               <table class="tableSegments">
+               <thead>
+                  {% if article.is_published == false %}
+                  <th style="width: 40px;"></th>
+                  {% endif %}
+                  <th style="width: 50px;">Ordre</th>
+                  <th style="min-width: 150px;">Nom</th>
+                  {% if article.is_published == false %}
+                  <th style="min-width: 150px;"></th>
+                  {% endif %}
+               </thead>
+               <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
+                  {% for segment in article.segments %}
+                     <tr data-segment-id="{{ segment.id_segment }}" data-article-id="{{ segment.id_article }}">
+                        {% if article.is_published == false %}
+                           <td style="vertical-align: top">
+                              <span class="dragHandle" title="Réordonner">
+                                 <i class="icon-general_menu"></i>
+                              </span>
+                           </td>
+                        {% endif %}
+                        <td style="vertical-align: top;">
+                           <span data-segment-index>
+                              {{ loop.index }}
+                           </span>
+                        </td>
+                        <td style="vertical-align: top;">
+                           <span data-segment-index>
+                              {{ segment.title ? segment.title : "Sommaire" }}
+                           </span>
+                        </td>
+                        {% if article.is_published == false %}
+                           <td style="text-align: right;">
+                              <div class="pageOptions">
+                                 <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
+                                 <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
+                              </div>
+                           </td>
+                        {% endif %}
+                     </tr>
+                  {% else %}
+                     <tr>
+                        <td colspan="5">
+                           <p class="alert info">Cet article n'a pas de pages.</p>
+                        </td>
+                     </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+               {% if article.is_published == false %}
+                  <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter une nouvelle page</a>
+               {% endif %}
+               <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">
+                  {% if article.is_published %}
+                     Accéder à l'article
+                  {% else %}
+                     Aperçu de l'article complet
+                  {% endif %}
+               </a>
+            </div>
+			</section>
+         <section class="sectionBlock">
+				<p class="title">Publication</p>
+            <div class="content">
+               {% if article.segments|length > 0 %}
+                  {% if article.is_published %}
+                     <p>Cet article a été publié. <a href="{{ article.preview_url }}" target="_blank" rel="noopener noreferrer">Accéder à l'article.</a></p>
+                  {% else %}
+                     <div class="notes">
+                        <p class="title">Remarques :</p>
+                        <ul>
+                           <li>Cette action est irréversible</li>
+                           <li>Une fois publié, vous ne pourrez pas éditer les pages de l'article</li>
+                           <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+                        </ul>
+                     </div>
+                     <button type="button" commandfor="publish-article" command="show-modal" class="primaryButton">Je publie définitivement cet article</button>
+                  {% endif %}
+               {% else %}
+                  <p class="alert info">Cet article ne possède aucune page, il ne peut pas être publié.</p>
+               {% endif %}
+            </div>
+			</section>
+			<section class="sectionBlock danger">
+				<p class="title" style="font-style: italic;">Danger zone</p>
+				<div class="content">
+					<button command="show-modal" commandfor="delete-article" class="danger" type="button"><i class="icon-general_trash"></i> Supprimer l'article</button>
+				</div>
+			</section>
+		{% endif %}
+	</div>
+
+   <dialog class="modal" id="publish-article">
+      <header class="header">
+         <p class="title">Publier l'article "{{ article.title }}"</p>
+         <button class="closeModal" data-close-modal="" command="close" commandfor="publish-article">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+      <form id="publishForm" class="content" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
+         <div class="notes alert error">
+            Cette action est irréversible
+         </div>
+         <div class="notes">
+            <p class="title">Remarques :</p>
+            <ul>
+               <li>Une fois publié, vous ne pourrez pas changer le type de votre article</li>
+               <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
+               <li>Une fois publié, vous ne pourrez pas supprimer les pages de votre article</li>
+            </ul>
+         </div>
+         <input type="submit" name="publish" class="primaryButton" value="{{ "Publier l'article \"" ~ article.title ~ "\"" }}"/>
+      </form>
+   </dialog>
+
+	<dialog class="modal" id="delete-article">
+      <header class="header danger">
+         <p class="title">Supprimer l'article</p>
+         <button class="closeModal" data-close-modal="" command="close" commandfor="delete-article">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+            Fermer
+         </button>
+      </header>
+
+      <div class="content">
+         <form method="post" action="./DeleteArticle.php?id_article={{ article.id_article }}">
+            <div class="notes alert error">
+               Cette action est irréversible
+            </div>
+            <div>
+               <input type="submit" class="danger"  name="delete" class="articleDelete" value="{{ "Je souhaite supprimer l'article \"" ~ article.title ~ "\"" }}">
+            </div>
+         </form>
+      </div>
+	</dialog>
+
+   {% if article.is_published == false %}
+      <dialog class="modal" id="delete-page">
+         <header class="header danger">
+            <p class="title">Supprimer la page "<span></span>"</p>
+            <button class="closeModal" data-close-modal="" command="close" commandfor="delete-page">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+               </svg>
+               Fermer
+            </button>
+         </header>
+
+         <div class="content">
+            <form method="post" action="./ajax/DeleteSegment.php?id_article={{ article.id_article }}">
+               <div class="notes alert error">
+                  Cette action est irréversible
+               </div>
+               <input type="hidden" value="{{ article.id_article }}" name="id_article">
+               <input type="hidden" value="" name="id_segment">
+               <div>
+                  <input type="submit" class="danger" name="delete" class="articleDelete" value="Je souhaite supprimer la page">
+               </div>
+            </form>
+         </div>
+      </dialog>
+   {% endif %}
+
+{% endblock %}

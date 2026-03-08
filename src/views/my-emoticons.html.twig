@@ -1,0 +1,109 @@
+{% extends "layouts/base.html.twig" %}
+{% import "includes/_macros.html.twig" as macros %}
+{% block content %}
+	<div class="smallContainer">
+      <p class="pageTitle centeredTitle">Emoticônes</p>
+		<div class="tabContainer" role="tablist">
+					<ol class="tabsList">
+						<li>
+                     <a href="./MyEmoticons.php" class="tab {{ query_string.filter == "" ? "active" : "" }}">Mes émoticônes</a>
+						</li>
+                  <li>
+                     <a href="./MyEmoticons.php?filter=global" class="tab {{ query_string.filter == "global" ? "active" : "" }}">Librairie d'émoticônes</a>
+                  </li>
+					</ol>
+               <ol class="listTabsContent">
+                  <li class="tabContent">
+                     <ul>
+                        {% for emoji in list_emojis %}
+                        {% else %}
+                           <li>Vous n'avez actuellement aucune émoticône.</li>
+                        {% endfor %}
+                     </ul>
+                  </li>
+               </ol>
+				</div>
+				<button class="fit primaryButton" command="show-modal" commandfor="add-emoji">Ajouter une nouvelle émoticône</button>
+	</div>
+	<dialog id="add-emoji" class="modal small">
+		<header class="header">
+			<p class="title">Créer une nouvelle émoticône</p>
+			<button class="closeModal" data-close-modal="" command="close" commandfor="add-emoji">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+				</svg>
+				Fermer
+			</button>
+		</header>
+		<form class="content">
+         <p class="alert warning">Les champs avec * sont requis</p>
+         <div class="gridForm">
+            <div class="dragAndDropUpload full">
+               <ul class="notes full">
+                  <li>L'image ne doit pas excéder la dimension de 120x90</li>
+               </ul>
+               <label for="new_emoticon_file" class="full">Émoticône<span style="color: var(--danger-color);">*</span> :</label>
+               <div class="dropzone paused" data-upload-dropzone="emoticone">
+                  <script type="text/schema" data-upload-callback-success="emoticone">
+                     const deleteBtn = document.getElementById("delete-emoticone");
+                     deleteBtn.inert = false;
+                     const deleteBtnPayload = JSON.parse(deleteBtn.dataset.media)
+                     deleteBtnPayload.new = URL.createObjectURL(res);
+                     deleteBtn.dataset.media = JSON.stringify(deleteBtnPayload);
+
+                     const image = document.getElementById("emoticone");
+                     image.src = URL.createObjectURL(res);
+                  </script>
+
+                  <div style="position: relative">
+                     <div class="mediaMenuBar">
+                        <button title="supprimer média" data-media='{"original": "", "deleteButtonId": "delete-emoticone", "linkedMedia": { "id": "emoticone", "type": "image", "inputName": "new_emoticon_file" }}' id="delete-emoticone" command="show-modal" inert commandfor="delete-media" class="danger extensibleButton small" type="button">
+                           <i class="icon-general_trash"></i>
+                           <span>Supprimer</span>
+                        </button>
+                     </div>
+                     <img src="" alt="" id="emoticone">
+                  </div>
+                  <p class="text">Glissez-déposez vos médias (.jp(e)g, .gif, .png)</p>
+                  <p class="text">ou</p>
+                  <div class="buttons">
+                     <label class="primaryButton">
+                        Sélectionner l'émoticône
+                        <input
+                           type="file"
+                           accept="image/jpeg, image/gif, image/png"
+                           name="new_emoticon_file"
+                           data-config-drag-n-drop='{"name": "emoticone", "limitSize": {"image": 0.5}}'
+                           id="new_emoticon_file"
+                        />
+                     </label>
+                     <button
+                        type="button"
+                        class="secondaryButton"
+                        data-clipboard-upload="emoticone"
+                     >
+                        Coller depuis le presse-papier
+                     </button>
+                  </div>
+               </div>
+               {{ macros.dragAndDropErrorContainer("emoticone") }}
+            </div>
+
+            <div class="inputContainer row">
+               <label for="nom">Nom<span style="color: var(--danger-color);">*</span> :</label>
+               <input type="text" id="nom" name="nom">
+            </div>
+            <div class="inputContainer row">
+               <label for="code">Code<span style="color: var(--danger-color);">*</span> :</label>
+               <input type="text" id="code" minlength="2" name="code">
+
+               <p class="notes full">Doit commencer par le caractère ":" ou ";" et avoir une longueur minimale de deux caractères</p>
+            </div>
+            <div class="inputContainer">
+               <input type="submit" class="fit primaryButton" value="Uploader">
+            </div>
+         </div>
+      </form>
+	</dialog>
+   {% include "includes/delete-media_dialog.html.twig" %}
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block fullWidthBanner %}
+{% if flash_message == "page_created" or flash_message == "page_edited" %}
+   {% set verb = "crée" %}
+   {% if flash_message == "page_edited" %}
+      {% set verb = "éditée" %}
+   {% endif %}
+   <div class="centered">
+      <div class="wrapper">
+         <p class="alert success">Page {{ verb }} avec succès</p>
+      </div>
+   </div>
+{% endif %}
+
+{% if article.is_my_article and article.edit_links|length > 0 %}
+<style>
+   .toolbar {
+      background-color: rgba(0, 0, 0, 0.75);
+   }
+</style>
+{% endif %}
+
+<div id="pixel-to-watch" style="position: absolute; width: 1px; height: 1px; top: 0; left: 0; background-color: transparent;"></div>
+   {% if article.segments|length > 1 %}
+      <div popover="manual" id="chapitrage">
+         <header class="header">
+            <p>Sommaire</p>
+            <button aria-label="Fermer" type="button" class="close" popovertarget="chapitrage" popovertargetaction="hidden">
+               ✖
+            </button>
+         </header>
+         <ol>
+         {% for segment in article.segments %}
+            <li class="{{ segment.is_active ? "active" : "" }}">
+               <a href="{{ segment.url }}">{{ segment.title }}</a>
+            </li>
+         {% endfor %}
+         </ol>
+      </div>
+   {% endif %}
+	<div class="centered extensibleHeaderWrapper">
+      {% if article.is_published == false and article.is_my_article %}
+         <p class="alert info" style="max-width: 900px; margin-inline: auto; margin-top: 0.5rem; position: fixed; left: 1rem; right: 1rem; z-index: 99;">
+            Cet article n'a pas encore été publié. Il n'est visible que par vous et les administrateurs.
+         </p>
+      {% endif %}
+		<header class="extensibleHeader" style="background-image: url('{{ article.page.headerURL }}');">
+			<div class="wrapper" style="height: 100%;">
+				<header class="articleHeader pageContent">
+               {% if article.segments|length > 1 %}
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage"  popovertargetaction="show" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">
+                     Sommaire
+                  </button>
+               {% endif %}
+					<div class="infos">
+						<h1 class="title">
+                     {{ article.title }}
+                     {% if article.is_my_article %}
+                        {% if article.is_published %}
+                           <span class="badge success" title="N'est visible que par vous">Publié</span>
+                        {% else %}
+                           <span class="badge info" title="N'est visible que par vous">Non publié</span>
+                        {% endif %}
+                     {% endif %}
+                  </h1>
+						<h2 class="subtitle">{{ article.page.title }}</h2>
+					</div>
+
+                  <div class="toolbar">
+               {% if article.is_my_article and article.edit_links|length > 0 %}
+                     {% for item in article.edit_links %}
+                        <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
+                     {% endfor %}
+               {% endif %}
+                  {% if article.is_published %}
+                     {% set share_data = {
+                        'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
+                        'text': article.page.title
+                     } %}
+                     <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
+                        Partager l'article
+                     </button>
+                  {% endif %}
+                  </div>
+				</header>
+			</div>
+		</header>
+	</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="articleContent" data-article-content>
+   <div>{{ article.page.content|raw }}</div>
+   {% if article.segments|length > 1 %}
+      <nav class="navigationPage">
+         <ul>
+               <li>
+                  {% if article.segments[article.current_page - 1] %}
+                     <a href="{{ article.segments[article.current_page - 1].url }}" class="navigationLink">
+                        <i class="icon-general_previous" title="Page précédente"></i>
+                        <span>
+                           {{ article.segments[article.current_page - 1].title }} <br>
+                           <span style="font-size: 0.85rem">Page précédente</span>
+                        </span>
+                     </a>
+                  {% endif %}
+               </li>
+               <li>
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage" popovertargetaction="show">
+                     Sommaire
+                  </button>
+               </li>
+               <li>
+                  {% if article.segments[article.current_page + 1] %}
+                        <a href="{{ article.segments[article.current_page + 1].url }}" class="navigationLink">
+                           <span>
+                              {{ article.segments[article.current_page + 1].title }} <br>
+                              <span style="font-size: 0.85rem">Page suivante</span>
+                           </span>
+                           <i class="icon-general_next" title="Page suivante"></i>
+                        </a>
+                  {% endif %}
+               </li>
+         </ul>
+      </nav>
+   {% endif %}
+</div>
+
+<ul class="listKeywords">
+   {% for keyword in article.list_keywords %}
+      <li >
+         <a href="{{ keyword.link }}" class="keyword">
+            {{ keyword.name }}
+         </a>
+      </li>
+   {% endfor %}
+</ul>
+
+<footer class="authorContainer">
+   <div class="articleContainer">
+      <div class="authorPicture" style="background-image: url({{ article.author.avatar }});"></div>
+      <div id="footerDetails">
+         <p>
+            {% set verb = "rédigé" %}
+            {% if list_categories[current_category].is_female %}
+               {% set verb = "rédigée" %}
+            {% endif %}
+            {{ list_categories[current_category].name.singular }} {{ verb }} par
+            <a href="{{ webRoot }}/utilisateur/{{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
+            {% if article.is_published %}
+            Publié le
+            <time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+            {% if article.last_update_time %}
+               <br>
+               Édité le <time datetime="{{ article.last_update_time }}">{{ article.last_update_time|date("d/m/Y \\à H\\:i\\:s") }}</time>
+            {% endif %}
+            {% else %}
+               En cours de rédaction
+            {% endif %}
+         </p>
+      </div>
+   </div>
+</footer>
+
+<dialog closedby="any" class="miniaturePopover" id="miniature-lightbox">
+   <button type="button" style="position: absolute; right: 1.35rem; top: 1.35rem; font-size: 0.7rem; z-index: 9999;" command="close" commandfor="miniature-lightbox">
+      Fermer
+      <i class="icon-general_close" style="font-size: 0.5rem"></i>
+   </button>
+   <img src="" alt="" class="lightboxImg" />
+   <video disablepictureinpicture controls autoplay poster="{{ logo_chargement }}">
+      <source src="" type="">
+   </video>
+   <p class="mediaLegend">
+    <span data-comment=""></span>
+      (<a href="" target="_blank" rel="noopener noreferrer">Ouvrir dans un nouvel onglet</a>)
+   </p>
+</dialog>
+
+{% endblock %}

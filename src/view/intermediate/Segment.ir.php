@@ -3,7 +3,7 @@
 class SegmentIR
 {
    /*
-   * Converts the array modelizing a segment into an intermediate representation, ready to be used in 
+   * Converts the array modelizing a segment into an intermediate representation, ready to be used in
    * an actual template. The intermediate representation is a new array containing:
    *
    * -ID of the segment
@@ -21,14 +21,15 @@ class SegmentIR
 
    public static function process($data, $displayed)
    {
-      $output = array('ID' => $data['id_segment'], 
-      'position' => $data['position'], 
-      'displayState' => $displayed ? 'block':'none', 
+      $output = array('ID' => $data['id_segment'],
+      'position' => $data['position'],
+      'displayState' => $displayed ? 'block':'none',
       'headerStyle' => '',
-      'title' => $data['title'], 
-      'mainSubtitle' => '', 
+      'headerURL' => '',
+      'title' => $data['title'],
+      'mainSubtitle' => '',
       'content' => '');
-      
+
       // Header style
       $headerFile = PathHandler::WWW_PATH().'upload/articles/'.$data['id_article'].'/'.$data['id_segment'].'/header.jpg';
       if(file_exists($headerFile))
@@ -38,19 +39,21 @@ class SegmentIR
          $output['headerStyle'] .= ' style="background: url(\''.$URL.'\') no-repeat center;';
          $output['headerStyle'] .= ' padding-top: 16%;';
          $output['headerStyle'] .= ' background-size: cover;"';
+
+         $output['headerURL'] = $URL;
       }
       else
       {
          $output['headerStyle'] = 'class="segmentHeaderPlain"';
       }
-      
+
       // If content is ending with a div, do not end with "</p>"
       $contentEnd = '</p>';
       if(str_contains(substr($data['content'], -10), "</div>") !== FALSE)
          $contentEnd = '';
-      
+
       $finalContent = "<p>\n".$data['content'];
-      
+
       // If necessary, signals that the segment has been edited after publication
       $lastTimestamp = Utils::toTimestamp($data['date_last_modification']);
       if($lastTimestamp > 0)
@@ -63,15 +66,14 @@ class SegmentIR
          if($contentEnd === '')
             $finalContent .= "\n".'</p>';
       }
-      
+
       $finalContent .= $contentEnd;
-      
+
       // Strips empty <p></p> HTML tags
       $finalContent = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $finalContent);
-      
+
       $output['content'] = $finalContent;
       return $output;
    }
 }
 
-?>

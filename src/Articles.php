@@ -8,28 +8,22 @@ require './libraries/Header.lib.php';
 require './model/Article.class.php';
 require './view/intermediate/ArticleThumbnail.ir.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
-WebpageHandler::addCSS('pool');
-WebpageHandler::noContainer();
 
 // Has a specific category been selected ?
-$artCategory = ''; // Empty string -> all categories blended together
+$articlesCategory = ''; // Empty string -> all categories blended together
 if(!empty($_GET['article_category']) && in_array($_GET['article_category'], array_keys(Utils::ARTICLES_CATEGORIES)))
-   $artCategory = Utils::secure($_GET['article_category']);
+   $articlesCategory = Utils::secure($_GET['article_category']);
 
 // Gets the articles
 $nbArticles = 0;
-$articles = null;
+$articles = [];
 try
 {
-   $nbArticles = Article::countArticles($artCategory, true);
-   if($nbArticles == 0)
-   {
-      $errorTplInput = array('error' => 'noArticle', 'wholeList' => 'viewed', 'research' => 'link');
-      $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Articles');
-   }
-   
+   $nbArticles = Article::countArticles($articlesCategory, true);
+
    $currentPage = 1;
    $nbPages = ceil($nbArticles / WebpageHandler::$miscParams['articles_per_page']);
    $firstArticle = 0;
@@ -42,69 +36,47 @@ try
          $firstArticle = ($getPage - 1) * WebpageHandler::$miscParams['articles_per_page'];
       }
    }
-   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page'], $artCategory, true);
+   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page'], $articlesCategory, true);
 }
 catch(Exception $e)
 {
-   $errorTplInput = array('error' => 'dbError', 'wholeList' => 'viewed', 'research' => 'link');
-   $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
-   WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les articles');
+   echo $twig->render("errors/error.html.twig", [
+      "error_key" => "dbError",
+   ]);
+   die();
 }
 
-/* From this point, all the content has been extracted from the DB. All what is left to do is
-* to render it as a pool of thumbnails. */
+$listArticlesComputed = array_map(function ($article) {
+   return array(
+      ...$article,
+      "is_highlighted" => false,
+      "link" => ArticleThumbnailIR::getLink($article),
+      "date_time" => ArticleThumbnailIR::getDateTime($article),
+      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+   );
+}, $articles, array_keys($articles));
 
-// Rendered thumbnails
-$thumbnails = '';
-$fullInput = array();
-for($i = 0; $i < count($articles); $i++)
-{
-   $intermediate = ArticleThumbnailIR::process($articles[$i]);
-   array_push($fullInput, $intermediate);
+$logoCSSFile = null;
+if ($twig->getGlobals()["current_category"] != "default") {
+   $logoCSSFile = "charter_" . $twig->getGlobals()["current_category"];
 }
 
-if(count($fullInput) > 0)
-{
-   $fullOutput = TemplateEngine::parseMultiple('view/content/ArticleThumbnail.ctpl', $fullInput);
-   if(TemplateEngine::hasFailed($fullOutput))
-   {
-      $errorTplInput = array('error' => 'wrongTemplating', 'wholeList' => 'viewed', 'research' => 'link');
-      $tpl = TemplateEngine::parse('view/content/ArticlesList.fail.ctpl', $errorTplInput);
-      WebpageHandler::wrap($tpl, 'Impossible d\'atteindre les articles');
-   }
+$currentCategory = $twig->getGlobals()["list_categories"][$twig->getGlobals()["current_category"]]["name"]["plural"] ?? "Articles";
+$currentPage = $twig->getGlobals()["query_string"]["page"] ?? "1";
 
-   for($i = 0; $i < count($fullOutput); $i++)
-      $thumbnails .= $fullOutput[$i];
-}
+echo $twig->render("articles.html.twig", [
+   "list_articles" => $listArticlesComputed,
+   "list_css_files" => array_filter(["pool", "pagination", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
+   "list_js_files" => ["dropdown_redirect"],
+   "page_title" => "{$currentCategory} Page {$currentPage}",
+   "current_category" => $twig->getGlobals()["current_category"],
+   "nb_pages" => $nbPages,
+   "meta" => [
+      ...$twig->getGlobals()["meta"],
+      "title" => "{$currentCategory} Page {$currentPage}",
+      "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
+      "full_title" => "",
+   ]
+]);
 
-// Final HTML code (with page configuration)
-$pageConfig = WebpageHandler::$miscParams['articles_per_page'].'|'.$nbArticles.'|'.$currentPage;
-$pageConfig .= '|./Articles.php?page=[]';
-$catLinks = '';
-if(strlen($artCategory) > 0)
-{
-   $pageConfig .= '&article_category='.$artCategory;
-   $catLinks = Utils::makeCategoryLinks('Articles.php', $artCategory);
-}
-else
-   $catLinks = Utils::makeCategoryLinks('Articles.php');
-$finalTplInput = array('pageConfig' => $pageConfig, 'thumbnails' => $thumbnails, 
-                       'categoriesLinks' => $catLinks, 'research' => 'link');
-$content = TemplateEngine::parse('view/content/ArticlesList.ctpl', $finalTplInput);
 
-/*
- * Extra space for the thumbnails pool when there is not enough articles (in the selected 
- * category) to have several pages.
- */
-
-if ($nbPages == 1)
-{
-   $initialDiv = '<div id="articlesPool">';
-   $withExtraSpace = '<div id="articlesPool" style="margin-top: 20px;">';
-   $content = str_replace($initialDiv, $withExtraSpace, $content);
-}
-
-// Displays the produced page
-WebpageHandler::wrap($content, 'Articles');
-
-?>

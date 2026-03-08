@@ -1,0 +1,335 @@
+{# Ajouter un hyperlien #}
+<dialog class="modal" id="hyperlink-media" data-modal="hyperlink-media">
+	<header class="header">
+		<p class="title">Ajouter un hyperlien</p>
+		<button class="closeModal" command="close" commandfor="hyperlink-media">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Annuler
+		</button>
+	</header>
+
+	<form method="dialog" class="content" data-form-schema-validation="add_hyperlink">
+		<ul class="alert error" role="alert" data-form-error="add_hyperlink"></ul>
+		<p class="alert warning">Les champs avec * sont requis</p>
+		<p class="alert info">Le lien s'ouvrira dans un nouvel onglet</p>
+
+		<script type="text/schema" data-form-schema="add_hyperlink">
+			return z.object({
+            hyperlink: z.httpUrl(),
+            hyperlink_title: z.string().optional().or(z.literal('')),
+         })
+		</script>
+
+		<div class="gridForm">
+			<div class="inputContainer row">
+				<label for="hyperlink">URL<span style="color: var(--danger-color);">*</span>
+				</label>
+				<input type="url" id="hyperlink" name="hyperlink" placeholder="https://www.jeuxredige.com">
+			</div>
+			<div class="inputContainer row">
+				<label for="hyperlink_title">Libellé</label>
+				<input type="text" name="hyperlink_title" id="hyperlink_title" placeholder="Accéder à jeuxredige.com">
+			</div>
+			<div class="inputContainer">
+				<button type="submit" class="primaryButton">Insérer</button>
+			</div>
+		</div>
+	</form>
+</dialog>
+
+{# Sélectionner une couleur #}
+<dialog class="modal" id="select-color" data-modal="select-color">
+	<header class="header">
+		<p class="title">Changer la couleur du texte</p>
+		<button class="closeModal" command="close" commandfor="select-color" data-close-modal>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Annuler
+		</button>
+	</header>
+
+	<form method="dialog" class="content">
+		<div class="gridForm">
+			<div class="inputContainer row">
+				<label for="text-color">Couleur</label>
+				<input style="width: 100%" type="color" list="couleursRouges" id="text-color" name="text_color" value="#000000"/>
+            {# <datalist id="couleursRouges">
+               <option value="#001780"></option>
+               <option value="#d69d00"></option>
+               <option value="#2aa586"></option>
+               <option value="#DC143C"></option>
+               <option value="#027402"></option>
+            </datalist> #}
+			</div>
+			<div class="inputContainer">
+				<button type="submit" class="primaryButton">Utiliser cette couleur</button>
+			</div>
+		</div>
+	</form>
+</dialog>
+
+{# Sélectionner une image externe #}
+<dialog class="modal medium" id="integrate-external-img" data-modal="integrate-external-img">
+	<header class="header">
+		<p class="title">Importer une image externe</p>
+		<button class="closeModal" command="close" commandfor="integrate-external-img" data-close-modal>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" data-form-schema-validation="external_img">
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="external_img"></ul>
+
+		<script type="text/schema" data-form-schema="external_img">
+			return z.object({
+            url_img: z.httpUrl().refine(
+               (url) => {
+                  // @TODO : check url
+                  return true;
+                  if (url === null) {
+                     return true;
+                  }
+                  return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
+               }
+            ),
+            alt_img: z.string().max(250)
+         })
+		</script>
+		<div class="inputContainer row">
+			<label for="url">URL<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="url_img" id="url"/>
+			<p class="notes full">L'image sera affichée en taille réelle</p>
+		</div>
+      <div class="inputContainer row">
+			<label for="alt">Texte alternatif</label>
+			<input type="text" name="alt_img" id="alt" maxlength="250" placeholder="Maximum 250 caractères"/>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet, pour les images, un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer">
+		</div>
+	</form>
+</dialog>
+
+{# Sélectionner une vidéo Youtube #}
+<dialog class="modal medium" id="integrate-yt-video" data-modal="integrate-yt-video">
+	<header class="header">
+		<p class="title">Importer une vidéo Youtube</p>
+		<button class="closeModal" command="close" commandfor="integrate-yt-video" data-close-modal>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" data-form-schema-validation="youtube_video">
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="youtube_video"></ul>
+
+		<script type="text/schema" data-form-schema="youtube_video">
+			return z.object({
+            yt_video: z.httpUrl()
+               .refine((value) => {
+                  if (!value) {
+                     return true;
+                  }
+                  const youtubeRegex = /http(?:s?):\/\/www.youtube(?:\.com\/watch\?v=)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+                  return youtubeRegex.test(value ?? "");
+               }, 'Ceci n\'est pas une URL valide de vidéo Youtube, veuillez vous référer à l\'exemple plus bas')
+         })
+		</script>
+		<div class="inputContainer row">
+			<label for="yt_video">Lien YouTube<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="yt_video" id="yt_video"/>
+         <p class="notes full">Vous devez mettez l'URL intégrale de la vidéo YouTube. Ex : <a href="https://www.youtube.com/watch?v=E4WlUXrJgy4" target="_blank">https://www.youtube.com/watch?v=E4WlUXrJgy4</a></p>
+		</div>
+      <div class="inputContainer row">
+			<label for="ratio_video">Taille</label>
+			<select name="ratio_video" id="ratio_video">
+            <option value="default">Par défaut (480 x 270 pixels)</option>
+            <option value="0.25">Ajustée à 25% de la largeur</option>
+            <option value="0.5">Ajustée à 50% de la largeur</option>
+            <option value="0.75">Ajustée à 75% de la largeur</option>
+            <option value="1.0">Ajustée à 100% de la largeur</option>
+         </select>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer">
+		</div>
+	</form>
+</dialog>
+
+{# Intégrer média depuis la bibliothèque #}
+<dialog class="modal medium" id="integrate-media" data-modal="integrate-media">
+	<header class="header">
+		<p class="title">Personnaliser le média</p>
+		<button class="closeModal" type="button" command="close" commandfor="integrate-media">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog">
+      <p class="alert warning full">Les champs avec * sont requis</p>
+		<img src="" alt="" class="full">
+      <input type="hidden" name="media_type">
+      <video disablepictureinpicture controls autoplay muted class="full" poster="{{ logo_chargement }}">
+         <source src="" type="">
+      </video>
+		<div class="inputContainer row">
+			<label for="url">URL</label>
+			<input type="text" readonly name="media_url"/>
+		</div>
+		<div class="inputContainer row">
+			<label for="mediaFormat">Format</label>
+			<select name="media_format" id="mediaFormat">
+				<option value="mini">Miniature</option>
+				<option value="1.0">Dimensions originales</option>
+				<option value="0.5">Dimensions x0.5</option>
+				<option value="1.5">Dimensions x1.5</option>
+				<option value="2.0">Dimensions x2</option>
+				<option value="3.0">Dimensions x3</option>
+				<option value="5.0">Dimensions x5</option>
+			</select>
+		</div>
+
+		<div class="inputContainer row">
+			<label for="mediaFloating">Alignement</label>
+			<select name="media_floating" id="mediaFloating">
+				<option value="normal">Aucun</option>
+				<option value="left">A gauche</option>
+				<option value="right">A droite</option>
+			</select>
+		</div>
+
+		<div class="inputContainer row">
+         <label for="altText">Texte alternatif</label>
+			<input type="text" name="img_alt" id="altText" maxlength="250" placeholder="Maximum 250 caractères"/>
+			<p class="notes full">Le champ est limité à 250 caractères. Le texte alternatif permet, pour les images, un meilleur référencement. Il est préférable de ne rien mettre plutôt qu'un texte sans signification comme "image 1"</p>
+		</div>
+
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer">
+		</div>
+	</form>
+</dialog>
+
+<dialog class="modal medium" id="preview-media" data-modal="preview-media" closedby="any">
+   <header class="header">
+      <p class="title">Prévisualisation</p>
+      <button class="closeModal" command="close" commandfor="preview-media">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+         </svg>
+         Fermer
+      </button>
+   </header>
+
+   <div class="content">
+      <img src="" alt="" class="lightboxImg" loading="lazy">
+      <video disablepictureinpicture controls autoplay muted poster="{{ logo_chargement }}">
+         <source src="" type="" />
+      </video>
+      <p class="mediaLegend">
+         Uploadé le <span data-date></span>
+         (<a href="http://" target="_blank" rel="noopener noreferrer">Ouvrir dans un nouvel onglet</a>)<br/>
+         <span data-filename></span>
+      </p>
+   </div>
+</dialog>
+
+{# Intégrer podcast #}
+<dialog class="modal medium" id="integrate-podcast" data-modal="integrate-podcast">
+	<header class="header">
+		<p class="title">Intégrer un podcast</p>
+		<button class="closeModal" command="close" commandfor="integrate-podcast" data-close-modal>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+
+	<form class="content gridForm" method="dialog" novalidate data-form-schema-validation="podcast">
+   <style>
+      [data-form-schema-validation="podcast"]:has(option[value="apple"]:checked) {
+         [data-url-podcast="acast"] {
+            display: none;
+         }
+
+         [data-url-podcast="apple"] {
+            display: block;
+         }
+      }
+
+      [data-form-schema-validation="podcast"]:has(option[value="acast"]:checked) {
+         [data-url-podcast="acast"] {
+            display: block;
+         }
+
+         [data-url-podcast="apple"] {
+            display: none;
+         }
+      }
+   </style>
+		<p class="alert warning full">Les champs avec * sont requis</p>
+      <ul class="alert error full" role="alert" data-form-error="podcast"></ul>
+
+		<script type="text/schema" data-form-schema="podcast">
+			return z.object({
+            podcast_platform: z.enum(["acast", "apple"], { message: "Valeur inconnue" }),
+            podcast_url: z.httpUrl(),
+         }).superRefine((value, ctx) => {
+            if (value.podcast_platform === "acast") {
+               const acastRegex = /^http(?:s?):\/\/embed.acast.com\/([\w\-\_]*)\/([\w\-\_]*)\/?$/;
+               if(!acastRegex.test(value.podcast_url ?? "")) {
+                  ctx.addIssue({
+                     code: z.ZodIssueCode.custom,
+                     path: ["podcast_url"],
+                     message: `L'url "${value.podcast_url}" n'est pas une url valide de podcast Acast audio`
+                  });
+               };
+            }
+
+            if (value.podcast_platform === "apple") {
+               const itunesPodcastRegex = /^http(?:s?):\/\/embed.podcasts.apple.com\/[a-z]{2}\/podcast\/[^/]+\/id\d+\?i=\d+(?:&theme=[a-z]+)?$/;
+               if(!itunesPodcastRegex.test(value.podcast_url ?? "")) {
+                  ctx.addIssue({
+                     code: z.ZodIssueCode.custom,
+                     path: ["podcast_url"],
+                     message: `L'url "${value.podcast_url}" n'est pas une url valide de podcast Apple`
+                  });
+               }
+            }
+         })
+		</script>
+      <div class="inputContainer row">
+			<label for="podcast_platform">Plateforme</label>
+			<select name="podcast_platform" id="podcast_platform">
+            <option value="acast">Acast</option>
+            <option value="apple">Apple Podcast</option>
+         </select>
+		</div>
+		<div class="inputContainer row">
+			<label for="podcast_url">Lien du podcast<span style="color: var(--danger-color);">*</span></label>
+			<input type="url" name="podcast_url" id="podcast_url"/>
+         <p class="notes full" data-url-podcast="acast">Une url Acast possède la forme suivante : https://embed.acast.com/identifiant-1/identifiant-2</p>
+         <p class="notes full" data-url-podcast="apple">Une url Apple Podcast possède la forme suivante : https://embed.podcasts.apple.com/...</p>
+		</div>
+		<div class="inputContainer">
+			<input type="submit" class="fit primaryButton" value="Insérer">
+		</div>
+	</form>
+</dialog>

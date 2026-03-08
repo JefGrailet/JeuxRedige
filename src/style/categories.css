@@ -1,0 +1,65 @@
+.categoriesContainer {
+   .listCategories {
+      list-style: none;
+      flex-direction: row;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      align-self: center;
+      margin: 0;
+      padding: 0;
+
+      display: none;
+      @media screen and (width > 768px) {
+         display: flex;
+      }
+   }
+
+   a {
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 0.875rem; /* ~14px */
+      border: none;
+      box-shadow: 0px 0px 2px 0px black;
+      border: 2px solid transparent;
+      transition: background-color var(--transition-time);
+   }
+
+   .prettyLink {
+      color: rgb(53, 53, 53);
+      display: block;
+      position: relative;
+      background-color: currentColor;
+
+      &:is(:focus, :hover) {
+         background-color: oklch(from currentColor calc(l * 0.6) c h);
+      }
+
+      &.active {
+         border-color: currentColor;
+         background-color: oklch(from currentColor calc(l * 0.4) c h);
+
+         &::after {
+            position: absolute;
+            content: "";
+            display: block;
+            width: 10px;
+            aspect-ratio: 1;
+            background-color: currentColor;
+            top: 0;
+            transform: translateX(-50%) translateY(-50%) rotateZ(45deg);
+            left: 50%;
+            z-index: -1;
+            transition: transform var(--transition-time);
+
+            @starting-style {
+               transform: translateX(-50%) translateY(50%) rotateZ(45deg);
+            }
+         }
+      }
+
+      span {
+         color: white;
+      }
+   }
+}

@@ -1,0 +1,6 @@
+{% macro dragAndDropErrorContainer(name) %}
+	<details class="listErrors" data-errors-dropzone="{{ name }}" open hidden>
+      <summary>Liste erreurs <span data-nb-file-errors></span></summary>
+      <ul></ul>
+   </details>
+{% endmacro %}

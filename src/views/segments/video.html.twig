@@ -1,0 +1,31 @@
+{% set style = "" %}
+
+{% if is_miniature %}
+
+{% if floating == "left" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 10px 10px 0px;" %}
+{% elseif floating == "right" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 0px 10px 10px;" %}
+{% endif %}
+
+<button class="miniaturePopoverButton" style="{{ style }}" command="show-modal" commandfor="miniature-lightbox" data-trigger-modal="miniature-lightbox" type="button" data-media-data="{{ media_data|json_encode() }}">
+   <span class="clipThumbnail">
+      <video class="miniature" width="250" disablepictureinpicture>
+         <source src="{{ media_data.full.src }}" type="{{ media_data.mimeType }}" />
+      </video>
+      <span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>
+   </span>
+</button>
+{% else %}
+
+{% if floating == "left" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 10px 3px 0px;" %}
+{% elseif floating == "right" %}
+   {% set style = "float:" ~ floating ~ "; margin: 0px 0px 3px 10px;" %}
+{% endif %}
+
+<video disablepictureinpicture controls style="{{ style }}">
+   <source src="{{ src }}" type="{{ mimeType }}" />
+</video>
+
+{% endif  %}

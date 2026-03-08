@@ -13,7 +13,7 @@
    border-bottom: 1px solid #646464;
 
    .wrapper {
-      max-width: var(--top-menu-width);
+      max-width: var(--content-max-width);
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -21,14 +21,21 @@
       container-type: inline-size;
       container-name: top-bar-wrapper;
 
-      @media screen and (width > 768px) {
+      @media screen and (width >= 768px) {
          grid-template-columns: auto auto 1fr;
          grid-template-rows: auto;
       }
 
-      .rightLabel {
-         @container top-bar-wrapper (width < 700px) {
-            display: none;
+      .userPseudoContainer {
+         display: inline-flex;
+         align-items: center;
+         gap: 0.35rem;
+      }
+
+      .userPseudo {
+         display: none;
+         @media screen and (width >= 1024px) {
+            display: initial;
          }
       }
    }
@@ -40,7 +47,8 @@
 
       a {
          text-decoration: none;
-         transition: opacity var(--transition-time);
+         transition-property: opacity, width;
+         transition-duration: var(--transition-time);
 
          &:hover,
          &:focus {
@@ -68,11 +76,18 @@
       align-content: center;
       grid-row: 1 / 2;
       grid-column: 2 / 3;
+      color: white;
 
-      @media screen and (width > 768px) {
+      @media screen and (width >= 768px) {
          grid-column: auto / auto;
          grid-row: auto / auto;
       }
+   }
+}
+
+body:not(.logged) .userPseudo {
+   @media screen and (width >= 640px) {
+      display: initial!important;
    }
 }
 
@@ -80,7 +95,7 @@
    display: flex;
    flex-direction: row;
    grid-column: 1 / 3;
-   @media screen and (width > 768px) {
+   @media screen and (width >= 768px) {
       grid-column: auto / auto;
    }
 
@@ -123,7 +138,7 @@
    width: 170px;
    aspect-ratio: 197 / 60;
 
-   @media screen and (width > 640px) {
+   @media screen and (width >= 640px) {
       width: 197px;
    }
 
@@ -144,9 +159,9 @@
    text-decoration: none;
    color: white;
    transition: opacity var(--transition-time);
+   display: block;
 
-   &:hover,
-   &:focus {
+   &:is(:hover, :focus) {
       opacity: var(--link-hover-opacity);
    }
 
@@ -173,60 +188,81 @@
 .dropdownContentWrapper {
    display: none;
    position: absolute;
+   z-index: 9999;
    left: 0;
    right: 0;
    background-color: black;
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   border-bottom: var(--current-page-color, transparent) 3px solid;
+   transition-property: border-bottom-color;
+   transition-duration: var(--transition-time);
+
+   &:has(a.active:hover) {
+      border-bottom-color: oklch(from var(--current-page-color) calc(l * .5) c h);
+   }
 }
 
 .dropdownContent {
    display: flex;
    margin: 0 auto;
    padding-inline: max(env(safe-area-inset-right), 0.75rem);
-   max-width: var(--top-menu-width);
+   max-width: var(--content-max-width);
    text-align: center;
    gap: 1rem;
    overflow: auto;
    white-space: nowrap;
-   transition: opacity var(--transition-time);
+   transition-property: opacity, scrollbar-color;
+   transition-duration: var(--transition-time);
+   overflow-y: hidden;
+   scrollbar-width: thin;
+   scrollbar-color: var(--scrollbar-menu-color) oklch(from var(--scrollbar-menu-color) calc(l * 1.25) c h);
 
-   a:hover {
-      opacity: var(--link-hover-opacity);
+   &:has(a.active:hover) {
+      scrollbar-color: oklch(from var(--scrollbar-menu-color) calc(l * .5) c h) oklch(from var(--scrollbar-menu-color) calc(l * 1.25) c h);
+   }
+
+   a {
+      position: relative;
+      &:is(:hover, :focus) {
+         opacity: var(--link-hover-opacity);
+      }
+
+      &.active::after {
+         position: absolute;
+         content: "";
+         display: block;
+         width: 15px;
+         aspect-ratio: 1;
+         background: currentColor;
+         bottom: 0;
+         left: 50%;
+         transform: translateX(-50%) translateY(50%) rotateZ(45deg);
+      }
    }
 
    /* Pour indiquer dans le sous-menu "article" l'élement actuel */
-   /* position: absolute;
-  content: "";
-  display: block;
-  width: 10px;
-  aspect-ratio: 1;
-  background: currentColor;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(50%) rotateZ(45deg); */
-
    .chronicle {
-      color: #99368b;
+      color: var(--article-chronicle-color);
    }
 
    .guide {
-      color: #dd9302;
+      color: var(--article-guide-color);
    }
 
    .misc {
-      color: #969696;
+      color: var(--article-misc-color);
    }
 
    .opinion {
-      color: #91c148;
+      color: var(--article-opinion-color);
    }
 
    .preview {
-      color: #34b1e5;
+      color: var(--article-preview-color);
    }
 
    .review {
-      color: #cd301e;
+      color: var(--article-review-color);
    }
 }
 
@@ -240,7 +276,10 @@
    font-weight: normal;
    color: white;
    padding: 0px;
-   margin-right: max(env(safe-area-inset-right), 10px);
+   margin-right: max(env(safe-area-inset-right), var(--root-side-margin));
+   @media screen and (width >= 1280px) {
+      margin-right: 0;
+   }
    transition: opacity var(--transition-time);
 
    &:hover,

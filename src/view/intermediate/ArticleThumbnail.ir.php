@@ -30,23 +30,23 @@ class ArticleThumbnailIR
          $artThumbnail = PathHandler::HTTP_PATH().$relativePath;
       else
          $artThumbnail = PathHandler::HTTP_PATH().'default_article_thumbnail.jpg';
-      
-      $output = array('ID' => $data['id_article'], 
-      'thumbnail' => $artThumbnail, 
-      'type' => '', 
+
+      $output = array('ID' => $data['id_article'],
+      'thumbnail' => $artThumbnail,
+      'type' => '',
       'typeTranslated' => '',
-      'extra' => '', 
-      'link' => '', 
-      'additionnalInfo' => '', 
-      'title' => $data['title'], 
+      'extra' => '',
+      'link' => '',
+      'additionnalInfo' => '',
+      'title' => $data['title'],
       'subtitle' => $data['subtitle']);
-      
+
       // Type of article
       $typeTranslation = array();
       $artCategories = array_keys(Utils::ARTICLES_CATEGORIES);
       for ($i = 0; $i < count($artCategories); $i++)
          $typeTranslation[$artCategories[$i]] = Utils::ARTICLES_CATEGORIES[$artCategories[$i]][0];
-      
+
       if(in_array($data['type'], array_keys($typeTranslation)))
       {
          $output['type'] = ' '.$data['type'];
@@ -56,12 +56,12 @@ class ArticleThumbnailIR
       {
          $output['typeTranslated'] = 'Article'; // Default (in case)
       }
-      
-      /* 
-       * Extra details: publication state (author's side) or author (for published content or 
+
+      /*
+       * Extra details: publication state (author's side) or author (for published content or
        * editorial review).
        */
-      
+
       if($edition)
       {
          if($showAuthor)
@@ -81,7 +81,7 @@ class ArticleThumbnailIR
          if($showAuthor)
             $output['extra'] = 'author||'.$data['pseudo'];
       }
-      
+
       if($edition)
       {
          $output['link'] = PathHandler::HTTP_PATH().'EditArticle.php?id_article='.$data['id_article'];
@@ -93,8 +93,39 @@ class ArticleThumbnailIR
          $output['additionnalInfo'] .= date('d/m/Y \à H\hi', Utils::toTimestamp($data['date_publication']));
          $output['additionnalInfo'] .= '"';
       }
-      
+
       return $output;
+   }
+
+   public static function getThumbnail($article) {
+      $relativePath = 'upload/articles/'.$article['id_article'].'/thumbnail.jpg';
+      $thumbnailPath = PathHandler::WWW_PATH().$relativePath;
+      if(file_exists($thumbnailPath) == true)
+         return PathHandler::HTTP_PATH().$relativePath;
+
+      return PathHandler::HTTP_PATH().'default_article_thumbnail.jpg';
+   }
+
+   public static function getLink($article, $edition = false) {
+      if($edition)
+      {
+         return PathHandler::HTTP_PATH().'EditArticle.php?id_article='.$article['id_article'];
+      }
+
+      return PathHandler::articleURL($article);
+   }
+
+   public static function getDateTime($article) {
+      return date('d/m/Y \à H\hi', Utils::toTimestamp($article['date_publication']));
+   }
+
+   public static function getStatus($article) {
+      $status = "wip";
+      if($article['date_publication'] !== '1970-01-01 00:00:00') {
+         $status = "published";
+      }
+
+      return $status;
    }
 }
 

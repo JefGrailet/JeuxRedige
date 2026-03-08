@@ -1,0 +1,37 @@
+<header id="topBar">
+	<div class="wrapper">
+		<div class="icons">
+			<a href="{{ webRoot }}" class="mainMenuLogo {{ no_custom_logo ? "default" : selectedLogo }}" aria-label="Retour à la page d'accueil"></a>
+			<a href="https://www.youtube.com/@ShoganaiTV" target="blank" class="ytIcon">
+				<i title="Visitez notre chaîne YouTube" class="icon-ext_youtube_text"></i>
+			</a>
+		</div>
+		<div class="mainMenuItemsContainer">
+			<div class="dropdown mainMenuItem">
+				<a href="{{ webRoot }}/Articles.php">ARTICLES</a>
+				<div class="dropdownContentWrapper">
+					<div class="dropdownContent">
+						<a href="{{ webRoot }}/articles/review" class="review {{ current_category == "review" ? "active" }}">CRITIQUES</a>
+						<a href="{{ webRoot }}/articles/preview" class="preview {{ current_category == "preview" ? "active" }}">APERÇUS</a>
+						<a href="{{ webRoot }}/articles/opinion" class="opinion {{ current_category == "opinion" ? "active" }}">HUMEURS</a>
+						<a href="{{ webRoot }}/articles/chronicle" class="chronicle {{ current_category == "chronicle" ? "active" }}">CHRONIQUES</a>
+						<a href="{{ webRoot }}/articles/guide" class="guide {{ current_category == "guide" ? "active" }}">GUIDES</a>
+						<a href="{{ webRoot }}/articles/misc" class="misc {{ current_category == "misc" ? "active" }}">HORS-JEU</a>
+						<a href="{{ webRoot }}/articles">VOIR TOUT</a>
+					</div>
+				</div>
+			</div>
+			<div class="mainMenuItem">
+				<a href="{{ webRoot }}/Forum.php">FORUM</a>
+			</div>
+		</div>
+
+		<div class="rightMenuPanel" id="userCorner">
+      {% if is_user_logged %}
+			{% include "includes/user-menu_panel.html.twig" %}
+      {% else %}
+			{% include "includes/visitor_panel.html.twig" %}
+      {% endif %}
+		</div>
+	</div>
+</header>

@@ -1,0 +1,25 @@
+<dialog class="modal small" id="delete-media" data-modal="delete-media">
+	<header class="header danger">
+		<p class="title">Supprimer le média</p>
+		<button class="closeModal" command="close" commandfor="delete-media">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+			</svg>
+			Fermer
+		</button>
+	</header>
+	<div class="content">
+		<div class="alert error">
+			Cette action est irréversible. Une fois supprimé, le media par défaut sera utilisé.
+		</div>
+		<form action="" id="delete-media-form" method="dialog">
+			<img src="" alt="" style="max-width: 100%">
+         <video disablepictureinpicture controls muted>
+            <source src="" type="" />
+         </video>
+		</form>
+      <footer class="footer">
+         <button type="submit" form="delete-media-form" id="delete-media-btn" class="danger">Supprimer</button>
+      </footer>
+	</div>
+</dialog>

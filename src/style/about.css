@@ -1,33 +1,56 @@
 /* Some CSS for the "About" page */
 
-#aboutContainer
-{
+.about {
+   p {
+      text-align: justify;
+   }
+
+   .author {
+      text-align: end;
+   }
+
+   a {
+      color: var(--link-color);
+      text-decoration: none;
+
+      &:is(:hover, :focus) {
+         color: oklch(from var(--link-color) calc(l * 0.75) c h);
+      }
+   }
+
+   .list-references {
+      padding: 0;
+      list-style-position: inside;
+      margin-top: 1.5rem;
+
+      :target {
+         background-color: rgb(216, 237, 255);
+      }
+   }
+}
+
+#aboutContainer {
    margin: auto;
-   text-align: justify;
    width: 70%;
    min-width: 580px;
    max-width: 1344px; /* 70% of width in Full HD */
 }
 
-#aboutContainer p
-{
+#aboutContainer p {
    font-size: 1rem; /* ~16px */
    font-family: "Roboto", "Arial", sans-serif;
 }
 
-#aboutContainer a
-{
+#aboutContainer a {
    text-decoration: none;
    color: #3475e5;
 }
 
-#aboutContainer a:hover
-{
+#aboutContainer a:hover {
    color: #99368b;
 }
 
-#aboutContainer ul li
-{
+#aboutContainer ul li {
    font-size: 1rem; /* ~16px */
    font-family: "Roboto", "Arial", sans-serif;
    list-style-type: "\0025B6\00a0";

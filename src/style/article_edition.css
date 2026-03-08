@@ -1,6 +1,6 @@
 /* Additional style for article edition pages, consisting of several blocks (.articleEditBlock) */
 
-#blockSequence 
+#blockSequence
 {
    margin: auto;
    width: 70%;
@@ -182,7 +182,6 @@
 .uploadView a
 {
    display: block;
-   height: 100%;
    width: 100%;
    text-decoration: none;
 }
@@ -243,4 +242,34 @@
 .uploadViewIcons img:hover
 {
    cursor: pointer;
+}
+
+.tableSegments {
+   width: 100%;
+   margin-bottom: 1.5rem;
+
+   th {
+      text-align: start;
+   }
+
+   tbody tr {
+      vertical-align: top;
+      td {
+         padding-block: 0.25rem;
+      }
+   }
+
+   .content {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      padding: 0;
+   }
+
+   .pageOptions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: end;
+   }
 }

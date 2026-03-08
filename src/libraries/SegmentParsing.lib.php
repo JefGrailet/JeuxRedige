@@ -8,6 +8,8 @@
 * (due to being designed for articles).
 */
 
+require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
+
 class SegmentParsing
 {
    /*
@@ -53,8 +55,10 @@ class SegmentParsing
    * @return string          The same segment, fully formatted in HTML
    */
 
-   public static function parse($content, $index = 0)
+   public static function parse($content)
    {
+      global $twig;
+
       $parsed = $content;
 
       // Accents that can be used in: names of uploaded files, miniature comments, emphasized quotes
@@ -77,7 +81,7 @@ class SegmentParsing
                {
                   $videos[1][$i] = substr($videos[1][$i], 0, $posTimestamp);
                }
-               
+
                $posID = strpos($videos[1][$i], '?v=');
                if($posID !== FALSE)
                {
@@ -97,16 +101,14 @@ class SegmentParsing
                       }
                   }
 
-                  // In articles, videos are always embedded.
-                  $videoHTML = "<iframe ";
-                  if($customRatio)
-                     $videoHTML .= "style=\"width: ".$customWidth."%; height: auto; aspect-ratio: 16/9;\" ";
-                  else
-                     $videoHTML .= "width=\"480\" height=\"270\" ";
-                  $videoHTML .= "src=\"https://www.youtube.com/embed/".$IDStr."\" ";
-                  $videoHTML .= "frameborder=\"0\" allowfullscreen></iframe>\n";
+                  $HTMLIframeFragment = $twig->render("segments/iframe.html.twig", [
+                     "link" => "https://www.youtube.com/embed/$IDStr",
+                     "type" => "youtube",
+                     "use_custom_size" => $customRatio,
+                     "custom_width" => $customWidth,
+                  ]);
 
-                  $parsed = str_replace($videos[0][$i], $videoHTML, $parsed);
+                  $parsed = str_replace($videos[0][$i], $HTMLIframeFragment, $parsed);
                }
             }
 
@@ -119,9 +121,13 @@ class SegmentParsing
 
       // Image (full image display) parsing
       $images = array();
-      preg_match_all("/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\]/", $parsed, $images);
+      preg_match_all(
+         "/\!img\[([_a-zA-Z0-9".$accents."\.\\/;:'\-\(\)]*?)\](\[([a-zA-Z0-9 ".$accents."\.\,:;'\?\!\=\-\(\)\/]*)\])?/",
+         $parsed,
+         $images
+      );
 
-      for($i = 0; $i < count($images[1]); $i++)
+      for ($i = 0; $i < count($images[1]); $i++)
       {
          $link = '';
          $ratio = 1.0;
@@ -162,10 +168,11 @@ class SegmentParsing
 
          $isAnURL = self::isURL($link);
          $relativeLink = self::relativize($link);
+         $altText = strlen($images[3][$i]) > 0 ? $images[3][$i] : "";
 
          if($isAnURL && strlen($relativeLink) == 0)
          {
-            $imageHTML = '<img src="'.$link.'" alt="Image externe" />';
+            $imageHTML = "<img src='{$link}' alt='{$altText}' style='max-width: 100%;' />";
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
          else
@@ -182,43 +189,36 @@ class SegmentParsing
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
-                  $imageHTML = '<img src="'.$displayPath.'" alt="Upload" ';
-                  if($floating !== '')
-                  {
-                     $imageHTML .= 'style="float: '.$floating.'; ';
-                     if($floating === 'left')
-                        $imageHTML .= 'margin: 0px 10px 3px 0px;';
-                     else
-                        $imageHTML .= 'margin: 0px 0px 3px 10px;';
-                     // Additionnal adjustement: padding to align with paragraph, depending on width
-                     if($ratio != 1.0)
-                     {
-                        $newWidth = $dimensions[0] * $ratio;
-                        if($newWidth > 200)
-                        {
-                           if($newWidth < 250)
-                              $imageHTML .= ' padding-top: 5px;';
-                           // else if($newWidth < 350)
-                           //   $imageHTML .= ' padding-top: 10px;';
-                           else
-                              $imageHTML .= ' padding-top: 10px;'; // 25px in older versions
-                        }
-                     }
-                     $imageHTML .= '" ';
-                  }
-                  if($ratio != 1.0)
-                  {
-                     $newWidth = $dimensions[0] * $ratio;
-                     $imageHTML .= 'width="'.$newWidth.'" ';
+                  $mediaData = [
+                     "mini" => [
+                        "src" => $displayPath,
+                        "size" => [
+                           "width" => "",
+                           "height" => "",
+                        ]
+                     ],
+                     "full" => [
+                        "src" => $displayPath,
+                        "size" => [
+                           "width" => $dimensions[0],
+                           "height" => $dimensions[1],
+                        ],
+                        "srcRelative" => "",
+                     ],
+                     "mediaType" => "image",
+                     "uploadDate" => "",
+                     "comment" => $altText ?? "",
+                  ];
 
-                     // Adds the attributes to view full size upload in lightbox
-                     $imageHTML .= 'class="miniature" data-file="'.$displayPath.'" ';
-                     $imageHTML .= 'data-width="'.$dimensions[0].'" ';
-                     $imageHTML .= 'data-height="'.$dimensions[1].'" ';
-                  }
-                  $imageHTML .= '/>';
+                  $HTMLImageFragment = $twig->render("segments/image.html.twig", [
+                     "is_miniature" => false,
+                     "media_data" => $mediaData,
+                     "floating" => $floating,
+                     "comment" => "",
+                     "ratio" => floatval($ratio),
+                  ]);
 
-                  $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
+                  $parsed = str_replace($images[0][$i], $HTMLImageFragment, $parsed);
                }
             }
          }
@@ -255,21 +255,14 @@ class SegmentParsing
 
          if(($extension === 'webm' || $extension === 'mp4') && file_exists($filePath))
          {
-            $clipHTML = '<video ';
-            if($floating !== '')
-            {
-               $clipHTML .= 'style="float: '.$floating.'; ';
-               if($floating === 'left')
-                  $clipHTML .= 'margin: 0px 10px 3px 0px;';
-               else
-                  $clipHTML .= 'margin: 0px 0px 3px 10px;';
-               $clipHTML .= '" ';
-            }
-            $clipHTML .= ' controls>'."\n";
-            $clipHTML .= '<source src="'.$displayPath.'" format="video/'.$extension.'">'."\n";
-            $clipHTML .= '</video>';
+            $HTMLVideoFragment = $twig->render("segments/video.html.twig", [
+               "mimeType" => "video/{$extension}",
+               "src" => $displayPath,
+               "floating" => $floating,
+               "is_miniature" => false,
+            ]);
 
-            $parsed = str_replace($clips[0][$i], $clipHTML, $parsed);
+            $parsed = str_replace($clips[0][$i], $HTMLVideoFragment, $parsed);
          }
       }
 
@@ -326,50 +319,84 @@ class SegmentParsing
                   if(strpos($filePath, 'full_') !== FALSE)
                   {
                      $miniPath = str_replace('full_', 'mini_', $displayPath);
-                     $miniHTML = '<img src="'.$miniPath.'" class="miniature" alt="Miniature" ';
-                     if($floating !== '')
-                     {
-                        $miniHTML .= 'style="float: '.$floating.'; ';
-                        if($floating === 'left')
-                           $miniHTML .= 'margin: 0px 10px 0px 0px;';
-                        else
-                           $miniHTML .= 'margin: 0px 0px 0px 10px;';
-                        $miniHTML .= ' padding-top: 2px;" ';
-                     }
-                     $miniHTML .= 'data-file="'.$displayPath.'" data-width="'.$dimensions[0].'" ';
-                     if(strlen($comment) > 0)
-                        $miniHTML .= 'data-height="'.$dimensions[1].'" data-comment="'.$comment.'"/>';
-                     else
-                        $miniHTML .= 'data-height="'.$dimensions[1].'"/>';
-                     $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
+
+                     $mediaData = json_encode([
+                        "mini" => [
+                           "src" => $miniPath,
+                           "size" => [
+                              "width" => "",
+                              "height" => "",
+                           ]
+                        ],
+                        "full" => [
+                           "src" => $displayPath,
+                           "size" => [
+                              "width" => $dimensions[0],
+                              "height" => $dimensions[1],
+                           ],
+                           "srcRelative" => "",
+                        ],
+                        "mediaType" => "image",
+                        "uploadDate" => "",
+                        "comment" => $comment ?? "",
+                     ]);
+
+                     $HTMLImageFragment = $twig->render("segments/image.html.twig", [
+                        "src" => $miniPath,
+                        "is_miniature" => true,
+                        "media_data" => $mediaData,
+                        "floating" => $floating,
+                        "comment" => $comment,
+                     ]);
+
+                     $parsed = str_replace($miniatures[0][$i], $HTMLImageFragment, $parsed);
                   }
                }
             }
             // Short video (WebM or MP4)
             else
             {
-               $miniHTML = '<span class="clipThumbnail"';
-               if($floating !== '')
-               {
-                  $miniHTML .= 'style="float: '.$floating.'; ';
-                  if($floating === 'left')
-                     $miniHTML .= 'margin: 0px 10px 10px 0px;';
-                  else
-                     $miniHTML .= 'margin: 0px 0px 10px 10px;';
-                  $miniHTML .= '" ';
-               }
-               $miniHTML .= ">\n";
-               $miniHTML .= '<video class="miniature" width="250" min-height="10" ';
-               if(strlen($comment) > 0)
-                  $miniHTML .= "data-file=\"".$displayPath."\" data-comment=\"".$comment."\">\n";
-               else
-                  $miniHTML .= "data-file=\"".$displayPath."\">\n";
-               $miniHTML .= "<source src=\"".$displayPath."\" type=\"video/".$ext."\">\n";
-               $miniHTML .= '</video>'."\n";
-               $miniHTML .= '<span class="clipThumbnailOverlay"><i class="icon-general_video"></i></span>'."\n";
-               $miniHTML .= '</span>'."\n";
+               $mediaData = [
+                  "full" => [
+                     "src" => $displayPath,
+                     "size" => [],
+                     "srcRelative" => "",
+                  ],
+                  "mediaType" => "video",
+                  "mimeType" => "video/" . $ext,
+                  "uploadDate" => "",
+                  "size" => [],
+                  "comment" => $comment,
+               ];
 
-               $parsed = str_replace($miniatures[0][$i], $miniHTML, $parsed);
+               $HTMLVideoFragment = $twig->render("segments/video.html.twig", [
+                  "is_miniature" => true,
+                  "media_data" => $mediaData,
+                  "floating" => $floating,
+               ]);
+
+               $parsed = str_replace($miniatures[0][$i], $HTMLVideoFragment, $parsed);
+            }
+         }
+      }
+
+      // Podcasts
+      $podcasts = array();
+      preg_match_all("/\!podcast\[([_a-zA-Z0-9".$accents."\.\\/;:'\%\?\=\-\(\)]*?)\]/", $parsed, $podcasts);
+
+      for($i = 0; $i < count($podcasts[1]); $i++)
+      {
+         if(self::isURL($podcasts[1][$i]))
+         {
+            $podcastData = explode(';', $podcasts[1][$i]);
+
+            if (count($podcastData) === 2) {
+               $htmlPodcastFragment = $twig->render("segments/podcast.html.twig", [
+                  "link" => $podcastData[0],
+                  "type" => $podcastData[1],
+               ]);
+
+               $parsed = str_replace($podcasts[0][$i], $htmlPodcastFragment, $parsed);
             }
          }
       }
@@ -396,14 +423,12 @@ class SegmentParsing
          $displayPath = PathHandler::HTTP_PATH().$background;
          if(file_exists($filePath))
          {
-            $backgroundStyle = 'background: url(\''.$displayPath.'\') no-repeat center; background-size: 100%';
+             $HTMLQuoteFragment = $twig->render("segments/quote.html.twig", [
+               "quote" => $quote,
+               "background_image" => $displayPath,
+            ]);
 
-            $emphasisHTML = "</p>\n<div class=\"emphasis\" style=\"".$backgroundStyle."\">\n";
-            $emphasisHTML .= "<div class=\"emphasisWithin\">\n";
-            $emphasisHTML .= "<p>\n« ".$quote." »\n</p>\n";
-            $emphasisHTML .= "</div>\n</div>\n<p>";
-
-            $parsed = str_replace($emphasis[0][$i], $emphasisHTML, $parsed);
+            $parsed = str_replace($emphasis[0][$i], $HTMLQuoteFragment, $parsed);
          }
       }
 
@@ -416,12 +441,12 @@ class SegmentParsing
          $title = $emphasisBis[1][$i];
          $content = $emphasisBis[2][$i];
 
-         $emphasisHTML = "</p>\n<div class=\"emphasisText\">\n";
-         $emphasisHTML .= "<h3>".$title."</h3>\n";
-         $emphasisHTML .= "<p>".$content;
-         $emphasisHTML .= "</p>\n</div>\n<p>";
+         $HTMLEmphasisFragment = $twig->render("segments/emphasis.html.twig", [
+            "title" => $title,
+            "content" => $content,
+         ]);
 
-         $parsed = str_replace($emphasisBis[0][$i], $emphasisHTML, $parsed);
+         $parsed = str_replace($emphasisBis[0][$i], $HTMLEmphasisFragment, $parsed);
       }
 
       // Summary listing strong/weak points of the discussed subject.
@@ -468,24 +493,14 @@ class SegmentParsing
          if(count($goodPoints) == 0 || count($badPoints) == 0)
             continue;
 
-         $summaryHTML = "</p>\n<div class=\"summary\">\n";
-         $summaryHTML .= "<div class=\"summaryGood\">\n";
-         $summaryHTML .= "<h3>Points forts</h3>\n";
-         $summaryHTML .= "<ul>\n";
-         for($j = 0; $j < count($goodPoints); $j++)
-            $summaryHTML .= "<li>".$goodPoints[$j]."</li>\n";
-         $summaryHTML .= "</ul>\n</div>\n";
-         $summaryHTML .= "<div class=\"summaryBad\">\n";
-         $summaryHTML .= "<h3>Points faibles</h3>\n";
-         $summaryHTML .= "<ul>\n";
-         for($j = 0; $j < count($badPoints); $j++)
-            $summaryHTML .= "<li>".$badPoints[$j]."</li>\n";
-         $summaryHTML .= "</ul>\n</div>\n";
-         $summaryHTML .= "<div style=\"clear: both;\"></div>\n</div>\n<p>";
+         $HTMLSummaryFragment = $twig->render("segments/summary.html.twig", [
+            "list_good_points" => $goodPoints,
+            "list_bad_points" => $badPoints,
+         ]);
 
-         $parsed = str_replace($summaries[0][$i], $summaryHTML, $parsed);
+         $parsed = str_replace($summaries[0][$i], $HTMLSummaryFragment, $parsed);
       }
-      
+
       // Final step: cleans-up the HTML code from useless tags (rough; IR classes provide better)
       $parsed = str_replace("<p><br />\r\n</p>", '', $parsed);
       $parsed = str_replace("<p><br />\n</p>", '', $parsed);
@@ -495,5 +510,3 @@ class SegmentParsing
       return $parsed;
    }
 }
-
-?>

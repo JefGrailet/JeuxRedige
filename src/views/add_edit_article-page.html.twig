@@ -1,0 +1,304 @@
+{% extends "layouts/base.html.twig" %}
+{% import "includes/_macros.html.twig" as macros %}
+
+{% block content %}
+   <style>
+      .layoutMode {
+         flex-direction: row;
+         gap: 1rem;
+         margin-top: 0.25rem;
+         display: flex;
+         opacity: 0.5;
+         pointer-events: none;
+      }
+
+      .layout {
+         &:has(#auto_preview:checked) .layoutMode {
+            opacity: 1;
+            pointer-events: auto;
+         }
+
+         &:has([name="prevLayoutMode"][value="vertical_layout"]:checked) .preview {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: none;
+         }
+
+         &:has([name="prevLayoutMode"][value="horizontal_layout"]:checked) .preview {
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: none;
+         }
+      }
+   </style>
+	<div>
+		{% set array = {} %}
+		{% for key, category in list_categories %}
+			{% set array = array|merge({ (key): category.name.singular }) %}
+		{% endfor %}
+
+      {% set needs_page_title = page.position > 1 %}
+
+		<section class="sectionBlock">
+			<h1 class="title">
+            {% if type == "add" %}
+               Ajouter une page
+            {% else %}
+               Éditer la page "{{ page.title ? page.title : "Sommaire" }}"
+            {% endif %}
+         </h1>
+			<form action="" id="form" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_page">
+				<script type="text/schema" data-form-schema="article_page">
+					return z.object({
+                  {% if needs_page_title %}
+                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty|e('js')|raw }}" }),
+                  {% endif %}
+                  content: z.string().min(1, {error: "{{ form_error_messages.content.empty|e('js')|raw }}" }),
+                  header: z.file()
+                     .nullable()
+                     .transform((file) => (file && file.size > 0 ? file : null))
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return "{{ image_header_requirements.mimeTypes }}".split(",").includes(file?.type);
+                           },
+                           "{{ form_error_messages.segment.header.invalidFormat|e('js')|raw }}"
+                     )
+                     .refine(
+                           (file) => {
+                              if (file === null) {
+                                 return true;
+                              }
+                              return file?.size < {{ image_header_requirements.maxSize }};
+                           },
+                           "{{ form_error_messages.segment.header.tooBig|e('js')|raw }}"
+                     )
+                     .refine((file) => {
+                        if (file === null) {
+                           return Promise.resolve(true);
+                        }
+                        return new Promise((resolve) => {
+                              const reader = new FileReader();
+                              reader.onload = (e) => {
+                                 const img = new Image();
+                                 img.onload = () => {
+                                    const heightRatio = (img.height * 100) / 1920;
+                                    const meetsDimensions = img.width >= 1920 && heightRatio >= 30;
+
+                                    resolve(meetsDimensions);
+                                 };
+                                 img.src = e.target?.result;
+                              };
+                              reader.readAsDataURL(file);
+                           })
+                     }, "{{ form_error_messages.segment.header.badDimensions|e('js')|raw }}")
+               })
+				</script>
+				<ul class="alert error" role="alert" data-form-error="article_page">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+				<p class="alert warning">Les champs avec * sont requis</p>
+
+            {% if flash_message == "page_updated" %}
+				   <p class="alert success">Page mise à jour.</p>
+            {% endif %}
+            <p>Article : <a href="./EditArticle.php?id_article={{ article.id_article }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></p>
+
+				<div>
+               <div class="inputContainer">
+						<p class="label">Image d'en-tête</p>
+						<div class="notes">
+							<p class="title">Remarques :</p>
+							<ul>
+								<li>L'image doit être au format .jp(e)g</li>
+								<li>L'image doit avoir une taille inférieure à 1 Mo. Vous pouvez utiliser le site <a href="https://squoosh.app/" target="_blank" rel="noopener noreferrer">https://squoosh.app/</a> pour réduire la taille de l'image</li>
+								<li>L'image est celle qui s'affiche au début de votre page. Pour le contenu de votre page, il faut aller dans la partie <a href="#medias">médias</a></li>
+								<li>L'image fournie doit avoir une largeur supérieure ou égale à 1920 pixels, avec une hauteur d'au moins 30% la largeur. Soit un ratio de 10 / 3</li>
+							</ul>
+						</div>
+
+                  {% set page_header = page.header ? page.header : "./default_article_header.jpg" %}
+                  {% include "includes/image-drag-n-drop.html.twig" with {
+                        "options": {
+                           "name": "header",
+                           "label": "Sélectionner image",
+                           "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
+                           "default_image": page_header,
+                           "mimeTypes": image_header_requirements.mimeTypes,
+                        }
+                     }
+                  %}
+					</div>
+
+					<div class="inputContainer">
+						<label for="title">Titre{% if needs_page_title %}<span style="color: var(--danger-color);">*</span>{% endif %}</label>
+                  {% if needs_page_title %}
+						<p class="notes">Vous pouvez laisser ce champ vide pour la première page. Les titre et sous-titre de l'article seront repris à la place</p>
+                  {% endif %}
+                  <input type="text" name="title" id="title" value="{{ page.title }}" maxlength="100">
+					</div>
+
+               <div class="inputContainer layout">
+						<label for="page-content">Contenu<span style="color: var(--danger-color);">*</span></label>
+                  {% include "includes/text-editor_toolbar.html.twig" %}
+                  <div class="articleContentPreviewWrapper" id="articleContentPreviewWrapper">
+                     <textarea name="content" id="page-content" rows="15">{{ page.content }}</textarea>
+                     <div id="previewZone" class="articleContentPreview"></div>
+                  </div>
+
+                  <div class="layoutMode">
+                     <div>
+                        <input type="radio" name="prevLayoutMode" value="vertical_layout" id="prevModeLeftRight" checked=""> <label for="prevModeLeftRight">Comparaison gauche/droite</label>
+                     </div>
+                     <div>
+                        <input type="radio" name="prevLayoutMode" value="horizontal_layout" id="prevModeTopBottom"> <label for="prevModeTopBottom">Comparaison haut/bas</label>
+                     </div>
+                  </div>
+                  <p class="notes">L'aperçu automatique du formatage propre aux articles est simplifié. Pensez à visualiser un aperçu complet d'un article pour mieux évaluer sa mise en page.</p>
+                  <div class="switchContainer">
+                     <label class="switch">
+                        <input type="checkbox" id="auto_preview" />
+                     </label>
+                     <label for="auto_preview">Aperçu automatique</label>
+                  </div>
+					</div>
+				</div>
+			</form>
+		</section>
+
+      <section class="sectionBlock" id="medias">
+         <h2 class="title">Médias</h2>
+         {# (<span data-nb-medias>{{ page.list_attachments | length }}</span>/13) #}
+         <div class="content">
+            <div class="notes">
+               <p class="title">Remarques :</p>
+               <ul>
+                  <li>Les médias joints à une page d'article ne sont jamais affichés automatiquement. <b>Vous devez les intégrer à votre texte</b></li>
+                  <li>Seuls les premiers médias (par ordre lexicographique) seront conservés si le total excède 13 uploads</li>
+                  <li>Seuls les images au format .jp(e)g, .gif, .png d'une taille inférieure à 1 Mo sont autorisés. Et les vidéos au format .mp4, .webm d'une taille inférieure à 5 Mo</li>
+               </ul>
+            </div>
+            <div class="dragAndDropUpload">
+               <ul class="listUploads" data-list-uploads-dnd="page-medias">
+                  {% for attachment in page.list_attachments %}
+                     <li class="droppedMedia" id="{{attachment.id }}" data-media-type="{{ attachment.mediaType }}" data-media-data="{{ attachment | json_encode() }}">
+                        <div class="mediaMenuBar">
+                           <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
+                              <i class="icon-general_plus" ></i>
+                              <span>Ajouter à la page</span>
+                           </button>
+                           <button title="Supprimer" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+                              <i class="icon-general_trash"></i>
+                              <span>Supprimer</span>
+                           </button>
+                        </div>
+                        <button class="media" type="button" command="show-modal" commandfor="preview-media">
+                           {% if attachment.mediaType == "image" %}
+                           <img src="{{ attachment.mini.src }}" width="{{ attachment.mini.size.width }}" height="{{ attachment.mini.size.height }}" loading="lazy" alt="">
+                           {% else %}
+                           <video disablepictureinpicture tabindex="-1">
+                              <source src="{{ attachment.full.src }}" type="{{ attachment.mimeType }}" />
+                           </video>
+                           {% endif %}
+                        </button>
+                     </li>
+                  {% endfor %}
+               </ul>
+               <div class="dropzone paused" data-upload-dropzone="page-medias">
+               <script type="text/schema" data-upload-callback-success="page-medias">
+                  const id = Math.random().toString(16).slice(2);
+                  const { success: mediaData } = res;
+                  mediaData.id = id;
+
+                  const previewContainer = document.querySelector(`[data-list-uploads-dnd="page-medias"]`);
+                  const itemUploadedTplRaw = document.getElementById("page-media-item");
+                  const tpitemUploadedTpl = itemUploadedTplRaw.content.cloneNode(true);
+
+                  tpitemUploadedTpl.querySelector("li").dataset.mediaType = mediaData.mediaType;
+                  tpitemUploadedTpl.querySelector("li").dataset.mediaData = JSON.stringify(mediaData);
+                  tpitemUploadedTpl.querySelector("li").id = id;
+
+                  switch (mediaData.mediaType) {
+                     case "image": {
+                        const img = tpitemUploadedTpl.querySelector("img");
+                        img.src = mediaData.mini.src;
+                        img.height = mediaData.mini.height;
+                        img.width = mediaData.mini.width;
+
+                        tpitemUploadedTpl.querySelector("video").remove();
+                     }
+                     break;
+                     case "video": {
+                        const videoSource = tpitemUploadedTpl.querySelector("source");
+                        videoSource.src = mediaData.full.src;
+                        videoSource.type = mediaData.mimeType;
+
+                        tpitemUploadedTpl.querySelector("img").remove();
+                     }
+                        break;
+
+                     default:
+                        break;
+                  }
+
+                  previewContainer.append(tpitemUploadedTpl)
+               </script>
+                  <p class="text">Glissez-déposez vos médias (.jp(e)g, .gif, .png, .mp4, .webm)</p>
+                  <p class="text">ou</p>
+                  <div class="buttons">
+                     <label class="primaryButton">
+                        Sélectionner une image ou un clip vidéo
+                        <input
+                           type="file"
+                           accept="image/jpeg, image/gif, image/png, video/webm, video/mp4"
+                           name="page-medias"
+                           multiple
+                           data-config-drag-n-drop='{"name": "page-medias", "limitSize": {"image": 1, "video": 5}, "request": {"url": "/ajax/UploadFileJSON.php", "name": "newFile"}}'
+                           data-upload-input-dropzone="page-medias"
+                        />
+                     </label>
+                     <button
+                        type="button"
+                        class="secondaryButton"
+                        data-clipboard-upload="page-medias"
+                     >
+                        Coller depuis le presse-papier
+                     </button>
+                  </div>
+               </div>
+               {{ macros.dragAndDropErrorContainer("page-medias") }}
+            </div>
+         </div>
+      </section>
+		<div class="inputContainer row">
+         <button type="submit" form="form" class="fit primaryButton">
+            {{ type == "add" ? "Créer" : "Éditer" }} page
+         </button>
+         <button type="submit" form="form" class="fit secondaryButton" value="preview" name="action">
+            {{ type == "add" ? "Créer" : "Éditer" }} page et prévisualiser
+         </button>
+      </div>
+	</div>
+
+   <template id="page-media-item">
+      <li class="droppedMedia" data-media-data data-media-type>
+         <div class="mediaMenuBar">
+            <button title="Ajouter à la page" type="button" class="secondaryButton extensibleButton small" command="show-modal" commandfor="integrate-media">
+               <i class="icon-general_plus"></i>
+               <span>Ajouter à la page</span>
+            </button>
+            <button title="Supprimer le média" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+               <i class="icon-general_trash"></i>
+               <span>Supprimer</span>
+            </button>
+         </div>
+         <button class="media" type="button" command="show-modal" commandfor="preview-media">
+            <img src="" alt="" loading="lazy">
+            <video disablepictureinpicture tabindex="-1">
+               <source src="" type="" />
+            </video>
+         </button>
+      </li>
+   </template>
+
+   {% include "includes/delete-media_dialog.html.twig" %}
+   {% include "includes/text-editor_dialogs.html.twig" %}
+{% endblock %}

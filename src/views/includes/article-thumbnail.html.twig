@@ -1,0 +1,42 @@
+<li class={{ (article.is_highlighted == true) ? 'articleHighlight' : 'articleThumbnail' }} id="{{article.id_article}}" style="background: url('{{article.thumbnail}}') no-repeat top center; background-size: cover;" {{ article.date_time is defined ? ('title="🕛 Publié le ' ~article.date_time ~ '"')|raw }}>
+	<div class="{{ (article.is_highlighted == true) ? 'articleHighlightDetails' : 'articleThumbnailType' }} {{ article.type }}">
+		<p>
+			{{ list_categories[article.type].name.singular }}
+			{% if article.is_highlighted %}
+				par
+				{{ article.pseudo }}
+			{% endif %}
+		</p>
+	</div>
+	{% if article.is_highlighted == false %}
+      {% set statusClass = "" %}
+      {% if article.status == "wip" %}
+         {% set statusClass = 'wip' %}
+      {% elseif article.status == "published" %}
+         {% set statusClass = 'published' %}
+      {% endif %}
+
+		<div class="articleThumbnailExtra {{ statusClass }}">
+         {% if article.status %}
+            <p>{{ article.status == "wip" ? "Non publié" : "Publié" }}</p>
+         {% else %}
+            <p>Par {{ article.pseudo }}</p>
+         {% endif %}
+		</div>
+	{% endif %}
+	<div class="articleTitles">
+		<div class="articleTitle">
+			<p>
+				<a href="{{ article.link }}" tabindex="-1">{{article.title}}</a>
+			</p>
+		</div>
+		<div class="articleSubtitle">
+			<p>
+				<a href="{{ article.link }}" tabindex="-1">{{article.subtitle}}</a>
+			</p>
+		</div>
+	</div>
+	<a href="{{ article.link }}" class="thumbnailClick">
+		<span></span>
+	</a>
+</li>

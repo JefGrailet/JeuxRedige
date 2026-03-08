@@ -4,7 +4,9 @@
 </div>
 <div class="centeredContent">
    {pages:pageConfig||<p style="margin-bottom: 42px;"><span class="backBlack">Pages :</span> |</p>|<span class="backGrey">[]</span>|<span class="backWhite">[]</span>|...}
-   {$categoriesLinks}
+   <div class="categoriesLinks">
+      {$categoriesLinks}
+   </div>
    {switch:research||
 link & <a href="./SearchArticles.php" class="prettyLink">Filtrer</a>|
 goBack & <a href="./Articles.php" class="prettyLink">Retour à la liste des articles</a>|

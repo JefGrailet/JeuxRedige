@@ -75,7 +75,7 @@ class MessageParsing
                {
                   $videos[1][$i] = substr($videos[1][$i], 0, $posTimestamp);
                }
-               
+
                $posID = strpos($videos[1][$i], '?v=');
                if($posID !== FALSE)
                {
@@ -210,7 +210,7 @@ class MessageParsing
 
          if($isAnURL && strlen($relativeLink) == 0)
          {
-            $imageHTML = '<img src="'.$link.'" alt="Image externe" />';
+            $imageHTML = '<img src="'.$link.'" alt="" />';
             $parsed = str_replace($images[0][$i], $imageHTML, $parsed);
          }
          else
@@ -227,7 +227,7 @@ class MessageParsing
                $dimensions = getimagesize($filePath);
                if($dimensions !== FALSE)
                {
-                  $imageHTML = '<img src="'.$displayPath.'" alt="Upload" ';
+                  $imageHTML = '<img src="'.$displayPath.'" alt="" ';
                   if($floating !== '')
                   {
                      $imageHTML .= 'style="float: '.$floating.'; ';

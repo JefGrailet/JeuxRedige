@@ -7,12 +7,15 @@
          flex-direction: row;
          gap: 1rem;
          margin-top: 0.25rem;
-         display: none;
+         display: flex;
+         opacity: 0.5;
+         pointer-events: none;
       }
 
       .layout {
          &:has(#auto_preview:checked) .layoutMode {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
          }
 
          &:has([name="prevLayoutMode"][value="vertical_layout"]:checked) .preview {
@@ -149,7 +152,7 @@
                         <input type="radio" name="prevLayoutMode" value="horizontal_layout" id="prevModeTopBottom"> <label for="prevModeTopBottom">Comparaison haut/bas</label>
                      </div>
                   </div>
-                  <p class="notes">L'aperçu automatique du formatage propre aux articles est simplifié. Pensez à visualiser un aperçu complet d'un article pour mieux évaluer sa mise en page</p>
+                  <p class="notes">L'aperçu automatique du formatage propre aux articles est simplifié. Pensez à visualiser un aperçu complet d'un article pour mieux évaluer sa mise en page.</p>
                   <div class="switchContainer">
                      <label class="switch">
                         <input type="checkbox" id="auto_preview" />
@@ -182,9 +185,9 @@
                               <i class="icon-general_plus" ></i>
                               <span>Ajouter à la page</span>
                            </button>
-                           <button title="supprimer média" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
+                           <button title="Supprimer" command="show-modal" commandfor="delete-media" class="danger extensibleButton small" type="button">
                               <i class="icon-general_trash"></i>
-                              <span>Supprimer image</span>
+                              <span>Supprimer</span>
                            </button>
                         </div>
                         <button class="media" type="button" command="show-modal" commandfor="preview-media">

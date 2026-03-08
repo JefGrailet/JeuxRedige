@@ -10,10 +10,9 @@ RewriteRule ^articles/([a-zA-Z]+)/([0-9]+)/?$ Articles.php?page=$2&article_categ
 RewriteRule ^trivia/([0-9]+)/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ Trivia.php?id_trivia=$1&game=$2&title=$3 [L,QSA]
 
 RewriteRule ^lists/([0-9]+)/([a-zA-Z0-9-]+)/?$ List.php?id_list=$1&title=$2 [L,QSA]
-RewriteRule ^user/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
 RewriteRule ^utilisateur/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
-RewriteRule ^moi/?$ MyAccount.php [L,QSA]
-RewriteRule ^me/?$ MyAccount.php [L,QSA]
+RewriteRule ^utilisateur/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
+RewriteRule ^(moi|me)/?$ MyAccount.php [L,QSA]
 
 RewriteRule ^inviter/?$ Sponsorship.php [L,QSA]
 

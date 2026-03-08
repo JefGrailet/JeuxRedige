@@ -148,7 +148,7 @@
                {% set verb = "rédigée" %}
             {% endif %}
             {{ list_categories[current_category].name.singular }} {{ verb }} par
-            <a href="{{ webRoot }}/user/{{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
+            <a href="{{ webRoot }}/utilisateur/{{ article.author.pseudo }}">{{ article.author.pseudo }}</a><br>
             {% if article.is_published %}
             Publié le
             <time datetime="{{ article.published_time }}">{{ article.published_time|date("d/m/Y \\à H\\:i\\:s") }}</time>

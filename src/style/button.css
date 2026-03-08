@@ -87,7 +87,7 @@
 .extensibleButton {
    overflow-x: clip;
    width: 2.1rem;
-   transition: width 0.35s ease;
+   transition: width 0.35s ease!important;
    white-space: nowrap;
    display: grid!important;
    grid-template-columns: 1.05rem auto;

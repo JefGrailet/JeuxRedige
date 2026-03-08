@@ -107,11 +107,13 @@ previewMediaModal?.addEventListener("toggle", (e) => {
       e.target.querySelector("[data-filename]").textContent = mediaData.filename;
       e.target.querySelector("a").href = mediaData.full.src;
    } else {
-      if (videoSource) {
-         videoSource.pause();
-         videoSource.currentTime = 0;
-      }
-      img.src = "";
+      setTimeout(() => {
+         if (videoSource) {
+            videoSource.pause();
+            videoSource.currentTime = 0;
+         }
+         img.src = "";
+      }, 500)
    }
 });
 

@@ -333,6 +333,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       "article" => [
          ...$article->getAll(),
       ],
+      "current_category" => $article->get('type'),
       "page" => [
          ...$segment->getAll(),
          "content" => FormParsing::unparse($segment->get('content')),

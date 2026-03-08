@@ -211,7 +211,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       "article" => [
          ...$article->getAll()
       ],
-      "currentCategory" => $article->get("type"),
+      "current_category" => $article->get('type'),
       "page" => [
          "position" => $nextPosition,
       ],

@@ -67,7 +67,7 @@
 						<h2 class="subtitle">{{ article.page.title }}</h2>
 					</div>
 
-                  <div class="toolbar">
+                  <div class="toolbar {{ article.edit_links|length == 0 ? "top" : "" }}">
                {% if article.is_my_article and article.edit_links|length > 0 %}
                      {% for item in article.edit_links %}
                         <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
@@ -78,9 +78,9 @@
                         'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
                         'text': article.page.title
                      } %}
-                     <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
+                     {# <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
                         Partager l'article
-                     </button>
+                     </button> #}
                   {% endif %}
                   </div>
 				</header>

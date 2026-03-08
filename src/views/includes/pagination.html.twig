@@ -1,10 +1,10 @@
-{% if nb_pages > 0 %}
+{% if nb_pages > 1 %}
 	<div class="pagination">
 		{% set current_page = query_string.page is defined ? query_string.page : 1 %}
 		<p class="label">Pages :</p>
 		{% for i in 1..nb_pages %}
 			{% set page = i %}
-			
+
 			{% if url_rewrite_pattern %}
 				<a href="{{ url_rewrite_pattern|replace({ '_page_': page }) }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
 			{% else %}

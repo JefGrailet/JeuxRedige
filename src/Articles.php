@@ -64,7 +64,7 @@ if ($twig->getGlobals()["current_category"] != "default") {
 $currentCategory = $twig->getGlobals()["list_categories"][$twig->getGlobals()["current_category"]]["name"]["plural"] ?? "Articles";
 $currentPage = $twig->getGlobals()["query_string"]["page"] ?? "1";
 
-echo $twig->render("articles.html.twig", [
+echo $twig->render("list-articles.html.twig", [
    "list_articles" => $listArticlesComputed,
    "list_css_files" => array_filter(["pool", "pagination", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
    "list_js_files" => ["dropdown_redirect"],

@@ -1,4 +1,4 @@
-import * as z from "./zod.module.js";
+import * as z from "./libs/zod.module.js";
 
 window.z = z;
 

@@ -219,7 +219,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          ...$imageHeaderRequirements,
          "mimeTypes" => join(",", $imageHeaderRequirements["mimeTypes"])
       ],
-      "form_error_messages" => $formErrorMessages["page"],
+      "form_error_messages" => $formErrorMessages["segment"],
       "form_error_messages_triggered" => $formErrorMessagesTriggered,
       "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    ]);

@@ -189,7 +189,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       $tag = trim($keyword["tag"]);
       return [
          "name" => $tag,
-         "link" => PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords=' . urlencode($keyword["tag"]),
+         "link" => PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords[]=' . urlencode($keyword["tag"]),
       ];
    }, $article->getKeywords());
 

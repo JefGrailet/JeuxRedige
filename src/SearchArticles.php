@@ -21,7 +21,7 @@ WebpageHandler::noContainer();
 // Base Twig input
 $twig_input = [
    "list_css_files" => ["pool", "select2.min", "form_search"],
-   "list_js_files" => ["libs/select2", "libs/select2.fr", "keywords_v2"],
+   "list_js_files" => ["libs/select2.min", "libs/select2.fr.min", "keywords_v2"],
    "page_title" => "Rechercher des articles",
    "no_custom_logo" => true,
    "selectedLogo" => $twig->getGlobals()["current_category"],
@@ -34,7 +34,7 @@ $twig_input = [
 ];
 
 // Keywords can be provided either as $_POST either as $_GET; $_POST has priority
-$getKeywords = '';
+$getKeywords = [];
 $gotInput = false;
 if(!empty($_POST['keywords']) || !empty($_GET['keywords']))
 {
@@ -57,10 +57,8 @@ if($gotInput)
          $artCategory = Utils::secure($_POST['article_category']);
       if (!in_array($artCategory, array_keys(Utils::ARTICLES_CATEGORIES)))
          $artCategory = '';
-      //else
-      //   $formData['article_category'] = $artCategory.'||'.$formData['article_category'];
    }
-   
+
    // Option for strict research (i.e. all keywords are found) which can be deactivated
    $strict = false;
    if(!empty($_POST['strict']) || !empty($_GET['strict']))
@@ -68,22 +66,22 @@ if($gotInput)
       $strict = true;
       // TODO
    }
-   
+
    for ($i=0; $i < count($getKeywords); $i++)
       $getKeywords[$i] = Utils::secure(urldecode($getKeywords[$i]));
-   
+
    // For additionnal security (especially with $_GET values), we inspect $getKeywords
    $newArray = array();
    for($i = 0; $i < count($getKeywords) && $i < 10; $i++)
    {
       if($getKeywords[$i] === '')
          continue;
-      
+
       $k = str_replace('"', '', $getKeywords[$i]);
       array_push($newArray, $k);
    }
    $getKeywords = $newArray;
-   
+
    $perPage = WebpageHandler::$miscParams['topics_per_page'];
    try
    {
@@ -109,9 +107,9 @@ if($gotInput)
          }
       }
       $articles = Article::getArticlesWithKeywords($getKeywords, $firstArt, $perPage, $artCategory, $strict);
-      
+
       $twig_input["page_title"] = "Rechercher des articles (page {$currentPage})";
-      
+
       // Now, we can render the thumbnails of the current page
       $twig_input["list_articles"] = array_map(function ($article) {
          return array(

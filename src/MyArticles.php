@@ -15,20 +15,32 @@ WebpageHandler::redirectionAtLoggingIn();
 // User must be logged in
 if(!LoggedUser::isLoggedIn())
 {
-   $errorTplInput = array('error' => 'login');
-   $tpl = TemplateEngine::parse('view/user/Pings.fail.ctpl', $errorTplInput); // Can be safely re-used, no ambiguity
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté pour éditer vos articles');
+   echo $twig->render("errors/error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => "notConnected",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "full_title" => "",
+      ]
+   ]);
+
+   die();
 }
 
 // Gets the articles
 $nbArticles = 0;
 $articles = null;
+$filterName = isset($_GET["type"]) ? $_GET["type"] : "";
+
 try
 {
-   $nbArticles = Article::countMyArticles();
+   $nbArticles = Article::countMyArticles($filterName);
 
    $currentPage = 1;
-   $nbPages = ceil($nbArticles / WebpageHandler::$miscParams['articles_per_page']);
+   $nbItemsPerPage = WebpageHandler::$miscParams['articles_per_page'];
+   $nbPages = ceil($nbArticles / $nbItemsPerPage);
    $firstArticle = 0;
    if(!empty($_GET['page']) && preg_match('#^([0-9]+)$#', $_GET['page']))
    {
@@ -36,10 +48,10 @@ try
       if($getPage <= $nbPages)
       {
          $currentPage = $getPage;
-         $firstArticle = ($getPage - 1) * WebpageHandler::$miscParams['articles_per_page'];
+         $firstArticle = ($getPage - 1) * $nbItemsPerPage;
       }
    }
-   $articles = Article::getMyArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page']);
+   $articles = Article::getMyArticles($firstArticle, $nbItemsPerPage, $filterName);
 }
 catch(Exception $e)
 {
@@ -53,6 +65,7 @@ catch(Exception $e)
          "full_title" => "",
       ]
    ]);
+   die();
 }
 
 /* From this point, all the content has been extracted from the DB. All what is left to do is
@@ -80,10 +93,14 @@ $listArticlesComputed = array_map(function ($article) {
 
 echo $twig->render("articles_user.html.twig", [
    "page_title" => "Mes articles",
-   "list_css_files" => ["pool", "pagination"],
+   "list_css_files" => ["pool", "pagination", "articles_filter"],
    "list_articles" => $listArticlesComputed,
    "nb_articles" => $nbArticles,
    "nb_pages" => $nbPages,
+   "query_string" => [
+      "filter_name" => $filterName,
+      "page" => intval($_GET['page'] ?? "1"),
+   ],
    "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    "meta" => [
       ...$twig->getGlobals()["meta"],

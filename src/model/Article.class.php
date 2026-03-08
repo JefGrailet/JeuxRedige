@@ -580,12 +580,19 @@ class Article
    * @throws Exception  If anything goes wrong while consulting the DB (SQL error provided)
    */
 
-   public static function countMyArticles()
+   public static function countMyArticles($type="all")
    {
       if(!LoggedUser::isLoggedIn())
          return 0;
 
-      $sql = 'SELECT COUNT(*) AS nb FROM articles WHERE pseudo=?';
+      $filter = "";
+      if ($type === "non_publie") {
+         $filter = " AND UNIX_TIMESTAMP(date_publication) = 0 ";
+      } else if ($type === "publie") {
+         $filter = " AND UNIX_TIMESTAMP(date_publication) > 0 ";
+      }
+
+      $sql = 'SELECT COUNT(*) AS nb FROM articles WHERE pseudo=?' . $filter;
       $res = Database::secureRead($sql, array(LoggedUser::$data['pseudo']), true);
 
       if(count($res) == 3)
@@ -700,14 +707,21 @@ class Article
    * @throws Exception     If articles could not be found (SQL error is provided)
    */
 
-   public static function getMyArticles($first, $nb)
+   public static function getMyArticles($first, $nb, $type="all")
    {
       if(!LoggedUser::isLoggedIn())
          return NULL;
 
+      $filter = "";
+      if ($type === "non_publie") {
+         $filter = " AND UNIX_TIMESTAMP(date_publication) = 0 ";
+      } else if ($type === "publie") {
+         $filter = " AND UNIX_TIMESTAMP(date_publication) > 0 ";
+      }
+
       $sql = 'SELECT * FROM articles
-      WHERE pseudo=?
-      ORDER BY date_creation DESC
+      WHERE pseudo=?' . $filter .
+      'ORDER BY date_creation DESC
       LIMIT '.$first.','.$nb;
       $res = Database::secureRead($sql, array(LoggedUser::$data['pseudo']));
 

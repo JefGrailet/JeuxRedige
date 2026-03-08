@@ -8,8 +8,24 @@
 		<p class="alert success">Article supprimé avec succès.</p>
    {% endif %}
 	{% include "includes/pagination.html.twig" with {
-      "base_url": "./MyArticles.php"
+      "base_url": "./MyArticles.php",
+      "extra_query_string": "type=" ~ query_string.filter_name
    } %}
+
+   <form class="articleFilter" action="" method="get">
+      <div>
+         <input type="radio" name="type" id="tous" value="tous"  onchange="this.form.submit()" {{ (query_string.filter_name == "" or query_string.filter_name == "tous") ? "checked" : ""}}>
+         <label for="tous">Tous</label>
+      </div>
+      <div>
+         <input type="radio" name="type" id="publie" value="publie"  onchange="this.form.submit()" {{ query_string.filter_name == "publie" ? "checked" : ""}}>
+         <label for="publie">Publiés</label>
+      </div>
+      <div>
+         <input type="radio" name="type" id="non_publie" value="non_publie"  onchange="this.form.submit()" {{ query_string.filter_name == "non_publie" ? "checked" : ""}}>
+         <label for="non_publie">Non publiés</label>
+      </div>
+   </form>
 	<ul id="articlesPool">
 		{% for article in list_articles %}
 			{% include "includes/article-thumbnail.html.twig" with article %}
@@ -23,6 +39,7 @@
 		{% endfor %}
 	</ul>
 	{% include "includes/pagination.html.twig" with {
-      "base_url": "./MyArticles.php"
+      "base_url": "./MyArticles.php",
+      "extra_query_string": "type=" ~ query_string.filter_name
    } %}
 {% endblock %}

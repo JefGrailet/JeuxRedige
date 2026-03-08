@@ -44,7 +44,6 @@ services:
          MYSQL_USER: root
          PMA_HOST: mysql
          PMA_ARBITRARY: 1
-
    mailer:
       image: axllent/mailpit
       container_name: mailpit

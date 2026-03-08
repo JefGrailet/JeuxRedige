@@ -29,12 +29,13 @@ if ($articles == NULL) {
 $NB_MAX_ARTICLES_HIGHLIGHTED = 2;
 
 $listArticlesComputed = array_map(function ($article, $idx) use ($NB_MAX_ARTICLES_HIGHLIGHTED) {
+   $to_highlight = $idx < $NB_MAX_ARTICLES_HIGHLIGHTED;
    return array(
       ...$article,
-      "is_highlighted" => $idx < $NB_MAX_ARTICLES_HIGHLIGHTED,
+      "is_highlighted" => $to_highlight,
       "link" => ArticleThumbnailIR::getLink($article),
       "date_time" => ArticleThumbnailIR::getDateTime($article),
-      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+      "thumbnail" => ArticleThumbnailIR::getThumbnail($article, $to_highlight),
    );
 }, $articles, array_keys($articles));
 

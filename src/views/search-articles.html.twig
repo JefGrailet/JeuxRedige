@@ -38,4 +38,11 @@
 			</div>
 		</form>
 	</div>
+	<ul id="articlesPool">
+      {% for article in list_articles %}
+         {% include "includes/article-thumbnail.html.twig" with article %}
+      {% else %}
+         {{ search_error is defined ? search_error : ""}}
+      {% endfor %}
+   </ul>
 {% endblock %}

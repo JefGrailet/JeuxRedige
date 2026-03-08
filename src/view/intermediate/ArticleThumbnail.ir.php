@@ -97,8 +97,12 @@ class ArticleThumbnailIR
       return $output;
    }
 
-   public static function getThumbnail($article) {
-      $relativePath = 'upload/articles/'.$article['id_article'].'/thumbnail.jpg';
+   public static function getThumbnail($article, $to_highlight = False) {
+      $relativePath = 'upload/articles/'.$article['id_article'];
+      if ($to_highlight)
+         $relativePath .= '/highlight.jpg';
+      else
+         $relativePath .= '/thumbnail.jpg';
       $thumbnailPath = PathHandler::WWW_PATH().$relativePath;
       if(file_exists($thumbnailPath) == true)
          return PathHandler::HTTP_PATH().$relativePath;

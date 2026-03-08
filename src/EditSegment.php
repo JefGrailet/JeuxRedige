@@ -53,7 +53,7 @@ $curlUpload = function ($file) use ($twig) {
 // Errors where the user is either not logged in, either not allowed to edit games
 if (!LoggedUser::isLoggedIn()) {
    http_response_code(401);
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Page inaccessible",
       "error_key" => "notLogged",
       "meta" => [
@@ -93,7 +93,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       }
 
       http_response_code(404);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Page inaccessible",
          "error_key" => $errorKey,
          "meta" => [
@@ -109,7 +109,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
 
    if ($article->isPublished()) {
       http_response_code(401);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Article publié - Pages non éditables",
          "error_key" => "notAvailable",
          "article_link" => ArticleThumbnailIR::getLink($article->getAll(), true),
@@ -127,7 +127,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
    // Forbidden access if the user's neither the author, neither an admin
    if (!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts'])) {
       http_response_code(401);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Page inaccessible",
          "error_key" => "notYours",
          "meta" => [
@@ -349,7 +349,7 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    ]);
 } else {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Une erreur est survenue",
       "error_key" => "",
       "meta" => [

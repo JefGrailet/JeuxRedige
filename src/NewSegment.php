@@ -19,7 +19,7 @@ WebpageHandler::redirectionAtLoggingIn();
 // Errors where the user is either not logged in, either not allowed to edit games
 if (!LoggedUser::isLoggedIn()) {
    http_response_code(401);
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Page inaccessible",
       "error_key" => "notLogged",
       "meta" => [
@@ -85,7 +85,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    catch(Exception $e)
    {
       http_response_code(404);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Page inaccessible",
          "error_key" => "nonexistingArticle",
          "meta" => [
@@ -103,7 +103,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
       http_response_code(401);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Page inaccessible",
          "error_key" => "notYours",
          "meta" => [
@@ -226,7 +226,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
 }
 else
 {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Une erreur est survenue",
       "error_key" => "",
       "meta" => [

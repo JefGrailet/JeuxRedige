@@ -29,7 +29,7 @@ if (!LoggedUser::isLoggedIn() || !Utils::check(LoggedUser::$fullData['advanced_f
    http_response_code(401);
    $errorKey = !LoggedUser::isLoggedIn() ? "notConnected" : "forbiddenAccess";
 
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "page_title" => "Erreur",
       "error_key" => $errorKey,
       "meta" => [

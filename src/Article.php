@@ -29,7 +29,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          $article->incViews();
       }
    } catch (Exception $e) {
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Article non trouvé",
          "error_key" => "nonexistingArticle",
          "meta" => [
@@ -61,7 +61,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
    }
 
    if (count($segments) == 0) {
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "error_title" => "Article vide",
          "error_key" => "noSegment",
          "error_title" => "Impossible d'afficher l'article",
@@ -80,7 +80,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
    if (!$article->isPublished()) {
       if ((!LoggedUser::isLoggedIn())) // || ($article->get('pseudo') !== LoggedUser::$data['pseudo'] && !Utils::check(LoggedUser::$data['can_edit_all_posts'])))
       {
-         echo $twig->render("error.html.twig", [
+         echo $twig->render("errors/error.html.twig", [
             "error_title" => "Erreur : Article vide",
             "error_key" => "restrictedAccess",
             "error_title" => "Article en accès restreint",

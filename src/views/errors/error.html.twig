@@ -1,14 +1,60 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block content %}
-	<div class="sectionBlock myAccount">
-		<p class="title" role="alert">Erreur {{ response_code }}</p>
+	<div class="sectionBlock">
+		<p class="title" role="alert">Erreur 
+			{% if error_title %}
+			{{ "—" ~ error_title }}
+			{% endif %}
+		</p>
 		<div class="content">
 			<p>
-				Une erreur est survenue
+				{% if error_key == "noSegment" %}
+					Cet article est vide, il ne comporte aucune page. <a href="{{ edit_link }}">Retourner à l'édition de l'article.</a>
+				{% elseif error_key == "missingID" %}
+					L'ID de l'article n'est pas précisé.
+				{% elseif error_key == "dbError" %}
+					Nous rencontrons actuellement des difficultés avec la base de données. Revenez plus tard ou contactez l'administrateur.
+				{% elseif error_key == "nonexistingArticle" %}
+					L'article recherché n'existe pas ou plus.
+            {% elseif error_key == "nonexistingSegment" %}
+					Page introuvable.
+				{% elseif error_key == "restrictedAccess" %}
+					Cet article n'a pas encore été publié et n'est visible que par son auteur.
+            {% elseif error_key == "forbiddenAccess" %}
+					Vous n'êtes pas autorisé(e) à utiliser cette page.
+				{% elseif error_key == "missingID" %}
+					Article introuvable.
+            {% elseif error_key == "notAvailable" %}
+               Cet article a été publié, vous ne pouvez pas accéder à ses pages. <a href="{{ article_link }}">Éditer l'article.</a>
+            {% elseif error_key == "notConnected" %}
+					Vous devez être connecté(e) pour accéder à cette page. <a href="./LogIn.php">Se connecter.</a>
+				{% elseif error_key == "notYours" %}
+				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
+            {% elseif error_key == "wrongTemplating" %}
+				   Une erreur est survenue lors de la génération des vignettes. Réessayez plus tard ou contactez l'administrateur.
+            {% elseif error_key == "noArticle" %}
+               Aucun article publié n'a été trouvé.
+            {% elseif error_key == "noArticleCat" %}
+               Aucun article publié dans cette catégorie n'a été trouvé.
+            {% elseif error_key == "noContent" %}
+               Il n'y a actuellement aucun contenu.
+			{% elseif error_key == "notPermitted" %}
+               Vous n'avez pas les droits requis pour inviter de nouveaux utilisateurs.
+            {% elseif error_key == "notLogged" %}
+               Pour utiliser cette page, vous devez être enregistré(e) et connecté(e). <a class="link" href="./LogIn.php">Se connecter</a>
+			{% elseif error_key == "alreadyRegistered" %}
+               Cette invitation n'est plus valide. La personne invitée a déjà activé son compte. <a class="link" href="./LogIn.php">Se connecter</a>.
+			{% elseif error_key == "noInvitation" %}
+               Cette invitation n'existe pas.
+			{# {% elseif error_key == "notYours" %}
+				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
+            #}{% else %}
+					Une erreur est survenue. Veuillez réessayer.
+				{% endif %}
 			</p>
          <p>
-            <a href="{{ webRoot }}">Retourner à l'accueil</a>
+            <a href="/">Retourner à l'accueil</a>
          </p>
 		</div>
 	</div>

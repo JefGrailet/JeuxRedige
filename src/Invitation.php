@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This script is used to create a new account via the sponsorship process. It is a sort of mix 
- * between the registration and confirmation, as here, the confirmation is not required afterwards 
+ * This script is used to create a new account via the sponsorship process. It is a sort of mix
+ * between the registration and confirmation, as here, the confirmation is not required afterwards
  * (it is already done through the invitation key provided in the invitation e-mail).
  */
 
@@ -49,7 +49,7 @@ do {
          }
       } catch (Exception $e) {
          $errorKey = "dbError";
- 
+
          break;
       }
 
@@ -108,7 +108,7 @@ do {
                   array_push($formErrorMessagesTriggered, "Ce pseudonyme est déjà utilisé par un autre internaute inscrit.");
                else
                   array_push($formErrorMessagesTriggered, $formErrorMessages['dbError']);
-               
+
                break;
             }
          }
@@ -117,7 +117,7 @@ do {
 } while (0);
 
 if ($errorKey) {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "page_title" => "Article vide",
       "error_key" => $errorKey,
       "meta" => [

@@ -40,7 +40,7 @@ try
 }
 catch(Exception $e)
 {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_key" => "dbError",
    ]);
    die();

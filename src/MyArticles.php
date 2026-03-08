@@ -43,7 +43,7 @@ try
 }
 catch(Exception $e)
 {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Impossible d'atteindre vos articles",
       "error_key" => "MyArticles",
       "meta" => [

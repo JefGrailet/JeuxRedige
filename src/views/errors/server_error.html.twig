@@ -1,0 +1,21 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+	<div class="sectionBlock myAccount">
+		<p class="title" role="alert">Erreur {{ response_code }}</p>
+		<div class="content">
+         {% if response_code == 404 %}
+            <p>
+               Cette page n'existe pas. Veuillez contacter l'administrateur si le problème persiste.
+            </p>
+         {% else %}
+			<p>
+				Une erreur est survenue
+			</p>
+         {% endif %}
+         <p>
+            <a href="{{ webRoot }}">Retourner à l'accueil</a>
+         </p>
+		</div>
+	</div>
+{% endblock %}

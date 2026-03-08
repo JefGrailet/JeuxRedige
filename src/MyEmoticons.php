@@ -17,7 +17,7 @@ WebpageHandler::redirectionAtLoggingIn();
 // User must be logged in
 if (!LoggedUser::isLoggedIn()) {
    http_response_code(401);
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "error_title" => "Page inaccessible",
       "error_key" => "notLogged",
       "meta" => [

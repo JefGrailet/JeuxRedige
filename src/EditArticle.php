@@ -18,7 +18,7 @@ WebpageHandler::redirectionAtLoggingIn();
 // Error if the user is not logged in
 if(!LoggedUser::isLoggedIn())
 {
-   echo $twig->render("error.html.twig", [
+   echo $twig->render("errors/error.html.twig", [
       "page_title" => "Erreur",
       "error_key" => "notConnected",
       "meta" => [
@@ -92,7 +92,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       if(strstr($e->getMessage(), 'does not exist') != FALSE)
          $errorKey = 'nonexistingArticle';
       http_response_code(404);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "page_title" => "Erreur",
          "error_key" => $errorKey,
          "meta" => [
@@ -110,7 +110,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    if(!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts']))
    {
       http_response_code(401);
-      echo $twig->render("error.html.twig", [
+      echo $twig->render("errors/error.html.twig", [
          "page_title" => "Erreur",
          "error_key" => "notYours",
          "meta" => [
@@ -286,11 +286,11 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       "list_js_files" => [
          ["file" => "form_validation"],
          "upload",
-         "select2.min",
-         "select2.fr.min",
+         "libs/select2.min",
+         "libs/select2.fr.min",
          "keywords_v2",
          "dynamic_article_button_label",
-         "sortable.min",
+         "libs/sortable.min",
          "sortable_list",
          "drag_n_drop_upload",
          "paste_clipboard_media",
@@ -370,7 +370,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    // }
 }
 
-echo $twig->render("error.html.twig", [
+echo $twig->render("errors/error.html.twig", [
    "page_title" => "Erreur",
    "error_key" => "missingID",
    "meta" => [

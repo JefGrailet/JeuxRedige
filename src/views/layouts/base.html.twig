@@ -63,9 +63,9 @@
       {% set list_js_files = list_js_files ? list_js_files : [] %}
       {% for js_file in list_js_files|merge(base_js_files) %}
          {% if js_file is iterable %}
-            <script type='module' src="{{ webRoot ~ "/javascript/" ~ js_file.file ~ extJS }}"></script>
+            <script type="module" src="{{ (webRoot ~ "/javascript/" ~ js_file.file ~ extJS) | clean_js_ext }}" defer></script>
          {% else %}
-         <script type="text/javascript" src="{{ webRoot ~ "/javascript/" ~ js_file ~ extJS }}" defer></script>
+         <script type="text/javascript" src="{{ (webRoot ~ "/javascript/" ~ js_file ~ extJS) | clean_js_ext }}" defer></script>
          {% endif %}
       {% endfor %}
 

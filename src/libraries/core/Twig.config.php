@@ -167,13 +167,20 @@ $twig->addGlobal("error_messages", [
    "dbError" => "Une erreur inconnue est survenue. Contactez l'administrateur ou réessayez plus tard",
 ]);
 
-$filter = new \Twig\TwigFilter('since_days', function ($charset) {
+$twig->addFilter(new \Twig\TwigFilter('since_days', function ($charset) {
    $today = new DateTime(date('Y-m-d'));
    $startDate = new DateTime($charset);
 
    $diffDays = $today->diff($startDate)->days;
 
    return number_format($diffDays, 0, ',', ' ');
-});
+}));
 
-$twig->addFilter($filter);
+// Avoids a bug with JS files that are already minimized
+$twig->addFilter(new \Twig\TwigFilter('clean_js_ext', function($filename) {
+   if (str_contains($filename, ".min.min.js"))
+   {
+      return str_replace(".min.min.js", ".min.js", $filename);
+   }
+   return $filename;
+}));

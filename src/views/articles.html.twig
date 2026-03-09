@@ -3,7 +3,7 @@
 
    {% set url_pagination_pattern = "articles/_page_" %}
    {% if query_string.article_category %}
-      {% set url_pagination_pattern = "articles/_page_/#{query_string.article_category}" %}
+      {% set url_pagination_pattern = "articles/#{query_string.article_category}/_page_" %}
    {% endif %}
 
    {% include "includes/pagination.html.twig" with {

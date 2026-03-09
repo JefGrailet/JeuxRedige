@@ -6,7 +6,7 @@
 			{% set page = i %}
 			
 			{% if url_rewrite_pattern %}
-				<a href="{{ url_rewrite_pattern|replace({ '_page_': page }) }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
+				<a href="{{ webRoot ~ "/" ~ url_rewrite_pattern|replace({ '_page_': page }) }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
 			{% else %}
 				<a href="{{ base_url }}?page={{ page }}{{ extra_query_string ? "&" ~ extra_query_string : "" }}" {{ current_page == page ? "inert" }}>{{ page }}</a>
 			{% endif %}
@@ -15,7 +15,7 @@
          {% for i in 1..nb_pages %}
             {% set page = i %}
 			{% if url_rewrite_pattern %}
-            	<option title="Aller à la page {{ page }}" value="{{ url_rewrite_pattern|replace({ '_page_': page }) }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
+            	<option title="Aller à la page {{ page }}" value="{{ webRoot ~ "/" ~ url_rewrite_pattern|replace({ '_page_': page }) }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
 			{% else %}
             	<option title="Aller à la page {{ page }}" value="{{ base_url }}?page={{ page }}&{{ extra_query_string }}" {{ current_page == page ? " selected" }}>{{ page }}</option>
 			{% endif %}

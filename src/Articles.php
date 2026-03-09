@@ -64,16 +64,20 @@ if ($twig->getGlobals()["current_category"] != "default") {
 $currentCategory = $twig->getGlobals()["list_categories"][$twig->getGlobals()["current_category"]]["name"]["plural"] ?? "Articles";
 $currentPage = $twig->getGlobals()["query_string"]["page"] ?? "1";
 
+$pageTitle = $currentCategory;
+if ($currentPage > 1)
+   $pageTitle .= " (page {$currentPage})";
+
 echo $twig->render("articles.html.twig", [
    "list_articles" => $listArticlesComputed,
    "list_css_files" => array_filter(["pool", "pagination", "categories", $logoCSSFile], static function($var){return $var !== null;} ),
    "list_js_files" => ["dropdown_redirect"],
-   "page_title" => "{$currentCategory} Page {$currentPage}",
+   "page_title" => $pageTitle,
    "current_category" => $twig->getGlobals()["current_category"],
    "nb_pages" => $nbPages,
    "meta" => [
       ...$twig->getGlobals()["meta"],
-      "title" => "{$currentCategory} Page {$currentPage}",
+      "title" => $pageTitle,
       "description" => "Critiques et chroniques sur le jeu vidéo par des passionnés",
       "full_title" => "",
    ]

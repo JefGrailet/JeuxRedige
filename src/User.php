@@ -17,12 +17,9 @@ WebpageHandler::redirectionAtLoggingIn();
 
 // Retrieves user's data if possible; stops and displays appropriate error message otherwise
 $user = null;
-
-
-// Prepares the list of sentences for that user
+$userListArticles = null;
 
 $getUserString = Utils::secure($_GET['user']);
-
 $isCurrentUser = false;
 
 try {
@@ -33,18 +30,30 @@ try {
       $isCurrentUser = $currentUser->get("pseudo") === $user->get("pseudo");
    }
 } catch (Exception $e) {
+   // TODO
 }
 
-$userListArticles = $user->getArticles();
-
-$userListArticlesComputed = array_map(function ($article) {
-   return array(
-      ...$article,
-      "link" => ArticleThumbnailIR::getLink($article),
-      "date_time" => ArticleThumbnailIR::getDateTime($article),
-      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
-   );
-}, $userListArticles);
+$userListArticlesComputed = array();
+try
+{
+   $userListArticles = $user->getArticles();
+   $userListArticlesComputed = array_map(function ($article) {
+      return array(
+         ...$article,
+         "link" => ArticleThumbnailIR::getLink($article),
+         "date_time" => ArticleThumbnailIR::getDateTime($article),
+         "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+      );
+   }, $userListArticles);
+} catch (Exception $e) {
+   if (!str_contains($e->getMessage(), "No article has been found"))
+   {
+      echo $twig->render("errors/error.html.twig", [
+         "error_key" => "dbError",
+      ]);
+      die();
+   }
+}
 
 $userComputed = [
    ...$user->getAll(),

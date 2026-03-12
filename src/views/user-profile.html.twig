@@ -17,8 +17,7 @@
             {% for article in user.list_articles %}
                {% include "includes/article-thumbnail.html.twig" with article %}
             {% else %}
-
-               <li>{{ user.avatar }} n'a pas encore écrit d'articles</li>
+               <li>{{ user.pseudo }} n'a pas encore écrit d'article.</li>
             {% endfor %}
          </ul>
       </div>

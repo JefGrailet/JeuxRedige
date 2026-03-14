@@ -293,7 +293,7 @@
             podcast_url: z.httpUrl(),
          }).superRefine((value, ctx) => {
             if (value.podcast_platform === "acast") {
-               const acastRegex = /^http(?:s?):\/\/embed.acast.com\/([\w\-\_]*)\/([\w\-\_]*)\/?$/;
+               const acastRegex = /^http(?:s?):\/\/embed.acast.com\/.*/;
                if(!acastRegex.test(value.podcast_url ?? "")) {
                   ctx.addIssue({
                      code: z.ZodIssueCode.custom,
@@ -304,7 +304,7 @@
             }
 
             if (value.podcast_platform === "apple") {
-               const itunesPodcastRegex = /^http(?:s?):\/\/embed.podcasts.apple.com\/[a-z]{2}\/podcast\/[^/]+\/id\d+\?i=\d+(?:&theme=[a-z]+)?$/;
+               const itunesPodcastRegex = /^http(?:s?):\/\/embed.podcasts.apple.com\/.*/;
                if(!itunesPodcastRegex.test(value.podcast_url ?? "")) {
                   ctx.addIssue({
                      code: z.ZodIssueCode.custom,

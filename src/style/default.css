@@ -448,6 +448,10 @@ dialog, [popover] {
 }
 
 dialog {
+   position: fixed;
+   inset: 0;
+   margin: auto;
+
    &::backdrop {
       background-color: rgba(33, 33, 33, 0.786);
    }

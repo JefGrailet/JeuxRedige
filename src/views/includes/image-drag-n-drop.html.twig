@@ -31,7 +31,7 @@
 		<div class="buttons">
 			<label class="primaryButton">
 				{{ options.label }}
-				<input type="file" accept="{{ options.mimeTypes }}" {{ options.is_multiple ? "multiple" : "" }} name="{{ options.name }}" data-config-drag-n-drop='{"name": "{{ options.name }}", "limitSize": {"image": 1}}' data-upload-input-dropzone="{{ options.name }}"/>
+				<input type="file" id="{{ options.name }}" accept="{{ options.mimeTypes }}" {{ options.is_multiple ? "multiple" : "" }} name="{{ options.name }}" data-config-drag-n-drop='{"name": "{{ options.name }}", "limitSize": {"image": 1}}' data-upload-input-dropzone="{{ options.name }}"/>
 			</label>
 			<button type="button" class="secondaryButton" data-clipboard-upload="{{ options.name }}">
 				Coller depuis le presse-papier

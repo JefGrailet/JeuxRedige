@@ -3,157 +3,8 @@
 
 {% block content %}
 	<div>
-		{% set array = {} %}
-		{% for key, category in list_categories %}
-			{% set array = array|merge({ (key): category.name.singular }) %}
-		{% endfor %}
+		{% include "add_edit_article/article_core.html.twig" %}
 
-		<section class="sectionBlock">
-			<h1 class="title">
-            {% if type == "add" %}
-               Créer un article
-            {% else %}
-               Éditer l'article - Informations principales
-               {% if article.is_published %}
-               <span class="badge success">Publié</span>
-               {% else %}
-               <span class="badge info">Non publié</span>
-               {% endif %}
-            {% endif %}
-         </h1>
-			<form action="" class="content" enctype="multipart/form-data" method="POST" data-form-schema-validation="new_article">
-				<script type="text/schema" data-form-schema="new_article">
-					return z.object({
-                  title: z.string().min(1, {error: "{{ form_error_messages.title.empty }}" }).max(100, "{{ form_error_messages.title.tooLong }}"),
-                  subtitle: z.string().min(1, {error: "{{ form_error_messages.subtitle.empty }}" }).max(100, "{{ form_error_messages.subtitle.tooLong }}"),
-                  type: z.string().min(1, {error: "{{ form_error_messages.type.empty }}" }),
-                  thumbnail: z.file()
-                     .nullable()
-                     .transform((file) => (file && file.size > 0 ? file : null))
-                     .refine(
-                           (file) => {
-                              if (file === null) {
-                                 return true;
-                              }
-                              return "{{ thumbnail_requirements.mimeTypes }}".split(",").includes(file?.type);
-                           },
-                           "{{ form_error_messages.thumbnail.invalidFormat|e('js')|raw }}"
-                     )
-                     .refine(
-                           (file) => {
-                              if (file === null) {
-                                 return true;
-                              }
-                              return file?.size < {{ thumbnail_requirements.maxSize }};
-                           },
-                           "{{ form_error_messages.thumbnail.tooBig|e('js')|raw }}"
-                     ),
-                  "keywords[]":  z.preprocess(
-                     (value) => value ?? [],
-                     z.array(z.string())
-                        .min(1, {error: "{{ form_error_messages.keywords.empty }}" })
-                        .max(10, {error: "{{ form_error_messages.keywords.limitReached }}" })
-                  )
-               })
-				</script>
-            {% if flash_message == "article_created" %}
-				   <p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
-            {% endif %}
-
-            {% if flash_message == "article_updated" %}
-				   <p class="alert success">Article mis à jour</p>
-            {% endif %}
-
-            {% if flash_message == "page_deleted" %}
-				   <p class="alert success">Page supprimée avec succès</p>
-            {% endif %}
-
-            {% if flash_message == "page_created" %}
-				   <p class="alert success">Page crée avec succès</p>
-            {% endif %}
-
-            {% if flash_message == "page_updated" %}
-				   <p class="alert success">Page éditée avec succès</p>
-            {% endif %}
-				<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
-				<p class="alert warning">Les champs avec * sont requis</p>
-				<div>
-					<div class="inputContainer">
-						<label for="title">Titre<span style="color: var(--danger-color);">*</span></label>
-						<input type="text" name="title" id="title" value="{{ article.title }}" maxlength="100">
-					</div>
-					<div class="inputContainer">
-						<label for="subtitle">Sous-titre<span style="color: var(--danger-color);">*</span></label>
-						<input type="text" name="subtitle" id="subtitle" value="{{ article.subtitle }}" maxlength="100">
-					</div>
-
-					<div class="inputContainer">
-						<p class="label">Miniature</p>
-						<div class="notes">
-							<p class="title">Remarques :</p>
-							<ul>
-								<li>L'image doit être au format .jp(e)g</li>
-								<li>L'image doit avoir une taille inférieure à 1 Mo</li>
-								<li>L'image sera rognée à partir du centre pour avoir à la fin un format rectangulaire</li>
-							</ul>
-						</div>
-                  {% set article_thumbnail = article.thumbnail ? article.thumbnail : "./default_article_thumbnail.jpg" %}
-
-                  {% include "includes/image-drag-n-drop.html.twig" with {
-                        "options": {
-                           "name": "thumbnail",
-                           "label": "Sélectionner image",
-                           "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
-                           "default_image": article_thumbnail,
-                           "mimeTypes": thumbnail_requirements.mimeTypes,
-                        }
-                     }
-                  %}
-					</div>
-
-					<div class="inputContainer">
-						<label for="type">Type<span style="color: var(--danger-color);">*</span></label>
-                  <div class="notes">
-                     <p class="title">Remarque :</p>
-                     <ul>
-                        {% if article.is_published %}
-                        <li>L'article ayant été publié, vous ne pouvez plus changer le type</li>
-                        {% else %}
-                        <li>Une fois publié, vous ne pourrez pas changer le type d'article</li>
-                        {% endif %}
-                     </ul>
-                  </div>
-                  <select {% if article.is_published %}inert{% endif %} name="type" id="type" data-article-type="{{ array|json_encode() }}">
-							<option value="">Choisir un type</option>
-							{% for key, category in list_categories %}
-								<option {{ article.type == key ? 'selected' : '' }} value="{{ key }}">{{ category.name.singular }}</option>
-							{% endfor %}
-						</select>
-					</div>
-					<div class="inputContainer">
-						<label for="keywords">Mots-clefs (10 maximum)<span style="color: var(--danger-color);">*</span></label>
-						<div class="notes">
-							<p class="title">Remarques :</p>
-							<ul>
-								<li>Vous pouvez créer de nouveaux mots-clefs</li>
-								<li>Vous devez mettre au minimum un mot-clé et dix au maximum</li>
-							</ul>
-						</div>
-						<select data-dropdown-keywords='{"tags": true, "maximumSelectionLength": 10}' id="keywords" name="keywords[]" multiple="multiple">
-                     {% for keyword in article.keywords %}
-                        <option value="{{ keyword }}" selected="selected">{{ keyword }}</option>
-                     {% endfor %}
-                  </select>
-					</div>
-					<div class="inputContainer">
-						<button type="submit" class="fit primaryButton">
-							{{ type == "add" ? "Créer" : "Éditer" }}
-							<span data-dynamic-label style="display: contents">article</span>
-						</button>
-					</div>
-				</div>
-			</form>
-		</section>
 		{% if type == "edit" %}
 			<section class="sectionBlock">
 				<p class="title">Pages</p>
@@ -249,6 +100,10 @@
                {% endif %}
             </div>
 			</section>
+
+         {% if article.is_published == true %}
+            {% include "add_edit_article/article_highlight.html.twig" %}
+         {% endif %}
 			<section class="sectionBlock danger">
 				<p class="title" style="font-style: italic;">Danger zone</p>
 				<div class="content">

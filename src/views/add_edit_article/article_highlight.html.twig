@@ -1,0 +1,75 @@
+<section class="sectionBlock">
+   <p class="title">Mise en évidence</p>
+   <div class="content">
+      <form action="" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_highlight">
+         <script type="text/schema" data-form-schema="article_highlight">
+            return z.object({
+               banner: z.file()
+                  .nullable()
+                  .transform((file) => (file && file.size > 0 ? file : null))
+                  .refine((file) => {
+                  if (file === null) {
+                     return Promise.resolve(true);
+                  }
+                  return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                           const img = new Image();
+                           img.onload = () => {
+                              const heightRatio = (img.height * 100) / 1920;
+                              const meetsDimensions = img.width >= 1920 && heightRatio >= 30;
+
+                              resolve(meetsDimensions);
+                           };
+                           img.src = e.target?.result;
+                        };
+                        reader.readAsDataURL(file);
+                     })
+               }, "{{ form_error_messages.highlight.banner.badDimensions|e('js')|raw }}")
+            })
+         </script>
+
+         <ul class="alert error" role="alert" data-form-error="article_highlight">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+         <input type="hidden" name="form_name" value="highlight">
+         <div class="inputContainer">
+            <label for="thumbnail" class="label">Bannière</label>
+            <div class="notes">
+               <p class="title">Remarques :</p>
+               <ul>
+                  <li>L'image doit être au format .jp(e)g</li>
+                  <li>L'image doit avoir une taille inférieure à 1 Mo</li>
+                  <li>L'image doit faire au minimum 1 170px de largeur et 400 de hauteur</li>
+               </ul>
+            </div>
+            {% include "includes/image-drag-n-drop.html.twig" with {
+                  "options": {
+                     "name": "banner",
+                     "label": "Sélectionner image",
+                     "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
+                     "default_image": "default_article_highlight.jpg",
+                     "mimeTypes": "image/jpeg, image/jpg",
+                  }
+               }
+            %}
+         </div>
+         <div class="inputContainer">
+               <p style="margin-bottom: 0;">Mettre en évidence l'article</p>
+               <div style="display: flex; gap: 1rem">
+                  <div style="display: flex; align-items: center;">
+                     <label for="oui">Oui</label>
+                     <input type="radio" {{ article.featured == "yes" ? "checked" : ""}} name="featured" id="oui">
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                     <label for="non">Non</label>
+                     <input type="radio" {{ article.featured == "no" ? "checked" : ""}} name="featured" id="non">
+                  </div>
+               </div>
+            </div>
+         <div class="inputContainer">
+            <button type="submit" class="fit primaryButton">
+               Éditer
+            </button>
+         </div>
+      </form>
+   </div>
+</section>

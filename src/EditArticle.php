@@ -70,6 +70,97 @@ $curlUpload = function ($file) use ($twig) {
    return $result;
 };
 
+function coreDataProcess($payload) {
+   $curlUpload = $payload["curlUpload"];
+   $article = $payload["article"];
+   $formErrorMessages = $payload["errorMessages"];
+   $keywords = $payload["keywords"];
+
+   $formErrorMessagesTriggered = [];
+
+   $formInput = [
+      'title' => '',
+      'subtitle' => '',
+      'type' => '',
+      'keywords' => '',
+   ];
+   $listInputsKey = array_keys($formInput);
+
+   $isFormValid = true;
+   for($i = 0; $i < count($listInputsKey); $i++)
+   {
+      $formInput[$listInputsKey[$i]] = is_string($_POST[$listInputsKey[$i]]) ? Utils::secure($_POST[$listInputsKey[$i]]) : $_POST[$listInputsKey[$i]];
+      if($formInput[$listInputsKey[$i]] === '' && $listInputsKey[$i] !== 'keywords')
+         $fullyCompleted = false;
+   }
+
+   $curlResult = null;
+   if ($_FILES["thumbnail"]["size"] > 0) {
+      $curlResult = $curlUpload($_FILES["thumbnail"]);
+   }
+
+   $MAX_INPUT_CHARS = 100;
+   $newKeywords = $_POST['keywords'];
+
+   if (!$isFormValid)
+      array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
+   if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
+      array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
+   if (strlen($formInput['title']) > $MAX_INPUT_CHARS)
+      array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
+   if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
+      array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
+   if (!is_array($newKeywords) || (count($newKeywords) == 1 && strlen($newKeywords[0]) == 0))
+      array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
+   if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
+      array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
+
+   if (count($formErrorMessagesTriggered) == 0)
+   {
+      try
+      {
+         $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
+
+         if ($curlResult) {
+            $fileName = substr(strrchr($curlResult, '/'), 1);
+            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
+         }
+      }
+      catch(Exception $e)
+      {
+         setcookie("flash_message", "article_error", time() + 1, "/");
+         $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
+         header('Location:' . $currentURL);
+         exit;
+      }
+
+      $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
+      $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
+      $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
+
+      try
+      {
+         Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
+      } catch(Exception $e) {}
+
+      for ($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++) {
+         try
+         {
+            $tag = new Tag($keywordsToAdd[$j]);
+            $tag->mapToArticle($article->get('id_article'));
+         }
+         catch(Exception $e)
+         {
+            continue;
+         }
+      }
+
+      Tag::cleanOrphanTags();
+   }
+
+   return count($formErrorMessagesTriggered);
+}
+
 $formErrorMessagesTriggered = [];
 
 // Obtains article ID and retrieves the corresponding entry
@@ -183,87 +274,26 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
 
    $formErrorMessages = $twig->getGlobals()["error_messages"]["article"];
-   if(!empty($_POST)) {
-      $formErrorMessagesTriggered = [];
 
-      $formInput = [
-         'title' => '',
-         'subtitle' => '',
-         'type' => '',
-         'keywords' => '',
-      ];
-      $listInputsKey = array_keys($formInput);
-
-      $isFormValid = true;
-      for($i = 0; $i < count($listInputsKey); $i++)
+   if (!empty($_POST))
+   {
+      $nbErrors = 0;
+      if ($_POST['form_name'] === 'core')
       {
-         $formInput[$listInputsKey[$i]] = is_string($_POST[$listInputsKey[$i]]) ? Utils::secure($_POST[$listInputsKey[$i]]) : $_POST[$listInputsKey[$i]];
-         if($formInput[$listInputsKey[$i]] === '' && $listInputsKey[$i] !== 'keywords')
-            $fullyCompleted = false;
+         $payload = [
+            "article" => $article,
+            "errorMessages" => $formErrorMessages,
+            "keywords" => $keywords,
+            "curlUpload" => $curlUpload,
+         ];
+         $nbErrors = coreDataProcess($payload);
+      } else if ($_POST['form_name'] === 'highlight')
+      {
+
       }
 
-      $curlResult = null;
-      if ($_FILES["thumbnail"]["size"] > 0) {
-         $curlResult = $curlUpload($_FILES["thumbnail"]);
-      }
-
-      $MAX_INPUT_CHARS = 100;
-      $newKeywords = $_POST['keywords'];
-
-      if (!$isFormValid)
-         array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
-      if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
-         array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
-      if (strlen($formInput['title']) > $MAX_INPUT_CHARS)
-         array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
-      if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
-         array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
-      if (!is_array($newKeywords) || (count($newKeywords) == 1 && strlen($newKeywords[0]) == 0))
-         array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
-      if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
-         array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
-
-      if (count($formErrorMessagesTriggered) == 0)
+      if ($nbErrors === 0)
       {
-         try
-         {
-            $article->update($formInput['title'], $formInput['subtitle'], $formInput['type']);
-
-            if ($curlResult) {
-               $fileName = substr(strrchr($curlResult, '/'), 1);
-               Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
-            }
-         }
-         catch(Exception $e)
-         {
-            setcookie("flash_message", "article_error", time() + 1, "/");
-            $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
-            header('Location:' . $currentURL);
-            exit;
-         }
-
-         $nbCommonKeywords = sizeof(Keywords::common($keywords, $newKeywords));
-         $keywordsToDelete = Keywords::distinct($keywords, $newKeywords);
-         $keywordsToAdd = Keywords::distinct($newKeywords, $keywords);
-
-         try
-         {
-            Tag::unmapArticle($article->get('id_article'), $keywordsToDelete);
-         } catch(Exception $e) {}
-
-         for ($j = 0; $j < count($keywordsToAdd) && $j < (10 - $nbCommonKeywords); $j++) {
-            try
-            {
-               $tag = new Tag($keywordsToAdd[$j]);
-               $tag->mapToArticle($article->get('id_article'));
-            }
-            catch(Exception $e)
-            {
-               continue;
-            }
-         }
-
-         Tag::cleanOrphanTags();
          $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
          setcookie("flash_message", "article_updated", time() + 1, "/");
          header('Location: ' . $currentURL, true, 302);
@@ -282,6 +312,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "preview_url" => PathHandler::articleURL($article->getAll()),
          "segments" => $segments,
       ],
+      "can_be_highlighted" => Utils::check(LoggedUser::$data['can_edit_all_posts']),
       "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition", "drag_and_drop_upload"],
       "list_js_files" => [
          ["file" => "form_validation"],

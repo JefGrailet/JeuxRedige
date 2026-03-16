@@ -124,6 +124,11 @@ $twig->addGlobal("error_messages", [
          "empty" => "Vous devez préciser au moins un mot-clef",
          "limitReached" => "Vous ne pouvez pas mettre plus de 10 mots-clefs",
       ],
+      "highlight" => [
+         "banner" => [
+            "badDimensions" => "L'image doit avoir une dimension supérieure ou égale 1170x400 pixels",
+         ]
+      ],
       "emptyFields" => "Vous devez remplir tous les champs",
       "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
    ],

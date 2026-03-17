@@ -4,7 +4,7 @@
       <form action="" enctype="multipart/form-data" method="POST" data-form-schema-validation="article_highlight">
          <script type="text/schema" data-form-schema="article_highlight">
             return z.object({
-               banner: z.file()
+               highlight: z.file()
                   .nullable()
                   .transform((file) => (file && file.size > 0 ? file : null))
                   .refine((file) => {
@@ -16,8 +16,7 @@
                         reader.onload = (e) => {
                            const img = new Image();
                            img.onload = () => {
-                              const heightRatio = (img.height * 100) / 1920;
-                              const meetsDimensions = img.width >= 1920 && heightRatio >= 30;
+                              const meetsDimensions = img.width >= 1170 && img.height >= 400;
 
                               resolve(meetsDimensions);
                            };
@@ -39,32 +38,35 @@
                   <li>L'image doit être au format .jp(e)g</li>
                   <li>L'image doit avoir une taille inférieure à 1 Mo</li>
                   <li>L'image doit faire au minimum 1 170px de largeur et 400 de hauteur</li>
+                  <li>L'image sera recadrée au format 1 170px de largeur et 400 de hauteur</li>
                </ul>
             </div>
             {% include "includes/image-drag-n-drop.html.twig" with {
                   "options": {
-                     "name": "banner",
+                     "name": "highlight",
                      "label": "Sélectionner image",
                      "drag_drop_label": "Glissez-déposez votre image (.jp(e)g)",
-                     "default_image": "default_article_highlight.jpg",
+                     "default_image": article.highlight,
                      "mimeTypes": "image/jpeg, image/jpg",
                   }
                }
             %}
          </div>
+
+         {% set isFeatured = article.featured in ['yes', true, 1, '1'] %}
          <div class="inputContainer">
-               <p style="margin-bottom: 0;">Mettre en évidence l'article</p>
-               <div style="display: flex; gap: 1rem">
-                  <div style="display: flex; align-items: center;">
-                     <label for="oui">Oui</label>
-                     <input type="radio" {{ article.featured == "yes" ? "checked" : ""}} name="featured" id="oui">
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                     <label for="non">Non</label>
-                     <input type="radio" {{ article.featured == "no" ? "checked" : ""}} name="featured" id="non">
-                  </div>
+            <p style="margin-bottom: 0;">Mettre en évidence l'article</p>
+            <div style="display: flex; gap: 1rem">
+               <div style="display: flex; align-items: center;">
+                  <label for="oui">Oui</label>
+                  <input type="radio" {% if isFeatured %}checked{% endif %} name="featured" value="yes" id="oui">
+               </div>
+               <div style="display: flex; align-items: center;">
+                  <label for="non">Non</label>
+                  <input type="radio" {% if not isFeatured %}checked{% endif %} name="featured" value="no" id="non">
                </div>
             </div>
+         </div>
          <div class="inputContainer">
             <button type="submit" class="fit primaryButton">
                Éditer

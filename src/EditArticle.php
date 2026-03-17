@@ -38,14 +38,15 @@ $thumbnailRequirements = [
    "maxSize" => $thumbnailMaxSize,
 ];
 
-$curlUpload = function ($file) use ($twig) {
+$curlUpload = function ($file, $pageName) use ($twig) {
    $useragent = $_SERVER['HTTP_USER_AGENT'];
    $strCookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
 
    session_write_close();
 
    $curl = curl_init();
-   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . '/ajax/CreateArticleThumbnail.php');
+
+   curl_setopt($curl, CURLOPT_URL, $twig->getGlobals()["webRoot"] . "/ajax/$pageName.php");
    curl_setopt($curl, CURLOPT_VERBOSE, 1);
 
    curl_setopt($curl, CURLOPT_POST, true);
@@ -76,7 +77,7 @@ function coreDataProcess($payload) {
    $formErrorMessages = $payload["errorMessages"];
    $keywords = $payload["keywords"];
 
-   $formErrorMessagesTriggered = [];
+   $listErrorsTriggered = [];
 
    $formInput = [
       'title' => '',
@@ -96,26 +97,26 @@ function coreDataProcess($payload) {
 
    $curlResult = null;
    if ($_FILES["thumbnail"]["size"] > 0) {
-      $curlResult = $curlUpload($_FILES["thumbnail"]);
+      $curlResult = $curlUpload($_FILES["thumbnail"], "CreateArticleThumbnail");
    }
 
    $MAX_INPUT_CHARS = 100;
    $newKeywords = $_POST['keywords'];
 
    if (!$isFormValid)
-      array_push($formErrorMessagesTriggered, $formErrorMessages["emptyFields"]);
+      array_push($listErrorsTriggered, $formErrorMessages["emptyFields"]);
    if (!in_array($formInput['type'], array_keys(Utils::ARTICLES_CATEGORIES)))
-      array_push($formErrorMessagesTriggered, $formErrorMessages["type"]["unknown"]);
+      array_push($listErrorsTriggered, $formErrorMessages["type"]["unknown"]);
    if (strlen($formInput['title']) > $MAX_INPUT_CHARS)
-      array_push($formErrorMessagesTriggered, $formErrorMessages["title"]["tooLong"]);
+      array_push($listErrorsTriggered, $formErrorMessages["title"]["tooLong"]);
    if (strlen($formInput['subtitle']) > $MAX_INPUT_CHARS)
-      array_push($formErrorMessagesTriggered, $formErrorMessages["subtitle"]["tooLong"]);
+      array_push($listErrorsTriggered, $formErrorMessages["subtitle"]["tooLong"]);
    if (!is_array($newKeywords) || (count($newKeywords) == 1 && strlen($newKeywords[0]) == 0))
-      array_push($formErrorMessagesTriggered, $formErrorMessages["keywords"]["empty"]);
+      array_push($listErrorsTriggered, $formErrorMessages["keywords"]["empty"]);
    if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
-      array_push($formErrorMessagesTriggered, $formErrorMessages["thumbnail"][$curlResult]);
+      array_push($listErrorsTriggered, $formErrorMessages["thumbnail"][$curlResult]);
 
-   if (count($formErrorMessagesTriggered) == 0)
+   if (count($listErrorsTriggered) == 0)
    {
       try
       {
@@ -158,7 +159,41 @@ function coreDataProcess($payload) {
       Tag::cleanOrphanTags();
    }
 
-   return count($formErrorMessagesTriggered);
+   return $listErrorsTriggered;
+}
+
+function highlightDataProcess($payload) {
+   $curlUpload = $payload["curlUpload"];
+   $article = $payload["article"];
+   $formErrorMessages = $payload["errorMessages"];
+
+   $listErrorsTriggered = [];
+
+   $curlResult = null;
+
+   if ($_FILES["highlight"]["size"] > 0) {
+      $curlResult = $curlUpload($_FILES["highlight"], "CreateArticleHighlight");
+   }
+
+   if (in_array($curlResult, array_keys($formErrorMessages["thumbnail"])))
+      array_push($listErrorsTriggered, $formErrorMessages["thumbnail"][$curlResult]);
+
+   if (count($listErrorsTriggered) == 0)
+   {
+      try {
+         $article->setIsHighlighted($_POST["featured"]);
+         // Updates the highlight picture if edited
+         if($curlResult)
+         {
+            $fileName = substr(strrchr($curlResult, '/'), 1);
+            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'highlight');
+         }
+
+      } catch (\Throwable $th) {
+      }
+   }
+
+   return $listErrorsTriggered;
 }
 
 $formErrorMessagesTriggered = [];
@@ -224,75 +259,35 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    else
       $articleThumbnail = './default_article_thumbnail.jpg';
 
-   // Full template
-   $finalTplInput = array('articleID' => $article->get('id_article'),
-   'editionForm' => '',
-   'segmentsList' => '',
-   'newSegmentButton' => !$article->isPublished() ? $article->get('id_article') : '',
-   'truePreviewButton' => '',
-   'publication' => '',
-   'highlighting' => '');
-
-   $highlightFormInput = null;
-   if($article->isPublished())
-   {
-      $finalTplInput['publication'] = 'published||'.$article->get('id_article').'|'.$article->get('views');
-
-      // Highlighting form
-      if(Utils::check(LoggedUser::$data['can_edit_all_posts']))
-      {
-         $highlightFormInput = array('success' => '',
-         'errors' => '',
-         'ID' => $article->get('id_article'),
-         'highlight' => '',
-         'featured' => Utils::check($article->get('featured')) ? 'checked' : '');
-
-         $highlightImg = $article->getHighlight();
-         $bufferedHighlight = Buffer::getHighlight();
-         if(strlen($highlightImg) > 0)
-            $highlightFormInput['highlight'] = $highlightImg;
-         else if(strlen($bufferedHighlight) > 0)
-            $highlightFormInput['highlight'] = './'.substr($bufferedHighlight, strlen(PathHandler::HTTP_PATH()));
-         else
-            $highlightFormInput['highlight'] = './default_article_highlight.jpg';
-
-         $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-
-         // Highlight creation dialog
-         $highlightTpl = TemplateEngine::parse('view/dialog/CustomHighlight.dialog.ctpl');
-         if(!TemplateEngine::hasFailed($highlightTpl))
-            $dialogs .= $highlightTpl;
-      }
-   }
-   else if(count($segments) > 0)
-   {
-      $finalTplInput['publication'] = 'publish||'.$article->get('id_article');
-   }
+   $currentHighlight = Buffer::getHighlight();
+   if(file_exists(PathHandler::WWW_PATH().'upload/articles/'.$articleID.'/highlight.jpg'))
+      $articleHighlight = './upload/articles/'.$articleID.'/highlight.jpg';
+   else if(strlen($currentHighlight || "") > 0)
+      $articleHighlight = './'.substr($currentHighlight, strlen(PathHandler::HTTP_PATH()));
    else
-   {
-      $finalTplInput['publication'] = 'empty||'.$article->get('id_article');
-   }
+      $articleHighlight = './default_article_highlight.jpg';
+
 
    $formErrorMessages = $twig->getGlobals()["error_messages"]["article"];
 
    if (!empty($_POST))
    {
-      $nbErrors = 0;
+      $payload = [
+         "article" => $article,
+         "errorMessages" => $formErrorMessages,
+         "curlUpload" => $curlUpload,
+      ];
+
       if ($_POST['form_name'] === 'core')
       {
-         $payload = [
-            "article" => $article,
-            "errorMessages" => $formErrorMessages,
-            "keywords" => $keywords,
-            "curlUpload" => $curlUpload,
-         ];
-         $nbErrors = coreDataProcess($payload);
+         $payload["keywords"] = $keywords;
+         $formErrorMessagesTriggered = coreDataProcess($payload);
       } else if ($_POST['form_name'] === 'highlight')
       {
-
+         $formErrorMessagesTriggered = highlightDataProcess($payload);
       }
 
-      if ($nbErrors === 0)
+      if (count($formErrorMessagesTriggered) === 0)
       {
          $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
          setcookie("flash_message", "article_updated", time() + 1, "/");
@@ -309,10 +304,11 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          "is_published" => $article->isPublished(),
          "keywords" => $keywords,
          "thumbnail" => $articleThumbnail,
+         "highlight" => $articleHighlight,
          "preview_url" => PathHandler::articleURL($article->getAll()),
          "segments" => $segments,
       ],
-      "can_be_highlighted" => Utils::check(LoggedUser::$data['can_edit_all_posts']),
+      "user_can_highlight" => Utils::check(LoggedUser::$data['can_edit_all_posts']),
       "list_css_files" => [ "select2.min", "input_file", "badge", "article_edition", "drag_and_drop_upload"],
       "list_js_files" => [
          ["file" => "form_validation"],
@@ -342,63 +338,6 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       ]
    ]);
    die();
-
-   // else if(!empty($_POST['highlightThis']))
-   // {
-   //    $picture = Utils::secure($_POST['highlight']);
-
-   //    if($picture !== $highlightFormInput['highlight'] && !file_exists(PathHandler::WWW_PATH().substr($picture, 2)))
-   //       $highlightFormInput['errors'] = 'invalidHighlight';
-
-   //    if(strlen($highlightFormInput['errors']) == 0)
-   //    {
-   //       if((isset($_POST['featured']) && !Utils::check($article->get('featured'))) || (!isset($_POST['featured']) && Utils::check($article->get('featured'))))
-   //       {
-   //          try
-   //          {
-   //             $res = $article->feature();
-   //             if($res)
-   //                $highlightFormInput['featured'] = 'checked';
-   //             else
-   //                $highlightFormInput['featured'] = '';
-   //          }
-   //          catch(Exception $e)
-   //          {
-   //             $highlightFormInput['errors'] = 'dbError';
-   //             $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-   //             $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //             WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //          }
-   //       }
-
-   //       // Updates the highlight picture if edited
-   //       if($highlightFormInput['highlight'] !== $picture || (strlen($article->getHighlight()) == 0 && $picture !== './default_article_highlight.jpg'))
-   //       {
-   //          $fileName = substr(strrchr($picture, '/'), 1);
-   //          $highlightFormInput['highlight'] = './upload/articles/'.$article->get('id_article').'/highlight.jpg';
-   //          Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'highlight');
-   //       }
-
-   //       $highlightFormInput['success'] = 'yes';
-   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //       $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //    }
-   //    else
-   //    {
-   //       $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //       $finalTplInput['highlighting'] = TemplateEngine::parse('view/user/HighlightArticle.form.ctpl', $highlightFormInput);
-   //       $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //       WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   //    }
-   // }
-   // else
-   // {
-   //    $finalTplInput['editionForm'] = TemplateEngine::parse('view/user/EditArticle.form.ctpl', $formComp);
-   //    $finalTpl = TemplateEngine::parse('view/user/EditArticle.composite.ctpl', $finalTplInput);
-   //    WebpageHandler::wrap($finalTpl, 'Editer l\'article "'.$article->get('title').'"', $dialogs);
-   // }
 }
 
 echo $twig->render("errors/error.html.twig", [

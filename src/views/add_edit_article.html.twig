@@ -101,7 +101,7 @@
             </div>
 			</section>
 
-         {% if article.is_published == true %}
+         {% if article.is_published == true and user_can_highlight == true %}
             {% include "add_edit_article/article_highlight.html.twig" %}
          {% endif %}
 			<section class="sectionBlock danger">

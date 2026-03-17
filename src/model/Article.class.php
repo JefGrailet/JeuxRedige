@@ -537,6 +537,22 @@ class Article
       return false;
    }
 
+   public function setIsHighlighted($_isHighlighted = "yes")
+   {
+      if($this->_data['date_publication'] === '1970-01-01 00:00:00')
+         return;
+
+      $isHighlighted = $_isHighlighted == "yes";
+      $sql = 'UPDATE articles SET featured=? WHERE id_article=?';
+      $arg = array($isHighlighted, $this->_data['id_article']);
+      $res = Database::secureWrite($sql, $arg);
+
+      if($res != NULL)
+         throw new Exception('Article could not be updated: '. $res[2]);
+
+      $this->_data['featured'] = $isHighlighted;
+   }
+
    /*
    * Static method to count the total number of (un)published articles. By default, this method
    * counts how many published articles there are, but an optional boolean parameter can be used

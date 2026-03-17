@@ -39,7 +39,6 @@ if(!empty($_GET['author']) &&
          $postIR = PostIR::process($posts[$i], $offset + $i + 1, false);
          array_push($fullInput, $postIR);
       }
-      $fullInput = Utils::removeSeconds($fullInput);
       
       // Renders the posts
       $postsTpl = TemplateEngine::parseMultiple('view/content/Post.ctpl', $fullInput);

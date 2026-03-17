@@ -62,7 +62,6 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']) &&
          $pongIR = PongIR::process($pongs[$i], ($offset + $i + 1));
          array_push($fullInput, $pongIR);
       }
-      $fullInput = Utils::removeSeconds($fullInput);
       
       $pagingNeeded = false;
       $postCount = ($offset % $perPage);

@@ -600,7 +600,7 @@ class User
       if($res != NULL && !is_array($res[0]) && sizeof($res) == 3)
          throw new Exception('Articles could not be found: '. $res[2]);
       else if($res == NULL)
-         throw new Exception('No article has been found.');
+         throw new Exception('No article has been found.'); // TODO: do not throw exception for this
       
       return $res;
    }
@@ -669,7 +669,7 @@ class User
       if($res != NULL && !is_array($res[0]) && sizeof($res) == 3)
          throw new Exception('Messages could not be found: '. $res[2]);
       else if($res == NULL)
-         throw new Exception('No message has been found.');
+         throw new Exception('No message has been found.'); // TODO: do not throw exception for this
       
       return $res;
    }

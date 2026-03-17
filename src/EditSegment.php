@@ -11,7 +11,6 @@ require './libraries/FormParsing.lib.php';
 require './libraries/Buffer.lib.php';
 require './model/Article.class.php';
 require './model/Segment.class.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
 
 require_once './libraries/core/Twig.config.php';
 
@@ -109,10 +108,14 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
 
    if ($article->isPublished()) {
       http_response_code(401);
+
+      $editLink = PathHandler::HTTP_PATH().'EditArticle.php?id_article=';
+      $editLink .= $article->get('id_article');
+
       echo $twig->render("errors/error.html.twig", [
          "error_title" => "Article publié - Pages non éditables",
          "error_key" => "notAvailable",
-         "article_link" => ArticleThumbnailIR::getLink($article->getAll(), true),
+         "article_link" => $editLink, 
          "meta" => [
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur - Page inaccessible",

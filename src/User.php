@@ -8,7 +8,7 @@
 require './libraries/Header.lib.php';
 require './libraries/MessageParsing.lib.php';
 require './model/User.class.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
+require './model/rendering/ArticleRendering.class.php';
 require './view/intermediate/Post.ir.php';
 
 require_once './libraries/core/Twig.config.php';
@@ -40,9 +40,9 @@ try
    $userListArticlesComputed = array_map(function ($article) {
       return array(
          ...$article,
-         "link" => ArticleThumbnailIR::getLink($article),
-         "date_time" => ArticleThumbnailIR::getDateTime($article),
-         "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+         "link" => PathHandler::articleURL($article),
+         "date_time" => Utils::timeToString($article["date_publication"]),
+         "thumbnail" => ArticleRendering::getThumbnail($article["id_article"]),
       );
    }, $userListArticles);
 } catch (Exception $e) {

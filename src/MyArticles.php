@@ -6,7 +6,7 @@
 
 require './libraries/Header.lib.php';
 require './model/Article.class.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
+require './model/rendering/ArticleRendering.class.php';
 
 require_once './libraries/core/Twig.config.php';
 
@@ -71,24 +71,20 @@ catch(Exception $e)
 /* From this point, all the content has been extracted from the DB. All what is left to do is
 * to render it as a pool of thumbnails. */
 
-// Rendered thumbnails
-$thumbnails = '';
-$fullInput = array();
-for($i = 0; $i < count($articles); $i++)
-{
-   $intermediate = ArticleThumbnailIR::process($articles[$i], true, false);
-   array_push($fullInput, $intermediate);
-}
-
 // Displays the produced page
 $listArticlesComputed = array_map(function ($article) {
-   return array(
+   $output = array(
       ...$article,
-      "link" => ArticleThumbnailIR::getLink($article, true),
-      "date_time" => ArticleThumbnailIR::getDateTime($article),
-      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
-      "status" => ArticleThumbnailIR::getStatus($article),
+      "link" => PathHandler::HTTP_PATH() . 'EditArticle.php?id_article='.$article["id_article"],
+      "thumbnail" => ArticleRendering::getThumbnail($article["id_article"]),
+      "status" => "wip",
    );
+   if($article["date_publication"] !== "1970-01-01 00:00:00")
+   {
+      $output["date_time"] = Utils::timeToString($article["date_publication"]);
+      $output["status"] = "published";
+   }
+   return $output;
 }, $articles, array_keys($articles));
 
 echo $twig->render("articles_user.html.twig", [

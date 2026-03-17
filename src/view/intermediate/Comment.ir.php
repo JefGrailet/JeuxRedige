@@ -30,7 +30,7 @@ class CommentIR
       'authorPseudo' => $post['author'], 
       'authorAvatar' => PathHandler::HTTP_PATH().'defaultavatar-small.jpg', 
       'authorStyle' => '',
-      'date' => Utils::printDate($post['date']), 
+      'date' => Utils::timeToString($post['date'], true, true), 
       'content' => '');
       
       // Avatar, style of the <h1> displaying the author's pseudonym and online status

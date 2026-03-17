@@ -40,7 +40,7 @@ class PostIR
       'authorAvatar' => $webRootPath.'defaultavatar.jpg',
       'authorStyle' => '',
       'authorType' => '',
-      'date' => Utils::printDate($post['date']),
+      'date' => Utils::timeToString($post['date'], true, true),
       'editionLink' => '',
       'quoteLink' => '',
       'pinButton' => '',

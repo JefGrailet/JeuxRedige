@@ -1,17 +1,15 @@
 <?php
 
 /*
-* Script to display a full article, whether it has been published online (full access for
-* everyone) or it is still being written (in this case, only the author can view it).
+* Script to display a full article, either published online (full access for everyone) or still 
+* being written (access only with direct URL).
 */
 
 require './libraries/Header.lib.php';
 require './libraries/SegmentParsing.lib.php';
 require './model/Article.class.php';
 require './model/Segment.class.php';
-require './view/intermediate/Article.ir.php';
-require './view/intermediate/Segment.ir.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
+require './model/rendering/ArticleRendering.class.php';
 
 require_once getenv("DOCUMENT_ROOT") . '/libraries/core/Twig.config.php';
 
@@ -43,29 +41,37 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
    }
 
    // Redirects to right URL if $_GET['title'] does not match
-
    if (!empty($_GET['title'])) {
       $titleURL = Utils::secure($_GET['title']);
-      if (PathHandler::formatForURL($article->get('title') . ' ' . $article->get('subtitle')) !== $titleURL)
+      $toFormat = $article->get('title') . ' ' . $article->get('subtitle');
+      if (PathHandler::formatForURL($toFormat) !== $titleURL)
          header('Location:' . PathHandler::articleURL($article->getAll()));
-
       WebpageHandler::usingURLRewriting();
    }
 
    // No segment
    $segments = $article->getBufferedSegments() ?? [];
 
-   $isAuthorIsCurrentUser = false;
+   $canCurrentUserEdit = false;
    if (LoggedUser::isLoggedIn()) {
-      $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
+      if ($article->get('pseudo') === LoggedUser::$data['pseudo'])
+         $canCurrentUserEdit = true;
+      else
+         $canCurrentUserEdit = Utils::check(LoggedUser::$data['can_edit_all_posts']);
    }
 
    if (count($segments) == 0) {
+      $editLink = "";
+      if($canCurrentUserEdit)
+      {
+         $editLink = PathHandler::HTTP_PATH() . 'EditArticle.php?id_article=';
+         $editLink .= $article->get('id_article');
+      }
       echo $twig->render("errors/error.html.twig", [
          "error_title" => "Article vide",
          "error_key" => "noSegment",
          "error_title" => "Impossible d'afficher l'article",
-         "edit_link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
+         "edit_link" => $editLink,
          "meta" => [
             ...$twig->getGlobals()["meta"],
             "title" => "Erreur : Article vide",
@@ -107,37 +113,36 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          header('Location:' . PathHandler::articleURL($article->getAll()));
    }
 
-   // Generates all useful data for article display
-   $articleIR = ArticleIR::process($article, $selectedSegment);
-
    // Renders segments
-   $fullInput = array();
+   $pagesRendered = array();
 
    for ($i = 0; $i < count($segments); $i++) {
-      $segments[$i]['content'] = SegmentParsing::parse($segments[$i]['content'], $i + 1);
-      $segmentIR = SegmentIR::process($segments[$i], (($i + 1) == $selectedSegment));
-      array_push($fullInput, $segmentIR);
+      array_push($pagesRendered, [
+         'ID' => $segments[$i]['id_segment'], 
+         'title' => $segments[$i]['title'], 
+         'content' => Utils::cleanUp(SegmentParsing::parse($segments[$i]['content'], $i + 1)), 
+         'header_URL' => ArticleRendering::getSegmentHeader(
+            $article->get('id_article'), 
+            $segments[$i]['id_segment']
+         )
+      ]);
    }
 
-   // Fixes title/subtitle on first segment
+   // Fixes subtitle on first segment
    if ($segments[0]['title'] == NULL) {
-      $fullInput[0]['title'] = $article->get('title');
-      $fullInput[0]['mainSubtitle'] = 'yes||' . $article->get('subtitle');
+      $pagesRendered[0]['title'] = $article->get('subtitle');
    }
-
-   $segmentsTpl = TemplateEngine::parseMultiple('view/content/Segment.ctpl', $fullInput);
-   $segmentsStr = '';
-   if (!TemplateEngine::hasFailed($segmentsTpl)) {
-      for ($i = 0; $i < count($segmentsTpl); $i++)
-         $segmentsStr .= $segmentsTpl[$i];
-   } else
-      WebpageHandler::wrap($segmentsTpl, 'Une erreur est survenue lors de la lecture des pages');
 
    // Display
    $articleType = $twig->getGlobals()["list_categories"][$article->get('type')]["name"]["singular"];
    $title = "{$article->get('title')} ({$articleType})";
    if (count($segments) > 1) {
-      $title .= " - Page {$pageSelected}";
+      if ($pageSelected > 0) {
+         $truePageNumber = $pageSelected + 1;
+         $title .= " - Page {$truePageNumber}";
+      }
+      else
+         $title .= " - Sommaire";
    }
 
    $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
@@ -149,51 +154,37 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
          "url" => "{$url}page/{$pageIndex}",
          "is_active" => ($pageSelected + 1) === $pageIndex,
       );
-   }, $fullInput, array_keys($fullInput));
+   }, $pagesRendered, array_keys($pagesRendered));
 
-
-   $isAuthorIsCurrentUser = false;
-   if (LoggedUser::isLoggedIn()) {
-      $isAuthorIsCurrentUser = $twig->getGlobals()["userInfos"]["pseudo"] === $article->get('pseudo');
+   $editLinks = [];
+   if($canCurrentUserEdit)
+   {
+      $idSegment = $pagesRendered[$pageSelected]["ID"];
+      $idArticle = $article->get('id_article');
+      $editLinks = [
+         "page" => [
+            "link" => PathHandler::HTTP_PATH() . 'EditSegment.php?id_segment='.$idSegment,
+            "label" => "Éditer la page"
+         ], 
+         "article" => [
+            "link" => PathHandler::HTTP_PATH() . 'EditArticle.php?id_article='.$idArticle,
+            "label" => "Éditer l'article"
+         ]
+      ];
    }
 
-   $listPagesComputed = array_map(function ($page, $index) use ($article, $pageSelected) {
-      $url = PathHandler::articleURL($article->getAll());
-      $pageIndex = $index + 1;
-
-      return array(
-         ...$page,
-         "url" => "{$url}page/{$pageIndex}",
-         "is_active" => ($pageSelected + 1) === $pageIndex,
-      );
-   }, $fullInput, array_keys($fullInput));
-
-   $editPageLinkDict = $article->isPublished() ? [] : [
-      "page" => [
-         "link" => $isAuthorIsCurrentUser ? PathHandler::HTTP_PATH() . "EditSegment.php?id_segment={$fullInput[$pageSelected]["ID"]}" : "",
-         "label" => "Éditer la page"
-      ]
-   ];
-
-   $editLinks = array_filter([
-      "article" => [
-         "link" => $isAuthorIsCurrentUser ? ArticleThumbnailIR::getLink($article->getAll(), true) : "",
-         "label" => "Éditer l'article"
-      ],
-      ...$editPageLinkDict,
-   ], function ($value) {
-      return $value["link"] !== '';
-   });
-
-   $listKeywords = array_map(function ($keyword) {
+   $prefixSearchLink = PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords[]=';
+   $listKeywords = array_map(function ($keyword) use ($prefixSearchLink) {
       $tag = trim($keyword["tag"]);
       return [
          "name" => $tag,
-         "link" => PathHandler::HTTP_PATH() . 'SearchArticles.php?keywords[]=' . urlencode($keyword["tag"]),
+         "link" => $prefixSearchLink . urlencode($keyword["tag"]),
       ];
    }, $article->getKeywords());
 
-   $articleHeaderImageURL = empty($fullInput[$pageSelected]["headerURL"]) ? PathHandler::HTTP_PATH() . "default_article_header.jpg" : $fullInput[$pageSelected]["headerURL"];
+   $lastUpdateTime = "";
+   if($article->get('date_last_modifications') > $article->get('date_creation'))
+      $lastUpdateTime = $article->get('date_last_modifications');
 
    echo $twig->render("article.html.twig", [
       "page_title" => $title,
@@ -201,19 +192,17 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       "is_article" => true,
       "article" => [
          "id" => $article->get('id_article'),
-         "title" => $fullInput[0]['title'],
-         "subtitle" => $article->get('subtitle'),
+         "title" => $article->get('title'),
          "page" => [
-            ...$fullInput[$pageSelected],
-            "headerURL" => $articleHeaderImageURL,
+            ...$pagesRendered[$pageSelected]
          ],
          "current_page" => $pageSelected,
          "segments" => $listPagesComputed,
          "published_time" => $article->get('date_creation'),
          "is_published" => $article->isPublished(),
-         "last_update_time" => $article->get('date_last_modifications') > $article->get('date_creation') ? $article->get('date_last_modifications') : "",
+         "last_update_time" => $lastUpdateTime,
          "edit_links" => $editLinks,
-         "is_my_article" => $isAuthorIsCurrentUser,
+         "is_editable" => $canCurrentUserEdit,
          "list_keywords" => $listKeywords,
          "author" => [
             "pseudo" => $article->get('pseudo'),

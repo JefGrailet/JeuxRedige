@@ -5,6 +5,9 @@
 
 require './libraries/Header.lib.php';
 require './model/Article.class.php';
+require './model/rendering/ArticleRendering.class.php';
+
+// TODO: eventually dispose of this
 require './view/intermediate/ArticleThumbnail.ir.php';
 
 require_once './libraries/core/Twig.config.php';
@@ -22,22 +25,38 @@ try {
 
 if ($articles == NULL) {
    echo $twig->render("errors/error.html.twig", ["error_key" => "noContent"]);
-
    return;
 }
 
 $NB_MAX_ARTICLES_HIGHLIGHTED = 2;
 
+// Sorts articles depending on whether they have a highlight or not
+$highlighted = array();
+$checkerboard = array();
+for($i = 0; $i < count($articles); $i++)
+{
+   $highlight = ArticleRendering::getHighlight($articles[$i]["id_article"]);
+   if(strlen($highlight) > 0 && count($highlighted) < $NB_MAX_ARTICLES_HIGHLIGHTED)
+   {
+      $articles[$i]["thumbnail"] = $highlight;
+      array_push($highlighted, $articles[$i]);
+   }
+   else
+   {
+      $articles[$i]["thumbnail"] = ArticleRendering::getThumbnail($articles[$i]["id_article"]);
+      array_push($checkerboard, $articles[$i]);
+   }
+}
+$sorted_articles = array_merge($highlighted, $checkerboard);
+
 $listArticlesComputed = array_map(function ($article, $idx) use ($NB_MAX_ARTICLES_HIGHLIGHTED) {
-   $to_highlight = $idx < $NB_MAX_ARTICLES_HIGHLIGHTED;
    return array(
       ...$article,
-      "is_highlighted" => $to_highlight,
-      "link" => ArticleThumbnailIR::getLink($article),
-      "date_time" => ArticleThumbnailIR::getDateTime($article),
-      "thumbnail" => ArticleThumbnailIR::getThumbnail($article, $to_highlight),
+      "is_highlighted" => $idx < $NB_MAX_ARTICLES_HIGHLIGHTED,
+      "link" => PathHandler::articleURL($article),
+      "date_time" => Utils::timeToString($article["date_publication"])
    );
-}, $articles, array_keys($articles));
+}, $sorted_articles, array_keys($sorted_articles));
 
 echo $twig->render("index.html.twig", [
    "list_articles" => $listArticlesComputed,

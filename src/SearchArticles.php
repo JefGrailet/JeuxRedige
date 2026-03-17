@@ -7,7 +7,7 @@
 require './libraries/Header.lib.php';
 require './libraries/Keywords.lib.php';
 require './model/Article.class.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
+require './model/rendering/ArticleRendering.class.php';
 
 require_once './libraries/core/Twig.config.php';
 
@@ -115,9 +115,9 @@ if($gotInput)
          return array(
             ...$article,
             "is_highlighted" => false,
-            "link" => ArticleThumbnailIR::getLink($article),
-            "date_time" => ArticleThumbnailIR::getDateTime($article),
-            "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+            "link" => PathHandler::articleURL($article),
+            "date_time" => Utils::timeToString($article["date_publication"]),
+            "thumbnail" => ArticleRendering::getThumbnail($article["id_article"])
          );
       }, $articles, array_keys($articles));
    }

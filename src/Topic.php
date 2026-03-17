@@ -186,9 +186,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       $postIR = PostIR::compute($posts[$i], ($firstPost + $i + 1), !Utils::check($topic->get('is_locked')));
       array_push($postsComputed, $postIR);
    }
-
-   $fullInput = Utils::removeSeconds($fullInput);
-
+   
    $postsTpl = TemplateEngine::parseMultiple('view/content/Post.ctpl', $fullInput);
    if(!TemplateEngine::hasFailed($postsTpl))
    {

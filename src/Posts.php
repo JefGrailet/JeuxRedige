@@ -88,7 +88,6 @@ if(!empty($_GET['author']))
       $postIR = PostIR::process($posts[$i], $firstPost + $i + 1, false);
       array_push($fullInput, $postIR);
    }
-   $fullInput = Utils::removeSeconds($fullInput);
    
    $postsTpl = TemplateEngine::parseMultiple('view/content/Post.ctpl', $fullInput);
    if(!TemplateEngine::hasFailed($postsTpl))

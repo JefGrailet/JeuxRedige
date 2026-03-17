@@ -19,12 +19,12 @@ class Article
 
    protected $_topic; // Exists only after publication
 
-   /*
-   * Constructor.
-   *
-   * @param mixed $arg[]  Existing array corresponding to the article or the ID of that article
-   * @throws Exception    If the article cannot be found or does not exist
-   */
+   /**
+    * Constructor.
+    *
+    * @param mixed $arg[]  Existing array corresponding to the article or the ID of that article
+    * @throws Exception    If the article cannot be found or does not exist
+    */
 
    public function __construct($arg)
    {
@@ -47,16 +47,16 @@ class Article
       $this->_topic = null;
    }
 
-   /*
-   * Static method to insert a new article in the database.
-   *
-   * @param string $title     Title of the new article
-   * @param string $subtitle  Subtitle
-   * @param string $type      Type of the article ('review', 'preview' or 'opinion' for now)
-   * @return Article          The new entry as an Article instance
-   * @throws Exception        When the insertion of the article in the database fails, with the
-   *                          actual SQL error inside
-   */
+   /**
+    * Static method to insert a new article in the database.
+    *
+    * @param string $title     Title of the new article
+    * @param string $subtitle  Subtitle
+    * @param string $type      Type of the article ('review', 'preview' or 'opinion' for now)
+    * @return Article          The new entry as an Article instance
+    * @throws Exception        When the insertion of the article in the database fails, with the
+    *                          actual SQL error inside
+    */
 
    public static function insert($title, $subtitle, $type)
    {
@@ -85,11 +85,11 @@ class Article
       return new Article($newArticleID);
    }
 
-   /*
-   * Methods to test if the article is published or if the current (logged) user is the author
-   * (and therefore, allowed to handle it). No parameter is required and both methods return a
-   * boolean value.
-   */
+   /**
+    * Methods to test if the article is published or if the current (logged) user is the author
+    * (and therefore, allowed to handle it). No parameter is required and both methods return a
+    * boolean value.
+    */
 
    public function isPublished()
    {
@@ -113,88 +113,65 @@ class Article
    public function get($field) { return $this->_data[$field]; }
    public function getAll() { return $this->_data; }
 
-   /*
-   * Gets the thumbnail image for this article. If there is no such thumbnail, the method returns
-   * an empty string.
-   *
-   * @param bool $local  Optional boolean to set to true if the calling code rather needs the path
-   *                     in the file system (vs. "HTTP" path that can be inserted in HTML code)
-   * @return string      The absolute path to the thumbnail
-   */
+   /**
+    * Gets the thumbnail image for this article. If there is no such thumbnail, the method returns
+    * an empty string.
+    *
+    * @param bool $local  Optional boolean to set to true if the calling code rather needs the path
+    *                     in the file system (vs. "HTTP" path that can be inserted in HTML code)
+    * @return string      The absolute path to the thumbnail
+    */
 
    public function getThumbnail($local = false)
    {
-      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
+      $suffix = '/'.$this->_data['id_article'].'/thumbnail.jpg';
+      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles'.$suffix;
       if(file_exists($thumbnailFile))
       {
          if(!$local)
-         {
-            $URL = PathHandler::HTTP_PATH().'upload/articles/'.$this->_data['id_article'].'/thumbnail.jpg';
-            return $URL;
-         }
+            return PathHandler::HTTP_PATH().'upload/articles'.$suffix;
          return $thumbnailFile;
       }
       return "";
    }
 
-   /*
-   * Gets the highlight image used for this article to feature it in homepage. If there is no such
-   * image, the method returns an empty string.
-   *
-   * @return string  The absolute path to the highlight picture
-   */
+   /**
+    * Gets the highlight image used for this article to feature it in homepage. If there is no such
+    * image, the method returns an empty string.
+    *
+    * @return string  The absolute path to the highlight picture
+    */
 
    public function getHighlight()
    {
-      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
-      if(file_exists($thumbnailFile))
-      {
-         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$this->_data['id_article'].'/highlight.jpg';
-         return $URL;
-      }
+      $suffix = '/'.$this->_data['id_article'].'/highlight.jpg';
+      $highlightFile = PathHandler::WWW_PATH().'upload/articles'.$suffix;
+      if(file_exists($highlightFile))
+         return PathHandler::HTTP_PATH().'upload/articles'.$suffix;
       return "";
    }
 
    /*
-   * Does the same thing as above, but with the ID of the article as a parameter of a static
-   * method (avoids creating Article objects in index.php).
-   *
-   * @param integer $ID  ID of the article
-   * @return string      The absolute path to the highlight picture
-   */
+    * ------------------------
+    * ADDITIONNAL DATA SECTION
+    * ------------------------
+    *
+    * The next methods aim at loading all data related to the article: keywords and associated
+    * games and the segments constituting the content of the article. In some pages, everything
+    * needs to be loaded. A unique method is dedicated to this particular task (the data is
+    * buffered with additionnal fields), which can be checked and retrieved with additionnal
+    * methods.
+    */
 
-   public static function getHighlightStatic($ID)
-   {
-      $thumbnailFile = PathHandler::WWW_PATH().'upload/articles/'.$ID.'/highlight.jpg';
-      if(file_exists($thumbnailFile))
-      {
-         $URL = PathHandler::HTTP_PATH().'upload/articles/'.$ID.'/highlight.jpg';
-         return $URL;
-      }
-      return "";
-   }
-
-   /*
-   * ------------------------
-   * ADDITIONNAL DATA SECTION
-   * ------------------------
-   *
-   * The next methods aim at loading all data related to the article: keywords and associated
-   * games and the segments constituting the content of the article. In some pages, everything
-   * needs to be loaded. A unique method is dedicated to this particular task (the data is
-   * buffered with additionnal fields), which can be checked and retrieved with additionnal
-   * methods.
-   */
-
-   /*
-   * Method to retrieve the set of keywords associated to this article. No parameter is required.
-   * The result array also contains game information if the keyword is matching a game entry.
-   *
-   * @return string[][]  The keywords associated with the article as a 2D array; keywords
-   *                     associated with games have additionnal fields; an empty array is returned
-   *                     when there is no keyword
-   * @throws Exception   If the keywords could not be fetched (with the SQL error inside)
-   */
+   /**
+    * Method to retrieve the set of keywords associated to this article. No parameter is required.
+    * The result array also contains game information if the keyword is matching a game entry.
+    *
+    * @return string[][]  The keywords associated with the article as a 2D array; keywords
+    *                     associated with games have additionnal fields; an empty array is returned
+    *                     when there is no keyword
+    * @throws Exception   If the keywords could not be fetched (with the SQL error inside)
+    */
 
    public function getKeywords()
    {
@@ -218,13 +195,13 @@ class Article
       return $res;
    }
 
-   /*
-   * Gets the segments, i.e., the individual "pages" of the article. No parameter is required.
-   *
-   * @return mixed[]    The resulting 2D array, with a different segment per cell. Segments are
-   *                    ordered according to their respective position in the article.
-   * @throws Exception  If an SQL error occurs while checking the database
-   */
+   /**
+    * Gets the segments, i.e., the individual "pages" of the article. No parameter is required.
+    *
+    * @return mixed[]    The resulting 2D array, with a different segment per cell. Segments are
+    *                    ordered according to their respective position in the article.
+    * @throws Exception  If an SQL error occurs while checking the database
+    */
 
    public function getSegments()
    {
@@ -243,13 +220,13 @@ class Article
       return $res;
    }
 
-   /*
-   * Gets the related topic, i.e., the topic containing reactions to the article. It only exists
-   * after publication. No parameter is required.
-   *
-   * @return mixed[]    The resulting array (a single topic)
-   * @throws Exception  If an SQL error occurs while checking the database
-   */
+   /**
+    * Gets the related topic, i.e., the topic containing reactions to the article. It only exists
+    * after publication. No parameter is required.
+    *
+    * @return mixed[]    The resulting array (a single topic)
+    * @throws Exception  If an SQL error occurs while checking the database
+    */
 
    public function getTopic()
    {
@@ -259,7 +236,9 @@ class Article
          return $this->_topic;
       }
 
-      $sql = "SELECT topics.*, (SELECT COUNT(*) FROM posts WHERE id_topic=topics.id_topic) AS nb FROM topics WHERE id_topic=?";
+      $sql = "SELECT topics.*, (
+         SELECT COUNT(*) FROM posts WHERE id_topic=topics.id_topic
+      ) AS nb FROM topics WHERE id_topic=?";
       $res = Database::secureRead($sql, array($this->_data['related_topic']), true);
 
       if($res !== NULL && count($res) == 3)
@@ -274,15 +253,15 @@ class Article
       return $res;
    }
 
-   /*
-   * Performs in a row getKeywords() and getSegments(). If an exception arises, the method stops
-   * and rethrows it. It returns nothing (results are buffered). It should be noted that it does
-   * load the related topic, because 1) it only exists after publication 2) it is only relevant
-   * for article display, not article edition.
-   *
-   * @param bool $fullSegments  True if we retrieve the whole segments or just enough data f
-   * @throws Exception          If an SQL error occurs while checking the database (rethrown exception)
-   */
+   /**
+    * Performs in a row getKeywords() and getSegments(). If an exception arises, the method stops
+    * and rethrows it. It returns nothing (results are buffered). It should be noted that it does
+    * load the related topic, because 1) it only exists after publication 2) it is only relevant
+    * for article display, not article edition.
+    *
+    * @param bool $fullSegments  True if we retrieve the whole segments or just enough data f
+    * @throws Exception          If an SQL error occurs while checking the database
+    */
 
    public function loadRelatedData()
    {
@@ -302,12 +281,12 @@ class Article
    public function getBufferedSegments() { return $this->_segments; }
    public function getBufferedTopic() { return $this->_topic; }
 
-   /*
-   * Gets the keywords and formats them in a linear array. The associated game data (if any) is
-   * removed in the process.
-   *
-   * @return string[]   The keywords associated with the article
-   */
+   /**
+    * Gets the keywords and formats them in a linear array. The associated game data (if any) is
+    * removed in the process.
+    *
+    * @return string[]   The keywords associated with the article
+    */
 
    public function getKeywordsSimple()
    {
@@ -321,11 +300,11 @@ class Article
       return $result;
    }
 
-   /*
-   * Checks that there are games among the keywords.
-   *
-   * @return boolean  True if one or several keywords have an associated game
-   */
+   /**
+    * Checks that there are games among the keywords.
+    *
+    * @return boolean  True if one or several keywords have an associated game
+    */
 
    public function hasGames()
    {
@@ -338,13 +317,13 @@ class Article
       return false;
    }
 
-   /*
-   * Returns the next position for a future segment, using the size of the _segments array.
-   *
-   * @return integer    Position of the next segment in the structure
-   * @throws Exception  If a request was used in the process, an exception can be thrown if there
-   *                    was a problem with the DB (SQL error provided)
-   */
+   /**
+    * Returns the next position for a future segment, using the size of the _segments array.
+    *
+    * @return integer    Position of the next segment in the structure
+    * @throws Exception  If a request was used in the process, an exception can be thrown if there
+    *                    was a problem with the DB (SQL error provided)
+    */
 
    public function nextSegmentPosition()
    {
@@ -362,19 +341,19 @@ class Article
    }
 
    /*
-   * -------------------------------
-   * END OF ADDITIONNAL DATA SECTION
-   * -------------------------------
-   */
+    * -------------------------------
+    * END OF ADDITIONNAL DATA SECTION
+    * -------------------------------
+    */
 
-   /*
-   * Updates the main entry of the article (title, subtitle, type). Returns nothing.
-   *
-   * @param string $title     New title
-   * @param string $subtitle  New subtitle
-   * @param string $type      Type of the article ('review' or 'opinion' for now)
-   * @throws Exception        When the update fails, with the actual SQL error inside
-   */
+   /**
+    * Updates the main entry of the article (title, subtitle, type).
+    *
+    * @param string $title     New title
+    * @param string $subtitle  New subtitle
+    * @param string $type      Type of the article ('review' or 'opinion' for now)
+    * @throws Exception        When the update fails, with the actual SQL error inside
+    */
 
    public function update($title, $subtitle, $type)
    {
@@ -390,14 +369,14 @@ class Article
       $this->_data['type'] = $type;
    }
 
-   /*
-   * Updates the main entry of the article for publication. This consists in setting the
-   * publication date and the "related_topic" field (ID of the topic collecting the reactions to
-   * the article).
-   *
-   * @param integer $topicID  ID of the topic with the reactions
-   * @throws Exception        When the publication fails, with the actual SQL error inside
-   */
+   /**
+    * Updates the main entry of the article for publication. This consists in setting the
+    * publication date and the "related_topic" field (ID of the topic collecting the reactions to
+    * the article).
+    *
+    * @param integer $topicID  ID of the topic with the reactions
+    * @throws Exception        When the publication fails, with the actual SQL error inside
+    */
 
    public function publish($topicID)
    {
@@ -416,13 +395,13 @@ class Article
       $this->_data['related_topic'] = $topicID;
    }
 
-   /*
-   * Aligns "date_last_modifications" on some provided date, which is supposed to be the last
-   * modification date of some segment.
-   *
-   * @param string $lastDate  Last modification date of some segment of the article
-   * @throws Exception        When the update fails (actual SQL error provided)
-   */
+   /**
+    * Aligns "date_last_modifications" on some provided date, which is supposed to be the last
+    * modification date of some segment.
+    *
+    * @param string $lastDate  Last modification date of some segment of the article
+    * @throws Exception        When the update fails (actual SQL error provided)
+    */
 
    public function recordDate($lastDate)
    {
@@ -436,19 +415,23 @@ class Article
       $this->_data['date_last_modifications'] = $lastDate;
    }
 
-   /*
-   * Deletes the article and all the related uploads. As the deletion DB-wise is very simple
-   * thanks to cascading with InnoDB, the challenge here is to remove the upload folder for that
-   * article.
-   *
-   * @throws Exception  If deletion could not be carried out in the DB (SQL error provided)
-   */
+   /**
+    * Deletes the article and all the related uploads. As the deletion DB-wise is very simple
+    * thanks to cascading with InnoDB, the challenge here is to remove the upload folder for that
+    * article.
+    *
+    * @throws Exception  If deletion could not be carried out in the DB (SQL error provided)
+    */
 
    public function delete()
    {
-      $res = Database::secureWrite("DELETE FROM articles WHERE id_article=?", array($this->_data['id_article']), true);
+      $res = Database::secureWrite(
+         "DELETE FROM articles WHERE id_article=?", 
+         array($this->_data['id_article']), 
+         true
+      );
       if(is_array($res))
-         throw new Exception('Unable to delete article '.$this->_data['id_article'].' : '. $res[2]);
+         throw new Exception('Unable to delete article'.$this->_data['id_article'].' : '.$res[2]);
 
       // Deletion of all uploads
       $articleDirPath = PathHandler::WWW_PATH().'upload/articles/'.$this->_data['id_article'];
@@ -480,14 +463,12 @@ class Article
       }
    }
 
-   /*
-   * Simple method to update the "views" counter for the article. It is only incremented if:
-   * -the article has been published,
-   * -the current user is NOT the author of the article.
-   * No parameter is required, nothing is returned.
-   *
-   * @throws Exception  If anything goes wrong while updating the counter (SQL error provided)
-   */
+   /**
+    * Simple method to update the "views" counter for the article. It is only incremented if the 
+    * article has been published and the current user is NOT the author of the article.
+    *
+    * @throws Exception  If anything goes wrong while updating the counter (SQL error provided)
+    */
 
    public function incViews()
    {
@@ -507,13 +488,13 @@ class Article
       $this->_data['views'] += 1;
    }
 
-   /*
-   * Switches the "featured" field. No parameter is required. Return value tells if the article is
-   * now featured (=true) or not (=false). Nothing happens if the article is not published yet.
-   *
-   * @return boolean    True if the article is now featured, false otherwise
-   * @throws Exception  If anything goes wrong while updating the article (SQL error provided)
-   */
+   /**
+    * Switches the "featured" field. No parameter is required. Return value tells if the article is
+    * now featured (=true) or not (=false). Nothing happens if the article is not published yet.
+    *
+    * @return boolean    True if the article is now featured, false otherwise
+    * @throws Exception  If anything goes wrong while updating the article (SQL error provided)
+    */
 
    public function feature()
    {
@@ -553,17 +534,17 @@ class Article
       $this->_data['featured'] = $isHighlighted;
    }
 
-   /*
-   * Static method to count the total number of (un)published articles. By default, this method
-   * counts how many published articles there are, but an optional boolean parameter can be used
-   * to rather count the number of unpublished articles (useful for editorial purposes).
-   *
-   * @param string $category    String to count articles of a specific category; empty string
-   *                            means all articles will be considered (optional; empty by default)
-   * @param boolean $published  Set to false for unpublished articles (optional; true by default)
-   * @return integer            The total number of articles (published or unpublished) in the DB
-   * @throws Exception          If anything goes wrong while consulting the DB (SQL error provided)
-   */
+   /**
+    * Static method to count the total number of (un)published articles. By default, this method
+    * counts how many published articles there are, but an optional boolean parameter can be used
+    * to rather count the number of unpublished articles (useful for editorial purposes).
+    *
+    * @param string $category    String to count articles of a specific category; empty string
+    *                            means all articles will be considered (optional; empty by default)
+    * @param boolean $published  Set to false for unpublished articles (optional; true by default)
+    * @return integer            The total number of articles (published or unpublished) in the DB
+    * @throws Exception          If anything goes wrong while consulting the DB (error provided)
+    */
 
    public static function countArticles($category = '', $published = true)
    {
@@ -589,12 +570,12 @@ class Article
       return $res['nb'];
    }
 
-   /*
-   * Static method to count the total amount of articles written by the current user.
-   *
-   * @return integer    The total amount of articles recorded in the database for this user
-   * @throws Exception  If anything goes wrong while consulting the DB (SQL error provided)
-   */
+   /**
+    * Static method to count the total amount of articles written by the current user.
+    *
+    * @return integer    The total amount of articles recorded in the database for this user
+    * @throws Exception  If anything goes wrong while consulting the DB (SQL error provided)
+    */
 
    public static function countMyArticles($type="all")
    {
@@ -617,20 +598,20 @@ class Article
       return $res['nb'];
    }
 
-   /*
-   * Static method to obtain a set of articles. Like countArticles(), the method can be used to
-   * retrieve either published or unpublished articles via an optional parameter (by default, it
-   * seeks published articles). Articles are listed by most recent publication date when published
-   * and by most recent creation date otherwise.
-   *
-   * @param number $first       The index of the first article of the set
-   * @param number $nb          The maximum amount of articles to list
-   * @param string $category    String to browse articles of a specific category; empty string
-   *                            means all articles will be considered (optional; empty by default)
-   * @param boolean $published  Set to false for unpublished articles (optional; true by default)
-   * @return mixed[]            The articles that were found
-   * @throws Exception          If articles could not be found (SQL error is provided)
-   */
+   /**
+    * Static method to obtain a set of articles. Like countArticles(), the method can be used to
+    * retrieve either published or unpublished articles via an optional parameter (by default, it
+    * seeks published articles). Articles are listed by most recent publication date when published
+    * and by most recent creation date otherwise.
+    *
+    * @param number $first       The index of the first article of the set
+    * @param number $nb          The maximum amount of articles to list
+    * @param string $category    String to browse articles of a specific category; empty string
+    *                            means all articles will be considered (optional; empty by default)
+    * @param boolean $published  Set to false for unpublished articles (optional; true by default)
+    * @return mixed[]            The articles that were found
+    * @throws Exception          If articles could not be found (SQL error is provided)
+    */
 
    public static function getArticles($first, $nb, $category = '', $published = true)
    {
@@ -665,15 +646,15 @@ class Article
       return $res;
    }
 
-   /*
-   * Same as above but for unpublished articles. Articles are then ordered by the date at which
-   * they were created. Used for editorial features.
-   *
-   * @param number $first  The index of the first article of the set
-   * @param number $nb     The maximum amount of articles to list
-   * @return mixed[]       The articles that were found
-   * @throws Exception     If articles could not be found (SQL error is provided)
-   */
+   /**
+    * Same as above but for unpublished articles. Articles are then ordered by the date at which
+    * they were created. Used for editorial features.
+    *
+    * @param number $first  The index of the first article of the set
+    * @param number $nb     The maximum amount of articles to list
+    * @return mixed[]       The articles that were found
+    * @throws Exception     If articles could not be found (SQL error is provided)
+    */
 
    public static function getUnpublishedArticles($first, $nb)
    {
@@ -689,14 +670,14 @@ class Article
       return $res;
    }
 
-   /*
-   * Static method to obtain a set of published, featured articles. There is no "$nb" parameter as
-   * the method always looks for the most recent articles, and list them by publication date.
-   *
-   * @param number $nb     The maximum amount of articles to list
-   * @return mixed[]       The articles that were found
-   * @throws Exception     If articles could not be found (SQL error is provided)
-   */
+   /**
+    * Static method to obtain a set of published, featured articles. There is no "$nb" parameter as
+    * the method always looks for the most recent articles, and list them by publication date.
+    *
+    * @param number $nb     The maximum amount of articles to list
+    * @return mixed[]       The articles that were found
+    * @throws Exception     If articles could not be found (SQL error is provided)
+    */
 
    public static function getFeaturedArticles($nb)
    {
@@ -713,15 +694,15 @@ class Article
       return $res;
    }
 
-   /*
-   * Likewise, static method to obtain a set of articles written by the current user. Articles are
-   * rather listed by creation date.
-   *
-   * @param number $first  The index of the first article of the set
-   * @param number $nb     The maximum amount of articles to list
-   * @return mixed[]       The articles that were found (NULL if not logged)
-   * @throws Exception     If articles could not be found (SQL error is provided)
-   */
+   /**
+    * Likewise, static method to obtain a set of articles written by the current user. Articles are
+    * rather listed by creation date.
+    *
+    * @param number $first  The index of the first article of the set
+    * @param number $nb     The maximum amount of articles to list
+    * @return mixed[]       The articles that were found (NULL if not logged)
+    * @throws Exception     If articles could not be found (SQL error is provided)
+    */
 
    public static function getMyArticles($first, $nb, $type="all")
    {
@@ -747,13 +728,13 @@ class Article
       return $res;
    }
 
-   /*
-   * Similar method which gets all articles from the user at once, but only providing the ID,
-   * title and subtitle of each article.
-   *
-   * @return mixed[]       The articles that were found (NULL if not logged)
-   * @throws Exception     If articles could not be found (SQL error is provided)
-   */
+   /**
+    * Similar method which gets all articles from the user at once, but only providing the ID,
+    * title and subtitle of each article.
+    *
+    * @return mixed[]       The articles that were found (NULL if not logged)
+    * @throws Exception     If articles could not be found (SQL error is provided)
+    */
 
    public static function listAllMyArticles()
    {
@@ -772,20 +753,20 @@ class Article
       return $res;
    }
 
-   /*
-   * Static method to count the number of articles matching a set of keywords. A second parameter
-   * indicates whether the calling code wants results to match all keywords or only part of the
-   * set.
-   *
-   * @param string $keywords[]  The set of keywords to match
-   * @param string $category    String to browse articles of a specific category; empty string
-   *                            means all articles will be considered (optional; empty by default)
-   * @param bool $strict        True if articles must have all keywords (default), false if they
-   *                            can contain only one keyword of the set (optional)
-   * @return number             The amount of articles matching the keywords
-   * @throws Exception          If articles could not be found (SQL error is provided) or if
-   *                            $keywords is not an array
-   */
+   /**
+    * Static method to count the number of articles matching a set of keywords. A second parameter
+    * indicates whether the calling code wants results to match all keywords or only part of the
+    * set.
+    *
+    * @param string $keywords[]  The set of keywords to match
+    * @param string $category    String to browse articles of a specific category; empty string
+    *                            means all articles will be considered (optional; empty by default)
+    * @param bool $strict        True if articles must have all keywords (default), false if they
+    *                            can contain only one keyword of the set (optional)
+    * @return number             The amount of articles matching the keywords
+    * @throws Exception          If articles could not be found (SQL error is provided) or if
+    *                            $keywords is not an array
+    */
 
    public static function countArticlesWithKeywords($keywords, $category = '', $strict = true)
    {
@@ -836,24 +817,29 @@ class Article
       return $res['nb'];
    }
 
-   /*
-   * Static method to get a set of articles matching a set of keywords. Parameters $first and $nb
-   * are still needed in order to use pages when there are too many results for a single page. A
-   * 4th parameter indicates to the method if the calling code wants results to contain all the
-   * keywords or only one or few of them.
-   *
-   * @param string $keywords[]  The set of keywords to match
-   * @param number $first       The index of the first topic of the set
-   * @param number $nb          The maximum amount of topics to list
-   * @param bool $strict        True if articles must have all keywords (default), false if they
-   *                            can contain only one keyword of the set
-   * @return mixed[]            The articles that were found
-   * @throws Exception          If articles could not be found (SQL error is provided) or if
-   *                            $keywords is not an array
-   */
+   /**
+    * Static method to get a set of articles matching a set of keywords. Parameters $first and $nb
+    * are still needed in order to use pages when there are too many results for a single page. A
+    * 4th parameter indicates to the method if the calling code wants results to contain all the
+    * keywords or only one or few of them.
+    *
+    * @param string $keywords[]  The set of keywords to match
+    * @param number $first       The index of the first topic of the set
+    * @param number $nb          The maximum amount of topics to list
+    * @param bool $strict        True if articles must have all keywords (default), false if they
+    *                            can contain only one keyword of the set
+    * @return mixed[]            The articles that were found
+    * @throws Exception          If articles could not be found (SQL error is provided) or if
+    *                            $keywords is not an array
+    */
 
-   public static function getArticlesWithKeywords($keywords, $first, $nb,
-                                                  $category = '', $strict = true)
+   public static function getArticlesWithKeywords(
+      $keywords, 
+      $first, 
+      $nb,
+      $category = '', 
+      $strict = true
+   )
    {
       if(!is_array($keywords))
          throw new Exception('Keywords must be provided as an array');

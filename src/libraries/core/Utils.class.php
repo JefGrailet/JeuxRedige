@@ -145,66 +145,46 @@ class Utils
       
       return mktime($arr['h'], $arr['min'], $arr['s'], $arr['m'], $arr['d'], $arr['y']);
    }
-   
+
    /**
-    * Formats the date as a string. It removes the year when it's the current one.
+    * Formats a date as a string to be printed.
     * 
-    * @param string $dbTime  A date in DATETIME format
-    * @return string         The formatted date
+    * @param string $dbTime     A date in DATETIME format
+    * @param bool $stripYear    Set to true (default: false) to remove year if it's the current one
+    * @param bool $showSeconds  Set to true (default: false) to add seconds
+    * @return string            The formatted date
+    */
+   
+   public static function timeToString($dbTime, $stripYear=false, $showSeconds=false)
+   {
+      $asTimestamp = Utils::toTimestamp($dbTime);
+      if($stripYear)
+      {
+         $curTime = Utils::SQLServerTime();
+         if(date('Y', $curTime) === date('Y', $asTimestamp))
+         {
+            if ($showSeconds)
+               return date('d/m \à H:i:s', $asTimestamp);
+            return date('d/m \à H\hi', $asTimestamp);
+         }
+      }
+      if ($showSeconds)
+         return date('d/m/Y \à H:i:s', $asTimestamp);
+      return date('d/m/Y \à H\hi', $asTimestamp);
+   }
+
+   /**
+    * Cleans up some HTML-formatted content from useless tags.
+    * 
+    * @param string $content   The content (formatted in HTML)
+    * @return string           The same content, cleaned up
     */
 
-   public static function printDate($dbTime)
+   public static function cleanUp($content)
    {
-      $curTime = Utils::SQLServerTime();
-      $arr = array('y' => substr($dbTime, 0, 4),
-      'm' => substr($dbTime, 5, 2),
-      'd' => substr($dbTime, 8, 2),
-      'h' => substr($dbTime, 11, 2),
-      'min' => substr($dbTime, 14, 2),
-      's' => substr($dbTime, 17, 2));
-      
-      $res = $arr['d'].'/'.$arr['m'];
-      if(date('Y', $curTime) !== $arr['y'])
-         $res .= '/'.$arr['y'];
-      $res .= ' à '.$arr['h'].':'.$arr['min'].':'.$arr['s'];
-      return $res;
-   }
-   
-   /**
-    * In a sequence of arrays with dates, removes the seconds from arrays which are unique up to 
-    * the minutes (or further). Consecutives arrays where only seconds vary keep the seconds part.
-    *
-    * @param mixed[] $arrays  The sequence of arrays (2D array, each array has the "date" key)
-    * @return mixed[]         The updated arrays;
-    */
-   
-   public static function removeSeconds($arrays)
-   {
-      $prev = '';
-      $prevHasSeconds = false;
-      for($i = 0; $i < count($arrays) - 1; $i++)
-      {
-         $cur = $arrays[$i + 1]['date'];
-         if($prev === '')
-            $prev = $arrays[$i]['date'];
-         
-         $exploded1 = explode(':', $cur);
-         $exploded2 = explode(':', $prev);
-         if($exploded1[0] !== $exploded2[0] || $exploded1[1] !== $exploded2[1])
-         {
-            if(!$prevHasSeconds)
-               $arrays[$i]['date'] = $exploded2[0].':'.$exploded2[1];
-            else
-               $prevHasSeconds = false;
-            if($i == (count($arrays) - 2))
-               $arrays[$i + 1]['date'] = $exploded1[0].':'.$exploded1[1];
-         }
-         else
-            $prevHasSeconds = true;
-         
-         $prev = $cur;
-      }
-      return $arrays;
+      $content = preg_replace('/(<div>([\s]+)<\/div>)/iU', '', $content);
+      $content = preg_replace('/(<p>([\s]+)<\/p>)/iU', '', $content);
+      return $content;
    }
    
    /**

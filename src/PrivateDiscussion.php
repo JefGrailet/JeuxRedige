@@ -93,7 +93,6 @@ if(!empty($_GET['id_ping']) && preg_match('#^([0-9]+)$#', $_GET['id_ping']))
       $pongIR = PongIR::process($pongs[$i], ($firstPost + $i + 1));
       array_push($fullInput, $pongIR);
    }
-   $fullInput = Utils::removeSeconds($fullInput);
    
    $pongsTpl = TemplateEngine::parseMultiple('view/user/Pong.ctpl', $fullInput);
    if(!TemplateEngine::hasFailed($pongsTpl))

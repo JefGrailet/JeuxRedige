@@ -6,7 +6,7 @@
 
 require './libraries/Header.lib.php';
 require './model/Article.class.php';
-require './view/intermediate/ArticleThumbnail.ir.php';
+require './model/rendering/ArticleRendering.class.php';
 
 require_once './libraries/core/Twig.config.php';
 
@@ -36,7 +36,12 @@ try
          $firstArticle = ($getPage - 1) * WebpageHandler::$miscParams['articles_per_page'];
       }
    }
-   $articles = Article::getArticles($firstArticle, WebpageHandler::$miscParams['articles_per_page'], $articlesCategory, true);
+   $articles = Article::getArticles(
+      $firstArticle, 
+      WebpageHandler::$miscParams['articles_per_page'], 
+      $articlesCategory, 
+      true
+   );
 }
 catch(Exception $e)
 {
@@ -50,9 +55,9 @@ $listArticlesComputed = array_map(function ($article) {
    return array(
       ...$article,
       "is_highlighted" => false,
-      "link" => ArticleThumbnailIR::getLink($article),
-      "date_time" => ArticleThumbnailIR::getDateTime($article),
-      "thumbnail" => ArticleThumbnailIR::getThumbnail($article),
+      "link" => PathHandler::articleURL($article),
+      "date_time" => Utils::timeToString($article["date_publication"]),
+      "thumbnail" => ArticleRendering::getThumbnail($article["id_article"]),
    );
 }, $articles, array_keys($articles));
 

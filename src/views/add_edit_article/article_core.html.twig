@@ -52,25 +52,7 @@
          })
 		</script>
 		<input type="hidden" name="form_name" value="core">
-		{% if flash_message == "article_created" %}
-			<p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
-		{% endif %}
 
-		{% if flash_message == "article_updated" %}
-			<p class="alert success">Article mis à jour</p>
-		{% endif %}
-
-		{% if flash_message == "page_deleted" %}
-			<p class="alert success">Page supprimée avec succès</p>
-		{% endif %}
-
-		{% if flash_message == "page_created" %}
-			<p class="alert success">Page crée avec succès</p>
-		{% endif %}
-
-		{% if flash_message == "page_updated" %}
-			<p class="alert success">Page éditée avec succès</p>
-		{% endif %}
 		<ul class="alert error" role="alert" data-form-error="new_article">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
 		<p class="alert warning">Les champs avec * sont requis</p>
 		<div>

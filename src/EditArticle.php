@@ -282,15 +282,23 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       {
          $payload["keywords"] = $keywords;
          $formErrorMessagesTriggered = coreDataProcess($payload);
+
+         if (count($formErrorMessagesTriggered) === 0) {
+            setcookie("flash_message", "article_updated", time() + 1, "/");
+         }
       } else if ($_POST['form_name'] === 'highlight')
       {
          $formErrorMessagesTriggered = highlightDataProcess($payload);
+         if (count($formErrorMessagesTriggered) === 0) {
+            $key = $_POST['featured'] === "yes" ? "article_highlighted" : "article_not_highlighted";
+            setcookie("flash_message", $key, time() + 1, "/");
+         }
       }
 
       if (count($formErrorMessagesTriggered) === 0)
       {
          $currentURL = './EditArticle.php?id_article=' . $article->get('id_article');
-         setcookie("flash_message", "article_updated", time() + 1, "/");
+
          header('Location: ' . $currentURL, true, 302);
          exit;
       }

@@ -3,6 +3,33 @@
 
 {% block content %}
 	<div>
+      {% if flash_message == "article_created" %}
+			<p class="alert success">Article crée. Depuis cette page, vous pouvez définir sa structure pour ensuite le publier.</p>
+		{% endif %}
+
+		{% if flash_message == "article_updated" %}
+			<p class="alert success">Article mis à jour</p>
+		{% endif %}
+
+      {% if flash_message == "article_highlighted" %}
+			<p class="alert success">Article mis sur la page d'accueil</p>
+		{% endif %}
+
+      {% if flash_message == "article_not_highlighted" %}
+			<p class="alert success">Article retiré de la page d'accueil</p>
+		{% endif %}
+
+		{% if flash_message == "page_deleted" %}
+			<p class="alert success">Page supprimée avec succès</p>
+		{% endif %}
+
+		{% if flash_message == "page_created" %}
+			<p class="alert success">Page crée avec succès</p>
+		{% endif %}
+
+		{% if flash_message == "page_updated" %}
+			<p class="alert success">Page éditée avec succès</p>
+		{% endif %}
 		{% include "add_edit_article/article_core.html.twig" %}
 
 		{% if type == "edit" %}

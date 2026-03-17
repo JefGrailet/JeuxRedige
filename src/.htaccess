@@ -14,6 +14,8 @@ RewriteRule ^utilisateur/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
 RewriteRule ^utilisateur/([a-zA-Z0-9-]+)/?$ User.php?user=$1 [L,QSA]
 RewriteRule ^(moi|me)/?$ MyAccount.php [L,QSA]
 
+RewriteRule ^mes-articles/?$ MyArticles.php [L,QSA]
+
 RewriteRule ^inviter/?$ Sponsorship.php [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME}.php -f

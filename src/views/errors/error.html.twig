@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="sectionBlock">
-		<p class="title" role="alert">Erreur 
+		<p class="title" role="alert">Erreur
 			{% if error_title %}
 			{{ "—" ~ error_title }}
 			{% endif %}
@@ -39,22 +39,22 @@
                Aucun article publié dans cette catégorie n'a été trouvé.
             {% elseif error_key == "noContent" %}
                Il n'y a actuellement aucun contenu.
-			{% elseif error_key == "notPermitted" %}
+			   {% elseif error_key == "notPermitted" %}
                Vous n'avez pas les droits requis pour inviter de nouveaux utilisateurs.
             {% elseif error_key == "notLogged" %}
                Pour utiliser cette page, vous devez être enregistré(e) et connecté(e). <a class="link" href="./LogIn.php">Se connecter</a>
-			{% elseif error_key == "alreadyRegistered" %}
+			   {% elseif error_key == "alreadyRegistered" %}
                Cette invitation n'est plus valide. La personne invitée a déjà activé son compte. <a class="link" href="./LogIn.php">Se connecter</a>.
-			{% elseif error_key == "noInvitation" %}
+			   {% elseif error_key == "noInvitation" %}
                Cette invitation n'existe pas.
-			{# {% elseif error_key == "notYours" %}
-				   Cet article n'est pas le vôtre. <a href="./MyArticles.php">Accéder à mes articles.</a>
-            #}{% else %}
+			   {% elseif error_key == "alreadyPublished" %}
+				   L'article "{{ article.title ~ " - " ~ article.subtitle }}" est déjà publié. <a href="{{ article.public_link }}">Accéder à l'article</a>.
+            {% else %}
 					Une erreur est survenue. Veuillez réessayer.
 				{% endif %}
 			</p>
          <p>
-            <a href="/">Retourner à l'accueil</a>
+            <a href="/mes-articles">Retourner à l'accueil</a>
          </p>
 		</div>
 	</div>

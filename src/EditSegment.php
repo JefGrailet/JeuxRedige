@@ -106,27 +106,6 @@ if (!empty($_GET['id_segment']) && preg_match('#^([0-9]+)$#', $_GET['id_segment'
       die();
    }
 
-   if ($article->isPublished()) {
-      http_response_code(401);
-
-      $editLink = PathHandler::HTTP_PATH().'EditArticle.php?id_article=';
-      $editLink .= $article->get('id_article');
-
-      echo $twig->render("errors/error.html.twig", [
-         "error_title" => "Article publié - Pages non éditables",
-         "error_key" => "notAvailable",
-         "article_link" => $editLink, 
-         "meta" => [
-            ...$twig->getGlobals()["meta"],
-            "title" => "Erreur - Page inaccessible",
-            "url" => "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"],
-            "full_title" => "",
-         ]
-      ]);
-
-      die();
-   }
-
    // Forbidden access if the user's neither the author, neither an admin
    if (!$article->isMine() && !Utils::check(LoggedUser::$data['can_edit_all_posts'])) {
       http_response_code(401);

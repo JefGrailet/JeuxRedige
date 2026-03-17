@@ -40,14 +40,14 @@
                      {{ segment.title ? segment.title : "Sommaire" }}
                   </span>
                </td>
-               {% if article.is_published == false %}
-                  <td style="text-align: right;">
-                     <div class="pageOptions">
-                        <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
+               <td style="text-align: right;">
+                  <div class="pageOptions">
+                     <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
+                     {% if article.is_published == false %}
                         <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
-                     </div>
-                  </td>
-               {% endif %}
+                     {% endif %}
+                  </div>
+               </td>
             </tr>
          {% else %}
             <tr>

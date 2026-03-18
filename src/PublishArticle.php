@@ -14,14 +14,25 @@ require './model/Topic.class.php';
 require './model/Post.class.php';
 require './view/intermediate/ArticleFirstReaction.ir.php';
 
+require_once './libraries/core/Twig.config.php';
+
 WebpageHandler::redirectionAtLoggingIn();
 
 // Errors where the user is either not logged in
 if(!LoggedUser::isLoggedIn())
 {
-   $tplInput = array('error' => 'notConnected');
-   $tpl = TemplateEngine::parse('view/user/EditArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Vous devez être connecté');
+   echo $twig->render("errors/error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => "notConnected",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "full_title" => "",
+      ]
+   ]);
+
+   die();
 }
 
 // Obtains article ID and retrieves the corresponding entry
@@ -31,6 +42,9 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    $article = null;
    $keywords = null;
    $segments = null;
+   $formErrorMessagesTriggered = [];
+   $formErrorMessages = $twig->getGlobals()["error_messages"];
+
    try
    {
       $article = new Article($articleID);
@@ -40,46 +54,63 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
    }
    catch(Exception $e)
    {
-      $tplInput = array('error' => 'dbError');
+      $errorKey = 'dbError';
       if(strstr($e->getMessage(), 'does not exist') != FALSE)
-         $tplInput['error'] = 'nonexistingArticle';
-      $tpl = TemplateEngine::parse('view/user/PublishArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Article introuvable');
+         $errorKey = 'nonexistingArticle';
+
+      echo $twig->render("errors/error.html.twig", [
+         "page_title" => "Erreur",
+         "error_key" => $errorKey,
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur",
+            "description" => "Erreur",
+            "full_title" => "",
+         ]
+      ]);
+      die();
    }
 
+   $errorKey = null;
+   $publishedArticleURL = "";
+
    // Errors are displayed if article is already published, not written by this user or empty
-   if($article->isPublished())
+   if(!$article->isMine())
    {
-      $tplInput = array('error' => 'alreadyPublished');
-      $tpl = TemplateEngine::parse('view/user/PublishArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Cet article est déjà publié');
-   }
-   else if(!$article->isMine())
-   {
-      $tplInput = array('error' => 'notYours');
-      $tpl = TemplateEngine::parse('view/user/PublishArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Cet article n\'est pas le vôtre');
+      $errorKey = 'notYours';
    }
    else if(count($segments) == 0)
    {
-      $tplInput = array('error' => 'noSegment');
-      $tpl = TemplateEngine::parse('view/user/PublishArticle.fail.ctpl', $tplInput);
-      WebpageHandler::wrap($tpl, 'Cet article ne comporte aucune page');
+      $errorKey = 'noSegment';
    }
 
-   // Webpage settings
-   WebpageHandler::addCSS('article_edition');
-   WebpageHandler::addJS('article_editor');
-   WebpageHandler::addJS('keywords');
-   WebpageHandler::changeContainer('blockSequence');
+   if(!is_null($errorKey))
+   {
+      echo $twig->render("errors/error.html.twig", [
+         "page_title" => "Erreur",
+         "article" => [
+            ...(is_null($article) ? [] : $article->getAll()),
+            "public_link" => $publishedArticleURL,
+         ],
+         "error_key" => $errorKey,
+         "meta" => [
+            ...$twig->getGlobals()["meta"],
+            "title" => "Erreur",
+            "description" => "Erreur",
+            "full_title" => "",
+         ]
+      ]);
+      die();
+   }
 
    $formTplInput = array('errors' => '',
-   'articleID' => $article->get('id_article'),
-   'fullArticleTitle' => $article->get('title').' - '.$article->get('subtitle'),
-   'anonChecked' => '',
-   'uploadsChecked' => '');
+      'articleID' => $article->get('id_article'),
+      'fullArticleTitle' => $article->get('title').' - '.$article->get('subtitle'),
+      'anonChecked' => '',
+      'uploadsChecked' => ''
+   );
 
-   if(!empty($_POST['publish']))
+   if (!empty($_POST['publish']))
    {
       // Checkboxes for the general configuration of the topic
       $anonPosting = false;
@@ -90,7 +121,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       }
 
       $enableUploads = false;
-      if(isset($_POST['enable_uploads']))
+      if (isset($_POST['enable_uploads']))
       {
          $enableUploads = true;
          $formTplInput['uploadsChecked'] = 'checked';
@@ -98,7 +129,7 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       else
          $formTplInput['uploadsChecked'] = '';
 
-      // Gets the delay between current time and the lattest topic created by this user
+      // Gets the delay between current time and the latest topic created by this user
       $delay = 3600;
       try
       {
@@ -110,9 +141,9 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
       }
 
       if($delay < WebpageHandler::$miscParams['consecutive_topics_delay'])
-         $formTplInput['errors'] .= 'tooManyTopics|';
+         array_push($formErrorMessagesTriggered, $formErrorMessages["tooManyTopics"]);
 
-      if($formTplInput['errors'] === '' && strlen($formTplInput['errors']) == 0)
+      if(count($formErrorMessagesTriggered) === 0)
       {
          // Title of the topic (should normally fit: title of topics is VARCHAR(255), title and subtitle are VARCHAR(100))
          $topicTitle = 'Article: '.$article->get('title').' - '.$article->get('subtitle');
@@ -143,9 +174,9 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          {
             Database::rollback();
 
-            $formTplInput['errors'] = 'dbError';
-            $tpl = TemplateEngine::parse('view/user/PublishArticle.form.ctpl', $formTplInput);
-            WebpageHandler::wrap($tpl, 'Publier un article');
+            array_push($formErrorMessagesTriggered, $formErrorMessages["dbError"]);
+            // $tpl = TemplateEngine::parse('view/user/PublishArticle.form.ctpl', $formTplInput);
+            // WebpageHandler::wrap($tpl, 'Publier un article');
          }
 
          /*
@@ -155,57 +186,70 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          * specific function (i.e., "name" and "tmp_name").
          */
 
-         if(strlen($articleThumbnail) > 0)
-         {
-            $toResize = array('name' => 'thumbnail.jpg',
-            'tmp_name' => $articleThumbnail);
-            Upload::storeResizedPicture($toResize, 'upload/topics/'.$newTopic->get('id_topic'), 260, 162);
-         }
-
-         // Inserts topic keywords; it is just a copy/paste of the keywords of the related article
-         for($i = 0; $i < count($keywords) && $i < 10; $i++)
-         {
-            if(strlen($keywords[$i]) == 0)
-               continue;
-
-            try
+         if(count($formErrorMessagesTriggered) === 0) {
+            if(strlen($articleThumbnail) > 0)
             {
-               $tag = new Tag($keywords[$i]);
-               $tag->mapToTopic($newTopic->get('id_topic'));
+               $toResize = array('name' => 'thumbnail.jpg',
+               'tmp_name' => $articleThumbnail);
+               Upload::storeResizedPicture($toResize, 'upload/topics/'.$newTopic->get('id_topic'), 260, 162);
             }
-            catch(Exception $e)
+
+            // Inserts topic keywords; it is just a copy/paste of the keywords of the related article
+            for($i = 0; $i < count($keywords) && $i < 10; $i++)
             {
-               continue;
+               if(strlen($keywords[$i]) == 0)
+                  continue;
+
+               try
+               {
+                  $tag = new Tag($keywords[$i]);
+                  $tag->mapToTopic($newTopic->get('id_topic'));
+               }
+               catch(Exception $e)
+               {
+                  continue;
+               }
             }
          }
 
          $publishedArticleURL = PathHandler::articleURL($article->getAll());
-         header('Location:'.$publishedArticleURL);
 
-         $tplInput = array('title' => $article->get('title').' - '.$article->get('subtitle'),
-                           'target' => $publishedArticleURL);
-         $successPage = TemplateEngine::parse('view/user/PublishArticle.success.ctpl', $tplInput);
-         WebpageHandler::resetDisplay();
-         WebpageHandler::wrap($successPage, 'L\'article "'.$article->get('title').'" a été publié');
-      }
-      else
-      {
-         $formTplInput['errors'] = substr($formTplInput['errors'], 0, -1);
-         $formTpl = TemplateEngine::parse('view/user/PublishArticle.form.ctpl', $formTplInput);
-         WebpageHandler::wrap($formTpl, 'Publier un article');
+         echo $twig->render("add_edit_article/article_publishing.html.twig", [
+            "page_title" => "\"{$article->get("title")} - {$article->get("subtitle")}\" publié avec succès",
+            "article" => [
+               ...$article->getAll(),
+               "public_link" => $publishedArticleURL,
+                "is_published" => $article->isPublished(),
+            ],
+            "form_error_messages_triggered" => $formErrorMessagesTriggered,
+            "is_submitting" => true,
+            "meta" => $twig->getGlobals()["meta"],
+         ]);
       }
    }
    else
    {
-      $tpl = TemplateEngine::parse('view/user/PublishArticle.form.ctpl', $formTplInput);
-      WebpageHandler::wrap($tpl, 'Publier un article');
+      echo $twig->render("add_edit_article/article_publishing.html.twig", [
+            "page_title" => "Publier l'article \"{$article->get("title")} - {$article->get("subtitle")}\" ?",
+            "article" => [
+               ...$article->getAll(),
+               "is_published" => $article->isPublished(),
+            ],
+            "form_error_messages_triggered" => $formErrorMessagesTriggered,
+            "meta" => $twig->getGlobals()["meta"],
+         ]);
    }
 }
 else
 {
-   $tplInput = array('error' => 'missingID');
-   $tpl = TemplateEngine::parse('view/user/PublishArticle.fail.ctpl', $tplInput);
-   WebpageHandler::wrap($tpl, 'Une erreur est survenue');
+   echo $twig->render("errors/error.html.twig", [
+      "page_title" => "Erreur",
+      "error_key" => "",
+      "meta" => [
+         ...$twig->getGlobals()["meta"],
+         "title" => "Erreur",
+         "description" => "Erreur",
+         "full_title" => "",
+      ]
+   ]);
 }
-
-?>

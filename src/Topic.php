@@ -186,7 +186,7 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
       $postIR = PostIR::compute($posts[$i], ($firstPost + $i + 1), !Utils::check($topic->get('is_locked')));
       array_push($postsComputed, $postIR);
    }
-   
+
    $postsTpl = TemplateEngine::parseMultiple('view/content/Post.ctpl', $fullInput);
    if(!TemplateEngine::hasFailed($postsTpl))
    {
@@ -242,9 +242,10 @@ if(!empty($_GET['id_topic']) && preg_match('#^([0-9]+)$#', $_GET['id_topic']))
    // $display = TemplateEngine::parse('view/content/Topic.composite.ctpl', $finalTplInput);
    // WebpageHandler::wrap($display, 'Sujet: '.$topic->get('title').'', $dialogs);
    $topicObject = $topic->getAll();
+
    echo $twig->render("topic.html.twig", [
       "list_posts" => $postsComputed,
-      "topic" => $topic->getAll(),
+      "topic" => $topicObject,
       "list_css_files" => ["topic"],
       "list_js_files" => ["get_post_interactions", "post_interaction", "jquery.visible", "pages", "refresh"],
       "page_title" => "Sujet {$topicObject["title"]}",

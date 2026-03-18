@@ -130,6 +130,7 @@ $twig->addGlobal("error_messages", [
          ]
       ],
       "emptyFields" => "Vous devez remplir tous les champs",
+      "tooManyTopics" => "Vous ne pouvez pas créer deux nouveaux sujets en moins de 30 minutes",
       "dbError" => "Une erreur inconnue est survenue lors de la mise à jour. Contactez l'administrateur ou réessayez plus tard"
    ],
    "user_account" => [

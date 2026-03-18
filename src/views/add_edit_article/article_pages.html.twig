@@ -5,8 +5,13 @@
       <div class="notes">
          <p class="title">Remarques :</p>
          <ul>
-            <li>Une fois publié, vous ne pourrez plus réordonner les pages de l'article</li>
-            <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+         {% if article.is_published %}
+            <li>L'article a été publié, vous pouvez plus réordonner les pages</li>
+            <li>L'article a été publié, vous pouvez plus supprimer les pages</li>
+         {% else %}
+            <li>Une fois publié, vous ne pourrez plus réordonner les pages</li>
+            <li>Une fois publié, vous ne pourrez pas supprimer les pages</li>
+         {% endif %}
          </ul>
       </div>
       <table class="tableSegments">

@@ -1,6 +1,7 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block fullWidthBanner %}
+{{ dump(topic)}}
 <header class="topicSummary extensibleHeader">
    <div class="centered">
       <div class="wrapper">
@@ -23,8 +24,7 @@
 	<div data-page="">
 		<ul class="listPosts">
 			{% for post in list_posts %}
-            {% for i in 0..10 %}
-				<li class="post">
+            <li class="post">
 					<img src="{{ post.author.avatar }}" alt="Image de profil de {{ post.author.pseudo }}" class="postBlockAvatar">
 					<div class="postBlockText">
 						<header class="postBlockTextTop">
@@ -66,7 +66,6 @@
 						<div class="content" data-content></div>
 					</div>
 				</li>
-			{% endfor %}
 			{% endfor %}
 		</ul>
 	</div>

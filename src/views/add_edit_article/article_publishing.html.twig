@@ -1,0 +1,60 @@
+{% extends "layouts/base.html.twig" %}
+{% block content %}
+	<section class="sectionBlock">
+		<h1 class="title">
+         {% if article.is_published %}
+			   L'article "{{ article.title }}" est déjà publié
+         {% else %}
+			   <a style="color: white;" href="./EditArticle.php?id_article={{ article.id_article }}" target="_blank" rel="noopener noreferrer">{{ page_title }}</a>
+         {% endif %}
+      </h1>
+		<div class="content">
+			{% if article.is_published %}
+				<ul>
+					<li>
+						<a href="{{ article.public_link }}">Accéder à l'article publié</a>
+					</li>
+               <li>
+						<a href="./EditArticle.php?id_article={{ article.id_article }}">Éditer l'article publié</a>
+					</li>
+					<li>
+						<a href="/MyArticles.php">Consulter mes articles</a>
+					</li>
+				</ul>
+			{% else %}
+				<form action="" method="POST">
+               <ul class="alert error" role="alert">{% for error_message in form_error_messages_triggered %}<li>{{ error_message }}</li>{% endfor %}</ul>
+					<div class="inputContainer">
+						<div class="switchContainer">
+							<label class="switch">
+								<input type="checkbox" id="anon_posting" checked="checked"/>
+							</label>
+							<label for="auto_preview">Autoriser les anonymes à participer au sujet de réactions</label>
+						</div>
+					</div>
+
+               <div class="inputContainer">
+						<div class="switchContainer">
+							<label class="switch">
+								<input type="checkbox" id="enable_uploads" checked="checked"/>
+							</label>
+							<label for="auto_preview">Autoriser les uploads sur le sujet de réactions</label>
+						</div>
+					</div>
+               <div class="notes">
+                  <p class="title">Remarques :</p>
+                  <ul>
+                     <li>Cette action est irréversible</li>
+                     <li>Une fois publié, vous ne pourrez pas éditer les pages de l'article</li>
+                     <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+                     <li>Une fois publié, un sujet de réactions sera créé dans le même temps</li>
+                  </ul>
+               </div>
+               <div class="inputContainer">
+                  <input type="submit" name="publish" class="fit primaryButton" value="Je publie définitivement cet article"/>
+					</div>
+				</form>
+			{% endif %}
+		</div>
+	</section>
+{% endblock %}

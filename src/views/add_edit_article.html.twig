@@ -47,9 +47,10 @@
                            <li>Cette action est irréversible</li>
                            <li>Une fois publié, vous ne pourrez pas éditer les pages de l'article</li>
                            <li>Une fois publié, vous ne pourrez pas supprimer les pages de l'article</li>
+                           <li>Une fois publié, un sujet de réactions sera créé dans le même temps</li>
                         </ul>
                      </div>
-                     <button type="button" commandfor="publish-article" command="show-modal" class="primaryButton">Je publie définitivement cet article</button>
+                     <a href="./PublishArticle.php?id_article={{ article.id_article }}" class="primaryButton">Publier l'article</a>
                   {% endif %}
                {% else %}
                   <p class="alert info">Cet article ne possède aucune page, il ne peut pas être publié.</p>
@@ -68,32 +69,6 @@
 			</section>
 		{% endif %}
 	</div>
-
-   <dialog class="modal" id="publish-article">
-      <header class="header">
-         <p class="title">Publier l'article "{{ article.title }}"</p>
-         <button class="closeModal" data-close-modal="" command="close" commandfor="publish-article">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
-      </header>
-      <form id="publishForm" class="content" action="./PublishArticle.php?id_article={{ article.id_article }}" method="POST">
-         <div class="notes alert error">
-            Cette action est irréversible
-         </div>
-         <div class="notes">
-            <p class="title">Remarques :</p>
-            <ul>
-               <li>Une fois publié, vous ne pourrez pas changer le type de votre article</li>
-               <li>Une fois publié, vous ne pourrez pas éditer les pages de votre article</li>
-               <li>Une fois publié, vous ne pourrez pas supprimer les pages de votre article</li>
-            </ul>
-         </div>
-         <input type="submit" name="publish" class="primaryButton" value="{{ "Publier l'article \"" ~ article.title ~ "\"" }}"/>
-      </form>
-   </dialog>
 
 	<dialog class="modal" id="delete-article">
       <header class="header danger">

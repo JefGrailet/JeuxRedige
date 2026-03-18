@@ -1,12 +1,14 @@
 const miniatureLightbox = document.getElementById("miniature-lightbox");
 
 miniatureLightbox.addEventListener("toggle", (evt) => {
+   if (!window.lastTrigger) {
+      return;
+   }
    const comment = evt.currentTarget.querySelector("[data-comment]");
    const videoSource = evt.currentTarget.querySelector("video");
    const img = evt.currentTarget.querySelector("img");
-
    if (evt.newState === "open") {
-      const mediaData = JSON.parse(evt.source.dataset.mediaData);
+      const mediaData = JSON.parse(window.lastTrigger.dataset.mediaData);
       const mediaLink = evt.currentTarget.querySelector("a");
 
       switch (mediaData.mediaType) {
@@ -15,8 +17,6 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
             img.style.removeProperty("display");
 
             img.src = mediaData.full.src;
-            img.width = mediaData.full.size.width;
-            img.height = mediaData.full.size.height;
             img.alt = mediaData.comment;
 
             mediaLink.href = mediaData.full.src;
@@ -42,13 +42,15 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
             break;
       }
    } else {
-      comment.textContent = "";
-      img.src = "";
-      img.alt = "";
-      if (videoSource) {
-         videoSource.pause();
-         videoSource.currentTime = 0;
-      }
+      setTimeout(() => {
+         comment.textContent = "";
+         img.src = "";
+         img.alt = "";
+         if (videoSource) {
+            videoSource.pause();
+            videoSource.currentTime = 0;
+         }
+      }, 500)
    }
 });
 

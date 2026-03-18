@@ -166,15 +166,22 @@
    </div>
 </footer>
 
-<dialog closedby="any" class="miniaturePopover" id="miniature-lightbox">
-   <button type="button" style="position: absolute; right: 1.35rem; top: 1.35rem; font-size: 0.7rem; z-index: 9999;" command="close" commandfor="miniature-lightbox">
-      Fermer
-      <i class="icon-general_close" style="font-size: 0.5rem"></i>
-   </button>
-   <img src="" alt="" class="lightboxImg" />
-   <video disablepictureinpicture controls autoplay poster="{{ logo_chargement }}">
-      <source src="" type="">
-   </video>
+<dialog closedby="any" class="miniaturePopover modal " id="miniature-lightbox">
+   <header class="header">
+      <p class="title"></p>
+      <button class="closeModal" command="close" commandfor="miniature-lightbox">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+         </svg>
+         Fermer
+      </button>
+   </header>
+   <div class="lightboxContent">
+      <img src="" alt="" class="" />
+      <video disablepictureinpicture controls autoplay poster="{{ logo_chargement }}">
+         <source src="" type="">
+      </video>
+   </div>
    <p class="mediaLegend">
     <span data-comment=""></span>
       (<a href="" target="_blank" rel="noopener noreferrer">Ouvrir dans un nouvel onglet</a>)

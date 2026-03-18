@@ -82,8 +82,6 @@ previewMediaModal?.addEventListener("toggle", (e) => {
             {
                img.style.removeProperty("display");
                img.src = mediaData.full.src;
-               img.width = mediaData.full.size.width;
-               img.height = mediaData.full.size.height;
 
                videoSource.style.display = "none";
             }

@@ -2,16 +2,19 @@
    if ("command" in document.createElement("button")) {
       return;
    }
-   const listModalTriggers = document.querySelectorAll('[data-trigger-modal]');
-   const listModalCloseButtons = document.querySelectorAll('[data-close-modal]');
+   const listModalTriggers = document.querySelectorAll("[data-trigger-modal]");
+   const listModalCloseButtons =
+      document.querySelectorAll("[data-close-modal]");
 
    const openModal = (e) => {
       const modalName = e.currentTarget.dataset.triggerModal;
-      const modalToOpen = document.querySelector(`dialog[data-modal="${modalName}"]`);
+      const modalToOpen = document.querySelector(
+         `dialog[data-modal="${modalName}"]`,
+      );
       if (modalToOpen) {
          modalToOpen.showModal();
       }
-   }
+   };
 
    listModalTriggers.forEach((item) => {
       item.addEventListener("click", openModal);
@@ -19,10 +22,10 @@
 
    const closeModal = (e) => {
       const parentModal = e.currentTarget.closest("dialog");
-      if(parentModal) {
+      if (parentModal) {
          parentModal.close();
       }
-   }
+   };
 
    listModalCloseButtons.forEach((item) => {
       item.addEventListener("click", closeModal);
@@ -36,5 +39,15 @@ if (formLoginModal) {
       if (evt.newState === "open") {
          document.cookie = `last_page=${location.href}; path=/;`;
       }
-   })
+   });
 }
+
+window.lastTrigger = null;
+
+document.addEventListener("click", (e) => {
+   const dialogTrigger = e.target.closest("[command=\"show-modal\"]");
+
+   if (dialogTrigger) {
+      window.lastTrigger = dialogTrigger;
+   }
+});

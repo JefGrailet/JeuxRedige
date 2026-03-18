@@ -69,10 +69,10 @@
 html {
    scroll-behavior: smooth;
 
-   &:has(dialog[open]) {
+   /* &:has(dialog[open]) {
       overflow: hidden;
       scrollbar-gutter: stable;
-   }
+   } */
 }
 
 /* Main CSS file. */
@@ -438,7 +438,6 @@ dialog, [popover] {
    --start-position-y: 50vh;
 
    transition: opacity var(--transition-time) ease-out,
-      translate var(--transition-time) ease-out,
       overlay var(--transition-time) ease-out allow-discrete,
       display var(--transition-time) ease-out allow-discrete;
 
@@ -448,23 +447,19 @@ dialog, [popover] {
 }
 
 dialog {
-   position: fixed;
-   inset: 0;
-   margin: auto;
-
+   max-height: 90vh;
+   overscroll-behavior: contain;
    &::backdrop {
       background-color: rgba(33, 33, 33, 0.786);
    }
 
    &[open] {
       opacity: 1;
-      /* translate: 0 0; */
    }
 
    @starting-style {
       &[open] {
          opacity: 0;
-         /* translate: 0 var(--start-position-y); */
       }
    }
 }
@@ -476,10 +471,13 @@ select {
 .modal {
    overscroll-behavior-y: contain;
    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.75);
-   position: fixed;
    max-width: 90%;
    @media screen and (width >= 640px) {
       max-width: 500px;
+   }
+
+   @media screen and (width >= 1024px) {
+      max-width: 60%;
    }
    width: 100%;
    border-width: 1px;
@@ -527,6 +525,8 @@ select {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
 
       &.danger {
          background-color: var(--danger-color);
@@ -830,23 +830,19 @@ input[type="submit"] {
    z-index: 100;
 }
 
-/* Content part of the lightbox. */
 
-.lightboxContent
-{
-   padding: 5px;
-   background: none;
-}
-
-/* Credits to Danielo for the next block, which guarantees lightbox always resizes nicely */
-
-.lightboxContent img, .lightboxContent video
-{
-   max-width: 80vw;
-   max-height: 80vh;
-   object-fit: cover;
-   display: block;
-   margin: auto;
+.lightboxContent {
+   padding: 0.5rem;
+   /* Credits to Danielo for the next block, which guarantees lightbox always resizes nicely */
+   :is(img, video)
+   {
+      max-width: 80vw;
+      max-height: 80vh;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+      width: 100%;
+   }
 }
 
 /* Content of the window. */
@@ -1714,7 +1710,6 @@ textarea
    border-color: var(--current-page-color);
    border-radius: calc(var(--border-radius) / 2);
    border-width: 3px;
-   position: relative;
 
    @starting-style {
       &[open] {
@@ -2291,12 +2286,12 @@ textarea
 }
 
 .lightboxImg {
-   height: fit-content;
+   /* height: fit-content;
    max-width: 100%;
    max-height: 80vh;
    object-fit: contain;
    display: block;
-   margin: auto;
+   margin: auto; */
 }
 
 .mediaLegend {

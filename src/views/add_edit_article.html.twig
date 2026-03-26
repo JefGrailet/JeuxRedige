@@ -40,6 +40,7 @@
                {% if article.segments|length > 0 %}
                   {% if article.is_published %}
                      <p>Cet article a été publié. <a href="{{ article.preview_url }}" target="_blank" rel="noopener noreferrer">Accéder à l'article.</a></p>
+                     <p><strong>Nombre de vues :</strong> {{ article.views }}</p>
                   {% else %}
                      <div class="notes">
                         <p class="title">Remarques :</p>

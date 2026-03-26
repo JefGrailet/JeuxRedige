@@ -71,15 +71,9 @@
 		{% endif %}
 	</div>
 
-	<dialog class="modal" id="delete-article">
+	<dialog class="modal medium" id="delete-article">
       <header class="header danger">
          <p class="title">Supprimer l'article</p>
-         <button class="closeModal" data-close-modal="" command="close" commandfor="delete-article">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-            </svg>
-            Fermer
-         </button>
       </header>
 
       <div class="content">
@@ -87,23 +81,18 @@
             <div class="notes alert error">
                Cette action est irréversible
             </div>
-            <div>
+            <div class="footer">
                <input type="submit" class="danger"  name="delete" class="articleDelete" value="{{ "Je souhaite supprimer l'article \"" ~ article.title ~ "\"" }}">
+               <button type="button" autofocus data-close-modal="" command="close" commandfor="delete-article">Annuler</button>
             </div>
          </form>
       </div>
 	</dialog>
 
    {% if article.is_published == false %}
-      <dialog class="modal" id="delete-page">
+      <dialog class="modal medium" id="delete-page">
          <header class="header danger">
             <p class="title">Supprimer la page "<span></span>"</p>
-            <button class="closeModal" data-close-modal="" command="close" commandfor="delete-page">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-               </svg>
-               Fermer
-            </button>
          </header>
 
          <div class="content">
@@ -113,8 +102,9 @@
                </div>
                <input type="hidden" value="{{ article.id_article }}" name="id_article">
                <input type="hidden" value="" name="id_segment">
-               <div>
+               <div class="footer">
                   <input type="submit" class="danger" name="delete" class="articleDelete" value="Je souhaite supprimer la page">
+                  <button type="button" autofocus data-close-modal="" command="close" commandfor="delete-page">Annuler</button>
                </div>
             </form>
          </div>

@@ -188,6 +188,10 @@ button, .customButton
    }
 }
 
+input[type=submit], input[type=button] {
+   cursor: pointer;
+}
+
 input[type=submit]:active, button:active, .customButton:active
 {
    background-color: #c8c8c8;
@@ -508,6 +512,8 @@ select {
 
       > .footer {
          margin-top: 1.5rem;
+         display: flex;
+         justify-content: space-between;
       }
 
       video {

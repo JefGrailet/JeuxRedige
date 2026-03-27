@@ -33,7 +33,7 @@
          <ol>
          {% for segment in article.segments %}
             <li class="{{ segment.is_active ? "active" : "" }}">
-               <a href="{{ segment.url }}">{{ segment.title }}</a>
+               <a href="{{ segment.url }}" data-navigation-summary-link data-dynamic-nav-idx={{ loop.index0 }}>{{ segment.title }}</a>
             </li>
          {% endfor %}
          </ol>
@@ -47,15 +47,16 @@
       {% endif %}
 		<header class="extensibleHeader" style="background-image: url('{{ article.page.header_URL }}');">
 			<div class="wrapper" style="height: 100%;">
-				<header class="articleHeader pageContent">
+				<header class="articleHeader pageContent" data-article-segment>
                {% if article.segments|length > 1 %}
-                  <button class="secondaryButton" type="button" popovertarget="chapitrage"  popovertargetaction="show" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px;">
+                  <button class="secondaryButton" type="button" popovertarget="chapitrage"  popovertargetaction="show" style="position: absolute; left: 50%; translate: -50% 0; bottom: 5px; z-index: 9;">
                      Sommaire
                   </button>
                {% endif %}
 					<div class="infos">
 						<h1 class="title">
                      {{ article.title }}
+
                      {% if article.is_editable %}
                         {% if article.is_published %}
                            <span class="badge success" title="N'est visible que par vous et les administrateurs">Publié</span>
@@ -64,7 +65,11 @@
                         {% endif %}
                      {% endif %}
                   </h1>
-						<h2 class="subtitle">{{ article.page.title }}</h2>
+						<h2 class="subtitle">
+                     {% for segment in article.segments %}
+                        <span data-article-segment-title-idx={{ loop.index0 }}  {{ loop.index0 == article.current_page ? "" : 'style="display: none"' }}>{{ segment.title }}</span>
+                     {% endfor %}
+                  </h2>
 					</div>
 
                   <div class="toolbar {{ article.edit_links|length == 0 ? "top" : "" }}">
@@ -90,24 +95,23 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="articleContent" data-article-content>
-   <div>
-      <p>{{ article.page.content|raw }}</p>
-   </div>
+   {% for segment in article.segments %}
+      <div data-article-segment-content-idx={{ loop.index0 }} {{ loop.index0 == article.current_page ? "" : 'style="display: none"' }}>
+         <p>{{ segment.content|raw }}</p>
+      </div>
+   {% endfor %}
    {% if article.segments|length > 1 %}
       <nav class="navigationPage">
          <ul>
                <li>
-                  {% if article.segments[article.current_page - 1] %}
-                     <a href="{{ article.segments[article.current_page - 1].url }}" class="navigationLink">
-                        <i class="icon-general_previous" title="Page précédente"></i>
-                        <span>
-                           {{ article.segments[article.current_page - 1].title }} <br>
-                           <span style="font-size: 0.85rem">Page précédente</span>
-                        </span>
-                     </a>
-                  {% endif %}
+                  <a href="{{ article.segments[article.current_page - 1].url }}" class="navigationLink" data-navigation-prev-link data-dynamic-nav-idx={{article.current_page - 1}} {% if not article.segments[article.current_page - 1] %} style="display: none" {% endif %}>
+                     <i class="icon-general_previous" title="Page précédente"></i>
+                     <span>
+                        {{ article.segments[article.current_page - 1].title }} <br>
+                        <span style="font-size: 0.85rem">Page précédente</span>
+                     </span>
+                  </a>
                </li>
                <li>
                   <button class="secondaryButton" type="button" popovertarget="chapitrage" popovertargetaction="show">
@@ -115,15 +119,13 @@
                   </button>
                </li>
                <li>
-                  {% if article.segments[article.current_page + 1] %}
-                        <a href="{{ article.segments[article.current_page + 1].url }}" class="navigationLink">
-                           <span>
-                              {{ article.segments[article.current_page + 1].title }} <br>
-                              <span style="font-size: 0.85rem">Page suivante</span>
-                           </span>
-                           <i class="icon-general_next" title="Page suivante"></i>
-                        </a>
-                  {% endif %}
+                  <a href="{{ article.segments[article.current_page + 1].url }}" class="navigationLink" data-navigation-next-link data-dynamic-nav-idx={{article.current_page + 1}} {% if not article.segments[article.current_page + 1] %} style="display: none" {% endif %}>
+                     <span>
+                        {{ article.segments[article.current_page + 1].title }} <br>
+                        <span style="font-size: 0.85rem">Page suivante</span>
+                     </span>
+                     <i class="icon-general_next" title="Page suivante"></i>
+                  </a>
                </li>
          </ul>
       </nav>

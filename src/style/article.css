@@ -844,6 +844,7 @@
 }
 
 .navigationPage {
+   clear: both;
    > ul {
       display: grid;
       grid-template-columns: 1fr;

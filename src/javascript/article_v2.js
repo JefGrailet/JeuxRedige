@@ -12,30 +12,32 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
       const mediaLink = evt.currentTarget.querySelector("a");
 
       switch (mediaData.mediaType) {
-         case "image": {
-            videoSource.style.display = "none";
-            img.style.removeProperty("display");
+         case "image":
+            {
+               videoSource.style.display = "none";
+               img.style.removeProperty("display");
 
-            img.src = mediaData.full.src;
-            img.alt = mediaData.comment;
+               img.src = mediaData.full.src;
+               img.alt = mediaData.comment;
 
-            mediaLink.href = mediaData.full.src;
+               mediaLink.href = mediaData.full.src;
 
-            comment.textContent = mediaData.comment;
-         }
+               comment.textContent = mediaData.comment;
+            }
             break;
 
-         case "video": {
-            img.style.display = "none";
-            videoSource.style.removeProperty("display");
-            videoSource.querySelector("source").src = mediaData.full.src;
-            videoSource.querySelector("source").type = mediaData.mimeType;
-            videoSource.load();
+         case "video":
+            {
+               img.style.display = "none";
+               videoSource.style.removeProperty("display");
+               videoSource.querySelector("source").src = mediaData.full.src;
+               videoSource.querySelector("source").type = mediaData.mimeType;
+               videoSource.load();
 
-            mediaLink.href = mediaData.full.src;
+               mediaLink.href = mediaData.full.src;
 
-            comment.textContent = mediaData.comment;
-         }
+               comment.textContent = mediaData.comment;
+            }
             break;
 
          default:
@@ -50,24 +52,23 @@ miniatureLightbox.addEventListener("toggle", (evt) => {
             videoSource.pause();
             videoSource.currentTime = 0;
          }
-      }, 500)
+      }, 500);
    }
 });
 
-
-const btnShare = document.querySelector('[data-share]');
+const btnShare = document.querySelector("[data-share]");
 
 if (navigator.share && btnShare) {
-   btnShare.style.display = 'initial';
-   btnShare.addEventListener('click', async (e) => {
+   btnShare.style.display = "initial";
+   btnShare.addEventListener("click", async (e) => {
       try {
-         const shareData = JSON.parse(e.currentTarget.dataset?.share || '{}')
+         const shareData = JSON.parse(e.currentTarget.dataset?.share || "{}");
          await navigator.share({
             title: shareData.title,
             text: shareData.text,
-            url: window.location.href
+            url: window.location.href,
          });
-         console.log('Contenu partagé avec succès !');
+         console.log("Contenu partagé avec succès !");
       } catch (err) {
          // L'utilisateur a annulé ou le partage a échoué
          console.log(`Erreur ou annulation : ${err}`);
@@ -76,3 +77,78 @@ if (navigator.share && btnShare) {
 } else {
    btnShare?.remove();
 }
+
+const navigationPrevLink = document.querySelector(
+   "[data-navigation-prev-link]",
+);
+const navigationNextLink = document.querySelector(
+   "[data-navigation-next-link]",
+);
+const listNavigationLinks = Array.from(
+   document.querySelectorAll("[data-dynamic-nav-idx]") || [],
+);
+const listSummaryLinks = Array.from(
+   document.querySelectorAll("[data-navigation-summary-link]") || [],
+);
+
+const listPageSegments = Array.from(
+   document.querySelectorAll("[data-article-segment-content-idx]") || [],
+);
+
+const listPageSegmentsTitle = Array.from(
+   document.querySelectorAll("[data-article-segment-title-idx]") || [],
+);
+
+const firstVisibleSegment = listPageSegments.find(
+   (item) => item.checkVisibility() === true,
+);
+let indexCurrentVisibleItem =
+   firstVisibleSegment.dataset.articleSegmentContentIdx;
+
+listNavigationLinks.forEach((item) => {
+   item.addEventListener("click", (e) => {
+      e.preventDefault();
+      const linkIdx = e.currentTarget.dataset.dynamicNavIdx;
+
+      listPageSegments[indexCurrentVisibleItem].style.display = "none";
+      listPageSegmentsTitle[indexCurrentVisibleItem].style.display = "none";
+      indexCurrentVisibleItem = Number(linkIdx);
+
+      listSummaryLinks.forEach((link) => {
+         link.parentElement.classList.remove("active");
+      });
+      listSummaryLinks[indexCurrentVisibleItem].parentElement.classList.add(
+         "active",
+      );
+
+      navigationPrevLink.dataset.dynamicNavIdx = indexCurrentVisibleItem - 1;
+      navigationNextLink.dataset.dynamicNavIdx = indexCurrentVisibleItem + 1;
+      listPageSegments[indexCurrentVisibleItem].removeAttribute("style");
+      listPageSegmentsTitle[indexCurrentVisibleItem].removeAttribute("style");
+
+      if (indexCurrentVisibleItem > 0) {
+         navigationPrevLink.removeAttribute("style");
+         navigationNextLink.removeAttribute("style");
+      }
+
+      if (indexCurrentVisibleItem === 0) {
+         navigationPrevLink.style.display = "none";
+         navigationNextLink.removeAttribute("style");
+      }
+      if (indexCurrentVisibleItem === listPageSegments.length - 1) {
+         navigationNextLink.style.display = "none";
+         navigationPrevLink.removeAttribute("style");
+      }
+
+      document.body.style.minHeight = "200vh";
+
+      window.scrollTo({
+         top: 0,
+         behavior: "instant",
+      });
+
+      requestAnimationFrame(() => {
+         document.body.style.minHeight = "";
+      });
+   });
+});

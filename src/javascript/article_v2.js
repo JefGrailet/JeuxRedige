@@ -68,10 +68,7 @@ if (navigator.share && btnShare) {
             text: shareData.text,
             url: window.location.href,
          });
-         console.log("Contenu partagé avec succès !");
       } catch (err) {
-         // L'utilisateur a annulé ou le partage a échoué
-         console.log(`Erreur ou annulation : ${err}`);
       }
    });
 } else {
@@ -84,6 +81,16 @@ const navigationPrevLink = document.querySelector(
 const navigationNextLink = document.querySelector(
    "[data-navigation-next-link]",
 );
+
+const listNavigationNextLinkSegmentTitles = Array.from(
+   navigationNextLink.querySelectorAll("[data-article-segment-title-idx]") ||
+      [],
+);
+const listNavigationPrevLinkSegmentTitles = Array.from(
+   navigationPrevLink.querySelectorAll("[data-article-segment-title-idx]") ||
+      [],
+);
+
 const listNavigationLinks = Array.from(
    document.querySelectorAll("[data-dynamic-nav-idx]") || [],
 );
@@ -96,23 +103,44 @@ const listPageSegments = Array.from(
 );
 
 const listPageSegmentsTitle = Array.from(
-   document.querySelectorAll("[data-article-segment-title-idx]") || [],
+   document.querySelectorAll(".subtitle [data-article-segment-title-idx]") ||
+      [],
 );
 
 const firstVisibleSegment = listPageSegments.find(
    (item) => item.checkVisibility() === true,
 );
-let indexCurrentVisibleItem =
-   firstVisibleSegment.dataset.articleSegmentContentIdx;
+let indexCurrentVisibleItem = Number(
+   firstVisibleSegment.dataset.articleSegmentContentIdx,
+);
+
+const REGEX_PAGE_PARAM = /\/page\/\d+/;
+const updateUrl = (newPage) => {
+   const url = new URL(window.location.href);
+
+   if (REGEX_PAGE_PARAM.test(url.pathname)) {
+      url.pathname = url.pathname.replace(
+         REGEX_PAGE_PARAM,
+         `/page/${newPage + 1}`,
+      );
+   } else {
+      url.pathname = url.pathname.replace(/\/$/, "") + `/page/${newPage + 1}`;
+   }
+
+   history.replaceState({}, "", url);
+};
+let navigationPrevLinkTitle = null;
+let navigationNextLinkTitle = null;
 
 listNavigationLinks.forEach((item) => {
    item.addEventListener("click", (e) => {
       e.preventDefault();
-      const linkIdx = e.currentTarget.dataset.dynamicNavIdx;
-
+      const linkIdx = Number(e.currentTarget.dataset.dynamicNavIdx);
       listPageSegments[indexCurrentVisibleItem].style.display = "none";
       listPageSegmentsTitle[indexCurrentVisibleItem].style.display = "none";
-      indexCurrentVisibleItem = Number(linkIdx);
+
+      // After switch
+      indexCurrentVisibleItem = linkIdx;
 
       listSummaryLinks.forEach((link) => {
          link.parentElement.classList.remove("active");
@@ -123,8 +151,33 @@ listNavigationLinks.forEach((item) => {
 
       navigationPrevLink.dataset.dynamicNavIdx = indexCurrentVisibleItem - 1;
       navigationNextLink.dataset.dynamicNavIdx = indexCurrentVisibleItem + 1;
+
+      listNavigationNextLinkSegmentTitles.forEach((title) => {
+         title.style.display = "none";
+      });
+
+      navigationNextLinkTitle = navigationNextLink.querySelector(
+         `[data-article-segment-title-idx="${Number(navigationNextLink.dataset.dynamicNavIdx)}"]`,
+      );
+      if (navigationNextLinkTitle) {
+         navigationNextLinkTitle.removeAttribute("style");
+      }
+
+      listNavigationPrevLinkSegmentTitles.forEach((title) => {
+         title.style.display = "none";
+      });
+
+      navigationPrevLinkTitle = navigationPrevLink.querySelector(
+         `[data-article-segment-title-idx="${Number(navigationPrevLink.dataset.dynamicNavIdx)}"]`,
+      );
+      if (navigationPrevLinkTitle) {
+         navigationPrevLinkTitle.removeAttribute("style");
+      }
+
       listPageSegments[indexCurrentVisibleItem].removeAttribute("style");
       listPageSegmentsTitle[indexCurrentVisibleItem].removeAttribute("style");
+
+      updateUrl(indexCurrentVisibleItem);
 
       if (indexCurrentVisibleItem > 0) {
          navigationPrevLink.removeAttribute("style");

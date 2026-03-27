@@ -67,17 +67,17 @@
                   </h1>
 						<h2 class="subtitle">
                      {% for segment in article.segments %}
-                        <span data-article-segment-title-idx={{ loop.index0 }}  {{ loop.index0 == article.current_page ? "" : 'style="display: none"' }}>{{ segment.title }}</span>
+                        <span data-article-segment-title-idx={{ loop.index0 }} {{ loop.index0 == article.current_page ? "" : 'style="display: none"' }}>{{ segment.title }}</span>
                      {% endfor %}
                   </h2>
 					</div>
 
-                  <div class="toolbar {{ article.edit_links|length == 0 ? "top" : "" }}">
-               {% if article.is_editable and article.edit_links|length > 0 %}
-                     {% for item in article.edit_links %}
-                        <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
-                     {% endfor %}
-               {% endif %}
+               <div class="toolbar {{ article.edit_links|length == 0 ? "top" : "" }}">
+                  {% if article.is_editable and article.edit_links|length > 0 %}
+                        {% for item in article.edit_links %}
+                           <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
+                        {% endfor %}
+                  {% endif %}
                   {% if article.is_published %}
                      {% set share_data = {
                         'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
@@ -87,7 +87,7 @@
                         Partager l'article
                      </button> #}
                   {% endif %}
-                  </div>
+               </div>
 				</header>
 			</div>
 		</header>
@@ -108,7 +108,9 @@
                   <a href="{{ article.segments[article.current_page - 1].url }}" class="navigationLink" data-navigation-prev-link data-dynamic-nav-idx={{article.current_page - 1}} {% if not article.segments[article.current_page - 1] %} style="display: none" {% endif %}>
                      <i class="icon-general_previous" title="Page précédente"></i>
                      <span>
-                        {{ article.segments[article.current_page - 1].title }} <br>
+                        {% for segment in article.segments %}
+                           <span data-article-segment-title-idx={{ loop.index0 }}  {{ loop.index0 == (article.current_page - 1) ? "" : 'style="display: none"' }}>{{ segment.title }}</span>
+                        {% endfor %}<br>
                         <span style="font-size: 0.85rem">Page précédente</span>
                      </span>
                   </a>
@@ -121,7 +123,9 @@
                <li>
                   <a href="{{ article.segments[article.current_page + 1].url }}" class="navigationLink" data-navigation-next-link data-dynamic-nav-idx={{article.current_page + 1}} {% if not article.segments[article.current_page + 1] %} style="display: none" {% endif %}>
                      <span>
-                        {{ article.segments[article.current_page + 1].title }} <br>
+                        {% for segment in article.segments %}
+                           <span data-article-segment-title-idx={{ loop.index0 }}  {{ loop.index0 == (article.current_page + 1) ? "" : 'style="display: none"' }}>{{ segment.title }}</span>
+                        {% endfor %}<br>
                         <span style="font-size: 0.85rem">Page suivante</span>
                      </span>
                      <i class="icon-general_next" title="Page suivante"></i>

@@ -211,7 +211,7 @@ if (!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article'
       ],
       "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
       "list_css_files" => ["article", 'charter_' . $article->get('type'), "badge"],
-      "list_js_files" => ["article", "article_v2"],
+      "list_js_files" => ["article", "article_v2", ["file" => "article_segment"],],
       "selectedLogo" => $article->get('type'),
       "current_category" => $article->get('type'),
       "meta" => [

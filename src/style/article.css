@@ -1032,7 +1032,6 @@
   }
 }
 
-
 .listKeywords {
    display: flex;
    justify-content: center;
@@ -1084,4 +1083,13 @@
    &:is(:hover, :focus) {
       background-color: oklch(from var(--current-page-color) calc(l * .75) c h);
    }
+}
+
+.articleFooter
+{
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   position: relative;
+   margin-top: 0.75rem;
 }

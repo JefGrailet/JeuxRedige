@@ -127,7 +127,7 @@
    {% endif %}
 </div>
 
-<footer style="display: flex; align-items: center; flex-direction: column; position: relative;">
+<footer class="articleFooter">
    <ul class="listKeywords">
       {% for keyword in article.list_keywords %}
          <li >
@@ -143,7 +143,7 @@
          'text': article.page.title
       } %}
       <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
-         Partager l'article
+         Partager
       </button>
    {% endif %}
 </footer>

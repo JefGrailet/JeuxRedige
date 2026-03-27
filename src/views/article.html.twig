@@ -78,15 +78,6 @@
                            <a href="{{ item.link }}"><i class="icon-general_edit"></i> <span class="not-mobile-only">{{ item.label }}</span></a>
                         {% endfor %}
                   {% endif %}
-                  {% if article.is_published %}
-                     {% set share_data = {
-                        'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
-                        'text': article.page.title
-                     } %}
-                     {# <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
-                        Partager l'article
-                     </button> #}
-                  {% endif %}
                </div>
 				</header>
 			</div>
@@ -136,15 +127,26 @@
    {% endif %}
 </div>
 
-<ul class="listKeywords">
-   {% for keyword in article.list_keywords %}
-      <li >
-         <a href="{{ keyword.link }}" class="keyword">
-            {{ keyword.name }}
-         </a>
-      </li>
-   {% endfor %}
-</ul>
+<footer style="display: flex; align-items: center; flex-direction: column; position: relative;">
+   <ul class="listKeywords">
+      {% for keyword in article.list_keywords %}
+         <li >
+            <a href="{{ keyword.link }}" class="keyword">
+               {{ keyword.name }}
+            </a>
+         </li>
+      {% endfor %}
+   </ul>
+   {% if article.is_published %}
+      {% set share_data = {
+         'title': list_categories[current_category].name.singular ~ " " ~ article.title ~ " - Jeux rédige",
+         'text': article.page.title
+      } %}
+      <button type="button" class="buttonShare" style="display: none;" data-share="{{ share_data|json_encode() }}">
+         Partager l'article
+      </button>
+   {% endif %}
+</footer>
 
 <footer class="authorContainer">
    <div class="articleContainer">

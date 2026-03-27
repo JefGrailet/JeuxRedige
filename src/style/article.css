@@ -1073,10 +1073,12 @@
 .buttonShare {
    border: 2px solid var(--current-page-color);
    background-color: rgba(0, 0, 0, 0.861);
-   margin-bottom: 100%;
 
-   @media screen and (width >= 640px) {
-      margin-bottom: auto;
+   @media screen and (width >= 1024px) {
+      right: 0;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
    }
 
    &:is(:hover, :focus) {

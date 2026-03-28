@@ -272,4 +272,22 @@
       gap: 0.5rem;
       justify-content: end;
    }
+
+   .segmentOptionsResponsive {
+      .pageOptions {
+         display: flex;
+         @media screen and (width >= 640px) {
+            display: none;
+         }
+      }
+   }
+
+   .segmentOptions {
+      .pageOptions {
+         display: none;
+         @media screen and (width >= 640px) {
+            display: flex;
+         }
+      }
+   }
 }

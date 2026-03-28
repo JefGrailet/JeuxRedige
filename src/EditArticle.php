@@ -124,7 +124,11 @@ function coreDataProcess($payload) {
 
          if ($curlResult) {
             $fileName = substr(strrchr($curlResult, '/'), 1);
-            Buffer::save('upload/articles/'.$article->get('id_article'), $fileName, 'thumbnail');
+            $dir = 'upload/articles/' . $article->get('id_article');
+            if (!file_exists($dir)) {
+               mkdir($dir, 0777, true);
+            }
+            Buffer::save($dir, $fileName, 'thumbnail');
          }
       }
       catch(Exception $e)

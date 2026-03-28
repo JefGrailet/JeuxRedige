@@ -15,63 +15,71 @@
          </ul>
       </div>
       <table class="tableSegments">
-      <thead>
-         {% if article.is_published == false %}
-         <th style="width: 40px;"></th>
-         {% endif %}
-         <th style="width: 50px;">Ordre</th>
-         <th style="min-width: 150px;">Nom</th>
-         {% if article.is_published == false %}
-         <th style="min-width: 150px;"></th>
-         {% endif %}
-      </thead>
-      <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
-         {% for segment in article.segments %}
-            <tr data-segment-id="{{ segment.id_segment }}" data-article-id="{{ segment.id_article }}">
-               {% if article.is_published == false %}
-                  <td style="vertical-align: top">
-                     <span class="dragHandle" title="Réordonner">
-                        <i class="icon-general_menu"></i>
+         <thead>
+            {% if article.is_published == false %}
+            <th style="width: 40px;"></th>
+            {% endif %}
+            <th style="width: 50px;">Ordre</th>
+            <th style="min-width: 150px;">Nom</th>
+            {% if article.is_published == false %}
+            <th style="min-width: 150px;"></th>
+            {% endif %}
+         </thead>
+         <tbody {{ (article.is_published or article.segments|length == 0) ? "" : "data-sortable-list='{}'" }}>
+            {% for segment in article.segments %}
+               <tr data-segment-id="{{ segment.id_segment }}" data-article-id="{{ segment.id_article }}">
+                  {% if article.is_published == false %}
+                     <td style="vertical-align: top">
+                        <span class="dragHandle" title="Réordonner">
+                           <i class="icon-general_menu"></i>
+                        </span>
+                     </td>
+                  {% endif %}
+
+                  {% set rowOptions %}
+                     <div class="pageOptions">
+                        <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
+                        {% if article.is_published == false %}
+                           <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
+                        {% endif %}
+                     </div>
+                  {% endset %}
+
+                  <td style="vertical-align: top;">
+                     <span data-segment-index>
+                        {{ loop.index }}
                      </span>
                   </td>
-               {% endif %}
-               <td style="vertical-align: top;">
-                  <span data-segment-index>
-                     {{ loop.index }}
-                  </span>
-               </td>
-               <td style="vertical-align: top;">
-                  <span data-segment-index>
-                     {{ segment.title ? segment.title : "Sommaire" }}
-                  </span>
-               </td>
-               <td style="text-align: right;">
-                  <div class="pageOptions">
-                     <a class="secondaryButton" href="./EditSegment.php?id_segment={{ segment.id_segment }}">Éditer</a>
-                     {% if article.is_published == false %}
-                        <button command="show-modal" commandfor="delete-page" data-page-data='{"id": {{ segment.id_segment }}, "title": "{{ segment.title }}"}' class="danger" type="button">Supprimer</button>
-                     {% endif %}
-                  </div>
-               </td>
-            </tr>
-         {% else %}
-            <tr>
-               <td colspan="5">
-                  <p class="alert info">Cet article n'a pas de pages.</p>
-               </td>
-            </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-      {% if article.is_published == false %}
-         <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter une nouvelle page</a>
-      {% endif %}
-      <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">
-         {% if article.is_published %}
-            Accéder à l'article
-         {% else %}
-            Aperçu de l'article complet
+                  <td style="vertical-align: top;" class="segmentOptionsResponsive">
+                     <span data-segment-index>
+                        {{ segment.title ? segment.title : "Sommaire" }}
+                     </span>
+                     {{ rowOptions }}
+                  </td>
+                  <td style="text-align: right;" class="segmentOptions">
+                     {{ rowOptions }}
+                  </td>
+               </tr>
+            {% else %}
+               <tr>
+                  <td colspan="5">
+                     <p class="alert info">Cet article n'a pas de pages.</p>
+                  </td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      <footer class="buttonsToolbox">
+         {% if article.is_published == false %}
+            <a class="primaryButton" href="./NewSegment.php?id_article={{ article.id_article }}">Ajouter une nouvelle page</a>
          {% endif %}
-      </a>
+         <a class="secondaryButton" target="_blank" href="{{ article.preview_url }}">
+            {% if article.is_published %}
+               Accéder à l'article
+            {% else %}
+               Aperçu de l'article complet
+            {% endif %}
+         </a>
+      </footer>
    </div>
 </section>

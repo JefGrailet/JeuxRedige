@@ -4,13 +4,13 @@
 	<div class="sectionBlock">
 		<p class="title" role="alert">Erreur
 			{% if error_title %}
-			{{ "—" ~ error_title }}
+			{{ "— " ~ error_title }}
 			{% endif %}
 		</p>
 		<div class="content">
 			<p>
 				{% if error_key == "noSegment" %}
-					Cet article est vide, il ne comporte aucune page. <a href="{{ edit_link }}">Retourner à l'édition de l'article.</a>
+					Cet article est vide, il ne comporte aucun segment. <a href="{{ edit_link }}">Retourner à l'édition de l'article.</a>
 				{% elseif error_key == "missingID" %}
 					L'ID de l'article n'est pas précisé.
 				{% elseif error_key == "dbError" %}

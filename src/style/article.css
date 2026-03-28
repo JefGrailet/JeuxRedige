@@ -17,8 +17,8 @@
    position: relative;
    height: 100%;
    display: flex;
-       flex-direction: column;
-    justify-content: flex-end;
+   flex-direction: column;
+   justify-content: flex-end;
 
    .infos {
       width: fit-content;
@@ -88,7 +88,6 @@
 
 .segmentHeader h1, .segmentHeaderPlain h1
 {
-   font-family: "Roboto", "Arial", sans-serif;
    font-size: 1.875rem; /* ~30px */
    font-weight: 200;
    text-align: justify;
@@ -120,99 +119,86 @@
    color: white;
 }
 
-.segmentHeaderPlain h1, .segmentHeaderPlain h2
-{
-   color: black;
-}
+.segmentHeaderPlain {
+   &:is(h1, h2) {
+      color: black;
+   }
 
-.segmentHeaderPlain h1
-{
-   margin: 0px 20px 0px 20px;
-}
+   h1 {
+      margin: 0px 20px 0px 20px;
+   }
 
-.segmentHeaderPlain h2
-{
-   margin: 0px 20px 0px 20px;
-}
-
-.segmentBody p
-{
-   font-size: 1rem; /* ~16px */
-   text-align: justify;
-   padding:  7px;
-   margin: 5px 10px 5px 10px;
-}
-
-.segmentBody p a
-{
-   font-family: "Roboto", "Arial", sans-serif;
-   font-size: 1rem; /* ~16px */
-   text-align: justify;
-   text-decoration: none;
-   color: #3475e5; /* Default if no "charter_..." side style sheet */
-}
-
-.segmentBody p a:hover
-{
-   color: black; /* Default if no "charter_..." side style sheet */
-}
-
-.segmentBody h2
-{
-   margin: 7px 7px 4px 7px;
-   font-size: 1.25rem; /* ~20px */
-   padding: 10px;
-   text-align: justify;
-   color: var(--current-page-color);
-
-   &::before {
-      content: "\0025B6\00a0";
+   h2 {
+      margin: 0px 20px 0px 20px;
    }
 }
 
-.segmentBody h2:before
-{
-   content: "\0025B6\00a0";
-}
+.segmentBody {
+   p {
+      font-size: 1rem; /* ~16px */
+      text-align: justify;
+      padding:  7px;
+      margin: 5px 10px 5px 10px;
 
-.segmentBody h2 a
-{
-   text-decoration: none;
-   color: #3475e5; /* Default if no "charter_..." side style sheet */
-}
+      a {
+         font-size: 1rem; /* ~16px */
+         /* text-align: justify; */
 
-.segmentBody h2 a:hover
-{
-   color: #646464; /* Default if no "charter_..." side style sheet */
-}
+         &:is(:hover, :focus)
+         {
+            color: black; /* Default if no "charter_..." side style sheet */
+         }
+      }
+   }
 
-.segmentBody img, .segmentBody video
-{
-   max-width: 100%;
-}
+   a {
+      text-decoration: none;
+      color: var(--link-color); /* Default if no "charter_..." side style sheet */
+   }
 
-.segmentBody ul
-{
-   margin-top: 0px;
-   margin-bottom: 10px;
-   margin-left: 20px;
-   padding-left: 20px;
-}
+   h2
+   {
+      margin: 7px 7px 4px 7px;
+      font-size: 1.25rem; /* ~20px */
+      padding: 10px;
+      text-align: justify;
+      color: var(--current-page-color);
 
-.segmentBody li
-{
-   font-size: 1rem; /* ~16px */
-   list-style: none;
-   padding-bottom: 5px;
-   padding-right: 10px;
-}
+      &::before {
+         content: "\0025B6\00a0";
+      }
 
-.segmentBody li:before
-{
-   content: "\0025B6";
-   display: inline-block;
-   width: 1rem;
-   margin-left: -1rem;
+      a:is(:hover, :focus) {
+         color: #646464; /* Default if no "charter_..." side style sheet */
+      }
+   }
+
+   img, video {
+      max-width: 100%;
+   }
+
+   ul {
+      margin-top: 0px;
+      margin-bottom: 10px;
+      margin-left: 20px;
+      padding-left: 20px;
+   }
+
+   li
+   {
+      font-size: 1rem; /* ~16px */
+      list-style: none;
+      padding-bottom: 5px;
+      padding-right: 10px;
+
+      &::before
+      {
+         content: "\0025B6";
+         display: inline-block;
+         width: 1rem;
+         margin-left: -1rem;
+      }
+   }
 }
 
 /* Emphasis (quote) style */
@@ -275,7 +261,7 @@
    color: #3475e5; /* Default if no "charter_..." side style sheet */
 }
 
-.segmentBody .emphasisText p a:hover
+.segmentBody .emphasisText p a:is(:hover, :focus)
 {
    color: #c8c8c8;
 }
@@ -395,10 +381,10 @@
 
 /* Article footer. */
 
-#articleFooter, .authorContainer
+.authorContainer
 {
    background: none;
-   margin-block: 20px;
+   margin-block: 1.25rem;
    padding-bottom: 5px;
    display: flex;
    justify-content: flex-end;
@@ -1038,6 +1024,8 @@
    gap: 0.5rem;
    padding: 0;
    list-style: none;
+   max-width: 80%;
+   flex-wrap: wrap;
 
    .keyword {
       box-shadow: 0px 0px 3px 0px #646464;
@@ -1091,5 +1079,14 @@
    align-items: center;
    flex-direction: column;
    position: relative;
-   margin-top: 0.75rem;
+   margin-top: 0.65rem;
+}
+
+.summaryButtonTop
+{
+   position: absolute;
+   left: 50%;
+   translate: -50% 0;
+   top: 5px;
+   z-index: 9;
 }

@@ -8,7 +8,7 @@
    top: 0;
    left: 0;
    right: 0;
-   z-index: 30;
+   z-index: var(--z-navigation-menu);
    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
    border-bottom: 1px solid #646464;
 
@@ -188,7 +188,7 @@ body:not(.logged) .userPseudo {
 .dropdownContentWrapper {
    display: none;
    position: absolute;
-   z-index: 9999;
+   /* z-index: var(--z-navigation-categories-menu); */
    left: 0;
    right: 0;
    background-color: black;

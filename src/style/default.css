@@ -46,6 +46,7 @@
    --article-header-padding-top: var(--main-padding-top);
 
    --z-base: 0;
+   --z-media-menu: 10;
    --z-navigation-menu: 999;
    --z-tooltip: calc(--z-navigation-menu - 1);
 

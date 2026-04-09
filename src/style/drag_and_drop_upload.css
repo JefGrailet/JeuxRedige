@@ -70,7 +70,7 @@
                position: absolute;
                inset: 0;
                background-color: rgba(0, 0, 0, 0.281);
-               z-index: 2;
+               z-index: calc(var(--z-base) + 1);
                align-content: center;
                font-size: 5rem;
             }
@@ -95,7 +95,7 @@
       pointer-events: none;
 
       gap: 0.5rem;
-      z-index: var(--z-base);
+      z-index: var(--z-media-menu);
 
       > *:not(:first-child):last-child {
          margin-top: 0.75rem;

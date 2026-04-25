@@ -1524,14 +1524,26 @@ textarea
    background: none;
    border: 1px solid #646464;
    box-shadow: 0px 0px 3px 0px #646464;
-   grid-column: span 3;
+
+   @media screen and (width > 640px) {
+      grid-column: 1 / -1;
+   }
+
+    @media screen and (width > 768px) {
+      grid-column: span 1;
+   }
+
+   @media screen and (width > 1024px) {
+      grid-column: span 3;
+   }
+
    transition-property: border-color, aspect-ratio;
    transition-duration: var(--transition-time);
 
    &:first-of-type {
       grid-column: 1 / -1;
 
-      @media screen and (width > 640px) {
+      @media screen and (width > 1024px) {
          aspect-ratio: 1170 / 400;
       }
    }

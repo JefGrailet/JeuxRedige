@@ -71,7 +71,7 @@
    }
 
    @media screen and (width > 1024px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(6, 1fr);
    }
 
    &.large {
@@ -88,6 +88,10 @@
       @media screen and (width > 1024px) {
          grid-template-columns: repeat(4, 1fr);
       }
+   }
+
+   .articleThumbnail {
+      grid-column: span 2;
    }
 
    li:not(:has(a)):only-child

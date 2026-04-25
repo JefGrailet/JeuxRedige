@@ -17,7 +17,7 @@ WebpageHandler::redirectionAtLoggingIn();
 // Gets the last featured articles
 $articles = null;
 try {
-   $articles = Article::getFeaturedArticles(8);
+   $articles = Article::getFeaturedArticles(9);
 } catch (Exception $e) {
    echo $twig->render("errors/error.html.twig", ["error_key" => "dbError"]);
    return;
@@ -28,7 +28,7 @@ if ($articles == NULL) {
    return;
 }
 
-$NB_MAX_ARTICLES_HIGHLIGHTED = 2;
+$NB_MAX_ARTICLES_HIGHLIGHTED = 3;
 
 // Sorts articles depending on whether they have a highlight or not
 $highlighted = array();

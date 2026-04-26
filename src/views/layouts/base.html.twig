@@ -83,15 +83,17 @@
 
 <body{{ is_user_logged ? ' class="logged"'}}>
    {% include 'includes/header.html.twig' %}
-   {% if flash_message == "user_logged" %}
-      <p class="alert success pageContent" style="margin-top: var(--main-padding-top); margin-bottom: 0;" data-user-status-banner>Connexion réussie. Bonjour {{ userInfos.pseudo }}.</p>
-   {% endif %}
-   {% if flash_message == "user_disconnected" %}
-      <p class="alert success pageContent" style="margin-top: var(--main-padding-top); margin-bottom: 0;" data-user-status-banner>Déconnexion réussie. Au revoir {{ flash_message_extra_data.pseudo }}.</p>
-   {% endif %}
-   {% if flash_message == "user_already_logged" %}
-      <p class="alert success pageContent" style="margin-top: var(--main-padding-top); margin-bottom: 0;" data-user-status-banner>{{ flash_message_extra_data.pseudo }}, vous êtes déjà connecté(e), il n'est pas utile de réitérer l'opération.</p>
-   {% endif %}
+   <div class="centered" style="margin-top: var(--main-padding-top); margin-bottom: calc(-1 * var(--main-padding-top));">
+      {% if flash_message == "user_logged" %}
+         <p class="alert success pageContent" data-user-status-banner>Connexion réussie. Bonjour <b>{{ userInfos.pseudo }}.</b></p>
+      {% endif %}
+      {% if flash_message == "user_disconnected" %}
+         <p class="alert success pageContent" data-user-status-banner>Déconnexion réussie. Au revoir <b>{{ flash_message_extra_data.pseudo }}.</b></p>
+      {% endif %}
+      {% if flash_message == "user_already_logged" %}
+         <p class="alert success pageContent" data-user-status-banner><b>{{ flash_message_extra_data.pseudo }},</b> vous êtes déjà connecté(e), il n'est pas utile de réitérer l'opération.</p>
+      {% endif %}
+   </div>
    <main id="main">
       {% block fullWidthBanner %}{% endblock %}
       <div class="centered">

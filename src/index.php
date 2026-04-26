@@ -17,7 +17,8 @@ WebpageHandler::redirectionAtLoggingIn();
 // Gets the last featured articles
 $articles = null;
 try {
-   $articles = Article::getFeaturedArticles(9);
+   $NB_ARTICLES_DISPLAYED = 9;
+   $articles = Article::getFeaturedArticles($NB_ARTICLES_DISPLAYED);
 } catch (Exception $e) {
    echo $twig->render("errors/error.html.twig", ["error_key" => "dbError"]);
    return;
@@ -61,6 +62,7 @@ $listArticlesComputed = array_map(function ($article, $idx) use ($NB_MAX_ARTICLE
 echo $twig->render("index.html.twig", [
    "list_articles" => $listArticlesComputed,
    "list_css_files" => ["pool"],
+   "list_js_files" => ["article-transition"],
    "flash_message" => isset($_COOKIE['flash_message']) ? $_COOKIE['flash_message'] : "",
    "flash_message_extra_data" => isset($_COOKIE['flash_message_extra_data']) ? json_decode($_COOKIE['flash_message_extra_data']) : "",
    "selectedLogo" => "default",

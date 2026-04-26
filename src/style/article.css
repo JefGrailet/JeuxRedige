@@ -12,6 +12,26 @@
    box-shadow: 0px 0px 2px 0px grey;
 }
 
+::view-transition-old(article-extra) {
+  animation: fade-out 100ms ease forwards;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(article-header-image),
+::view-transition-new(article-header-image) {
+  animation-duration: 400ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-image-pair(article-header-image) {
+	overflow: hidden;
+}
+
 .segmentHeader, .articleHeader
 {
    position: relative;
@@ -19,6 +39,7 @@
    display: flex;
    flex-direction: column;
    justify-content: flex-end;
+   view-transition-name: article-header-image;
 
    .infos {
       width: fit-content;
@@ -45,6 +66,7 @@
       background: none;
       padding: 0px;
       margin: 0px 20px 10px 20px;
+      view-transition-name: article-title;
    }
 
    .subtitle {
@@ -282,6 +304,7 @@
 }
 
 :is(.summaryGood, .summaryBad) {
+   flex: 1 0 50%;
    ul {
       margin-top: 0;
       margin-bottom: 0;

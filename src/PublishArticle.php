@@ -158,15 +158,20 @@ if(!empty($_GET['id_article']) && preg_match('#^([0-9]+)$#', $_GET['id_article']
          {
             $autoMsg = FormParsing::parse(ArticleFirstReactionIR::process($article->getAll(), $segments[0]));
 
-            $newTopic = Topic::autoInsert($topicTitle,
-                                          $thumbnail,
-                                          1,
-                                          $anonPosting,
-                                          $enableUploads);
+            $newTopic = Topic::autoInsert(
+               $topicTitle,
+               $thumbnail,
+               1,
+               $anonPosting,
+               $enableUploads
+            );
 
             $newPost = Post::autoInsert($newTopic->get('id_topic'), $autoMsg);
             $newTopic->update($newPost->getAll());
             $article->publish($newTopic->get('id_topic'));
+
+            // 27/04/2026: all articles are now featured by default
+            $article->feature();
 
             Database::commit();
          }
